@@ -1,0 +1,819 @@
+{
+  "sources": {
+    "安多安": {
+      "abbr": "ASoL",
+      "cn": "安多安，自由之魂",
+      "en": "Andoran, Spirit of Liberty"
+    },
+    "ASoL": {
+      "abbr": "ASoL",
+      "cn": "安多安，自由之魂",
+      "en": "Andoran, Spirit of Liberty"
+    },
+    "安多安，自由之魂": {
+      "abbr": "ASoL",
+      "cn": "安多安，自由之魂",
+      "en": "Andoran, Spirit of Liberty"
+    },
+    "Andoran, Spirit of Liberty": {
+      "abbr": "ASoL",
+      "cn": "安多安，自由之魂",
+      "en": "Andoran, Spirit of Liberty"
+    },
+    "北地居民": {
+      "abbr": "PotN",
+      "cn": "北地居民",
+      "en": "People of the North"
+    },
+    "PotN": {
+      "abbr": "PotN",
+      "cn": "北地居民",
+      "en": "People of the North"
+    },
+    "People of the North": {
+      "abbr": "PotN",
+      "cn": "北地居民",
+      "en": "People of the North"
+    },
+    "卡蒂亚": {
+      "abbr": "QJotE",
+      "cn": "卡蒂亚，东方明珠",
+      "en": "Qadira, Jewel of the East"
+    },
+    "QJotE": {
+      "abbr": "QJotE",
+      "cn": "卡蒂亚，东方明珠",
+      "en": "Qadira, Jewel of the East"
+    },
+    "卡蒂亚，东方明珠": {
+      "abbr": "QJotE",
+      "cn": "卡蒂亚，东方明珠",
+      "en": "Qadira, Jewel of the East"
+    },
+    "Qadira, Jewel of the East": {
+      "abbr": "QJotE",
+      "cn": "卡蒂亚，东方明珠",
+      "en": "Qadira, Jewel of the East"
+    },
+    "初探内海": {
+      "abbr": "ISP",
+      "cn": "初探内海",
+      "en": "Inner Sea Primer"
+    },
+    "ISP": {
+      "abbr": "ISP",
+      "cn": "初探内海",
+      "en": "Inner Sea Primer"
+    },
+    "Inner Sea Primer": {
+      "abbr": "ISP",
+      "cn": "初探内海",
+      "en": "Inner Sea Primer"
+    },
+    "初探龙国": {
+      "abbr": "DEP",
+      "cn": "初探龙国",
+      "en": "Dragon Empires Primer"
+    },
+    "DEP": {
+      "abbr": "DEP",
+      "cn": "初探龙国",
+      "en": "Dragon Empires Primer"
+    },
+    "Dragon Empires Primer": {
+      "abbr": "DEP",
+      "cn": "初探龙国",
+      "en": "Dragon Empires Primer"
+    },
+    "初探探索者协会": {
+      "abbr": "PSP",
+      "cn": "探索者协会入门",
+      "en": "Pathfinder Society Primer"
+    },
+    "PSP": {
+      "abbr": "PSP",
+      "cn": "探索者协会入门",
+      "en": "Pathfinder Society Primer"
+    },
+    "探索者协会入门": {
+      "abbr": "PSP",
+      "cn": "探索者协会入门",
+      "en": "Pathfinder Society Primer"
+    },
+    "Pathfinder Society Primer": {
+      "abbr": "PSP",
+      "cn": "探索者协会入门",
+      "en": "Pathfinder Society Primer"
+    },
+    "内海诸神": {
+      "abbr": "ISG",
+      "cn": "内海诸神",
+      "en": "Inner Sea Gods"
+    },
+    "ISG": {
+      "abbr": "ISG",
+      "cn": "内海诸神",
+      "en": "Inner Sea Gods"
+    },
+    "Inner Sea Gods": {
+      "abbr": "ISG",
+      "cn": "内海诸神",
+      "en": "Inner Sea Gods"
+    },
+    "内海骑士": {
+      "abbr": "KIS",
+      "cn": "内海骑士",
+      "en": "Knights of the Inner Sea"
+    },
+    "KIS": {
+      "abbr": "KIS",
+      "cn": "内海骑士",
+      "en": "Knights of the Inner Sea"
+    },
+    "Knights of the Inner Sea": {
+      "abbr": "KIS",
+      "cn": "内海骑士",
+      "en": "Knights of the Inner Sea"
+    },
+    "内海海盗": {
+      "abbr": "PIS",
+      "cn": "内海海盗",
+      "en": "Pirates of the Inner Sea"
+    },
+    "PIS": {
+      "abbr": "PIS",
+      "cn": "内海海盗",
+      "en": "Pirates of the Inner Sea"
+    },
+    "Pirates of the Inner Sea": {
+      "abbr": "PIS",
+      "cn": "内海海盗",
+      "en": "Pirates of the Inner Sea"
+    },
+    "内海种族": {
+      "abbr": "ISR",
+      "cn": "内海种族",
+      "en": "Inner Sea Races"
+    },
+    "ISR": {
+      "abbr": "ISR",
+      "cn": "内海种族",
+      "en": "Inner Sea Races"
+    },
+    "Inner Sea Races": {
+      "abbr": "ISR",
+      "cn": "内海种族",
+      "en": "Inner Sea Races"
+    },
+    "塔尔多": {
+      "abbr": "TEoG",
+      "cn": "塔尔多",
+      "en": "Taldor, Echoes of Glory"
+    },
+    "TEoG": {
+      "abbr": "TEoG",
+      "cn": "塔尔多",
+      "en": "Taldor, Echoes of Glory"
+    },
+    "Taldor, Echoes of Glory": {
+      "abbr": "TEoG",
+      "cn": "塔尔多",
+      "en": "Taldor, Echoes of Glory"
+    },
+    "瓦瑞西亚，传说诞生之地": {
+      "abbr": "VBoL",
+      "cn": "瓦瑞西亚",
+      "en": "Varisia, Birthplace of Legends"
+    },
+    "VBoL": {
+      "abbr": "VBoL",
+      "cn": "瓦瑞西亚",
+      "en": "Varisia, Birthplace of Legends"
+    },
+    "瓦瑞西亚": {
+      "abbr": "VBoL",
+      "cn": "瓦瑞西亚",
+      "en": "Varisia, Birthplace of Legends"
+    },
+    "Varisia, Birthplace of Legends": {
+      "abbr": "VBoL",
+      "cn": "瓦瑞西亚",
+      "en": "Varisia, Birthplace of Legends"
+    },
+    "沙之子民": {
+      "abbr": "PotS",
+      "cn": "沙漠之民",
+      "en": "People of the Sands"
+    },
+    "PotS": {
+      "abbr": "PotS",
+      "cn": "沙漠之民",
+      "en": "People of the Sands"
+    },
+    "沙漠之民": {
+      "abbr": "PotS",
+      "cn": "沙漠之民",
+      "en": "People of the Sands"
+    },
+    "People of the Sands": {
+      "abbr": "PotS",
+      "cn": "沙漠之民",
+      "en": "People of the Sands"
+    },
+    "繁星子民": {
+      "abbr": "PoS",
+      "cn": "星辰之民",
+      "en": "People of the Stars"
+    },
+    "星辰之民": {
+      "abbr": "繁星子民",
+      "cn": "星辰之民",
+      "en": "People of the Stars"
+    },
+    "People of the Stars": {
+      "abbr": "繁星子民",
+      "cn": "星辰之民",
+      "en": "People of the Stars"
+    },
+    "河域子民": {
+      "abbr": "PotR",
+      "cn": "河域之民",
+      "en": "People of the River"
+    },
+    "PotR": {
+      "abbr": "PotR",
+      "cn": "河域之民",
+      "en": "People of the River"
+    },
+    "河域之民": {
+      "abbr": "PotR",
+      "cn": "河域之民",
+      "en": "People of the River"
+    },
+    "People of the River": {
+      "abbr": "PotR",
+      "cn": "河域之民",
+      "en": "People of the River"
+    },
+    "废土子民": {
+      "abbr": "PotW",
+      "cn": "废土之民",
+      "en": "People of the Wastes"
+    },
+    "PotW": {
+      "abbr": "PotW",
+      "cn": "废土之民",
+      "en": "People of the Wastes"
+    },
+    "废土之民": {
+      "abbr": "PotW",
+      "cn": "废土之民",
+      "en": "People of the Wastes"
+    },
+    "People of the Wastes": {
+      "abbr": "PotW",
+      "cn": "废土之民",
+      "en": "People of the Wastes"
+    },
+    "神术选集": {
+      "abbr": "DA",
+      "cn": "神术选集",
+      "en": "Divine Anthology"
+    },
+    "DA": {
+      "abbr": "DA",
+      "cn": "神术选集",
+      "en": "Divine Anthology"
+    },
+    "Divine Anthology": {
+      "abbr": "DA",
+      "cn": "神术选集",
+      "en": "Divine Anthology"
+    },
+    "秘术选集": {
+      "abbr": "AA",
+      "cn": "秘术选集",
+      "en": "Arcane Anthology"
+    },
+    "AA": {
+      "abbr": "AA",
+      "cn": "秘术选集",
+      "en": "Arcane Anthology"
+    },
+    "Arcane Anthology": {
+      "abbr": "AA",
+      "cn": "秘术选集",
+      "en": "Arcane Anthology"
+    },
+    "组织指南": {
+      "abbr": "FM",
+      "cn": "组织指南",
+      "en": "Faction Guide"
+    },
+    "FM": {
+      "abbr": "FM",
+      "cn": "组织指南",
+      "en": "Faction Guide"
+    },
+    "Faction Guide": {
+      "abbr": "FM",
+      "cn": "组织指南",
+      "en": "Faction Guide"
+    },
+    "间谍大师手册": {
+      "abbr": "SH",
+      "cn": "间谍大师手册",
+      "en": "Spies Handbook"
+    },
+    "SH": {
+      "abbr": "SH",
+      "cn": "间谍大师手册",
+      "en": "Spies Handbook"
+    },
+    "Spies Handbook": {
+      "abbr": "SH",
+      "cn": "间谍大师手册",
+      "en": "Spies Handbook"
+    },
+    "闹鬼英雄手册": {
+      "abbr": "HHH",
+      "cn": "闹鬼英雄手册",
+      "en": "Haunted Heroes Handbook"
+    },
+    "HHH": {
+      "abbr": "HHH",
+      "cn": "闹鬼英雄手册",
+      "en": "Haunted Heroes Handbook"
+    },
+    "Haunted Heroes Handbook": {
+      "abbr": "HHH",
+      "cn": "闹鬼英雄手册",
+      "en": "Haunted Heroes Handbook"
+    },
+    "黑市指南": {
+      "abbr": "BM",
+      "cn": "黑市指南",
+      "en": "Black Markets"
+    },
+    "BM": {
+      "abbr": "BM",
+      "cn": "黑市指南",
+      "en": "Black Markets"
+    },
+    "Black Markets": {
+      "abbr": "BM",
+      "cn": "黑市指南",
+      "en": "Black Markets"
+    },
+    "进化职业起源": {
+      "abbr": "ACO",
+      "cn": "进化职业起源",
+      "en": "Advanced Class Origins"
+    },
+    "ACO": {
+      "abbr": "ACO",
+      "cn": "进化职业起源",
+      "en": "Advanced Class Origins"
+    },
+    "Advanced Class Origins": {
+      "abbr": "ACO",
+      "cn": "进化职业起源",
+      "en": "Advanced Class Origins"
+    },
+    "信仰与哲学": {
+      "abbr": "F&P",
+      "cn": "信仰与哲学",
+      "en": "Faiths & Philosophies"
+    },
+    "F&P": {
+      "abbr": "F&P",
+      "cn": "信仰与哲学",
+      "en": "Faiths & Philosophies"
+    },
+    "Faiths & Philosophies": {
+      "abbr": "F&P",
+      "cn": "信仰与哲学",
+      "en": "Faiths & Philosophies"
+    },
+    "荒野源始": {
+      "abbr": "WO",
+      "cn": "荒野源始",
+      "en": "Wilderness Origins"
+    },
+    "WO": {
+      "abbr": "WO",
+      "cn": "荒野源始",
+      "en": "Wilderness Origins"
+    },
+    "Wilderness Origins": {
+      "abbr": "WO",
+      "cn": "荒野源始",
+      "en": "Wilderness Origins"
+    },
+    "遥远世界": {
+      "abbr": "DS",
+      "cn": "遥远世界",
+      "en": "Distant Shores"
+    },
+    "DS": {
+      "abbr": "DS",
+      "cn": "遥远世界",
+      "en": "Distant Shores"
+    },
+    "Distant Shores": {
+      "abbr": "DS",
+      "cn": "遥远世界",
+      "en": "Distant Shores"
+    },
+    "萨迦瓦": {
+      "abbr": "StLC",
+      "cn": "萨迦瓦",
+      "en": "Sarusan, Land of…"
+    },
+    "StLC": {
+      "abbr": "StLC",
+      "cn": "萨迦瓦",
+      "en": "Sarusan, Land of…"
+    },
+    "Sarusan, Land of…": {
+      "abbr": "StLC",
+      "cn": "萨迦瓦",
+      "en": "Sarusan, Land of…"
+    },
+    "第一世界的遗产": {
+      "abbr": "LotFW",
+      "cn": "第一世界的遗产",
+      "en": "Legacy of the First World"
+    },
+    "LotFW": {
+      "abbr": "LotFW",
+      "cn": "第一世界的遗产",
+      "en": "Legacy of the First World"
+    },
+    "Legacy of the First World": {
+      "abbr": "LotFW",
+      "cn": "第一世界的遗产",
+      "en": "Legacy of the First World"
+    },
+    "任务与战役": {
+      "abbr": "Q&C",
+      "cn": "任务与战役",
+      "en": "Quests & Campaigns"
+    },
+    "Quests and Campaigns": {
+      "abbr": "任务与战役",
+      "cn": "任务与战役",
+      "en": "Quests and Campaigns"
+    },
+    "切利亚斯": {
+      "abbr": "EOD",
+      "cn": "切利亚斯，魔鬼帝国",
+      "en": "Cheliax, Empire of Devils"
+    },
+    "EOD": {
+      "abbr": "EOD",
+      "cn": "切利亚斯，魔鬼帝国",
+      "en": "Cheliax, Empire of Devils"
+    },
+    "切利亚斯，魔鬼帝国": {
+      "abbr": "EOD",
+      "cn": "切利亚斯，魔鬼帝国",
+      "en": "Cheliax, Empire of Devils"
+    },
+    "Cheliax, Empire of Devils": {
+      "abbr": "EOD",
+      "cn": "切利亚斯，魔鬼帝国",
+      "en": "Cheliax, Empire of Devils"
+    },
+    "药剂与毒药": {
+      "abbr": "P&P",
+      "cn": "药剂与毒药",
+      "en": "Potions & Poisons"
+    },
+    "P&P": {
+      "abbr": "P&P",
+      "cn": "药剂与毒药",
+      "en": "Potions & Poisons"
+    },
+    "Potions & Poisons": {
+      "abbr": "P&P",
+      "cn": "药剂与毒药",
+      "en": "Potions & Poisons"
+    },
+    "元素血脉": {
+      "abbr": "BotE",
+      "cn": "元素血脉",
+      "en": "Blood of the Elements"
+    },
+    "BotE": {
+      "abbr": "BotE",
+      "cn": "元素血脉",
+      "en": "Blood of the Elements"
+    },
+    "Blood of the Elements": {
+      "abbr": "BotE",
+      "cn": "元素血脉",
+      "en": "Blood of the Elements"
+    },
+    "天界血脉": {
+      "abbr": "BoA",
+      "cn": "天界血脉",
+      "en": "Blood of the Angels"
+    },
+    "BoA": {
+      "abbr": "BoA",
+      "cn": "天界血脉",
+      "en": "Blood of the Angels"
+    },
+    "Blood of the Angels": {
+      "abbr": "BoA",
+      "cn": "天界血脉",
+      "en": "Blood of the Angels"
+    },
+    "古国血脉": {
+      "abbr": "BotA",
+      "cn": "古国血脉",
+      "en": "Blood of the Ancients"
+    },
+    "BotA": {
+      "abbr": "BotA",
+      "cn": "古国血脉",
+      "en": "Blood of the Ancients"
+    },
+    "Blood of the Ancients": {
+      "abbr": "BotA",
+      "cn": "古国血脉",
+      "en": "Blood of the Ancients"
+    },
+    "月之血脉": {
+      "abbr": "BotM",
+      "cn": "月之血脉",
+      "en": "Blood of the Moon"
+    },
+    "BotM": {
+      "abbr": "BotM",
+      "cn": "月之血脉",
+      "en": "Blood of the Moon"
+    },
+    "Blood of the Moon": {
+      "abbr": "BotM",
+      "cn": "月之血脉",
+      "en": "Blood of the Moon"
+    },
+    "炼狱血脉": {
+      "abbr": "BoF",
+      "cn": "炼狱血脉",
+      "en": "Blood of the Fiends"
+    },
+    "BoF": {
+      "abbr": "BoF",
+      "cn": "炼狱血脉",
+      "en": "Blood of the Fiends"
+    },
+    "Blood of the Fiends": {
+      "abbr": "BoF",
+      "cn": "炼狱血脉",
+      "en": "Blood of the Fiends"
+    },
+    "野兽血脉": {
+      "abbr": "BotB",
+      "cn": "野兽血脉",
+      "en": "Blood of the Beasts"
+    },
+    "BotB": {
+      "abbr": "BotB",
+      "cn": "野兽血脉",
+      "en": "Blood of the Beasts"
+    },
+    "Blood of the Beasts": {
+      "abbr": "BotB",
+      "cn": "野兽血脉",
+      "en": "Blood of the Beasts"
+    },
+    "巫团血脉": {
+      "abbr": "BotC",
+      "cn": "巫团血脉",
+      "en": "Blood of the Coven"
+    },
+    "BotC": {
+      "abbr": "BotC",
+      "cn": "巫团血脉",
+      "en": "Blood of the Coven"
+    },
+    "Blood of the Coven": {
+      "abbr": "BotC",
+      "cn": "巫团血脉",
+      "en": "Blood of the Coven"
+    },
+    "堕落信念": {
+      "abbr": "FoC",
+      "cn": "堕落信念",
+      "en": "Champions of Corruption"
+    },
+    "FoC": {
+      "abbr": "FoC",
+      "cn": "堕落信念",
+      "en": "Champions of Corruption"
+    },
+    "Champions of Corruption": {
+      "abbr": "FoC",
+      "cn": "堕落信念",
+      "en": "Champions of Corruption"
+    },
+    "均衡信念": {
+      "abbr": "FoB",
+      "cn": "均衡信念",
+      "en": "Champions of Balance"
+    },
+    "FoB": {
+      "abbr": "FoB",
+      "cn": "均衡信念",
+      "en": "Champions of Balance"
+    },
+    "Champions of Balance": {
+      "abbr": "FoB",
+      "cn": "均衡信念",
+      "en": "Champions of Balance"
+    },
+    "格拉里昂的人类": {
+      "abbr": "格拉里昂的人类",
+      "cn": "格拉里昂的人类",
+      "en": "Humans of Golarion"
+    },
+    "Humans of Golarion": {
+      "abbr": "格拉里昂的人类",
+      "cn": "格拉里昂的人类",
+      "en": "Humans of Golarion"
+    },
+    "格拉里昂的侏儒": {
+      "abbr": "格拉里昂的侏儒",
+      "cn": "格拉里昂的侏儒",
+      "en": "Gnomes of Golarion"
+    },
+    "Gnomes of Golarion": {
+      "abbr": "格拉里昂的侏儒",
+      "cn": "格拉里昂的侏儒",
+      "en": "Gnomes of Golarion"
+    },
+    "格拉里昂的兽人": {
+      "abbr": "格拉里昂的兽人",
+      "cn": "格拉里昂的兽人",
+      "en": "Orcs of Golarion"
+    },
+    "Orcs of Golarion": {
+      "abbr": "格拉里昂的兽人",
+      "cn": "格拉里昂的兽人",
+      "en": "Orcs of Golarion"
+    },
+    "格拉里昂的地精": {
+      "abbr": "格拉里昂的地精",
+      "cn": "格拉里昂的地精",
+      "en": "Goblins of Golarion"
+    },
+    "Goblins of Golarion": {
+      "abbr": "格拉里昂的地精",
+      "cn": "格拉里昂的地精",
+      "en": "Goblins of Golarion"
+    },
+    "格拉里昂的平衡勇士": {
+      "abbr": "格拉里昂的平衡勇士",
+      "cn": "格拉里昂的平衡勇士",
+      "en": "Balance Warriors of Golarion"
+    },
+    "Balance Warriors of Golarion": {
+      "abbr": "格拉里昂的平衡勇士",
+      "cn": "格拉里昂的平衡勇士",
+      "en": "Balance Warriors of Golarion"
+    },
+    "格拉里昂的混种": {
+      "abbr": "格拉里昂的混种",
+      "cn": "格拉里昂的混种",
+      "en": "Bastards of Golarion"
+    },
+    "Bastards of Golarion": {
+      "abbr": "格拉里昂的混种",
+      "cn": "格拉里昂的混种",
+      "en": "Bastards of Golarion"
+    },
+    "格拉里昂的狗头人": {
+      "abbr": "格拉里昂的狗头人",
+      "cn": "格拉里昂的狗头人",
+      "en": "Kobolds of Golarion"
+    },
+    "Kobolds of Golarion": {
+      "abbr": "格拉里昂的狗头人",
+      "cn": "格拉里昂的狗头人",
+      "en": "Kobolds of Golarion"
+    },
+    "格拉里昂的矮人": {
+      "abbr": "格拉里昂的矮人",
+      "cn": "格拉里昂的矮人",
+      "en": "Dwarves of Golarion"
+    },
+    "Dwarves of Golarion": {
+      "abbr": "格拉里昂的矮人",
+      "cn": "格拉里昂的矮人",
+      "en": "Dwarves of Golarion"
+    },
+    "格拉里昂的精灵": {
+      "abbr": "格拉里昂的精灵",
+      "cn": "格拉里昂的精灵",
+      "en": "Elves of Golarion"
+    },
+    "Elves of Golarion": {
+      "abbr": "格拉里昂的精灵",
+      "cn": "格拉里昂的精灵",
+      "en": "Elves of Golarion"
+    },
+    "格拉里昂的秽邪勇士": {
+      "abbr": "秽邪勇士",
+      "cn": "秽邪勇士",
+      "en": "Champions of Corruption"
+    },
+    "秽邪勇士": {
+      "abbr": "秽邪勇士",
+      "cn": "秽邪勇士",
+      "en": "Champions of Corruption"
+    },
+    "基础页APG": {
+      "abbr": "APG",
+      "cn": "进阶玩家指南",
+      "en": "Advanced Player's Guide"
+    },
+    "APG": {
+      "abbr": "APG",
+      "cn": "进阶玩家指南",
+      "en": "Advanced Player's Guide"
+    },
+    "进阶玩家指南": {
+      "abbr": "APG",
+      "cn": "进阶玩家指南",
+      "en": "Advanced Player's Guide"
+    },
+    "Advanced Player's Guide": {
+      "abbr": "APG",
+      "cn": "进阶玩家指南",
+      "en": "Advanced Player's Guide"
+    },
+    "基础页UCa": {
+      "abbr": "UCa",
+      "cn": "极限战役",
+      "en": "Ultimate Campaign"
+    },
+    "UCa": {
+      "abbr": "UCa",
+      "cn": "极限战役",
+      "en": "Ultimate Campaign"
+    },
+    "极限战役": {
+      "abbr": "UCa",
+      "cn": "极限战役",
+      "en": "Ultimate Campaign"
+    },
+    "Ultimate Campaign": {
+      "abbr": "UCa",
+      "cn": "极限战役",
+      "en": "Ultimate Campaign"
+    },
+    "基础页AA": {
+      "abbr": "AA",
+      "cn": "秘术选集",
+      "en": "Arcane Anthology"
+    },
+    "基础页WMH": {
+      "abbr": "WMH",
+      "cn": "武器大师手册",
+      "en": "Weapon Master's Handbook"
+    },
+    "WMH": {
+      "abbr": "WMH",
+      "cn": "武器大师手册",
+      "en": "Weapon Master's Handbook"
+    },
+    "武器大师手册": {
+      "abbr": "WMH",
+      "cn": "武器大师手册",
+      "en": "Weapon Master's Handbook"
+    },
+    "Weapon Master's Handbook": {
+      "abbr": "WMH",
+      "cn": "武器大师手册",
+      "en": "Weapon Master's Handbook"
+    },
+    "Q&C": {
+      "abbr": "Q&C",
+      "cn": "任务与战役",
+      "en": "Quests & Campaigns"
+    },
+    "CoP": {
+      "abbr": "CoP",
+      "cn": "纯净信念",
+      "en": "Champions of Purity"
+    },
+    "CEoD": {
+      "abbr": "EOD",
+      "cn": "切利亚斯，魔鬼帝国",
+      "en": "Cheliax, Empire of Devils"
+    }
+  }
+}

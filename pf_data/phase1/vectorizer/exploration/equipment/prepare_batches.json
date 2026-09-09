@@ -1,0 +1,455 @@
+[
+ {
+  "batch": "P11",
+  "kb": 197,
+  "files": [
+   "pf_rules_md_organized/装备_魔法物品/PlanesOfPowerPoP_装备.md",
+   "pf_rules_md_organized/装备_魔法物品/QGthE_装备.md",
+   "pf_rules_md_organized/装备_魔法物品/Worldscape_新武器.md",
+   "pf_rules_md_organized/装备_魔法物品/传奇编年史CoL_魔法物品套装.md",
+   "pf_rules_md_organized/装备_魔法物品/位面行者手册PHH_物品.md",
+   "pf_rules_md_organized/装备_魔法物品/元素血脉BotE_物品.md",
+   "pf_rules_md_organized/装备_魔法物品/内海世界指南ISWG_武器.md",
+   "pf_rules_md_organized/装备_魔法物品/内海世界指南ISWG_魔法物品.md",
+   "pf_rules_md_organized/装备_魔法物品/内海战斗ISC_戒指权杖奇物.md",
+   "pf_rules_md_organized/装备_魔法物品/内海战斗ISC_魔法护甲和盾牌.md",
+   "pf_rules_md_organized/装备_魔法物品/内海战斗ISC_魔法武器.md",
+   "pf_rules_md_organized/装备_魔法物品/内海海盗PIS_炼金物品.md",
+   "pf_rules_md_organized/装备_魔法物品/内海神殿_魔法物品.md",
+   "pf_rules_md_organized/装备_魔法物品/内海种族ISR_奇物.md",
+   "pf_rules_md_organized/装备_魔法物品/内海种族ISR_魔法护甲和武器.md",
+   "pf_rules_md_organized/装备_魔法物品/内海舰船_炼金物品.md",
+   "pf_rules_md_organized/装备_魔法物品/内海诡道ISI_奇物.md",
+   "pf_rules_md_organized/装备_魔法物品/内海诡道ISI_炼金物品.md"
+  ]
+ },
+ {
+  "batch": "P12",
+  "kb": 142,
+  "files": [
+   "pf_rules_md_organized/装备_魔法物品/内海诸神ISG_奇物.md",
+   "pf_rules_md_organized/装备_魔法物品/内海诸神ISG_戒指.md",
+   "pf_rules_md_organized/装备_魔法物品/内海诸神ISG_神坛.md",
+   "pf_rules_md_organized/装备_魔法物品/内海诸神ISG_魔法护甲和盾牌.md",
+   "pf_rules_md_organized/装备_魔法物品/内海诸神ISG_魔法武器.md",
+   "pf_rules_md_organized/装备_魔法物品/内海骑士KIS_奇物.md",
+   "pf_rules_md_organized/装备_魔法物品/内海骑士KIS_魔法武器.md",
+   "pf_rules_md_organized/装备_魔法物品/内海魔法ISM_洗牌卷轴.md",
+   "pf_rules_md_organized/装备_魔法物品/再探经典宝藏CTR_物品.md",
+   "pf_rules_md_organized/装备_魔法物品/再探经典宝藏CTR_特殊魔法武器.md"
+  ]
+ },
+ {
+  "batch": "P13",
+  "kb": 200,
+  "files": [
+   "pf_rules_md_organized/装备_魔法物品/冒险之路AP_装备.md",
+   "pf_rules_md_organized/装备_魔法物品/动物档案AArch_装备.md",
+   "pf_rules_md_organized/装备_魔法物品/商人货单MM_武器防具.md",
+   "pf_rules_md_organized/装备_魔法物品/商人货单MM_毒药.md",
+   "pf_rules_md_organized/装备_魔法物品/商人货单MM_特殊材料.md",
+   "pf_rules_md_organized/装备_魔法物品/商人货单MM_纪念物.md",
+   "pf_rules_md_organized/装备_魔法物品/商人货单MM_装备.md",
+   "pf_rules_md_organized/装备_魔法物品/商人货单MM_食物.md",
+   "pf_rules_md_organized/装备_魔法物品/商人货单MM_魔法物品.md",
+   "pf_rules_md_organized/装备_魔法物品/地狱骑士之道PotH_神器.md",
+   "pf_rules_md_organized/装备_魔法物品/地狱骑士之道PotH_装备.md",
+   "pf_rules_md_organized/装备_魔法物品/地狱骑士之道PotH_魔法物品.md",
+   "pf_rules_md_organized/装备_魔法物品/塔尔多TEoG_魔法物品.md"
+  ]
+ },
+ {
+  "batch": "P14",
+  "kb": 193,
+  "files": [
+   "pf_rules_md_organized/装备_魔法物品/夜之血脉BotN_物品.md",
+   "pf_rules_md_organized/装备_魔法物品/奈多_神器.md",
+   "pf_rules_md_organized/装备_魔法物品/安多安ASoL_魔法物品.md",
+   "pf_rules_md_organized/装备_魔法物品/巨人再临GR_魔法物品.md",
+   "pf_rules_md_organized/装备_魔法物品/巫团血脉BotC_物品.md",
+   "pf_rules_md_organized/装备_魔法物品/幽暗地域英雄HotD_物品.md",
+   "pf_rules_md_organized/装备_魔法物品/幽暗地域英雄HotD_特殊材料.md",
+   "pf_rules_md_organized/装备_魔法物品/异能选集PA_魔法物品.md",
+   "pf_rules_md_organized/装备_魔法物品/敌手指南RM_物品.md",
+   "pf_rules_md_organized/装备_魔法物品/敌手指南RM_魔法物品.md",
+   "pf_rules_md_organized/装备_魔法物品/月之血脉BotM_物品.md",
+   "pf_rules_md_organized/装备_魔法物品/格拉里昂的混种_魔法物品.md",
+   "pf_rules_md_organized/装备_魔法物品/格拉里昂的精灵_附魔箭矢.md",
+   "pf_rules_md_organized/装备_魔法物品/格拉里昂的精灵_魔法食物.md",
+   "pf_rules_md_organized/装备_魔法物品/格拉里昂的纯洁勇士_魔法物品.md",
+   "pf_rules_md_organized/装备_魔法物品/格拉里昂的英雄HoG_火器与弹药.md",
+   "pf_rules_md_organized/装备_魔法物品/武器/位面冒险PA_武器附魔.md",
+   "pf_rules_md_organized/装备_魔法物品/武器/位面冒险PA_特殊武器.md",
+   "pf_rules_md_organized/装备_魔法物品/武器/元素大师手册EMH_物品.md",
+   "pf_rules_md_organized/装备_魔法物品/武器/内海海盗PIS_武器.md",
+   "pf_rules_md_organized/装备_魔法物品/武器/冒险者指南AG_武器.md",
+   "pf_rules_md_organized/装备_魔法物品/武器/冒险者的军械库_武器.md",
+   "pf_rules_md_organized/装备_魔法物品/武器/反派法典VC_特殊武器.md",
+   "pf_rules_md_organized/装备_魔法物品/武器/巨人猎手手册_新武器.md",
+   "pf_rules_md_organized/装备_魔法物品/武器/怪物召唤者手册_武器附魔.md",
+   "pf_rules_md_organized/装备_魔法物品/武器/格拉里昂的半身人_投石索.md",
+   "pf_rules_md_organized/装备_魔法物品/武器/武器大师手册_魔法武器.md",
+   "pf_rules_md_organized/装备_魔法物品/武器/武术手册MAH_新武器.md",
+   "pf_rules_md_organized/装备_魔法物品/武器/遥远世界DS_武器.md",
+   "pf_rules_md_organized/装备_魔法物品/武器_防具/武器.md",
+   "pf_rules_md_organized/装备_魔法物品/武器附魔/任务与战役_武器附魔.md",
+   "pf_rules_md_organized/装备_魔法物品/武器附魔/内海诡道ISI_武器附魔.md",
+   "pf_rules_md_organized/装备_魔法物品/武器附魔/初探探索者协会_武器附魔.md",
+   "pf_rules_md_organized/装备_魔法物品/武器附魔/巨人猎手手册_武器附魔.md",
+   "pf_rules_md_organized/装备_魔法物品/武器附魔/探索者协会战地指南PSFG_武器附魔.md",
+   "pf_rules_md_organized/装备_魔法物品/武器附魔/极限荒野UW_武器附魔.md",
+   "pf_rules_md_organized/装备_魔法物品/武器附魔/格拉里昂的纯洁勇士_武器附魔.md",
+   "pf_rules_md_organized/装备_魔法物品/武器附魔/间谍大师手册SH_武器附魔.md",
+   "pf_rules_md_organized/装备_魔法物品/武器附魔/阴影血脉BoS_武器附魔.md",
+   "pf_rules_md_organized/装备_魔法物品/武器附魔/魔法市集指南MM_武器附魔.md",
+   "pf_rules_md_organized/装备_魔法物品/水下冒险AA_水下宝藏.md",
+   "pf_rules_md_organized/装备_魔法物品/水下冒险AA_水下装备.md",
+   "pf_rules_md_organized/装备_魔法物品/永罪之书第二卷BotD2_恶魔移植物.md",
+   "pf_rules_md_organized/装备_魔法物品/海洋之血BotS_魔法物品.md"
+  ]
+ },
+ {
+  "batch": "P15",
+  "kb": 190,
+  "files": [
+   "pf_rules_md_organized/装备_魔法物品/炼金物品/纽梅利亚NLoFS_纽梅利亚液体.md",
+   "pf_rules_md_organized/装备_魔法物品/炼金物品/萨迦瓦StLC_炼金物品.md",
+   "pf_rules_md_organized/装备_魔法物品/特定魔法防具/反派法典VC_特定魔法防具.md",
+   "pf_rules_md_organized/装备_魔法物品/特定魔法防具/护甲大师手册_特定魔法防具.md",
+   "pf_rules_md_organized/装备_魔法物品/特殊材料/卡蒂亚QJotE_特殊材料.md",
+   "pf_rules_md_organized/装备_魔法物品/特殊材料/护甲大师手册_特殊材料.md",
+   "pf_rules_md_organized/装备_魔法物品/特殊材料/遥远国度DR_特殊材料.md",
+   "pf_rules_md_organized/装备_魔法物品/瓦瑞西亚，传说诞生之地_物品.md",
+   "pf_rules_md_organized/装备_魔法物品/皇庭英豪HotHC_魔法物品.md",
+   "pf_rules_md_organized/装备_魔法物品/神话源始MO_神话魔法物品.md",
+   "pf_rules_md_organized/装备_魔法物品/经典恐怖再临CHR_新武器.md",
+   "pf_rules_md_organized/装备_魔法物品/缘界英雄HftF_武器.md",
+   "pf_rules_md_organized/装备_魔法物品/缘界英雄HftF_装备技法.md",
+   "pf_rules_md_organized/装备_魔法物品/缘界英雄HftF_防具.md",
+   "pf_rules_md_organized/装备_魔法物品/缘界英雄HftF_魔法物品.md",
+   "pf_rules_md_organized/装备_魔法物品/荒野英雄HotW_物品.md",
+   "pf_rules_md_organized/装备_魔法物品/街巷英雄HotS_魔法物品.md",
+   "pf_rules_md_organized/装备_魔法物品/货品服务/AA2来自海外的装备.md",
+   "pf_rules_md_organized/装备_魔法物品/货品服务/HA炼金物品.md",
+   "pf_rules_md_organized/装备_魔法物品/货品服务/元素大师手册EMH_炼金物品.md",
+   "pf_rules_md_organized/装备_魔法物品/货品服务/内海海盗PIS_装备.md",
+   "pf_rules_md_organized/装备_魔法物品/货品服务/冒险者的军械库2_炼金物品.md",
+   "pf_rules_md_organized/装备_魔法物品/货品服务/冒险者的军械库2_装备.md",
+   "pf_rules_md_organized/装备_魔法物品/货品服务/冒险者的军械库_休闲道具.md",
+   "pf_rules_md_organized/装备_魔法物品/货品服务/冒险者的军械库_冒险装备.md",
+   "pf_rules_md_organized/装备_魔法物品/货品服务/冒险者的军械库_坐骑、宠物和相关装备.md",
+   "pf_rules_md_organized/装备_魔法物品/货品服务/冒险者的军械库_服饰.md",
+   "pf_rules_md_organized/装备_魔法物品/货品服务/冒险者的军械库_特殊物品和道具.md",
+   "pf_rules_md_organized/装备_魔法物品/货品服务/冒险者的军械库_食物、饮料和住宿.md",
+   "pf_rules_md_organized/装备_魔法物品/货品服务/冒险者的军械库_黑市道具.md"
+  ]
+ },
+ {
+  "batch": "P16",
+  "kb": 195,
+  "files": [
+   "pf_rules_md_organized/装备_魔法物品/货品服务/反派法典VC_物品.md",
+   "pf_rules_md_organized/装备_魔法物品/货品服务/地城探险者手册DH_物品.md",
+   "pf_rules_md_organized/装备_魔法物品/货品服务/屠龙者手册_物品.md",
+   "pf_rules_md_organized/装备_魔法物品/货品服务/巨人猎手手册_装备.md",
+   "pf_rules_md_organized/装备_魔法物品/货品服务/怪物猎人手册_普通物品.md",
+   "pf_rules_md_organized/装备_魔法物品/货品服务/恶魔猎人手册_炼金物品.md",
+   "pf_rules_md_organized/装备_魔法物品/货品服务/恶魔猎人手册_物品.md",
+   "pf_rules_md_organized/装备_魔法物品/货品服务/探索者协会战地指南PSFG_物品.md",
+   "pf_rules_md_organized/装备_魔法物品/货品服务/格拉里昂的半身人_半身人酒品.md",
+   "pf_rules_md_organized/装备_魔法物品/货品服务/格拉里昂的狗头人_炼金物品.md",
+   "pf_rules_md_organized/装备_魔法物品/货品服务/格拉里昂的矮人_矮人酒品.md",
+   "pf_rules_md_organized/装备_魔法物品/货品服务/炼金物品3.md",
+   "pf_rules_md_organized/装备_魔法物品/货品服务/秘密探寻者SoS_炼金物品.md",
+   "pf_rules_md_organized/装备_魔法物品/货品服务/药剂与毒药P&P_毒品.md",
+   "pf_rules_md_organized/装备_魔法物品/货品服务/药剂与毒药P&P_毒药.md",
+   "pf_rules_md_organized/装备_魔法物品/货品服务/药剂与毒药P&P_装备.md",
+   "pf_rules_md_organized/装备_魔法物品/货品服务/药剂与毒药P&P_酊剂.md",
+   "pf_rules_md_organized/装备_魔法物品/货品服务/装备3.md",
+   "pf_rules_md_organized/装备_魔法物品/近战战术工具箱CTT_奇物.md",
+   "pf_rules_md_organized/装备_魔法物品/近战战术工具箱CTT_武器.md",
+   "pf_rules_md_organized/装备_魔法物品/近战战术工具箱CTT_特殊附魔.md",
+   "pf_rules_md_organized/装备_魔法物品/近战战术工具箱CTT_装备.md",
+   "pf_rules_md_organized/装备_魔法物品/近战战术工具箱CTT_魔法护甲.md",
+   "pf_rules_md_organized/装备_魔法物品/近战战术工具箱CTT_魔法武器.md",
+   "pf_rules_md_organized/装备_魔法物品/进化职业起源ACO_防具附魔.md",
+   "pf_rules_md_organized/装备_魔法物品/进化职业起源ACO_魔法物品.md",
+   "pf_rules_md_organized/装备_魔法物品/远程战术工具箱RTT_奇物.md",
+   "pf_rules_md_organized/装备_魔法物品/远程战术工具箱RTT_武器.md",
+   "pf_rules_md_organized/装备_魔法物品/远程战术工具箱RTT_武器特殊附魔.md",
+   "pf_rules_md_organized/装备_魔法物品/远程战术工具箱RTT_炼金物品.md",
+   "pf_rules_md_organized/装备_魔法物品/远程战术工具箱RTT_魔法弹药.md",
+   "pf_rules_md_organized/装备_魔法物品/远程战术工具箱RTT_魔法武器.md"
+  ]
+ },
+ {
+  "batch": "P17",
+  "kb": 191,
+  "files": [
+   "pf_rules_md_organized/装备_魔法物品/邪恶特务AoE_奇物与毒药.md",
+   "pf_rules_md_organized/装备_魔法物品/邪恶特务AoE_武器防具附魔与特殊武器.md",
+   "pf_rules_md_organized/装备_魔法物品/门徒教义DD_魔法物品.md",
+   "pf_rules_md_organized/装备_魔法物品/防具附魔/位面冒险PA_防具附魔.md",
+   "pf_rules_md_organized/装备_魔法物品/防具附魔/巨人猎手手册_防具附魔.md",
+   "pf_rules_md_organized/装备_魔法物品/防具附魔/护甲大师手册_防具附魔.md",
+   "pf_rules_md_organized/装备_魔法物品/防具附魔/探索者协会战地指南PSFG_防具附魔.md",
+   "pf_rules_md_organized/装备_魔法物品/防具附魔/魔法市集指南MM_防具附魔.md",
+   "pf_rules_md_organized/装备_魔法物品/阴影血脉BoS_物品.md",
+   "pf_rules_md_organized/装备_魔法物品/阴招战术工具箱DTT_武器附魔.md",
+   "pf_rules_md_organized/装备_魔法物品/阴招战术工具箱DTT_毒药.md",
+   "pf_rules_md_organized/装备_魔法物品/阴招战术工具箱DTT_防具附魔.md",
+   "pf_rules_md_organized/装备_魔法物品/阴招战术工具箱DTT_魔法刺青.md",
+   "pf_rules_md_organized/装备_魔法物品/魔宠手记FF_装备与魔法物品.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法市集指南MM_物品.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法战术工具箱MTT_物品.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/哈罗牌手册THH_装备.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/奇物/CaC部属与伙伴_奇物.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/奇物/亡灵杀手手册_奇物.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/奇物/任务与战役_奇物.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/奇物/位面冒险PA_奇物.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/奇物/信仰与哲学F&P_奇物.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/奇物/冒险者指南AG_奇物.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/奇物/冒险者的军械库2_奇物.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/奇物/初探探索者协会_奇物.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/奇物/反派法典VC_奇物.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/奇物/屠龙者手册_奇物.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/奇物/废土子民PotW_奇物.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/奇物/怪物召唤者手册_奇物.md"
+  ]
+ },
+ {
+  "batch": "P18",
+  "kb": 184,
+  "files": [
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/奇物/恶魔猎人手册_奇物.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/奇物/探索者协会战地指南PSFG_奇物.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/奇物/无位置/任务与战役_奇物.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/奇物/无位置/元素大师手册EMH_元素扩增.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/奇物/无位置/元素大师手册EMH_奇物.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/奇物/无位置/初探探索者协会_奇物.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/奇物/无位置/均衡信念FoB_物品.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/奇物/无位置/失落秘宝LostTreasures_奇物.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/奇物/无位置/探索者协会战地指南PSFG_奇物.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/奇物/无位置/构装体手册CH_物品.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/奇物/无位置/秘密探寻者SoS_奇物.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/奇物/无位置/药剂与毒药P&P_奇物.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/奇物/极限荒野UW_奇物.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/奇物/林诺姆诸王之国LotLK_奇物.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/奇物/格拉里昂的平衡勇士_奇物.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/奇物/格拉里昂的秽邪勇士_奇物.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/奇物/沙之子民PotS_奇物.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/奇物/河域子民PotR_奇物.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/奇物/河域诸国指南GttRK_奇物.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/奇物/秘密探寻者SoS_奇物.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/奇物/繁星子民PotS_奇物.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/奇物/药剂与毒药P&P_奇物.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/奇物/萨迦瓦StLC_奇物.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/奇物/遥远世界DS_奇物.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/巨人猎手手册_新物品.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/怪物猎人手册_奇物.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/戒指_权杖_法杖/位面冒险PA_戒指.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/戒指_权杖_法杖/位面冒险PA_权杖.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/戒指_权杖_法杖/元素大师手册EMH_权杖.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/戒指_权杖_法杖/冒险者指南AG_权杖.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/戒指_权杖_法杖/反派法典VC_戒指.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/戒指_权杖_法杖/反派法典VC_权杖.md"
+  ]
+ },
+ {
+  "batch": "P19",
+  "kb": 158,
+  "files": [
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/极限荒野UW_魔法植物.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/极限诡道/UI奇物.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/极限诡道/UI戒指.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/极限诡道/武器附魔5.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/极限诡道/特殊武器防具.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/永罪之书_魔法物品.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/永罪之书_魔鬼护身符.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/炼金术手册AM_强化人造人.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/炼金术手册AM_真菌移植物.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/炼金术手册AM_自发炼金术.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/炼金术手册AM_装备.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/神器与传说/超游神器.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/魔法武器防具/格拉里昂的平衡勇士_特殊魔法武器.md",
+   "pf_rules_md_organized/装备_魔法物品/黑市指南BM_诅咒遗物.md",
+   "pf_rules_md_organized/装备_魔法物品/黑市指南BM_黑市毒药.md"
+  ]
+ },
+ {
+  "batch": "P21",
+  "kb": 186,
+  "files": [
+   "pf_rules_md_organized/装备_魔法物品/page_946.md",
+   "pf_rules_md_organized/装备_魔法物品/武器_防具/page_1006.md",
+   "pf_rules_md_organized/装备_魔法物品/武器_防具/page_1014.md",
+   "pf_rules_md_organized/装备_魔法物品/武器_防具/page_1020.md",
+   "pf_rules_md_organized/装备_魔法物品/武器_防具/page_1021.md",
+   "pf_rules_md_organized/装备_魔法物品/武器_防具/page_1590.md",
+   "pf_rules_md_organized/装备_魔法物品/武器_防具/page_206.md",
+   "pf_rules_md_organized/装备_魔法物品/武器_防具/page_207.md"
+  ]
+ },
+ {
+  "batch": "P22",
+  "kb": 155,
+  "files": [
+   "pf_rules_md_organized/装备_魔法物品/武器_防具/page_208.md",
+   "pf_rules_md_organized/装备_魔法物品/武器_防具/page_209.md",
+   "pf_rules_md_organized/装备_魔法物品/武器_防具/page_775.md",
+   "pf_rules_md_organized/装备_魔法物品/武器_防具/page_851.md",
+   "pf_rules_md_organized/装备_魔法物品/武器_防具/page_864.md",
+   "pf_rules_md_organized/装备_魔法物品/货品服务/page_1022.md",
+   "pf_rules_md_organized/装备_魔法物品/货品服务/page_1067.md",
+   "pf_rules_md_organized/装备_魔法物品/货品服务/page_1469.md"
+  ]
+ },
+ {
+  "batch": "P23",
+  "kb": 191,
+  "files": [
+   "pf_rules_md_organized/装备_魔法物品/货品服务/page_210.md"
+  ]
+ },
+ {
+  "batch": "P24",
+  "kb": 195,
+  "files": [
+   "pf_rules_md_organized/装备_魔法物品/货品服务/page_211.md",
+   "pf_rules_md_organized/装备_魔法物品/货品服务/page_212.md"
+  ]
+ },
+ {
+  "batch": "P25",
+  "kb": 195,
+  "files": [
+   "pf_rules_md_organized/装备_魔法物品/货品服务/page_29.md",
+   "pf_rules_md_organized/装备_魔法物品/货品服务/page_695.md",
+   "pf_rules_md_organized/装备_魔法物品/货品服务/page_729.md",
+   "pf_rules_md_organized/装备_魔法物品/货品服务/page_736.md",
+   "pf_rules_md_organized/装备_魔法物品/货品服务/page_884.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/Pathfinder_Unchained/成长型奇物/page_636.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/Pathfinder_Unchained/成长型奇物/page_637.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/Pathfinder_Unchained/成长型奇物/page_638.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/Pathfinder_Unchained/成长型奇物/page_639.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/Pathfinder_Unchained/成长型奇物/page_640.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/Pathfinder_Unchained/成长型奇物/page_641.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/page_213.md"
+  ]
+ },
+ {
+  "batch": "P26",
+  "kb": 191,
+  "files": [
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/page_214.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/page_219.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/page_947.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/page_948.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/page_949.md"
+  ]
+ },
+ {
+  "batch": "P27",
+  "kb": 178,
+  "files": [
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/奇物/page_223.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/奇物/page_224.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/奇物/page_225.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/奇物/page_226.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/奇物/page_227.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/奇物/page_228.md"
+  ]
+ },
+ {
+  "batch": "P28",
+  "kb": 187,
+  "files": [
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/奇物/page_229.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/奇物/page_230.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/奇物/page_231.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/奇物/page_232.md"
+  ]
+ },
+ {
+  "batch": "P29",
+  "kb": 197,
+  "files": [
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/奇物/page_233.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/奇物/page_275.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/奇物/无位置/page_1254.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/奇物/无位置/page_567.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/奇物/无位置/page_568.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/奇物/无位置/page_569.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/异能冒险/page_1127.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/异能冒险/page_1128.md"
+  ]
+ },
+ {
+  "batch": "P210",
+  "kb": 186,
+  "files": [
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/异能冒险/page_1129.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/异能冒险/page_1130.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/戒指_权杖_法杖/page_220.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/戒指_权杖_法杖/page_221.md"
+  ]
+ },
+ {
+  "batch": "P211",
+  "kb": 195,
+  "files": [
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/戒指_权杖_法杖/page_222.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/神器与传说/page_860.md"
+  ]
+ },
+ {
+  "batch": "P212",
+  "kb": 190,
+  "files": [
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/神器与传说/page_865.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/神话冒险/page_627.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/神话冒险/page_628.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/神话冒险/page_629.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/神话冒险/page_630.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/神话冒险/page_631.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/神话冒险/page_632.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/神话冒险/page_633.md"
+  ]
+ },
+ {
+  "batch": "P213",
+  "kb": 137,
+  "files": [
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/魔法武器防具/page_215.md",
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/魔法武器防具/page_216.md"
+  ]
+ },
+ {
+  "batch": "P214",
+  "kb": 94,
+  "files": [
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/魔法武器防具/page_217.md"
+  ]
+ },
+ {
+  "batch": "P215",
+  "kb": 109,
+  "files": [
+   "pf_rules_md_organized/装备_魔法物品/魔法物品/魔法武器防具/page_218.md"
+  ]
+ },
+ {
+  "batch": "P216",
+  "kb": 298,
+  "files": [
+   "pf_rules_md_organized/page_234.md"
+  ]
+ },
+ {
+  "batch": "P217",
+  "kb": 19,
+  "files": [
+   "pf_rules_md_organized/page_635.md"
+  ]
+ }
+]

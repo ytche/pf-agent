@@ -1,0 +1,137 @@
+{
+  "source_book": "亡灵杀手手册",
+  "source_book_english": "Undead Slayer's Handbook",
+  "source_dir": "pf_data/phase1/pf_rules_md/未整理/亡灵杀手手册",
+  "stats": {
+    "added": 4,
+    "skipped": 10,
+    "errors": []
+  },
+  "sections": [
+    {
+      "source": "灵魂守卫.md",
+      "title": "灵魂守卫",
+      "english": "Soul Warden",
+      "cls": "进阶职业",
+      "section_title": "进阶职业",
+      "target": "职业/进阶职业/亡灵杀手手册_灵魂守卫.md",
+      "marker": "**灵魂守卫（Soul Warden）",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长47.md",
+      "title": "残悔斩",
+      "english": "",
+      "target": "专长/亡灵杀手手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_1582.md",
+      "title": "护佑生命之戒",
+      "english": "Ring of Protected Life",
+      "target": "装备_魔法物品/魔法物品/奇物/亡灵杀手手册_奇物.md",
+      "section_title": "奇物",
+      "action": "added"
+    },
+    {
+      "source": "page_1582.md",
+      "title": "破魂锥",
+      "english": "spiritbane spike",
+      "target": "装备_魔法物品/魔法物品/奇物/亡灵杀手手册_奇物.md",
+      "section_title": "奇物",
+      "action": "added"
+    },
+    {
+      "source": "page_1582.md",
+      "title": "日光瓶",
+      "english": "Bottled sunlight",
+      "target": "装备_魔法物品/魔法物品/奇物/亡灵杀手手册_奇物.md",
+      "section_title": "奇物",
+      "action": "added"
+    },
+    {
+      "source": "page_1582.md",
+      "title": "腐肉诱饵",
+      "english": "carrion bait",
+      "target": "装备_魔法物品/魔法物品/奇物/亡灵杀手手册_奇物.md",
+      "section_title": "奇物",
+      "action": "added"
+    },
+    {
+      "source": "page_506.md",
+      "title": "附身陷阱",
+      "english": "",
+      "target": "规则/亡灵杀手手册_法术.md",
+      "section_title": "法术",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_506.md",
+      "title": "守护神球",
+      "english": "",
+      "target": "规则/亡灵杀手手册_法术.md",
+      "section_title": "法术",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_506.md",
+      "title": "腐烂罗盘",
+      "english": "",
+      "target": "规则/亡灵杀手手册_法术.md",
+      "section_title": "法术",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_506.md",
+      "title": "强效圣水",
+      "english": "",
+      "target": "规则/亡灵杀手手册_法术.md",
+      "section_title": "法术",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_506.md",
+      "title": "力场锚",
+      "english": "",
+      "target": "规则/亡灵杀手手册_法术.md",
+      "section_title": "法术",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_506.md",
+      "title": "生命护盾",
+      "english": "",
+      "target": "规则/亡灵杀手手册_法术.md",
+      "section_title": "法术",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_506.md",
+      "title": "死灵负担",
+      "english": "",
+      "target": "规则/亡灵杀手手册_法术.md",
+      "section_title": "法术",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_506.md",
+      "title": "不死转化",
+      "english": "",
+      "target": "规则/亡灵杀手手册_法术.md",
+      "section_title": "法术",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    }
+  ],
+  "skipped_files": []
+}

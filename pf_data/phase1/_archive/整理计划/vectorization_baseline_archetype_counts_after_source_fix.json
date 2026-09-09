@@ -1,0 +1,653 @@
+{
+  "未知职业": {
+    "count": 92,
+    "sources": {
+      "?": 4,
+      "AG": 13,
+      "AHH": 1,
+      "AQA": 1,
+      "CH": 3,
+      "COL": 1,
+      "DD": 1,
+      "DR": 1,
+      "EMH": 1,
+      "HA": 1,
+      "HFTF": 7,
+      "HH": 1,
+      "HOG": 2,
+      "HOTD": 2,
+      "KOTI": 1,
+      "MA": 1,
+      "MAH": 1,
+      "OA": 11,
+      "OO": 3,
+      "PA": 1,
+      "PFS": 1,
+      "POP": 1,
+      "POTI": 1,
+      "UI": 1,
+      "UW": 6,
+      "WFTC": 1,
+      "WO": 24
+    }
+  },
+  "圣武士": {
+    "count": 13,
+    "sources": {
+      "AG": 1,
+      "CH": 1,
+      "HA": 2,
+      "HOTHC": 1,
+      "ISM": 1,
+      "KOTI": 1,
+      "OO": 1,
+      "PHH": 1,
+      "UW": 2,
+      "WMH": 1,
+      "WO": 1
+    }
+  },
+  "铳士": {
+    "count": 4,
+    "sources": {
+      "HOTHC": 1,
+      "MAH": 1,
+      "PHH": 1,
+      "UI": 1
+    }
+  },
+  "秘学士": {
+    "count": 13,
+    "sources": {
+      "CH": 1,
+      "DD": 1,
+      "HA": 2,
+      "OA": 5,
+      "OO": 1,
+      "PA": 1,
+      "PHH": 1,
+      "UW": 1
+    }
+  },
+  "吟游诗人": {
+    "count": 58,
+    "sources": {
+      "ACG": 1,
+      "AG": 2,
+      "APG": 10,
+      "ARG": 4,
+      "BOTB": 1,
+      "CH": 1,
+      "CRB": 4,
+      "DEP": 1,
+      "EMH": 1,
+      "F&P": 1,
+      "FF": 1,
+      "HH": 2,
+      "HOG": 1,
+      "HOTHC": 1,
+      "HOTS": 1,
+      "HR": 2,
+      "ISM": 2,
+      "MHH": 1,
+      "OA": 1,
+      "P&P": 1,
+      "PA": 2,
+      "POTI": 2,
+      "QGTHE": 1,
+      "RTT": 1,
+      "UC": 3,
+      "UI": 1,
+      "UM": 6,
+      "UW": 3
+    }
+  },
+  "牧师": {
+    "count": 25,
+    "sources": {
+      "ACG": 1,
+      "AG": 1,
+      "AOE": 1,
+      "ARG": 3,
+      "BOS": 1,
+      "DA": 1,
+      "DTT": 1,
+      "EMH": 1,
+      "ISG": 2,
+      "ISM": 2,
+      "MTT": 1,
+      "PA": 1,
+      "PSFG": 1,
+      "TG": 1,
+      "UC": 2,
+      "UI": 1,
+      "UM": 3,
+      "USH": 1
+    }
+  },
+  "盗贼": {
+    "count": 52,
+    "sources": {
+      "AARCH": 1,
+      "ACG": 2,
+      "AG": 2,
+      "APG": 12,
+      "AQA": 1,
+      "ARG": 4,
+      "BOS": 1,
+      "BOTS": 1,
+      "CH": 1,
+      "CRB": 1,
+      "DTT": 1,
+      "EMH": 1,
+      "ISC": 3,
+      "MTT": 1,
+      "OA": 2,
+      "P&P": 3,
+      "PA": 1,
+      "POTI": 1,
+      "POTR": 1,
+      "PSFG": 1,
+      "TG": 1,
+      "UC": 8,
+      "UI": 1,
+      "UW": 1
+    }
+  },
+  "游侠": {
+    "count": 47,
+    "sources": {
+      "ACG": 3,
+      "APG": 8,
+      "ARG": 3,
+      "BOTB": 2,
+      "CRB": 4,
+      "DEP": 1,
+      "DH": 1,
+      "EMH": 1,
+      "ISC": 2,
+      "ISM": 1,
+      "POTI": 2,
+      "RTT": 1,
+      "UC": 6,
+      "UI": 4,
+      "UM": 1,
+      "USH": 1,
+      "UW": 5,
+      "WMH": 1
+    }
+  },
+  "召唤师": {
+    "count": 17,
+    "sources": {
+      "AOE": 1,
+      "APG": 2,
+      "ARG": 4,
+      "BOS": 1,
+      "EMH": 2,
+      "HR": 1,
+      "ISI": 1,
+      "PFS": 1,
+      "UM": 4
+    }
+  },
+  "炼金术师": {
+    "count": 74,
+    "sources": {
+      "AHH": 1,
+      "APG": 23,
+      "ARG": 9,
+      "CH": 1,
+      "DH": 1,
+      "DR": 1,
+      "DTT": 1,
+      "EMH": 1,
+      "FF": 1,
+      "HA": 2,
+      "HH": 1,
+      "HOTD": 1,
+      "HOTHC": 1,
+      "ISM": 2,
+      "MHH": 1,
+      "OA": 2,
+      "PA": 1,
+      "PFS": 1,
+      "POTW": 1,
+      "PSFG": 2,
+      "UC": 3,
+      "UI": 1,
+      "UM": 14,
+      "UW": 2
+    }
+  },
+  "骑士": {
+    "count": 11,
+    "sources": {
+      "?": 2,
+      "AMH": 2,
+      "APG": 1,
+      "AQA": 1,
+      "BOTB": 1,
+      "HOTD": 1,
+      "HOTHC": 1,
+      "KOTI": 1,
+      "MHH": 1
+    }
+  },
+  "战士": {
+    "count": 45,
+    "sources": {
+      "?": 1,
+      "ACG": 2,
+      "AMH": 1,
+      "APG": 12,
+      "AQA": 1,
+      "ARG": 1,
+      "BOTB": 1,
+      "CH": 1,
+      "CRB": 6,
+      "FF": 1,
+      "HOTHC": 1,
+      "ISC": 3,
+      "KOTI": 1,
+      "LOD": 1,
+      "MAH": 1,
+      "UC": 9,
+      "UW": 2
+    }
+  },
+  "德鲁伊": {
+    "count": 52,
+    "sources": {
+      "?": 1,
+      "ACG": 3,
+      "AG": 4,
+      "APG": 10,
+      "ARG": 5,
+      "BOTB": 1,
+      "CRB": 8,
+      "DTT": 1,
+      "FF": 1,
+      "HA": 2,
+      "HOTD": 1,
+      "ISI": 1,
+      "ISM": 1,
+      "MTT": 1,
+      "OO": 1,
+      "POTS": 1,
+      "UC": 1,
+      "UM": 5,
+      "UW": 4
+    }
+  },
+  "杀手": {
+    "count": 15,
+    "sources": {
+      "?": 1,
+      "ACG": 9,
+      "HA": 3,
+      "HOTD": 1,
+      "HOTHC": 1
+    }
+  },
+  "野蛮人": {
+    "count": 35,
+    "sources": {
+      "AARCH": 1,
+      "AG": 2,
+      "APG": 9,
+      "ARG": 2,
+      "CRB": 3,
+      "GS": 3,
+      "HA": 4,
+      "ISC": 2,
+      "OA": 1,
+      "POTR": 2,
+      "TG": 1,
+      "UC": 3,
+      "UW": 2
+    }
+  },
+  "魔战士": {
+    "count": 24,
+    "sources": {
+      "?": 1,
+      "AG": 2,
+      "APG": 4,
+      "FF": 1,
+      "HH": 1,
+      "MAH": 1,
+      "MTT": 1,
+      "RTT": 1,
+      "UC": 4,
+      "UM": 8
+    }
+  },
+  "猎人": {
+    "count": 21,
+    "sources": {
+      "ACG": 15,
+      "AG": 1,
+      "AHH": 1,
+      "AQA": 1,
+      "BOTS": 1,
+      "HOTS": 1,
+      "MTT": 1
+    }
+  },
+  "血脉狂怒者": {
+    "count": 23,
+    "sources": {
+      "?": 1,
+      "ACG": 11,
+      "AG": 1,
+      "AQA": 1,
+      "BOTC": 2,
+      "HFTF": 1,
+      "HOG": 1,
+      "HOTS": 1,
+      "MTT": 2,
+      "OO": 1,
+      "UW": 1
+    }
+  },
+  "通灵者": {
+    "count": 10,
+    "sources": {
+      "AG": 1,
+      "BOTB": 1,
+      "DD": 1,
+      "MAH": 1,
+      "OA": 3,
+      "OO": 2,
+      "VC": 1
+    }
+  },
+  "侠客": {
+    "count": 18,
+    "sources": {
+      "AHH": 1,
+      "BOTB": 1,
+      "HA": 1,
+      "MAH": 1,
+      "UI": 14
+    }
+  },
+  "催眠师": {
+    "count": 16,
+    "sources": {
+      "HA": 1,
+      "OA": 15
+    }
+  },
+  "先知": {
+    "count": 31,
+    "sources": {
+      "ACG": 3,
+      "APG": 3,
+      "ARG": 5,
+      "BOA": 1,
+      "BOF": 1,
+      "BOS": 1,
+      "BOTS": 1,
+      "DD": 2,
+      "HOTHC": 1,
+      "ISI": 1,
+      "ISM": 1,
+      "PSFG": 2,
+      "UM": 6,
+      "UW": 3
+    }
+  },
+  "反圣武士": {
+    "count": 5,
+    "sources": {
+      "APG": 1,
+      "COC": 1,
+      "UC": 1,
+      "UI": 1,
+      "UW": 1
+    }
+  },
+  "女巫": {
+    "count": 41,
+    "sources": {
+      "?": 1,
+      "ACG": 2,
+      "APG": 2,
+      "ARG": 3,
+      "BOTB": 1,
+      "BOTC": 4,
+      "BOTS": 1,
+      "DEP": 1,
+      "FF": 1,
+      "HA": 2,
+      "HOTD": 2,
+      "HOTHC": 1,
+      "ISM": 1,
+      "LOTFW": 1,
+      "MTT": 1,
+      "OA": 1,
+      "P&P": 1,
+      "PFS": 1,
+      "POTR": 3,
+      "PSFG": 1,
+      "QGTHE": 1,
+      "UC": 1,
+      "UM": 5,
+      "USH": 1,
+      "UW": 1,
+      "VC": 1
+    }
+  },
+  "审判者": {
+    "count": 16,
+    "sources": {
+      "APG": 1,
+      "BOTB": 1,
+      "BOTS": 1,
+      "DTT": 1,
+      "ISI": 1,
+      "MTT": 1,
+      "UI": 6,
+      "UW": 1,
+      "WO": 3
+    }
+  },
+  "忍者": {
+    "count": 5,
+    "sources": {
+      "DD": 2,
+      "HFTF": 1,
+      "UC": 1,
+      "WO": 1
+    }
+  },
+  "战吟者": {
+    "count": 1,
+    "sources": {
+      "QGTHE": 1
+    }
+  },
+  "武士": {
+    "count": 4,
+    "sources": {
+      "DD": 1,
+      "MAH": 1,
+      "UC": 2
+    }
+  },
+  "游荡剑客": {
+    "count": 10,
+    "sources": {
+      "ACG": 7,
+      "BOTB": 1,
+      "MAH": 1,
+      "UE": 1
+    }
+  },
+  "游荡者": {
+    "count": 2,
+    "sources": {
+      "?": 1,
+      "MM": 1
+    }
+  },
+  "萨满": {
+    "count": 9,
+    "sources": {
+      "ACG": 4,
+      "AQA": 1,
+      "BOTB": 1,
+      "HOTD": 1,
+      "LOD": 1,
+      "MTT": 1
+    }
+  },
+  "铳手": {
+    "count": 12,
+    "sources": {
+      "ACG": 1,
+      "APG": 4,
+      "ISC": 2,
+      "UC": 5
+    }
+  },
+  "骑将": {
+    "count": 15,
+    "sources": {
+      "ACG": 1,
+      "ARG": 1,
+      "CAC": 1,
+      "HOTS": 1,
+      "ISC": 2,
+      "UC": 8,
+      "WO": 1
+    }
+  },
+  "武僧": {
+    "count": 56,
+    "sources": {
+      "ACG": 2,
+      "APG": 10,
+      "ARG": 5,
+      "CRB": 3,
+      "DD": 2,
+      "DH": 1,
+      "EMH": 1,
+      "HH": 1,
+      "HR": 1,
+      "ISC": 3,
+      "ISI": 1,
+      "LOD": 1,
+      "MAH": 4,
+      "OA": 1,
+      "OO": 5,
+      "PFS": 1,
+      "PU": 1,
+      "RTT": 1,
+      "UC": 8,
+      "USH": 1,
+      "UW": 3
+    }
+  },
+  "法师": {
+    "count": 18,
+    "sources": {
+      "?": 1,
+      "ACG": 3,
+      "ARG": 3,
+      "CH": 1,
+      "COB": 1,
+      "CRB": 1,
+      "HFTF": 1,
+      "ISM": 2,
+      "MM": 1,
+      "PA": 1,
+      "POTR": 1,
+      "UM": 2
+    }
+  },
+  "奥能师": {
+    "count": 13,
+    "sources": {
+      "?": 1,
+      "ACG": 10,
+      "CH": 1,
+      "OO": 1
+    }
+  },
+  "调查员": {
+    "count": 21,
+    "sources": {
+      "ACG": 9,
+      "BOTB": 1,
+      "CAC": 1,
+      "CH": 1,
+      "ISI": 2,
+      "MTT": 1,
+      "OA": 1,
+      "P&P": 2,
+      "PA": 1,
+      "UI": 2
+    }
+  },
+  "歌者": {
+    "count": 13,
+    "sources": {
+      "?": 1,
+      "ACG": 1,
+      "BOTB": 2,
+      "CRB": 1,
+      "HFTF": 3,
+      "HOTHC": 1,
+      "UI": 2,
+      "UW": 2
+    }
+  },
+  "圣骑士": {
+    "count": 23,
+    "sources": {
+      "ACG": 2,
+      "APG": 6,
+      "ARG": 3,
+      "BOTS": 1,
+      "DA": 1,
+      "ISC": 1,
+      "OA": 1,
+      "UC": 6,
+      "UM": 1,
+      "WO": 1
+    }
+  },
+  "术士": {
+    "count": 33,
+    "sources": {
+      "APG": 11,
+      "ARG": 2,
+      "BOF": 1,
+      "CRB": 11,
+      "DR": 1,
+      "UM": 7
+    }
+  },
+  "拳师": {
+    "count": 10,
+    "sources": {
+      "ACG": 7,
+      "MAH": 2,
+      "UM": 1
+    }
+  },
+  "战斗祭司": {
+    "count": 10,
+    "sources": {
+      "ACG": 4,
+      "DA": 1,
+      "DD": 1,
+      "HFTF": 1,
+      "UC": 2,
+      "UW": 1
+    }
+  }
+}

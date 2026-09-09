@@ -1,0 +1,31 @@
+# 临时文件
+*.tmp
+*.bak
+*.log
+*.swp
+
+# 向量化输出（大文件）
+vectors/
+embeddings/
+*.index
+
+# 原始 HTML（如果未来复制进来）
+*.html
+*.htm
+
+# 编辑器临时文件
+.DS_Store
+.idea/
+.vscode/
+
+# 输出产物
+output/
+dist/
+build/
+vectorization_prep_*/
+
+# 个人会话备份（不应进入版本库）
+我的会话备份.md
+
+# 探查/分析中间产物
+vectorizer/exploration/ma_census.json

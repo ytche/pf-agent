@@ -1,0 +1,58 @@
+# 安多安ASoL 背景特性
+
+<!-- 安多安ASoL-source:背景特性35.md:background_traits -->
+## 安多安ASoL 背景特性
+> 来源：安多安，自由之魂（Andoran, Spirit of Liberty），页码见原书，未整理 → 安多安ASoL → 背景特性
+## 贝里斯采蜜员（Bellis Honey Harvester）
+
+出自《Andoran, Spirit of Liberty pg. 
+18》
+**类型**：地区
+**需求**：贝里斯［安多安内部］（Bellis [in 
+Andoran]）
+你经常接触蜜蜂——以及它们的蜇刺——令所有这类生物看起来更像是讨厌的小家伙而不是真正的威胁。你面对集群造成的伤害时获得DR 
+3/-，以及对抗源于集群的毒素和扰乱心神时豁免获得+1背景加值。
+
+## 卡朋登投手（Carpenden Lobber）
+
+出自《Andoran, Spirit of Liberty pg. 
+19》
+**类型**：地区
+**需求**：卡朋登贝里斯［安多安内部］（Carpenden [in Andoran]）
+您经常参加月瓜节（moonmelon 
+festival）令你在投掷无害物品这方面非常有效。当你在投掷不造成正常HP伤害（例如造成非致命伤的武器或例如绊足包和爆雷石等等）的道具时，攻击骰获得+2背景加值。
+
+## 狗头人的邻居（Kobold's Neighbor）
+
+出自《Andoran, Spirit of Liberty pg. 
+9》
+**类型**：地区
+**需求**：安多安（Andoran）
+你在狗头人安家的荒野中长大。你早早就学会怎样在陷阱找上你前找到它们、怎样拆解它们以及何时默默走开。你在发现陷阱的察觉检定获得+2背景加值，在解除装置检定获得+1背景加值。
+
+## 奥莱根特之决意（Oregent Desperation）
+
+出自《Andoran, Spirit of Liberty pg. 
+20》
+**类型**：地区
+**需求**：奥莱根特［安多安内部］（Oregent [in 
+Andoran]）
+你求生的本能轻松地压垮你的智力，然而你认为这仅仅是种公平交易。每天1次你能承受4点智力伤害以改善你的状态由濒死（Dying）至瘫痪（Disabled）。
+
+## 奥莱根特之合拍（Oregent Timing）
+
+出自《Andoran, Spirit of Liberty pg. 
+20》
+**类型**：地区
+**需求**：奥莱根特［安多安内部］（Oregent [in 
+Andoran]）
+经过多年对他人日程安排的麻木服从，你发现自己的行动能与盟友的第二天性同步。每天1次，当你在战斗中采取准备动作时，若该动作由盟友的行动触发，它的d20骰获得+3背景加值。
+
+## 投石玩家（Prismati Player）
+
+出自《Andoran, Spirit of Liberty pg. 
+7》
+**类型**：地区
+**需求**：安多安
+你长大期间一直玩着令人困惑的拍斯玛蒂（prismati）游戏而且能准确又轻松地投掷石头。你在使用拳头大小的石头或类似的尖锐物品时的攻击骰获得+1背景加值，而且你在专注检定获得+1背背景加值。
+

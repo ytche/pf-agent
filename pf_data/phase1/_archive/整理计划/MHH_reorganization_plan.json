@@ -1,0 +1,524 @@
+{
+  "source_book": "怪物猎人手册",
+  "source_book_english": "Monster Hunter's Handbook",
+  "source_dir": "pf_data/phase1/pf_rules_md/未整理/怪物猎人手册MHH",
+  "stats": {
+    "added": 0,
+    "skipped": 55,
+    "errors": []
+  },
+  "sections": [
+    {
+      "source": "变体/page_1213.md",
+      "title": "秘灵猎兵",
+      "english": "Psychodermist",
+      "cls": "秘学士",
+      "section_title": "变体",
+      "target": "职业/混合职业/秘学士/全变体未整合.md",
+      "marker": "秘灵猎兵(Psychodermist)",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "变体/page_1228.md",
+      "title": "枪之从者",
+      "english": "Disciple of the Pike",
+      "cls": "骑士",
+      "section_title": "变体",
+      "target": "职业/基础职业/骑士/护甲大师手册_骑士变体.md",
+      "marker": "枪之从者",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "变体/page_1236.md",
+      "title": "泥怪大师",
+      "english": "Oozemaster",
+      "cls": "炼金术师",
+      "section_title": "变体",
+      "target": "职业/基础职业/炼金术师/全变体未整合.md",
+      "marker": "泥怪大师(Oozemaster)",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "变体/审判者.md",
+      "title": "净化者",
+      "english": "Abolisher",
+      "cls": "审判者",
+      "section_title": "变体",
+      "target": "职业/基础职业/审判者/page_78.md",
+      "marker": "净化者-审判者变体 Abolisher",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "变体/德鲁伊.md",
+      "title": "真实世界守卫者",
+      "english": "Defender of the True World",
+      "cls": "德鲁伊",
+      "section_title": "变体",
+      "target": "职业/核心职业/德鲁伊/page_37.md",
+      "marker": "真实世界守卫者-德鲁伊变体 Defender",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "变体/德鲁伊.md",
+      "title": "绿灾",
+      "english": "Green Scourge",
+      "cls": "德鲁伊",
+      "section_title": "变体",
+      "target": "职业/核心职业/德鲁伊/page_37.md",
+      "marker": "绿灾-德鲁伊变体Green Scourge",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "变体/圣骑士.md",
+      "title": "驱魔卫士",
+      "english": "Banishing Warden",
+      "cls": "圣武士",
+      "section_title": "变体",
+      "target": "职业/核心职业/圣骑士/page_55.md",
+      "marker": "驱魔卫士-圣武士变体 Banishing",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "变体/吟游诗人.md",
+      "title": "吹笛人",
+      "english": "Luring Piper",
+      "cls": "吟游诗人",
+      "section_title": "变体",
+      "target": "职业/核心职业/吟游诗人/page_38.md",
+      "marker": "吹笛人-吟游诗人变体 Luring Piper",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长1.md",
+      "title": "异怪专精",
+      "english": "",
+      "target": "专长/怪物猎人手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长1.md",
+      "title": "动物专精",
+      "english": "",
+      "target": "专长/怪物猎人手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长1.md",
+      "title": "构装体专精",
+      "english": "",
+      "target": "专长/怪物猎人手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长1.md",
+      "title": "精类专精",
+      "english": "",
+      "target": "专长/怪物猎人手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长1.md",
+      "title": "魔法兽专精",
+      "english": "",
+      "target": "专长/怪物猎人手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长1.md",
+      "title": "泥怪专精",
+      "english": "",
+      "target": "专长/怪物猎人手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长1.md",
+      "title": "异界生物专精",
+      "english": "",
+      "target": "专长/怪物猎人手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长1.md",
+      "title": "植物专精",
+      "english": "",
+      "target": "专长/怪物猎人手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长1.md",
+      "title": "不死生物专精",
+      "english": "",
+      "target": "专长/怪物猎人手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长1.md",
+      "title": "虫类专精",
+      "english": "",
+      "target": "专长/怪物猎人手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长1.md",
+      "title": "解剖专家",
+      "english": "",
+      "target": "专长/怪物猎人手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长1.md",
+      "title": "破敌审判",
+      "english": "",
+      "target": "专长/怪物猎人手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长1.md",
+      "title": "斗牛式",
+      "english": "",
+      "target": "专长/怪物猎人手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长1.md",
+      "title": "投牛手",
+      "english": "",
+      "target": "专长/怪物猎人手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长1.md",
+      "title": "牧牛人",
+      "english": "",
+      "target": "专长/怪物猎人手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长1.md",
+      "title": "老虎钳",
+      "english": "",
+      "target": "专长/怪物猎人手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长1.md",
+      "title": "专注目标",
+      "english": "",
+      "target": "专长/怪物猎人手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长1.md",
+      "title": "扩展猎人战术",
+      "english": "",
+      "target": "专长/怪物猎人手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长1.md",
+      "title": "采集残骸",
+      "english": "",
+      "target": "专长/怪物猎人手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长1.md",
+      "title": "骇人饰物",
+      "english": "",
+      "target": "专长/怪物猎人手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长1.md",
+      "title": "怪物工匠",
+      "english": "",
+      "target": "专长/怪物猎人手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长1.md",
+      "title": "梅花步",
+      "english": "",
+      "target": "专长/怪物猎人手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长1.md",
+      "title": "精通梅花步",
+      "english": "",
+      "target": "专长/怪物猎人手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长1.md",
+      "title": "不羁者",
+      "english": "",
+      "target": "专长/怪物猎人手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长1.md",
+      "title": "共享狩猎目标",
+      "english": "",
+      "target": "专长/怪物猎人手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长1.md",
+      "title": "龙类专精focused",
+      "english": "",
+      "target": "专长/怪物猎人手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长1.md",
+      "title": "坚定",
+      "english": "",
+      "target": "专长/怪物猎人手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "背景特性1.md",
+      "title": "怪物挑战者",
+      "english": "",
+      "target": "背景/怪物猎人手册_背景特性.md",
+      "section_title": "背景特性",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "背景特性1.md",
+      "title": "怪物学者",
+      "english": "",
+      "target": "背景/怪物猎人手册_背景特性.md",
+      "section_title": "背景特性",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "背景特性1.md",
+      "title": "怪物追踪者",
+      "english": "",
+      "target": "背景/怪物猎人手册_背景特性.md",
+      "section_title": "背景特性",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "背景特性1.md",
+      "title": "怪物幸存者",
+      "english": "",
+      "target": "背景/怪物猎人手册_背景特性.md",
+      "section_title": "背景特性",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_1617.md",
+      "title": "怪物染料",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/怪物猎人手册_奇物.md",
+      "section_title": "奇物",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "普通物品.md",
+      "title": "猎兽哨",
+      "english": "",
+      "target": "装备_魔法物品/货品服务/怪物猎人手册_普通物品.md",
+      "section_title": "普通物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "普通物品.md",
+      "title": "瓶装麝香",
+      "english": "",
+      "target": "装备_魔法物品/货品服务/怪物猎人手册_普通物品.md",
+      "section_title": "普通物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "普通物品.md",
+      "title": "化学防护剂",
+      "english": "",
+      "target": "装备_魔法物品/货品服务/怪物猎人手册_普通物品.md",
+      "section_title": "普通物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "普通物品.md",
+      "title": "展示架",
+      "english": "",
+      "target": "装备_魔法物品/货品服务/怪物猎人手册_普通物品.md",
+      "section_title": "普通物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "普通物品.md",
+      "title": "狩猎指南",
+      "english": "",
+      "target": "装备_魔法物品/货品服务/怪物猎人手册_普通物品.md",
+      "section_title": "普通物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "普通物品.md",
+      "title": "怪物诱饵",
+      "english": "",
+      "target": "装备_魔法物品/货品服务/怪物猎人手册_普通物品.md",
+      "section_title": "普通物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "普通物品.md",
+      "title": "怪物假人",
+      "english": "",
+      "target": "装备_魔法物品/货品服务/怪物猎人手册_普通物品.md",
+      "section_title": "普通物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "普通物品.md",
+      "title": "怪物猎人工具包",
+      "english": "",
+      "target": "装备_魔法物品/货品服务/怪物猎人手册_普通物品.md",
+      "section_title": "普通物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "普通物品.md",
+      "title": "臭气棒",
+      "english": "",
+      "target": "装备_魔法物品/货品服务/怪物猎人手册_普通物品.md",
+      "section_title": "普通物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "普通物品.md",
+      "title": "驱离害虫",
+      "english": "",
+      "target": "装备_魔法物品/货品服务/怪物猎人手册_普通物品.md",
+      "section_title": "普通物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "普通物品.md",
+      "title": "毒液海绵",
+      "english": "",
+      "target": "装备_魔法物品/货品服务/怪物猎人手册_普通物品.md",
+      "section_title": "普通物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "普通物品.md",
+      "title": "静电羊毛",
+      "english": "",
+      "target": "装备_魔法物品/货品服务/怪物猎人手册_普通物品.md",
+      "section_title": "普通物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "普通物品.md",
+      "title": "标本制作工具",
+      "english": "",
+      "target": "装备_魔法物品/货品服务/怪物猎人手册_普通物品.md",
+      "section_title": "普通物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "普通物品.md",
+      "title": "毒液阻断剂",
+      "english": "",
+      "target": "装备_魔法物品/货品服务/怪物猎人手册_普通物品.md",
+      "section_title": "普通物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "普通物品.md",
+      "title": "牧者手套",
+      "english": "",
+      "target": "装备_魔法物品/货品服务/怪物猎人手册_普通物品.md",
+      "section_title": "普通物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    }
+  ],
+  "skipped_files": []
+}

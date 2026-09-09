@@ -1,0 +1,50 @@
+# CI — GHCR 镜像构建推送（SP6 D6）
+#
+# 触发：打 v* tag 或手动 workflow_dispatch。构建 pf_agent/agent/Dockerfile
+# （multi-stage，仅 jar 不含数据），推 ghcr.io/ytche/pf-agent:<tag>。
+# 数据（向量库/chunks）不进镜像——运行时经卷/Release 数据包提供（见 docs/DEPLOYMENT.md）。
+# 无需额外密钥：GITHUB_TOKEN 在 packages: write 范围内完成 GHCR 认证。
+name: docker
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+jobs:
+  build-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 登录 GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # 镜像名与 docker-compose.yml 默认一致；tag 派生（v1.2.3 → v1.2.3 + v1 + v1.2；latest 跟随默认分支）
+      - name: 派生镜像 tag
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/ytche/pf-agent
+          tags: |
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=raw,value=latest,enable={{is_default_branch}}
+
+      - name: 构建并推送
+        uses: docker/build-push-action@v6
+        with:
+          context: ./pf_agent/agent
+          file: ./pf_agent/agent/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}

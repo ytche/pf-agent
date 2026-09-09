@@ -1,0 +1,48 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Data outputs
+*.db
+*.db-journal
+chroma_db/
+chromadb/
+output/
+*.log
+# 评测输出目录（evaluate.py --report-dir 产物，qa/ 下全为评测输出）
+out_*/
+
+# Source CHM extracted files (large, copied from ~/.openclaw/workspace/pf_rules_chm/)
+pf_data/source_chm/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+# jenv 自动生成（agent 用 jenv prefix 定位 JDK）
+.java-version
+*.swp
+*.swo
+
+# Java / Maven
+target/
+*.class
+*.jar
+*.war
+
+# Temporary files
+*.tmp
+*.bak
+# 评测集导出文档（供人工确认的临时 docx/pdf 产物）
+*_供确认.docx
+*_供确认.pdf
+
+# Docker / 本地部署（SP6）
+.env                        # compose 环境变量（模板见 .env.example，勿入库）
+/data/                      # compose 卷映射的向量库数据（./data ↔ 容器 ~/.pf_agent）

@@ -1,0 +1,74 @@
+# PF Agent 一键启动（app + Ollama embedding + 可选 PostgreSQL）
+# 用法见 README「路径一：Docker Compose 一键启动」与 docs/DEPLOYMENT.md。
+#
+# 约定：
+# - .env（由 .env.example 复制）提供 DEEPSEEK_PF_API 等变量。
+# - 应用把向量库/JSONL 写到容器内 ~/.pf_agent/（= /home/appuser/.pf_agent/），
+#   由 ./data 卷映射持久化——把「预构建数据包」里的 vector_store_*.json 解压进 ./data 即可。
+# - ollama 服务首启在后台 serve 并自动拉取 bge-m3 模型（模型存 named volume，二次启动即用）。
+# - pg 为可选 profile：`docker compose --profile pg up`（jdbc 会话记忆，见 .env 注释）。
+
+name: pf-agent
+
+services:
+  app:
+    image: ghcr.io/ytche/pf-agent:latest
+    build:
+      context: ./pf_agent/agent
+    container_name: pf-agent-app
+    restart: unless-stopped
+    depends_on:
+      - ollama
+    ports:
+      - "8080:8080"
+    environment:
+      # LLM（DeepSeek）；.env 提供，未填也能启动但问答会失败
+      DEEPSEEK_PF_API: ${DEEPSEEK_PF_API:-}
+      # 容器内连 compose 内网 Ollama（默认 localhost:11434 指向容器自身，必须覆写）
+      SPRING_AI_OLLAMA_BASE_URL: http://ollama:11434
+      # 托管 embedding 通道（可选，启用时在 .env 填入 key）
+      PF_EMBEDDING_PRIMARY: ${PF_EMBEDDING_PRIMARY:-ollama}
+      PF_EMBEDDING_FALLBACK_ENABLED: ${PF_EMBEDDING_FALLBACK_ENABLED:-false}
+      PF_EMBEDDING_CLOUD_API_KEY: ${PF_EMBEDDING_CLOUD_API_KEY:-}
+      # 会话记忆：默认内存；jdbc 需 --profile pg 并把 PF_CHAT_MEMORY=jdbc
+      PF_CHAT_MEMORY: ${PF_CHAT_MEMORY:-memory}
+    volumes:
+      # 向量库/JSONL 持久化（预构建数据包放 ./data/）
+      - ./data:/home/appuser/.pf_agent
+    # 说明：未配 healthcheck——eclipse-temurin jre 镜像不含 curl，加了会误判 unhealthy。
+    # 就绪判定以日志「Started AgentApplication」/ curl /api/health 为准（见 DEPLOYMENT）。
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: pf-agent-ollama
+    restart: unless-stopped
+    volumes:
+      - ollama:/root/.ollama
+    # 首启：后台 serve + 拉 bge-m3；wait 保持前台存活
+    entrypoint: ["/bin/sh", "-c", "ollama serve & sleep 2; ollama pull bge-m3; wait"]
+    ports:
+      - "11434:11434"
+
+  # PostgreSQL 会话持久化（可选）：docker compose --profile pg up -d
+  # 启用后：.env 设 PF_CHAT_MEMORY=jdbc，并把 SPRING_DATASOURCE_URL
+  # 指向 jdbc:postgresql://pg:5432/pf_agent（用户/密码见下，Flyway 自动建表）
+  pg:
+    image: postgres:16-alpine
+    profiles: ["pg"]
+    container_name: pf-agent-pg
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: pf_agent
+      POSTGRES_USER: pf_agent
+      POSTGRES_PASSWORD: pf_agent
+    volumes:
+      - pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pf_agent -d pf_agent"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  ollama:
+  pg:

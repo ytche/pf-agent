@@ -1,0 +1,25 @@
+# KN011-KN018 修复基线（2026-07-29）
+
+## Git
+- HEAD: fb38900 docs(handover): KN011~KN018 统一修复交接文档与审计要求
+- 分支: main（基线前），将切到 fix/kn011-018-unified
+- Tag: pre-kn011-018-unified-20260729（即将打）
+
+## chunks.jsonl 基线
+- 物理行数: 4138
+- component_type=spell: 4137
+- component_type=spell_index: 1
+
+## pytest 基线
+- 已收集: 189 tests
+- vectorizer/tests/test_spell_metadata_v0_3.py 等
+
+## 工作路径
+- cwd: /Users/chezi/code/java/pf_agent/pf_data/phase1/
+- vectorizer/ 在 cwd 下（不是 pf_data/phase1/vectorizer/）
+- docs/ 在 cwd 下（含 KN011~018 方案）
+- pf_rules_md_organized/ 在 cwd 下
+- link_mythic_base_spells.py 与 verify_kn011_018.py 计划放在 cwd 根与 vectorizer/verify/
+
+## 已确认
+- 6 个未跟踪文件（其他会话产物，不动）

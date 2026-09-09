@@ -1,0 +1,909 @@
+{
+  "source_book": "治疗者手册",
+  "source_book_english": "Healer's Handbook",
+  "source_dir": "pf_data/phase1/pf_rules_md/未整理/治疗者手册HH",
+  "stats": {
+    "added": 109,
+    "skipped": 0,
+    "errors": []
+  },
+  "target_files": [
+    "背景特性/治疗者手册HH_背景特性.md",
+    "专长/治疗者手册HH_专长.md",
+    "职业/异能冒险（Occult Adventures）/异能者/page_308.md",
+    "法术/治疗者手册HH_医疗法术.md",
+    "法术/治疗者手册HH_女巫法术.md",
+    "职业/核心职业/牧师/page_41.md",
+    "职业/核心职业/武僧/page_55.md",
+    "职业/核心职业/游侠/page_58.md",
+    "职业/核心职业/法师/page_67.md",
+    "职业/基础职业/炼金术师/page_21.md",
+    "职业/基础职业/炼金术师/page_71.md",
+    "职业/混合职业/战斗祭司/【整理】战斗祭司祝福汇总.md",
+    "职业/基础职业/女巫/page_92.md",
+    "职业/核心职业/吟游诗人/page_38.md",
+    "职业/核心职业/吟游诗人/传世名作汇总.md",
+    "职业/基础职业/先知/page_20.md",
+    "职业/基础职业/先知/page_88.md",
+    "职业/核心职业/德鲁伊/page_45.md",
+    "职业/核心职业/德鲁伊/page_46.md",
+    "职业/核心职业/圣骑士/page_55.md",
+    "职业/混合职业/萨满/page_111.md",
+    "装备_魔法物品/魔法物品/戒指_权杖_法杖/治疗者手册HH_戒指.md",
+    "装备_魔法物品/魔法物品/奇物/治疗者手册HH_奇物.md"
+  ],
+  "sections": [
+    {
+      "source": "page_703.md",
+      "title": "血腥复仇",
+      "english": "Bloody Vengeance",
+      "target": "背景特性/治疗者手册HH_背景特性.md",
+      "section_title": "背景特性",
+      "action": "added"
+    },
+    {
+      "source": "page_703.md",
+      "title": "医疗特使",
+      "english": "Envoy of Healing",
+      "target": "背景特性/治疗者手册HH_背景特性.md",
+      "section_title": "背景特性",
+      "action": "added"
+    },
+    {
+      "source": "page_703.md",
+      "title": "战争伤痕",
+      "english": "Scarred by War",
+      "target": "背景特性/治疗者手册HH_背景特性.md",
+      "section_title": "背景特性",
+      "action": "added"
+    },
+    {
+      "source": "page_703.md",
+      "title": "灵魂搜寻者之力",
+      "english": "Soul-Searcher's Strength",
+      "target": "背景特性/治疗者手册HH_背景特性.md",
+      "section_title": "背景特性",
+      "action": "added"
+    },
+    {
+      "source": "page_703.md",
+      "title": "知名医师",
+      "english": "Prestigious Healer",
+      "target": "背景特性/治疗者手册HH_背景特性.md",
+      "section_title": "背景特性",
+      "action": "added"
+    },
+    {
+      "source": "page_703.md",
+      "title": "楚业后裔",
+      "english": "Heir of Chu Ye",
+      "target": "背景特性/治疗者手册HH_背景特性.md",
+      "section_title": "背景特性",
+      "action": "added"
+    },
+    {
+      "source": "page_703.md",
+      "title": "艾欧巴瑞亚幸存者",
+      "english": "Iobarian Survivor",
+      "target": "背景特性/治疗者手册HH_背景特性.md",
+      "section_title": "背景特性",
+      "action": "added"
+    },
+    {
+      "source": "page_703.md",
+      "title": "镇咒者",
+      "english": "Curse Queller",
+      "target": "背景特性/治疗者手册HH_背景特性.md",
+      "section_title": "背景特性",
+      "action": "added"
+    },
+    {
+      "source": "page_703.md",
+      "title": "受训药剂师",
+      "english": "Educated Druggist",
+      "target": "背景特性/治疗者手册HH_背景特性.md",
+      "section_title": "背景特性",
+      "action": "added"
+    },
+    {
+      "source": "page_703.md",
+      "title": "法力废土医师",
+      "english": "Mana Wastes Medic",
+      "target": "背景特性/治疗者手册HH_背景特性.md",
+      "section_title": "背景特性",
+      "action": "added"
+    },
+    {
+      "source": "page_703.md",
+      "title": "熟练外科医生",
+      "english": "Skilled Surgeon",
+      "target": "背景特性/治疗者手册HH_背景特性.md",
+      "section_title": "背景特性",
+      "action": "added"
+    },
+    {
+      "source": "page_703.md",
+      "title": "濒死体验",
+      "english": "Near-Death Experience",
+      "target": "背景特性/治疗者手册HH_背景特性.md",
+      "section_title": "背景特性",
+      "action": "added"
+    },
+    {
+      "source": "page_703.md",
+      "title": "女巫借贷",
+      "english": "Debt to a Witch",
+      "target": "背景特性/治疗者手册HH_背景特性.md",
+      "section_title": "背景特性",
+      "action": "added"
+    },
+    {
+      "source": "page_703.md",
+      "title": "雅德维加医学",
+      "english": "Jadwiga Medicine",
+      "target": "背景特性/治疗者手册HH_背景特性.md",
+      "section_title": "背景特性",
+      "action": "added"
+    },
+    {
+      "source": "page_703.md",
+      "title": "庇护主之赐",
+      "english": "Patron's Boon",
+      "target": "背景特性/治疗者手册HH_背景特性.md",
+      "section_title": "背景特性",
+      "action": "added"
+    },
+    {
+      "source": "page_703.md",
+      "title": "无信决意",
+      "english": "Godless Resolve",
+      "target": "背景特性/治疗者手册HH_背景特性.md",
+      "section_title": "背景特性",
+      "action": "added"
+    },
+    {
+      "source": "page_703.md",
+      "title": "续命表演",
+      "english": "Sustaining Performance",
+      "target": "背景特性/治疗者手册HH_背景特性.md",
+      "section_title": "背景特性",
+      "action": "added"
+    },
+    {
+      "source": "page_703.md",
+      "title": "兽魂活力",
+      "english": "Animal-Spirit Vitality",
+      "target": "背景特性/治疗者手册HH_背景特性.md",
+      "section_title": "背景特性",
+      "action": "added"
+    },
+    {
+      "source": "page_703.md",
+      "title": "游击改进者",
+      "english": "Guerrilla Mender",
+      "target": "背景特性/治疗者手册HH_背景特性.md",
+      "section_title": "背景特性",
+      "action": "added"
+    },
+    {
+      "source": "page_703.md",
+      "title": "芒吉草药传统",
+      "english": "Mwangi Herbal Tradition",
+      "target": "背景特性/治疗者手册HH_背景特性.md",
+      "section_title": "背景特性",
+      "action": "added"
+    },
+    {
+      "source": "page_703.md",
+      "title": "英灵从者",
+      "english": "Servitor of Spirits",
+      "target": "背景特性/治疗者手册HH_背景特性.md",
+      "section_title": "背景特性",
+      "action": "added"
+    },
+    {
+      "source": "page_704.md",
+      "title": "触发医疗法术",
+      "english": "Contingent Spell",
+      "target": "专长/治疗者手册HH_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "page_704.md",
+      "title": "治愈掌握",
+      "english": "Curative Mastery",
+      "target": "专长/治疗者手册HH_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "page_704.md",
+      "title": "生命界限",
+      "english": "Lifebound",
+      "target": "专长/治疗者手册HH_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "page_704.md",
+      "title": "战斗活力",
+      "english": "Combat Vigor",
+      "target": "专长/治疗者手册HH_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "page_704.md",
+      "title": "强韧活力",
+      "english": "Fortuitous Vigor",
+      "target": "专长/治疗者手册HH_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "page_704.md",
+      "title": "复原活力",
+      "english": "Restorative Vigor",
+      "target": "专长/治疗者手册HH_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "page_704.md",
+      "title": "借机喘息",
+      "english": "Take a Breather",
+      "target": "专长/治疗者手册HH_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "page_704.md",
+      "title": "不屈决意",
+      "english": "Unconquerable Resolve",
+      "target": "专长/治疗者手册HH_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "page_704.md",
+      "title": "生龙活虎",
+      "english": "Vim and Vigor",
+      "target": "专长/治疗者手册HH_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "page_704.md",
+      "title": "限制法术",
+      "english": "Conditional Spell",
+      "target": "专长/治疗者手册HH_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "page_704.md",
+      "title": "阴险治疗",
+      "english": "Insidious Healing",
+      "target": "专长/治疗者手册HH_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "page_704.md",
+      "title": "痛苦治愈",
+      "english": "Painful Cures",
+      "target": "专长/治疗者手册HH_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "page_704.md",
+      "title": "念力复原",
+      "english": "KINETIC RESTORATION",
+      "target": "职业/异能冒险（Occult Adventures）/异能者/page_308.md",
+      "section_title": "异能者原力",
+      "action": "added"
+    },
+    {
+      "source": "page_704.md",
+      "title": "念力复苏",
+      "english": "KINETIC REVIVIFICATION",
+      "target": "职业/异能冒险（Occult Adventures）/异能者/page_308.md",
+      "section_title": "异能者原力",
+      "action": "added"
+    },
+    {
+      "source": "page_705.md",
+      "title": "医疗标记",
+      "english": "Healing Token",
+      "target": "法术/治疗者手册HH_医疗法术.md",
+      "section_title": "医疗法术",
+      "action": "added"
+    },
+    {
+      "source": "page_705.md",
+      "title": "疗效升华",
+      "english": "Curative Distillation",
+      "target": "法术/治疗者手册HH_医疗法术.md",
+      "section_title": "医疗法术",
+      "action": "added"
+    },
+    {
+      "source": "page_705.md",
+      "title": "医疗圣炎",
+      "english": "Healing Flames",
+      "target": "法术/治疗者手册HH_医疗法术.md",
+      "section_title": "医疗法术",
+      "action": "added"
+    },
+    {
+      "source": "page_705.md",
+      "title": "净化躯体",
+      "english": "Purify Body",
+      "target": "法术/治疗者手册HH_医疗法术.md",
+      "section_title": "医疗法术",
+      "action": "added"
+    },
+    {
+      "source": "page_705.md",
+      "title": "鼓舞复苏",
+      "english": "Inspiring Recovery",
+      "target": "法术/治疗者手册HH_医疗法术.md",
+      "section_title": "医疗法术",
+      "action": "added"
+    },
+    {
+      "source": "page_705.md",
+      "title": "痛苦平衡",
+      "english": "Balance of Suffering",
+      "target": "法术/治疗者手册HH_医疗法术.md",
+      "section_title": "医疗法术",
+      "action": "added"
+    },
+    {
+      "source": "page_705.md",
+      "title": "愚者之灾",
+      "english": "Befuddled Combatant",
+      "target": "法术/治疗者手册HH_女巫法术.md",
+      "section_title": "女巫法术",
+      "action": "added"
+    },
+    {
+      "source": "page_706.md",
+      "title": "受福侍者",
+      "english": "Sacred Attendant",
+      "target": "职业/核心职业/牧师/page_41.md",
+      "section_title": "牧师变体",
+      "action": "added"
+    },
+    {
+      "source": "page_706.md",
+      "title": "苦修护理师",
+      "english": "Stoic Caregiver",
+      "target": "职业/核心职业/牧师/page_41.md",
+      "section_title": "牧师变体",
+      "action": "added"
+    },
+    {
+      "source": "page_706.md",
+      "title": "圣炎使徒",
+      "english": "Angelfire Apostle",
+      "target": "职业/核心职业/牧师/page_41.md",
+      "section_title": "牧师变体",
+      "action": "added"
+    },
+    {
+      "source": "page_706.md",
+      "title": "混元门徒",
+      "english": "Disciple of Wholeness",
+      "target": "职业/核心职业/武僧/page_55.md",
+      "section_title": "武僧变体",
+      "action": "added"
+    },
+    {
+      "source": "page_706.md",
+      "title": "荒野军医",
+      "english": "Wilderness Medic",
+      "target": "职业/核心职业/游侠/page_58.md",
+      "section_title": "游侠变体",
+      "action": "added"
+    },
+    {
+      "source": "page_706.md",
+      "title": "奥术医者",
+      "english": "Arcane Physician",
+      "target": "职业/核心职业/法师/page_67.md",
+      "section_title": "法师变体",
+      "action": "added"
+    },
+    {
+      "source": "page_707.md",
+      "title": "废土除疫者",
+      "english": "Wasteland Blightbreaker",
+      "target": "职业/基础职业/炼金术师/page_21.md",
+      "section_title": "炼金术师变体",
+      "action": "added"
+    },
+    {
+      "source": "page_707.md",
+      "title": "圣礼炼金师",
+      "english": "Sacrament Alchemist",
+      "target": "职业/基础职业/炼金术师/page_21.md",
+      "section_title": "炼金术师变体",
+      "action": "added"
+    },
+    {
+      "source": "page_707.md",
+      "title": "中和炸弹",
+      "english": "Neutralizing Bomb",
+      "target": "职业/基础职业/炼金术师/page_71.md",
+      "section_title": "炼金术师科研发现",
+      "action": "added"
+    },
+    {
+      "source": "page_707.md",
+      "title": "净化突变",
+      "english": "Purging Mutagen",
+      "target": "职业/基础职业/炼金术师/page_71.md",
+      "section_title": "炼金术师科研发现",
+      "action": "added"
+    },
+    {
+      "source": "page_707.md",
+      "title": "炼金药炼成",
+      "english": "Remedy Extract",
+      "target": "职业/基础职业/炼金术师/page_71.md",
+      "section_title": "炼金术师科研发现",
+      "action": "added"
+    },
+    {
+      "source": "page_708.md",
+      "title": "合作祝福",
+      "english": "Cooperation",
+      "target": "职业/混合职业/战斗祭司/【整理】战斗祭司祝福汇总.md",
+      "section_title": "战斗祭司集中祝福",
+      "action": "added"
+    },
+    {
+      "source": "page_708.md",
+      "title": "自由祝福",
+      "english": "Freedom",
+      "target": "职业/混合职业/战斗祭司/【整理】战斗祭司祝福汇总.md",
+      "section_title": "战斗祭司集中祝福",
+      "action": "added"
+    },
+    {
+      "source": "page_708.md",
+      "title": "殉难祝福",
+      "english": "Martyr",
+      "target": "职业/混合职业/战斗祭司/【整理】战斗祭司祝福汇总.md",
+      "section_title": "战斗祭司集中祝福",
+      "action": "added"
+    },
+    {
+      "source": "page_708.md",
+      "title": "复原祝福",
+      "english": "Restoration",
+      "target": "职业/混合职业/战斗祭司/【整理】战斗祭司祝福汇总.md",
+      "section_title": "战斗祭司集中祝福",
+      "action": "added"
+    },
+    {
+      "source": "page_708.md",
+      "title": "回生祝福",
+      "english": "Resurrection",
+      "target": "职业/混合职业/战斗祭司/【整理】战斗祭司祝福汇总.md",
+      "section_title": "战斗祭司集中祝福",
+      "action": "added"
+    },
+    {
+      "source": "page_709.md",
+      "title": "恢复",
+      "english": "Restoration",
+      "target": "职业/基础职业/女巫/page_92.md",
+      "section_title": "女巫庇护主",
+      "action": "added"
+    },
+    {
+      "source": "page_709.md",
+      "title": "巫术祛病",
+      "english": "Ameliorating",
+      "target": "职业/基础职业/女巫/page_92.md",
+      "section_title": "女巫巫术",
+      "action": "added"
+    },
+    {
+      "source": "page_709.md",
+      "title": "强力巫术解灾",
+      "english": "Major Ameliorating",
+      "target": "职业/基础职业/女巫/page_92.md",
+      "section_title": "女巫巫术",
+      "action": "added"
+    },
+    {
+      "source": "page_709.md",
+      "title": "生肌",
+      "english": "Regenerative Sinew",
+      "target": "职业/基础职业/女巫/page_92.md",
+      "section_title": "女巫巫术",
+      "action": "added"
+    },
+    {
+      "source": "page_709.md",
+      "title": "高等巫术续命",
+      "english": "Death Interrupted",
+      "target": "职业/基础职业/女巫/page_92.md",
+      "section_title": "女巫巫术",
+      "action": "added"
+    },
+    {
+      "source": "page_710.md",
+      "title": "振奋乐师",
+      "english": "Solacer",
+      "target": "职业/核心职业/吟游诗人/page_38.md",
+      "section_title": "吟游诗人变体",
+      "action": "added"
+    },
+    {
+      "source": "page_710.md",
+      "title": "虔诚诗人",
+      "english": "Faith Singer",
+      "target": "职业/核心职业/吟游诗人/page_38.md",
+      "section_title": "吟游诗人变体",
+      "action": "added"
+    },
+    {
+      "source": "page_710.md",
+      "title": "长者无尽华尔兹",
+      "english": "Endless Waltz of the Eldest",
+      "target": "职业/核心职业/吟游诗人/传世名作汇总.md",
+      "section_title": "吟游诗人世界名著",
+      "action": "added"
+    },
+    {
+      "source": "page_710.md",
+      "title": "赛兰杜拉攀登交响乐",
+      "english": "Symphony of Sylandurla's Ascent",
+      "target": "职业/核心职业/吟游诗人/传世名作汇总.md",
+      "section_title": "吟游诗人世界名著",
+      "action": "added"
+    },
+    {
+      "source": "page_711.md",
+      "title": "本草医师",
+      "english": "Pei Zin Practitioner",
+      "target": "职业/基础职业/先知/page_20.md",
+      "section_title": "先知变体",
+      "action": "added"
+    },
+    {
+      "source": "page_711.md",
+      "title": "救助",
+      "english": "Succor",
+      "target": "职业/基础职业/先知/page_88.md",
+      "section_title": "先知密示域",
+      "action": "added"
+    },
+    {
+      "source": "page_711.md",
+      "title": "战斗医师",
+      "english": "Combat Healer",
+      "target": "职业/基础职业/先知/page_88.md",
+      "section_title": "先知启示",
+      "action": "added"
+    },
+    {
+      "source": "page_711.md",
+      "title": "弱化诅咒",
+      "english": "Curse of Dampening",
+      "target": "职业/基础职业/先知/page_88.md",
+      "section_title": "先知启示",
+      "action": "added"
+    },
+    {
+      "source": "page_711.md",
+      "title": "强力治疗",
+      "english": "Enhanced Cures",
+      "target": "职业/基础职业/先知/page_88.md",
+      "section_title": "先知启示",
+      "action": "added"
+    },
+    {
+      "source": "page_711.md",
+      "title": "强力伤害",
+      "english": "Enhanced Inflictions",
+      "target": "职业/基础职业/先知/page_88.md",
+      "section_title": "先知启示",
+      "action": "added"
+    },
+    {
+      "source": "page_711.md",
+      "title": "完美支援",
+      "english": "Perfect Aid",
+      "target": "职业/基础职业/先知/page_88.md",
+      "section_title": "先知启示",
+      "action": "added"
+    },
+    {
+      "source": "page_711.md",
+      "title": "仁慈之敌",
+      "english": "Pitiful Foe",
+      "target": "职业/基础职业/先知/page_88.md",
+      "section_title": "先知启示",
+      "action": "added"
+    },
+    {
+      "source": "page_711.md",
+      "title": "救助之盾",
+      "english": "Shell of Succor",
+      "target": "职业/基础职业/先知/page_88.md",
+      "section_title": "先知启示",
+      "action": "added"
+    },
+    {
+      "source": "page_711.md",
+      "title": "灵魂吸取",
+      "english": "Soul Siphon",
+      "target": "职业/基础职业/先知/page_88.md",
+      "section_title": "先知启示",
+      "action": "added"
+    },
+    {
+      "source": "page_711.md",
+      "title": "灵性提升",
+      "english": "Spirit Boost",
+      "target": "职业/基础职业/先知/page_88.md",
+      "section_title": "先知启示",
+      "action": "added"
+    },
+    {
+      "source": "page_711.md",
+      "title": "团队掌握",
+      "english": "Teamwork Mastery",
+      "target": "职业/基础职业/先知/page_88.md",
+      "section_title": "先知启示",
+      "action": "added"
+    },
+    {
+      "source": "page_712.md",
+      "title": "自然祭司",
+      "english": "Nature Priest",
+      "target": "职业/核心职业/德鲁伊/page_45.md",
+      "section_title": "德鲁伊变体",
+      "action": "added"
+    },
+    {
+      "source": "page_712.md",
+      "title": "复原者",
+      "english": "Restorer",
+      "target": "职业/核心职业/德鲁伊/page_45.md",
+      "section_title": "德鲁伊变体",
+      "action": "added"
+    },
+    {
+      "source": "page_712.md",
+      "title": "德鲁伊草药学",
+      "english": "DRUIDIC HERBALISM",
+      "target": "职业/核心职业/德鲁伊/page_46.md",
+      "section_title": "德鲁伊自然纽带",
+      "action": "added"
+    },
+    {
+      "source": "page_713.md",
+      "title": "鼓舞卫士",
+      "english": "INVIGORATOR",
+      "target": "职业/核心职业/圣骑士/page_55.md",
+      "section_title": "圣武士变体",
+      "action": "added"
+    },
+    {
+      "source": "page_713.md",
+      "title": "识破幻象",
+      "english": "Deceived",
+      "target": "职业/核心职业/圣骑士/page_55.md",
+      "section_title": "圣武士恩惠",
+      "action": "added"
+    },
+    {
+      "source": "page_713.md",
+      "title": "平息愤怒",
+      "english": "Riled",
+      "target": "职业/核心职业/圣骑士/page_55.md",
+      "section_title": "圣武士恩惠",
+      "action": "added"
+    },
+    {
+      "source": "page_713.md",
+      "title": "移除衰弱",
+      "english": "Enfeebled",
+      "target": "职业/核心职业/圣骑士/page_55.md",
+      "section_title": "圣武士恩惠",
+      "action": "added"
+    },
+    {
+      "source": "page_713.md",
+      "title": "驱逐邪恶",
+      "english": "Haunted",
+      "target": "职业/核心职业/圣骑士/page_55.md",
+      "section_title": "圣武士恩惠",
+      "action": "added"
+    },
+    {
+      "source": "page_713.md",
+      "title": "圣域庇护",
+      "english": "Targeted",
+      "target": "职业/核心职业/圣骑士/page_55.md",
+      "section_title": "圣武士恩惠",
+      "action": "added"
+    },
+    {
+      "source": "page_713.md",
+      "title": "移除困惑",
+      "english": "Confused",
+      "target": "职业/核心职业/圣骑士/page_55.md",
+      "section_title": "圣武士恩惠",
+      "action": "added"
+    },
+    {
+      "source": "page_713.md",
+      "title": "高速愈合",
+      "english": "Injured",
+      "target": "职业/核心职业/圣骑士/page_55.md",
+      "section_title": "圣武士恩惠",
+      "action": "added"
+    },
+    {
+      "source": "page_713.md",
+      "title": "复原祷言",
+      "english": "Restorative",
+      "target": "职业/核心职业/圣骑士/page_55.md",
+      "section_title": "圣武士恩惠",
+      "action": "added"
+    },
+    {
+      "source": "page_713.md",
+      "title": "再生祷言",
+      "english": "Amputated",
+      "target": "职业/核心职业/圣骑士/page_55.md",
+      "section_title": "圣武士恩惠",
+      "action": "added"
+    },
+    {
+      "source": "page_713.md",
+      "title": "幻想御手",
+      "english": "Ensorcelled",
+      "target": "职业/核心职业/圣骑士/page_55.md",
+      "section_title": "圣武士恩惠",
+      "action": "added"
+    },
+    {
+      "source": "page_713.md",
+      "title": "移除石化",
+      "english": "Petrified",
+      "target": "职业/核心职业/圣骑士/page_55.md",
+      "section_title": "圣武士恩惠",
+      "action": "added"
+    },
+    {
+      "source": "page_713.md",
+      "title": "盖丁契约",
+      "english": "Agathion Bond",
+      "target": "职业/核心职业/圣骑士/page_55.md",
+      "section_title": "圣武士神契",
+      "action": "added"
+    },
+    {
+      "source": "page_713.md",
+      "title": "天使契约",
+      "english": "Angelic Bond",
+      "target": "职业/核心职业/圣骑士/page_55.md",
+      "section_title": "圣武士神契",
+      "action": "added"
+    },
+    {
+      "source": "page_713.md",
+      "title": "神使契约",
+      "english": "Archon Bond",
+      "target": "职业/核心职业/圣骑士/page_55.md",
+      "section_title": "圣武士神契",
+      "action": "added"
+    },
+    {
+      "source": "page_714.md",
+      "title": "祷言行者",
+      "english": "Benefactor",
+      "target": "职业/混合职业/萨满/page_111.md",
+      "section_title": "萨满变体",
+      "action": "added"
+    },
+    {
+      "source": "page_714.md",
+      "title": "复原",
+      "english": "Restoration",
+      "target": "职业/混合职业/萨满/page_111.md",
+      "section_title": "萨满专精魂域",
+      "action": "added"
+    },
+    {
+      "source": "page_715.md",
+      "title": "回生之戒",
+      "english": "Ring of Resumption",
+      "target": "装备_魔法物品/魔法物品/戒指_权杖_法杖/治疗者手册HH_戒指.md",
+      "section_title": "魔法物品-戒指",
+      "action": "added"
+    },
+    {
+      "source": "page_715.md",
+      "title": "盗命手套",
+      "english": "Gloves of Stolen Breath",
+      "target": "装备_魔法物品/魔法物品/奇物/治疗者手册HH_奇物.md",
+      "section_title": "魔法物品-奇物",
+      "action": "added"
+    },
+    {
+      "source": "page_715.md",
+      "title": "医师挎包",
+      "english": "Healer's Satchel",
+      "target": "装备_魔法物品/魔法物品/奇物/治疗者手册HH_奇物.md",
+      "section_title": "魔法物品-奇物",
+      "action": "added"
+    },
+    {
+      "source": "page_715.md",
+      "title": "悼念之根",
+      "english": "Memoriam Root",
+      "target": "装备_魔法物品/魔法物品/奇物/治疗者手册HH_奇物.md",
+      "section_title": "魔法物品-奇物",
+      "action": "added"
+    },
+    {
+      "source": "page_715.md",
+      "title": "看护项链",
+      "english": "Nursing Necklace",
+      "target": "装备_魔法物品/魔法物品/奇物/治疗者手册HH_奇物.md",
+      "section_title": "魔法物品-奇物",
+      "action": "added"
+    },
+    {
+      "source": "page_715.md",
+      "title": "凤凰之羽",
+      "english": "Phoenix Feather",
+      "target": "装备_魔法物品/魔法物品/奇物/治疗者手册HH_奇物.md",
+      "section_title": "魔法物品-奇物",
+      "action": "added"
+    },
+    {
+      "source": "page_715.md",
+      "title": "银色魂索",
+      "english": "Silver Soul Cord",
+      "target": "装备_魔法物品/魔法物品/奇物/治疗者手册HH_奇物.md",
+      "section_title": "魔法物品-奇物",
+      "action": "added"
+    },
+    {
+      "source": "page_715.md",
+      "title": "抒情竖琴",
+      "english": "Soothing Lyre",
+      "target": "装备_魔法物品/魔法物品/奇物/治疗者手册HH_奇物.md",
+      "section_title": "魔法物品-奇物",
+      "action": "added"
+    },
+    {
+      "source": "page_715.md",
+      "title": "巨魔皮革止血带",
+      "english": "Trollskin Tourniquet",
+      "target": "装备_魔法物品/魔法物品/奇物/治疗者手册HH_奇物.md",
+      "section_title": "魔法物品-奇物",
+      "action": "added"
+    },
+    {
+      "source": "page_715.md",
+      "title": "独角兽邪角",
+      "english": "Unicorn's Blackened Horn",
+      "target": "装备_魔法物品/魔法物品/奇物/治疗者手册HH_奇物.md",
+      "section_title": "魔法物品-奇物",
+      "action": "added"
+    }
+  ]
+}

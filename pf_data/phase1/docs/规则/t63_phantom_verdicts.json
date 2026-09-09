@@ -1,0 +1,2043 @@
+[
+ {
+  "file": "pf_rules_md_organized/常用速查/page_1.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "属性购点"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "L?: | 表：属性购点 |"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/常用速查/page_1.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "常用数据速查"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "L?: **常用数据速查**"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/核心规则 Core Rulebook【CRB】/环境/page_278.md",
+  "tf_index": 2,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "墙壁"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "L?: | 表：墙壁 |"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/核心规则 Core Rulebook【CRB】/环境/page_279.md",
+  "tf_index": 2,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "魔法装置陷阱成本修正"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "L?: | 表：魔法装置陷阱成本修正 |"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/核心规则 Core Rulebook【CRB】/page_413.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "基础",
+   "步骤",
+   "Step",
+   "The Basics"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**步骤1：基础（****Step 1: The Basics****）**"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/ACG规则/page_1240.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "白猫",
+   "http",
+   "index",
+   "topic"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "[http://45.79.87.129/bbs/index.php?topic=XXX](...) 译者：白猫"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/MA规则/page_643.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "Boons"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "Boons）**"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/APG规则/page_415.md",
+  "tf_index": 1,
+  "verdict": "cross_file",
+  "tokens_own": [],
+  "tokens_elsewhere": {
+   "表内": [
+    "page_159.md",
+    "规则/UC规则/page_488.md",
+    "规则/夜之血脉BotN_不死生物饥渴可选规则.md"
+   ]
+  },
+  "bad_segments": [
+   "**鸿运当头表格**（表内）"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/APG规则/page_416.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "背景特性",
+   "Traits"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**背景特性（Traits）**"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/APG规则/page_416.md",
+  "tf_index": 2,
+  "verdict": "cross_file",
+  "tokens_own": [],
+  "tokens_elsewhere": {
+   "背景名": [
+    "规则/UCa规则/角色背景生成器.md"
+   ]
+  },
+  "bad_segments": [
+   "| 背景名 | APG | UCa |"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/HA规则/page_733.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "恐惧",
+   "恐惧等级",
+   "Fear",
+   "Levels of Fear"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**恐惧（Fear）**...**恐惧等级（Levels of Fear）** 同段"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/HA规则/page_740.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "弱效疯狂"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "| d% | 弱效疯狂 |"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/HA规则/疾病.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "种类"
+  ],
+  "tokens_elsewhere": {
+   "诅咒": [
+    "核心规则 Core Rulebook【CRB】/page_240.md",
+    "规则/APG规则/page_415.md",
+    "规则/APG规则/page_416.md"
+   ]
+  },
+  "bad_segments": [
+   "**种类** 诅咒"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/HA规则/腐化/不义.md",
+  "tf_index": 2,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "秘密交易",
+   "Clandestine",
+   "Dealings"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**秘密交易（Clandestine ",
+   "Dealings）**"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/HA规则/腐化/兽变.md",
+  "tf_index": 0,
+  "verdict": "cross_file",
+  "tokens_own": [],
+  "tokens_elsewhere": {
+   "不义": [
+    "page_1495.md",
+    "规则/HA规则/腐化/不义.md",
+    "规则/HA规则/诅咒.md"
+   ],
+   "Amoral": [
+    "page_1495.md",
+    "规则/HA规则/腐化/不义.md"
+   ]
+  },
+  "bad_segments": [
+   "不义（Amoral）"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/HA规则/腐化/兽变.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "诱因"
+  ],
+  "tokens_elsewhere": {
+   "Catalyst": [
+    "page_1495.md",
+    "规则/HA规则/腐化/不义.md",
+    "规则/HA规则/腐化/受疫.md"
+   ]
+  },
+  "bad_segments": [
+   "诱因（Catalyst）"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/HA规则/腐化/兽变.md",
+  "tf_index": 2,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "你的身体",
+   "引用"
+  ],
+  "tokens_elsewhere": {
+   "护体装甲": [
+    "规则/HA规则/腐化/改造人.md"
+   ],
+   "Armored": [
+    "规则/HA规则/腐化/改造人.md",
+    "规则/UC规则/page_493.md",
+    "规则/冒险者的军械库2_规则.md"
+   ]
+  },
+  "bad_segments": [
+   "| 引用       护体装甲（Armored）你的身体..."
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/HA规则/腐化/受疫.md",
+  "tf_index": 0,
+  "verdict": "cross_file",
+  "tokens_own": [],
+  "tokens_elsewhere": {
+   "不义": [
+    "page_1495.md",
+    "规则/HA规则/腐化/不义.md",
+    "规则/HA规则/诅咒.md"
+   ],
+   "Amoral": [
+    "page_1495.md",
+    "规则/HA规则/腐化/不义.md"
+   ]
+  },
+  "bad_segments": [
+   "不义（Amoral）"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/HA规则/腐化/受疫.md",
+  "tf_index": 2,
+  "verdict": "cross_file",
+  "tokens_own": [],
+  "tokens_elsewhere": {
+   "秘密交易": [
+    "规则/HA规则/腐化/不义.md"
+   ],
+   "Clandestine": [
+    "规则/HA规则/腐化/不义.md"
+   ],
+   "Dealings": [
+    "规则/HA规则/腐化/不义.md"
+   ]
+  },
+  "bad_segments": [
+   "**秘密交易（Clandestine ",
+   "Dealings）**"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/HA规则/腐化/受诅.md",
+  "tf_index": 0,
+  "verdict": "cross_file",
+  "tokens_own": [],
+  "tokens_elsewhere": {
+   "不义": [
+    "page_1495.md",
+    "规则/HA规则/腐化/不义.md",
+    "规则/HA规则/诅咒.md"
+   ],
+   "Amoral": [
+    "page_1495.md",
+    "规则/HA规则/腐化/不义.md"
+   ]
+  },
+  "bad_segments": [
+   "不义（Amoral）"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/HA规则/腐化/受诅.md",
+  "tf_index": 2,
+  "verdict": "cross_file",
+  "tokens_own": [],
+  "tokens_elsewhere": {
+   "秘密交易": [
+    "规则/HA规则/腐化/不义.md"
+   ],
+   "Clandestine": [
+    "规则/HA规则/腐化/不义.md"
+   ],
+   "Dealings": [
+    "规则/HA规则/腐化/不义.md"
+   ]
+  },
+  "bad_segments": [
+   "**秘密交易（Clandestine ",
+   "Dealings）**"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/HA规则/腐化/尸鬼化.md",
+  "tf_index": 0,
+  "verdict": "cross_file",
+  "tokens_own": [],
+  "tokens_elsewhere": {
+   "不义": [
+    "page_1495.md",
+    "规则/HA规则/腐化/不义.md",
+    "规则/HA规则/诅咒.md"
+   ],
+   "Amoral": [
+    "page_1495.md",
+    "规则/HA规则/腐化/不义.md"
+   ]
+  },
+  "bad_segments": [
+   "不义（Amoral）"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/HA规则/腐化/尸鬼化.md",
+  "tf_index": 2,
+  "verdict": "cross_file",
+  "tokens_own": [],
+  "tokens_elsewhere": {
+   "秘密交易": [
+    "规则/HA规则/腐化/不义.md"
+   ],
+   "Clandestine": [
+    "规则/HA规则/腐化/不义.md"
+   ],
+   "Dealings": [
+    "规则/HA规则/腐化/不义.md"
+   ]
+  },
+  "bad_segments": [
+   "**秘密交易（Clandestine ",
+   "Dealings）**"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/HA规则/腐化/底栖魔鱼.md",
+  "tf_index": 0,
+  "verdict": "cross_file",
+  "tokens_own": [],
+  "tokens_elsewhere": {
+   "不义": [
+    "page_1495.md",
+    "规则/HA规则/腐化/不义.md",
+    "规则/HA规则/诅咒.md"
+   ],
+   "Amoral": [
+    "page_1495.md",
+    "规则/HA规则/腐化/不义.md"
+   ]
+  },
+  "bad_segments": [
+   "不义（Amoral）"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/HA规则/腐化/底栖魔鱼.md",
+  "tf_index": 2,
+  "verdict": "cross_file",
+  "tokens_own": [],
+  "tokens_elsewhere": {
+   "秘密交易": [
+    "规则/HA规则/腐化/不义.md"
+   ],
+   "Clandestine": [
+    "规则/HA规则/腐化/不义.md"
+   ],
+   "Dealings": [
+    "规则/HA规则/腐化/不义.md"
+   ]
+  },
+  "bad_segments": [
+   "**秘密交易（Clandestine ",
+   "Dealings）**"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/HA规则/腐化/影契.md",
+  "tf_index": 0,
+  "verdict": "cross_file",
+  "tokens_own": [],
+  "tokens_elsewhere": {
+   "不义": [
+    "page_1495.md",
+    "规则/HA规则/腐化/不义.md",
+    "规则/HA规则/诅咒.md"
+   ],
+   "Amoral": [
+    "page_1495.md",
+    "规则/HA规则/腐化/不义.md"
+   ]
+  },
+  "bad_segments": [
+   "不义（Amoral）"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/HA规则/腐化/影契.md",
+  "tf_index": 2,
+  "verdict": "cross_file",
+  "tokens_own": [],
+  "tokens_elsewhere": {
+   "秘密交易": [
+    "规则/HA规则/腐化/不义.md"
+   ],
+   "Clandestine": [
+    "规则/HA规则/腐化/不义.md"
+   ],
+   "Dealings": [
+    "规则/HA规则/腐化/不义.md"
+   ]
+  },
+  "bad_segments": [
+   "**秘密交易（Clandestine ",
+   "Dealings）**"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/HA规则/诅咒.md",
+  "tf_index": 3,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "弱效闹鬼"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "| 1-5 | 弱效闹鬼..."
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/HA规则/腐化/心能.md",
+  "tf_index": 0,
+  "verdict": "cross_file",
+  "tokens_own": [],
+  "tokens_elsewhere": {
+   "不义": [
+    "page_1495.md",
+    "规则/HA规则/腐化/不义.md",
+    "规则/HA规则/诅咒.md"
+   ],
+   "Amoral": [
+    "page_1495.md",
+    "规则/HA规则/腐化/不义.md"
+   ]
+  },
+  "bad_segments": [
+   "不义（Amoral）"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/HA规则/腐化/心能.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "Catalyst"
+  ],
+  "tokens_elsewhere": {
+   "诱因": [
+    "page_1495.md",
+    "规则/HA规则/腐化/不义.md",
+    "规则/HA规则/腐化/兽变.md"
+   ]
+  },
+  "bad_segments": [
+   "诱因（Catalyst）"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/HA规则/腐化/心能.md",
+  "tf_index": 2,
+  "verdict": "cross_file",
+  "tokens_own": [],
+  "tokens_elsewhere": {
+   "秘密交易": [
+    "规则/HA规则/腐化/不义.md"
+   ],
+   "Clandestine": [
+    "规则/HA规则/腐化/不义.md"
+   ],
+   "Dealings": [
+    "规则/HA规则/腐化/不义.md"
+   ]
+  },
+  "bad_segments": [
+   "**秘密交易（Clandestine ",
+   "Dealings）**"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/HA规则/腐化/恶魔化.md",
+  "tf_index": 0,
+  "verdict": "cross_file",
+  "tokens_own": [],
+  "tokens_elsewhere": {
+   "不义": [
+    "page_1495.md",
+    "规则/HA规则/腐化/不义.md",
+    "规则/HA规则/诅咒.md"
+   ],
+   "Amoral": [
+    "page_1495.md",
+    "规则/HA规则/腐化/不义.md"
+   ]
+  },
+  "bad_segments": [
+   "不义（Amoral）"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/HA规则/腐化/恶魔化.md",
+  "tf_index": 1,
+  "verdict": "cross_file",
+  "tokens_own": [],
+  "tokens_elsewhere": {
+   "诱因": [
+    "page_1495.md",
+    "规则/HA规则/腐化/不义.md",
+    "规则/HA规则/腐化/兽变.md"
+   ],
+   "Catalyst": [
+    "page_1495.md",
+    "规则/HA规则/腐化/不义.md",
+    "规则/HA规则/腐化/受疫.md"
+   ]
+  },
+  "bad_segments": [
+   "诱因（Catalyst）"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/HA规则/腐化/恶魔化.md",
+  "tf_index": 2,
+  "verdict": "cross_file",
+  "tokens_own": [],
+  "tokens_elsewhere": {
+   "秘密交易": [
+    "规则/HA规则/腐化/不义.md"
+   ],
+   "Clandestine": [
+    "规则/HA规则/腐化/不义.md"
+   ],
+   "Dealings": [
+    "规则/HA规则/腐化/不义.md"
+   ]
+  },
+  "bad_segments": [
+   "**秘密交易（Clandestine ",
+   "Dealings）**"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/HA规则/腐化/改造人.md",
+  "tf_index": 0,
+  "verdict": "cross_file",
+  "tokens_own": [],
+  "tokens_elsewhere": {
+   "不义": [
+    "page_1495.md",
+    "规则/HA规则/腐化/不义.md",
+    "规则/HA规则/诅咒.md"
+   ],
+   "Amoral": [
+    "page_1495.md",
+    "规则/HA规则/腐化/不义.md"
+   ]
+  },
+  "bad_segments": [
+   "不义（Amoral）"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/HA规则/腐化/改造人.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "诱因"
+  ],
+  "tokens_elsewhere": {
+   "Catalyst": [
+    "page_1495.md",
+    "规则/HA规则/腐化/不义.md",
+    "规则/HA规则/腐化/受疫.md"
+   ]
+  },
+  "bad_segments": [
+   "诱因（Catalyst）"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/HA规则/腐化/活尸化.md",
+  "tf_index": 0,
+  "verdict": "cross_file",
+  "tokens_own": [],
+  "tokens_elsewhere": {
+   "不义": [
+    "page_1495.md",
+    "规则/HA规则/腐化/不义.md",
+    "规则/HA规则/诅咒.md"
+   ],
+   "Amoral": [
+    "page_1495.md",
+    "规则/HA规则/腐化/不义.md"
+   ]
+  },
+  "bad_segments": [
+   "不义（Amoral）"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/HA规则/腐化/活尸化.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "诱因"
+  ],
+  "tokens_elsewhere": {
+   "Catalyst": [
+    "page_1495.md",
+    "规则/HA规则/腐化/不义.md",
+    "规则/HA规则/腐化/受疫.md"
+   ]
+  },
+  "bad_segments": [
+   "诱因（Catalyst）"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/HA规则/腐化/活尸化.md",
+  "tf_index": 2,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "你的身体",
+   "引用"
+  ],
+  "tokens_elsewhere": {
+   "护体装甲": [
+    "规则/HA规则/腐化/改造人.md"
+   ],
+   "Armored": [
+    "规则/HA规则/腐化/改造人.md",
+    "规则/UC规则/page_493.md",
+    "规则/冒险者的军械库2_规则.md"
+   ]
+  },
+  "bad_segments": [
+   "| 引用       护体装甲（Armored）你的身体..."
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/HA规则/腐化/深潜者.md",
+  "tf_index": 0,
+  "verdict": "cross_file",
+  "tokens_own": [],
+  "tokens_elsewhere": {
+   "不义": [
+    "page_1495.md",
+    "规则/HA规则/腐化/不义.md",
+    "规则/HA规则/诅咒.md"
+   ],
+   "Amoral": [
+    "page_1495.md",
+    "规则/HA规则/腐化/不义.md"
+   ]
+  },
+  "bad_segments": [
+   "不义（Amoral）"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/HA规则/腐化/深潜者.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "诱因"
+  ],
+  "tokens_elsewhere": {
+   "Catalyst": [
+    "page_1495.md",
+    "规则/HA规则/腐化/不义.md",
+    "规则/HA规则/腐化/受疫.md"
+   ]
+  },
+  "bad_segments": [
+   "诱因（Catalyst）"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/HA规则/腐化/深潜者.md",
+  "tf_index": 2,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "引用"
+  ],
+  "tokens_elsewhere": {
+   "你的身体": [
+    "page_159.md",
+    "page_1495.md",
+    "规则/HA规则/腐化/兽变.md"
+   ],
+   "护体装甲": [
+    "规则/HA规则/腐化/改造人.md"
+   ],
+   "Armored": [
+    "规则/HA规则/腐化/改造人.md",
+    "规则/UC规则/page_493.md",
+    "规则/冒险者的军械库2_规则.md"
+   ]
+  },
+  "bad_segments": [
+   "| 引用       护体装甲（Armored）你的身体..."
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/HA规则/腐化/渴血.md",
+  "tf_index": 0,
+  "verdict": "cross_file",
+  "tokens_own": [],
+  "tokens_elsewhere": {
+   "不义": [
+    "page_1495.md",
+    "规则/HA规则/腐化/不义.md",
+    "规则/HA规则/诅咒.md"
+   ],
+   "Amoral": [
+    "page_1495.md",
+    "规则/HA规则/腐化/不义.md"
+   ]
+  },
+  "bad_segments": [
+   "不义（Amoral）"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/HA规则/腐化/渴血.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "诱因"
+  ],
+  "tokens_elsewhere": {
+   "Catalyst": [
+    "page_1495.md",
+    "规则/HA规则/腐化/不义.md",
+    "规则/HA规则/腐化/受疫.md"
+   ]
+  },
+  "bad_segments": [
+   "诱因（Catalyst）"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/HA规则/腐化/渴血.md",
+  "tf_index": 2,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "引用"
+  ],
+  "tokens_elsewhere": {
+   "你的身体": [
+    "page_159.md",
+    "page_1495.md",
+    "规则/HA规则/腐化/兽变.md"
+   ],
+   "护体装甲": [
+    "规则/HA规则/腐化/改造人.md"
+   ],
+   "Armored": [
+    "规则/HA规则/腐化/改造人.md",
+    "规则/UC规则/page_493.md",
+    "规则/冒险者的军械库2_规则.md"
+   ]
+  },
+  "bad_segments": [
+   "| 引用       护体装甲（Armored）你的身体..."
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/HA规则/腐化/狱契.md",
+  "tf_index": 0,
+  "verdict": "cross_file",
+  "tokens_own": [],
+  "tokens_elsewhere": {
+   "不义": [
+    "page_1495.md",
+    "规则/HA规则/腐化/不义.md",
+    "规则/HA规则/诅咒.md"
+   ],
+   "Amoral": [
+    "page_1495.md",
+    "规则/HA规则/腐化/不义.md"
+   ]
+  },
+  "bad_segments": [
+   "不义（Amoral）"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/HA规则/腐化/狱契.md",
+  "tf_index": 2,
+  "verdict": "cross_file",
+  "tokens_own": [],
+  "tokens_elsewhere": {
+   "秘密交易": [
+    "规则/HA规则/腐化/不义.md"
+   ],
+   "Clandestine": [
+    "规则/HA规则/腐化/不义.md"
+   ],
+   "Dealings": [
+    "规则/HA规则/腐化/不义.md"
+   ]
+  },
+  "bad_segments": [
+   "**秘密交易（Clandestine ",
+   "Dealings）**"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/HA规则/腐化/虫群寄体.md",
+  "tf_index": 0,
+  "verdict": "cross_file",
+  "tokens_own": [],
+  "tokens_elsewhere": {
+   "不义": [
+    "page_1495.md",
+    "规则/HA规则/腐化/不义.md",
+    "规则/HA规则/诅咒.md"
+   ],
+   "Amoral": [
+    "page_1495.md",
+    "规则/HA规则/腐化/不义.md"
+   ]
+  },
+  "bad_segments": [
+   "不义（Amoral）"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/HA规则/腐化/虫群寄体.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "诱因"
+  ],
+  "tokens_elsewhere": {
+   "Catalyst": [
+    "page_1495.md",
+    "规则/HA规则/腐化/不义.md",
+    "规则/HA规则/腐化/受疫.md"
+   ]
+  },
+  "bad_segments": [
+   "诱因（Catalyst）"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/HA规则/腐化/虫群寄体.md",
+  "tf_index": 2,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "你的身体",
+   "引用"
+  ],
+  "tokens_elsewhere": {
+   "护体装甲": [
+    "规则/HA规则/腐化/改造人.md"
+   ],
+   "Armored": [
+    "规则/HA规则/腐化/改造人.md",
+    "规则/UC规则/page_493.md",
+    "规则/冒险者的军械库2_规则.md"
+   ]
+  },
+  "bad_segments": [
+   "| 引用       护体装甲（Armored）你的身体..."
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/HA规则/腐化/鬼上身.md",
+  "tf_index": 0,
+  "verdict": "cross_file",
+  "tokens_own": [],
+  "tokens_elsewhere": {
+   "不义": [
+    "page_1495.md",
+    "规则/HA规则/腐化/不义.md",
+    "规则/HA规则/诅咒.md"
+   ],
+   "Amoral": [
+    "page_1495.md",
+    "规则/HA规则/腐化/不义.md"
+   ]
+  },
+  "bad_segments": [
+   "不义（Amoral）"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/HA规则/腐化/鬼上身.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "诱因"
+  ],
+  "tokens_elsewhere": {
+   "Catalyst": [
+    "page_1495.md",
+    "规则/HA规则/腐化/不义.md",
+    "规则/HA规则/腐化/受疫.md"
+   ]
+  },
+  "bad_segments": [
+   "诱因（Catalyst）"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/HA规则/腐化/鬼上身.md",
+  "tf_index": 2,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "你的身体",
+   "引用"
+  ],
+  "tokens_elsewhere": {
+   "护体装甲": [
+    "规则/HA规则/腐化/改造人.md"
+   ],
+   "Armored": [
+    "规则/HA规则/腐化/改造人.md",
+    "规则/UC规则/page_493.md",
+    "规则/冒险者的军械库2_规则.md"
+   ]
+  },
+  "bad_segments": [
+   "| 引用       护体装甲（Armored）你的身体..."
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/PA规则/page_1573.md",
+  "tf_index": 2,
+  "verdict": "invented",
+  "tokens_own": [],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "| 1-10 | 1 天 | 1 轮 |"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/page_645.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "第一",
+   "第一章",
+   "角色"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "第一|第一章 角色"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/Unchained规则/游戏进行/page_1239.md",
+  "tf_index": 0,
+  "verdict": "cross_file",
+  "tokens_own": [],
+  "tokens_elsewhere": {
+   "动作的种类": [
+    "核心规则 Core Rulebook【CRB】/page_127.md"
+   ]
+  },
+  "bad_segments": [
+   "一|动作的种类"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/Unchained规则/游戏进行/page_650.md",
+  "tf_index": 0,
+  "verdict": "invented",
+  "tokens_own": [],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "一|阵营的消失"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/Unchained规则/游戏进行/page_651.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "耐力"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "一|耐力"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/Unchained规则/游戏进行/page_731.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "伤害临界"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "一|伤害临界"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/Unchained规则/游戏进行/移除多次攻击.md",
+  "tf_index": 0,
+  "verdict": "invented",
+  "tokens_own": [],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "一|为何移除多次攻击"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/Unchained规则/游戏进行/阵营与阵营专长.md",
+  "tf_index": 0,
+  "verdict": "invented",
+  "tokens_own": [],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "阵营与阵营专长"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/Unchained规则/魔法/page_654.md",
+  "tf_index": 0,
+  "verdict": "invented",
+  "tokens_own": [],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "动态魔法物品制造"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/亡灵杀手手册_法术.md",
+  "tf_index": 0,
+  "verdict": "invented",
+  "tokens_own": [],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "法术条目1|（行首加粗）"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/传奇编年史CoL_神秘仪式.md",
+  "tf_index": 0,
+  "verdict": "cross_file",
+  "tokens_own": [],
+  "tokens_elsewhere": {
+   "神秘仪式": [
+    "规则/PA规则/page_1490.md",
+    "规则/异能规则/page_737.md",
+    "规则/内海神殿_神秘仪式.md"
+   ]
+  },
+  "bad_segments": [
+   "神秘仪式"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/内海神殿_神秘仪式.md",
+  "tf_index": 0,
+  "verdict": "invented",
+  "tokens_own": [],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "仪式一|（H2）"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/内海魔法ISM_塑肉仪式.md",
+  "tf_index": 0,
+  "verdict": "invented",
+  "tokens_own": [],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "仪式一|（H2）"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/动物档案AArch_动物伙伴变体.md",
+  "tf_index": 0,
+  "verdict": "invented",
+  "tokens_own": [],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "变体一|（行首加粗）"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/卡蒂亚QJotE_马匹技巧.md",
+  "tf_index": 0,
+  "verdict": "invented",
+  "tokens_own": [],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "技巧一|（行首加粗）"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/商人货单MM_服务.md",
+  "tf_index": 0,
+  "verdict": "cross_file",
+  "tokens_own": [],
+  "tokens_elsewhere": {
+   "服务一": [
+    "规则/异能源始OO_神秘仪式.md",
+    "规则/GMG规则/非玩家角色.md"
+   ]
+  },
+  "bad_segments": [
+   "服务一|（行首加粗）"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/对立协调CoR_神秘仪式.md",
+  "tf_index": 0,
+  "verdict": "invented",
+  "tokens_own": [],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "仪式一|（行首加粗）"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/巨龙之遗LoD_新魔宠.md",
+  "tf_index": 0,
+  "verdict": "cross_file",
+  "tokens_own": [],
+  "tokens_elsewhere": {
+   "魔宠一": [
+    "规则/UCa规则/战役系统/page_962.md",
+    "规则/魔宠手记FF_混血魔宠.md",
+    "规则/魔宠手记FF_眷属魔宠.md"
+   ]
+  },
+  "bad_segments": [
+   "魔宠一|（行首加粗）"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/巫团血脉BotC_神秘仪式.md",
+  "tf_index": 0,
+  "verdict": "invented",
+  "tokens_own": [],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "仪式一|（行首加粗）"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/异能源始OO_神秘仪式.md",
+  "tf_index": 0,
+  "verdict": "invented",
+  "tokens_own": [],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "仪式一|（行首加粗）"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/恶魔猎人手册_新游侠陷阱.md",
+  "tf_index": 0,
+  "verdict": "cross_file",
+  "tokens_own": [],
+  "tokens_elsewhere": {
+   "陷阱一": [
+    "核心规则 Core Rulebook【CRB】/环境/page_278.md",
+    "核心规则 Core Rulebook【CRB】/环境/page_279.md",
+    "规则/废土子民PotW_废土规则.md"
+   ]
+  },
+  "bad_segments": [
+   "陷阱一|（行首加粗）"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/极限荒野UW_新动物伙伴.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "魔鬼鱼",
+   "ANGLERFISH"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "魔鬼鱼|(ANGLERFISH)"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/极限荒野UW_新基础魔宠.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "喙嘴翼龙",
+   "Rhamphorhynchus"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "喙嘴翼龙|（Rhamphorhynchus）"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/极限荒野UW_昆虫伙伴.md",
+  "tf_index": 0,
+  "verdict": "invented",
+  "tokens_own": [],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "昆虫伙伴一|（行首加粗）"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/极限荒野UW_魔宠变体.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "大使",
+   "Ambassador"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "大使|（Ambassador）"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/构装体手册CH_模板.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "先锋构装",
+   "Commando Construct"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "先锋构装|（Commando Construct）"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/构装体手册CH_灵导械背景.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "灵导械",
+   "魔宠灵导械"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "灵导械，魔宠灵导械|CR 2"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/水下冒险AA_水下危险与特征.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "水下的危险与特征",
+   "UNDERWATER HAZARDS"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "水下的危险与特征|UNDERWATER HAZARDS"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/水下冒险AA_水下战斗.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "水下战斗",
+   "FIGHTING UNDERWATER"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "水下战斗|FIGHTING UNDERWATER"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/水下冒险AA_游泳和水下冒险.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "游泳和水下冒险",
+   "SWIMMING AND AQUATIC"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "游泳和水下冒险|SWIMMING AND AQUATIC"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/秘术选集ArcaneAnthology_祈祷书与冥想书.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "法术书预置仪式",
+   "SPELLBOOK PREPARATION RITUALS"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "法术书预置仪式|SPELLBOOK PREPARATION RITUALS"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/第一世界TFWRotF_第一世界施法规则.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "施法",
+   "Spellcasting"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "施法|Spellcasting"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/荒野源始WO_动物伙伴变体.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "动物伙伴变体",
+   "生态霸主",
+   "Apex Species"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "生态霸主-动物伙伴变体|Apex Species"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/荒野源始WO_魔宠变体.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "寄生体",
+   "Parasite"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "寄生体|（Parasite）"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/药剂与毒药P&P_规则.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "药水与油参考指南",
+   "POTION AND OIL REFERENCE"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "药水与油参考指南|POTION AND OIL REFERENCE"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/贝尔克泽恩BHotOH_新伙伴.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "鲁尔战猫",
+   "Warcat of Rull"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "鲁尔战猫|（Warcat of Rull）"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/遥远世界DS_神秘仪式.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "节日的力量",
+   "The Power of Festivals"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "节日的力量|The Power of Festivals"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/遥远世界DS_神话道途能力.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "独眼巨人神话讲授者",
+   "Cyclops Myth-Speaker"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "独眼巨人神话讲授者|Cyclops Myth-Speaker"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/邪恶特务AoE_法术.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "鲜血触手",
+   "BLOOD TENTACLES"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "鲜血触手|BLOOD TENTACLES"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/门徒教义DD_神秘仪式.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "忘昔残像",
+   "Breath of Forgotten Life"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "忘昔残像|Breath of Forgotten Life"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/阴招战术工具箱DTT_诡术种族特性.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "诡术种族特性",
+   "Trickster Racial Options"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "诡术种族特性|Trickster Racial Options"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/魔宠手记FF_学派魔宠.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "专长",
+   "Feats"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "专长|Feats"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/魔宠手记FF_新罕见魔宠.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "命途艾恩石"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "命途艾恩石|Ioun Wyrd CR 1/3"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/魔宠手记FF_新魔宠.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "新魔宠",
+   "New Familiars"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "新魔宠|New Familiars"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/魔宠手记FF_混血魔宠.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "混血魔宠",
+   "Bloodline Familiars"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "混血魔宠|Bloodline Familiars"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/魔宠手记FF_眷属魔宠.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "眷属魔宠",
+   "Patron Familiars"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "眷属魔宠|Patron Familiars"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/魔宠手记FF_近似魔宠.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "魔宠变体",
+   "Familiar Archetypes"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "魔宠变体|Familiar Archetypes（导言）"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/魔宠手记FF_魔宠变体.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "近似魔宠",
+   "Approximating Familiars"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "近似魔宠|Approximating Familiars"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/魔宠手记FF_魔宠选项.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "魔宠",
+   "Familiars"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "魔宠|Familiars"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/黑市指南BM_尸体贸易.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "尸体贸易",
+   "The Corpse Trade"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "尸体贸易|The Corpse Trade"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/黑市指南BM_黑市规则.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "黑市规则",
+   "Black Market Rules"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "黑市规则|Black Market Rules"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/GMG规则/冒险的主题/page_1003.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "作祟特性",
+   "Element of a Haunt"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**作祟特性 (Element of a Haunt)**"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/GMG规则/冒险的主题/page_418.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "示例药物"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**示例药物**"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/GMG规则/冒险的主题/page_418.md",
+  "tf_index": 2,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "种类",
+   "Type"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**种类 (Type):**"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/GMG规则/冒险的主题/page_436.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "治愈精神病症"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**治愈精神病症 (Curing Sanity**"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/GMG规则/冒险的主题/灾难.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "火山爆发",
+   "Volcanoes"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**火山爆发（Volcanoes）****"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/GMG规则/冒险的主题/灾难.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "熔岩",
+   "Lava"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**熔岩 (Lava)**"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/GMG规则/冒险的主题/赌博与运气游戏.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "赌博与运气游戏",
+   "Gambling and Games of"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**赌博与运气游戏(Gambling and Games of"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/GMG规则/冒险的主题/险境.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "咒池"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**咒池【CR 3】**"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/GMG规则/冒险的主题/险境.md",
+  "tf_index": 2,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "感染",
+   "觅耳虫",
+   "infestation"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**觅耳虫****类型** 感染（infestation）；豁免"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/GMG规则/创造世界.md",
+  "tf_index": 1,
+  "verdict": "invented",
+  "tokens_own": [],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**神与宗教 Gods and Religion****"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/GMG规则/奖励.md",
+  "tf_index": 1,
+  "verdict": "invented",
+  "tokens_own": [],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**经验值与挑战等级 EXP****"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/GMG规则/奖励.md",
+  "tf_index": 2,
+  "verdict": "invented",
+  "tokens_own": [],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**表 5-26：随机宝物**"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/GMG规则/玩家角色.md",
+  "tf_index": 1,
+  "verdict": "invented",
+  "tokens_own": [],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**玩家原型 Player Archetypes****"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/GMG规则/运作游戏.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "流畅地进行战斗"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**流畅地进行战斗****"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/GMG规则/运作游戏.md",
+  "tf_index": 2,
+  "verdict": "cross_file",
+  "tokens_own": [],
+  "tokens_elsewhere": {
+   "遭遇难度": [
+    "核心规则 Core Rulebook【CRB】/page_413.md",
+    "规则/UI规则/page_735.md",
+    "规则/GMG规则/奖励.md"
+   ]
+  },
+  "bad_segments": [
+   "**表 2–1：遭遇难度**"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/GMG规则/非玩家角色.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "恩惠",
+   "NPC Boons"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**NPC 恩惠 NPC Boons****"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/GMG规则/冒险/page_444.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "文明的形态"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**文明的形态 (Community Shapes)**"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/GMG规则/冒险/page_444.md",
+  "tf_index": 2,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "首都",
+   "Metropolis"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**首都 (Metropolis)**"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/GMG规则/冒险/page_739.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "物质位面",
+   "Material Plane"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**物质位面（Material Plane）**"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/GMG规则/冒险/冒险、地城、荒野.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "绘制地下城地图"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**绘制地下城地图 Mapping the Dungeon****"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/PFS专用/第十季额外资源（Season 10 Additional Resource）/冒险之路.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "探索者冒险之路",
+   "Pathfinder"
+  ],
+  "tokens_elsewhere": {
+   "众魂之林": [
+    "规则/PFS专用/第十季战役说明（Season 10 Campaign Clarifications）/冒险之路1.md"
+   ]
+  },
+  "bad_segments": [
+   "**《探索者冒险之路#52：众魂之林》（Pathfinder "
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/怪物规则/page_1125.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "怪物进化"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**怪物进化 (Monster Advancement)**"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/怪物规则/page_299.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "Wolf"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**狼 (Wolf)**"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/怪物规则/page_300.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "生物类型与怪物亚种"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**生物类型与怪物亚种 (Creature Types)**"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/怪物规则/page_300.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "水系亚种"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**水系亚种 (Water Subtype)**"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/怪物规则/page_301.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "蝙蝠"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**蝙蝠 (Bat)**"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/怪物规则/page_302.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "光视域"
+  ],
+  "tokens_elsewhere": {
+   "Ray Vision": [
+    "规则/MA规则/page_644.md"
+   ]
+  },
+  "bad_segments": [
+   "**X 光视域 (X–Ray Vision, Su)**"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/作祟汇总.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "作祟",
+   "孤寂",
+   "Isolation"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**作祟：孤寂（Isolation）**"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/废土子民PotW_废土规则.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "你手中的火器",
+   "战斗",
+   "无定引信",
+   "Volatile Fuse"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "无定引信 换行 Volatile Fuse（战斗）：你手中的火器…"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/异能国度OR_神秘仪式与偶像.md",
+  "tf_index": 2,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "鸦母雕像",
+   "Effigy Of The",
+   "Raven-Mother"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**鸦母雕像（Effigy Of The 换行 Raven-Mother）"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/第一世界的遗产LotFW_第一世界规则.md",
+  "tf_index": 2,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "变化",
+   "时间分歧",
+   "Divergence",
+   "Time"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "【变化】时间分歧（Time 换行 Divergence）"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/永罪之书_地狱魔神神恩.md",
+  "tf_index": 3,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "第一神恩",
+   "黑暗缪斯",
+   "Darkest",
+   "Muse"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**第一神恩：黑暗缪斯（Darkest 换行 Muse）【SP】**"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/规则/永罪之书_地狱魔神神恩.md",
+  "tf_index": 4,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "女人",
+   "暗夜女王",
+   "神职",
+   "秩序邪恶分类",
+   "诱惑",
+   "阵营",
+   "Queens of",
+   "the Night"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "| 阵营：秩序邪恶分类：暗夜女王（Queens of 换行 the Night）神职：诱惑、蛇、女人…"
+  ]
+ }
+]

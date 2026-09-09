@@ -1,0 +1,480 @@
+{
+  "source_book": "怪物召唤者手册",
+  "source_book_english": "Monster Summoner's Handbook",
+  "source_dir": "pf_data/phase1/pf_rules_md/未整理/怪物召唤者手册MSH",
+  "stats": {
+    "added": 29,
+    "skipped": 25,
+    "errors": []
+  },
+  "sections": [
+    {
+      "source": "变体/page_665.md",
+      "title": "制法召唤师",
+      "english": "Counter-Summoner",
+      "cls": "召唤师",
+      "section_title": "变体",
+      "target": "职业/基础职业/召唤师/page_410.md",
+      "marker": "制法召唤师（Counter-Summoner)",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "变体/page_1344.md",
+      "title": "怪物战术家",
+      "english": "Monster Tactician",
+      "cls": "审判者",
+      "section_title": "变体",
+      "target": "职业/基础职业/审判者/page_78.md",
+      "marker": "怪物战术家（Monster",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "变体/page_1575.md",
+      "title": "神使呼唤者",
+      "english": "Herald Caller",
+      "cls": "牧师",
+      "section_title": "变体",
+      "target": "职业/核心职业/牧师/page_41.md",
+      "marker": "Herald Caller神使呼唤者",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "变体/德鲁伊变体.md",
+      "title": "元素友伴",
+      "english": "Elemental Ally",
+      "cls": "德鲁伊",
+      "section_title": "变体",
+      "target": "职业/核心职业/德鲁伊/page_37.md",
+      "marker": "元素友伴（Elemental Ally）【德鲁伊变体】",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "变体/血脉狂怒者.md",
+      "title": "先祖先驱",
+      "english": "Ancestral Harbinger",
+      "cls": "血脉狂怒者",
+      "section_title": "变体",
+      "target": "职业/混合职业/血脉狂怒者/page_100.md",
+      "marker": "先祖先驱（Ancestral",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "背景特性47.md",
+      "title": "屠魔召唤师",
+      "english": "",
+      "target": "背景/怪物召唤者手册_背景特性.md",
+      "section_title": "背景特性",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "背景特性47.md",
+      "title": "异物纽带",
+      "english": "",
+      "target": "背景/怪物召唤者手册_背景特性.md",
+      "section_title": "背景特性",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "背景特性47.md",
+      "title": "邪恶领域",
+      "english": "",
+      "target": "背景/怪物召唤者手册_背景特性.md",
+      "section_title": "背景特性",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_666.md",
+      "title": "裂石盔甲",
+      "english": "Armor of Fragmenting Stone",
+      "target": "装备_魔法物品/魔法物品/奇物/怪物召唤者手册_奇物.md",
+      "section_title": "奇物",
+      "action": "added"
+    },
+    {
+      "source": "page_666.md",
+      "title": "天界干涉护腕",
+      "english": "Bracers of Celestial Intervention",
+      "target": "装备_魔法物品/魔法物品/奇物/怪物召唤者手册_奇物.md",
+      "section_title": "奇物",
+      "action": "added"
+    },
+    {
+      "source": "page_666.md",
+      "title": "召唤者羽毛",
+      "english": "Caller's Feather",
+      "target": "装备_魔法物品/魔法物品/奇物/怪物召唤者手册_奇物.md",
+      "section_title": "奇物",
+      "action": "added"
+    },
+    {
+      "source": "page_666.md",
+      "title": "临时魔宠护符",
+      "english": "Periapt of Temporary Familiar",
+      "target": "装备_魔法物品/魔法物品/奇物/怪物召唤者手册_奇物.md",
+      "section_title": "奇物",
+      "action": "added"
+    },
+    {
+      "source": "page_666.md",
+      "title": "巨化召唤权杖",
+      "english": "Rod of Giant Summoning",
+      "target": "装备_魔法物品/魔法物品/奇物/怪物召唤者手册_奇物.md",
+      "section_title": "奇物",
+      "action": "added"
+    },
+    {
+      "source": "page_666.md",
+      "title": "破召",
+      "english": "Summon Bane",
+      "target": "装备_魔法物品/武器/怪物召唤者手册_武器附魔.md",
+      "section_title": "武器附魔",
+      "action": "added"
+    },
+    {
+      "source": "page_666.md",
+      "title": "召唤者长袍",
+      "english": "Summoner's Robe",
+      "target": "装备_魔法物品/魔法物品/奇物/怪物召唤者手册_奇物.md",
+      "section_title": "奇物",
+      "action": "added"
+    },
+    {
+      "source": "page_666.md",
+      "title": "暴风雨之剑",
+      "english": "Sword of Tempests",
+      "target": "装备_魔法物品/魔法物品/奇物/怪物召唤者手册_奇物.md",
+      "section_title": "奇物",
+      "action": "added"
+    },
+    {
+      "source": "page_666.md",
+      "title": "束缚面容",
+      "english": "Visage of the Bound",
+      "target": "装备_魔法物品/魔法物品/奇物/怪物召唤者手册_奇物.md",
+      "section_title": "奇物",
+      "action": "added"
+    },
+    {
+      "source": "page_667.md",
+      "title": "誓缚和呼唤",
+      "english": "Binding and Calling",
+      "target": "规则/怪物召唤者手册MSH_page_667.md",
+      "section_title": "章节引言",
+      "action": "added"
+    },
+    {
+      "source": "page_667.md",
+      "title": "增强呼唤",
+      "english": "Augment Calling",
+      "target": "专长/怪物召唤者手册MSH_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_667.md",
+      "title": "驱逐重击",
+      "english": "Banishing Critical",
+      "target": "专长/怪物召唤者手册MSH_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_667.md",
+      "title": "维度察觉",
+      "english": "Dimensional Awareness",
+      "target": "专长/怪物召唤者手册MSH_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_667.md",
+      "title": "次元断裂",
+      "english": "Dimensional Disruption",
+      "target": "专长/怪物召唤者手册MSH_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_667.md",
+      "title": "跨位面亚种的力量",
+      "english": "Extraplanar Power",
+      "target": "规则/怪物召唤者手册MSH_page_667.md",
+      "section_title": "章节引言",
+      "action": "added"
+    },
+    {
+      "source": "page_667.md",
+      "title": "位面之力",
+      "english": "Planar Focus",
+      "target": "专长/怪物召唤者手册MSH_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_667.md",
+      "title": "侦查召唤",
+      "english": "Scouting Summons",
+      "target": "专长/怪物召唤者手册MSH_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_667.md",
+      "title": "实体幽影",
+      "english": "Solid Shadows",
+      "target": "专长/怪物召唤者手册MSH_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_667.md",
+      "title": "刺青协调",
+      "english": "Tattoo Attunement",
+      "target": "专长/怪物召唤者手册MSH_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_667.md",
+      "title": "刺青转变",
+      "english": "Tattoo Conversion",
+      "target": "专长/怪物召唤者手册MSH_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_667.md",
+      "title": "刺青转换",
+      "english": "Tattoo Transformation",
+      "target": "专长/怪物召唤者手册MSH_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_667.md",
+      "title": "思乡游子诗篇",
+      "english": "Ballad of the Homesick Wanderer",
+      "target": "专长/怪物召唤者手册MSH_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_667.md",
+      "title": "多功能召唤生物",
+      "english": "Versatile Summon Monster",
+      "target": "专长/怪物召唤者手册MSH_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_667.md",
+      "title": "多功能召唤自然盟友",
+      "english": "Versatile Summon Nature's Ally",
+      "target": "专长/怪物召唤者手册MSH_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_667.md",
+      "title": "气流生物",
+      "english": "Aerial Creature",
+      "target": "规则/怪物召唤者手册MSH_简易模板.md",
+      "section_title": "简易模板",
+      "action": "added"
+    },
+    {
+      "source": "page_667.md",
+      "title": "水流生物",
+      "english": "Aqueous Creature",
+      "target": "规则/怪物召唤者手册MSH_简易模板.md",
+      "section_title": "简易模板",
+      "action": "added"
+    },
+    {
+      "source": "page_667.md",
+      "title": "地层生物",
+      "english": "Chthonic Creature",
+      "target": "规则/怪物召唤者手册MSH_简易模板.md",
+      "section_title": "简易模板",
+      "action": "added"
+    },
+    {
+      "source": "page_667.md",
+      "title": "黑暗生物",
+      "english": "Dark Creature",
+      "target": "规则/怪物召唤者手册MSH_简易模板.md",
+      "section_title": "简易模板",
+      "action": "added"
+    },
+    {
+      "source": "page_667.md",
+      "title": "烈火生物",
+      "english": "Fiery Creature",
+      "target": "规则/怪物召唤者手册MSH_简易模板.md",
+      "section_title": "简易模板",
+      "action": "added"
+    },
+    {
+      "source": "page_667.md",
+      "title": "原初生物",
+      "english": "Primordial Creature",
+      "target": "规则/怪物召唤者手册MSH_简易模板.md",
+      "section_title": "简易模板",
+      "action": "added"
+    },
+    {
+      "source": "page_667.md",
+      "title": "守护灵",
+      "english": "Guardian Spirits",
+      "target": "规则/怪物召唤者手册MSH_守护灵.md",
+      "section_title": "守护灵",
+      "action": "added"
+    },
+    {
+      "source": "page_667.md",
+      "title": "呼神守卫",
+      "english": "Summon Guardian Spirit",
+      "target": "专长/怪物召唤者手册MSH_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_667.md",
+      "title": "创造守护灵",
+      "english": "",
+      "target": "规则/怪物召唤者手册MSH_守护灵.md",
+      "section_title": "守护灵",
+      "action": "added"
+    },
+    {
+      "source": "page_667.md",
+      "title": "扩展召唤列表",
+      "english": "",
+      "target": "规则/怪物召唤者手册MSH_扩展召唤列表.md",
+      "section_title": "扩展召唤列表",
+      "action": "added"
+    },
+    {
+      "source": "page_667.md",
+      "title": "扩展召唤怪物",
+      "english": "Expanded Summon Monster",
+      "target": "专长/怪物召唤者手册MSH_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_667.md",
+      "title": "一级召唤怪物",
+      "english": "",
+      "target": "规则/怪物召唤者手册MSH_扩展召唤列表.md",
+      "section_title": "扩展召唤列表",
+      "action": "added"
+    },
+    {
+      "source": "page_667.md",
+      "title": "二级召唤怪物",
+      "english": "",
+      "target": "规则/怪物召唤者手册MSH_扩展召唤列表.md",
+      "section_title": "扩展召唤列表",
+      "action": "added"
+    },
+    {
+      "source": "page_667.md",
+      "title": "三级召唤怪物",
+      "english": "",
+      "target": "规则/怪物召唤者手册MSH_扩展召唤列表.md",
+      "section_title": "扩展召唤列表",
+      "action": "added"
+    },
+    {
+      "source": "page_667.md",
+      "title": "四级召唤怪物",
+      "english": "",
+      "target": "规则/怪物召唤者手册MSH_扩展召唤列表.md",
+      "section_title": "扩展召唤列表",
+      "action": "added"
+    },
+    {
+      "source": "page_667.md",
+      "title": "五级召唤怪物",
+      "english": "",
+      "target": "规则/怪物召唤者手册MSH_扩展召唤列表.md",
+      "section_title": "扩展召唤列表",
+      "action": "added"
+    },
+    {
+      "source": "page_667.md",
+      "title": "六级召唤怪物",
+      "english": "",
+      "target": "规则/怪物召唤者手册MSH_扩展召唤列表.md",
+      "section_title": "扩展召唤列表",
+      "action": "added"
+    },
+    {
+      "source": "page_667.md",
+      "title": "七级召唤怪物",
+      "english": "",
+      "target": "规则/怪物召唤者手册MSH_扩展召唤列表.md",
+      "section_title": "扩展召唤列表",
+      "action": "added"
+    },
+    {
+      "source": "page_667.md",
+      "title": "八级召唤怪物",
+      "english": "",
+      "target": "规则/怪物召唤者手册MSH_扩展召唤列表.md",
+      "section_title": "扩展召唤列表",
+      "action": "added"
+    },
+    {
+      "source": "page_667.md",
+      "title": "九级召唤怪物",
+      "english": "",
+      "target": "规则/怪物召唤者手册MSH_扩展召唤列表.md",
+      "section_title": "扩展召唤列表",
+      "action": "added"
+    },
+    {
+      "source": "page_667.md",
+      "title": "解法专攻",
+      "english": "Dispel Focus",
+      "target": "专长/怪物召唤者手册MSH_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_667.md",
+      "title": "高等解法专攻",
+      "english": "Greater Dispel Focus",
+      "target": "专长/怪物召唤者手册MSH_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    }
+  ],
+  "skipped_files": []
+}

@@ -1,0 +1,41 @@
+# 荒野源始WO 鲜花巫术
+
+<!-- 荒野源始WO-source:变体_选项/女巫巫术.md:witch_hexes -->
+## 荒野源始WO 鲜花巫术
+> 来源：荒野源始（Wilderness Origins），页码见原书，未整理 → 荒野源始WO → 职业选项 → 女巫
+**鲜花巫术（Flower 
+Hexes）**
+
+出自《荒野起源》（Wilderness 
+Origins）第16、17页
+
+喜爱鲜花魔法的女巫们经常使用这些新的巫术。
+
+**浮莲（Floating 
+Lotus，Su）：**
+女巫可以变出一朵巨大的莲花漂浮在她的身边，每天可持续的分钟数等同于她的等级。这些时间不需连续，但必须以1分钟为单位。
+在召唤出来后，女巫可以借助莲花渡水而行，就如同她受到了水面行走（Water 
+Walk）法术的影响。
+她还可以运用该花来进行短暂的滑翔，在以特技检定来尝试跳高、跳远时获得+10增强加值。该加值在5级、9级时额外增加10点。
+
+**绽放传讯（Heralding 
+Bloom，Su）：**
+女巫可以驱使30尺内的一株植物传播一条讯息，内容必须不超过25个字并且使用女巫所说的一种语言。此讯息不能带有语言法术成分、口令型单词或其他魔法效果。
+被作为目标的智能植物可以尝试以意志豁免来抵抗此效果。若豁免失败，植物会被魔法迫使以能听的见的声音“说出”这条讯息，每当有一个及以上尚未收到此讯息的智能生物出现在范围内时则会复述此讯息，直到该巫术被施放的24小时后为止。
+如果受此巫术影响的植物在通常情况下不了解传达讯息的语言，那它也不会从此巫术中获得任何特殊思维能力或了解此讯息的能力，并且也无法以任何方式迫使它采取通常不会使用的方式行动。
+女巫能够维持生效的“绽放传讯”数量等同于她的女巫等级+她的魅力修正。
+
+**冰花（Iceplant，Su）：**
+（译注：冰叶日中花／冰叶松叶菊的英文别称）
+该巫术赋予女巫和她的魔宠+2天生防御加值，以及持续生效的忍受环境（Endure 
+Elements）法术。这一效果让女巫的皮肤变得厚实坚硬。
+
+**莱西呼唤（Leshy 
+Summoning，Su）：**
+女巫如同植物类生物那样种植着莱西。她将[叶莱西](http://www.goddessfantasy.net/bbs/index.php?topic=55893)（Leaf Leshys）、[葫芦莱西](http://www.goddessfantasy.net/bbs/index.php?topic=56001)（Gourd Leshys）、[真菌莱西](http://www.goddessfantasy.net/bbs/index.php?topic=56726)（Fungus Leshys）、[海草莱西](http://www.goddessfantasy.net/bbs/index.php?topic=56423)（SeaWeed Leshys）、[莲花莱西](http://www.goddessfantasy.net/bbs/index.php?topic=102696)（Lotus Leshys）分别添加到她的召唤怪物 I、II、III、IV、V（Summon Monster I, 
+II, III, IV, V）的生物列表中。
+
+**苍翠魔宠（Verdant 
+Familiar，Ex）：**
+女巫的魔宠的生物类型变为植物类，并获得植物类生物的全部特性。
+

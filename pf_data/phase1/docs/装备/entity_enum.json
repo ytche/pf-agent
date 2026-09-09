@@ -1,0 +1,48 @@
+{
+  "category": "equipment",
+  "updated": "2026-08-09",
+  "note": "装备模块实体枚举（M5 verify 检查 ⑧ entity 枚举数据源）。component_type 与 slot 值域权威词表，与 vectorizer/registry_equipment.py（EQUIP_SLOT_VALUES / EQUIP_COMPONENT_TYPES）同源对齐；slot 严格化与类目对齐为用户 2026-08-09 拍板（M5）。",
+  "component_types": {
+    "produced": [
+      "gear", "wondrous_item", "weapon", "armor", "ring", "rod", "staff",
+      "cursed_item", "intelligent_item", "artifact", "enchantment",
+      "alchemical_item", "magic_plant", "equipment_package", "equipment_intro"
+    ],
+    "reserved_zero_production": [
+      {"value": "ammo", "reason": "弹药条目源数据在范围外（page_851 弹药汇总页未纳入装备_魔法物品/），D4 枚举预留"},
+      {"value": "potion_scroll_wand", "reason": "page_219 为药剂/卷轴/魔杖规则+价格表页（无独立条目可切），规则段待 KN181 equipment_rule 专项"},
+      {"value": "equipment_index", "reason": "价格表/索引行未单列（表格行归 gear/wondrous_item 表行 chunk），待评估"},
+      {"value": "equipment_rule", "reason": "规则段标题（207/208/864 等）KN181 专项评估中"},
+      {"value": "technology_item", "reason": "D1 拍板本期不纳入（科技指南/科技装备 9 文件），KN161"}
+    ],
+    "notes": [
+      "D4 拍板 16 主类 + 3 辅助；2026-08-09 M5 用户拍板「CHM 大页对齐 D4」：page_220→ring、221→rod、222→staff、234→wondrous_item、946→equipment_package、947→cursed_item、948→intelligent_item、949→artifact",
+      "书聚合混合文件（内海系列 IS* 等）维持 wondrous_item 吸收 + slot 区分（D5 单类精神延伸）；护甲类条目（slot=护甲/盾牌/盔甲/铠甲）归 armor 类",
+      "enchantment 附 enchantment_target（armor/shield/weapon/ammo/special，M2 §三 3.2）",
+      "装备包 page_946 8 包归 equipment_package（E12 拍板落地，M5 修复）"
+    ]
+  },
+  "slot_values": {
+    "canonical_13": [
+      "腰部", "躯体", "胸部", "眼部", "脚部", "手部", "头部", "头饰",
+      "颈部", "肩部", "腕部", "戒指", "无"
+    ],
+    "word_form_note": "CHM TOC L4 权威词形（page_223~234 页标题）；元数据设计 §三 3.1 的简化词形（腰/躯/胸/眼/脚/手/头/头饰/颈/肩/腕）为勘探摘要，统一以 CHM 词形为准（2026-08-09 M5 对齐）。",
+    "aliases": {
+      "身体": "躯体", "躯干": "躯体",
+      "腰带": "腰部", "手腕": "腕部", "手": "手部", "手指": "戒指",
+      "头带": "头饰", "肩膀": "肩部", "颈": "颈部", "眼睛": "眼部",
+      "双脚": "脚部", "脸部": "头部"
+    },
+    "normalize_rules": [
+      "括号译注剥主词：头部（head）/ 头饰（headband）/ 腕部（arm or wrist，译注…）/ 无（武器）/ 无（none）/ 无（取代一只手）→ 主词",
+      "多位置取前位：颈部或肩部→颈部 / 腰带或肩部→腰部 / 头部或腰部→头部 / 无或颈部→无 / 颈部，手指或无→颈部 / 躯干和头部（见下文）→躯体",
+      "粘连剥前段：无，重力1磅→无（KN185 源数据粘连，归一取前段）",
+      "尾部英文剥除：头部head→头部",
+      "护甲类穿戴值（护甲/盾牌/盔甲/铠甲）→ 条目归 armor 类，slot 不设（field_status=not_applicable）",
+      "非奇物值（—/-/特殊/可变/符文（rune）/武器/武器附魔/盾牌附魔）→ slot 不设（not_applicable）"
+    ],
+    "non_applicable": "非奇物条目（armor/weapon/enchantment 等）slot 字段 field_status=not_applicable（slot 只对奇物条目有意义，D5 + M5 拍板）"
+  },
+  "slot_armor_values": ["护甲", "盾牌", "盔甲", "铠甲"]
+}

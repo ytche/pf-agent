@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PathFinder 1e 规则问答 Agent</title>
+  <!-- marked.js：Markdown 渲染（CDN；本地无外网时可改用资源目录内静态文件） -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+    :root { color-scheme: light dark; }
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+      max-width: 860px; margin: 0 auto; padding: 24px 16px 80px;
+      line-height: 1.6; background: #f7f8fa; color: #1f2328;
+    }
+    @media (prefers-color-scheme: dark) {
+      body { background: #0d1117; color: #e6edf3; }
+      .card { background: #161b22; border-color: #30363d; }
+      .source { border-color: #30363d; }
+      input, button { background: #0d1117; color: #e6edf3; border-color: #30363d; }
+      .gap-tip { background: #3d2e00; color: #d29922; }
+      .mark-btn { border-color: #d29922; color: #d29922; }
+      .mark-btn:hover { background: #3d2e00; }
+      .fb-form select, .fb-form textarea { background: #0d1117; border-color: #30363d; }
+      .fb-status { color: #3fb950; }
+      .fb-status.err { color: #f85149; }
+      /* SP4 D6：dark 下上标/徽标的可读色（布局样式在全局区定义，动画不随主题切换） */
+      sup.cite, .source-badge { color: #58a6ff; }
+      .source-badge { background: rgba(88,166,255,.12); }
+    }
+    h1 { font-size: 20px; margin: 0 0 4px; }
+    .sub { color: #666; font-size: 13px; margin-bottom: 16px; }
+    .card {
+      background: #fff; border: 1px solid #e1e4e8; border-radius: 10px;
+      padding: 16px; margin-bottom: 12px;
+    }
+    .row { display: flex; gap: 8px; }
+    input {
+      flex: 1; padding: 10px 12px; font-size: 15px;
+      border: 1px solid #d0d7de; border-radius: 8px; outline: none;
+    }
+    input:focus { border-color: #0969da; }
+    button {
+      padding: 10px 20px; font-size: 15px; border: none; border-radius: 8px;
+      background: #0969da; color: #fff; cursor: pointer;
+    }
+    button:disabled { opacity: .5; cursor: not-allowed; }
+    .answer { font-size: 15px; }
+    .answer table { border-collapse: collapse; margin: 8px 0; }
+    .answer th, .answer td { border: 1px solid #d0d7de; padding: 4px 10px; }
+    .answer code { background: rgba(128,128,128,.15); padding: 1px 5px; border-radius: 4px; }
+    .answer pre { background: rgba(128,128,128,.12); padding: 10px; border-radius: 6px; overflow-x: auto; }
+    .gap-tip {
+      display: none; margin-bottom: 12px; padding: 10px 14px;
+      background: #fff8c5; border: 1px solid #d4a72c; border-radius: 8px; font-size: 13px;
+    }
+    details.source { border: 1px solid #d0d7de; border-radius: 8px; padding: 8px 12px; }
+    details.source summary { cursor: pointer; font-size: 14px; color: #0969da; user-select: none; }
+    .source-item { margin-top: 8px; padding-top: 8px; border-top: 1px dashed #d0d7de; }
+    .source-item:first-of-type { border-top: none; margin-top: 0; padding-top: 0; }
+    .source-book { font-size: 13px; font-weight: 600; }
+    /* SP4 D6：来源编号徽标行（flex 使 [N] 与书名同行）与正文上标引用 */
+    .source-head { display: flex; align-items: baseline; gap: 8px; margin-bottom: 2px; }
+    .source-badge {
+      flex-shrink: 0; min-width: 22px; padding: 0 5px; text-align: center;
+      font-size: 12px; font-weight: 600; color: #0969da;
+      background: rgba(9,105,218,.08); border-radius: 4px;
+    }
+    sup.cite {
+      cursor: pointer; color: #0969da; font-weight: 600;
+      padding: 0 1px; user-select: none;
+    }
+    sup.cite:hover { text-decoration: underline; }
+    @keyframes cite-flash { from { background: #ffe8a3; } to { background: transparent; } }
+    .cite-flash { animation: cite-flash 1.8s ease-out; }
+    .source-path { font-size: 12px; color: #666; margin: 2px 0 6px; }
+    .source-content {
+      font-size: 12px; white-space: pre-wrap; word-break: break-all;
+      background: rgba(128,128,128,.08); border-radius: 6px; padding: 8px;
+      max-height: 200px; overflow-y: auto;
+    }
+    .status { font-size: 13px; color: #666; margin-top: 8px; }
+    .mark-btn {
+      padding: 6px 14px; font-size: 13px; border: 1px solid #d4a72c;
+      background: transparent; color: #9a6700; border-radius: 6px; cursor: pointer; margin-top: 10px;
+    }
+    .mark-btn:hover { background: #fff8c5; }
+    .fb-form { margin-top: 10px; border-top: 1px dashed #d0d7de; padding-top: 10px; }
+    .fb-form select, .fb-form textarea {
+      width: 100%; margin-top: 6px; padding: 8px 10px; font-size: 13px;
+      border: 1px solid #d0d7de; border-radius: 6px; background: #f7f8fa; color: inherit;
+    }
+    .fb-form textarea { resize: vertical; min-height: 44px; }
+    .fb-actions { margin-top: 8px; display: flex; gap: 8px; }
+    .fb-actions button { padding: 6px 14px; font-size: 13px; }
+    .fb-actions .cancel { background: #6e7781; }
+    .fb-status { margin-top: 8px; font-size: 13px; color: #1a7f37; }
+    .fb-status.err { color: #cf222e; }
+  </style>
+</head>
+<body>
+  <h1>🧙 PathFinder 1e 规则问答</h1>
+  <div class="sub">回答基于 PF 规则库检索，来源可追溯</div>
+
+  <div class="card row">
+    <input id="question" type="text" placeholder="输入规则问题，回车发送…"
+           autocomplete="off" enterkeyhint="send">
+    <button id="send">发送</button>
+  </div>
+
+  <div id="gapTip" class="gap-tip">⚠️ 本问题已记录数据缺口，将纳入后续优化</div>
+
+  <div id="result" class="card"></div>
+
+  <!-- 错误标注（错误标注闭环）：每次回答下追加「标错」按钮，提交用户反馈供优化分析 -->
+  <div id="fbWrap" class="card" style="display:none">
+    <button id="markBtn" class="mark-btn">⚠️ 标错</button>
+    <div id="fbForm" class="fb-form" style="display:none">
+      <select id="fbType">
+        <option value="">选择错误类型…</option>
+        <option>事实错误</option>
+        <option>检索漏召回</option>
+        <option>编造来源</option>
+        <option>答非所问</option>
+        <option>结构差</option>
+      </select>
+      <textarea id="fbCorrection" placeholder="正确说法（可选）——写下正确内容，便于直接入库/校验"></textarea>
+      <textarea id="fbComment" placeholder="备注（可选）——哪句话不对、期望怎样"></textarea>
+      <div class="fb-actions">
+        <button id="fbSubmit">提交标注</button>
+        <button id="fbCancel" class="cancel">取消</button>
+      </div>
+    </div>
+    <div id="fbStatus" class="fb-status" style="display:none"></div>
+  </div>
+
+  <div id="status" class="status"></div>
+
+  <script>
+    (function () {
+      // 生成 UUID：优先 crypto.randomUUID（仅安全上下文可用）；公网纯 HTTP 下该方法
+      // 为 undefined（window.isSecureContext=false），裸用会在加载阶段抛 TypeError、
+      // 中断整个 IIFE，导致后续事件监听未绑定（公网点「发送」无反应）。故退回 RFC4122 v4。
+      function genUUID() {
+        if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+          return crypto.randomUUID();
+        }
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+          var r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+          return v.toString(16);
+        });
+      }
+      // 会话：单页单会话，UUID 存 localStorage，刷新页面会话不丢（设计 §9.3）
+      var CONV_KEY = 'pfAgentConversationId';
+      var conversationId = localStorage.getItem(CONV_KEY) || genUUID();
+      localStorage.setItem(CONV_KEY, conversationId);
+
+      var qInput = document.getElementById('question');
+      var sendBtn = document.getElementById('send');
+      var resultEl = document.getElementById('result');
+      var statusEl = document.getElementById('status');
+      var gapTip = document.getElementById('gapTip');
+      var busy = false;
+
+      // 错误标注：最近一次问答的快照（标错时随 feedback 提交，供分析复现错误现场）
+      var lastQ = '', lastResp = null;
+      var fbWrap = document.getElementById('fbWrap');
+      var markBtn = document.getElementById('markBtn');
+      var fbForm = document.getElementById('fbForm');
+      var fbType = document.getElementById('fbType');
+      var fbCorrection = document.getElementById('fbCorrection');
+      var fbComment = document.getElementById('fbComment');
+      var fbSubmit = document.getElementById('fbSubmit');
+      var fbCancel = document.getElementById('fbCancel');
+      var fbStatus = document.getElementById('fbStatus');
+
+      // 重置标注表单（每次新问答时调用，避免旧标注状态残留）
+      function resetFeedback() {
+        fbForm.style.display = 'none';
+        fbStatus.style.display = 'none';
+        fbType.value = '';
+        fbCorrection.value = '';
+        fbComment.value = '';
+      }
+
+      // C1：marked.js 默认渲染 HTML，为防 LLM 输出被 prompt injection 诱导
+      // 携带 <script>，渲染前先 HTML 转义，再交给 marked.parse（本地单用户低危，最简转义）
+      function escapeHtml(s) {
+        return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+      }
+
+      // 渲染来源折叠区：正文用 textContent 注入，杜绝 HTML 注入。
+      // SP4 D6：每项带 id="src-N"（N=数组下标+1，对齐正文上标 [#N]）与编号徽标 [N]
+      function renderSources(sources) {
+        if (!sources || !sources.length) return '';
+        var items = sources.map(function (s, i) {
+          var n = i + 1;
+          var book = s.book || '未知来源';
+          var path = s.tocPath || '';
+          var content = s.content || '';
+          var pathEl = path ? '<div class="source-path"></div>' : '';
+          var inner = '<div class="source-head"><span class="source-badge" id="src-' + n
+                    + '">[' + n + ']</span>'
+                    + '<div class="source-book">' + escapeHtml(book) + '</div></div>'
+                    + pathEl + '<pre class="source-content"></pre>';
+          return '<div class="source-item">' + inner + '</div>';
+        }).join('');
+        return '<details class="source"><summary>📚 来源（' + sources.length + ' 条）</summary>'
+             + items + '</details>';
+      }
+
+      // 填充来源正文（textContent 防注入）与路径文本
+      function fillSourceDetails(sources) {
+        var items = resultEl.querySelectorAll('.source-item');
+        sources.forEach(function (s, i) {
+          var node = items[i];
+          if (!node) return;
+          if (s.tocPath) node.querySelector('.source-path').textContent = s.tocPath;
+          node.querySelector('.source-content').textContent = s.content || '';
+        });
+      }
+
+      function render(resp) {
+        // gapReported：提示"已记录待优化"
+        gapTip.style.display = resp.gapReported ? 'block' : 'none';
+
+        // 先转义再 marked.parse（C1）
+        var html = marked.parse(escapeHtml(resp.answer || ''));
+        // SP4 D6：把正文 [ #N ] 转成可点击上标（对 HTML 串做固定模板替换，无注入面；
+        // 越界编号已被后端剥离，此处 [#N] 理论上必合法——无对应来源项时下面点击防御按纯文本）
+        html = html.replace(/\[#(\d+)\]/g, '<sup class="cite" data-n="$1">[$1]</sup>');
+        resultEl.innerHTML = '<div class="answer">' + html + '</div>'
+                           + renderSources(resp.sources || []);
+
+        // 后端可能生成了新会话 ID（首次提问时），回写 localStorage
+        if (resp.conversationId) {
+          conversationId = resp.conversationId;
+          localStorage.setItem(CONV_KEY, conversationId);
+        }
+        fillSourceDetails(resp.sources || []);
+        // 有回答才显示「标错」入口（报错/gap 兜底不显示）
+        fbWrap.style.display = 'block';
+      }
+
+      function showError(msg) {
+        resultEl.innerHTML = '<div class="answer" style="color:#cf222e">' + escapeHtml(msg) + '</div>';
+        fbWrap.style.display = 'none';
+      }
+
+      function ask() {
+        var question = qInput.value.trim();
+        if (!question || busy) return;
+        busy = true;
+        sendBtn.disabled = true;
+        statusEl.textContent = '检索中…';
+        gapTip.style.display = 'none';
+        resetFeedback();
+        fbWrap.style.display = 'none';
+
+        fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ question: question, conversationId: conversationId })
+        })
+          .then(function (r) {
+            if (r.status === 429) {
+              // F-010/F-011 超限（限频/配额）：后端返回 {error, message}，展示专属文案
+              return r.json().then(function (d) {
+                throw new Error(d.message || '请求过于频繁，请稍后再试');
+              });
+            }
+            if (!r.ok) {
+              // LLM 超时/异常 → 500：提示稍后重试，不静默降级（设计 §11）
+              return r.text().then(function () {
+                throw new Error('服务异常，请稍后重试');
+              });
+            }
+            return r.json();
+          })
+          .then(function (data) {
+            lastQ = question;
+            lastResp = data;
+            render(data);
+            statusEl.textContent = '';
+          })
+          .catch(function (e) {
+            showError(e.message || '服务异常，请稍后重试');
+            statusEl.textContent = '';
+          })
+          .finally(function () {
+            busy = false;
+            sendBtn.disabled = false;
+            qInput.focus();
+          });
+      }
+
+      sendBtn.addEventListener('click', ask);
+      qInput.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') ask();
+      });
+      qInput.focus();
+
+      // —— SP4 D6：点击正文上标 [#N] → 展开来源区、滚动定位 #src-N 并短暂高亮 ——
+      resultEl.addEventListener('click', function (e) {
+        var target = e.target;
+        var sup = target && target.closest ? target.closest('sup.cite') : null;
+        if (!sup) return;                         // 非上标点击不拦截，保留既有交互
+        var item = resultEl.querySelector('#src-' + sup.getAttribute('data-n'));
+        var details = resultEl.querySelector('details.source');
+        // 防御：无来源区或编号无对应来源项时按纯文本处理、不报错
+        // （越界编号已由后端 D5 剥离，正常不会走到这里）
+        if (!item || !details) return;
+        if (!details.open) details.open = true;   // 展开来源折叠区
+        item.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        item.classList.remove('cite-flash');
+        void item.offsetWidth;                    // 强制重排以重启动画
+        item.classList.add('cite-flash');
+      });
+
+      // —— 错误标注交互 ——
+      markBtn.addEventListener('click', function () {
+        fbForm.style.display = 'block';
+        fbType.focus();
+      });
+      fbCancel.addEventListener('click', function () {
+        resetFeedback();
+      });
+      fbSubmit.addEventListener('click', function () {
+        var type = fbType.value;
+        if (!lastResp || !type) {
+          fbStatus.className = 'fb-status err';
+          fbStatus.textContent = '请先选择错误类型';
+          fbStatus.style.display = 'block';
+          return;
+        }
+        // 快照提交：question/answer/sources 为回答当时内容，便于分析脚本精确复现
+        var payload = {
+          conversationId: conversationId,
+          question: lastQ,
+          answer: lastResp.answer || '',
+          sources: (lastResp.sources || []).map(function (s) {
+            return { book: s.book, tocPath: s.tocPath, chunkId: s.chunkId, content: s.content };
+          }),
+          errorType: type,
+          correction: fbCorrection.value.trim() || null,
+          comment: fbComment.value.trim() || null
+        };
+        fbSubmit.disabled = true;
+        fetch('/api/chat/feedback', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        })
+          .then(function (r) {
+            if (!r.ok) throw new Error('bad status');
+            return r.json();
+          })
+          .then(function (data) {
+            resetFeedback();
+            fbStatus.className = 'fb-status';
+            fbStatus.textContent = '✅ 已记录标注（' + (data.id || '') + '），将纳入优化分析';
+            fbStatus.style.display = 'block';
+          })
+          .catch(function () {
+            fbStatus.className = 'fb-status err';
+            fbStatus.textContent = '标注提交失败，请稍后重试';
+            fbStatus.style.display = 'block';
+          })
+          .finally(function () {
+            fbSubmit.disabled = false;
+          });
+      });
+    })();
+  </script>
+</body>
+</html>

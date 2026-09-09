@@ -1,0 +1,589 @@
+{
+  "meta": {
+    "description": "种族模块官方实体名枚举 + 豁免白名单",
+    "version": "2026-08-05",
+    "sources": [
+      "vectorizer/exploration/race/audit_baseline.jsonl（37 汇总页种族）",
+      "vectorizer/output/种族/chunks.jsonl 全量 race_name 实际取值",
+      "pf_rules_md_organized/种族 源目录结构（怪物种族 / 来源书）"
+    ]
+  },
+  "entities": [
+    {
+      "name": "矮人",
+      "name_en": "Dwarf",
+      "aliases": []
+    },
+    {
+      "name": "精灵",
+      "name_en": "Elf",
+      "aliases": []
+    },
+    {
+      "name": "侏儒",
+      "name_en": "Gnome",
+      "aliases": []
+    },
+    {
+      "name": "半精灵",
+      "name_en": "Half-Elf",
+      "aliases": []
+    },
+    {
+      "name": "半兽人",
+      "name_en": "Half-Orc",
+      "aliases": []
+    },
+    {
+      "name": "半身人",
+      "name_en": "Halfling",
+      "aliases": []
+    },
+    {
+      "name": "人类",
+      "name_en": "Human",
+      "aliases": []
+    },
+    {
+      "name": "神裔",
+      "name_en": "Aasimar",
+      "aliases": []
+    },
+    {
+      "name": "猫族",
+      "name_en": "Catfolk",
+      "aliases": [
+        "猫人"
+      ]
+    },
+    {
+      "name": "吸血裔",
+      "name_en": "Dhampir",
+      "aliases": []
+    },
+    {
+      "name": "卓尔",
+      "name_en": "Drow",
+      "aliases": [
+        "卓尔精灵",
+        "卓尔精灵贵族"
+      ]
+    },
+    {
+      "name": "窃影鬼",
+      "name_en": "Fetchling",
+      "aliases": []
+    },
+    {
+      "name": "地精",
+      "name_en": "Goblin",
+      "aliases": []
+    },
+    {
+      "name": "大地精",
+      "name_en": "Hobgoblin",
+      "aliases": []
+    },
+    {
+      "name": "火元素裔",
+      "name_en": "Ifrit",
+      "aliases": []
+    },
+    {
+      "name": "狗头人",
+      "name_en": "Kobold",
+      "aliases": []
+    },
+    {
+      "name": "兽人",
+      "name_en": "Orc",
+      "aliases": []
+    },
+    {
+      "name": "土元素裔",
+      "name_en": "Oread",
+      "aliases": []
+    },
+    {
+      "name": "鼠族",
+      "name_en": "Ratfolk",
+      "aliases": []
+    },
+    {
+      "name": "风元素裔",
+      "name_en": "Sylph",
+      "aliases": []
+    },
+    {
+      "name": "天狗",
+      "name_en": "Tengu",
+      "aliases": []
+    },
+    {
+      "name": "魔裔",
+      "name_en": "Tiefling",
+      "aliases": []
+    },
+    {
+      "name": "水元素裔",
+      "name_en": "Undine",
+      "aliases": []
+    },
+    {
+      "name": "替换儿",
+      "name_en": "Changeling",
+      "aliases": []
+    },
+    {
+      "name": "灰矮人",
+      "name_en": "Duergar",
+      "aliases": []
+    },
+    {
+      "name": "半鱼人",
+      "name_en": "Gillman",
+      "aliases": []
+    },
+    {
+      "name": "树蛙人",
+      "name_en": "Grippli",
+      "aliases": []
+    },
+    {
+      "name": "狐妖",
+      "name_en": "Kitsune",
+      "aliases": []
+    },
+    {
+      "name": "人鱼",
+      "name_en": "Merfolk",
+      "aliases": []
+    },
+    {
+      "name": "娜迦裔",
+      "name_en": "Nagaji",
+      "aliases": []
+    },
+    {
+      "name": "轮回者",
+      "name_en": "Samsaran",
+      "aliases": []
+    },
+    {
+      "name": "鸮形人",
+      "name_en": "Strix",
+      "aliases": []
+    },
+    {
+      "name": "巨灵裔",
+      "name_en": "Suli",
+      "aliases": []
+    },
+    {
+      "name": "地底侏儒",
+      "name_en": "Svirfneblin",
+      "aliases": []
+    },
+    {
+      "name": "灵猴族",
+      "name_en": "Vanara",
+      "aliases": []
+    },
+    {
+      "name": "蝮血裔",
+      "name_en": "Vishkanya",
+      "aliases": []
+    },
+    {
+      "name": "剪影人",
+      "name_en": "Wayang",
+      "aliases": []
+    },
+    {
+      "name": "藤蔓莱西",
+      "name_en": "Vine Leshy",
+      "aliases": []
+    },
+    {
+      "name": "伽瑟兰",
+      "name_en": "Gathlain",
+      "aliases": []
+    },
+    {
+      "name": "塞卡利亚",
+      "name_en": "Cecaelia",
+      "aliases": []
+    },
+    {
+      "name": "蒿兰人",
+      "name_en": "Ghoran",
+      "aliases": []
+    },
+    {
+      "name": "暮行者",
+      "name_en": "Duskwalker",
+      "aliases": []
+    },
+    {
+      "name": "兽态人",
+      "name_en": "Skinwalker",
+      "aliases": []
+    },
+    {
+      "name": "水栖精灵",
+      "name_en": "Aquatic Elf",
+      "aliases": []
+    },
+    {
+      "name": "翼龙人",
+      "name_en": "Wyvaran",
+      "aliases": []
+    },
+    {
+      "name": "舍卜提",
+      "name_en": "Shabti",
+      "aliases": []
+    },
+    {
+      "name": "鼠人",
+      "name_en": "Were-Rat Kin",
+      "aliases": []
+    },
+    {
+      "name": "熵裔",
+      "name_en": "Ganzi",
+      "aliases": []
+    },
+    {
+      "name": "绪任克斯枭族",
+      "name_en": "Syrinx",
+      "aliases": []
+    },
+    {
+      "name": "仿生人",
+      "name_en": "Android",
+      "aliases": []
+    },
+    {
+      "name": "勒珊塔灵族",
+      "name_en": "Lashunta",
+      "aliases": []
+    },
+    {
+      "name": "秩裔",
+      "name_en": "Aphorite",
+      "aliases": []
+    },
+    {
+      "name": "绿色火星人",
+      "name_en": "Green Martian",
+      "aliases": []
+    },
+    {
+      "name": "特里亚克萨斯人",
+      "name_en": "Triaxian",
+      "aliases": []
+    },
+    {
+      "name": "元素裔",
+      "name_en": "Elemental Kin",
+      "aliases": []
+    },
+    {
+      "name": "卡萨达人",
+      "name_en": "Kasatha",
+      "aliases": []
+    },
+    {
+      "name": "卓克斯虫族",
+      "name_en": "Trox",
+      "aliases": []
+    },
+    {
+      "name": "汲魂木",
+      "name_en": "Wyrwood",
+      "aliases": []
+    },
+    {
+      "name": "阿斯托莫伊人",
+      "name_en": "Astromoi",
+      "aliases": []
+    },
+    {
+      "name": "狩狼人",
+      "name_en": "Wolf-Kin",
+      "aliases": []
+    },
+    {
+      "name": "食尸鬼",
+      "name_en": "Ghoul",
+      "aliases": []
+    },
+    {
+      "name": "巨魔",
+      "name_en": "Troll",
+      "aliases": []
+    },
+    {
+      "name": "战蜥人",
+      "name_en": "Troglodyte",
+      "aliases": []
+    },
+    {
+      "name": "熊地精",
+      "name_en": "Bugbear",
+      "aliases": []
+    },
+    {
+      "name": "蜥蜴人",
+      "name_en": "Lizardfolk",
+      "aliases": []
+    },
+    {
+      "name": "沙华鱼人",
+      "name_en": "Sahuagin",
+      "aliases": []
+    },
+    {
+      "name": "吸血鬼",
+      "name_en": "Vampire",
+      "aliases": []
+    },
+    {
+      "name": "豺狼人",
+      "name_en": "Gnoll",
+      "aliases": []
+    },
+    {
+      "name": "霜巨人",
+      "name_en": "Frost Giant",
+      "aliases": []
+    },
+    {
+      "name": "食人魔",
+      "name_en": "Ogre",
+      "aliases": []
+    },
+    {
+      "name": "蛇人",
+      "name_en": "Serpentfolk",
+      "aliases": []
+    },
+    {
+      "name": "沼蜍人",
+      "name_en": "Boggard",
+      "aliases": []
+    },
+    {
+      "name": "火巨人",
+      "name_en": "Fire Giant",
+      "aliases": []
+    },
+    {
+      "name": "梭螺鱼人",
+      "name_en": "Locathah",
+      "aliases": []
+    },
+    {
+      "name": "半人马",
+      "name_en": "Centaur",
+      "aliases": []
+    },
+    {
+      "name": "透肌魔人",
+      "name_en": "Adlet",
+      "aliases": []
+    },
+    {
+      "name": "半蝎人",
+      "name_en": "Girtablilu",
+      "aliases": []
+    },
+    {
+      "name": "混血深潜者",
+      "name_en": "Deep One Hybrid",
+      "aliases": []
+    },
+    {
+      "name": "鲛人",
+      "name_en": "Aumaua?",
+      "aliases": []
+    },
+    {
+      "name": "铜蛇",
+      "name_en": "Copper Cobra?",
+      "aliases": []
+    },
+    {
+      "name": "德洛人",
+      "name_en": "D'ziriak",
+      "aliases": []
+    }
+  ],
+  "exemptions": [
+    {
+      "value": "年龄",
+      "reason": "page_11 章节名 intro，合法非种族归属值（KN113 已知）"
+    },
+    {
+      "value": "开篇",
+      "reason": "怪物法典MC 开篇文件，非种族"
+    },
+    {
+      "value": "其他种族",
+      "reason": "ISR 聚合文件组标题，非具体族名"
+    },
+    {
+      "value": "野兽血脉",
+      "reason": "书名 intro（BotB），非种族"
+    },
+    {
+      "value": "海洋之血",
+      "reason": "书名 intro（BotS），非种族"
+    },
+    {
+      "value": "巫团血脉",
+      "reason": "书名 intro（BotC），非种族"
+    },
+    {
+      "value": "切利亚斯",
+      "reason": "地区名误入 intro 登记（KN116 同类污染），文件实际种族为替换儿"
+    },
+    {
+      "value": "边栏：非人类神裔",
+      "reason": "神裔边栏标题，非种族"
+    },
+    {
+      "value": "边栏：非人类魔裔",
+      "reason": "魔裔边栏标题，非种族"
+    },
+    {
+      "value": "新女巫巫术",
+      "reason": "地精文件中的女巫巫术特性，非种族"
+    },
+    {
+      "value": "狗头人陷阱",
+      "reason": "狗头人文件中的陷阱条目，非种族"
+    },
+    {
+      "value": "半身人霉咒",
+      "reason": "半身人文件中的诅咒/背景条目，非种族"
+    },
+    {
+      "value": "隐匿者",
+      "reason": "卡萨达人文件中的替换种族特性，非种族"
+    },
+    {
+      "value": "四手灵巧",
+      "reason": "卡萨达人文件中的种族背景特性，非种族"
+    },
+    {
+      "value": "蜘蛛爬者",
+      "reason": "卡萨达人文件中的种族背景特性，非种族"
+    },
+    {
+      "value": "种族武器",
+      "reason": "卡萨达人文件中的武器边栏，非种族"
+    },
+    {
+      "value": "狩狼人角色",
+      "reason": "狩狼人页文件侧边栏标题污染，实际种族为狩狼人"
+    },
+    {
+      "value": "卡萨达人角色",
+      "reason": "卡萨达人页文件侧边栏标题污染，实际种族为卡萨达人"
+    },
+    {
+      "value": "兽态人Skinwalker种族特性",
+      "reason": "兽态人页文件 intro 标题污染，实际种族为兽态人"
+    },
+    {
+      "value": "兽态人亚种Skinwalker Heritages",
+      "reason": "兽态人页文件 sidebar 标题污染，实际种族为兽态人"
+    },
+    {
+      "value": "蝙蝠人后裔Werebat－kin",
+      "reason": "兽态人血统（skinwalker heritage），归入兽态人实体"
+    },
+    {
+      "value": "熊人后裔Werebear－kin",
+      "reason": "兽态人血统（skinwalker heritage），归入兽态人实体"
+    },
+    {
+      "value": "野猪人后裔Wereboar－kin",
+      "reason": "兽态人血统（skinwalker heritage），归入兽态人实体"
+    },
+    {
+      "value": "鳄鱼人后裔Werecrocodile－kin",
+      "reason": "兽态人血统（skinwalker heritage），归入兽态人实体"
+    },
+    {
+      "value": "鼠人后裔Wererat－kin",
+      "reason": "兽态人血统（skinwalker heritage），归入兽态人实体"
+    },
+    {
+      "value": "鲨鱼人后裔Wereshark－kin",
+      "reason": "兽态人血统（skinwalker heritage），归入兽态人实体"
+    },
+    {
+      "value": "虎人后裔Weretiger－kin",
+      "reason": "兽态人血统（skinwalker heritage），归入兽态人实体"
+    },
+    {
+      "value": "狼人后裔Werewolf－kin",
+      "reason": "兽态人血统（skinwalker heritage），归入兽态人实体"
+    },
+    {
+      "value": "属性调整",
+      "reason": "海洋之血文件中的种族特性条目，非种族"
+    },
+    {
+      "value": "中型",
+      "reason": "海洋之血文件中的体型条目，非种族"
+    },
+    {
+      "value": "敏锐嗅觉",
+      "reason": "海洋之血文件中的感官条目，非种族"
+    },
+    {
+      "value": "缓慢速度",
+      "reason": "海洋之血文件中的速度条目，非种族"
+    },
+    {
+      "value": "强力撕咬",
+      "reason": "海洋之血文件中的攻击条目，非种族"
+    },
+    {
+      "value": "雨中狂暴",
+      "reason": "海洋之血文件中的特性条目，非种族"
+    },
+    {
+      "value": "两栖",
+      "reason": "海洋之血文件中的特性条目，非种族"
+    },
+    {
+      "value": "用毒",
+      "reason": "海洋之血文件中的特性条目，非种族"
+    },
+    {
+      "value": "鲨鱼交谈",
+      "reason": "海洋之血文件中的特性条目，非种族"
+    },
+    {
+      "value": "语言",
+      "reason": "海洋之血文件中的语言条目，非种族"
+    },
+    {
+      "value": "魔法幸存者",
+      "reason": "卓克斯虫族页文件中的替换种族特性，非种族"
+    },
+    {
+      "value": "颤动感知",
+      "reason": "卓克斯虫族页文件中的替换种族特性，非种族"
+    },
+    {
+      "value": "影生暗生",
+      "reason": "阴影血脉聚合文件中的影生/暗生替换特性类别，非具体种族"
+    }
+  ]
+}

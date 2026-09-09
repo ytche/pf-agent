@@ -1,0 +1,353 @@
+[http://45.79.87.129/bbs/index.php?topic=76266.0](http://45.79.87.129/bbs/index.php?topic=76266.0)
+
+
+**译者：炽炎烈龙**
+
+
+混职系统（Variant 
+Multiclassing）
+在核心规则之下，兼职系统可以让角色能力有着广泛的差别。这个系统可以让每个角色在第一级时选择一个次要职业（secondary 
+class），使得他不需要放弃主要职业（primary 
+class）上的等级就可以贯穿整个生涯来训练。一旦选择，将会伴其终身（虽然可以使用极限战役中的重训规则，通过支付相当于他重训全部职业等级时消耗的一半，来重训次要职业）。一个角色如果选择混职，将不会在第3,7,11,15和19级时获得专长，但作为替代，他会获得表2-8中描写的次要职业的职业特性。也许混职与普通的兼职系统只选其一是个好主意，但同时使用也未尝不可。在一场游戏中若同时使用这两种系统，角色不能在其混职了的次要职业上获得等级
+
+
+引用
+
+
+表2-8：混职角色晋级
+角色等级 能力
+1    
+         专长
+2          
+   -
+3           次要职业特性
+4    
+         -
+5          
+   专长
+6           -
+7    
+         次要职业特性
+8          
+   -
+9           专长
+10    
+       -
+11        
+   次要职业特性
+12         -
+13    
+       专长
+14         -
+15  
+         次要职业特性
+16        
+   -
+17         专长
+18      
+     -
+19         次要职业特性
+20  
+         -
+
+
+
+
+核心职业
+下列次要职业特性基于核心手册（Core 
+Rulebook）中职业的特性。
+
+野蛮人（Barbarian）
+角色选择野蛮人作为次要职业将获得下列的次要职业特性。
+**狂暴（Rage）：**3级时，获得狂暴职业特性，每天可用轮数等于其体质修正+角色等级。
+**直觉闪避（Uncanny 
+Dodge）：**7级时，获得直觉闪避。
+**狂暴之力（Rage 
+Power）：**11级时，获得一个狂暴之力。在选择狂暴之力时，将1/2角色等级视为有效野蛮人等级；但计算狂暴之力的效果时，将其全角色等级视为有效野蛮人等级
+**伤害减免（Damage 
+Reduction）：**15级时，获得DR 3/-。
+**大狂暴（Greater Rage）：**19级时，获得大狂暴。
+
+吟游诗人（Bard）
+角色选择吟游诗人作为次要职业将获得下列的次要职业特性。
+**逸闻知识（Bardic Knowledge） 
+**；3级时，获得逸闻知识，将全部角色等级视为有效吟游诗人等级。
+**吟游表演（Bardic Performance）：**7级时，获得激发勇气（inspire 
+courage）与提振技能（inspire 
+competence）的吟游表演，如同一名角色等级-4的吟游诗人，每天可用轮数等于其魅力修正+角色等级。
+**多才多艺（Versatile 
+Performance）：**11级时，选择一个表演技能获得多才多艺。他可以将两个相关技能上的全部技能等级免费重训。
+**博学（Lore 
+Master）：**15级时，获得相当于5级吟游诗人的博学特性。
+**额外表演（Bardic Performance）：**19级时，获得末日丧歌（dirge 
+of doom）和 提振战力（inspire greatness）的吟游表演，如同一名角色等级-4的吟游诗人。
+
+牧师（Cleric）
+角色选择牧师作为次要职业将获得下列的次要职业特性。
+**神祇（Deity）：**1级时，必须选择一个与自身阵营在横或竖轴上相差共计一阶之内的神祇信奉。获得牧师的灵光（aura），额外语言，行为准则与相反阵营的施法限制。他也获得了牧师的法术转换/自发施法（spontaneous 
+casting）能力，因此在混职适当准备施法职业时，只要法术列表里有适当的法术，就可以进行法术转换/自发施法。
+**领域（Domain）：**3级时，选择一个所信奉神祇授予的领域，获得领域1级的神授力量（granted 
+power），将角色等级视为有效牧师等级。
+**引导（Channel）：**7级时，获得引导能量（channel 
+energy）能力，如同一个角色等级-6的牧师，每日使用次数等于其魅力修正+1。
+**精通引导（Improved 
+Channel）：**11级时，引导能量能力加强，如同一个角色等级-4的牧师。
+**精通领域（Improved 
+Domain）：**15级时，获得所选择领域的另一个领域力量，将其角色等级视为有效牧师等级。
+**高等引导（Greater 
+Channel）：**19阶级，引导能量能力加强，如同一个角色等级-2的牧师。
+
+德鲁伊（Druid）
+角色选择德鲁伊作为次要职业将获得下列的次要职业。
+**准则（Code）：**1级时，获得德鲁伊语作为奖励语言，并且必须遵守德鲁伊的行为准则——尊敬自然，不将德鲁伊语教给外人，不穿戴金属盔甲等等。
+**野性认同（Wild 
+Empathy）：**3级时，获得野性认同能力，将角色等级视为有效德鲁伊等级。
+**伙伴（Companion）：**7级时，获得一个动物伙伴，如同一个角色等级-4的德鲁伊。除了精通伙伴（Improved 
+Companion，见下）以外，没有任何办法可以提升有效德鲁伊等级。
+**精通伙伴（Improved 
+Companion）：**11级时，动物伙伴加强，如同一个等级等于全部角色等级的德鲁伊。.
+**自然变身（Wild Shape） 
+：**15级时，获得可以变身为小型或中型动物的自然变身能力，一天可以使用两次，每次持续时间为每角色等级1小时。
+**高等自然变身（Greater 
+Wildshape）：**19级时，自然变身能力加强，变身范围包含6级德鲁伊的选项，并且一天可使用三次。
+
+战士（Fighter）
+角色选择战士作为次要职业将获得下列的次要职业特性。
+**英勇（Bravery）：**3级时，获得英勇职业特性，如同一个角色等级-1的战士。
+**盔甲训练1（Armor Training 
+1）：**7级时，获得盔甲训练1..
+**武器训练1（Weapon Training 
+1）：**11级时，获得武器训练1.
+**盔甲训练2（Armor Training 
+2）：**15级时，获得盔甲训练2.
+**武器训练2（Weapon Training 
+2）：**19级时，获得武器训练2.
+
+武僧（Monk）
+角色选择武僧作为次要职业将获得下列的次要职业特性。
+**盔甲（Armor）：**1级时，当穿戴盔甲，使用盾牌，达到中或重载时，失去全部次要武僧能力。
+**徒手打击（Unarmed 
+Strike）：**3级时，获得精通徒手打击（Improved Unarmed 
+Strike）专长，在计算徒手伤害时，如同一个角色等级-2的武僧。
+**反射闪避（Evasion）：**7级时，获得反射闪避。
+**气池（Ki 
+Pool）：**11级时，获得气池职业特性，如同一个角色等级-2的武僧，气池大小为1/2角色等级。只有处于守序阵营才能获得斗气击（守序）。
+**AC加值（AC 
+Bonus）：**15级时，在AC上获得+3闪避加值。
+**精通反射闪避（Improved 
+Evasion）：**19级时，获得精通反射闪避。
+
+圣武士（Paladin）
+角色选择圣武士作为次要职业将获得下列的次要职业特性。
+**准则（Code）：**1级时，获得圣武士的善良灵光（aura 
+of good），同时必须遵守圣武士的行为准则。
+**侦测邪恶（Detect 
+Evil）：**3级时，可以像1级圣武士那样使用侦测邪恶。
+**圣疗（Lay on 
+Hands）：**7级时，获得圣疗能力，每天可用次数等于其1/2角色等级，治疗时如同一个角色等级-4的圣武士。
+**制裁邪恶（Smite 
+Evil）：**11级时，获得制裁邪恶能力，每天1次，如同一个角色等级-4的圣武士。
+**恩惠（Mercy）：**15级时，从3级圣武士恩惠列表里选择一个恩惠。
+**神契（Divine 
+Bond）：**19级时，获得强化武器的神契，如同一个角色等级-3的圣武士
+
+游侠（Ranger）
+角色选择游侠作为次要职业将获得下列的次要职业特性。
+**追踪（Track）：**3级时，获得追踪职业特性，将角色等级视为有效游侠等级。
+**宿敌（Favored 
+Enemy）：**7级时，获得第一宿敌（the 1st favored enemy）职业特性。
+**偏好地形（Favored 
+Terrain）：**11级时，获得第一偏好地形（the 1st favored 
+terrain）职业特性。
+**专家追踪（Expert 
+Tracker）：**15级时，获得穿林步（woodland stride）与快速追踪（swift 
+tracker）职业特性
+**狩猎目标（Quarry）：**19级时，获得狩猎目标职业特性。
+
+盗贼（Rogue） 
+
+角色选择盗贼作为次要职业将获得下列的次要职业特性。
+**寻找陷阱（Trapfinding）：**3级时，获得寻找陷阱职业特性。
+**偷袭（Sneak 
+Attack）：**7级时，获得偷袭职业特性，可以造成1d6点额外伤害。7级之后每4级，此额外伤害增加1d6，直到19级时达到最大的4d6。
+**反射闪避（Evasion）：**11级时，获得反射闪避。
+**直觉闪避（Uncanny 
+Dodge）：**15级时，获得直觉闪避。
+**精通直觉闪避（Improved Uncanny 
+Dodge）：**19级时，获得精通直觉闪避，将角色等级视为有效盗贼等级。
+
+术士（Sorcerer）
+角色选择术士作为次要职业将获得下列的次要职业特性。
+**血统（Bloodline）：**1级时，选择一个术士血统（Sorcerer 
+bloodline）。在全部的血统力量（bloodline powers）上，将角色等级视为有效术士等级。
+**血统力量（Bloodline 
+Power）：**3级时，获得血统的1级血统力量。
+**精通血统力量（Improved Bloodline 
+Power）：**7级时，获得血统的3级血统力量。
+**血之专长（Blood Feat）：**11级时，获得一个血统专长（bloodline’s 
+feat）或施法免材（Eschew Materials）。.
+**高等血统力量（Greater Bloodline 
+Power）：**15级时，获得血统的9级血统力量。
+**最终血统力量（True Bloodline 
+Power）：**19级时，获得血统的15级血统力量。
+
+法师（Wizard）
+角色选择法师作为次要职业将获得下列的次要职业特性。 
+
+**学派（School）：**1级时，选择专精一个法术学派。在全部的学派力量上，将角色等级视为有效法师等级。
+**魔宠（Familiar）：**3级时，获得一只魔宠，将角色等级视为有效法师等级。
+**学派力量（School 
+Power）：**7级时，获得所选择学派的1级学派之力。如果任何1级学派之力在20级时会得到额外效果，混职角色将不能获得该额外效果。
+**戏法（Cantrip）：**11级时，如果智力属性达到10或者更高，可以在所选择的学派中选择一个法师戏法，作为类法术能力（spell-like 
+ability）随意施展。使用角色等级作为施法者等级，智力作为这个戏法的关键属性。
+**发现（Discovery） ：**15级时，获得一个奥术发现（arcane 
+discovery）或法师奖励专长（wizard bonus feat），将角色等级视为有效法师等级。
+**高等学派力量（Greater School 
+Power）：**19级时，获得所选择学派的8级学派之力。
+
+基础职业（BASE 
+CLASSES）
+下列次要职业特性基于进阶玩家手册（Advanced Player’s 
+Guide），极限战斗（Ultimate Combat）和极限魔法（Ultimate Magic）中职业的特性。
+
+炼金术士（Alchemist）
+角色选择炼金术士作为次要职业将获得下列的次要职业特性。
+**炼金术（Alchemy）：**3级时，将角色等级作为表现加值加在全部工艺（炼金术）检定和使用工艺（炼金术）鉴别药水的检定上。
+**炼金炸弹（Bombs） 
+：**7级时，获得每天制作【智力修正+1/2角色等级数量】个炼金炸弹的能力。在计算炼金炸弹伤害上，如同等于全角色等级的炼金术士，但由于没有炼金术士的随手投掷（throw 
+anything）职业特性，无法将智力修正加在伤害上。
+**突变药剂（Mutagen）：**11级时，获得突变药剂职业特性，持续时间为每角色等级10分钟，在喝下突变药剂时如同一个炼金术师。
+**迅捷上毒（Swift 
+Poisoning）：**15级时，获得使用毒药和迅捷上毒能力。
+**毒性免疫（Poison 
+Immunity）：**19级时，将免疫毒素。
+
+骑士（Cavalier）
+角色选择骑士作为次要职业将获得下列的次要职业特性。
+**骑士道（Order）：**1级时，选择一个骑士团，同时必须遵守所选择骑士团的法令。
+**挑战（Challenge）：**3级时，可如同一个角色等级-2的骑士一般，每天使用一次挑战。他可以在挑战上添加基于所选择骑士团给予的适当骑士团调整。
+**骑士道能力（Order 
+Ability）：**7级时，获得所选择骑士团的2级能力，将角色等级视为有效骑士等级。
+**战术（Tactician）：**11级时，获得战术职业特性，将角色等级视为有效骑士等级。
+**高等骑士道能力（Greater Order 
+Ability）：**15级时，获得所选择骑士团的8级能力，将角色等级视为有效骑士等级。
+**高等战术（Greater 
+Tactician）：**19级时，获得高等战术职业特性，将角色等级视为有效骑士等级。
+
+铳士（Gunslinger） 
+
+角色选择铳士作为次要职业将获得下列的次要职业特性。
+**火器擅长（Firearm 
+Proficiency）：**3级时，将会擅长所有的火器。
+**炮匠（Gunsmith）：**7级时，获得炮匠职业特性。
+**炫技（Deed）：**11级时获得业余铳士（Amateur 
+Gunslinger）专长。
+**精通炫技（Improved 
+Deed）：**15级时，选择获得一个3级的铳士炫技。
+**高等炫技（Greater 
+Deed）：**19级时，选择获得一个7级的铳士炫技。
+
+审判者（Inquisitor）
+角色选择审判者作为次要职业将获得下列的次要职业特性。.
+**神祇（Deity）：**1级时，必须选择一个与自身阵营在横或竖轴上相差一阶之内的神祇信奉。获得审判者的行为准则与相反阵营的施法限制。
+**严苛凝视（Stern 
+Gaze）：**3级时，获得严苛凝视职业特性，将角色等级视为有效审判者等级。
+**审判（Judgment）：**7级时，可以使用审判职业特性，每天1次，如同一个角色等级-3的审判者。
+**独行战术（Solo 
+Tactics）：**11级时，获得独行战术职业特性。
+**额外审判（Additional 
+Judgment）：**15级时，每天可使用审判职业特性次数变为2次。
+**双重审判（Second 
+Judgment）：**19级时，获得双重审判能力。
+
+魔战士（Magus）
+角色选择魔战士作为次要职业将获得下列的次要职业特性。 
+
+**奥能力池（Arcane 
+Pool）：**3级时，获得奥能力池职业特性，如同一个角色等级-2的魔战士。
+**魔战士奥能（Magus 
+Arcana）：**7级时，获得一个魔战士奥能。在判断是否能选取一个奥能时，将其角色等级视为有效魔战士等级
+**法术打击（Spellstrike）：**11级时，获得法术打击职业特性，使用法术打击时所用的法术必须在魔战士法术列表内，但可用其它职业的法术位来施放。
+**精通奥能（Improved 
+Arcana）：**15级时，获得一个额外的魔战士奥能。
+**高等奥能（Greater 
+Arcana）：**19级时，获得一个额外的魔战士奥能。
+
+先知（Oracle）
+角色选择先知作为次要职业将获得下列的次要职业特性。.
+**秘示域（Mystery）：**1级时，必须选择一个秘示域。该能力不能满足额外启示（Extra 
+Revelation）专长的先决条件。
+**诅咒（Curse）：**1级时，必须选择一个诅咒。获得全部的诅咒影响，将1/2角色等级视为有效先知等级。 
+
+**启示（Revelation）：**3级时，获得以下列表中适合所选择秘示域的启示中的一个，如同一个角色等级-6（最少1）的先知。选择启示时有效先知等级必须足够高。
+
+
+**战斗秘示域（Battle）：**战壕（Battlecry），战地明晰（Battlefield 
+Clarity），战斗医师（Combat Healer），钢铁之肤（Iron Skin），坚韧身躯（Resiliency），军械精通（Skill at 
+Arms），惊人突进（Surprising Charge），战阵先决（War Sight）。**骨骸秘示域（Bones）：**骨制铠甲（Armor 
+of Bones），流血伤害（Bleeding Wounds），死亡之触（Death's Touch），临近死亡（Near Death），唤起死亡（Raise 
+the Dead），抗拒生命（Resist Life），灵魂吸取（Soul Siphon），灵魂行走（Spirit Walk），不死奴役（Undead 
+Servitude），墓穴之声（Voice of the Grave）。**烈火秘示域（Flame）：**燃烧魔法（Burning 
+Magic），火焰喷吐（Fire Breath），烈焰形态（Form of Flame），火焰凝视（Gaze of Flames），热能光环（Heat 
+Aura），火焰之触（Touch of Flame），火焰之翼（Wings of Fire）。**夜空秘示域（Heavens）：**繁星罩衫（Coat 
+of Many Stars），暗夜居者（Dweller in Darkness），群星引导（Guiding Star），星海虚空（Interstellar 
+Void），苍穹诱惑（Lure of the Heavens），月之帷幕（Mantle of Moonlight），流星飞射（Spray of Shooting 
+Stars），星图预兆（Star Chart）。.**生命秘示域（Life）：**能量引导（Channel），推迟痛苦（Delay 
+Affliction），能量盈身（Energy Body），强力治疗（Enhanced Cures）, 疗者之手（Healing Hands）, 
+生命连结（Life Link）, 生命感知（Lifesense）, 安全治疗（Safe Curing）, 灵性提升（Spirit 
+Boost）。**知识秘示域（Lore）：**奥术学者（Arcane 
+Archivist），巫写预言（Automatic Writing），意识钻刺（Brain Drain），心灵敏锐（Mental 
+Acuity），通晓徽记（Spontaneous Symbology），再三思量（Think On It），快速学习（Whirlwind 
+Lesson）。**自然秘示域（Nature）：**侵蚀之触（Erosion 
+Touch），生命虹吸（Life Leach），自然预知（Natural Divination），动物交谈（Speak with Animals）, 
+天地精魄（Spirit of Nature）, 超然连结（Transcendental Bond）, 还原工艺（Undo 
+Artifice）。. **岩石秘示域（Stone）：**酸性皮肤（Acid 
+Skin），击倒攻击（Clobbering Strike），水晶视野（Crystal Sight），大地穿行（Earth Glide），强力石子（Mighty 
+Pebble），石块投掷（Rock Throwing），碎片爆发（Shard Explosion），破金皮肤（Steelbreaker 
+Skin），强酸之触（Touch of Acid）。**波涛秘示域（Waves）：**暴风雪（Blizzard），流体特性（Fluid 
+Nature），冻寒咒语（Freezing Spells），寒冰铠甲（Ice Armor），冰冷皮肤（Icy Skin），惩罚变形（Punitive 
+Transformation），流水形态（Water Form），流水视野（Water Sight），寒冬之触（Wintry Touch）。**流风秘示域（Wind）：**大气之盾（Air 
+Barrier），气体形态（Gaseous Form），隐形（Invisibility），闪电喷吐（Lightning Breath），闪光皮肤（Spark 
+Skin），雷鸣爆（Thunderburst），闪电之触（Touch of Electricity），漩涡法术（Vortex Spells），风之视野（Wind 
+Sight），风之翼（Wings of Air）。
+
+
+**祷念（Orison）：**7级时，如果魅力属性达到10或者更高，可以选择一个先知祷念作为类法术能力（spell-like 
+ability）随意施展。使用角色等级作为施法者等级，魅力作为这个祷念的关键属性。
+**诅咒焦点（Curse 
+Focus）：**11级时，在决定诅咒效果时，其有效先知等级提升5级。
+**精通启示(Improved 
+Revelation)：**15级时，获得一个额外的启示。
+**高等启示（Greater 
+Revelation）：**19级时，获得一个额外的启示。
+
+召唤师（Summoner）
+角色选择召唤师作为次要职业将获得下列的次要职业特性。
+**召唤怪物（Summon 
+Monster）：**3级时，获得召唤师的召唤怪物类法术能力（spell-like 
+ability），如同一个角色等级-2的召唤师。每天可以使用这个能力1次；施展法术是一个整轮动作，持续时间为每有效召唤师等级1轮。 
+
+**幻灵（Eidolon）：**7级时，获得召唤一只幻灵的能力，其幻灵数据如同一个角色等级-4的召唤师，但进化点数只有一半。此幻灵只能用其召唤怪物（summon 
+monster）类法术能力召唤。
+**额外召唤（Additional 
+Summons）：**11级时，每天可使用召唤怪物类法术能力次数变为3次。
+**幻灵护体（Shield 
+Ally）：**15级时，获得幻灵护体职业特性。
+**异界形态（Aspect）：**19级时，获得异界形态职业特性，但只能从幻灵抽取1点进化点到自身。
+
+女巫（Witch） 
+
+角色选择女巫作为次要职业将获得下列的次要职业特性。
+**庇护主（Patron）：**1级时，选择一个庇护主。但不能满足额外巫术（Extra 
+Hex）专长的先决条件。
+**女巫魔宠（Witch’s 
+Familiar）：**3级时，选择一只魔宠，将角色等级视为有效女巫等级。
+**巫术（Hex）：**7级时，获得一个所选择的巫术，如同1级女巫。如果选择沉眠（slumber）巫术，其只能影响生命骰（Hit 
+Dice）小于等于角色等级的生物。
+**戏法（Cantrip）：**11级时，如果智力属性达到10或者更高，可以选择一个女巫戏法作为类法术能力（spell-like 
+ability）随意施展。使用角色等级作为施法者等级，智力作为这个戏法的关键属性。
+**精通巫术（Improved 
+Hex）：**15级时，获得第二个巫术，如同1级女巫，而第一个巫术则提升为如同8级女巫一样。
+**强力巫术（Major 
+Hex）：**19级时，获得一个强力巫术，如同一个10级女巫，但不能获得冰冢（ice 
+tomb）巫术。

@@ -1,0 +1,80 @@
+# CI — 向量化数据质量闸口（Phase 1，v2.2 决策 D 类目矩阵骨架）
+#
+# 每次 push / PR 按类目矩阵展开验证，本地与 CI 同一事实源（决策 B）：
+#   python3 -m vectorizer.cicd verify --category <类目>
+#   = pytest 类目收集（装配表 tests glob，只跑该类目验收面）→ pipeline
+#     （finalize 后处理链内建，决策 A）→ verify 公共框架 → 数据不变量闸口，
+#     全部由单命令承载，CI 不再维护独立步骤清单。
+#
+# 类目矩阵（决策 D）：feat / race / trait / equipment / rule 五类目启用。
+# ⚠️ 新类目接入 = 矩阵 include 加一行 + cicd/verify.py CATEGORIES 加一行，
+#    零新 CI 文件；output_dir 与 CATEGORIES 同源，两处必须同步。
+#
+# 说明：
+#   - chunks.jsonl 是 gitignored 产物，CI 上 checkout 拿不到，必须现跑 pipeline 生成
+#   - pipeline 输入 pf_rules_md_organized 已入库（4989 文件），CI 可完整复现
+#   - 产物作为 Actions Artifact 归档，供下载/对比（CD 雏形，见交付文档）
+#   - 法术/职业 CI 覆盖延后至全量向量化完成后统一补齐（§8 债表登记）
+name: CI — 向量化数据质量闸口
+
+on:
+  push:
+    branches: ["main", "feat/**"]
+    # KN112 教训：共享层改动必须跑全类目回归，否则基类/公共处理器一处漂移
+    # 会导致其他类目静默回归。paths 只保留与向量化链路相关的文件，避免文档
+    # 提交触发空跑；共享层文件（formats/base.py、processors/base.py、
+    # verify/base.py、normalize_common.py、cicd/）一旦改动即触发完整矩阵。
+    paths:
+      - '.github/workflows/ci.yml'
+      - 'pf_data/phase1/verify_data_invariants.py'
+      - 'pf_data/phase1/regen_*.sh'
+      - 'pf_data/phase1/vectorizer/**'
+  pull_request:
+    paths:
+      - '.github/workflows/ci.yml'
+      - 'pf_data/phase1/verify_data_invariants.py'
+      - 'pf_data/phase1/regen_*.sh'
+      - 'pf_data/phase1/vectorizer/**'
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # 类目矩阵（决策 D）：新类目 = 加一行（category + output_dir）
+          - category: feat
+            output_dir: pf_data/phase1/vectorizer/output/专长
+          - category: race
+            output_dir: pf_data/phase1/vectorizer/output/种族
+          - category: trait
+            output_dir: pf_data/phase1/vectorizer/output/背景特性
+          - category: equipment
+            output_dir: pf_data/phase1/vectorizer/output/装备
+          - category: rule
+            output_dir: pf_data/phase1/vectorizer/output/规则
+    defaults:
+      run:
+        working-directory: pf_data/phase1
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # 仅 pytest：业务代码零外部依赖；runner 纯净 Python 不带 pytest，
+      # 漏装即 No module named pytest（教训 B5：收敛 yml 时环境准备一并删掉的回归）
+      - name: 安装依赖
+        run: pip install pytest
+
+      - name: 完整验证链（pytest → pipeline → verify → 数据不变量）
+        run: python3 -m vectorizer.cicd verify --category ${{ matrix.category }}
+
+      - name: 产物归档（chunks.jsonl 快照，供下载对比）
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.category }}-chunks
+          path: ${{ matrix.output_dir }}/chunks.jsonl
+          if-no-files-found: error

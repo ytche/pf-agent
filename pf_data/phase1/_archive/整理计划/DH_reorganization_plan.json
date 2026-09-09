@@ -1,0 +1,104 @@
+{
+  "source_book": "地城探险者手册",
+  "source_book_english": "Dungeon Explorer's Handbook",
+  "source_dir": "pf_data/phase1/pf_rules_md/未整理/地城探险者手册DH",
+  "stats": {
+    "added": 5,
+    "skipped": 4,
+    "errors": []
+  },
+  "sections": [
+    {
+      "source": "变体/page_535.md",
+      "title": "炽热火炬手",
+      "english": "Blazing Torchbearer",
+      "cls": "炼金术师",
+      "section_title": "变体",
+      "target": "职业/基础职业/炼金术师/全变体未整合.md",
+      "marker": "炽热火炬手",
+      "duplicate_skip": true,
+      "title_format": "inline_body",
+      "action": "skipped",
+      "reason": "existing_content (Blazing Torchbearer)"
+    },
+    {
+      "source": "变体/page_536.md",
+      "title": "马夫",
+      "english": "Groom",
+      "cls": "游侠",
+      "section_title": "变体",
+      "target": "职业/核心职业/游侠/page_51.md",
+      "marker": "马夫",
+      "duplicate_skip": true,
+      "title_format": "no_bold",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "变体/page_537.md",
+      "title": "工兵",
+      "english": "Sapper",
+      "cls": "盗贼",
+      "section_title": "变体",
+      "target": "职业/核心职业/盗贼/page_49.md",
+      "marker": "工兵",
+      "duplicate_skip": true,
+      "title_format": "inline_body",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "背景特性42.md",
+      "title": "光明前途",
+      "english": "",
+      "target": "背景/地城探险者手册DH_背景特性.md",
+      "section_title": "背景特性",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品6.md",
+      "title": "干冰油",
+      "english": "",
+      "target": "装备_魔法物品/货品服务/地城探险者手册DH_物品.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品6.md",
+      "title": "发条响尾蛇",
+      "english": "",
+      "target": "装备_魔法物品/货品服务/地城探险者手册DH_物品.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品6.md",
+      "title": "特种烟玉",
+      "english": "",
+      "target": "装备_魔法物品/货品服务/地城探险者手册DH_物品.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品6.md",
+      "title": "盗贼戒指",
+      "english": "",
+      "target": "装备_魔法物品/货品服务/地城探险者手册DH_物品.md",
+      "section_title": "物品",
+      "action": "added"
+    },
+    {
+      "source": "物品6.md",
+      "title": "盗贼工具延长器",
+      "english": "",
+      "target": "装备_魔法物品/货品服务/地城探险者手册DH_物品.md",
+      "section_title": "物品",
+      "action": "added"
+    }
+  ],
+  "skipped_files": []
+}

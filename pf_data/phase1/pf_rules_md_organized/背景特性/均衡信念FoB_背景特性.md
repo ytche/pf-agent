@@ -1,0 +1,40 @@
+# 均衡信念FoB 背景特性
+
+<!-- 均衡信念FoB-source:背景特性4.md:__aggregate__ -->
+## 均衡信念FoB 背景特性
+> 来源：均衡信念（Faiths of Balance），页码见原书，未整理 → 均衡信念FoB → 背景特性
+**猎尸者（Corpse Hunter）**
+出自《Inner 
+Sea Gods pg. 219, Faiths of Balance pg. 
+17》
+类型：宗教
+需求：法莱斯玛
+你献身于不死生物的毁灭，而且对不死生物的攻击获得+1背景加值。
+
+
+**律法爱好者（Lover of the 
+Law）**
+出自《Inner Sea Gods pg. 221, Faiths of Balance pg. 
+5》
+类型：宗教
+需求：阿巴达尔
+你强烈地信仰法律与公理的正确性。你在对抗魅惑和胁迫效果的豁免检定获得+1背景加值，而且若你被控制去违反法律时，你能试一次新的豁免检定并获得额外+1加值（总加值为+2）。
+
+
+**了解大地（Know the Land）**
+出自《Inner 
+Sea Gods pg. 220, Faiths of Balance pg. 19》
+类型：宗教
+需求：苍翠誓约（Green 
+Faith）
+你熟知各种环境中的动植物，令他在知识［自然］和生存检定获得+1背景加值，而且其中一项视为你的本职技能。
+
+
+**导魂者（Spirit Guide）**
+出自《Inner 
+Sea Gods pg. 222, Faiths of Balance pg. 
+17》
+类型：宗教
+需求：法拉兹玛
+曾经执行或观察过形形色色的人的葬礼的你对许多不同的宗教有了基本理解。你在知识［宗教］检定获得+2背景加值，而且知识［宗教］成为你的本职技能。
+

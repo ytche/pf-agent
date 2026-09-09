@@ -1,0 +1,1389 @@
+{
+  "source_book": "武器大师手册",
+  "source_book_english": "Weapon Master's Handbook",
+  "source_dir": "pf_data/phase1/pf_rules_md/未整理/武器大师手册",
+  "stats": {
+    "added": 13,
+    "skipped": 140,
+    "errors": []
+  },
+  "sections": [
+    {
+      "source": "变体/page_363.md",
+      "title": "伊舒瑞安神射手",
+      "english": "Ilsurian Archers",
+      "cls": "游侠",
+      "section_title": "变体",
+      "target": "职业/核心职业/游侠/page_58.md",
+      "marker": "**伊舒瑞安神射手 Ilsurian",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "变体/page_364.md",
+      "title": "摩尔苏恩随军神父",
+      "english": "Molthuni Arsenal Chaplain",
+      "cls": "战斗祭司",
+      "section_title": "变体",
+      "target": "职业/混合职业/战斗祭司/page_125.md",
+      "marker": "**摩尔苏恩随军神父 Molthuni",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "变体/page_365.md",
+      "title": "龙德勒洛剑客",
+      "english": "Rondelero Swashbucklers",
+      "cls": "游荡剑客",
+      "section_title": "变体",
+      "target": "职业/混合职业/游荡剑客/page_120.md",
+      "marker": "**龙德勒洛剑客 Rondelero",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "变体/page_366.md",
+      "title": "神炼勇士",
+      "english": "Tempered Champions",
+      "cls": "圣骑士",
+      "section_title": "变体",
+      "target": "职业/核心职业/圣骑士/page_55.md",
+      "marker": "**神炼勇士 Tempered",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "变体/page_367.md",
+      "title": "瓦里西亚我流战士",
+      "english": "Varisian Free-Style Fighter",
+      "cls": "战士",
+      "section_title": "变体",
+      "target": "职业/核心职业/战士/page_49.md",
+      "marker": "**瓦里西亚我流战士 Varisian",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "变体/page_367.md",
+      "title": "魔导具大师",
+      "english": "Relic Master",
+      "cls": "战士",
+      "section_title": "变体",
+      "target": "职业/核心职业/战士/page_49.md",
+      "marker": "**魔导具大师 Relic",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_369.md",
+      "title": "武器专家",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "武器掌握专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_369.md",
+      "title": "矢切",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "武器掌握专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_369.md",
+      "title": "法切",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "武器掌握专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_369.md",
+      "title": "万矢切",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "武器掌握专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_369.md",
+      "title": "霸斩",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "武器掌握专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_369.md",
+      "title": "横扫六合",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "武器掌握专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_369.md",
+      "title": "变剑为掌",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "武器掌握专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_369.md",
+      "title": "瞄准一击",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "武器掌握专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_369.md",
+      "title": "武道专家",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "武器掌握专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_369.md",
+      "title": "材质掌握",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "武器掌握专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_369.md",
+      "title": "炼银",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "武器掌握专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_369.md",
+      "title": "火纹钢",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "武器掌握专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_369.md",
+      "title": "解放射击",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "武器掌握专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_369.md",
+      "title": "神射卸武",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "武器掌握专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_369.md",
+      "title": "神射摔绊",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "武器掌握专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_369.md",
+      "title": "穿心射击",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "武器掌握专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_369.md",
+      "title": "回弹投射",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "武器掌握专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_369.md",
+      "title": "万能射击",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "武器掌握专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_369.md",
+      "title": "唯手熟尔",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "武器掌握专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_369.md",
+      "title": "神勇射击",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "武器掌握专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_370.md",
+      "title": "折翎流",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "流派专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_370.md",
+      "title": "矢暴流",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "流派专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_370.md",
+      "title": "枪舞流",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "流派专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_370.md",
+      "title": "刺剑流",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "流派专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_370.md",
+      "title": "无极式",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "流派专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_370.md",
+      "title": "无极型",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "流派专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_370.md",
+      "title": "无极之道",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "流派专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_370.md",
+      "title": "牙突式",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "流派专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_370.md",
+      "title": "牙突进",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "流派专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_370.md",
+      "title": "铁碎式",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "流派专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_370.md",
+      "title": "铁碎爆",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "流派专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_370.md",
+      "title": "铁碎牙",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "流派专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_370.md",
+      "title": "枪舞式",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "流派专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_370.md",
+      "title": "枪舞疾",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "流派专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_370.md",
+      "title": "枪舞觅心",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "流派专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_370.md",
+      "title": "刺剑式",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "流派专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_370.md",
+      "title": "刺剑闪",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "流派专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_370.md",
+      "title": "刺剑格",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "流派专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_370.md",
+      "title": "散星式",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "流派专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_370.md",
+      "title": "散星击",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "流派专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_370.md",
+      "title": "散星流光",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "流派专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_370.md",
+      "title": "矢暴式",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "流派专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_370.md",
+      "title": "矢暴策",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "流派专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_370.md",
+      "title": "矢暴啸",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "流派专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_370.md",
+      "title": "折翎式",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "流派专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_370.md",
+      "title": "折翎迅",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "流派专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_370.md",
+      "title": "断剑折翎",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "流派专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_371.md",
+      "title": "神圣武器技法专长",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "神圣武器技法",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_371.md",
+      "title": "神圣武器技法",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "神圣武器技法",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_371.md",
+      "title": "神圣武器技法",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "神圣武器技法",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_371.md",
+      "title": "铁王斩裂剑",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "神圣武器技法",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_371.md",
+      "title": "终极黄金箭",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "神圣武器技法",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_371.md",
+      "title": "毒蜂夺命鞭",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "神圣武器技法",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_371.md",
+      "title": "醉仙酿剑诀",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "神圣武器技法",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_371.md",
+      "title": "圣女光耀闪",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "神圣武器技法",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_371.md",
+      "title": "暗夜蚀骨索",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "神圣武器技法",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_371.md",
+      "title": "阿斯摩蒂斯的惩戒授权",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "神圣武器技法",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_371.md",
+      "title": "黛丝娜的流星飞刃",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "神圣武器技法",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_371.md",
+      "title": "埃拉斯蒂尔的干扰射击",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "神圣武器技法",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_371.md",
+      "title": "义洛理的完美拳法",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "神圣武器技法",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_371.md",
+      "title": "拉玛什图的残酷切割",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "神圣武器技法",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_371.md",
+      "title": "诺格巴的寂静毒刃",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "神圣武器技法",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_371.md",
+      "title": "拉瓦古格的雷霆巨斧",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "神圣武器技法",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_371.md",
+      "title": "莎伦莱的慈悲刀锋",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "神圣武器技法",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_371.md",
+      "title": "托拉格的耐心锤击",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "神圣武器技法",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_371.md",
+      "title": "苍姬饮命镰",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "神圣武器技法",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_373.md",
+      "title": "魔法物品掌握专长",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "魔法物品掌握专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_373.md",
+      "title": "惑控掌握",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "魔法物品掌握专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_373.md",
+      "title": "诅咒掌握",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "魔法物品掌握专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_373.md",
+      "title": "解法掌握",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "魔法物品掌握专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_373.md",
+      "title": "能量掌握",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "魔法物品掌握专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_373.md",
+      "title": "浮空掌握",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "魔法物品掌握专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_373.md",
+      "title": "幻象掌握",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "魔法物品掌握专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_373.md",
+      "title": "动能掌握",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "魔法物品掌握专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_373.md",
+      "title": "传动掌握",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "魔法物品掌握专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_373.md",
+      "title": "观象掌握",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "魔法物品掌握专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_419.md",
+      "title": "战斗技法",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "战斗技法",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_419.md",
+      "title": "专长",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "战斗技法",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_419.md",
+      "title": "武器技法",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "战斗技法",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_419.md",
+      "title": "选择一种武器技法类别",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "战斗技法",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_419.md",
+      "title": "武器技法类别",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "战斗技法",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_419.md",
+      "title": "擅长此类技法的多为奥多里剑豪",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "战斗技法",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_419.md",
+      "title": "锐齿森林",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "战斗技法",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_419.md",
+      "title": "五王山脉",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "战斗技法",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_419.md",
+      "title": "镣铐群岛",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "战斗技法",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_420.md",
+      "title": "种族武器大师",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "种族武器大师",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_420.md",
+      "title": "矮人气到炸",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "种族武器大师",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_420.md",
+      "title": "矮人恨意流",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "种族武器大师",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_420.md",
+      "title": "矮人怒如火",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "种族武器大师",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_420.md",
+      "title": "精灵武技专攻",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "种族武器大师",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_420.md",
+      "title": "精灵武技",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "种族武器大师",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_420.md",
+      "title": "精灵反击术",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "种族武器大师",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_420.md",
+      "title": "侏儒迷乱打",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "种族武器大师",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_420.md",
+      "title": "侏儒幻影武技",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "种族武器大师",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_420.md",
+      "title": "侏儒幻影奇袭",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "种族武器大师",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_420.md",
+      "title": "兽人暴怒斩",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "种族武器大师",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_420.md",
+      "title": "兽人狂怒斩",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "种族武器大师",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_420.md",
+      "title": "兽人咆哮斩",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "种族武器大师",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_420.md",
+      "title": "半身人轰击手",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "种族武器大师",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_420.md",
+      "title": "半身人投弹兵",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "种族武器大师",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_420.md",
+      "title": "半身人投石术",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "种族武器大师",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_372.md",
+      "title": "进阶武器训练",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "进阶武器训练",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_372.md",
+      "title": "武艺无尽",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "进阶武器训练",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_372.md",
+      "title": "擅长武具",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "进阶武器训练",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_372.md",
+      "title": "战技防御",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "进阶武器训练",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_372.md",
+      "title": "炫目威吓",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "进阶武器训练",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_372.md",
+      "title": "以剑为盾",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "进阶武器训练",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_372.md",
+      "title": "战士之反射",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "进阶武器训练",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_372.md",
+      "title": "一人成军",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "进阶武器训练",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_372.md",
+      "title": "重整旗鼓",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "进阶武器训练",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_372.md",
+      "title": "枕戈待旦",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "进阶武器训练",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_372.md",
+      "title": "习武为艺",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "进阶武器训练",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_372.md",
+      "title": "斧类武器",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "进阶武器训练",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_372.md",
+      "title": "弓类武器",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "进阶武器训练",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_372.md",
+      "title": "近身武器",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "进阶武器训练",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_372.md",
+      "title": "十字弓类武器",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "进阶武器训练",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_372.md",
+      "title": "双头武器",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "进阶武器训练",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_372.md",
+      "title": "火器",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "进阶武器训练",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_372.md",
+      "title": "连枷类武器",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "进阶武器训练",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_372.md",
+      "title": "锤类武器",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "进阶武器训练",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_372.md",
+      "title": "重刃类武器",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "进阶武器训练",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_372.md",
+      "title": "轻刃类武器",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "进阶武器训练",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_372.md",
+      "title": "武僧类武器",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "进阶武器训练",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_372.md",
+      "title": "天生武器",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "进阶武器训练",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_372.md",
+      "title": "长柄武器",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "进阶武器训练",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_372.md",
+      "title": "攻城武器",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "进阶武器训练",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_372.md",
+      "title": "矛类武器",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "进阶武器训练",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_372.md",
+      "title": "投掷武器",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "进阶武器训练",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_372.md",
+      "title": "武器掌握",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "进阶武器训练",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_372.md",
+      "title": "挥洒自如",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "进阶武器训练",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_372.md",
+      "title": "专注武器",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "进阶武器训练",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_372.md",
+      "title": "百兵一心",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "进阶武器训练",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_372.md",
+      "title": "弃卒保帅",
+      "english": "",
+      "target": "专长/武器大师手册_专长.md",
+      "section_title": "进阶武器训练",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_421.md",
+      "title": "推力",
+      "english": "Driving",
+      "target": "装备_魔法物品/武器/武器大师手册_魔法武器.md",
+      "section_title": "魔法武器",
+      "action": "added"
+    },
+    {
+      "source": "page_421.md",
+      "title": "穿心",
+      "english": "Heart-Piercing",
+      "target": "装备_魔法物品/武器/武器大师手册_魔法武器.md",
+      "section_title": "魔法武器",
+      "action": "added"
+    },
+    {
+      "source": "page_421.md",
+      "title": "御力",
+      "english": "Leveraging",
+      "target": "装备_魔法物品/武器/武器大师手册_魔法武器.md",
+      "section_title": "魔法武器",
+      "action": "added"
+    },
+    {
+      "source": "page_421.md",
+      "title": "释放",
+      "english": "Liberating",
+      "target": "装备_魔法物品/武器/武器大师手册_魔法武器.md",
+      "section_title": "魔法武器",
+      "action": "added"
+    },
+    {
+      "source": "page_421.md",
+      "title": "撼地",
+      "english": "Quaking",
+      "target": "装备_魔法物品/武器/武器大师手册_魔法武器.md",
+      "section_title": "魔法武器",
+      "action": "added"
+    },
+    {
+      "source": "page_421.md",
+      "title": "分裂",
+      "english": "Sharding",
+      "target": "装备_魔法物品/武器/武器大师手册_魔法武器.md",
+      "section_title": "魔法武器",
+      "action": "added"
+    },
+    {
+      "source": "page_421.md",
+      "title": "吸血",
+      "english": "Vampiric",
+      "target": "装备_魔法物品/武器/武器大师手册_魔法武器.md",
+      "section_title": "魔法武器",
+      "action": "added"
+    },
+    {
+      "source": "page_421.md",
+      "title": "凯连斗殴杯",
+      "english": "Cailean Fighting Tankard",
+      "target": "装备_魔法物品/武器/武器大师手册_魔法武器.md",
+      "section_title": "魔法武器",
+      "action": "added"
+    },
+    {
+      "source": "page_421.md",
+      "title": "十字军长剑",
+      "english": "Crusader's Longsword",
+      "target": "装备_魔法物品/武器/武器大师手册_魔法武器.md",
+      "section_title": "魔法武器",
+      "action": "added"
+    },
+    {
+      "source": "page_421.md",
+      "title": "盾勋双筒枪",
+      "english": "Shield Marchal's Pistol",
+      "target": "装备_魔法物品/武器/武器大师手册_魔法武器.md",
+      "section_title": "魔法武器",
+      "action": "added"
+    },
+    {
+      "source": "page_421.md",
+      "title": "光荣先祖之矛",
+      "english": "Spear of The Honored Ancestors",
+      "target": "装备_魔法物品/武器/武器大师手册_魔法武器.md",
+      "section_title": "魔法武器",
+      "action": "added"
+    },
+    {
+      "source": "page_421.md",
+      "title": "勇气之刃",
+      "english": "Valorous Blade",
+      "target": "装备_魔法物品/武器/武器大师手册_魔法武器.md",
+      "section_title": "魔法武器",
+      "action": "added"
+    },
+    {
+      "source": "page_421.md",
+      "title": "阅风者之弓",
+      "english": "Windreader's Bow",
+      "target": "装备_魔法物品/武器/武器大师手册_魔法武器.md",
+      "section_title": "魔法武器",
+      "action": "added"
+    },
+    {
+      "source": "page_774.md",
+      "title": "武器设计",
+      "english": "Weapon Design",
+      "target": "规则/武器大师手册_武器设计.md",
+      "section_title": "武器设计规则",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    }
+  ],
+  "skipped_files": []
+}

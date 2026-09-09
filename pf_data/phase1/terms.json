@@ -1,0 +1,7871 @@
+[
+  {
+    "english": "Charm Person",
+    "recommended": "魅惑人类",
+    "category": "法术",
+    "count": 81,
+    "other_translations": []
+  },
+  {
+    "english": "Extend Spell",
+    "recommended": "法术延时",
+    "category": "法术",
+    "count": 70,
+    "other_translations": [
+      "法术延迟专长"
+    ]
+  },
+  {
+    "english": "Dimension Door",
+    "recommended": "任意门",
+    "category": "法术",
+    "count": 53,
+    "other_translations": []
+  },
+  {
+    "english": "Modify Memory",
+    "recommended": "修改记忆",
+    "category": "法术",
+    "count": 48,
+    "other_translations": [
+      "篡改记忆"
+    ]
+  },
+  {
+    "english": "Bestow Curse",
+    "recommended": "降咒",
+    "category": "法术",
+    "count": 46,
+    "other_translations": []
+  },
+  {
+    "english": "True Seeing",
+    "recommended": "真知术",
+    "category": "法术",
+    "count": 45,
+    "other_translations": []
+  },
+  {
+    "english": "Endure Elements",
+    "recommended": "忍受环境",
+    "category": "法术",
+    "count": 45,
+    "other_translations": []
+  },
+  {
+    "english": "Planar Ally",
+    "recommended": "异界盟友",
+    "category": "法术",
+    "count": 44,
+    "other_translations": [
+      "异界盟约"
+    ]
+  },
+  {
+    "english": "Neutralize Poison",
+    "recommended": "中和毒性",
+    "category": "法术",
+    "count": 43,
+    "other_translations": [
+      "中和毒素"
+    ]
+  },
+  {
+    "english": "Dispel Magic",
+    "recommended": "解除魔法",
+    "category": "法术",
+    "count": 42,
+    "other_translations": []
+  },
+  {
+    "english": "Remove Disease",
+    "recommended": "移除疾病",
+    "category": "法术",
+    "count": 42,
+    "other_translations": [
+      "或解除疾病",
+      "烟火术"
+    ]
+  },
+  {
+    "english": "Resist Energy",
+    "recommended": "抵抗能量伤害",
+    "category": "法术",
+    "count": 40,
+    "other_translations": []
+  },
+  {
+    "english": "Detect Thoughts",
+    "recommended": "侦测思想",
+    "category": "法术",
+    "count": 40,
+    "other_translations": []
+  },
+  {
+    "english": "Minor Magic",
+    "recommended": "次级魔法",
+    "category": "法术",
+    "count": 39,
+    "other_translations": [
+      "和次等魔法"
+    ]
+  },
+  {
+    "english": "Spell Resistance",
+    "recommended": "法术抗力",
+    "category": "法术",
+    "count": 38,
+    "other_translations": [
+      "抗法"
+    ]
+  },
+  {
+    "english": "Warp Wood",
+    "recommended": "曲木术",
+    "category": "法术",
+    "count": 37,
+    "other_translations": []
+  },
+  {
+    "english": "Break Enchantment",
+    "recommended": "破除结界",
+    "category": "法术",
+    "count": 37,
+    "other_translations": []
+  },
+  {
+    "english": "Remove Curse",
+    "recommended": "移除诅咒",
+    "category": "法术",
+    "count": 37,
+    "other_translations": []
+  },
+  {
+    "english": "Summon Monster",
+    "recommended": "召唤怪物",
+    "category": "法术",
+    "count": 36,
+    "other_translations": []
+  },
+  {
+    "english": "Faerie Fire",
+    "recommended": "妖火",
+    "category": "法术",
+    "count": 36,
+    "other_translations": []
+  },
+  {
+    "english": "Cause Fear",
+    "recommended": "惊恐术",
+    "category": "法术",
+    "count": 34,
+    "other_translations": []
+  },
+  {
+    "english": "Planar Binding",
+    "recommended": "或异界誓缚",
+    "category": "法术",
+    "count": 34,
+    "other_translations": []
+  },
+  {
+    "english": "Shield Other",
+    "recommended": "护卫他人",
+    "category": "法术",
+    "count": 34,
+    "other_translations": []
+  },
+  {
+    "english": "Delay Poison",
+    "recommended": "减缓毒发",
+    "category": "法术",
+    "count": 34,
+    "other_translations": []
+  },
+  {
+    "english": "Tree Stride",
+    "recommended": "融身入林",
+    "category": "法术",
+    "count": 34,
+    "other_translations": [
+      "树跃术"
+    ]
+  },
+  {
+    "english": "Gaseous Form",
+    "recommended": "气化形体",
+    "category": "法术",
+    "count": 34,
+    "other_translations": [
+      "气体形态"
+    ]
+  },
+  {
+    "english": "Enlarge Person",
+    "recommended": "变巨术",
+    "category": "法术",
+    "count": 32,
+    "other_translations": []
+  },
+  {
+    "english": "Wind Wall",
+    "recommended": "风墙术",
+    "category": "法术",
+    "count": 32,
+    "other_translations": []
+  },
+  {
+    "english": "Raise Dead",
+    "recommended": "死者复活",
+    "category": "法术",
+    "count": 32,
+    "other_translations": []
+  },
+  {
+    "english": "Charm Monster",
+    "recommended": "魅惑怪物",
+    "category": "法术",
+    "count": 31,
+    "other_translations": []
+  },
+  {
+    "english": "Cure Serious Wounds",
+    "recommended": "治疗重伤",
+    "category": "法术",
+    "count": 31,
+    "other_translations": []
+  },
+  {
+    "english": "Summon Swarm",
+    "recommended": "飞虫走兽",
+    "category": "法术",
+    "count": 29,
+    "other_translations": []
+  },
+  {
+    "english": "Locate Creature",
+    "recommended": "生物定位术",
+    "category": "法术",
+    "count": 28,
+    "other_translations": []
+  },
+  {
+    "english": "Deeper Darkness",
+    "recommended": "深幽黑暗术",
+    "category": "法术",
+    "count": 28,
+    "other_translations": []
+  },
+  {
+    "english": "Arcane Bond",
+    "recommended": "奥术联结",
+    "category": "法术",
+    "count": 28,
+    "other_translations": []
+  },
+  {
+    "english": "Move Earth",
+    "recommended": "移土术",
+    "category": "法术",
+    "count": 28,
+    "other_translations": [
+      "地动术"
+    ]
+  },
+  {
+    "english": "Share Spells",
+    "recommended": "法术共享",
+    "category": "法术",
+    "count": 28,
+    "other_translations": [
+      "分享法术"
+    ]
+  },
+  {
+    "english": "Prying Eyes",
+    "recommended": "窥视魔眼",
+    "category": "法术",
+    "count": 28,
+    "other_translations": []
+  },
+  {
+    "english": "Fire Shield",
+    "recommended": "火焰护盾",
+    "category": "法术",
+    "count": 26,
+    "other_translations": []
+  },
+  {
+    "english": "Deliver Touch Spells",
+    "recommended": "和传递接触法术",
+    "category": "法术",
+    "count": 26,
+    "other_translations": []
+  },
+  {
+    "english": "Plane Shift",
+    "recommended": "异界传送",
+    "category": "法术",
+    "count": 26,
+    "other_translations": []
+  },
+  {
+    "english": "Control Weather",
+    "recommended": "操控天气",
+    "category": "法术",
+    "count": 26,
+    "other_translations": [
+      "操纵天气"
+    ]
+  },
+  {
+    "english": "Discern Lies",
+    "recommended": "辨识谎言",
+    "category": "法术",
+    "count": 26,
+    "other_translations": [
+      "辨知谎言"
+    ]
+  },
+  {
+    "english": "Phantom Steed",
+    "recommended": "魅影驹",
+    "category": "法术",
+    "count": 25,
+    "other_translations": []
+  },
+  {
+    "english": "Death Ward",
+    "recommended": "防死结界",
+    "category": "法术",
+    "count": 24,
+    "other_translations": []
+  },
+  {
+    "english": "Hold Person",
+    "recommended": "人类定身术",
+    "category": "法术",
+    "count": 24,
+    "other_translations": []
+  },
+  {
+    "english": "Fog Cloud",
+    "recommended": "云雾术",
+    "category": "法术",
+    "count": 24,
+    "other_translations": []
+  },
+  {
+    "english": "Spiritual Weapon",
+    "recommended": "灵能武器",
+    "category": "法术",
+    "count": 24,
+    "other_translations": []
+  },
+  {
+    "english": "Unseen Servant",
+    "recommended": "隐形仆役",
+    "category": "法术",
+    "count": 24,
+    "other_translations": [
+      "隐型仆役"
+    ]
+  },
+  {
+    "english": "Detect Poison",
+    "recommended": "侦测毒性",
+    "category": "法术",
+    "count": 23,
+    "other_translations": [
+      "侦测毒素"
+    ]
+  },
+  {
+    "english": "Bonus Spells",
+    "recommended": "奖励法术",
+    "category": "法术",
+    "count": 22,
+    "other_translations": []
+  },
+  {
+    "english": "Feather Fall",
+    "recommended": "羽落术",
+    "category": "法术",
+    "count": 22,
+    "other_translations": []
+  },
+  {
+    "english": "Spell Turning",
+    "recommended": "法术反转",
+    "category": "法术",
+    "count": 22,
+    "other_translations": []
+  },
+  {
+    "english": "Stone Shape",
+    "recommended": "塑石术",
+    "category": "法术",
+    "count": 22,
+    "other_translations": []
+  },
+  {
+    "english": "Spider Climb",
+    "recommended": "蛛行术",
+    "category": "法术",
+    "count": 22,
+    "other_translations": []
+  },
+  {
+    "english": "Tree Shape",
+    "recommended": "树化术",
+    "category": "法术",
+    "count": 22,
+    "other_translations": []
+  },
+  {
+    "english": "See Invisibility",
+    "recommended": "识破隐形",
+    "category": "法术",
+    "count": 22,
+    "other_translations": []
+  },
+  {
+    "english": "Magic Aura",
+    "recommended": "魔法灵光",
+    "category": "法术",
+    "count": 22,
+    "other_translations": []
+  },
+  {
+    "english": "Mind Blank",
+    "recommended": "心灵屏障",
+    "category": "法术",
+    "count": 22,
+    "other_translations": []
+  },
+  {
+    "english": "Flame Blade",
+    "recommended": "火焰刀",
+    "category": "法术",
+    "count": 22,
+    "other_translations": []
+  },
+  {
+    "english": "Plant Growth",
+    "recommended": "植物滋长",
+    "category": "法术",
+    "count": 22,
+    "other_translations": []
+  },
+  {
+    "english": "Earth Glide",
+    "recommended": "潜地",
+    "category": "法术",
+    "count": 22,
+    "other_translations": [
+      "的遁地",
+      "大地穿行"
+    ]
+  },
+  {
+    "english": "Animate Dead",
+    "recommended": "操纵死尸",
+    "category": "法术",
+    "count": 22,
+    "other_translations": [
+      "操控死尸"
+    ]
+  },
+  {
+    "english": "Make Whole",
+    "recommended": "完全修复术",
+    "category": "法术",
+    "count": 21,
+    "other_translations": []
+  },
+  {
+    "english": "Dominate Person",
+    "recommended": "支配人类",
+    "category": "法术",
+    "count": 21,
+    "other_translations": []
+  },
+  {
+    "english": "Crushing Despair",
+    "recommended": "极度绝望",
+    "category": "法术",
+    "count": 21,
+    "other_translations": []
+  },
+  {
+    "english": "Limited Wish",
+    "recommended": "有限祈愿术",
+    "category": "法术",
+    "count": 20,
+    "other_translations": []
+  },
+  {
+    "english": "Ethereal Jaunt",
+    "recommended": "幻化灵体",
+    "category": "法术",
+    "count": 20,
+    "other_translations": []
+  },
+  {
+    "english": "Cure Light Wounds",
+    "recommended": "治疗轻伤",
+    "category": "法术",
+    "count": 20,
+    "other_translations": []
+  },
+  {
+    "english": "Death Knell",
+    "recommended": "死亡丧钟",
+    "category": "法术",
+    "count": 20,
+    "other_translations": []
+  },
+  {
+    "english": "Water Walk",
+    "recommended": "水面行走",
+    "category": "法术",
+    "count": 20,
+    "other_translations": []
+  },
+  {
+    "english": "Animal Growth",
+    "recommended": "动物异变",
+    "category": "法术",
+    "count": 20,
+    "other_translations": []
+  },
+  {
+    "english": "Hydraulic Push",
+    "recommended": "水流冲击",
+    "category": "法术",
+    "count": 20,
+    "other_translations": [
+      "水压术"
+    ]
+  },
+  {
+    "english": "True Strike",
+    "recommended": "克敌机先",
+    "category": "法术",
+    "count": 20,
+    "other_translations": []
+  },
+  {
+    "english": "Major Magic",
+    "recommended": "高级魔法",
+    "category": "法术",
+    "count": 20,
+    "other_translations": []
+  },
+  {
+    "english": "Detect Undead",
+    "recommended": "侦测死灵",
+    "category": "法术",
+    "count": 20,
+    "other_translations": [
+      "侦测亡灵"
+    ]
+  },
+  {
+    "english": "Minor Image",
+    "recommended": "弱效幻影",
+    "category": "法术",
+    "count": 20,
+    "other_translations": []
+  },
+  {
+    "english": "Energy Resistance",
+    "recommended": "抗能",
+    "category": "法术",
+    "count": 20,
+    "other_translations": [
+      "能量抗力",
+      "能量抵抗"
+    ]
+  },
+  {
+    "english": "Mindscape Door",
+    "recommended": "心像门",
+    "category": "法术",
+    "count": 20,
+    "other_translations": []
+  },
+  {
+    "english": "Hold Monster",
+    "recommended": "怪物定身术",
+    "category": "法术",
+    "count": 19,
+    "other_translations": []
+  },
+  {
+    "english": "Alter Self",
+    "recommended": "变身术",
+    "category": "法术",
+    "count": 19,
+    "other_translations": []
+  },
+  {
+    "english": "Irresistible Dance",
+    "recommended": "迷舞",
+    "category": "法术",
+    "count": 19,
+    "other_translations": []
+  },
+  {
+    "english": "Animate Objects",
+    "recommended": "活化物体",
+    "category": "法术",
+    "count": 19,
+    "other_translations": []
+  },
+  {
+    "english": "Detect Magic",
+    "recommended": "侦测魔法",
+    "category": "法术",
+    "count": 19,
+    "other_translations": []
+  },
+  {
+    "english": "Major Creation",
+    "recommended": "强效造物术",
+    "category": "法术",
+    "count": 18,
+    "other_translations": []
+  },
+  {
+    "english": "Hideous Laughter",
+    "recommended": "狂笑术",
+    "category": "法术",
+    "count": 18,
+    "other_translations": []
+  },
+  {
+    "english": "Silent Spell",
+    "recommended": "法术默发",
+    "category": "法术",
+    "count": 18,
+    "other_translations": []
+  },
+  {
+    "english": "Obscuring Mist",
+    "recommended": "隐雾术",
+    "category": "法术",
+    "count": 18,
+    "other_translations": []
+  },
+  {
+    "english": "Keen Edge",
+    "recommended": "锐锋术",
+    "category": "法术",
+    "count": 18,
+    "other_translations": []
+  },
+  {
+    "english": "Disguise Self",
+    "recommended": "易容术",
+    "category": "法术",
+    "count": 18,
+    "other_translations": []
+  },
+  {
+    "english": "Spell Mastery",
+    "recommended": "法术掌握",
+    "category": "法术",
+    "count": 18,
+    "other_translations": [
+      "或法术熟稔",
+      "法术熟稔"
+    ]
+  },
+  {
+    "english": "Wood Shape",
+    "recommended": "塑木术",
+    "category": "法术",
+    "count": 18,
+    "other_translations": []
+  },
+  {
+    "english": "Flame Strike",
+    "recommended": "焰击术",
+    "category": "法术",
+    "count": 18,
+    "other_translations": []
+  },
+  {
+    "english": "Arcane School",
+    "recommended": "奥术学派",
+    "category": "法术",
+    "count": 18,
+    "other_translations": []
+  },
+  {
+    "english": "Dispel Evil",
+    "recommended": "反制邪恶",
+    "category": "法术",
+    "count": 18,
+    "other_translations": []
+  },
+  {
+    "english": "Air Step",
+    "recommended": "踏风而行",
+    "category": "法术",
+    "count": 18,
+    "other_translations": []
+  },
+  {
+    "english": "Expeditious Retreat",
+    "recommended": "脚底抹油",
+    "category": "法术",
+    "count": 18,
+    "other_translations": []
+  },
+  {
+    "english": "Good Hope",
+    "recommended": "强大希望",
+    "category": "法术",
+    "count": 18,
+    "other_translations": []
+  },
+  {
+    "english": "Speak With Haunt",
+    "recommended": "作祟灵交谈",
+    "category": "法术",
+    "count": 18,
+    "other_translations": []
+  },
+  {
+    "english": "False Life",
+    "recommended": "虚假生命",
+    "category": "法术",
+    "count": 18,
+    "other_translations": [
+      "因此疑为"
+    ]
+  },
+  {
+    "english": "Telepathic Bond",
+    "recommended": "心灵连线",
+    "category": "法术",
+    "count": 18,
+    "other_translations": []
+  },
+  {
+    "english": "Cure Moderate Wounds",
+    "recommended": "治疗中度伤",
+    "category": "法术",
+    "count": 18,
+    "other_translations": [
+      "治疗中伤"
+    ]
+  },
+  {
+    "english": "Lightning Stance",
+    "recommended": "闪电步",
+    "category": "法术",
+    "count": 18,
+    "other_translations": []
+  },
+  {
+    "english": "Unholy Blight",
+    "recommended": "邪影击",
+    "category": "法术",
+    "count": 18,
+    "other_translations": [
+      "秽邪恶疫"
+    ]
+  },
+  {
+    "english": "Whispering Wind",
+    "recommended": "风讯术",
+    "category": "法术",
+    "count": 17,
+    "other_translations": []
+  },
+  {
+    "english": "Ghost Sound",
+    "recommended": "幻音术",
+    "category": "法术",
+    "count": 17,
+    "other_translations": []
+  },
+  {
+    "english": "Scorching Ray",
+    "recommended": "灼热射线",
+    "category": "法术",
+    "count": 17,
+    "other_translations": []
+  },
+  {
+    "english": "Legend Lore",
+    "recommended": "通晓传奇",
+    "category": "法术",
+    "count": 17,
+    "other_translations": []
+  },
+  {
+    "english": "Blurred Movement",
+    "recommended": "飘渺步伐",
+    "category": "法术",
+    "count": 17,
+    "other_translations": []
+  },
+  {
+    "english": "Heightened Awareness",
+    "recommended": "强化认知",
+    "category": "法术",
+    "count": 17,
+    "other_translations": []
+  },
+  {
+    "english": "Long Arm",
+    "recommended": "长臂咒",
+    "category": "法术",
+    "count": 17,
+    "other_translations": []
+  },
+  {
+    "english": "Repel Vermin",
+    "recommended": "驱离害虫",
+    "category": "法术",
+    "count": 17,
+    "other_translations": [
+      "驱离虫类"
+    ]
+  },
+  {
+    "english": "Persistent Image",
+    "recommended": "长驻幻影",
+    "category": "法术",
+    "count": 17,
+    "other_translations": [
+      "常驻幻影"
+    ]
+  },
+  {
+    "english": "Heighten Spell",
+    "recommended": "法术升阶",
+    "category": "法术",
+    "count": 16,
+    "other_translations": []
+  },
+  {
+    "english": "Create Water",
+    "recommended": "造水术",
+    "category": "法术",
+    "count": 16,
+    "other_translations": []
+  },
+  {
+    "english": "Detect Secret Doors",
+    "recommended": "侦测密门",
+    "category": "法术",
+    "count": 16,
+    "other_translations": []
+  },
+  {
+    "english": "Magic Vestment",
+    "recommended": "魔化防具",
+    "category": "法术",
+    "count": 16,
+    "other_translations": []
+  },
+  {
+    "english": "Shocking Grasp",
+    "recommended": "电爪",
+    "category": "法术",
+    "count": 16,
+    "other_translations": []
+  },
+  {
+    "english": "Comprehend Languages",
+    "recommended": "通晓语言",
+    "category": "法术",
+    "count": 16,
+    "other_translations": []
+  },
+  {
+    "english": "Gentle Repose",
+    "recommended": "遗体防腐",
+    "category": "法术",
+    "count": 16,
+    "other_translations": []
+  },
+  {
+    "english": "Command Plants",
+    "recommended": "命令植物",
+    "category": "法术",
+    "count": 16,
+    "other_translations": []
+  },
+  {
+    "english": "Ice Storm",
+    "recommended": "冰风暴",
+    "category": "法术",
+    "count": 16,
+    "other_translations": []
+  },
+  {
+    "english": "Phantasmal Killer",
+    "recommended": "魅影杀手",
+    "category": "法术",
+    "count": 16,
+    "other_translations": []
+  },
+  {
+    "english": "Dominate Animal",
+    "recommended": "支配动物",
+    "category": "法术",
+    "count": 16,
+    "other_translations": []
+  },
+  {
+    "english": "Lightning Bolt",
+    "recommended": "闪电束",
+    "category": "法术",
+    "count": 16,
+    "other_translations": []
+  },
+  {
+    "english": "Summon Monster IV",
+    "recommended": "四级召唤怪物",
+    "category": "法术",
+    "count": 16,
+    "other_translations": [
+      "四级怪物召唤术"
+    ]
+  },
+  {
+    "english": "Chaos Hammer",
+    "recommended": "混乱之锤",
+    "category": "法术",
+    "count": 16,
+    "other_translations": []
+  },
+  {
+    "english": "Invisibility Sphere",
+    "recommended": "隐形法球",
+    "category": "法术",
+    "count": 15,
+    "other_translations": []
+  },
+  {
+    "english": "Sculpt Sound",
+    "recommended": "塑语术",
+    "category": "法术",
+    "count": 15,
+    "other_translations": [
+      "或塑声术",
+      "塑声术"
+    ]
+  },
+  {
+    "english": "Secret Chest",
+    "recommended": "秘藏箱",
+    "category": "法术",
+    "count": 15,
+    "other_translations": []
+  },
+  {
+    "english": "Aura Sight",
+    "recommended": "阵营视域",
+    "category": "法术",
+    "count": 15,
+    "other_translations": []
+  },
+  {
+    "english": "Monkey Fish",
+    "recommended": "猴爪鱼鳍",
+    "category": "法术",
+    "count": 15,
+    "other_translations": []
+  },
+  {
+    "english": "Deep Slumber",
+    "recommended": "深度睡眠",
+    "category": "法术",
+    "count": 15,
+    "other_translations": []
+  },
+  {
+    "english": "Marionette Possession",
+    "recommended": "傀儡凭依",
+    "category": "法术",
+    "count": 15,
+    "other_translations": []
+  },
+  {
+    "english": "Fluid Form",
+    "recommended": "液体形态",
+    "category": "法术",
+    "count": 15,
+    "other_translations": [
+      "流体身躯"
+    ]
+  },
+  {
+    "english": "Programmed Image",
+    "recommended": "预置幻影",
+    "category": "法术",
+    "count": 15,
+    "other_translations": []
+  },
+  {
+    "english": "Shadow Step",
+    "recommended": "暗影步",
+    "category": "法术",
+    "count": 15,
+    "other_translations": [
+      "步影术"
+    ]
+  },
+  {
+    "english": "Daze Monster",
+    "recommended": "怪物晕眩术",
+    "category": "法术",
+    "count": 14,
+    "other_translations": []
+  },
+  {
+    "english": "Mirror Image",
+    "recommended": "镜影术",
+    "category": "法术",
+    "count": 14,
+    "other_translations": []
+  },
+  {
+    "english": "Quick Disable",
+    "recommended": "快速解除",
+    "category": "法术",
+    "count": 14,
+    "other_translations": []
+  },
+  {
+    "english": "Quicken Spell",
+    "recommended": "法术瞬发",
+    "category": "法术",
+    "count": 14,
+    "other_translations": [
+      "类法术能力顺发专长"
+    ]
+  },
+  {
+    "english": "Solid Fog",
+    "recommended": "重雾术",
+    "category": "法术",
+    "count": 14,
+    "other_translations": []
+  },
+  {
+    "english": "Flaming Sphere",
+    "recommended": "炽焰法球",
+    "category": "法术",
+    "count": 14,
+    "other_translations": []
+  },
+  {
+    "english": "Energy Drain",
+    "recommended": "吸能术",
+    "category": "法术",
+    "count": 14,
+    "other_translations": [
+      "能量吸取"
+    ]
+  },
+  {
+    "english": "Mind Swap",
+    "recommended": "换身术",
+    "category": "法术",
+    "count": 14,
+    "other_translations": [
+      "替换为"
+    ]
+  },
+  {
+    "english": "Halt Undead",
+    "recommended": "死灵定身术",
+    "category": "法术",
+    "count": 14,
+    "other_translations": []
+  },
+  {
+    "english": "Teleport Object",
+    "recommended": "物品传送术",
+    "category": "法术",
+    "count": 14,
+    "other_translations": []
+  },
+  {
+    "english": "Detect Evil",
+    "recommended": "侦测邪恶",
+    "category": "法术",
+    "count": 14,
+    "other_translations": []
+  },
+  {
+    "english": "Smite Evil",
+    "recommended": "制裁邪恶",
+    "category": "法术",
+    "count": 14,
+    "other_translations": []
+  },
+  {
+    "english": "Burning Hands",
+    "recommended": "燃烧之手",
+    "category": "法术",
+    "count": 14,
+    "other_translations": []
+  },
+  {
+    "english": "Chill Touch",
+    "recommended": "寒冷之触",
+    "category": "法术",
+    "count": 14,
+    "other_translations": []
+  },
+  {
+    "english": "Stricken Heart",
+    "recommended": "剜心手",
+    "category": "法术",
+    "count": 14,
+    "other_translations": []
+  },
+  {
+    "english": "Disfiguring Touch",
+    "recommended": "毁容之触",
+    "category": "法术",
+    "count": 14,
+    "other_translations": []
+  },
+  {
+    "english": "Pernicious Poison",
+    "recommended": "致命药引",
+    "category": "法术",
+    "count": 14,
+    "other_translations": []
+  },
+  {
+    "english": "Acute Senses",
+    "recommended": "敏锐感官",
+    "category": "法术",
+    "count": 14,
+    "other_translations": []
+  },
+  {
+    "english": "Nature Magic",
+    "recommended": "自然魔法",
+    "category": "法术",
+    "count": 14,
+    "other_translations": []
+  },
+  {
+    "english": "Guiding Star",
+    "recommended": "群星的引导",
+    "category": "法术",
+    "count": 14,
+    "other_translations": [
+      "群星引导"
+    ]
+  },
+  {
+    "english": "Battlemind Link",
+    "recommended": "心有灵犀",
+    "category": "法术",
+    "count": 14,
+    "other_translations": [
+      "战意连结"
+    ]
+  },
+  {
+    "english": "Raise Animal Companion",
+    "recommended": "友伴复活",
+    "category": "法术",
+    "count": 14,
+    "other_translations": []
+  },
+  {
+    "english": "Charm Animal",
+    "recommended": "魅惑动物",
+    "category": "法术",
+    "count": 14,
+    "other_translations": []
+  },
+  {
+    "english": "Inflict Serious Wounds",
+    "recommended": "造成重伤",
+    "category": "法术",
+    "count": 14,
+    "other_translations": []
+  },
+  {
+    "english": "Time Stop",
+    "recommended": "时间静止",
+    "category": "法术",
+    "count": 14,
+    "other_translations": [
+      "时间停止"
+    ]
+  },
+  {
+    "english": "Water Breathing",
+    "recommended": "水中呼吸",
+    "category": "法术",
+    "count": 14,
+    "other_translations": []
+  },
+  {
+    "english": "Wild Shape",
+    "recommended": "自然变身",
+    "category": "法术",
+    "count": 14,
+    "other_translations": []
+  },
+  {
+    "english": "Temporal Stasis",
+    "recommended": "永恒静滞",
+    "category": "法术",
+    "count": 14,
+    "other_translations": []
+  },
+  {
+    "english": "Undetectable Alignment",
+    "recommended": "隐匿阵营",
+    "category": "法术",
+    "count": 14,
+    "other_translations": []
+  },
+  {
+    "english": "Call Spirit",
+    "recommended": "呼唤魂魄",
+    "category": "法术",
+    "count": 14,
+    "other_translations": [
+      "那么在决定"
+    ]
+  },
+  {
+    "english": "Divine Bond",
+    "recommended": "神契",
+    "category": "法术",
+    "count": 14,
+    "other_translations": []
+  },
+  {
+    "english": "Bullet Ward",
+    "recommended": "弹丸结界",
+    "category": "法术",
+    "count": 13,
+    "other_translations": []
+  },
+  {
+    "english": "Locate Object",
+    "recommended": "物品定位术",
+    "category": "法术",
+    "count": 13,
+    "other_translations": []
+  },
+  {
+    "english": "Silent Image",
+    "recommended": "无声幻影",
+    "category": "法术",
+    "count": 13,
+    "other_translations": []
+  },
+  {
+    "english": "Ablative Barrier",
+    "recommended": "超越之障",
+    "category": "法术",
+    "count": 13,
+    "other_translations": []
+  },
+  {
+    "english": "Create Treasure Map",
+    "recommended": "创造宝图",
+    "category": "法术",
+    "count": 13,
+    "other_translations": []
+  },
+  {
+    "english": "Detect Scrying",
+    "recommended": "侦测探知",
+    "category": "法术",
+    "count": 13,
+    "other_translations": []
+  },
+  {
+    "english": "Reckless Infatuation",
+    "recommended": "疯狂迷恋",
+    "category": "法术",
+    "count": 13,
+    "other_translations": []
+  },
+  {
+    "english": "Major Image",
+    "recommended": "强效幻影",
+    "category": "法术",
+    "count": 13,
+    "other_translations": []
+  },
+  {
+    "english": "Animal Aspect",
+    "recommended": "动物形态",
+    "category": "法术",
+    "count": 13,
+    "other_translations": []
+  },
+  {
+    "english": "Masterwork Transformation",
+    "recommended": "鬼斧神工",
+    "category": "法术",
+    "count": 13,
+    "other_translations": [
+      "精致品转变术"
+    ]
+  },
+  {
+    "english": "Sonic Thrust",
+    "recommended": "音波冲击",
+    "category": "法术",
+    "count": 13,
+    "other_translations": [
+      "音响震爆"
+    ]
+  },
+  {
+    "english": "Minor Creation",
+    "recommended": "弱效造物术",
+    "category": "法术",
+    "count": 12,
+    "other_translations": []
+  },
+  {
+    "english": "Entropic Shield",
+    "recommended": "熵光护盾",
+    "category": "法术",
+    "count": 12,
+    "other_translations": []
+  },
+  {
+    "english": "Adjustable Polymorph",
+    "recommended": "可调变身术",
+    "category": "法术",
+    "count": 12,
+    "other_translations": []
+  },
+  {
+    "english": "Remove Fear",
+    "recommended": "移除恐惧",
+    "category": "法术",
+    "count": 12,
+    "other_translations": []
+  },
+  {
+    "english": "Baleful Polymorph",
+    "recommended": "恶意变形术",
+    "category": "法术",
+    "count": 12,
+    "other_translations": []
+  },
+  {
+    "english": "Stinking Cloud",
+    "recommended": "臭云术",
+    "category": "法术",
+    "count": 12,
+    "other_translations": []
+  },
+  {
+    "english": "Shrink Item",
+    "recommended": "缩物术",
+    "category": "法术",
+    "count": 12,
+    "other_translations": []
+  },
+  {
+    "english": "Shadow Walk",
+    "recommended": "行影术",
+    "category": "法术",
+    "count": 12,
+    "other_translations": []
+  },
+  {
+    "english": "Spell Focus",
+    "recommended": "法术专攻",
+    "category": "法术",
+    "count": 12,
+    "other_translations": []
+  },
+  {
+    "english": "Still Spell",
+    "recommended": "法术定发",
+    "category": "法术",
+    "count": 12,
+    "other_translations": [
+      "超魔或者"
+    ]
+  },
+  {
+    "english": "Diminish Plants",
+    "recommended": "植物凋零术",
+    "category": "法术",
+    "count": 12,
+    "other_translations": []
+  },
+  {
+    "english": "Magic Weapon",
+    "recommended": "魔化武器",
+    "category": "法术",
+    "count": 12,
+    "other_translations": []
+  },
+  {
+    "english": "Align Weapon",
+    "recommended": "阵营武器",
+    "category": "法术",
+    "count": 12,
+    "other_translations": []
+  },
+  {
+    "english": "Contact Other Plane",
+    "recommended": "异界探知",
+    "category": "法术",
+    "count": 12,
+    "other_translations": []
+  },
+  {
+    "english": "Heat Metal",
+    "recommended": "灼热金属",
+    "category": "法术",
+    "count": 12,
+    "other_translations": []
+  },
+  {
+    "english": "Euphoric Cloud",
+    "recommended": "欢欣之云",
+    "category": "法术",
+    "count": 12,
+    "other_translations": []
+  },
+  {
+    "english": "Focused Scrutiny",
+    "recommended": "监察焦点",
+    "category": "法术",
+    "count": 12,
+    "other_translations": []
+  },
+  {
+    "english": "Ghostly Disguise",
+    "recommended": "幽灵伪装",
+    "category": "法术",
+    "count": 12,
+    "other_translations": []
+  },
+  {
+    "english": "Fickle Winds",
+    "recommended": "无相之风",
+    "category": "法术",
+    "count": 12,
+    "other_translations": []
+  },
+  {
+    "english": "Web Shelter",
+    "recommended": "蛛网庇护所",
+    "category": "法术",
+    "count": 12,
+    "other_translations": []
+  },
+  {
+    "english": "Effortless Armor",
+    "recommended": "轻便盔甲",
+    "category": "法术",
+    "count": 12,
+    "other_translations": []
+  },
+  {
+    "english": "Insect Plague",
+    "recommended": "疫病虫群",
+    "category": "法术",
+    "count": 12,
+    "other_translations": []
+  },
+  {
+    "english": "Air Walk",
+    "recommended": "凌空而行",
+    "category": "法术",
+    "count": 12,
+    "other_translations": []
+  },
+  {
+    "english": "Stunning Barrier",
+    "recommended": "反震屏障",
+    "category": "法术",
+    "count": 12,
+    "other_translations": []
+  },
+  {
+    "english": "Share Language",
+    "recommended": "共享语言",
+    "category": "法术",
+    "count": 12,
+    "other_translations": []
+  },
+  {
+    "english": "Calm Animals",
+    "recommended": "安抚动物",
+    "category": "法术",
+    "count": 12,
+    "other_translations": []
+  },
+  {
+    "english": "Forbid Action",
+    "recommended": "行动禁制",
+    "category": "法术",
+    "count": 12,
+    "other_translations": []
+  },
+  {
+    "english": "Holy Smite",
+    "recommended": "圣光击",
+    "category": "法术",
+    "count": 12,
+    "other_translations": []
+  },
+  {
+    "english": "Magic Mouth",
+    "recommended": "魔嘴",
+    "category": "法术",
+    "count": 12,
+    "other_translations": []
+  },
+  {
+    "english": "Discern Location",
+    "recommended": "感知位置",
+    "category": "法术",
+    "count": 12,
+    "other_translations": []
+  },
+  {
+    "english": "Fire Storm",
+    "recommended": "火焰风暴",
+    "category": "法术",
+    "count": 12,
+    "other_translations": []
+  },
+  {
+    "english": "Wind Walk",
+    "recommended": "御风而行",
+    "category": "法术",
+    "count": 12,
+    "other_translations": []
+  },
+  {
+    "english": "Antilife Shell",
+    "recommended": "防活物护罩",
+    "category": "法术",
+    "count": 12,
+    "other_translations": [
+      "反活物护罩"
+    ]
+  },
+  {
+    "english": "Command Undead",
+    "recommended": "命令死灵",
+    "category": "法术",
+    "count": 12,
+    "other_translations": [
+      "命令亡灵"
+    ]
+  },
+  {
+    "english": "Ethereal Envelope",
+    "recommended": "灵界睡茧",
+    "category": "法术",
+    "count": 12,
+    "other_translations": []
+  },
+  {
+    "english": "Fleeting Memory",
+    "recommended": "转眼即逝",
+    "category": "法术",
+    "count": 12,
+    "other_translations": []
+  },
+  {
+    "english": "Nature Bond",
+    "recommended": "自然纽带",
+    "category": "法术",
+    "count": 12,
+    "other_translations": []
+  },
+  {
+    "english": "Control Winds",
+    "recommended": "操纵风相",
+    "category": "法术",
+    "count": 12,
+    "other_translations": [
+      "操控风向"
+    ]
+  },
+  {
+    "english": "Mad Hallucination",
+    "recommended": "疯狂幻象",
+    "category": "法术",
+    "count": 11,
+    "other_translations": []
+  },
+  {
+    "english": "Shadow Conjuration",
+    "recommended": "幽影咒法术",
+    "category": "法术",
+    "count": 11,
+    "other_translations": []
+  },
+  {
+    "english": "Project Image",
+    "recommended": "投影术",
+    "category": "法术",
+    "count": 11,
+    "other_translations": []
+  },
+  {
+    "english": "Tiny Hut",
+    "recommended": "避难小屋",
+    "category": "法术",
+    "count": 11,
+    "other_translations": []
+  },
+  {
+    "english": "Thorn Body",
+    "recommended": "荆刺之躯",
+    "category": "法术",
+    "count": 11,
+    "other_translations": []
+  },
+  {
+    "english": "Anchored Step",
+    "recommended": "足底生根",
+    "category": "法术",
+    "count": 11,
+    "other_translations": []
+  },
+  {
+    "english": "Extreme Flexibility",
+    "recommended": "极度柔韧",
+    "category": "法术",
+    "count": 11,
+    "other_translations": []
+  },
+  {
+    "english": "Invisibility Alarm",
+    "recommended": "反隐警报",
+    "category": "法术",
+    "count": 11,
+    "other_translations": []
+  },
+  {
+    "english": "Mindlocked Messenger",
+    "recommended": "心锁信使",
+    "category": "法术",
+    "count": 11,
+    "other_translations": []
+  },
+  {
+    "english": "Phantom Blood",
+    "recommended": "虚幻之血",
+    "category": "法术",
+    "count": 11,
+    "other_translations": []
+  },
+  {
+    "english": "Pierce Disguise",
+    "recommended": "洞见伪装",
+    "category": "法术",
+    "count": 11,
+    "other_translations": []
+  },
+  {
+    "english": "Unbearable Brightness",
+    "recommended": "刺目强光",
+    "category": "法术",
+    "count": 11,
+    "other_translations": []
+  },
+  {
+    "english": "Polypurpose Panacea",
+    "recommended": "万灵秘药",
+    "category": "法术",
+    "count": 11,
+    "other_translations": []
+  },
+  {
+    "english": "Oppressive Boredom",
+    "recommended": "闲极无聊",
+    "category": "法术",
+    "count": 11,
+    "other_translations": []
+  },
+  {
+    "english": "Steal Voice",
+    "recommended": "盗取嗓音",
+    "category": "法术",
+    "count": 11,
+    "other_translations": []
+  },
+  {
+    "english": "Wartrain Mount",
+    "recommended": "战斗坐骑",
+    "category": "法术",
+    "count": 11,
+    "other_translations": []
+  },
+  {
+    "english": "Terrible Remorse",
+    "recommended": "深沉忏悔",
+    "category": "法术",
+    "count": 11,
+    "other_translations": []
+  },
+  {
+    "english": "Envious Urge",
+    "recommended": "羡慕嫉妒恨",
+    "category": "法术",
+    "count": 11,
+    "other_translations": []
+  },
+  {
+    "english": "Permanent Image",
+    "recommended": "永恒幻影",
+    "category": "法术",
+    "count": 11,
+    "other_translations": []
+  },
+  {
+    "english": "Anticipate Peril",
+    "recommended": "预知危险",
+    "category": "法术",
+    "count": 11,
+    "other_translations": []
+  },
+  {
+    "english": "Absorb Toxicity",
+    "recommended": "汲取苦难",
+    "category": "法术",
+    "count": 11,
+    "other_translations": []
+  },
+  {
+    "english": "Perceive Cues",
+    "recommended": "察觉细节",
+    "category": "法术",
+    "count": 11,
+    "other_translations": []
+  },
+  {
+    "english": "Mad Monkeys",
+    "recommended": "疯狂猴群",
+    "category": "法术",
+    "count": 11,
+    "other_translations": []
+  },
+  {
+    "english": "Resonating Word",
+    "recommended": "共振之语",
+    "category": "法术",
+    "count": 11,
+    "other_translations": []
+  },
+  {
+    "english": "Hallucinatory Terrain",
+    "recommended": "幻景",
+    "category": "法术",
+    "count": 11,
+    "other_translations": []
+  },
+  {
+    "english": "Secret Page",
+    "recommended": "秘密文页",
+    "category": "法术",
+    "count": 11,
+    "other_translations": []
+  },
+  {
+    "english": "Touch Injection",
+    "recommended": "接触注射",
+    "category": "法术",
+    "count": 11,
+    "other_translations": []
+  },
+  {
+    "english": "Countless Eyes",
+    "recommended": "无尽之眼",
+    "category": "法术",
+    "count": 11,
+    "other_translations": []
+  },
+  {
+    "english": "Psychic Surgery",
+    "recommended": "心智手术",
+    "category": "法术",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Magic Fang",
+    "recommended": "魔牙术",
+    "category": "法术",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Adjustable Disguise",
+    "recommended": "可调易容术",
+    "category": "法术",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Disguise Weapon",
+    "recommended": "武器伪装术",
+    "category": "法术",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Wave Shield",
+    "recommended": "波涛护盾",
+    "category": "法术",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Horrid Wilting",
+    "recommended": "凋死术",
+    "category": "法术",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Call Lightning",
+    "recommended": "召雷术",
+    "category": "法术",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Spike Stones",
+    "recommended": "刺石术",
+    "category": "法术",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Stone Tell",
+    "recommended": "石言术",
+    "category": "法术",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Spell Immunity",
+    "recommended": "法术免疫",
+    "category": "法术",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Searing Light",
+    "recommended": "灼热光辉",
+    "category": "法术",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Hex Glyph",
+    "recommended": "巫术刻文",
+    "category": "法术",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Empower Spell",
+    "recommended": "法术强效",
+    "category": "法术",
+    "count": 10,
+    "other_translations": [
+      "强效法术"
+    ]
+  },
+  {
+    "english": "Know Direction",
+    "recommended": "指北术",
+    "category": "法术",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Sympathetic Vibration",
+    "recommended": "共振术",
+    "category": "法术",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Magic Siege Engine",
+    "recommended": "魔化攻城器械",
+    "category": "法术",
+    "count": 10,
+    "other_translations": [
+      "魔法攻城器械"
+    ]
+  },
+  {
+    "english": "Spell Trigger",
+    "recommended": "法术触发型",
+    "category": "法术",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Spell Completion",
+    "recommended": "和法术完成型",
+    "category": "法术",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Detect Law",
+    "recommended": "侦测秩序",
+    "category": "法术",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Detect Chaos",
+    "recommended": "侦测混乱",
+    "category": "法术",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Obscure Object",
+    "recommended": "遮蔽物品",
+    "category": "法术",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "ENERGIZE WEAPON",
+    "recommended": "注能武器",
+    "category": "法术",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Disrupting Weapon",
+    "recommended": "毁灭武器",
+    "category": "法术",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Sound Burst",
+    "recommended": "音鸣爆",
+    "category": "法术",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Purge Spirit",
+    "recommended": "净除精魂",
+    "category": "法术",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Forceful Hand",
+    "recommended": "飞击掌",
+    "category": "法术",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Sonic Form",
+    "recommended": "音波形态",
+    "category": "法术",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Time Shudder",
+    "recommended": "时间乱流",
+    "category": "法术",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Animal Messenger",
+    "recommended": "动物信使",
+    "category": "法术",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Arcane Eye",
+    "recommended": "秘法眼",
+    "category": "法术",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Inflict Light Wounds",
+    "recommended": "造成轻伤",
+    "category": "法术",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Creeping Doom",
+    "recommended": "漫天虫蚀",
+    "category": "法术",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Magic Missile",
+    "recommended": "魔法飞弹",
+    "category": "法术",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Acid Arrow",
+    "recommended": "强酸箭",
+    "category": "法术",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Cushioning Bands",
+    "recommended": "缓冲护垫",
+    "category": "法术",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Black Tentacles",
+    "recommended": "黑触手",
+    "category": "法术",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Dimensional Anchor",
+    "recommended": "次元锚",
+    "category": "法术",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Seek Thoughts",
+    "recommended": "探寻思想",
+    "category": "法术",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Remove Paralysis",
+    "recommended": "移除麻痹",
+    "category": "法术",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Divine Inks",
+    "recommended": "级且已选取神墨",
+    "category": "法术",
+    "count": 10,
+    "other_translations": [
+      "和神墨"
+    ]
+  },
+  {
+    "english": "Aggressive Thundercloud",
+    "recommended": "雷云侵袭",
+    "category": "法术",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Repair Undead",
+    "recommended": "修复死灵",
+    "category": "法术",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Named Bullet",
+    "recommended": "指名狙杀",
+    "category": "法术",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Hydraulic Torrent",
+    "recommended": "水流爆发",
+    "category": "法术",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Compel Hostility",
+    "recommended": "强迫敌对",
+    "category": "法术",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Arcane Sight",
+    "recommended": "秘法视力",
+    "category": "法术",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Antimagic Field",
+    "recommended": "反魔场",
+    "category": "法术",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Excruciating Deformation",
+    "recommended": "痛苦异变",
+    "category": "法术",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Magic Jar",
+    "recommended": "魔魂壶",
+    "category": "法术",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Strangling Hair",
+    "recommended": "窒息之发",
+    "category": "法术",
+    "count": 10,
+    "other_translations": [
+      "绞杀之发"
+    ]
+  },
+  {
+    "english": "Unbreakable Construct",
+    "recommended": "坚不可摧",
+    "category": "法术",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Instigate Psychic Duel",
+    "recommended": "异能宣战",
+    "category": "法术",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Frightening Tune",
+    "recommended": "和恐惧魔音",
+    "category": "法术",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Astral Projection",
+    "recommended": "星界投射",
+    "category": "法术",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Magic Shop",
+    "recommended": "奇货商店",
+    "category": "法术",
+    "count": 10,
+    "other_translations": [
+      "魔法道具店",
+      "魔法商铺"
+    ]
+  },
+  {
+    "english": "Explosive Runes",
+    "recommended": "比如爆裂符文",
+    "category": "法术",
+    "count": 10,
+    "other_translations": [
+      "爆裂神符"
+    ]
+  },
+  {
+    "english": "Spell Lattice",
+    "recommended": "咒法晶格",
+    "category": "法术",
+    "count": 9,
+    "other_translations": []
+  },
+  {
+    "english": "PAGE OF SPELL KNOWLEDGE",
+    "recommended": "法术知识书页",
+    "category": "法术",
+    "count": 9,
+    "other_translations": []
+  },
+  {
+    "english": "Ant Haul",
+    "recommended": "重负术",
+    "category": "法术",
+    "count": 9,
+    "other_translations": []
+  },
+  {
+    "english": "Stone Fist",
+    "recommended": "石拳术",
+    "category": "法术",
+    "count": 9,
+    "other_translations": []
+  },
+  {
+    "english": "Contingent Scroll",
+    "recommended": "卷轴触发术",
+    "category": "法术",
+    "count": 9,
+    "other_translations": []
+  },
+  {
+    "english": "Triggered Suggestion",
+    "recommended": "触发型暗示术",
+    "category": "法术",
+    "count": 9,
+    "other_translations": []
+  },
+  {
+    "english": "Shadow Evocation",
+    "recommended": "幽影塑能术",
+    "category": "法术",
+    "count": 9,
+    "other_translations": []
+  },
+  {
+    "english": "Tactical Acumen",
+    "recommended": "战术敏锐",
+    "category": "法术",
+    "count": 9,
+    "other_translations": []
+  },
+  {
+    "english": "Summon Monster III",
+    "recommended": "三级怪物召唤术",
+    "category": "法术",
+    "count": 9,
+    "other_translations": [
+      "三级召唤怪物"
+    ]
+  },
+  {
+    "english": "Magaambyan Arcanist",
+    "recommended": "玛迦安比恩秘术师",
+    "category": "法术",
+    "count": 9,
+    "other_translations": [
+      "玛伽姆比安秘术师"
+    ]
+  },
+  {
+    "english": "Summon Monster V",
+    "recommended": "五级怪物召唤术",
+    "category": "法术",
+    "count": 9,
+    "other_translations": [
+      "五级召唤怪物"
+    ]
+  },
+  {
+    "english": "Mirage Arcana",
+    "recommended": "海市蜃楼",
+    "category": "法术",
+    "count": 9,
+    "other_translations": []
+  },
+  {
+    "english": "Feast On Fear",
+    "recommended": "恐惧饕宴",
+    "category": "法术",
+    "count": 9,
+    "other_translations": []
+  },
+  {
+    "english": "Malicious Spite",
+    "recommended": "恶意迫害",
+    "category": "法术",
+    "count": 9,
+    "other_translations": []
+  },
+  {
+    "english": "Smug Narcissism",
+    "recommended": "极度自恋",
+    "category": "法术",
+    "count": 9,
+    "other_translations": []
+  },
+  {
+    "english": "Mind Fog",
+    "recommended": "心灵迷雾",
+    "category": "法术",
+    "count": 9,
+    "other_translations": []
+  },
+  {
+    "english": "Phantasmal Web",
+    "recommended": "魅影蛛网",
+    "category": "法术",
+    "count": 9,
+    "other_translations": []
+  },
+  {
+    "english": "Dust Form",
+    "recommended": "沙化形态",
+    "category": "法术",
+    "count": 9,
+    "other_translations": []
+  },
+  {
+    "english": "Control Summoned Creature",
+    "recommended": "控制召唤生物",
+    "category": "法术",
+    "count": 9,
+    "other_translations": []
+  },
+  {
+    "english": "Distracting Cacophony",
+    "recommended": "扰人噪音",
+    "category": "法术",
+    "count": 9,
+    "other_translations": []
+  },
+  {
+    "english": "Share Memory",
+    "recommended": "共享记忆",
+    "category": "法术",
+    "count": 9,
+    "other_translations": []
+  },
+  {
+    "english": "Vitriolic Mist",
+    "recommended": "硫酸之雾",
+    "category": "法术",
+    "count": 9,
+    "other_translations": []
+  },
+  {
+    "english": "Ghostbane Dirge",
+    "recommended": "镇魂曲",
+    "category": "法术",
+    "count": 9,
+    "other_translations": []
+  },
+  {
+    "english": "Blood Biography",
+    "recommended": "血之讯息",
+    "category": "法术",
+    "count": 9,
+    "other_translations": []
+  },
+  {
+    "english": "Winter Witch",
+    "recommended": "冬女巫",
+    "category": "法术",
+    "count": 9,
+    "other_translations": []
+  },
+  {
+    "english": "Eruptive Pustules",
+    "recommended": "脓疱之疹",
+    "category": "法术",
+    "count": 9,
+    "other_translations": []
+  },
+  {
+    "english": "Vocal Alteration",
+    "recommended": "扭曲嗓音",
+    "category": "法术",
+    "count": 9,
+    "other_translations": []
+  },
+  {
+    "english": "Discordant Blast",
+    "recommended": "噪音爆破",
+    "category": "法术",
+    "count": 9,
+    "other_translations": [
+      "不谐音爆"
+    ]
+  },
+  {
+    "english": "Create Mindscape",
+    "recommended": "塑造心像结界",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Detect Mindscape",
+    "recommended": "侦测心像结界",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Eagle Eye",
+    "recommended": "鹰眼术",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Stone Call",
+    "recommended": "召岩术",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Sickening Entanglement",
+    "recommended": "毒液纠缠术",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Stone Discus",
+    "recommended": "石盘术",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Unliving Rage",
+    "recommended": "死灵狂暴术",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Maximize Spell",
+    "recommended": "法术极效",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Invisibility Purge",
+    "recommended": "消除隐形",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Produce Flame",
+    "recommended": "燃火术",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Enlarge Spell",
+    "recommended": "法术增远",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Domain Spells",
+    "recommended": "领域法术",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Acid Fog",
+    "recommended": "酸雾术",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Greater Tactician",
+    "recommended": "高等战术",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Reduce Person",
+    "recommended": "缩小术",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Major Hex",
+    "recommended": "强力巫术",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Augment Summoning",
+    "recommended": "增强召唤",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Chain Lightning",
+    "recommended": "连环闪电",
+    "category": "法术",
+    "count": 8,
+    "other_translations": [
+      "连锁闪电"
+    ]
+  },
+  {
+    "english": "Detect Good",
+    "recommended": "侦测善良",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Mage Armor",
+    "recommended": "法师护甲",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Refine Improvised Weapon",
+    "recommended": "强固临时武器",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Sun Metal",
+    "recommended": "阳炎武器",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Bless Weapon",
+    "recommended": "祝福武器",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Calm Emotions",
+    "recommended": "安定心神",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Color Spray",
+    "recommended": "七彩喷射",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Sow Thought",
+    "recommended": "播种思想",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Righteous Might",
+    "recommended": "正气如虹",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Dream Council",
+    "recommended": "梦境会议",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Ectoplasmic Snare",
+    "recommended": "灵质捕网",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Emotive Block",
+    "recommended": "情感障碍",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Entrap Spirit",
+    "recommended": "囚困魂魄",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Ghost Whip",
+    "recommended": "鬼冥长鞭",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Grave Words",
+    "recommended": "墓穴之语",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Mind Probe",
+    "recommended": "精神质询",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Telekinetic Projectile",
+    "recommended": "念动射弹",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Prismatic Spray",
+    "recommended": "虹光喷射",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Inflict Moderate Wounds",
+    "recommended": "造成中度伤",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Mirror Polish",
+    "recommended": "镜面抛光",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Sunder Breaker",
+    "recommended": "破武反冲",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Unprepared Combatant",
+    "recommended": "手忙脚乱",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Howling Agony",
+    "recommended": "惨嚎剧痛",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Foster Hatred",
+    "recommended": "煽动恨意",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Dancing Darkness",
+    "recommended": "起舞于黯",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Spectral Hand",
+    "recommended": "幽灵手",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Blade Barrier",
+    "recommended": "剑刃护壁",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Conjure Black Pudding",
+    "recommended": "召唤黑布丁怪",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Eagle Aerie",
+    "recommended": "召唤鹰群",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Unshakable Chill",
+    "recommended": "覆体之寒",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Interposing Hand",
+    "recommended": "护身掌",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Inflict Critical Wounds",
+    "recommended": "造成致命伤",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Acid Splash",
+    "recommended": "酸液飞溅",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Mage Hand",
+    "recommended": "法师之手",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Sleet Storm",
+    "recommended": "雪风暴",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Disrupt Undead",
+    "recommended": "打击死灵",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Miasmatic Form",
+    "recommended": "瘴气形态",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Condensed Ether",
+    "recommended": "以太凝聚场",
+    "category": "法术",
+    "count": 8,
+    "other_translations": [
+      "乙太凝聚场"
+    ]
+  },
+  {
+    "english": "Inflict Pain",
+    "recommended": "苦痛刑罚",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Oneiric Horror",
+    "recommended": "恐惧梦魇",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Divine Power",
+    "recommended": "神能",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Evolution Surge",
+    "recommended": "激励进化",
+    "category": "法术",
+    "count": 8,
+    "other_translations": [
+      "目标魅力调整值"
+    ]
+  },
+  {
+    "english": "Hypnotic Pattern",
+    "recommended": "催眠图纹",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Unnatural Lust",
+    "recommended": "欲火焚身",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Frost Mammoth",
+    "recommended": "复霜猛玛",
+    "category": "法术",
+    "count": 8,
+    "other_translations": [
+      "覆霜猛玛"
+    ]
+  },
+  {
+    "english": "Find Traps",
+    "recommended": "与寻找陷阱",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Spiritual Ally",
+    "recommended": "或灵能盟友",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Abundant Ammunition",
+    "recommended": "弹药补给",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Energy Siege Shot",
+    "recommended": "能量炮击",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Hostile Juxtaposition",
+    "recommended": "恶意换位",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Dominate Monster",
+    "recommended": "支配怪物",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Flame Arrow",
+    "recommended": "火焰箭",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Dream Feast",
+    "recommended": "梦中飨宴",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Banish Seeming",
+    "recommended": "表象祛除",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Dimensional Lock",
+    "recommended": "次元锁",
+    "category": "法术",
+    "count": 8,
+    "other_translations": [
+      "空间锁"
+    ]
+  },
+  {
+    "english": "Lighten Object",
+    "recommended": "轻量化",
+    "category": "法术",
+    "count": 8,
+    "other_translations": [
+      "群体物品轻量"
+    ]
+  },
+  {
+    "english": "Slow Fall",
+    "recommended": "武僧轻身落",
+    "category": "法术",
+    "count": 8,
+    "other_translations": [
+      "轻身坠"
+    ]
+  },
+  {
+    "english": "Analyze Dweomer",
+    "recommended": "解析咒文",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Antiplant Shell",
+    "recommended": "反植物护罩",
+    "category": "法术",
+    "count": 8,
+    "other_translations": [
+      "防植物护罩"
+    ]
+  },
+  {
+    "english": "Call Lightning Storm",
+    "recommended": "召唤雷电风暴",
+    "category": "法术",
+    "count": 8,
+    "other_translations": [
+      "召唤雷暴"
+    ]
+  },
+  {
+    "english": "Calm Spirit",
+    "recommended": "安抚魂魄",
+    "category": "法术",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Reduce Animal",
+    "recommended": "动物缩小术",
+    "category": "法术",
+    "count": 7,
+    "other_translations": []
+  },
+  {
+    "english": "Muffle Sound",
+    "recommended": "消音术",
+    "category": "法术",
+    "count": 7,
+    "other_translations": []
+  },
+  {
+    "english": "Rogue Crawl",
+    "recommended": "盗贼匍匐术",
+    "category": "法术",
+    "count": 7,
+    "other_translations": []
+  },
+  {
+    "english": "Alchemical Allocation",
+    "recommended": "炼金反刍",
+    "category": "法术",
+    "count": 7,
+    "other_translations": []
+  },
+  {
+    "english": "Elude Time",
+    "recommended": "假死",
+    "category": "法术",
+    "count": 7,
+    "other_translations": []
+  },
+  {
+    "english": "Enter Image",
+    "recommended": "意识投影",
+    "category": "法术",
+    "count": 7,
+    "other_translations": []
+  },
+  {
+    "english": "Rainbow Pattern",
+    "recommended": "虹彩图纹",
+    "category": "法术",
+    "count": 7,
+    "other_translations": []
+  },
+  {
+    "english": "Adhesive Blood",
+    "recommended": "凝胶之血",
+    "category": "法术",
+    "count": 7,
+    "other_translations": []
+  },
+  {
+    "english": "Adhesive Spittle",
+    "recommended": "黏性唾液",
+    "category": "法术",
+    "count": 7,
+    "other_translations": []
+  },
+  {
+    "english": "Nauseating Trail",
+    "recommended": "臭气四溢",
+    "category": "法术",
+    "count": 7,
+    "other_translations": []
+  },
+  {
+    "english": "Silent Table",
+    "recommended": "隔音罩",
+    "category": "法术",
+    "count": 7,
+    "other_translations": []
+  },
+  {
+    "english": "Sonic Scream",
+    "recommended": "音爆狂嚎",
+    "category": "法术",
+    "count": 7,
+    "other_translations": []
+  },
+  {
+    "english": "Haunting Choir",
+    "recommended": "哀鸣合唱团",
+    "category": "法术",
+    "count": 7,
+    "other_translations": []
+  },
+  {
+    "english": "Primal Scream",
+    "recommended": "原初怒嚎",
+    "category": "法术",
+    "count": 7,
+    "other_translations": []
+  },
+  {
+    "english": "Joyful Rapture",
+    "recommended": "欢欣鼓舞",
+    "category": "法术",
+    "count": 7,
+    "other_translations": []
+  },
+  {
+    "english": "Adjuring Step",
+    "recommended": "谨慎步伐",
+    "category": "法术",
+    "count": 7,
+    "other_translations": []
+  },
+  {
+    "english": "Age Resistance",
+    "recommended": "岁月抵抗",
+    "category": "法术",
+    "count": 7,
+    "other_translations": []
+  },
+  {
+    "english": "Defensive Shock",
+    "recommended": "闪电之盾",
+    "category": "法术",
+    "count": 7,
+    "other_translations": []
+  },
+  {
+    "english": "Miserable Pity",
+    "recommended": "示敌以弱",
+    "category": "法术",
+    "count": 7,
+    "other_translations": []
+  },
+  {
+    "english": "Snapdragon Fireworks",
+    "recommended": "火龙烟花",
+    "category": "法术",
+    "count": 7,
+    "other_translations": []
+  },
+  {
+    "english": "Youthful Appearance",
+    "recommended": "返老还童",
+    "category": "法术",
+    "count": 7,
+    "other_translations": []
+  },
+  {
+    "english": "Secure Shelter",
+    "recommended": "庇护所",
+    "category": "法术",
+    "count": 7,
+    "other_translations": []
+  },
+  {
+    "english": "Fire Breath",
+    "recommended": "火焰吐息",
+    "category": "法术",
+    "count": 7,
+    "other_translations": [
+      "火焰喷吐"
+    ]
+  },
+  {
+    "english": "Cacophonous Call",
+    "recommended": "扰神唤音",
+    "category": "法术",
+    "count": 7,
+    "other_translations": []
+  },
+  {
+    "english": "Elemental Touch",
+    "recommended": "元素之触",
+    "category": "法术",
+    "count": 7,
+    "other_translations": []
+  },
+  {
+    "english": "Treasure Stitching",
+    "recommended": "藏宝刺绣",
+    "category": "法术",
+    "count": 7,
+    "other_translations": [
+      "次豁免"
+    ]
+  },
+  {
+    "english": "Negate Aroma",
+    "recommended": "消除气味",
+    "category": "法术",
+    "count": 7,
+    "other_translations": []
+  },
+  {
+    "english": "Sepia Snake Sigil",
+    "recommended": "蛇文法印",
+    "category": "法术",
+    "count": 7,
+    "other_translations": [
+      "蛇纹法印"
+    ]
+  },
+  {
+    "english": "Floating Disk",
+    "recommended": "浮碟术",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Minor Dream",
+    "recommended": "弱效托梦术",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Blood Blaze",
+    "recommended": "燃血术",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Blood Scent",
+    "recommended": "嗅血术",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Create Pit",
+    "recommended": "造坑术",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "True Form",
+    "recommended": "现形术",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Thorny Entanglement",
+    "recommended": "飞刺纠缠术",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Illusory Wall",
+    "recommended": "幻墙术",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Air Bubble",
+    "recommended": "气泡术",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Hold Animal",
+    "recommended": "动物定身术",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Magic Stone",
+    "recommended": "魔石术",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Ice Crystal Teleport",
+    "recommended": "冰晶传送",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Restore Eidolon",
+    "recommended": "幻灵复原术",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Telekinetic Sphere",
+    "recommended": "灵动法球",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Woodland Step",
+    "recommended": "木行术",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Ice Slick",
+    "recommended": "冰滑术",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Ice Spears",
+    "recommended": "冰矛术",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Aqueous Orb",
+    "recommended": "水牢法球",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Slay Living",
+    "recommended": "杀生术",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Dancing Lights",
+    "recommended": "舞光术",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Hold Portal",
+    "recommended": "封门术",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Rope Trick",
+    "recommended": "魔绳术",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Soul Bind",
+    "recommended": "缚魂术",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Giant Vermin",
+    "recommended": "巨虫术",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Fire Seeds",
+    "recommended": "火种术",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Ectoplasmic Spell",
+    "recommended": "跨界法术",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Shadow Weapon",
+    "recommended": "幽影武器",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Divine Favor",
+    "recommended": "神恩",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Resilient Reservoir",
+    "recommended": "惩戒之池",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Savage Maw",
+    "recommended": "野蛮大嘴",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Vomit Twin",
+    "recommended": "吐个分身",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Agonizing Rebuke",
+    "recommended": "苦痛责难",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Akashic Form",
+    "recommended": "阿卡西构形",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Deja Vu",
+    "recommended": "既视感",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Incorporeal Chains",
+    "recommended": "虚魂锁链",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Psychic Duels",
+    "recommended": "异能决斗",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Primal Regression",
+    "recommended": "原始退行",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Shadow Body",
+    "recommended": "影之躯",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Thought Echo",
+    "recommended": "思维回音",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Accelerate Poison",
+    "recommended": "加速毒发",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Acid Pit",
+    "recommended": "酸池坑",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Bow Spirit",
+    "recommended": "弓之精魂",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Flare Burst",
+    "recommended": "闪光爆",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Hungry Pit",
+    "recommended": "饥饿坑",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Ill Omen",
+    "recommended": "凶兆",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Spiked Pit",
+    "recommended": "刺坑",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Strong Jaw",
+    "recommended": "铁碎颚",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Fire Trap",
+    "recommended": "火焰陷阱",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Prismatic Wall",
+    "recommended": "虹光法墙",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Air Geyser",
+    "recommended": "气泉喷升",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Alter Musical Instrument",
+    "recommended": "乐器变音",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Creeping Ice",
+    "recommended": "蠕行冰川",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Crimson Confession",
+    "recommended": "深红罪状",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Glue Seal",
+    "recommended": "粘液封锁",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Molten Orb",
+    "recommended": "熔融铁球",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Nauseating Dart",
+    "recommended": "毒针吹刺",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "River Whip",
+    "recommended": "流水长鞭",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Slowing Mud",
+    "recommended": "碍事淤泥",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Thorn Javelin",
+    "recommended": "荆刺标枪",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Twilight Haze",
+    "recommended": "暮色烟云",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Diagnose Disease",
+    "recommended": "诊断疾病",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Animate Rope",
+    "recommended": "活化绳",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Helping Hand",
+    "recommended": "引导之手",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Surmount Affliction",
+    "recommended": "克服困境",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Shifted Steps",
+    "recommended": "音源切替",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Force Punch",
+    "recommended": "充能之拳",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Hostile Levitation",
+    "recommended": "恶意浮空",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Ghost Brand",
+    "recommended": "藏物鬼印",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Majestic Image",
+    "recommended": "威严肖像",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Leashed Shackles",
+    "recommended": "枷锁束缚",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Fungal Infestation",
+    "recommended": "菌皮疫",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Pox Pustules",
+    "recommended": "疱疹咒",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Spike Growth",
+    "recommended": "荆棘丛生",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Brow Gasher",
+    "recommended": "血流满面",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Reloading Hands",
+    "recommended": "自动装填",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Wilderness Soldiers",
+    "recommended": "荒野兵团",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Instant Enemy",
+    "recommended": "即刻仇敌",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Phase Door",
+    "recommended": "相位门",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Meteor Swarm",
+    "recommended": "流星爆",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Animal Shapes",
+    "recommended": "动物形态",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Summon Minor Monster",
+    "recommended": "召唤次级怪物",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Temporary Resurrection",
+    "recommended": "死者苏生",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Bleed For Your Master",
+    "recommended": "为主而伤",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Scintillating Pattern",
+    "recommended": "闪光图纹",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Teleportation Circle",
+    "recommended": "传送法阵",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Telekinetic Maneuver",
+    "recommended": "念动战技",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Animal Trance",
+    "recommended": "迷惑动物",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Elemental Swarm",
+    "recommended": "元素集群",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Summoner Conduit",
+    "recommended": "灵魂连接",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Chill Metal",
+    "recommended": "冻寒金属",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Reverse Gravity",
+    "recommended": "反重力",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Control Plants",
+    "recommended": "操控植物",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Arcane Mark",
+    "recommended": "秘法印记",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Read Magic",
+    "recommended": "阅读魔法",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Overland Flight",
+    "recommended": "翱翔天际",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Create Greater Undead",
+    "recommended": "唤起高等死灵",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Control Water",
+    "recommended": "操纵水位",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Repel Wood",
+    "recommended": "驱离木材",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Animate Plants",
+    "recommended": "活化植物",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Lingering Aura",
+    "recommended": "残存的灵光",
+    "category": "法术",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Bullet Shield",
+    "recommended": "防弹护盾",
+    "category": "法术",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "Disable Construct",
+    "recommended": "构装体残废术",
+    "category": "法术",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "Summon Monster VI",
+    "recommended": "六级怪物召唤术",
+    "category": "法术",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "Summon Monster II",
+    "recommended": "二级怪物召唤术",
+    "category": "法术",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "Absorbing Touch",
+    "recommended": "吸纳之触",
+    "category": "法术",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "Twin Form",
+    "recommended": "双子形态",
+    "category": "法术",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "Elemental Aura",
+    "recommended": "元素光环",
+    "category": "法术",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "Blood Sentinel",
+    "recommended": "血之哨卫",
+    "category": "法术",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "Flexible Fury",
+    "recommended": "灵活怒火",
+    "category": "法术",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "Magnifying Chime",
+    "recommended": "渐强钟鸣",
+    "category": "法术",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "Honeyed Tongue",
+    "recommended": "甜言蜜语",
+    "category": "法术",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "Blood Transcription",
+    "recommended": "血液解读",
+    "category": "法术",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "Languid Bomb Admixture",
+    "recommended": "呆滞炸弹添加剂",
+    "category": "法术",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "Lightning Lash Bomb Admixture",
+    "recommended": "电笞炸弹添加剂",
+    "category": "法术",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "Targeted Bomb Admixture",
+    "recommended": "精确炸弹添加剂",
+    "category": "法术",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "Certain Grip",
+    "recommended": "稳固抓握",
+    "category": "法术",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "Draconic Reservoir",
+    "recommended": "斗转星移",
+    "category": "法术",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "Resinous Skin",
+    "recommended": "树脂皮肤",
+    "category": "法术",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "Hidden Speech",
+    "recommended": "隐秘传信",
+    "category": "法术",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "Elemental Speech",
+    "recommended": "元素之语",
+    "category": "法术",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "Sp",
+    "recommended": "类法术能力",
+    "category": "法术",
+    "count": 0,
+    "other_translations": []
+  },
+  {
+    "english": "Ex",
+    "recommended": "特异能力",
+    "category": "法术",
+    "count": 0,
+    "other_translations": []
+  },
+  {
+    "english": "Craft Wondrous Item",
+    "recommended": "制造奇物",
+    "category": "专长",
+    "count": 1133,
+    "other_translations": [
+      "制造魔法武器和防具",
+      "制作奇物"
+    ]
+  },
+  {
+    "english": "Craft Construct",
+    "recommended": "制造构装体",
+    "category": "专长",
+    "count": 118,
+    "other_translations": []
+  },
+  {
+    "english": "Weapon Finesse",
+    "recommended": "武器娴熟",
+    "category": "专长",
+    "count": 66,
+    "other_translations": []
+  },
+  {
+    "english": "Power Attack",
+    "recommended": "猛力攻击",
+    "category": "专长",
+    "count": 39,
+    "other_translations": []
+  },
+  {
+    "english": "Weapon Focus",
+    "recommended": "武器专攻",
+    "category": "专长",
+    "count": 38,
+    "other_translations": [
+      "武器专精"
+    ]
+  },
+  {
+    "english": "Scribe Scroll",
+    "recommended": "抄写卷轴",
+    "category": "专长",
+    "count": 33,
+    "other_translations": [
+      "抄录卷轴"
+    ]
+  },
+  {
+    "english": "Combat Expertise",
+    "recommended": "寓守于攻",
+    "category": "专长",
+    "count": 31,
+    "other_translations": []
+  },
+  {
+    "english": "Improved Feint",
+    "recommended": "精通虚招",
+    "category": "专长",
+    "count": 30,
+    "other_translations": []
+  },
+  {
+    "english": "Quick Draw",
+    "recommended": "即时备战",
+    "category": "专长",
+    "count": 29,
+    "other_translations": []
+  },
+  {
+    "english": "Step Up",
+    "recommended": "快步跟进",
+    "category": "专长",
+    "count": 29,
+    "other_translations": []
+  },
+  {
+    "english": "Vital Strike",
+    "recommended": "要害打击",
+    "category": "专长",
+    "count": 28,
+    "other_translations": []
+  },
+  {
+    "english": "Combat Reflexes",
+    "recommended": "战斗反射",
+    "category": "专长",
+    "count": 26,
+    "other_translations": []
+  },
+  {
+    "english": "Lightning Reflexes",
+    "recommended": "闪电反射",
+    "category": "专长",
+    "count": 26,
+    "other_translations": []
+  },
+  {
+    "english": "Improved Unarmed Strike",
+    "recommended": "精通徒手打击",
+    "category": "专长",
+    "count": 25,
+    "other_translations": []
+  },
+  {
+    "english": "Bonus Feats",
+    "recommended": "奖励专长",
+    "category": "专长",
+    "count": 36,
+    "other_translations": []
+  },
+  {
+    "english": "Agile Maneuvers",
+    "recommended": "灵巧武艺",
+    "category": "专长",
+    "count": 24,
+    "other_translations": [
+      "灵活战技"
+    ]
+  },
+  {
+    "english": "Acrobatic Steps",
+    "recommended": "神行步",
+    "category": "专长",
+    "count": 24,
+    "other_translations": []
+  },
+  {
+    "english": "Improved Bull Rush",
+    "recommended": "精通冲撞",
+    "category": "专长",
+    "count": 23,
+    "other_translations": []
+  },
+  {
+    "english": "Stunning Fist",
+    "recommended": "震慑拳",
+    "category": "专长",
+    "count": 23,
+    "other_translations": []
+  },
+  {
+    "english": "Iron Will",
+    "recommended": "钢铁意志",
+    "category": "专长",
+    "count": 22,
+    "other_translations": []
+  },
+  {
+    "english": "Precise Shot",
+    "recommended": "精准射击",
+    "category": "专长",
+    "count": 22,
+    "other_translations": [
+      "精确射击"
+    ]
+  },
+  {
+    "english": "Nimble Moves",
+    "recommended": "灵狐步",
+    "category": "专长",
+    "count": 22,
+    "other_translations": []
+  },
+  {
+    "english": "Uncanny Dodge",
+    "recommended": "直觉闪避",
+    "category": "专长",
+    "count": 21,
+    "other_translations": []
+  },
+  {
+    "english": "Improved Initiative",
+    "recommended": "精通先攻",
+    "category": "专长",
+    "count": 21,
+    "other_translations": []
+  },
+  {
+    "english": "Improved Evasion",
+    "recommended": "精通反射闪避",
+    "category": "专长",
+    "count": 20,
+    "other_translations": []
+  },
+  {
+    "english": "Improved Grapple",
+    "recommended": "精通擒抱",
+    "category": "专长",
+    "count": 20,
+    "other_translations": []
+  },
+  {
+    "english": "Improved Sunder",
+    "recommended": "精通破武",
+    "category": "专长",
+    "count": 19,
+    "other_translations": []
+  },
+  {
+    "english": "Wind Stance",
+    "recommended": "疾风步",
+    "category": "专长",
+    "count": 19,
+    "other_translations": []
+  },
+  {
+    "english": "Fast Stealth",
+    "recommended": "快速潜行",
+    "category": "专长",
+    "count": 18,
+    "other_translations": []
+  },
+  {
+    "english": "Improved Vital Strike",
+    "recommended": "精通要害打击",
+    "category": "专长",
+    "count": 18,
+    "other_translations": [
+      "精通暴击"
+    ]
+  },
+  {
+    "english": "Improved Uncanny Dodge",
+    "recommended": "精通直觉闪避",
+    "category": "专长",
+    "count": 18,
+    "other_translations": []
+  },
+  {
+    "english": "Spring Attack",
+    "recommended": "跳跃攻击",
+    "category": "专长",
+    "count": 18,
+    "other_translations": []
+  },
+  {
+    "english": "Intimidating Prowess",
+    "recommended": "威逼",
+    "category": "专长",
+    "count": 18,
+    "other_translations": []
+  },
+  {
+    "english": "Improved Trip",
+    "recommended": "精通绊摔",
+    "category": "专长",
+    "count": 17,
+    "other_translations": [
+      "精通摔绊"
+    ]
+  },
+  {
+    "english": "Dazzling Display",
+    "recommended": "炫目技巧",
+    "category": "专长",
+    "count": 16,
+    "other_translations": []
+  },
+  {
+    "english": "Pinpoint Targeting",
+    "recommended": "精确瞄准",
+    "category": "专长",
+    "count": 16,
+    "other_translations": []
+  },
+  {
+    "english": "Deific Obedience",
+    "recommended": "崇神仪典",
+    "category": "专长",
+    "count": 14,
+    "other_translations": []
+  },
+  {
+    "english": "Deadly Aim",
+    "recommended": "致命瞄准",
+    "category": "专长",
+    "count": 13,
+    "other_translations": [
+      "致死射击"
+    ]
+  },
+  {
+    "english": "Improved Critical",
+    "recommended": "精通重击",
+    "category": "专长",
+    "count": 12,
+    "other_translations": []
+  },
+  {
+    "english": "Disarming Strike",
+    "recommended": "卸武重击",
+    "category": "专长",
+    "count": 12,
+    "other_translations": [
+      "卸武强袭"
+    ]
+  },
+  {
+    "english": "Improved Quarry",
+    "recommended": "围猎大师获得高等狩猎目标",
+    "category": "专长",
+    "count": 12,
+    "other_translations": []
+  },
+  {
+    "english": "Critical Focus",
+    "recommended": "重击专攻",
+    "category": "专长",
+    "count": 11,
+    "other_translations": []
+  },
+  {
+    "english": "Improved Disarm",
+    "recommended": "精通卸武",
+    "category": "专长",
+    "count": 11,
+    "other_translations": [
+      "精通卸除武器"
+    ]
+  },
+  {
+    "english": "Raging Leaper",
+    "recommended": "狂暴跳跃",
+    "category": "专长",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Arcane Strike",
+    "recommended": "奥术打击",
+    "category": "专长",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Eldritch Heritage",
+    "recommended": "专长悠远血脉",
+    "category": "专长",
+    "count": 10,
+    "other_translations": [
+      "在满足悠远血脉"
+    ]
+  },
+  {
+    "english": "Deft Hands",
+    "recommended": "妙手",
+    "category": "专长",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Swap Places",
+    "recommended": "换位",
+    "category": "专长",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Dampen Presence",
+    "recommended": "淡化身形",
+    "category": "专长",
+    "count": 10,
+    "other_translations": [
+      "同名专长"
+    ]
+  },
+  {
+    "english": "Deadly Dealer",
+    "recommended": "致命发牌者",
+    "category": "专长",
+    "count": 10,
+    "other_translations": [
+      "或使用致命发牌"
+    ]
+  },
+  {
+    "english": "Whirlwind Attack",
+    "recommended": "旋风攻击",
+    "category": "专长",
+    "count": 9,
+    "other_translations": []
+  },
+  {
+    "english": "Improved Iron Will",
+    "recommended": "精通钢铁意志",
+    "category": "专长",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Throw Anything",
+    "recommended": "随手投掷",
+    "category": "专长",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Feather Step",
+    "recommended": "轻羽步",
+    "category": "专长",
+    "count": 8,
+    "other_translations": [
+      "羽步术"
+    ]
+  },
+  {
+    "english": "Ricochet Shot",
+    "recommended": "一箭双雕",
+    "category": "专长",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Eschew Materials",
+    "recommended": "施法免材",
+    "category": "专长",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Skill Focus",
+    "recommended": "技能专攻",
+    "category": "专长",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Improved Great Fortitude",
+    "recommended": "精通强韧加强",
+    "category": "专长",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Greater Vital Strike",
+    "recommended": "或高等暴击",
+    "category": "专长",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Improved Reposition",
+    "recommended": "精通复位",
+    "category": "专长",
+    "count": 8,
+    "other_translations": [
+      "精通移位"
+    ]
+  },
+  {
+    "english": "Amateur Swashbuckler",
+    "recommended": "业余剑客",
+    "category": "专长",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Second Chance",
+    "recommended": "二重",
+    "category": "专长",
+    "count": 8,
+    "other_translations": [
+      "绝不言败"
+    ]
+  },
+  {
+    "english": "Scale Spikes",
+    "recommended": "高等鳞刺",
+    "category": "专长",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Far Shot",
+    "recommended": "远程射击",
+    "category": "专长",
+    "count": 7,
+    "other_translations": []
+  },
+  {
+    "english": "Greater Feint",
+    "recommended": "高等虚招",
+    "category": "专长",
+    "count": 7,
+    "other_translations": []
+  },
+  {
+    "english": "Mounted Combat",
+    "recommended": "骑乘战斗流派",
+    "category": "专长",
+    "count": 7,
+    "other_translations": []
+  },
+  {
+    "english": "Greater Sunder",
+    "recommended": "高等破武",
+    "category": "专长",
+    "count": 7,
+    "other_translations": [
+      "高等击破武器"
+    ]
+  },
+  {
+    "english": "Bleeding Critical",
+    "recommended": "流血重击",
+    "category": "专长",
+    "count": 7,
+    "other_translations": [
+      "失血重击"
+    ]
+  },
+  {
+    "english": "Telekinetic Charge",
+    "recommended": "念动冲锋",
+    "category": "专长",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Hurling Charge",
+    "recommended": "冲锋投掷",
+    "category": "专长",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Quick Reflexes",
+    "recommended": "超速反射",
+    "category": "专长",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Great Fortitude",
+    "recommended": "强韧加强",
+    "category": "专长",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Aligned Crafting",
+    "recommended": "抵异作成",
+    "category": "专长",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Inscribe Magical Tattoo",
+    "recommended": "绘制魔法刺青",
+    "category": "专长",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Magical Aptitude",
+    "recommended": "魔法天赋",
+    "category": "专长",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Rapid Shot",
+    "recommended": "快速射击",
+    "category": "专长",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "Bestial Climber",
+    "recommended": "兽性攀爬",
+    "category": "专长",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "Strike Back",
+    "recommended": "回击",
+    "category": "专长",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "Su",
+    "recommended": "超自然能力",
+    "category": "专长",
+    "count": 0,
+    "other_translations": []
+  },
+  {
+    "english": "Class Skills",
+    "recommended": "本职技能",
+    "category": "职业能力",
+    "count": 263,
+    "other_translations": [
+      "职业技能"
+    ]
+  },
+  {
+    "english": "Class Features",
+    "recommended": "职业能力",
+    "category": "职业能力",
+    "count": 172,
+    "other_translations": [
+      "职业特性"
+    ]
+  },
+  {
+    "english": "Weapon Training",
+    "recommended": "武器训练",
+    "category": "职业能力",
+    "count": 103,
+    "other_translations": []
+  },
+  {
+    "english": "Painful Stare",
+    "recommended": "痛苦注视",
+    "category": "职业能力",
+    "count": 44,
+    "other_translations": []
+  },
+  {
+    "english": "Trap Sense",
+    "recommended": "陷阱感知",
+    "category": "职业能力",
+    "count": 36,
+    "other_translations": []
+  },
+  {
+    "english": "Bardic Performance",
+    "recommended": "吟游表演",
+    "category": "职业能力",
+    "count": 32,
+    "other_translations": [
+      "额外表演"
+    ]
+  },
+  {
+    "english": "Hypnotic Stare",
+    "recommended": "催眠注视",
+    "category": "职业能力",
+    "count": 28,
+    "other_translations": []
+  },
+  {
+    "english": "Combat Trick",
+    "recommended": "战斗窍门",
+    "category": "职业能力",
+    "count": 26,
+    "other_translations": [
+      "战策"
+    ]
+  },
+  {
+    "english": "Object Reading",
+    "recommended": "读取物体",
+    "category": "职业能力",
+    "count": 26,
+    "other_translations": []
+  },
+  {
+    "english": "Phrenic Amplification",
+    "recommended": "级的精神增幅",
+    "category": "职业能力",
+    "count": 22,
+    "other_translations": [
+      "异化者的精神增幅"
+    ]
+  },
+  {
+    "english": "Rogue Talents",
+    "recommended": "盗贼天赋",
+    "category": "职业能力",
+    "count": 27,
+    "other_translations": [
+      "游荡者绝技"
+    ]
+  },
+  {
+    "english": "Touch Treatment",
+    "recommended": "级的接触疗法",
+    "category": "职业能力",
+    "count": 20,
+    "other_translations": [
+      "次接触疗法"
+    ]
+  },
+  {
+    "english": "Gather Power",
+    "recommended": "或念力凝聚",
+    "category": "职业能力",
+    "count": 20,
+    "other_translations": [
+      "便不会妨碍念力凝聚"
+    ]
+  },
+  {
+    "english": "Elemental Overflow",
+    "recommended": "元素满溢",
+    "category": "职业能力",
+    "count": 20,
+    "other_translations": []
+  },
+  {
+    "english": "Increased Damage Reduction",
+    "recommended": "增强伤害减免",
+    "category": "职业能力",
+    "count": 19,
+    "other_translations": []
+  },
+  {
+    "english": "Intimidating Glare",
+    "recommended": "威吓凝视",
+    "category": "职业能力",
+    "count": 19,
+    "other_translations": []
+  },
+  {
+    "english": "Defensive Roll",
+    "recommended": "防御翻滚",
+    "category": "职业能力",
+    "count": 18,
+    "other_translations": []
+  },
+  {
+    "english": "Mental Focus",
+    "recommended": "向另一个转移心智点",
+    "category": "职业能力",
+    "count": 18,
+    "other_translations": [
+      "点额外的心智点",
+      "点或更多心智点",
+      "智和"
+    ]
+  },
+  {
+    "english": "Sneak Attack",
+    "recommended": "偷袭",
+    "category": "职业能力",
+    "count": 16,
+    "other_translations": []
+  },
+  {
+    "english": "Trap Spotter",
+    "recommended": "陷阱嗅觉",
+    "category": "职业能力",
+    "count": 16,
+    "other_translations": []
+  },
+  {
+    "english": "Wild Talents",
+    "recommended": "原力",
+    "category": "职业能力",
+    "count": 16,
+    "other_translations": []
+  },
+  {
+    "english": "Bold Stare",
+    "recommended": "了深邃注视",
+    "category": "职业能力",
+    "count": 16,
+    "other_translations": [
+      "级的深邃注视"
+    ]
+  },
+  {
+    "english": "Studied Target",
+    "recommended": "杀戮目标",
+    "category": "职业能力",
+    "count": 16,
+    "other_translations": []
+  },
+  {
+    "english": "Empathic Link",
+    "recommended": "情感连接",
+    "category": "职业能力",
+    "count": 16,
+    "other_translations": []
+  },
+  {
+    "english": "Wild Empathy",
+    "recommended": "野性认同",
+    "category": "职业能力",
+    "count": 16,
+    "other_translations": []
+  },
+  {
+    "english": "Social Talent",
+    "recommended": "社交天赋",
+    "category": "职业能力",
+    "count": 16,
+    "other_translations": []
+  },
+  {
+    "english": "Life Pact",
+    "recommended": "生命契约",
+    "category": "职业能力",
+    "count": 14,
+    "other_translations": []
+  },
+  {
+    "english": "Psychic Sensitivity",
+    "recommended": "异能敏感",
+    "category": "职业能力",
+    "count": 14,
+    "other_translations": []
+  },
+  {
+    "english": "Stand Up",
+    "recommended": "鲤鱼打挺",
+    "category": "职业能力",
+    "count": 14,
+    "other_translations": []
+  },
+  {
+    "english": "Metal Blast",
+    "recommended": "轰钢",
+    "category": "职业能力",
+    "count": 14,
+    "other_translations": []
+  },
+  {
+    "english": "Favored Enemy",
+    "recommended": "宿敌",
+    "category": "职业能力",
+    "count": 14,
+    "other_translations": []
+  },
+  {
+    "english": "Frightening Appearance",
+    "recommended": "骇人现身",
+    "category": "职业能力",
+    "count": 14,
+    "other_translations": []
+  },
+  {
+    "english": "Third Eye",
+    "recommended": "三眼开放",
+    "category": "职业能力",
+    "count": 14,
+    "other_translations": [
+      "变体职业和第三只眼",
+      "第三眼",
+      "第三只眼"
+    ]
+  },
+  {
+    "english": "Bloodline Powers",
+    "recommended": "血统力量",
+    "category": "职业能力",
+    "count": 14,
+    "other_translations": [
+      "狂血之力",
+      "血脉力量",
+      "血脉之力"
+    ]
+  },
+  {
+    "english": "Animal Purpose Training",
+    "recommended": "短期动物训练",
+    "category": "职业能力",
+    "count": 13,
+    "other_translations": []
+  },
+  {
+    "english": "Preserve Organs",
+    "recommended": "保存器官",
+    "category": "职业能力",
+    "count": 13,
+    "other_translations": []
+  },
+  {
+    "english": "Earth Blast",
+    "recommended": "岩击",
+    "category": "职业能力",
+    "count": 12,
+    "other_translations": []
+  },
+  {
+    "english": "Green Faith Acolyte",
+    "recommended": "苍翠追随者",
+    "category": "职业能力",
+    "count": 12,
+    "other_translations": [
+      "苍翠修道者"
+    ]
+  },
+  {
+    "english": "Quick Change",
+    "recommended": "快速换装",
+    "category": "职业能力",
+    "count": 12,
+    "other_translations": [
+      "快速变装"
+    ]
+  },
+  {
+    "english": "Vigilante Identity",
+    "recommended": "或侠客身份",
+    "category": "职业能力",
+    "count": 12,
+    "other_translations": [
+      "转变为侠客身份"
+    ]
+  },
+  {
+    "english": "Ki Pool",
+    "recommended": "丹田气池",
+    "category": "职业能力",
+    "count": 12,
+    "other_translations": [
+      "气运丹田"
+    ]
+  },
+  {
+    "english": "A Thousand Faces",
+    "recommended": "千面万相",
+    "category": "职业能力",
+    "count": 12,
+    "other_translations": []
+  },
+  {
+    "english": "Wayfinder Revelation",
+    "recommended": "启示寻路仪",
+    "category": "职业能力",
+    "count": 12,
+    "other_translations": [
+      "破咒寻路仪"
+    ]
+  },
+  {
+    "english": "Animal Fury",
+    "recommended": "野性之怒",
+    "category": "职业能力",
+    "count": 11,
+    "other_translations": []
+  },
+  {
+    "english": "No Escape",
+    "recommended": "无处可逃",
+    "category": "职业能力",
+    "count": 11,
+    "other_translations": []
+  },
+  {
+    "english": "Ki Shout",
+    "recommended": "狮子吼",
+    "category": "职业能力",
+    "count": 11,
+    "other_translations": [
+      "狮吼功"
+    ]
+  },
+  {
+    "english": "Inspire Competence",
+    "recommended": "提振技能",
+    "category": "职业能力",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Spiritual Bond",
+    "recommended": "唤魂师的魅影联结",
+    "category": "职业能力",
+    "count": 10,
+    "other_translations": [
+      "和魅影联结"
+    ]
+  },
+  {
+    "english": "Heroic Recovery",
+    "recommended": "英勇自愈",
+    "category": "职业能力",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Kinetic Blade",
+    "recommended": "念刃",
+    "category": "职业能力",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Healing Burst",
+    "recommended": "治愈爆发",
+    "category": "职业能力",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Elemental Whisper",
+    "recommended": "高等元素低语",
+    "category": "职业能力",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Many Guises",
+    "recommended": "百变",
+    "category": "职业能力",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Pack Lord",
+    "recommended": "兽王",
+    "category": "职业能力",
+    "count": 10,
+    "other_translations": [
+      "兽群之主"
+    ]
+  },
+  {
+    "english": "Favored Terrain",
+    "recommended": "偏好地形",
+    "category": "职业能力",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Fire Blast",
+    "recommended": "若你准备的是火冲",
+    "category": "职业能力",
+    "count": 10,
+    "other_translations": [
+      "若一名操念使使用火冲"
+    ]
+  },
+  {
+    "english": "Elemental Grip",
+    "recommended": "束缚元素",
+    "category": "职业能力",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Telekinetic Blast",
+    "recommended": "念动",
+    "category": "职业能力",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Infusion Specialization",
+    "recommended": "而且这个超载无法被注能熟稔",
+    "category": "职业能力",
+    "count": 10,
+    "other_translations": [
+      "和注能熟稔"
+    ]
+  },
+  {
+    "english": "Channel Positive Energy",
+    "recommended": "能量",
+    "category": "职业能力",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Positive Blast",
+    "recommended": "都可以作用到一次正能量念袭",
+    "category": "职业能力",
+    "count": 10,
+    "other_translations": [
+      "曦破"
+    ]
+  },
+  {
+    "english": "Horse Lord",
+    "recommended": "马王",
+    "category": "职业能力",
+    "count": 10,
+    "other_translations": [
+      "瞬击大师",
+      "骏骑领主"
+    ]
+  },
+  {
+    "english": "Lore Master",
+    "recommended": "和博学",
+    "category": "职业能力",
+    "count": 10,
+    "other_translations": [
+      "或博学"
+    ]
+  },
+  {
+    "english": "Internal Buffer",
+    "recommended": "操念使的储念器",
+    "category": "职业能力",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Liquid Courage",
+    "recommended": "勇气之水",
+    "category": "职业能力",
+    "count": 9,
+    "other_translations": [
+      "液体勇气"
+    ]
+  },
+  {
+    "english": "Body Capacitance",
+    "recommended": "活体电容",
+    "category": "职业能力",
+    "count": 9,
+    "other_translations": []
+  },
+  {
+    "english": "Persistent Vigor",
+    "recommended": "恒久活力",
+    "category": "职业能力",
+    "count": 9,
+    "other_translations": []
+  },
+  {
+    "english": "Guarded Stance",
+    "recommended": "守卫姿态",
+    "category": "职业能力",
+    "count": 9,
+    "other_translations": []
+  },
+  {
+    "english": "Rolling Dodge",
+    "recommended": "轮摆位移",
+    "category": "职业能力",
+    "count": 9,
+    "other_translations": []
+  },
+  {
+    "english": "Terrifying Howl",
+    "recommended": "怖惧狂嚎",
+    "category": "职业能力",
+    "count": 9,
+    "other_translations": []
+  },
+  {
+    "english": "Roused Anger",
+    "recommended": "无边怒火",
+    "category": "职业能力",
+    "count": 9,
+    "other_translations": []
+  },
+  {
+    "english": "Storm Kindler",
+    "recommended": "风暴朝拜者",
+    "category": "职业能力",
+    "count": 9,
+    "other_translations": []
+  },
+  {
+    "english": "Primal Scent",
+    "recommended": "原始嗅觉",
+    "category": "职业能力",
+    "count": 9,
+    "other_translations": []
+  },
+  {
+    "english": "Locate Weakness",
+    "recommended": "弱点感知",
+    "category": "职业能力",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Rage Powers",
+    "recommended": "狂暴之力",
+    "category": "职业能力",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Divination School",
+    "recommended": "魔宠获得专精预言学派",
+    "category": "职业能力",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Companion Life Link",
+    "recommended": "宠伴生命链接",
+    "category": "职业能力",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Tar Pool",
+    "recommended": "沥青池",
+    "category": "职业能力",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Night Vision",
+    "recommended": "夜之视觉",
+    "category": "职业能力",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Bottled Ooze",
+    "recommended": "瓶装泥怪",
+    "category": "职业能力",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Doppelganger Simulacrum",
+    "recommended": "分身拟像",
+    "category": "职业能力",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Vestigial Arm",
+    "recommended": "畸变之臂",
+    "category": "职业能力",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Granted Powers",
+    "recommended": "神授力量",
+    "category": "职业能力",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Ledge Walker",
+    "recommended": "稳行者",
+    "category": "职业能力",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Lucid Dreamer",
+    "recommended": "寻梦师",
+    "category": "职业能力",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Efreeti Style",
+    "recommended": "炎灵流",
+    "category": "职业能力",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Janni Style",
+    "recommended": "御风流",
+    "category": "职业能力",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Marid Style",
+    "recommended": "雪灵流",
+    "category": "职业能力",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Aura Mastery",
+    "recommended": "灵光掌控",
+    "category": "职业能力",
+    "count": 8,
+    "other_translations": [
+      "无私灵光"
+    ]
+  },
+  {
+    "english": "Timeless Body",
+    "recommended": "不老身躯",
+    "category": "职业能力",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Foe Throw",
+    "recommended": "抛敌",
+    "category": "职业能力",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Evil Eye",
+    "recommended": "邪眼",
+    "category": "职业能力",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Feral Speech",
+    "recommended": "野嚎",
+    "category": "职业能力",
+    "count": 8,
+    "other_translations": [
+      "兽言者"
+    ]
+  },
+  {
+    "english": "Green Tongue",
+    "recommended": "草木之语",
+    "category": "职业能力",
+    "count": 8,
+    "other_translations": [
+      "木语"
+    ]
+  },
+  {
+    "english": "Spirit Guide",
+    "recommended": "灵魂向导",
+    "category": "职业能力",
+    "count": 8,
+    "other_translations": [
+      "导魂者"
+    ]
+  },
+  {
+    "english": "Dueling Resolve",
+    "recommended": "与决斗坚定",
+    "category": "职业能力",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Haunt Channeler",
+    "recommended": "呼唤浮游灵",
+    "category": "职业能力",
+    "count": 8,
+    "other_translations": [
+      "并且在结束制祟者"
+    ]
+  },
+  {
+    "english": "Elemental Focus",
+    "recommended": "元素念力",
+    "category": "职业能力",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Vengeful Outrage",
+    "recommended": "复仇之怒",
+    "category": "职业能力",
+    "count": 7,
+    "other_translations": []
+  },
+  {
+    "english": "Fast Movement",
+    "recommended": "快速移动",
+    "category": "职业能力",
+    "count": 7,
+    "other_translations": []
+  },
+  {
+    "english": "Beast Totem",
+    "recommended": "中级野兽图腾",
+    "category": "职业能力",
+    "count": 7,
+    "other_translations": []
+  },
+  {
+    "english": "Fiend Totem",
+    "recommended": "中级恶魔图腾",
+    "category": "职业能力",
+    "count": 7,
+    "other_translations": [
+      "魔族图腾"
+    ]
+  },
+  {
+    "english": "Investigator Talents",
+    "recommended": "调查员天赋",
+    "category": "职业能力",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Heroic Defiance",
+    "recommended": "英勇气魄",
+    "category": "职业能力",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Efreeti Stance",
+    "recommended": "炎宿",
+    "category": "职业能力",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Janni Tempest",
+    "recommended": "乱披风",
+    "category": "职业能力",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Marid Spirit",
+    "recommended": "冰魂",
+    "category": "职业能力",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Djinni Spin",
+    "recommended": "暴雷击",
+    "category": "职业能力",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Janni Rush",
+    "recommended": "罡风惊天",
+    "category": "职业能力",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Marid Coldsnap",
+    "recommended": "雪暴",
+    "category": "职业能力",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Shift Earth",
+    "recommended": "地动",
+    "category": "职业能力",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Loyal Aid",
+    "recommended": "忠诚助手",
+    "category": "职业能力",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Serial Killer",
+    "recommended": "连环杀手",
+    "category": "职业能力",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Verdant Blast",
+    "recommended": "藤花乱舞",
+    "category": "职业能力",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Obsidian Flow",
+    "recommended": "黑曜之流",
+    "category": "职业能力",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Virtuoso Performance",
+    "recommended": "宗师表演",
+    "category": "职业能力",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "Tattooed Mystic",
+    "recommended": "刺青秘法师",
+    "category": "职业能力",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "Swift Foot",
+    "recommended": "迅足",
+    "category": "职业能力",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "Nauseating Flesh",
+    "recommended": "毒性肌肤",
+    "category": "职业能力",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "Boasting Taunt",
+    "recommended": "挑衅",
+    "category": "职业能力",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "Filth Fever",
+    "recommended": "腐热症",
+    "category": "状态/条件",
+    "count": 20,
+    "other_translations": []
+  },
+  {
+    "english": "Red Ache",
+    "recommended": "红肿症",
+    "category": "状态/条件",
+    "count": 16,
+    "other_translations": []
+  },
+  {
+    "english": "Light Blindness",
+    "recommended": "强光失明",
+    "category": "状态/条件",
+    "count": 10,
+    "other_translations": [
+      "强光致盲"
+    ]
+  },
+  {
+    "english": "Light Sensitivity",
+    "recommended": "强光敏感",
+    "category": "状态/条件",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Saving Throw",
+    "recommended": "豁免",
+    "category": "状态/条件",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Deny Death",
+    "recommended": "力克死亡",
+    "category": "状态/条件",
+    "count": 8,
+    "other_translations": [
+      "拒亡"
+    ]
+  },
+  {
+    "english": "Demon Fever",
+    "recommended": "热魔症",
+    "category": "状态/条件",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Forge Ring",
+    "recommended": "锻造戒指",
+    "category": "装备/物品",
+    "count": 70,
+    "other_translations": [
+      "制造戒指",
+      "铸造戒指"
+    ]
+  },
+  {
+    "english": "Craft Rod",
+    "recommended": "制造权杖",
+    "category": "装备/物品",
+    "count": 31,
+    "other_translations": []
+  },
+  {
+    "english": "Alchemical Tools",
+    "recommended": "炼金工具",
+    "category": "装备/物品",
+    "count": 24,
+    "other_translations": []
+  },
+  {
+    "english": "Alchemical Weapons",
+    "recommended": "炼金武器",
+    "category": "装备/物品",
+    "count": 22,
+    "other_translations": []
+  },
+  {
+    "english": "Flaming Burst",
+    "recommended": "焰爆",
+    "category": "装备/物品",
+    "count": 22,
+    "other_translations": []
+  },
+  {
+    "english": "Ghost Touch",
+    "recommended": "幽冥",
+    "category": "装备/物品",
+    "count": 22,
+    "other_translations": []
+  },
+  {
+    "english": "BRACERS OF ARMOR",
+    "recommended": "防御护腕",
+    "category": "装备/物品",
+    "count": 18,
+    "other_translations": []
+  },
+  {
+    "english": "Pathfinder RPG",
+    "recommended": "参阅",
+    "category": "装备/物品",
+    "count": 18,
+    "other_translations": [
+      "求道者",
+      "新玩家不必担心要同时学习"
+    ]
+  },
+  {
+    "english": "Overwhelming Presence",
+    "recommended": "神威如狱",
+    "category": "装备/物品",
+    "count": 17,
+    "other_translations": []
+  },
+  {
+    "english": "Magic Items",
+    "recommended": "魔法物品",
+    "category": "装备/物品",
+    "count": 14,
+    "other_translations": []
+  },
+  {
+    "english": "Icy Burst",
+    "recommended": "冰爆",
+    "category": "装备/物品",
+    "count": 14,
+    "other_translations": []
+  },
+  {
+    "english": "Brew Potion",
+    "recommended": "调制药剂",
+    "category": "装备/物品",
+    "count": 14,
+    "other_translations": [
+      "制造药水"
+    ]
+  },
+  {
+    "english": "Weapon Familiarity",
+    "recommended": "武器熟悉",
+    "category": "装备/物品",
+    "count": 14,
+    "other_translations": [
+      "武人"
+    ]
+  },
+  {
+    "english": "VAMBRACES OF THE GENIE",
+    "recommended": "火巨灵臂铠",
+    "category": "装备/物品",
+    "count": 14,
+    "other_translations": [
+      "风巨灵臂铠",
+      "水巨灵臂铠",
+      "土巨灵臂铠"
+    ]
+  },
+  {
+    "english": "Returning Weapon",
+    "recommended": "回力武器",
+    "category": "装备/物品",
+    "count": 13,
+    "other_translations": []
+  },
+  {
+    "english": "Blood Armor",
+    "recommended": "硬化血甲",
+    "category": "装备/物品",
+    "count": 13,
+    "other_translations": []
+  },
+  {
+    "english": "Versatile Weapon",
+    "recommended": "武器幻化",
+    "category": "装备/物品",
+    "count": 13,
+    "other_translations": []
+  },
+  {
+    "english": "BRACERS OF ARCHERY",
+    "recommended": "次级神射护腕",
+    "category": "装备/物品",
+    "count": 12,
+    "other_translations": [
+      "高等神射护腕"
+    ]
+  },
+  {
+    "english": "SERPENT BELT",
+    "recommended": "高等毒蛇腰带",
+    "category": "装备/物品",
+    "count": 12,
+    "other_translations": []
+  },
+  {
+    "english": "Shocking Burst",
+    "recommended": "电爆",
+    "category": "装备/物品",
+    "count": 12,
+    "other_translations": []
+  },
+  {
+    "english": "Finesse Rogue",
+    "recommended": "巧手盗贼",
+    "category": "装备/物品",
+    "count": 12,
+    "other_translations": [
+      "武器娴熟"
+    ]
+  },
+  {
+    "english": "Brilliant Energy",
+    "recommended": "光能",
+    "category": "装备/物品",
+    "count": 12,
+    "other_translations": []
+  },
+  {
+    "english": "Monster Hunter",
+    "recommended": "怪物猎手手册",
+    "category": "装备/物品",
+    "count": 12,
+    "other_translations": [
+      "兽杀者"
+    ]
+  },
+  {
+    "english": "Poison Use",
+    "recommended": "用毒",
+    "category": "装备/物品",
+    "count": 12,
+    "other_translations": []
+  },
+  {
+    "english": "Greater Weapon Focus",
+    "recommended": "高等武器专攻",
+    "category": "装备/物品",
+    "count": 12,
+    "other_translations": []
+  },
+  {
+    "english": "Infernal Cord",
+    "recommended": "地狱束绳",
+    "category": "装备/物品",
+    "count": 12,
+    "other_translations": []
+  },
+  {
+    "english": "Poison Resistance",
+    "recommended": "毒性抗力",
+    "category": "装备/物品",
+    "count": 12,
+    "other_translations": [
+      "毒素抗力"
+    ]
+  },
+  {
+    "english": "CROWN OF BLASTING",
+    "recommended": "高等爆裂头饰",
+    "category": "装备/物品",
+    "count": 12,
+    "other_translations": [
+      "次级爆裂头饰"
+    ]
+  },
+  {
+    "english": "SNIPER GOGGLES",
+    "recommended": "高等狙击护目镜",
+    "category": "装备/物品",
+    "count": 12,
+    "other_translations": []
+  },
+  {
+    "english": "Enchantment Foil",
+    "recommended": "迫退附魔",
+    "category": "装备/物品",
+    "count": 11,
+    "other_translations": []
+  },
+  {
+    "english": "Aldori Swordlord",
+    "recommended": "奥多里剑豪",
+    "category": "装备/物品",
+    "count": 11,
+    "other_translations": [
+      "阿尔多利剑豪"
+    ]
+  },
+  {
+    "english": "Adventuring Gear",
+    "recommended": "冒险装备",
+    "category": "装备/物品",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Warding Weapon",
+    "recommended": "戒卫武器",
+    "category": "装备/物品",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "GAUNTLET OF RUST",
+    "recommended": "锈蚀手套",
+    "category": "装备/物品",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "PEARL OF POWER",
+    "recommended": "法力再生珍珠",
+    "category": "装备/物品",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Cold Iron",
+    "recommended": "寒铁",
+    "category": "装备/物品",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Alchemical Remedies",
+    "recommended": "炼金药",
+    "category": "装备/物品",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Ki Arrow",
+    "recommended": "气灌飞矢",
+    "category": "装备/物品",
+    "count": 10,
+    "other_translations": [
+      "气矢术"
+    ]
+  },
+  {
+    "english": "Exotic Saddle",
+    "recommended": "需要配备异种鞍座",
+    "category": "装备/物品",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Weapon Master",
+    "recommended": "并在武器大师手册",
+    "category": "装备/物品",
+    "count": 10,
+    "other_translations": [
+      "拥有武器大师"
+    ]
+  },
+  {
+    "english": "Azure Briolette Ioun Stone",
+    "recommended": "蔚蓝色梨形艾恩石",
+    "category": "装备/物品",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Pilfering Hand",
+    "recommended": "第三只手",
+    "category": "装备/物品",
+    "count": 9,
+    "other_translations": []
+  },
+  {
+    "english": "Overwhelming Grief",
+    "recommended": "无尽悲痛",
+    "category": "装备/物品",
+    "count": 9,
+    "other_translations": []
+  },
+  {
+    "english": "Shield Focus",
+    "recommended": "盾牌专攻",
+    "category": "装备/物品",
+    "count": 9,
+    "other_translations": [
+      "例如专攻盾牌"
+    ]
+  },
+  {
+    "english": "Ioun Stone",
+    "recommended": "艾恩石",
+    "category": "装备/物品",
+    "count": 25,
+    "other_translations": [
+      "刺球形艾恩石"
+    ]
+  },
+  {
+    "english": "Spell Storing",
+    "recommended": "储法",
+    "category": "装备/物品",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "BELT OF GIANT STRENGTH",
+    "recommended": "巨力腰带",
+    "category": "装备/物品",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Magic Item Creation",
+    "recommended": "制造魔法物品",
+    "category": "装备/物品",
+    "count": 8,
+    "other_translations": [
+      "创造魔法物品"
+    ]
+  },
+  {
+    "english": "War Lance",
+    "recommended": "战争长枪",
+    "category": "装备/物品",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "HELM OF BRILLIANCE",
+    "recommended": "弱效光辉头盔",
+    "category": "装备/物品",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "MONKEY BELT",
+    "recommended": "高等灵猴腰带",
+    "category": "装备/物品",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "HEADBAND OF ALLURING CHARISMA",
+    "recommended": "魅力头带",
+    "category": "装备/物品",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "HEADBAND OF VAST INTELLIGENCE",
+    "recommended": "智力头带",
+    "category": "装备/物品",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "HEADBAND OF AERIAL AGILITY",
+    "recommended": "滑空头带",
+    "category": "装备/物品",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Snatch Arrows",
+    "recommended": "抓取飞箭",
+    "category": "装备/物品",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Shield Companion",
+    "recommended": "护卫宠伴",
+    "category": "装备/物品",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Sundering Shards",
+    "recommended": "破片四溅",
+    "category": "装备/物品",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Unwilling Shield",
+    "recommended": "强迫护卫",
+    "category": "装备/物品",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Blistering Invective",
+    "recommended": "酷烈苛责",
+    "category": "装备/物品",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Corrosive Burst",
+    "recommended": "酸爆",
+    "category": "装备/物品",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Phase Locking",
+    "recommended": "闭锁",
+    "category": "装备/物品",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Shield Wall",
+    "recommended": "盾墙",
+    "category": "装备/物品",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Legal Pearlescent Pyramid Ioun Stone",
+    "recommended": "瑕疵珠光金字塔形艾恩石",
+    "category": "装备/物品",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Twilight Knife",
+    "recommended": "暮光之刃",
+    "category": "装备/物品",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Armor Master",
+    "recommended": "护甲大师手册",
+    "category": "装备/物品",
+    "count": 8,
+    "other_translations": [
+      "护甲宗师"
+    ]
+  },
+  {
+    "english": "Stun Gun",
+    "recommended": "电击枪",
+    "category": "装备/物品",
+    "count": 8,
+    "other_translations": [
+      "震撼枪"
+    ]
+  },
+  {
+    "english": "Staggering Blast",
+    "recommended": "但恍惚爆破",
+    "category": "装备/物品",
+    "count": 8,
+    "other_translations": [
+      "震撼爆破"
+    ]
+  },
+  {
+    "english": "MASK OF GIANTS",
+    "recommended": "低等巨人面具",
+    "category": "装备/物品",
+    "count": 8,
+    "other_translations": [
+      "高等巨人面具"
+    ]
+  },
+  {
+    "english": "BURGLAR BOOTS",
+    "recommended": "弱效斥候靴",
+    "category": "装备/物品",
+    "count": 8,
+    "other_translations": [
+      "强效斥候靴"
+    ]
+  },
+  {
+    "english": "PRESERVING FLASK",
+    "recommended": "保质瓶",
+    "category": "装备/物品",
+    "count": 7,
+    "other_translations": []
+  },
+  {
+    "english": "BORO BEAD",
+    "recommended": "波若珠",
+    "category": "装备/物品",
+    "count": 7,
+    "other_translations": []
+  },
+  {
+    "english": "Bestow Weapon Proficiency",
+    "recommended": "赋予武器熟练",
+    "category": "装备/物品",
+    "count": 7,
+    "other_translations": []
+  },
+  {
+    "english": "Wandering Star Motes",
+    "recommended": "游荡星尘",
+    "category": "装备/物品",
+    "count": 7,
+    "other_translations": []
+  },
+  {
+    "english": "Thrown Weapon",
+    "recommended": "投掷武器流派",
+    "category": "装备/物品",
+    "count": 7,
+    "other_translations": []
+  },
+  {
+    "english": "Craft Staff",
+    "recommended": "制造法杖",
+    "category": "装备/物品",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "BELT OF INCREDIBLE DEXTERITY",
+    "recommended": "敏捷腰带",
+    "category": "装备/物品",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "BELT OF MIGHTY CONSTITUTION",
+    "recommended": "健体腰带",
+    "category": "装备/物品",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Snake Staff",
+    "recommended": "灵蛇杖",
+    "category": "装备/物品",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Fairy Ring Retreat",
+    "recommended": "休养仙环",
+    "category": "装备/物品",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Force Sword",
+    "recommended": "力场剑",
+    "category": "装备/物品",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Arrow Eruption",
+    "recommended": "箭雨喷发",
+    "category": "装备/物品",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Icicle Dagger",
+    "recommended": "寒冰匕首",
+    "category": "装备/物品",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "FEATHER TOKEN",
+    "recommended": "羽符",
+    "category": "装备/物品",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "BAG OF HOLDING",
+    "recommended": "次元袋",
+    "category": "装备/物品",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "Shield Master",
+    "recommended": "盾牌大师",
+    "category": "装备/物品",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "Staggering Drunk",
+    "recommended": "醉步",
+    "category": "装备/物品",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "Kinetic Healer",
+    "recommended": "念力医者",
+    "category": "技能",
+    "count": 26,
+    "other_translations": []
+  },
+  {
+    "english": "Sense Motive",
+    "recommended": "察言观色",
+    "category": "技能",
+    "count": 17,
+    "other_translations": [
+      "但原文确实是"
+    ]
+  },
+  {
+    "english": "Handle Animal",
+    "recommended": "驯养动物",
+    "category": "技能",
+    "count": 15,
+    "other_translations": []
+  },
+  {
+    "english": "Disable Device",
+    "recommended": "解除装置",
+    "category": "技能",
+    "count": 15,
+    "other_translations": []
+  },
+  {
+    "english": "Escape Artist",
+    "recommended": "脱逃",
+    "category": "技能",
+    "count": 15,
+    "other_translations": [
+      "和逃脱术",
+      "逃脱"
+    ]
+  },
+  {
+    "english": "Raging Swimmer",
+    "recommended": "狂暴游者",
+    "category": "技能",
+    "count": 14,
+    "other_translations": []
+  },
+  {
+    "english": "Void Healer",
+    "recommended": "或者虚空医者",
+    "category": "技能",
+    "count": 12,
+    "other_translations": []
+  },
+  {
+    "english": "Decrepit Disguise",
+    "recommended": "破旧伪装",
+    "category": "技能",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Mirror Hideaway",
+    "recommended": "镜中藏身处",
+    "category": "技能",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Battlefield Healer",
+    "recommended": "信念背景和战地医师",
+    "category": "技能",
+    "count": 10,
+    "other_translations": [
+      "战斗背景以及战地医师",
+      "宗教背景和战地医师"
+    ]
+  },
+  {
+    "english": "Spontaneous Healing",
+    "recommended": "自体再生",
+    "category": "技能",
+    "count": 9,
+    "other_translations": []
+  },
+  {
+    "english": "Construction Points",
+    "recommended": "构装生物点数",
+    "category": "怪物/生物",
+    "count": 16,
+    "other_translations": []
+  },
+  {
+    "english": "Unadulterated Loathing",
+    "recommended": "纯粹厌恶",
+    "category": "怪物/生物",
+    "count": 15,
+    "other_translations": []
+  },
+  {
+    "english": "Combat Style",
+    "recommended": "战斗流派",
+    "category": "怪物/生物",
+    "count": 14,
+    "other_translations": []
+  },
+  {
+    "english": "Royal Enforcer",
+    "recommended": "皇家执刑官",
+    "category": "怪物/生物",
+    "count": 12,
+    "other_translations": []
+  },
+  {
+    "english": "Deep One",
+    "recommended": "深潜者",
+    "category": "怪物/生物",
+    "count": 9,
+    "other_translations": [
+      "深裔"
+    ]
+  },
+  {
+    "english": "Gray Ooze",
+    "recommended": "灰泥怪",
+    "category": "怪物/生物",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Clockwork Familiar",
+    "recommended": "发条魔宠",
+    "category": "怪物/生物",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Shadow Mastiff",
+    "recommended": "幽影獒犬",
+    "category": "怪物/生物",
+    "count": 7,
+    "other_translations": [
+      "暗影獒犬"
+    ]
+  },
+  {
+    "english": "Dire Rat",
+    "recommended": "凶暴鼠",
+    "category": "怪物/生物",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "Ethereal Plane",
+    "recommended": "一旦被藏入灵界",
+    "category": "位面",
+    "count": 85,
+    "other_translations": [
+      "只能在灵界",
+      "元素能量影响灵界位面",
+      "即便这些生物位于灵界位面"
+    ]
+  },
+  {
+    "english": "Material Plane",
+    "recommended": "由于物质位面",
+    "category": "位面",
+    "count": 23,
+    "other_translations": [
+      "主物质位面",
+      "在主物质位面",
+      "且只能在物质位面"
+    ]
+  },
+  {
+    "english": "Astral Plane",
+    "recommended": "星界",
+    "category": "位面",
+    "count": 22,
+    "other_translations": []
+  },
+  {
+    "english": "Shadow Plane",
+    "recommended": "影界",
+    "category": "位面",
+    "count": 20,
+    "other_translations": [
+      "阴影位面"
+    ]
+  },
+  {
+    "english": "Create Demiplane",
+    "recommended": "创造半位面",
+    "category": "位面",
+    "count": 14,
+    "other_translations": []
+  },
+  {
+    "english": "Interplanetary Teleport",
+    "recommended": "跨位面传送术",
+    "category": "位面",
+    "count": 14,
+    "other_translations": [
+      "星际传送",
+      "穿越术"
+    ]
+  },
+  {
+    "english": "Psychic Discipline",
+    "recommended": "精神境界",
+    "category": "位面",
+    "count": 12,
+    "other_translations": []
+  },
+  {
+    "english": "Planar Adaptation",
+    "recommended": "位面适应",
+    "category": "位面",
+    "count": 9,
+    "other_translations": []
+  },
+  {
+    "english": "Twisted Space",
+    "recommended": "扭曲空间",
+    "category": "位面",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Distant Realms",
+    "recommended": "遥远国度",
+    "category": "位面",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Cayden Cailean",
+    "recommended": "凯连",
+    "category": "神祇",
+    "count": 88,
+    "other_translations": [
+      "醉仙酿剑诀",
+      "神祇"
+    ]
+  },
+  {
+    "english": "EVANGELIST BOONS",
+    "recommended": "传音者神恩",
+    "category": "神祇",
+    "count": 44,
+    "other_translations": []
+  },
+  {
+    "english": "EXALTED BOONS",
+    "recommended": "颂教者神恩",
+    "category": "神祇",
+    "count": 40,
+    "other_translations": []
+  },
+  {
+    "english": "SENTINEL BOONS",
+    "recommended": "卫道者神恩",
+    "category": "神祇",
+    "count": 40,
+    "other_translations": []
+  },
+  {
+    "english": "Divine Gift",
+    "recommended": "神赐",
+    "category": "神祇",
+    "count": 34,
+    "other_translations": []
+  },
+  {
+    "english": "Investigative Mind",
+    "recommended": "探究精神",
+    "category": "神祇",
+    "count": 18,
+    "other_translations": []
+  },
+  {
+    "english": "Sacred Colors",
+    "recommended": "神圣色彩",
+    "category": "神祇",
+    "count": 16,
+    "other_translations": []
+  },
+  {
+    "english": "Holy Days",
+    "recommended": "圣日",
+    "category": "神祇",
+    "count": 16,
+    "other_translations": []
+  },
+  {
+    "english": "High Priest",
+    "recommended": "大祭司",
+    "category": "神祇",
+    "count": 14,
+    "other_translations": []
+  },
+  {
+    "english": "Count Ranalc",
+    "recommended": "伯爵莱诺克",
+    "category": "神祇",
+    "count": 12,
+    "other_translations": [
+      "神祇",
+      "莱诺克伯爵"
+    ]
+  },
+  {
+    "english": "Divine Boon",
+    "recommended": "神赐之力",
+    "category": "神祇",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Divine Grace",
+    "recommended": "神圣恩典",
+    "category": "神祇",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Sacred Animal",
+    "recommended": "神选动物",
+    "category": "神祇",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "The Mother",
+    "recommended": "慈母座",
+    "category": "神祇",
+    "count": 8,
+    "other_translations": [
+      "万语之母"
+    ]
+  },
+  {
+    "english": "Hei Feng",
+    "recommended": "黑风",
+    "category": "神祇",
+    "count": 7,
+    "other_translations": []
+  },
+  {
+    "english": "Tempest Druid",
+    "recommended": "风暴德鲁伊",
+    "category": "神祇",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "The Lantern King",
+    "recommended": "提灯王",
+    "category": "神祇",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "General Susumu",
+    "recommended": "大将军进",
+    "category": "神祇",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "Day Job",
+    "recommended": "日常工作",
+    "category": "种族",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Utter Contempt",
+    "recommended": "目中无人",
+    "category": "种族",
+    "count": 9,
+    "other_translations": []
+  },
+  {
+    "english": "Trophy Hunter",
+    "recommended": "赏金猎人",
+    "category": "种族",
+    "count": 8,
+    "other_translations": [
+      "变体"
+    ]
+  },
+  {
+    "english": "Disguise Other",
+    "recommended": "易容他人",
+    "category": "种族",
+    "count": 7,
+    "other_translations": []
+  },
+  {
+    "english": "Noble Scion",
+    "recommended": "贵族后裔",
+    "category": "种族",
+    "count": 7,
+    "other_translations": []
+  },
+  {
+    "english": "Bellflower Tiller",
+    "recommended": "铃花耕作人",
+    "category": "种族",
+    "count": 7,
+    "other_translations": [
+      "铃花阡陌客"
+    ]
+  },
+  {
+    "english": "Aid Another",
+    "recommended": "援助他人",
+    "category": "种族",
+    "count": 7,
+    "other_translations": []
+  },
+  {
+    "english": "Anonymous Interaction",
+    "recommended": "无名路人",
+    "category": "种族",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "Mwangi Expanse",
+    "recommended": "芒吉莽原",
+    "category": "地域",
+    "count": 60,
+    "other_translations": []
+  },
+  {
+    "english": "Sodden Lands",
+    "recommended": "浸润之地",
+    "category": "地域",
+    "count": 12,
+    "other_translations": []
+  },
+  {
+    "english": "Mindspin Mountains",
+    "recommended": "一种旋心山脉",
+    "category": "地域",
+    "count": 10,
+    "other_translations": [
+      "魂皮山脉"
+    ]
+  },
+  {
+    "english": "The Shackles",
+    "recommended": "镣铐群岛",
+    "category": "地域",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Mana Wastes",
+    "recommended": "是由暴露在法力废土",
+    "category": "地域",
+    "count": 10,
+    "other_translations": [
+      "法力废墟",
+      "和许久之前在法力废墟"
+    ]
+  },
+  {
+    "english": "Storval Plateau",
+    "recommended": "斯托瓦尔高原",
+    "category": "地域",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Occult Skill Unlocks",
+    "recommended": "神秘技能解放",
+    "category": "规则概念",
+    "count": 39,
+    "other_translations": []
+  },
+  {
+    "english": "Occult Messenger",
+    "recommended": "魔宠变体",
+    "category": "组织/势力",
+    "count": 8,
+    "other_translations": [
+      "异能信使"
+    ]
+  },
+  {
+    "english": "Mystery Cultist",
+    "recommended": "神秘教徒",
+    "category": "组织/势力",
+    "count": 7,
+    "other_translations": []
+  },
+  {
+    "english": "Town Hall",
+    "recommended": "市政厅",
+    "category": "组织/势力",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Hit Die",
+    "recommended": "生命骰",
+    "category": "规则概念",
+    "count": 165,
+    "other_translations": []
+  },
+  {
+    "english": "Skill Mastery",
+    "recommended": "技能专精",
+    "category": "规则概念",
+    "count": 34,
+    "other_translations": []
+  },
+  {
+    "english": "Surprise Attack",
+    "recommended": "突袭攻击",
+    "category": "规则概念",
+    "count": 25,
+    "other_translations": []
+  },
+  {
+    "english": "Honor Points",
+    "recommended": "荣誉点",
+    "category": "规则概念",
+    "count": 14,
+    "other_translations": []
+  },
+  {
+    "english": "Charge Object",
+    "recommended": "填写异能",
+    "category": "规则概念",
+    "count": 12,
+    "other_translations": []
+  },
+  {
+    "english": "Critical Failure",
+    "recommended": "大失败",
+    "category": "规则概念",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Special Attacks",
+    "recommended": "特殊攻击",
+    "category": "规则概念",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Campaign Use",
+    "recommended": "战役用途",
+    "category": "规则概念",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Base Price",
+    "recommended": "基础价格",
+    "category": "规则概念",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Settlement Modifiers",
+    "recommended": "定居点修正",
+    "category": "规则概念",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Build Points",
+    "recommended": "建造点数",
+    "category": "规则概念",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Upkeep Phase",
+    "recommended": "维持阶段",
+    "category": "规则概念",
+    "count": 8,
+    "other_translations": [
+      "维护阶段"
+    ]
+  },
+  {
+    "english": "New Rules",
+    "recommended": "新规则",
+    "category": "规则概念",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Animal Companion",
+    "recommended": "动物伙伴",
+    "category": "规则概念",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Ultimate Wilderness",
+    "recommended": "极限荒野",
+    "category": "来源书籍",
+    "count": 42,
+    "other_translations": [
+      "请查阅"
+    ]
+  },
+  {
+    "english": "Ultimate Magic",
+    "recommended": "极限魔法",
+    "category": "来源书籍",
+    "count": 32,
+    "other_translations": [
+      "终极魔法"
+    ]
+  },
+  {
+    "english": "The Inner Sea World Guide",
+    "recommended": "内海世界指南",
+    "category": "来源书籍",
+    "count": 23,
+    "other_translations": [
+      "出自",
+      "详见"
+    ]
+  },
+  {
+    "english": "Arcane Anthology",
+    "recommended": "秘术选集",
+    "category": "来源书籍",
+    "count": 22,
+    "other_translations": [
+      "奥术选集"
+    ]
+  },
+  {
+    "english": "Villain Codex",
+    "recommended": "反派法典",
+    "category": "来源书籍",
+    "count": 20,
+    "other_translations": [
+      "反派志"
+    ]
+  },
+  {
+    "english": "Occult Adventures",
+    "recommended": "异能冒险",
+    "category": "来源书籍",
+    "count": 18,
+    "other_translations": [
+      "详细见",
+      "有关仪式的全部规则详见"
+    ]
+  },
+  {
+    "english": "Pathfinder Player Companion",
+    "recommended": "玩家伴侣",
+    "category": "来源书籍",
+    "count": 18,
+    "other_translations": []
+  },
+  {
+    "english": "Advanced Race Guide",
+    "recommended": "进阶种族手册",
+    "category": "来源书籍",
+    "count": 16,
+    "other_translations": [
+      "进阶种族指南"
+    ]
+  },
+  {
+    "english": "Inner Sea Gods",
+    "recommended": "内海诸神",
+    "category": "来源书籍",
+    "count": 16,
+    "other_translations": [
+      "战役设定集"
+    ]
+  },
+  {
+    "english": "Ultimate Combat",
+    "recommended": "极限战斗",
+    "category": "来源书籍",
+    "count": 16,
+    "other_translations": []
+  },
+  {
+    "english": "Mythic Adventures",
+    "recommended": "神话冒险",
+    "category": "来源书籍",
+    "count": 16,
+    "other_translations": [
+      "详见"
+    ]
+  },
+  {
+    "english": "Horror Adventures",
+    "recommended": "惧怖冒险",
+    "category": "来源书籍",
+    "count": 14,
+    "other_translations": [
+      "未整理部分加入"
+    ]
+  },
+  {
+    "english": "Pathfinder Society",
+    "recommended": "有关",
+    "category": "来源书籍",
+    "count": 14,
+    "other_translations": [
+      "魔法指南针是寻路者协会",
+      "探索者协会"
+    ]
+  },
+  {
+    "english": "Pathfinder RPG Core Rulebook",
+    "recommended": "并遵循核心手册",
+    "category": "来源书籍",
+    "count": 12,
+    "other_translations": [
+      "详细请见核心手册"
+    ]
+  },
+  {
+    "english": "Martial Arts Handbook",
+    "recommended": "武术手册",
+    "category": "来源书籍",
+    "count": 10,
+    "other_translations": [
+      "来源",
+      "玩家伴侣"
+    ]
+  },
+  {
+    "english": "Inner Sea Magic",
+    "recommended": "内海魔法",
+    "category": "来源书籍",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Advanced Class Guide",
+    "recommended": "进化职业手册",
+    "category": "来源书籍",
+    "count": 10,
+    "other_translations": [
+      "进阶职业手册"
+    ]
+  },
+  {
+    "english": "Ultimate Intrigue",
+    "recommended": "极限诡道",
+    "category": "来源书籍",
+    "count": 10,
+    "other_translations": [
+      "惧怖冒险"
+    ]
+  },
+  {
+    "english": "Technology Guide",
+    "recommended": "科技指南",
+    "category": "来源书籍",
+    "count": 10,
+    "other_translations": [
+      "出自"
+    ]
+  },
+  {
+    "english": "Wilderness Origins",
+    "recommended": "荒野起源",
+    "category": "来源书籍",
+    "count": 10,
+    "other_translations": [
+      "出自",
+      "荒野源始"
+    ]
+  },
+  {
+    "english": "Pathfinder RPG Bestiary",
+    "recommended": "详见",
+    "category": "来源书籍",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Dirty Tactics Toolbox",
+    "recommended": "阴招战术工具箱",
+    "category": "来源书籍",
+    "count": 8,
+    "other_translations": [
+      "阴招战术工具匣"
+    ]
+  },
+  {
+    "english": "Core Rulebook",
+    "recommended": "核心手册",
+    "category": "来源书籍",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Monster Codex",
+    "recommended": "怪物志",
+    "category": "来源书籍",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Resonant Power",
+    "recommended": "共鸣之力",
+    "category": "其他",
+    "count": 16,
+    "other_translations": []
+  },
+  {
+    "english": "Compassionate Ally",
+    "recommended": "战友情深",
+    "category": "其他",
+    "count": 13,
+    "other_translations": []
+  },
+  {
+    "english": "Slippery Mind",
+    "recommended": "心智灵活",
+    "category": "其他",
+    "count": 12,
+    "other_translations": []
+  },
+  {
+    "english": "Spit Venom",
+    "recommended": "毒液喷吐",
+    "category": "其他",
+    "count": 12,
+    "other_translations": [
+      "毒液喷发"
+    ]
+  },
+  {
+    "english": "Trained Throw",
+    "recommended": "或流星飞掷",
+    "category": "其他",
+    "count": 12,
+    "other_translations": []
+  },
+  {
+    "english": "Mythic Crafter",
+    "recommended": "神话工匠",
+    "category": "其他",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Delusional Pride",
+    "recommended": "妄尊自大",
+    "category": "其他",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Telempathic Projection",
+    "recommended": "心绪投影",
+    "category": "其他",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Kin Guardian",
+    "recommended": "战斗背景护家者",
+    "category": "其他",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Mesmerist Trick",
+    "recommended": "催眠师诡计",
+    "category": "其他",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Hidden Presence",
+    "recommended": "隐藏者",
+    "category": "其他",
+    "count": 10,
+    "other_translations": [
+      "隐藏存在感"
+    ]
+  },
+  {
+    "english": "Dull Gray",
+    "recommended": "暗灰色",
+    "category": "其他",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Psychic Inception",
+    "recommended": "开启心智",
+    "category": "其他",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Baba Yaga",
+    "recommended": "的体内流淌着芭芭雅嘎",
+    "category": "其他",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Call Truce",
+    "recommended": "呼吁停战",
+    "category": "其他",
+    "count": 10,
+    "other_translations": []
+  },
+  {
+    "english": "Grand Diplomat",
+    "recommended": "外交大臣",
+    "category": "其他",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Fearsome Duplicate",
+    "recommended": "恐怖假身",
+    "category": "其他",
+    "count": 8,
+    "other_translations": [
+      "虚假复制体"
+    ]
+  },
+  {
+    "english": "Dance Hall",
+    "recommended": "舞厅",
+    "category": "其他",
+    "count": 8,
+    "other_translations": []
+  },
+  {
+    "english": "Phantom Driver",
+    "recommended": "幻影车夫",
+    "category": "其他",
+    "count": 7,
+    "other_translations": []
+  },
+  {
+    "english": "Concentrate Poison",
+    "recommended": "浓缩毒素",
+    "category": "其他",
+    "count": 7,
+    "other_translations": []
+  },
+  {
+    "english": "Euphoric Tranquility",
+    "recommended": "爱与和平",
+    "category": "其他",
+    "count": 7,
+    "other_translations": []
+  },
+  {
+    "english": "Campfire Wall",
+    "recommended": "营火之墙",
+    "category": "其他",
+    "count": 7,
+    "other_translations": []
+  },
+  {
+    "english": "Distressing Tone",
+    "recommended": "痛苦之声",
+    "category": "其他",
+    "count": 7,
+    "other_translations": []
+  },
+  {
+    "english": "Haunting Mists",
+    "recommended": "鬼灵迷雾",
+    "category": "其他",
+    "count": 7,
+    "other_translations": []
+  },
+  {
+    "english": "Leadership Score",
+    "recommended": "领导力值",
+    "category": "其他",
+    "count": 7,
+    "other_translations": []
+  },
+  {
+    "english": "Tian Xia",
+    "recommended": "驭者",
+    "category": "其他",
+    "count": 7,
+    "other_translations": [
+      "的天夏"
+    ]
+  },
+  {
+    "english": "Keen Senses",
+    "recommended": "感官锐化",
+    "category": "其他",
+    "count": 7,
+    "other_translations": [
+      "敏锐感官"
+    ]
+  },
+  {
+    "english": "Guarded Life",
+    "recommended": "生命守护",
+    "category": "其他",
+    "count": 7,
+    "other_translations": [
+      "命硬"
+    ]
+  },
+  {
+    "english": "Silver Ravens",
+    "recommended": "银渡鸦",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "GOLEM MANUAL",
+    "recommended": "魔像手册",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "TOME OF CLEAR THOUGHT",
+    "recommended": "静思卷册",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "CRYSTAL BALL",
+    "recommended": "水晶球",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Riding Dog",
+    "recommended": "骑乘用犬",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Ghost Wolf",
+    "recommended": "幽灵狼",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Instant Portrait",
+    "recommended": "即刻肖像",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Dream Scan",
+    "recommended": "窥视梦境",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Ectoplasmic Eruption",
+    "recommended": "灵质喷发",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Etheric Shards",
+    "recommended": "灵质刺阵",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "HEADBAND OF INSPIRED WISDOM",
+    "recommended": "感知头带",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "HEADBAND OF MENTAL SUPERIORITY",
+    "recommended": "超凡心灵头带",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "HEADBAND OF MENTAL PROWESS",
+    "recommended": "心灵力量头带",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Pesh Vigor",
+    "recommended": "仙人掌粹的活力",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Liberating Command",
+    "recommended": "脱困指令",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Extra Channel",
+    "recommended": "额外引导",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Grabbing Style",
+    "recommended": "擒拿手",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Jabbing Style",
+    "recommended": "百裂拳",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Pummeling Style",
+    "recommended": "刚烈掌",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Pummeling Charge",
+    "recommended": "天将奔烈",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Undead Controlling",
+    "recommended": "操灵",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Hidden Knowledge",
+    "recommended": "隐藏知识",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Shared Sacrifice",
+    "recommended": "共受血祭",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Obscured Script",
+    "recommended": "朦胧手稿",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Sympathetic Aura",
+    "recommended": "同调灵光",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Planar Inquiry",
+    "recommended": "异界咨询",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Pale Ruby",
+    "recommended": "淡红色",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Nacreous Gray",
+    "recommended": "珍珠灰",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Pale Lavender",
+    "recommended": "淡紫色",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Pearly White",
+    "recommended": "珍珠白",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Grasping Corpse",
+    "recommended": "掌控尸体",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Rigor Mortis",
+    "recommended": "尸僵",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Hunger For Flesh",
+    "recommended": "渴饮血肉",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Varisian Tattoo",
+    "recommended": "瓦瑞西安刺青",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Possessed Oracle",
+    "recommended": "着魔智者",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Divine Scion",
+    "recommended": "神嗣",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Godless Healing",
+    "recommended": "无信者自愈",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "The Newlyweds",
+    "recommended": "新婚座",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "The Wagon",
+    "recommended": "马车座",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Tears To Wine",
+    "recommended": "化泪为酒",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Strength Surge",
+    "recommended": "蛮勇之力",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Surprise Accuracy",
+    "recommended": "无比精准",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Renewed Vigor",
+    "recommended": "重生之力",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Clear Mind",
+    "recommended": "心如坚钢",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Unexpected Strike",
+    "recommended": "诡击",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Mighty Swing",
+    "recommended": "猛力挥击",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Powerful Blow",
+    "recommended": "猛力一击",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Plundered Power",
+    "recommended": "窃取伟力",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Anthropomorphic Animal",
+    "recommended": "动物人化",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Fleshworm Infestation",
+    "recommended": "血蛆侵袭",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Polar Midnight",
+    "recommended": "冷酷凛冬",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Protective Penumbra",
+    "recommended": "防护之影",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Corpse Hunter",
+    "recommended": "猎尸者",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Income Phase",
+    "recommended": "收益阶段",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Small Crowd",
+    "recommended": "小规模",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Medium Crowd",
+    "recommended": "中等规模",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Large Crowd",
+    "recommended": "大规模",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Massive Mob",
+    "recommended": "超大规模",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Pathfinder Comics",
+    "recommended": "官方漫画",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Burning Gaze",
+    "recommended": "灼热凝视",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Killing Flourish",
+    "recommended": "处刑秀",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Broken Wing Gambit",
+    "recommended": "弃兵断翼",
+    "category": "其他",
+    "count": 6,
+    "other_translations": []
+  },
+  {
+    "english": "Sanguine Angel",
+    "recommended": "染血天使",
+    "category": "其他",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "MANUAL OF BODILY HEALTH",
+    "recommended": "强身手册",
+    "category": "其他",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "MANUAL OF GAINFUL EXERCISE",
+    "recommended": "健骨手册",
+    "category": "其他",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "MANUAL OF QUICKNESS OF ACTION",
+    "recommended": "灵巧手册",
+    "category": "其他",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "TOME OF UNDERSTANDING",
+    "recommended": "通晓卷册",
+    "category": "其他",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "Crimson Templar",
+    "recommended": "绯红十字军",
+    "category": "其他",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "Devoted Muse",
+    "recommended": "誓诚缪斯",
+    "category": "其他",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "Sacred Sentinel",
+    "recommended": "虔圣保卫者",
+    "category": "其他",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "Living Monolith",
+    "recommended": "活体石像",
+    "category": "其他",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "Amplify Elixir",
+    "recommended": "增效灵药",
+    "category": "其他",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "Heightened Reflexes",
+    "recommended": "强化反应",
+    "category": "其他",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "Marching Chant",
+    "recommended": "行军号子",
+    "category": "其他",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "Dawnflower Dissident",
+    "recommended": "晨花讨逆者",
+    "category": "其他",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "Boiling Blood",
+    "recommended": "血沸",
+    "category": "其他",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "Delay Pain",
+    "recommended": "延缓痛苦",
+    "category": "其他",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "Exquisite Accompaniment",
+    "recommended": "幽影伴奏",
+    "category": "其他",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "Piercing Shriek",
+    "recommended": "厉声尖啸",
+    "category": "其他",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "Poison Conversion",
+    "recommended": "毒素转换",
+    "category": "其他",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "See Alignment",
+    "recommended": "检视阵营",
+    "category": "其他",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "Coordinated Effort",
+    "recommended": "协调行动",
+    "category": "其他",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "Brilliant Inspiration",
+    "recommended": "辉煌启言",
+    "category": "其他",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "Bleeding Blow",
+    "recommended": "流血猛击",
+    "category": "其他",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "Technic Scavenger",
+    "recommended": "回收者",
+    "category": "其他",
+    "count": 5,
+    "other_translations": []
+  },
+  {
+    "english": "英文标注",
+    "recommended": "全称",
+    "category": "其他",
+    "count": 0,
+    "other_translations": []
+  }
+]

@@ -1,0 +1,130 @@
+spring:
+  application:
+    name: pf-agent
+  ai:
+    openai:
+      # DeepSeek API（兼容 OpenAI 格式）— 仅作 ChatModel
+      base-url: https://api.deepseek.com
+      api-key: ${DEEPSEEK_PF_API:your-api-key-here}
+      chat:
+        options:
+          model: deepseek-chat
+          temperature: 0.3
+    ollama:
+      # 本地 Embedding（BGE-M3, 1024 维，中文检索能力优于 nomic-embed-text）
+      base-url: http://localhost:11434
+      embedding:
+        options:
+          model: bge-m3
+    # 关闭 LLM 调用重试，避免超时被放大（Spring AI 默认 max-attempts=10）
+    retry:
+      max-attempts: 1
+
+server:
+  port: 8080
+
+# 应用自定义配置
+pf:
+  rate-limit:
+    enabled: false             # F-010 按 IP 限频开关（false = 不装配拦截器，零行为变化）
+    per-minute: 20             # 每 IP 每分钟 /api/chat 上限（超限 429 rate_limited）
+    trust-forwarded-for: false # 反向代理部署时开：取 X-Forwarded-For 首跳；默认关防伪造
+  quota:
+    enabled: false             # F-011 匿名会话轮次配额开关（false = 不装配服务，零行为变化）
+    anonymous-rounds: 20       # 每会话累计轮数上限（达上限 429 quota_exceeded；新会话重新计）
+  chat:
+    # 会话记忆实现：memory = 内存（默认，不碰数据库）/ jdbc = PostgreSQL 持久化（须配下方 datasource）
+    memory: memory
+    # 持久化保留轮数（F-005，仅 jdbc 模式生效）：超过即裁剪最旧轮，默认保留最近 20 轮
+    history-rounds: 20
+  chunks:
+    # 各数据模块向量化产物路径（相对 agent 工程根目录）
+    spells-path: ../../pf_data/phase1/vectorizer/output/法术/chunks.jsonl
+    # 职业 CP4 起走 vectorizer 统一产物（StandardChunk）；老产物 vectorization_prep_profession/ 退役
+    classes-path: ../../pf_data/phase1/vectorizer/output/职业/chunks.jsonl
+    # 六个标准模块（统一行模型 StandardChunk）
+    feat-path: ../../pf_data/phase1/vectorizer/output/专长/chunks.jsonl
+    race-path: ../../pf_data/phase1/vectorizer/output/种族/chunks.jsonl
+    trait-path: ../../pf_data/phase1/vectorizer/output/背景特性/chunks.jsonl
+    equipment-path: ../../pf_data/phase1/vectorizer/output/装备/chunks.jsonl
+    skill-path: ../../pf_data/phase1/vectorizer/output/技能/chunks.jsonl
+    rule-path: ../../pf_data/phase1/vectorizer/output/规则/chunks.jsonl
+  spell-lists:
+    # SP3 F-007：职业法术列表预整理产物（getSpellList 直查数据源，gitignored 可再生）
+    file-path: ../../pf_data/phase1/vectorizer/output/法术/spell_lists.json
+  embedding:
+    # SP5：查询 embedding 双通道（模型一致性约束：只能 bge-m3，换模型=重建向量库）
+    primary: ollama              # ollama（默认，开源自部署零配置，单通道）| cloud（托管 bge-m3）
+    fallback-enabled: false      # 主通道调用失败降级另一通道；primary=cloud 时建议置 true
+                                 # （未显式设置时按 D6：primary=cloud 默认 true，ollama 默认 false）
+    cloud:
+      # 托管 bge-m3（OpenAI 兼容 /v1/embeddings，1024 维与本地一致）；仅 cloud 参与（主/备）时启用
+      base-url: https://api.siliconflow.cn
+      api-key: ${PF_EMBEDDING_CLOUD_API_KEY:}   # 只经环境变量注入，严禁入库
+      model: BAAI/bge-m3
+  search:
+    # 语义检索（LLM 工具面驱动）
+    top-k: 15                   # 语义检索默认命中数（v2.1 5→15：语义拥挤模块锚点排 20+ 出局，扩大召回）
+    similarity-threshold: 0.5   # 语义检索相似度阈值
+    enumeration-top-k: 500      # 元数据枚举上限（searchByMetadata，防超大枚举）
+    max-tool-rounds: 10         # 手动工具循环轮次上限（超限强制收敛作答，不再抛 500）
+    max-history-chars: 50000    # 工具循环上下文字符上限，超限强制收敛作答（不再调工具）
+    vector-result-chars: 800    # vectorSearch 单条正文截断长度（topK 扩大后收紧，抵消 token 增量）
+    metadata-result-chars: 4000 # searchByMetadata 紧凑列表字符上限，超限截断并提示收窄过滤
+    chat-timeout: 60s           # 单次 LLM 调用读超时（辅助防线，防单次调用卡死）
+    # v1.8（AKN-003 方案 B）：class 基础职业页排序加分 + 候选集扩容（补配置，代码 @Value 默认值兜底）
+    class-base-bonus: 0.03      # class 基础职业页相似度加分（仅排序，不改 score）
+    class-extra-candidates: 3   # class 模块候选集扩容（topK + N，给加分重排留空间）
+    # F-002 检索端语义降权
+    intro-penalty: 0.03         # intro/reference 低信息量 chunk 排序减分（仅排序；置 0 关闭）
+    filter-blank-text: true     # 空 text chunk 剔除（无信息量，空 embedding；置 false 关闭）
+    oversize-penalty: 0.02      # oversize 超长 chunk 排序减分（超长 embedding 语义稀释；置 0 关闭）
+    oversize-threshold: 5000    # oversize 判定阈值（text 字符数，超过才减分）
+    # P0-B2（剩余 4 题溯源修复）：候选扩容 + title/aliases 词元命中加权
+    rerank-extra-candidates: 10 # 候选集扩容（topK + N，全模块；重排前截断问题对治；置 0 关闭）
+    title-match-boost: 0.05     # 检索词元命中 title/aliases 排序加分（仅排序；置 0 关闭）
+    title-boost-stopwords: 法术,规则,专长,效果,职业,装备,物品,魔法,如何,什么,哪些,途径,方法,of,the,and,to,in # title 加权停用词（防泛词误加权）
+  stores:
+    # 各模块向量库持久化文件（首次启动构建后生成，模块独立）
+    spell-file-path: ${user.home}/.pf_agent/vector_store_spells.json
+    class-file-path: ${user.home}/.pf_agent/vector_store_classes.json
+    # 六个标准模块
+    feat-file-path: ${user.home}/.pf_agent/vector_store_feats.json
+    race-file-path: ${user.home}/.pf_agent/vector_store_races.json
+    trait-file-path: ${user.home}/.pf_agent/vector_store_traits.json
+    equipment-file-path: ${user.home}/.pf_agent/vector_store_equipment.json
+    skill-file-path: ${user.home}/.pf_agent/vector_store_skills.json
+    rule-file-path: ${user.home}/.pf_agent/vector_store_rules.json
+    # v1.6：spell 库 metadata 重放开关（置 true 启动执行一次，幂等，完成后改回 false）
+    metadata-replay: false
+  gaps:
+    # 数据缺口记录（reportDataGap 工具追加 JSONL，后续脚本分析驱动优化）
+    file-path: ${user.home}/.pf_agent/data_gaps.jsonl
+  feedback:
+    # 错误标注记录（前端「标错」按钮追加 JSONL，qa/annotations_report.py 聚类分析驱动优化）
+    file-path: ${user.home}/.pf_agent/annotations.jsonl
+  tools:
+    # 工具调用记录（F-006：每次问答的工具调用明细追加 JSONL，qa/tool_calls_report.py 聚合分析驱动 prompt/检索策略调优）
+    file-path: ${user.home}/.pf_agent/tool_calls.jsonl
+  memory:
+    history-size: 20            # 注入 prompt 的历史条数上限（L1 手动 ChatMemory）；与 pf.chat.history-rounds（持久化保留轮数）语义不同
+
+# PostgreSQL 会话持久化接入（SP1，可选）：
+# 仅当 pf.chat.memory=jdbc 时数据层启用（AgentApplication 默认排除数据层自动配置，
+# 由 JdbcDataConfig 在 jdbc 模式下按官方 auto-config 装配）。取消下面注释并填连接串即接入：
+# spring:
+#   datasource:
+#     url: jdbc:postgresql://localhost:5432/pf_agent
+#     username: postgres
+#     password: postgres
+#   jpa:
+#     hibernate:
+#       ddl-auto: validate       # schema 由 Flyway 管理（V1__init.sql），Hibernate 只校验不建表
+#   flyway:
+#     enabled: true
+
+# 日志
+logging:
+  level:
+    com.pfagent.agent: DEBUG
+    org.springframework.ai: INFO

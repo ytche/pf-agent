@@ -1,0 +1,1356 @@
+{
+  "source_book": "永罪之书",
+  "source_book_english": "Book of the Damned",
+  "source_dir": "pf_data/phase1/pf_rules_md/未整理/永罪之书BotD",
+  "stats": {
+    "added": 164,
+    "skipped": 3,
+    "errors": []
+  },
+  "sections": [
+    {
+      "source": "专长38.md",
+      "title": "锁链熟稔",
+      "english": "",
+      "target": "专长/永罪之书_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "专长38.md",
+      "title": "链舞",
+      "english": "",
+      "target": "专长/永罪之书_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "专长38.md",
+      "title": "致命之角",
+      "english": "",
+      "target": "专长/永罪之书_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "专长38.md",
+      "title": "蛇魔",
+      "english": "",
+      "target": "专长/永罪之书_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "专长38.md",
+      "title": "翼魔",
+      "english": "",
+      "target": "专长/永罪之书_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "专长38.md",
+      "title": "梦魇之链",
+      "english": "",
+      "target": "专长/永罪之书_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "专长38.md",
+      "title": "牺牲效力",
+      "english": "",
+      "target": "专长/永罪之书_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "专长38.md",
+      "title": "魂力魔法",
+      "english": "",
+      "target": "专长/永罪之书_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "专长38.md",
+      "title": "灵魂的价值",
+      "english": "",
+      "target": "专长/永罪之书_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "专长38.md",
+      "title": "生命力",
+      "english": "",
+      "target": "专长/永罪之书_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "专长38.md",
+      "title": "特色",
+      "english": "",
+      "target": "专长/永罪之书_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "page_1555.md",
+      "title": "魔族仪典",
+      "english": "",
+      "target": "专长/永罪之书_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "page_1555.md",
+      "title": "罪恶使徒",
+      "english": "",
+      "target": "专长/永罪之书_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "page_1555.md",
+      "title": "罪恶尖兵",
+      "english": "",
+      "target": "专长/永罪之书_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "page_1556.md",
+      "title": "魔鬼大师",
+      "english": "Diabolist",
+      "cls": "进阶职业",
+      "section_title": "进阶职业",
+      "target": "职业/进阶职业/BoDV永罪之书/page_1000.md",
+      "marker": "**魔鬼大师（Diabolist",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_1562.md",
+      "title": "除了残忍的植入物",
+      "english": "fiendish implants",
+      "target": "装备_魔法物品/魔法物品/永罪之书_魔法物品.md",
+      "section_title": "魔法物品",
+      "action": "added"
+    },
+    {
+      "source": "page_1562.md",
+      "title": "这种简单的蒲团是用生长在格殷永",
+      "english": "Geryon",
+      "target": "装备_魔法物品/魔法物品/永罪之书_魔法物品.md",
+      "section_title": "魔法物品",
+      "action": "added"
+    },
+    {
+      "source": "page_1562.md",
+      "title": "邪魔",
+      "english": "Daemons",
+      "target": "装备_魔法物品/魔法物品/永罪之书_魔法物品.md",
+      "section_title": "魔法物品",
+      "action": "added"
+    },
+    {
+      "source": "page_1562.md",
+      "title": "痛苦抓握",
+      "english": "Grasp of Torment",
+      "target": "装备_魔法物品/魔法物品/永罪之书_魔法物品.md",
+      "section_title": "魔法物品",
+      "action": "added"
+    },
+    {
+      "source": "page_1562.md",
+      "title": "这颗被刻成带着数十颗锋利的牙齿的狂躁邪魔",
+      "english": "cacodaemon",
+      "target": "装备_魔法物品/魔法物品/永罪之书_魔法物品.md",
+      "section_title": "魔法物品",
+      "action": "added"
+    },
+    {
+      "source": "仪式6.md",
+      "title": "目标",
+      "english": "",
+      "target": "规则/永罪之书_仪式.md",
+      "section_title": "仪式",
+      "action": "added"
+    },
+    {
+      "source": "仪式6.md",
+      "title": "名字",
+      "english": "Name",
+      "target": "规则/永罪之书_仪式.md",
+      "section_title": "仪式",
+      "action": "added"
+    },
+    {
+      "source": "仪式6.md",
+      "title": "祭品",
+      "english": "Offering",
+      "target": "规则/永罪之书_仪式.md",
+      "section_title": "仪式",
+      "action": "added"
+    },
+    {
+      "source": "仪式6.md",
+      "title": "目标",
+      "english": "",
+      "target": "规则/永罪之书_仪式.md",
+      "section_title": "仪式",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "仪式6.md",
+      "title": "目标",
+      "english": "",
+      "target": "规则/永罪之书_仪式.md",
+      "section_title": "仪式",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "仪式6.md",
+      "title": "年龄",
+      "english": "Age",
+      "target": "规则/永罪之书_仪式.md",
+      "section_title": "仪式",
+      "action": "added"
+    },
+    {
+      "source": "仪式6.md",
+      "title": "特色",
+      "english": "Flavor",
+      "target": "规则/永罪之书_仪式.md",
+      "section_title": "仪式",
+      "action": "added"
+    },
+    {
+      "source": "魔鬼护身符.md",
+      "title": "血腥护身符",
+      "english": "Sanguine Talisman",
+      "target": "装备_魔法物品/魔法物品/永罪之书_魔鬼护身符.md",
+      "section_title": "魔鬼护身符",
+      "action": "added"
+    },
+    {
+      "source": "神恩/地狱/page_1513.md",
+      "title": "阿达德·莉莉",
+      "english": "Ardad Lili",
+      "target": "规则/永罪之书_地狱魔神神恩.md",
+      "section_title": "地狱魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/地狱/page_1523.md",
+      "title": "阿斯莫迪尔斯",
+      "english": "Asmodeus",
+      "target": "规则/永罪之书_地狱魔神神恩.md",
+      "section_title": "地狱魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/地狱/page_1524.md",
+      "title": "巴尔泽布",
+      "english": "Baalzebul",
+      "target": "规则/永罪之书_地狱魔神神恩.md",
+      "section_title": "地狱魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/地狱/page_1526.md",
+      "title": "巴巴托斯",
+      "english": "Barbatos",
+      "target": "规则/永罪之书_地狱魔神神恩.md",
+      "section_title": "地狱魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/地狱/page_1527.md",
+      "title": "贝利亚",
+      "english": "Belial",
+      "target": "规则/永罪之书_地狱魔神神恩.md",
+      "section_title": "地狱魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/地狱/page_1531.md",
+      "title": "迪斯帕特",
+      "english": "Dispater",
+      "target": "规则/永罪之书_地狱魔神神恩.md",
+      "section_title": "地狱魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/地狱/page_1533.md",
+      "title": "格殷永",
+      "english": "Geryon",
+      "target": "规则/永罪之书_地狱魔神神恩.md",
+      "section_title": "地狱魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/地狱/page_1539.md",
+      "title": "马蒙",
+      "english": "Mammon",
+      "target": "规则/永罪之书_地狱魔神神恩.md",
+      "section_title": "地狱魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/地狱/page_1541.md",
+      "title": "墨菲斯托菲利斯",
+      "english": "Mephistopheles",
+      "target": "规则/永罪之书_地狱魔神神恩.md",
+      "section_title": "地狱魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/地狱/page_1543.md",
+      "title": "摩洛克",
+      "english": "Moloch",
+      "target": "规则/永罪之书_地狱魔神神恩.md",
+      "section_title": "地狱魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/地狱/page_1554.md",
+      "title": "阿洛斯",
+      "english": "Alocer",
+      "target": "规则/永罪之书_地狱魔神神恩.md",
+      "section_title": "地狱魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/地狱/page_1554.md",
+      "title": "比弗伦斯",
+      "english": "Bifrons",
+      "target": "规则/永罪之书_地狱魔神神恩.md",
+      "section_title": "地狱魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/地狱/page_1554.md",
+      "title": "克洛塞尔",
+      "english": "Crocell",
+      "target": "规则/永罪之书_地狱魔神神恩.md",
+      "section_title": "地狱魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/地狱/page_1554.md",
+      "title": "狄慕斯",
+      "english": "Deumus",
+      "target": "规则/永罪之书_地狱魔神神恩.md",
+      "section_title": "地狱魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/地狱/page_1554.md",
+      "title": "艾凯",
+      "english": "Eaqueo",
+      "target": "规则/永罪之书_地狱魔神神恩.md",
+      "section_title": "地狱魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/地狱/page_1554.md",
+      "title": "伊奥兹雷尔",
+      "english": "Iaozrael",
+      "target": "规则/永罪之书_地狱魔神神恩.md",
+      "section_title": "地狱魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/地狱/page_1554.md",
+      "title": "基拉夫岱因",
+      "english": "Jiraviddain",
+      "target": "规则/永罪之书_地狱魔神神恩.md",
+      "section_title": "地狱魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/地狱/page_1554.md",
+      "title": "卡玛",
+      "english": "Kalma",
+      "target": "规则/永罪之书_地狱魔神神恩.md",
+      "section_title": "地狱魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/地狱/page_1554.md",
+      "title": "奎因德范托斯",
+      "english": "Quindiovatos",
+      "target": "规则/永罪之书_地狱魔神神恩.md",
+      "section_title": "地狱魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/地狱/page_1554.md",
+      "title": "拉斯沃尔克",
+      "english": "Rasvocel",
+      "target": "规则/永罪之书_地狱魔神神恩.md",
+      "section_title": "地狱魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/地狱/page_1554.md",
+      "title": "卢泽尔",
+      "english": "Ruzel",
+      "target": "规则/永罪之书_地狱魔神神恩.md",
+      "section_title": "地狱魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/地狱/page_1554.md",
+      "title": "提提维鲁斯",
+      "english": "Titivilus",
+      "target": "规则/永罪之书_地狱魔神神恩.md",
+      "section_title": "地狱魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/地狱/page_1554.md",
+      "title": "乌鲁斯卡里",
+      "english": "Uruskreil",
+      "target": "规则/永罪之书_地狱魔神神恩.md",
+      "section_title": "地狱魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/地狱/page_1554.md",
+      "title": "瓦普拉",
+      "english": "Vapula",
+      "target": "规则/永罪之书_地狱魔神神恩.md",
+      "section_title": "地狱魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/地狱/page_1554.md",
+      "title": "冯易斯",
+      "english": "Vois",
+      "target": "规则/永罪之书_地狱魔神神恩.md",
+      "section_title": "地狱魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/地狱/雄霸魔.md",
+      "title": "亚利几诺",
+      "english": "ALICHINO",
+      "target": "规则/永罪之书_地狱魔神神恩.md",
+      "section_title": "地狱魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/地狱/雄霸魔.md",
+      "title": "巴巴利却",
+      "english": "BARBARICCIA",
+      "target": "规则/永罪之书_地狱魔神神恩.md",
+      "section_title": "地狱魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/地狱/雄霸魔.md",
+      "title": "切尔奇亚托",
+      "english": "CIRCIATTO",
+      "target": "规则/永罪之书_地狱魔神神恩.md",
+      "section_title": "地狱魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/地狱/雄霸魔.md",
+      "title": "格拉非冈",
+      "english": "GRAFFIACANE",
+      "target": "规则/永罪之书_地狱魔神神恩.md",
+      "section_title": "地狱魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/末日荒原/page_1517.md",
+      "title": "阿里曼",
+      "english": "Ahriman",
+      "target": "规则/永罪之书_末日荒原魔神神恩.md",
+      "section_title": "末日荒原魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/末日荒原/page_1521.md",
+      "title": "天启驭者，亚玻伦",
+      "english": "Horseman, Apollyon",
+      "target": "规则/永罪之书_末日荒原魔神神恩.md",
+      "section_title": "末日荒原魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/末日荒原/page_1528.md",
+      "title": "天启驭者，卡戎",
+      "english": "Horseman, Charon",
+      "target": "规则/永罪之书_末日荒原魔神神恩.md",
+      "section_title": "末日荒原魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/末日荒原/page_1549.md",
+      "title": "天启驭者，祖瑞尔",
+      "english": "Horseman, Szuriel",
+      "target": "规则/永罪之书_末日荒原魔神神恩.md",
+      "section_title": "末日荒原魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/末日荒原/page_1550.md",
+      "title": "天启驭者，崔玛瑞希",
+      "english": "Horseman Trelmarixian",
+      "target": "规则/永罪之书_末日荒原魔神神恩.md",
+      "section_title": "末日荒原魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/page_1509.md",
+      "title": "哈艮地内在之语",
+      "english": "",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/page_1510.md",
+      "title": "杰萨尔达",
+      "english": "",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/page_1511.md",
+      "title": "腐败荒原王子",
+      "english": "",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/page_1512.md",
+      "title": "柔丝之罪",
+      "english": "SOCOTHBENOTH",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/page_1514.md",
+      "title": "帕祖祖",
+      "english": "Pazuzu",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/page_1516.md",
+      "title": "阿巴拉克萨斯",
+      "english": "",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/page_1518.md",
+      "title": "奥迪娜克",
+      "english": "ALDINACH",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/page_1519.md",
+      "title": "安德莉芙库Andirifkhu",
+      "english": "",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/page_1520.md",
+      "title": "安加赞Angazhan",
+      "english": "",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/page_1522.md",
+      "title": "厄莱什卡果Areshkagal",
+      "english": "",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/page_1525.md",
+      "title": "巴弗灭Baphomet",
+      "english": "",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/page_1529.md",
+      "title": "大衮",
+      "english": "DAGON",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/page_1530.md",
+      "title": "德斯卡瑞Deskari",
+      "english": "",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/page_1532.md",
+      "title": "弗洛厄斯Flauros",
+      "english": "",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/page_1534.md",
+      "title": "果甘蜍",
+      "english": "GOGUNTA",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/page_1535.md",
+      "title": "无面之主",
+      "english": "JUBILEX",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/page_1536.md",
+      "title": "啃食者",
+      "english": "KABRIRI",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/page_1537.md",
+      "title": "科什迪克提凯",
+      "english": "",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/page_1538.md",
+      "title": "拉玛什图",
+      "english": "Lamashtu",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/page_1540.md",
+      "title": "玛茨麦兹Mazmezz",
+      "english": "",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/page_1542.md",
+      "title": "麦斯塔玛Mestama",
+      "english": "",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/page_1544.md",
+      "title": "诺提库拉",
+      "english": "Nocticula",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/page_1545.md",
+      "title": "怒加，耀目天灾",
+      "english": "Nurgal,The Shining Scourge",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/page_1546.md",
+      "title": "不死君王",
+      "english": "ORCUS",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/page_1547.md",
+      "title": "施瓦丝卡，受缚室女",
+      "english": "Shivaska,The Chained Maiden",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/page_1548.md",
+      "title": "希芙珂什",
+      "english": "Sifkesh",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/page_1551.md",
+      "title": "若伏嶐",
+      "english": "Xoveron",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/page_1552.md",
+      "title": "泽乌伽瓦灾布",
+      "english": "ZEVGAVIZEB",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/page_1553.md",
+      "title": "吸血鬼女王",
+      "english": "ZURA",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/古魔领主.md",
+      "title": "查瓦茨菲戈",
+      "english": "Chavazvug",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/古魔领主.md",
+      "title": "咿嘶-噢嗯-喔嗯",
+      "english": "Isph-Aun-Vuln",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/古魔领主.md",
+      "title": "奥尔-翁",
+      "english": "Oaur-Ooung",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/古魔领主.md",
+      "title": "希加雷布",
+      "english": "Shiggarreb",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/古魔领主.md",
+      "title": "苏斯昆",
+      "english": "Thuskchoon",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/古魔领主.md",
+      "title": "亚马索斯",
+      "english": "Yamasoth",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/巨魔之父——乌尔克泽尔.md",
+      "title": "乌尔克泽尔Urxehl",
+      "english": "",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/恐亡魔摧残者.md",
+      "title": "阿楠希亚Ananshea",
+      "english": "",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/恐亡魔摧残者.md",
+      "title": "查米霍罗姆Chamiaholom",
+      "english": "",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/恐亡魔摧残者.md",
+      "title": "查克Charg",
+      "english": "",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/恐亡魔摧残者.md",
+      "title": "达克泽茹Dachzerul",
+      "english": "",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/恐亡魔摧残者.md",
+      "title": "哈塔姆Hataam",
+      "english": "",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/恐亡魔摧残者.md",
+      "title": "伊葛芮特Iggeret",
+      "english": "",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/恐亡魔摧残者.md",
+      "title": "无名Nameless",
+      "english": "",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/恐亡魔摧残者.md",
+      "title": "欧兹兰威尔Ozranvial",
+      "english": "",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/恐亡魔摧残者.md",
+      "title": "沙拉里Shawnari",
+      "english": "",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/恐亡魔摧残者.md",
+      "title": "瓦伽斯Velgaas",
+      "english": "",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/恐亡魔摧残者.md",
+      "title": "朱砂之母Vermilion",
+      "english": "Mother",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/恐亡魔摧残者.md",
+      "title": "希奎帕特Xiquiripat",
+      "english": "",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/恐亡魔摧残者.md",
+      "title": "泽帕那Zipacna",
+      "english": "",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/新生恶魔领主.md",
+      "title": "达拉克萨",
+      "english": "DACLAU-SAR",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/新生恶魔领主.md",
+      "title": "伊兹亚娜",
+      "english": "IZYAGNA",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/新生恶魔领主.md",
+      "title": "孟克希尔Menxyr",
+      "english": "",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/新生恶魔领主.md",
+      "title": "穆纳斯",
+      "english": "MURNATH",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/新生恶魔领主.md",
+      "title": "夜行者",
+      "english": "NIGHTRIPPER",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/新生恶魔领主.md",
+      "title": "奥沃诺沃",
+      "english": "OVONOVO",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/新生恶魔领主.md",
+      "title": "莎米拉",
+      "english": "SHAMIRA",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/新生恶魔领主.md",
+      "title": "西斯赫德",
+      "english": "SITHHUD",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/毁灭蠕虫——依多卓思.md",
+      "title": "依多卓思Yhidothrus",
+      "english": "",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/深渊/鲜血侯爵——煞克斯.md",
+      "title": "煞克斯",
+      "english": "Shax",
+      "target": "规则/永罪之书_深渊魔神神恩.md",
+      "section_title": "深渊魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/其他/罗刹邪仙.md",
+      "title": "阿克沙，双息者",
+      "english": "AKSHA",
+      "target": "规则/永罪之书_其他魔神神恩.md",
+      "section_title": "其他魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/其他/罗刹邪仙.md",
+      "title": "班恩达，吟屠者",
+      "english": "BUNDHA",
+      "target": "规则/永罪之书_其他魔神神恩.md",
+      "section_title": "其他魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/其他/罗刹邪仙.md",
+      "title": "卡拉，浴血者",
+      "english": "CAERA",
+      "target": "规则/永罪之书_其他魔神神恩.md",
+      "section_title": "其他魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/其他/罗刹邪仙.md",
+      "title": "德拉吉，戮神者",
+      "english": "DRADJIT",
+      "target": "规则/永罪之书_其他魔神神恩.md",
+      "section_title": "其他魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/其他/罗刹邪仙.md",
+      "title": "胡达玛，弑亲者",
+      "english": "HUDIMA",
+      "target": "规则/永罪之书_其他魔神神恩.md",
+      "section_title": "其他魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/其他/罗刹邪仙.md",
+      "title": "吉悠达，从圣者",
+      "english": "JYOTAH",
+      "target": "规则/永罪之书_其他魔神神恩.md",
+      "section_title": "其他魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/其他/罗刹邪仙.md",
+      "title": "坤名，梦武者",
+      "english": "KUNKARNA",
+      "target": "规则/永罪之书_其他魔神神恩.md",
+      "section_title": "其他魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/其他/罗刹邪仙.md",
+      "title": "穆沙，驭兽者",
+      "english": "MURSHA",
+      "target": "规则/永罪之书_其他魔神神恩.md",
+      "section_title": "其他魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/其他/罗刹邪仙.md",
+      "title": "奥蒂卡亚，射魂者",
+      "english": "OTIKAYA",
+      "target": "规则/永罪之书_其他魔神神恩.md",
+      "section_title": "其他魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/其他/罗刹邪仙.md",
+      "title": "普瑞哈斯塔，天地将军",
+      "english": "PRIHASTA",
+      "target": "规则/永罪之书_其他魔神神恩.md",
+      "section_title": "其他魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/其他/罗刹邪仙.md",
+      "title": "罗波那，肇始及终",
+      "english": "RAVANA",
+      "target": "规则/永罪之书_其他魔神神恩.md",
+      "section_title": "其他魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/其他/罗刹邪仙.md",
+      "title": "舒帕，复仇者",
+      "english": "SURPA",
+      "target": "规则/永罪之书_其他魔神神恩.md",
+      "section_title": "其他魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/其他/罗刹邪仙.md",
+      "title": "维毗沙，探寻者",
+      "english": "VIBHISHAH",
+      "target": "规则/永罪之书_其他魔神神恩.md",
+      "section_title": "其他魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/其他/罗刹邪仙.md",
+      "title": "扎帕，亵渎者",
+      "english": "ZABHA",
+      "target": "规则/永罪之书_其他魔神神恩.md",
+      "section_title": "其他魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/其他/链魔喧主.md",
+      "title": "阿罗格斯",
+      "english": "AROGGUS",
+      "target": "规则/永罪之书_其他魔神神恩.md",
+      "section_title": "其他魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/其他/链魔喧主.md",
+      "title": "巴拉沃克莱尔",
+      "english": "BARRAVOCLAIR",
+      "target": "规则/永罪之书_其他魔神神恩.md",
+      "section_title": "其他魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/其他/链魔喧主.md",
+      "title": "法拉亚斯",
+      "english": "FHARAAS",
+      "target": "规则/永罪之书_其他魔神神恩.md",
+      "section_title": "其他魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/其他/链魔喧主.md",
+      "title": "茵卡雷亚斯",
+      "english": "INKARIAX",
+      "target": "规则/永罪之书_其他魔神神恩.md",
+      "section_title": "其他魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/其他/链魔喧主.md",
+      "title": "凯基顿",
+      "english": "KAIKYTON",
+      "target": "规则/永罪之书_其他魔神神恩.md",
+      "section_title": "其他魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/其他/链魔喧主.md",
+      "title": "莫罗巴恩",
+      "english": "MORROBAHN",
+      "target": "规则/永罪之书_其他魔神神恩.md",
+      "section_title": "其他魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/其他/链魔喧主.md",
+      "title": "雷托格什",
+      "english": "RAETORGASH",
+      "target": "规则/永罪之书_其他魔神神恩.md",
+      "section_title": "其他魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/其他/链魔喧主.md",
+      "title": "苏格洛兹",
+      "english": "SUGROZ",
+      "target": "规则/永罪之书_其他魔神神恩.md",
+      "section_title": "其他魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/其他/链魔喧主.md",
+      "title": "维维洛Vevelor",
+      "english": "",
+      "target": "规则/永罪之书_其他魔神神恩.md",
+      "section_title": "其他魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/其他/阿修罗魔尊.md",
+      "title": "安达克",
+      "english": "ANDAK",
+      "target": "规则/永罪之书_其他魔神神恩.md",
+      "section_title": "其他魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/其他/阿修罗魔尊.md",
+      "title": "博加",
+      "english": "BOHGA",
+      "target": "规则/永罪之书_其他魔神神恩.md",
+      "section_title": "其他魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/其他/阿修罗魔尊.md",
+      "title": "楚格拉",
+      "english": "CHUGARRA",
+      "target": "规则/永罪之书_其他魔神神恩.md",
+      "section_title": "其他魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/其他/阿修罗魔尊.md",
+      "title": "CHUPURVAGASTI",
+      "english": "CHUPURVAGASTI",
+      "target": "规则/永罪之书_其他魔神神恩.md",
+      "section_title": "其他魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/其他/阿修罗魔尊.md",
+      "title": "加伟迪亚",
+      "english": "GAVIDYA",
+      "target": "规则/永罪之书_其他魔神神恩.md",
+      "section_title": "其他魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/其他/阿修罗魔尊.md",
+      "title": "海迪姆",
+      "english": "HYDIM",
+      "target": "规则/永罪之书_其他魔神神恩.md",
+      "section_title": "其他魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/其他/阿修罗魔尊.md",
+      "title": "约兰沃尔",
+      "english": "IORAMVOL",
+      "target": "规则/永罪之书_其他魔神神恩.md",
+      "section_title": "其他魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/其他/阿修罗魔尊.md",
+      "title": "梅哈",
+      "english": "MAEHA",
+      "target": "规则/永罪之书_其他魔神神恩.md",
+      "section_title": "其他魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/其他/阿修罗魔尊.md",
+      "title": "奥娜马赫莉",
+      "english": "ONAMAHLI",
+      "target": "规则/永罪之书_其他魔神神恩.md",
+      "section_title": "其他魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/其他/阿修罗魔尊.md",
+      "title": "拉胡",
+      "english": "RAHU",
+      "target": "规则/永罪之书_其他魔神神恩.md",
+      "section_title": "其他魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/其他/阿修罗魔尊.md",
+      "title": "雷塔拉",
+      "english": "RYTARA",
+      "target": "规则/永罪之书_其他魔神神恩.md",
+      "section_title": "其他魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/其他/阿修罗魔尊.md",
+      "title": "塔拉克孙",
+      "english": "TARAKSUN",
+      "target": "规则/永罪之书_其他魔神神恩.md",
+      "section_title": "其他魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/其他/阿修罗魔尊.md",
+      "title": "祖拉帕丁",
+      "english": "ZURAPADYN",
+      "target": "规则/永罪之书_其他魔神神恩.md",
+      "section_title": "其他魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/其他/鬼大名.md",
+      "title": "阿库玛",
+      "english": "Akuma",
+      "target": "规则/永罪之书_其他魔神神恩.md",
+      "section_title": "其他魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/其他/鬼大名.md",
+      "title": "奇蒙",
+      "english": "CHIMON",
+      "target": "规则/永罪之书_其他魔神神恩.md",
+      "section_title": "其他魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/其他/鬼大名.md",
+      "title": "古尤库",
+      "english": "GUYUKU",
+      "target": "规则/永罪之书_其他魔神神恩.md",
+      "section_title": "其他魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/其他/鬼大名.md",
+      "title": "英玛",
+      "english": "INMA",
+      "target": "规则/永罪之书_其他魔神神恩.md",
+      "section_title": "其他魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/其他/鬼大名.md",
+      "title": "穆罗娜",
+      "english": "MURONNA",
+      "target": "规则/永罪之书_其他魔神神恩.md",
+      "section_title": "其他魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/其他/鬼大名.md",
+      "title": "那咤迦",
+      "english": "NATAKA",
+      "target": "规则/永罪之书_其他魔神神恩.md",
+      "section_title": "其他魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/其他/鬼大名.md",
+      "title": "昂米尤扎",
+      "english": "ONMYUZA",
+      "target": "规则/永罪之书_其他魔神神恩.md",
+      "section_title": "其他魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/其他/鬼大名.md",
+      "title": "丑寅",
+      "english": "USHITORA",
+      "target": "规则/永罪之书_其他魔神神恩.md",
+      "section_title": "其他魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/其他/鬼大名.md",
+      "title": "乌苏梅",
+      "english": "UZUMAE",
+      "target": "规则/永罪之书_其他魔神神恩.md",
+      "section_title": "其他魔神神恩",
+      "action": "added"
+    },
+    {
+      "source": "神恩/其他/鬼大名.md",
+      "title": "亚布",
+      "english": "YABU",
+      "target": "规则/永罪之书_其他魔神神恩.md",
+      "section_title": "其他魔神神恩",
+      "action": "added"
+    }
+  ],
+  "skipped_files": [
+    "page_1515.md"
+  ]
+}

@@ -1,0 +1,1190 @@
+{
+  "version": "1.0",
+  "source": "dnd5e-srd-qa (datapizza-ai-lab) 56 题迁移",
+  "items": [
+    {
+      "id": "easy-0",
+      "tier": "easy",
+      "dimension": "比较对比",
+      "status": "X",
+      "source_question": "Compare the restoration abilities of the Pit Fiend, Planetar, Rakshasa, and Solar. What are the key differences in how their bodies react upon death and where they are revived?",
+      "question": "",
+      "module": "race",
+      "expected_chunks": [],
+      "golden_answer_points": [],
+      "answer": "",
+      "notes": "无法映射：原 dnd5e 题为 4 种恶魔的「重生」能力对比，依赖怪物 stat block 数值（生命值阈值/重生速率/伤害类型免疫）。PF 当前 4.3 万 chunk 中种族模块仅含 PC 种族与魔裔血脉变体，无怪物 stat block 数据源，无法支撑该对比。我的解决方案：按 X 处理，不进评测集。待人工优化点：可换「PF 魔鬼/恶魔生物类型的比较」（如天界/炼狱/魔鬼后裔模板），但需要怪物图鉴数据接入后才有检索支撑，当前数据缺失。"
+    },
+    {
+      "id": "easy-1",
+      "tier": "easy",
+      "dimension": "事实点查",
+      "status": "R",
+      "source_question": "What are the three unique healing-enhancement features granted by the Life Domain subclass, and at what levels are they acquired?",
+      "question": "PF 1e 中，牧师选择「医疗领域（Healing Domain）」后，会获得哪项增强治疗效果的领域能力？它在多少级生效、具体效果是什么？此外该领域的领域法术列表中 1 环与 6 环分别是什么法术？",
+      "module": "class,spell",
+      "expected_chunks": [
+        "职业 → 核心职业 → 牧师"
+      ],
+      "golden_answer_points": [
+        "医疗领域授予「医者祝福（Healer's Blessing, Su）」：6 级起，牧师所有医疗法术视同获得法术强化效果，治疗的伤害点数增加一半（+50%）。",
+        "医者祝福对不死生物造成伤害时不适用，且不与「法术强化」超魔专长累计。",
+        "医疗领域法术列表：1 环为治疗轻伤、6 环为医疗术（heal）。"
+      ],
+      "answer": "",
+      "notes": "5e 的 Subclass（生命领域）在 PF 中对应牧师的领域（Domain）。治疗增强实体替换为「医者祝福」（+50% 治疗），并附领域法术表（1 环治疗轻伤 / 6 环医疗术）作为辅助事实点。难度 easy，单点能力查证。"
+    },
+    {
+      "id": "easy-2",
+      "tier": "easy",
+      "dimension": "全量枚举",
+      "status": "D",
+      "source_question": "What are the specific methods for destroying each of the seven layers of a Prismatic Wall?",
+      "question": "PF 1e 法术「虹光法墙（Prismatic Wall）」由七种颜色的光层构成。请按从外到内的顺序列出这七层颜色，并逐一说明每层对应的破坏法术。",
+      "module": "spell",
+      "expected_chunks": [
+        "spell_Spell CRB_0414"
+      ],
+      "golden_answer_points": [
+        "七色顺序：红、橙、黄、绿、蓝、靛、紫。",
+        "各层破坏法术：红-寒冰锥；橙-造风术；黄-解离术；绿-穿墙术；蓝-魔法飞弹；靛-昼明术；紫-解除魔法或高等解除魔法。",
+        "必须按顺序逐一摧毁：要影响第二种颜色须先摧毁第一种，依此类推；法师裂解术可整体摧毁；反魔场无法穿过。"
+      ],
+      "answer": "",
+      "notes": "PF 中该法术名为「虹光法墙」，七层颜色与破坏法术在 CRB 文本中有完整表格，是枚举类题目。维度选全量枚举（列出七层+对应破坏手段）。"
+    },
+    {
+      "id": "easy-3",
+      "tier": "easy",
+      "dimension": "应用计算",
+      "status": "R",
+      "source_question": "A level 6 Life Domain Cleric casts a healing spell on an ally using a 2nd-level spell slot. Based on the Disciple of Life and Blessed Healer features, what additional healing effects occur and who are the recipients?",
+      "question": "PF 1e 中，一位 6 级且拥有「医疗领域」的牧师施放 1 环法术「治疗轻伤（Cure Light Wounds）」。请写出治疗量的计算公式（含施法者等级 CL 的上限），并说明「医者祝福」能力会如何改变这个结果。",
+      "module": "spell,class",
+      "expected_chunks": [
+        "spell_Spell CRB_0110",
+        "73d6026ceb41d15b9a8a8c2c2bc4bb50520d416a4400878d6a1b1e793cb946b9"
+      ],
+      "golden_answer_points": [
+        "治疗轻伤治疗 {1d8+CL（最高+5）} 点伤害；6 级牧师的 CL 部分被上限封顶为 +5。",
+        "医者祝福（6 级起）令医疗法术治疗量增加一半（+50%，视同法术强化）。",
+        "综合结果：治疗量 = (1d8+5) 再 +50%（即 ×1.5），且此增幅不与法术强化超魔专长累计。"
+      ],
+      "answer": "",
+      "notes": "dnd5e 的治疗骰+能力加值换成 PF 的 1d8+CL（含每环封顶），再叠医者祝福的 +50%。维度为应用计算，考察治疗量公式与领域能力叠加。"
+    },
+    {
+      "id": "easy-4",
+      "tier": "easy",
+      "dimension": "交叉判定",
+      "status": "D",
+      "source_question": "What are the effects of the Blinded condition, and how does the Blindsight ability allow a creature to overcome some of them?",
+      "question": "PF 1e 中，生物处于目盲（Blinded）状态时会承受哪些具体惩罚？如果该生物拥有盲视（Blindsight）能力，能否完全克服目盲带来的作战惩罚？",
+      "module": "rule",
+      "expected_chunks": [
+        "rule_page_9_0002",
+        "rule_page_240_0024"
+      ],
+      "golden_answer_points": [
+        "目盲：AC-2且失去敏捷加值（若有加值），基于力量和敏捷的技能检定-4；所有依赖视觉的检定和行为（如阅读、基于视觉的察觉检定）自动失败",
+        "所有对手对目盲角色视为处于全隐蔽状态（50%失手率）；目盲生物以超过半速移动须通过DC 10的特技检定，失败则摔倒",
+        "盲视依靠非视觉感官（微小震动、灵敏嗅觉、敏锐听觉、回声定位）行动，可使隐形/隐蔽甚至魔法黑暗无效，且导致目盲的攻击不会对运用盲视的生物造成惩罚（但仍无法看见灵体生物）"
+      ],
+      "answer": "",
+      "notes": "迁移说明：5e 的 Blinded（攻击检定劣势/攻击者对其优势）替换为 PF 数值惩罚（AC-2、敏加值丢失、技能-4、全隐蔽50%失手）。维度取交叉判定，因需同时引用状态章节与特殊能力章节两个 chunk。锚点 rule_page_9_0002（状态-目盲）与 rule_page_240_0024（特殊能力-盲视和盲感）均实查命中。"
+    },
+    {
+      "id": "easy-5",
+      "tier": "easy",
+      "dimension": "事实点查",
+      "status": "D",
+      "source_question": "What is the outcome of placing an item that creates an extradimensional space, like a Portable Hole, inside another such item, like a Bag of Holding?",
+      "question": "在 PF 中，如果一名角色把次元袋（Bag of Holding）放进携带式次元洞（Portable Hole），会发生什么？反过来把携带式次元洞放进次元袋呢？",
+      "module": "equipment",
+      "expected_chunks": [
+        "equipment_page_234_0011",
+        "equipment_page_234_0188"
+      ],
+      "golden_answer_points": [
+        "次元袋放入携带式次元洞：撕开通往星界的裂隙（Astral rift），次元袋和携带式次元洞被吸入虚空而永久消失",
+        "携带式次元洞放入次元袋：打开通往星界之门（gate to the Astral Plane），次元袋、携带式次元洞与半径10英尺内所有生物被拉入星界，且二者会一起被摧毁",
+        "次元袋本身：内部通向异次元空间、重量固定；超重或被尖锐物刺破会破损毁灭并永久失去所有内容物；袋中活物只能存活约10分钟",
+        "携带式次元洞本身：摊开开启深10英尺异次元空间，提起即可带走并折叠；洞内空气可供一个中型或两个小型生物呼吸10分钟"
+      ],
+      "answer": "",
+      "notes": "原 5e easy-5 为次元袋/便携洞交互。PF 核心规则 CRB 有完全对应的两条奇物条目：equipment_page_234_0011 次元袋、equipment_page_234_0188 携带式次元洞，双向交互规则（星界裂隙/星界之门 + 半径10尺拉入）事实点逐一可查，直接映射为 PF 版，无需改动。"
+    },
+    {
+      "id": "easy-6",
+      "tier": "easy",
+      "dimension": "比较对比",
+      "status": "R",
+      "source_question": "What are the differences between how Sorcerers and Warlocks manage and recover their spell slots?",
+      "question": "在 PF 1e 中，术士与法师、牧师在施法方式上有什么根本区别？术士如何施展已知法术，而法师和牧师又必须如何准备法术？",
+      "module": "class",
+      "expected_chunks": [
+        "职业 → 核心职业 → 术士",
+        "职业 → 核心职业 → 法师",
+        "职业 → 核心职业 → 牧师"
+      ],
+      "golden_answer_points": [
+        "术士是自发施法者：与法师或牧师不同，术士不需要事先准备法术，只要该环级每日法术数未用完，就可在任何时候施展任何已知法术；施法关键属性为魅力（10+法术环级）。",
+        "法师是准备施法者：必须预先选择并准备法术，每天须研习法术书才能准备，不能准备法术书以外的法术；施法关键属性为智力。",
+        "牧师是准备施法者：必须先选择和准备法术（关键属性感知），但可将已准备的法术临时转换为同环或较低环的医疗/造成伤害法术（自发转换），祷念和领域法术不可转换。"
+      ],
+      "answer": "",
+      "notes": "维度选比较对比。实体替换：5e 术士/法师 → PF 术士（自发施法）/法师（准备施法），并加入牧师（准备+自发转换）作为第三对照，覆盖题面「法术位与施法方式对比」。难度 easy：三处锚点均为 CRB 核心职业职业特性/施法规则，检索路径清晰（术士职业特性→法术段、法师→法术书、牧师→法术转换）。"
+    },
+    {
+      "id": "easy-7",
+      "tier": "easy",
+      "dimension": "事实点查",
+      "status": "R",
+      "source_question": "According to the rules on multiclassing, what are the ability score prerequisites, and how is the experience point cost for gaining a level determined?",
+      "question": "在 PF 1e 中，角色兼职（Multiclassing）时，角色等级、各职业等级、BAB 与豁免加值是如何累加的？兼职是否存在属性值门槛？",
+      "module": "class",
+      "expected_chunks": [
+        "职业 → 角色升级"
+      ],
+      "golden_answer_points": [
+        "兼职即在新职业上获得第1级，将其所有能力添加到已有能力之上；角色等级=各职业等级之和（如5级战士+1级法师=6级角色，职业等级分别为5和1）。",
+        "新职业等级的HP、BAB、豁免全部累加到已拥有的数据上（例：将1级法师的HP、BAB、豁免加到5级战士数据之上）。",
+        "基于角色等级/HD的效果按总等级计算；但职业能力多数基于角色在该特定职业上获得的总等级计算。",
+        "PF 兼职规则未要求任何属性值前提条件（对比 5e 的「关键属性 13」门槛已删除）。"
+      ],
+      "answer": "",
+      "notes": "维度选事实点查。实体替换：5e 兼职属性门槛 → PF 兼职无属性门槛；核心差异保留为「各职业能力分别累加」而非 5e 的整体职业等级。难度 easy：锚点 CRB「职业→角色升级→兼职（Multiclassing）」单 chunk 即覆盖累加规则。"
+    },
+    {
+      "id": "easy-8",
+      "tier": "easy",
+      "dimension": "事实点查",
+      "status": "R",
+      "source_question": "Compare and contrast the ways a level 13 Thief Rogue and a Warlock with the Pact of the Tome invocation can access and use spells from outside their respective class spell lists.",
+      "question": "在 PF 中，一名角色想使用自己职业法术列表中没有的法术（例如通过卷轴或魔杖施放），有哪些途径？",
+      "module": "skill",
+      "expected_chunks": [
+        "skill_page_193_0000",
+        "skill_page_193_0006",
+        "skill_page_193_0003"
+      ],
+      "golden_answer_points": [
+        "使用魔法装置（Use Magic Device，魅力/须受训）技能：即使你的职业并不与使用魔法相关，也能操作魔法物品",
+        "使用卷轴：通常须在自己职业法术列表中拥有该法术，但使用魔法装置检定可视为拥有该职业法术列表；启动卷轴 DC = 20 + 该法术CL，且须满足施放该法术的最低属性要求（10+法术环位），属性不足需额外的使用魔法装置检定来模仿属性",
+        "使用魔杖、法杖等法术触发型（Spell Trigger）物品：使用魔法装置可视为拥有该职业法术列表，检定失败不会消耗物品充能",
+        "模仿属性时属性有效值 = 使用魔法装置检定结果 - 15"
+      ],
+      "answer": "",
+      "notes": "原 5e easy-8 为法师抄写法术规则。PF 对应途径核心是「使用魔法装置」（UMD）技能：技能主条目 skill_page_193_0000 + 使用卷轴任务 skill_page_193_0006 + 模仿属性 skill_page_193_0003，全部位于 CRB 技能详述，可检索可验证。多职业兼职将法术纳入职业列表属规则常识，未作独立锚点。"
+    },
+    {
+      "id": "easy-9",
+      "tier": "easy",
+      "dimension": "事实点查",
+      "status": "D",
+      "source_question": "What are the specific requirements for providing the Verbal, Somatic, and Material components when casting a spell?",
+      "question": "PF 1e 法术「火球术（Fireball）」的施法成分（components）包含哪几类？其中材料成分具体是什么？",
+      "module": "spell",
+      "expected_chunks": [
+        "spell_Spell CRB_0208"
+      ],
+      "golden_answer_points": [
+        "火球术成分为语言、姿势、材料三类（V/S/M 齐全）。",
+        "材料成分为「蝙蝠粪便和硫磺小球」。",
+        "火球术为 3 环塑能系[火]，术士/法师 3，造成每 CL 1d6 火焰伤害（最高 10d6），反射豁免减半。"
+      ],
+      "answer": "",
+      "notes": "5e 的组件 V/S/M 在 PF 中对应「成分」（语言/姿势/材料/法器）。选火球术作 V/S/M 齐全的典型样本，metadata.components 字段可支撑。"
+    },
+    {
+      "id": "easy-10",
+      "tier": "easy",
+      "dimension": "比较对比",
+      "status": "D",
+      "source_question": "Compare the spells Wall of Force, Wall of Stone, and Wall of Ice, detailing their physical properties (HP, AC, thickness), how they affect a creature whose space they appear in, and how each wall can be destroyed.",
+      "question": "PF 1e 中比较「力墙术（Wall of Force）」「石墙术（Wall of Stone）」「冰墙术（Wall of Ice）」三者在硬度、HP 与击破方式上的差异。",
+      "module": "spell",
+      "expected_chunks": [
+        "spell_Spell CRB_0604",
+        "spell_Spell CRB_0607",
+        "spell_Spell CRB_0605"
+      ],
+      "golden_answer_points": [
+        "力墙术：硬度 30，HP 为每 CL 20 点；免疫解除魔法，但解离术可立即摧毁，武器与超自然能力可造成伤害。",
+        "石墙术：每 5 英尺见方每 1 英吋厚 15 HP，硬度 8；生物欲一击贯穿须通过力量检定，DC 为 20+每英吋厚度×2。",
+        "冰墙术：每 10 英尺见方每 1 英吋厚 3 HP；击穿须通过 DC {15+CL} 的力量检定；火可融化冰墙造成全额伤害，穿越者受 {1d6+CL} 寒冷伤害。"
+      ],
+      "answer": "",
+      "notes": "三个 CRB 墙类法术的硬度/HP/破墙方式在各自文本中有明确数值，构成直接对比。维度选比较对比。"
+    },
+    {
+      "id": "easy-11",
+      "tier": "easy",
+      "dimension": "应用计算",
+      "status": "D",
+      "source_question": "What are the requirements, time commitments, and costs for a character to create a Potion of Healing and scribe a Level 1 Spell Scroll?",
+      "question": "一名 3 级施法者想制作一瓶治疗轻伤药水（1 环）并抄写一张 1 环卷轴。在 PF 1e 中，这两项各需要什么专长与施法者等级前提？各自的材料成本（按基础价格的多少比例）和制作耗时是多少？",
+      "module": "feat,equipment",
+      "expected_chunks": [
+        "feat_page_195_0194",
+        "feat_page_195_0367",
+        "equipment_page_219_0000"
+      ],
+      "golden_answer_points": [
+        "制作药水需要「调制药剂」专长，先决条件施法者等级3；可基于任意3环以下、目标为一个或多个生物或物体的法术制造药水。",
+        "抄写卷轴需要「抄写卷轴」专长，先决条件施法者等级1；可制造你所知任意法术的卷轴。",
+        "材料成本为物品基础价格的一半（调制药剂=一半药水价值；抄写卷轴=一半基础价格）。",
+        "1 环治疗轻伤药水价格=1环×CL1×50gp=50gp（材料25gp），1 环卷轴基础价格=25gp（材料12.5gp）；≤250gp 的造物耗时 2 小时。"
+      ],
+      "answer": "",
+      "notes": "维度选应用计算。实体替换：5e 药水/卷轴造物 → PF 调制药剂/抄写卷轴专长 + 装备价格表。锚点三处：两个 CRB 造物专长实查命中；价格表来自装备模块「药剂/卷轴/魔杖」intro（药剂价格=环位×CL×50gp，1环药水50gp、1环卷轴25gp，与专长材料半价规则衔接成完整计算链）。难度 easy：每个事实点单句可检索。"
+    },
+    {
+      "id": "easy-12",
+      "tier": "easy",
+      "dimension": "比较对比",
+      "status": "D",
+      "source_question": "What are the differences between the Mass Cure Wounds, Mass Heal, and Mass Healing Word spells regarding their casting time, healing amount, and number of targets?",
+      "question": "PF 1e 中比较「群体治疗轻伤」「群体治疗中伤」「群体治疗重伤」三个群体治疗法术的环位与治疗量公式。",
+      "module": "spell",
+      "expected_chunks": [
+        "spell_Spell CRB_0111",
+        "spell_Spell CRB_0113",
+        "spell_Spell CRB_0115"
+      ],
+      "golden_answer_points": [
+        "群体治疗轻伤：5 环，治疗 {1d8+CL（最高+25）} 点伤害。",
+        "群体治疗中伤：6 环，治疗 {2d8+CL（最高+30）} 点伤害。",
+        "群体治疗重伤：7 环，治疗 {3d8+CL（最高+35）} 点伤害；三者都会对区域内的不死生物造成伤害而非治疗。"
+      ],
+      "answer": "",
+      "notes": "dnd5e 的 mass cure 系列对应 PF 的群体治疗轻伤/中伤/重伤，环位 5/6/7、治疗骰 1d8/2d8/3d8，CL 上限 25/30/35。维度选比较对比。"
+    },
+    {
+      "id": "easy-13",
+      "tier": "easy",
+      "dimension": "事实点查",
+      "status": "D",
+      "source_question": "What are the effects, poison type, and Constitution saving throw DC for Crawler Mucus and Oil of Taggit?",
+      "question": "PF 1e 中，黑莲汁（Black lotus extract）属于哪种类型的毒药？它的豁免DC、生效时间、发作频率与效果分别是什么？接触型毒素通常靠什么来抵抗或治愈？",
+      "module": "rule,equipment",
+      "expected_chunks": [
+        "equipment_page_212_0097",
+        "equipment_page_212_0094",
+        "rule_page_302_0083"
+      ],
+      "golden_answer_points": [
+        "黑莲汁（Black lotus extract）为接触型（contact）毒药，强韧豁免DC 20，生效时间1分钟，频率1次/轮持续6轮，效果1d6体质伤害，痊愈需2次连续豁免",
+        "毒药按传播方式分为接触/摄入/吸入/伤口四类；目标可通过一次成功的豁免检定（毒药通常为强韧豁免）抵抗毒药效果",
+        "毒药效果可被减缓毒发（delay poison）延迟、被中和毒性（neutralize poison）或类似效果移除；通用怪物规则中毒素豁免DC通常为10+1/2种族HD+体质修正"
+      ],
+      "answer": "",
+      "notes": "迁移说明：5e 接触性毒药概念迁移到 PF 装备模块的毒药表（equipment_page_212_0097 内嵌黑莲汁等接触型毒药样本），并用通用怪物规则毒素条目（rule_page_302_0083）补充豁免DC公式与中和毒素移除。选黑莲汁是因为它是 CRB 毒药表首条接触型毒药、字段完整。三个锚点均实查命中。"
+    },
+    {
+      "id": "easy-14",
+      "tier": "easy",
+      "dimension": "比较对比",
+      "status": "R",
+      "source_question": "Compare and contrast the 'Potent Spellcasting' feature available to both Clerics and Druids, including the level at which it is first offered and how it is improved at higher levels for each class.",
+      "question": "在 PF 1e 中，牧师与德鲁伊都是神术施法者。两者的施法关键属性、每日施法方式、治疗/召唤能力以及自然能力（自然变身）有哪些异同？",
+      "module": "class",
+      "expected_chunks": [
+        "职业 → 核心职业 → 牧师",
+        "职业 → 核心职业 → 德鲁伊"
+      ],
+      "golden_answer_points": [
+        "两者都是准备施法者（每日须花1小时冥想/祷告准备法术），施法关键属性均为感知（要准备或施展某环级法术，感知须达到10+法术环级）。",
+        "牧师擅长所有简易武器、轻甲、中甲与盾牌（塔盾除外），并能引导能量、将已准备法术自发转换为治疗/伤害法术。",
+        "德鲁伊擅长轻甲与中甲但不可穿金属盔甲（只能用厚布甲/皮甲/革甲），可将已准备法术自发转换为同级或较低环的「召唤自然盟友」。",
+        "德鲁伊拥有自然变身（Wild Shape）能力，可在自然形体与动物形态间变化；牧师无此能力。"
+      ],
+      "answer": "",
+      "notes": "维度选比较对比。实体替换：5e 牧师/德鲁伊 → PF 牧师/德鲁伊（同款神术准备施法者，施法属性都是感知，形成对偶）。锚点三处：两职业职业特性 chunk 实查命中（施法/擅长/冥想规则），德鲁伊自然变身独立 chunk 命中。难度 easy。"
+    },
+    {
+      "id": "easy-15",
+      "tier": "easy",
+      "dimension": "事实点查",
+      "status": "R",
+      "source_question": "Compare the Swallow ability of the Purple Worm, Remorhaz, and Tarrasque. What are the differences in the number of creatures they can swallow, the damage and conditions inflicted, and the circumstances under which a swallowed creature is regurgitated?",
+      "question": "PF 1e 通用怪物规则中的「活吞（Swallow Whole）」能力如何运作？被活吞的生物有哪些方式可以脱身？",
+      "module": "rule",
+      "expected_chunks": [
+        "rule_page_302_0117",
+        "rule_page_302_0050"
+      ],
+      "golden_answer_points": [
+        "具有活吞能力的生物在回合开始时若正用嘴擒抱着对手（参见攫抓），可再进行一次新的战技检定（如同尝试压制对手），成功则吞下猎物并造成啮咬伤害",
+        "除非特别说明，最大只能吞下体型比该生物小1级的目标；被吞下的生物每轮受到伤害、仍处于擒抱状态，而进行活吞的主体生物不视为擒抱",
+        "被吞生物可用轻型挥砍或穿刺武器切开对手逃脱（需造成等于该生物总HP的1/10的伤害），也可尝试逃脱擒抱；若切开逃脱，在伤害被治愈前该生物不能再使用活吞能力"
+      ],
+      "answer": "",
+      "notes": "迁移说明：语料库中 Swallow Whole 的译名为「活吞」（rule_page_302_0117），而「包卷」实际对应 Engulf（rule_page_302_0034），任务方向中的「包卷 Swallow Whole」命名与语料不符，已按语料实查值改用「活吞」。锚点含攫抓（rule_page_302_0050）说明其前置条件。两锚点均实查命中。"
+    },
+    {
+      "id": "easy-16",
+      "tier": "easy",
+      "dimension": "事实点查",
+      "status": "R",
+      "source_question": "How do the defensive capabilities provided by the Draconic Sorcery subclass compare to those available to a Fiend Patron Warlock, considering both subclass features and Eldritch Invocation options?",
+      "question": "PF 1e 中，术士选择「龙脉血统（Draconic Bloodline）」后，其核心防御能力「龙类抗力（Dragon Resistances）」如何随等级成长？此外该血统在 9 级与 15 级还各获得什么能力？",
+      "module": "class",
+      "expected_chunks": [
+        "职业 → 核心职业 → 术士"
+      ],
+      "golden_answer_points": [
+        "龙类抗力：3 级获得 5 点所选龙脉能量抗力并天生 AC+1；9 级抗力提升至 10 点、天生 AC+2；15 级天生 AC+3。",
+        "9 级获得「喷吐龙息（Breath Weapon）」：每术士等级 1d6 所选能量伤害，反射减半，DC=10+1/2 术士等级+魅力修正。",
+        "15 级获得「龙翼（Wings）」：标准动作长出龙翼，获得 60 尺飞行速度（机动性一般）。"
+      ],
+      "answer": "",
+      "notes": "5e 龙族血脉的防御（伤害抗性）在 PF 中对应「龙类抗力」逐级成长的数值，另附喷吐龙息与龙翼两个成长点。维度事实点查。"
+    },
+    {
+      "id": "easy-17",
+      "tier": "easy",
+      "dimension": "比较对比",
+      "status": "R",
+      "source_question": "What are the three types of modifiers that can be added to a D20 Test, and under what specific circumstances is the Proficiency Bonus applied to each of the three kinds of D20 Tests?",
+      "question": "PF 1e 中三种常见的 d20 检定——攻击检定、技能检定与豁免检定——各自的修正来源分别是什么？与 5e 统一的熟练加值有何不同？",
+      "module": "rule,skill",
+      "expected_chunks": [
+        "rule_rpage_0002_0001",
+        "skill_page_161_0000",
+        "rule_page_127_0025"
+      ],
+      "golden_answer_points": [
+        "攻击检定：d20 + 攻击加值（BAB、力量或敏捷修正、体型修正及其他修正），结果等于或超过目标AC即命中",
+        "技能检定：d20 + 技能级数（Skill Rank）+ 关键属性修正 + 其他修正（本职技能+3、防具检定减值等）；技能点数按职业与智力修正获得，级数不可超过HD总数",
+        "豁免检定：d20 + 基础豁免加值 + 对应属性修正，分强韧（对抗毒素/疾病等肉体危害）、反射（避免区域效果）、意志（对抗精神攻击）三种；PF 没有统一的熟练加值，三种检定修正来源各自独立"
+      ],
+      "answer": "",
+      "notes": "迁移说明：5e 的熟练加值（proficiency bonus）在 PF 中拆解为 BAB/技能级数/基础豁免三类独立修正来源，属规则概念对比。锚点：攻击检定（rule_rpage_0002_0001）、技能概述（skill_page_161_0000，含级数与本职+3）、豁免检定（rule_page_127_0025）。三锚点均实查命中。"
+    },
+    {
+      "id": "easy-18",
+      "tier": "easy",
+      "dimension": "事实点查",
+      "status": "R",
+      "source_question": "If a 10th-level Evoker wizard casts an Evocation spell that affects multiple creatures, what two class features could they use to protect their allies from the spell's effects and also increase the spell's damage output?",
+      "question": "PF 1e 中，法师选择「塑能学派（Evocation School）」作为专攻学派后，在 1 级与 8 级分别获得哪些学派能力？它们的效果分别是什么？",
+      "module": "class",
+      "expected_chunks": [
+        "职业 → 核心职业 → 法师"
+      ],
+      "golden_answer_points": [
+        "1 级获得「力场飞弹（Force Missile, Sp）」：标准动作释放自动命中的力场飞弹，造成 1d4 力场伤害（再加上锐化法术伤害），每日次数 3+智力修正。",
+        "1 级获得「锐化法术（Intense Spells, Su）」：施放造成伤害的塑能法术时，伤害增加法师等级一半的加值（最小 1），仅加在法术上而非每颗飞弹/每道射线；20 级时对抗法术抗力的施法者等级检定可投两次取较好结果。",
+        "8 级获得「元素墙（Elemental Wall, Sp）」：创造一面元素墙（强酸/寒冷/电击/火焰任选），每日持续时间等同法师等级轮（不必连续），其他参照「火墙术」。"
+      ],
+      "answer": "",
+      "notes": "5e 塑能 wizard 子职业能力对应 PF 法师学派专精：力场飞弹 + 锐化法术（1 级）+ 元素墙（8 级）。维度事实点查。"
+    },
+    {
+      "id": "easy-19",
+      "tier": "easy",
+      "dimension": "事实点查",
+      "status": "D",
+      "source_question": "Compare the effects, methods of transmission, and ways to fight the contagions of Cackle Fever and Sight Rot.",
+      "question": "PF 1e 的疾病（Diseases）规则中，疾病通常通过哪些方式传播、会造成哪些效果，又该如何治疗？",
+      "module": "rule,spell",
+      "expected_chunks": [
+        "rule_page_240_0021",
+        "spell_Spell CRB_0445"
+      ],
+      "golden_answer_points": [
+        "疾病类型包括摄入/吸入/接触/伤口等传播方式；发作频率甚少有持续上限，潜伏期一般较长且可变",
+        "疾病条目通常包含：类型、豁免（多为强韧DC）、潜伏期、频率、效果（如属性伤害）、痊愈条件（如2次连续豁免）",
+        "多数疾病可通过连续的成功豁免自愈，或以移除疾病（Remove Disease）法术治愈（施法者等级检定1d20+CL对抗疾病DC，成功则疾病被治愈）"
+      ],
+      "answer": "",
+      "notes": "迁移说明：5e 疾病规则迁移为 PF CRB 特殊能力-疾病章节，含类型/豁免/潜伏期/频率/效果/痊愈六字段。锚点 rule_page_240_0021 含完整疾病范例表，spell_Spell CRB_0445（移除疾病）补充治疗法术。两锚点均实查命中。"
+    },
+    {
+      "id": "easy-20",
+      "tier": "easy",
+      "dimension": "比较对比",
+      "status": "X",
+      "source_question": "Describe the different mechanisms by which the Guardian Naga, the Lich, and the Mummy Lord can return after being destroyed. Include the conditions required for their return and the time it takes for each.",
+      "question": "",
+      "module": "equipment",
+      "expected_chunks": [],
+      "golden_answer_points": [],
+      "answer": "",
+      "notes": "无法映射：原 dnd5e 题为巫妖/娜迦/木乃伊「回归」能力的数值对比，依赖怪物 stat block 的 DC、条件与间隔。PF 无怪物图鉴数据。我的解决方案：按 X 处理。待人工优化点：巫妖命匣（phylactery）主题在装备模块 ISG 有对应条目「庐舍护命匣」（equipment_page_865_0009，次级神器，含护命匣机制与毁灭条件），可改造成 R 题「PF 巫妖护命匣的运作机制与毁灭方式」；但原题「三类怪物回归数值对比」仍无法映射，需怪物图鉴数据。"
+    },
+    {
+      "id": "easy-21",
+      "tier": "easy",
+      "dimension": "事实点查",
+      "status": "D",
+      "source_question": "Explain the differences between a Narrative Curse and an Environmental Curse, using Demonic Possession as a specific example for the latter.",
+      "question": "PF 1e 的诅咒（Curses）规则中，诅咒通常有哪些类型？与疾病不同，大多数诅咒是如何被驱除的？",
+      "module": "rule,spell",
+      "expected_chunks": [
+        "rule_page_240_0020",
+        "spell_Spell CRB_0444"
+      ],
+      "golden_answer_points": [
+        "诅咒条目含类型（可为法术/陷阱/疾病/伤口等组合，如恶意变形术为法术诅咒、腐尸症为诅咒+疾病+伤口）、豁免、频率与效果",
+        "与多数疾病不同，大多数诅咒不能通过连续的成功豁免来自愈",
+        "诅咒能够被魔法治愈，通常经由移除诅咒（Remove Curse）或破除结界（Break Enchantment）法术；移除诅咒以施法者等级检定对抗每个诅咒的DC，成功则移除诅咒"
+      ],
+      "answer": "",
+      "notes": "迁移说明：5e 诅咒概念迁移为 PF CRB 特殊能力-诅咒章节（rule_page_240_0020），其文本明确写了『与其他苦难不同，大多数诅咒不能通过连续成功豁免自愈，能被移除诅咒或破除结界治愈』，与疾病形成对比。移除诅咒法术锚点 spell_Spell CRB_0444。两锚点均实查命中。"
+    },
+    {
+      "id": "easy-22",
+      "tier": "easy",
+      "dimension": "应用计算",
+      "status": "D",
+      "source_question": "How are the effects of multiple spells handled when they overlap, and what is the specific rule for when the same spell is cast more than once on the same target?",
+      "question": "PF 1e 中，多个法术效果同时作用于同一目标时，加值如何叠加？同一个法术对同一目标多次施放时，其效果会叠加吗？",
+      "module": "rule,spell",
+      "expected_chunks": [
+        "rule_page_127_0028"
+      ],
+      "golden_answer_points": [
+        "叠加规则：对同一次检定或同一项数据，大多数类型相同的加值不会叠加，只有最高者生效",
+        "多数减值相互叠加（数值合并计算）；减值和加值通常也相互叠加（可抵消或超过对方）",
+        "同一个法术重复施放时，其提供的加值属于同种类型，受『同类型加值不叠加』约束，因此同名法术的效果不叠加、只取最高值"
+      ],
+      "answer": "",
+      "notes": "迁移说明：5e『同名法术效果不叠加』在 PF 中由通用术语『叠加（Stacking）』规则承载（rule_page_127_0028），其文本明确『大多数类型相同的加值不会叠加，只有最高者生效』，同名法术同类型加值即适用。语料无独立『同名法术』条目，故以叠加规则为唯一权威锚点（实查命中）。维度取应用计算（把叠加规则应用到同名法术场景）。"
+    },
+    {
+      "id": "easy-23",
+      "tier": "easy",
+      "dimension": "比较对比",
+      "status": "D",
+      "source_question": "Compare the spells Protection from Energy, Protection from Evil and Good, and Protection from Poison. Detail their spell level, duration, components, and the specific protective benefits each one grants.",
+      "question": "PF 1e 中比较「抵抗能量伤害」「防护邪恶」「中和毒性」三个防护法术的核心防护机制（数值加值 / 检定方式）。",
+      "module": "spell",
+      "expected_chunks": [
+        "spell_Spell CRB_0453",
+        "spell_Spell CRB_0421",
+        "spell_Spell CRB_0372"
+      ],
+      "golden_answer_points": [
+        "抵抗能量伤害（2 环）：对指定能量类型提供 10 点能量抗力，7 级提升至 20、11 级至 30，持续 10 分钟/等级。",
+        "防护邪恶（1 环）：对邪恶生物的攻击/效果提供 AC+2 偏斜加值与豁免+2 抗力加值，并对占据/精神控制效果给予 +2 士气加值的额外豁免机会。",
+        "中和毒性（4 环）：须进行施法者等级检定（1d20+CL）对抗每个毒素的 DC，成功则中和该毒素。"
+      ],
+      "answer": "",
+      "notes": "5e 的 Advantage/Disadvantage 机制在 PF 中替换为明确的数值加值（偏斜/抗力/士气加值）与 CL 检定。维度比较对比。"
+    },
+    {
+      "id": "easy-24",
+      "tier": "easy",
+      "dimension": "比较对比",
+      "status": "R",
+      "source_question": "How do the Thief Rogue's \"Fast Hands\" feature and the Sorcerer's \"Quickened Spell\" Metamagic option each allow a character to manipulate their action economy, and what are the differences in their costs, limitations, and the types of actions they affect?",
+      "question": "PF 1e 中，在动作经济上比较盗贼天赋「迅捷上毒（Swift Poison）」与超魔专长「法术瞬发（Quicken Spell）」：两者分别把原本的动作类型降低到哪一档？同一轮内还能进行哪些其他动作？",
+      "module": "feat,class",
+      "expected_chunks": [
+        "feat_page_195_0361",
+        "d232ff1766207af89924529378fb5fd1d24f8c7afc5518b44dfbd995a1bea121"
+      ],
+      "golden_answer_points": [
+        "迅捷上毒：盗贼可以以移动动作（而非标准动作）给武器上毒。",
+        "法术瞬发：施展瞬发法术是迅捷动作，同一轮内还可做另一个动作，甚至施展另一个法术；瞬发法术占用比实际等级高 4 环的法术位。",
+        "动作层级对比：迅捷动作比移动动作更低一档，可与标准+移动动作同轮并存；法术瞬发的高环位占用是其代价。"
+      ],
+      "answer": "",
+      "notes": "5e 附赠动作在 PF 中无一一对应，主要体现为迅捷动作（法术瞬发）与移动动作（盗贼天赋降档类，如迅捷上毒）两种形态。题考动作经济层级与降档差异。锚点一为专长模块「法术瞬发」，锚点二为职业模块「迅捷上毒」。"
+    },
+    {
+      "id": "medium-0",
+      "tier": "medium",
+      "dimension": "事实点查",
+      "status": "R",
+      "source_question": "How many spell slots does a character that has multiclassed a single level in every single class available in the SRD have?",
+      "question": "在 PF 1e 中，一个角色同时兼职多个施法职业（例如法师与牧师）时，其法术位应当如何分别计算？PF 是否有像 5e 那样的统一施法位合并表？",
+      "module": "class",
+      "expected_chunks": [
+        "职业 → 角色升级",
+        "职业 → 核心职业 → 法师",
+        "职业 → 核心职业 → 牧师"
+      ],
+      "golden_answer_points": [
+        "PF 没有统一的施法位合并表（对比 5e 的 Spellcaster Level 统一表已被删除），各职业的法术位按该职业等级在其职业表上独立核算。",
+        "兼职的每个职业分别保留自己的职业等级与能力，职业能力（含施法）基于该特定职业的总等级计算（兼职 chunk：将新职业的HP/BAB/豁免累加，职业能力按特定职业等级计）。",
+        "例如法师 5 级按表：法师 5 级行取得每日法术，牧师 3 级按表：牧师 3 级行取得每日法术，两者互不合并。"
+      ],
+      "answer": "",
+      "notes": "维度选事实点查。实体替换：5e 统一施法者等级表 → PF 各职业独立核算。锚点三处：兼职规则（独立累加原则）+ 表：法师 + 表：牧师（两个职业表实查命中，支撑「各自独立」的结论）。难度 medium：需把兼职原则与职业表结合起来作答。"
+    },
+    {
+      "id": "medium-1",
+      "tier": "medium",
+      "dimension": "全量枚举",
+      "status": "R",
+      "source_question": "Which playable race is the most likely to survive the breath weapon attack of Red Dragon?",
+      "question": "在 PF 中，哪些种族特性或血脉（血统）能够为角色提供火焰抗力？",
+      "module": "race,class",
+      "expected_chunks": [
+        "职业 → 核心职业 → 术士",
+        "race_精灵种族特性替换汇总_0002",
+        "race_page_245_0008"
+      ],
+      "golden_answer_points": [
+        "术士龙脉血统「龙类抗力」（Dragon Resistances, Ex）：3 级时获得所选择龙脉能量抗力 5（例如红龙血脉为 5 点火抗），9 级时升至 10 点",
+        "精灵「元素抗力」替换种族特性：获得强酸、寒冷、闪电或火焰抗力 5，取代精灵免疫，选择须在建立角色时决定且不可更改（HA）",
+        "补充：魔裔（tiefling）默认「炼狱抗力」提供火焰抗力 5（CRB 核心种族），但核心条目 book_abbreviation=?，不作 expected_chunk，检索命中可作为合理补充点"
+      ],
+      "answer": "",
+      "notes": "原 5e medium-1 依赖红龙吐息 stat block 数值，PF 无怪物图鉴不可直接映射。经核查种族模块与职业模块存在足量火焰抗力数据，改造为 R 题。原稿含「神裔能力变体」锚点（BoA 天界血脉），但位于未整理目录且核心神裔条目 book=?，不满足验收标准，已移除该途径；保留 龙脉血统（职业 CRB，红龙血脉 5→10 火抗）+ 精灵元素抗力（HA），魔裔炼狱抗力已补入锚点 race_page_245_0008（book 元数据缺失为「?」，不影响内容正确性）。难度 medium（全量枚举，需跨职业/种族归纳）。"
+    },
+    {
+      "id": "medium-2",
+      "tier": "medium",
+      "dimension": "交叉判定",
+      "status": "D",
+      "source_question": "Do you need Stealth if you are invisible?",
+      "question": "PF 1e 中，隐形（Invisible）状态等同于潜行（隐匿 Stealth）吗？隐形生物是否还需要进行隐匿检定来避免被察觉？",
+      "module": "rule,skill",
+      "expected_chunks": [
+        "rule_page_9_0022",
+        "rule_page_240_0040",
+        "skill_page_190_0000",
+        "skill_page_190_0002"
+      ],
+      "golden_answer_points": [
+        "隐形≠隐匿：隐形是状态（隐形生物无法被视力探察，攻击视觉生物攻击检定+2并无视其敏捷加值），隐匿是基于敏捷的技能检定；隐形生物虽不可见，但仍能被听到、闻到、感觉到",
+        "隐形生物可被成功的察觉检定发现（30尺内DC 20，隐形生物使用隐匿技能时察觉DC额外+20）；语料原文『由于某些生物能侦测、甚至直接看到隐形生物，因此隐形状态下躲藏依然是有帮助的』",
+        "隐匿技能本身需借助掩蔽或隐蔽进行潜行，且潜行状态在发动攻击后立刻解除（除非狙击）；隐形是持续的被动状态，二者机制独立"
+      ],
+      "answer": "",
+      "notes": "迁移说明：5e Invisible 条件与 Stealth 技能的关系在 PF 中由状态章节（rule_page_9_0022）、特殊能力-隐形（rule_page_240_0040，含察觉DC表与『隐形状态下躲藏依然有帮助』）、隐匿技能（skill_page_190_0000）与解除潜行（skill_page_190_0001）共同支撑。四个锚点均实查命中。"
+    },
+    {
+      "id": "medium-3",
+      "tier": "medium",
+      "dimension": "事实点查",
+      "status": "R",
+      "source_question": "Which are the ways to obtain proficiency in all martial weapons excluding taking class level in Fighter, Barbarian, Paladin and Ranger?",
+      "question": "在 PF 1e 中，一名不擅长军用武器的角色（如法师）有哪些途径获得军用武器熟练？不擅长武器时使用该武器有什么惩罚？哪些职业天生擅长所有军用武器？",
+      "module": "feat,class",
+      "expected_chunks": [
+        "feat_page_195_0345",
+        "57fa822f024ff90f86572b9dfa64070627263cf2f9fd4782cdb2b9b6848d797b"
+      ],
+      "golden_answer_points": [
+        "可通过「擅长军用武器」专长获得：选择一种军用武器即熟练使用，可多次选择（每次对应一种新军用武器）。",
+        "使用不擅长的武器时，攻击检定受-4减值（专长通常状况）。",
+        "野蛮人、战士、圣武士和游侠天生擅长所有军用武器，无需选择该专长（专长特殊说明）。",
+        "以战士为例：职业特性写明「战士擅长使用所有的简易武器和军用武器，以及所有类型盔甲和盾牌」。"
+      ],
+      "answer": "",
+      "notes": "维度选事实点查。实体替换：5e 武器熟练体系 → PF 武器熟练（专长/职业特性两条途径，+不熟练-4惩罚）。锚点两处：擅长军用武器专长（含职业天赋名单与惩罚规则）+ 战士职业特性（职业途径实例）。难度 medium：需跨 专长/职业 两模块归纳途径。种族武器熟悉类 chunk 因 book='?' 不可用，未采用。"
+    },
+    {
+      "id": "medium-4",
+      "tier": "medium",
+      "dimension": "事实点查",
+      "status": "R",
+      "source_question": "How can a player recover spell slots except using Long Rest?",
+      "question": "PF 1e 中，除 8 小时连续休息外，准备型施法者（如法师、牧师）可以通过哪类魔法物品在当天内恢复已用掉的法术位？请描述该物品的运作机制。",
+      "module": "equipment,spell",
+      "expected_chunks": [
+        "equipment_page_234_0179"
+      ],
+      "golden_answer_points": [
+        "法力再生珍珠（Pearl of Power）：每天一次以命令字，施法者可忆起一个已准备且已施展的法术，使其恢复为已准备状态（如同未曾施展）。",
+        "依珍珠不同可忆起不同环级的法术，1 级到 9 级各对应一颗珍珠（另有一颗可忆起两个不高于 6 级的法术）。",
+        "该物品对需准备法术的施法者（牧师、德鲁伊、游侠、圣武士、法师等）有助益。"
+      ],
+      "answer": "",
+      "notes": "5e 短休恢复法术位在 PF 中无对应（PF 无短休机制），替换为魔法物品「法力再生珍珠」这一每日一次的额外法术位恢复途径。维度事实点查。"
+    },
+    {
+      "id": "medium-5",
+      "tier": "medium",
+      "dimension": "交叉判定",
+      "status": "R",
+      "source_question": "Ways to not be at disadvantage when attacking while blinded?",
+      "question": "PF 1e 中，目盲（Blinded）生物在战斗中会承受哪些攻击与防御惩罚？有哪些方式可以抵消这些惩罚（例如盲视、盲战专长）？",
+      "module": "rule",
+      "expected_chunks": [
+        "rule_page_9_0002",
+        "rule_page_240_0024",
+        "rule_page_240_0040"
+      ],
+      "golden_answer_points": [
+        "目盲惩罚：AC-2且失去敏捷加值，基于力量/敏捷的技能检定-4；所有对手对目盲角色视为全隐蔽（50%失手率），依赖视觉的检定自动失败",
+        "盲视（Blindsight）以非视觉感官行动，可使隐形/隐蔽/魔法黑暗无效，且导致目盲的攻击不会对运用盲视的生物造成惩罚（仍不能看见灵体生物）",
+        "针对全隐蔽/隐形对手，具有盲战（Blind-Fight）专长的生物可掷两次失手率（两次都失败才失手），或以一次25%失手率代替两次50%失手率"
+      ],
+      "answer": "",
+      "notes": "迁移说明：5e 失明时攻击劣势被迁移为 PF 的全隐蔽50%失手率+数值惩罚；抵消途径由『盲视免疫目盲惩罚』（rule_page_240_0024）与『盲战专长降低失手率』（rule_page_240_0040 内嵌描述）组成。三个锚点均实查命中。注：语料专长模块无『盲战』独立条目，故以特殊能力-隐形chunk内嵌的盲战描述为锚。"
+    },
+    {
+      "id": "medium-6",
+      "tier": "medium",
+      "dimension": "应用计算",
+      "status": "X",
+      "source_question": "How many times in a day can a level 5 Warlock can cast Major Image assuming 2 Short Rest",
+      "question": "",
+      "module": "skill",
+      "expected_chunks": [],
+      "golden_answer_points": [],
+      "answer": "",
+      "notes": "无法映射：原 dnd5e 题依赖「短休（short rest）+ 邪术师 Pact Magic 法术位恢复次数」计算。PF 没有「短休」机制——每日资源一律按「每天/每等级」恢复（法术位、职业能力次数），不存在短休/长休的恢复节奏，无对应机制可计算。我的解决方案：按 X 处理。待人工优化点：可换「PF 中每日可恢复资源（法术位数量、每日次数类职业能力）的计算」，但与原题意图差异大，建议不改造。"
+    },
+    {
+      "id": "medium-7",
+      "tier": "medium",
+      "dimension": "事实点查",
+      "status": "R",
+      "source_question": "How can I have multiple reactions in a turn?",
+      "question": "在 PF 1e 中，「战斗反射」专长如何改变一名角色的借机攻击次数？没有该专长的角色每轮能进行几次借机攻击、措手不及时能否借机攻击？该专长能否让你在同一个借机机会中对同一目标多次攻击？",
+      "module": "feat,rule",
+      "expected_chunks": [
+        "feat_page_195_0200",
+        "rule_rpage_0002_0031"
+      ],
+      "golden_answer_points": [
+        "没有战斗反射的角色每轮只能进行1次借机攻击，并且在措手不及时不能进行借机攻击。",
+        "战斗反射专长：每轮获得等同于敏捷修正次数的额外借机攻击；同时在措手不及时也能进行借机攻击。",
+        "你无法通过该专长在一次借机攻击机会中对同一目标进行多次攻击；若目标提供了多次单独的借机机会（如绕圈后施法），则可相应地发动多次借机攻击。"
+      ],
+      "answer": "",
+      "notes": "维度选事实点查。实体替换：5e 每角色每轮 1 次反应 → PF 借机攻击 + 战斗反射（敏捷修正次数）。锚点两处：专长模块战斗反射 feat + 规则模块「战斗反射和额外借机攻击次数」（CRB 战斗规则，专长与规则相互印证）。难度 medium：需专长文本与战斗规则结合。"
+    },
+    {
+      "id": "medium-8",
+      "tier": "medium",
+      "dimension": "数值最优解",
+      "status": "R",
+      "source_question": "Best level 3 or lower spell to cast to survive a Delayed Blast Fireball?",
+      "question": "PF 1e 中，面对一次大额的单一能量伤害法术，「防护能量伤害」与「抵抗能量伤害」哪个的防护/吸收上限更高？并说明两者在应对单次高伤害时的差异。",
+      "module": "spell",
+      "expected_chunks": [
+        "spell_Spell CRB_0420",
+        "spell_Spell CRB_0453"
+      ],
+      "golden_answer_points": [
+        "防护能量伤害（3 环）：提供对一种能量的临时免疫，吸收每 CL 12 点能量伤害（10 级时最多 120 点）后才耗散，持续时间 10 分钟/等级或直至耗散。",
+        "抵抗能量伤害（2 环）：固定提供 10/20/30 点能量抗力（每次伤害先扣除），适合持续的小额能量伤害。",
+        "防护能量伤害的吸收上限（最高 120 点）远高于抵抗能量的 30 点，是应对单次大额能量伤害的更优选择；两者同时存在时防护能量伤害覆盖（而非叠加）抵抗能量伤害。"
+      ],
+      "answer": "",
+      "notes": "dnd5e 的伤害免疫/抗性选择题在 PF 中对应防护能量伤害（按 CL 吸收，上限 120）vs 抵抗能量伤害（固定 10/20/30 减伤）。维度数值最优解，比较吸收上限。"
+    },
+    {
+      "id": "medium-9",
+      "tier": "medium",
+      "dimension": "事实点查",
+      "status": "D",
+      "source_question": "Ways to Grapple a Dragon Turtle?",
+      "question": "PF 1e 中，攫抓（Grab）能力在擒抱目标时有什么体型限制？要擒抱比自身更大的生物，通常依靠什么机制？",
+      "module": "rule",
+      "expected_chunks": [
+        "rule_page_302_0050",
+        "rule_rpage_0008_0009",
+        "feat_page_195_0297"
+      ],
+      "golden_answer_points": [
+        "攫抓除非特别说明，只能针对体型与该生物相同或更小的对手；若能擒抱其他体型会在特殊攻击中列出",
+        "普通战技擒抱没有硬性体型上限，但体型修正影响CMB（超微型-8、微型-4、超小型-2、小型-1、中型+0、大型+1、超大型+2、巨型+4、超巨型+8），大体型目标CMD更高更难擒抱",
+        "要擒抱大体型目标，需提高自身CMB：如增大体型（体型修正随体型增大）、精通擒抱专长（擒抱检定+2）、攫抓能力（开始和维持擒抱的战技检定+4）"
+      ],
+      "answer": "",
+      "notes": "迁移说明：5e 擒抱体型规则在 PF 中体现为怪物攫抓能力的『同体型或更小』限制（rule_page_302_0050），而普通战技擒抱靠CMB体型修正（rule_rpage_0008_0009）。两锚点均实查命中。"
+    },
+    {
+      "id": "medium-10",
+      "tier": "medium",
+      "dimension": "数值最优解",
+      "status": "D",
+      "source_question": "Highest instant damage spell that can be cast by a level 5 Wizard?",
+      "question": "PF 1e 中，术士/法师可用的 3 环即时范围伤害法术「火球术」与「闪电束」的伤害公式与上限分别是多少？哪个（些）伤害上限最高？",
+      "module": "spell",
+      "expected_chunks": [
+        "spell_Spell CRB_0208",
+        "spell_Spell CRB_0319"
+      ],
+      "golden_answer_points": [
+        "火球术：每 CL 1d6 火焰伤害（最高 10d6），20 尺半径扩散区域，反射豁免减半。",
+        "闪电束：每 CL 1d6 闪电伤害（最高 10d6），120 尺线形区域，反射豁免减半。",
+        "二者伤害上限同为 10d6（最高 60 点），并列 3 环即时范围伤害最高；差异在区域形状（半径扩散 vs 线形）与材料成分。"
+      ],
+      "answer": "",
+      "notes": "dnd5e 3 环最高即时伤害通常答 Fireball；PF 中火球术与闪电束同为每 CL 1d6 最高 10d6，给出并列结论并保留对比维度，避免单点答案争议。维度数值最优解。"
+    },
+    {
+      "id": "medium-11",
+      "tier": "medium",
+      "dimension": "数值最优解",
+      "status": "R",
+      "source_question": "What is the highest Strength score that a level 20 Figther can have without Magic Item or Temporary Increase?",
+      "question": "在 PF 1e 中，一名 20 级战士的力量值：(1) 若仅考虑购点起始属性、升级奖励与「巨力腰带」增强加值，理论最高是多少？PF 是否存在像 5e 那样的 20 属性硬上限？(2) 若穷举所有能叠加到力量属性上的加值类型（增强/内在/体型/士气/炼金等），各类型上限加值分别是多少？同名加值与不同类型加值分别如何叠加？",
+      "module": "rule,equipment,class,spell",
+      "expected_chunks": [
+        "rule_page_313_0006",
+        "rule_page_313_0000",
+        "equipment_page_223_0007",
+        "rule_page_159_0002",
+        "rule_page_564_0021",
+        "spell_Spell CRB_0620",
+        "spell_Spell CRB_0238",
+        "spell_Spell CRB_0183",
+        "7854fe499a94c3242bca9100154be0df0f4ea6d82f8f14c64f29b0ce670a7746",
+        "84463ae9859448192704554fc8217c2e7a11259b33d4b1063951b2944e467959",
+        "spell_Spell CRB_0430",
+        "561133145be5e558869b9c860d1bcf136231481f617f0cc87176340480565787",
+        "equipment_page_234_0153"
+      ],
+      "golden_answer_points": [
+        "【收窄】购点法：属性基础 10，购点最高 18，种族 +2 调整在购点后应用，起始最高 20。",
+        "【收窄】巨力腰带提供 +2/+4/+6 力量增强加值（+6 版 18000gp）。",
+        "【收窄】最高 = 起始 20 + 升级奖励 5（每 4 级 +1，共 5 点）+ 增强 6 = 31；PF 不存在 5e 的 20 属性硬上限，种族/魔法增强加值可在基础属性之上叠加。",
+        "【穷举】能叠加到力量属性上的加值类型共 5 种：增强、内在、体型、士气、炼金。",
+        "【穷举】各类型上限：增强 +6（巨力腰带）、内在 +5（连续 5 次祈愿术每次 +1 内在加值，或力量手册等属性手册奇物）、体型 +8（巨人形态 II，变巨术 +2）、士气 +2～+8（狂暴术 +2 给队友 / 歌者激发狂暴 +2~+6 给队友 / 野蛮人狂暴 +4~+8 自身）、炼金 +4（突变药剂）。",
+        "【穷举】叠加规则：同名加值取最高、不同类型加值可叠加（唯一例外：闪避加值总是叠加）。"
+      ],
+      "answer": "",
+      "notes": "维度数值最优解，拆两个子问题：(1) 收窄——战士自身永久属性（购点+升级+增强腰带）= 31，对比 5e 20 硬上限；(2) 穷举——PF 加值类型体系（增强/内在/体型/士气/炼金 5 种可加力量），同名取最高异名叠加。锚点补加值类型表 rule_page_564_0021 + 祈愿术/力量手册/巨人形态 II/变巨术/狂暴术/歌者激发狂暴/野蛮人狂暴/突变药剂。"
+    },
+    {
+      "id": "medium-12",
+      "tier": "medium",
+      "dimension": "事实点查",
+      "status": "D",
+      "source_question": "Spells that can be used to survive the effect of Midnight Tears?",
+      "question": "PF 1e 中，角色中了黑莲汁（Black lotus extract）这种致命接触毒素后，有哪些方法可以救治？",
+      "module": "spell,equipment,rule",
+      "expected_chunks": [
+        "spell_Spell CRB_0372",
+        "equipment_page_212_0097",
+        "equipment_page_212_0094"
+      ],
+      "golden_answer_points": [
+        "黑莲汁：接触型，强韧豁免DC 20，生效1分钟，频率1次/轮持续6轮，效果1d6体质伤害，痊愈需2次连续豁免",
+        "中和毒性（Neutralize Poison，语料译名）法术可治愈：接触目标后施法者等级检定（1d20+CL）对抗每个正在影响目标的毒素DC，成功则毒素被中和，被治愈后不再受该毒素额外效果",
+        "减缓毒发（delay poison）可延迟毒素发作；但中和毒性不逆转已造成的立即效果（如HP伤害、暂时属性伤害）；毒药也可由目标连续成功豁免（黑莲汁需2次）自愈"
+      ],
+      "answer": "",
+      "notes": "迁移说明：5e 致命毒药解法迁移为具体毒药（黑莲汁）+治疗法术（中和毒性 Neutralize Poison，语料译作『中和毒性』，任务方向写『中和毒素』，已在题干用 PF 语料译名并注明英文）的双层作答。三个锚点均实查命中。"
+    },
+    {
+      "id": "medium-13",
+      "tier": "medium",
+      "dimension": "应用计算",
+      "status": "D",
+      "source_question": "As a newly createdlevel 1 Paladin, what is the highest AC without external help?",
+      "question": "在 PF 1e 中，一名 1 级圣武士的 AC 由哪些部分组成？护甲加值与盾牌加值能否与同类加值叠加？圣武士擅长哪些护甲与盾牌？护甲对可计入 AC 的敏捷加值有何限制？",
+      "module": "rule,equipment,class",
+      "expected_chunks": [
+        "rule_rpage_0002_0007",
+        "equipment_page_206_0000",
+        "a9690a73eafc00fe0838f6506e8481911eb9057f0c5519587000070d53a0df09"
+      ],
+      "golden_answer_points": [
+        "AC 的计算公式为：10 + 护甲加值 + 盾牌加值 + 敏捷修正 + 其他加值。",
+        "护甲加值不与其他带来护甲加值的效果或装备叠加，盾牌加值也不与其他盾牌加值叠加（同类不叠加）。",
+        "圣武士擅长所有盔甲（轻型/中型/重型）和盾牌（塔盾除外），1 级即可穿全身甲并持重盾。",
+        "护甲有最大敏捷加值限制：较重的护甲会限制可计入 AC 的敏捷加值（超过部分不计入 AC），塔盾是唯一影响最大敏捷加值的盾牌。"
+      ],
+      "answer": "",
+      "notes": "维度选应用计算。实体替换：5e AC 公式 → PF AC 公式（10+护甲+盾+敏捷+其他）。锚点三处实查命中：AC 公式规则 chunk（rule_rpage_0002_0007 标题即公式）、防具总论（同类加值不叠加/最大敏捷限制/不熟练惩罚）、圣骑士职业特性（擅长所有盔甲盾牌除塔盾）。注：装备模块中单件护甲/盾牌的 AC 数值 stat block 被截断（如全身甲+9、重盾+2 未以数字形式入库），故 golden points 覆盖公式与堆叠/擅长/限制规则，不要求裸数字。难度 medium。"
+    },
+    {
+      "id": "medium-14",
+      "tier": "medium",
+      "dimension": "全量枚举",
+      "status": "D",
+      "source_question": "Ways to escape a Grapple?",
+      "question": "PF 1e 中，角色被其他生物擒抱时，可以用哪些方法逃脱擒抱？",
+      "module": "rule,skill",
+      "expected_chunks": [
+        "rule_rpage_0008_0020",
+        "skill_page_176_0000",
+        "rule_page_9_0019"
+      ],
+      "golden_answer_points": [
+        "以标准动作进行一次战技检定挣脱对手擒拿（DC为擒抱者的CMD，不引发借机攻击）；或以标准动作进行一次脱逃（Escape Artist）技能检定（DC也等于对手CMD）",
+        "若挣脱对抗成功，可正常行动，甚至可以立刻反过来擒抱刚才擒抱你的生物（该生物将失去自由撤除擒抱的权利）",
+        "被擒抱时除尝试挣脱外，仍可进行不需要两只手都空闲的动作（如施法、用轻型或单手武器攻击及全力攻击）；被擒抱状态本身受敏捷-4、攻击/战技检定-2（除发动或脱离擒抱的检定）、无法移动与无法借机攻击等限制"
+      ],
+      "answer": "",
+      "notes": "迁移说明：5e 逃脱擒抱在 PF 中为战技检定或脱逃技能检定双通道（rule_rpage_0008_0020『如果你被擒抱』），并配合脱逃技能（skill_page_176_0000）与擒抱状态规则（rule_page_9_0019）。维度取全量枚举（列举所有逃脱方法）。三锚点均实查命中。"
+    },
+    {
+      "id": "medium-15",
+      "tier": "medium",
+      "dimension": "事实点查",
+      "status": "R",
+      "source_question": "Ways to increase the odds to successfully Counterspell a Wish?",
+      "question": "PF 1e 中，标准的法术反制（counterspell）做法是什么？「精通法术反制（Improved Counterspell）」专长如何扩大可反制的法术范围？",
+      "module": "rule,feat",
+      "expected_chunks": [
+        "rule_rpage_0009_0007",
+        "feat_page_195_0259"
+      ],
+      "golden_answer_points": [
+        "准备反制法术：当对手开始施法时，可通过法术辨识检定（DC 15+法术环级）识别其法术；若能施放相同法术（且已准备可施放）则自动反制成功；神术可反制奥术、反之亦然。",
+        "也可用「解除魔法」反制对方法术，但取决于施法者等级检定结果，未必总能成功。",
+        "精通法术反制：可以用比目标法术高 1 环的相同学派法术进行反制；无此专长时只能用相同或特定法术反制。"
+      ],
+      "answer": "",
+      "notes": "5e Counterspell（法术辨识+同环反制）在 PF 中对应「准备反制法术」规则（法术辨识 DC 15+环级 + 相同法术自动反制），扩展点用「精通法术反制」专长。维度事实点查。"
+    },
+    {
+      "id": "medium-16",
+      "tier": "medium",
+      "dimension": "事实点查",
+      "status": "X",
+      "source_question": "Best way to use a level 5 spell slot to deal at least 30 damage to a Remorhaz?",
+      "question": "",
+      "module": "spell",
+      "expected_chunks": [],
+      "golden_answer_points": [],
+      "answer": "",
+      "notes": "无法映射：原 dnd5e 题为雷鸟（thunderbird）的伤害免疫数值，依赖怪物 stat block 的免疫列表。PF 无怪物图鉴数据。我的解决方案：按 X 处理。待人工优化点：可换「PF 中 5 环最高伤害法术」——寒冰锥（Cone of Cold，CRB 5 环，spell_Spell CRB_0088）为典型高伤害 5 环范围法术，可做成数值最优解题；但与原题（stat block 免疫）意图不同，需人工确认是否值得改造。"
+    },
+    {
+      "id": "medium-17",
+      "tier": "medium",
+      "dimension": "数值最优解",
+      "status": "D",
+      "source_question": "Excluding magic items, precious metals, art and jewelry, what's the most expensive item?",
+      "question": "在 PF 装备数据中，可购买（有明确标价）的魔法物品里，价格最高的是哪一件？价格是多少？",
+      "module": "equipment",
+      "expected_chunks": [
+        "equipment_page_222_0000",
+        "equipment_page_220_0000"
+      ],
+      "citation_mode": "loose",
+      "golden_answer_points": [
+        "价格最高的可购买魔法物品是力量法杖（Staff of Power），价格为 235,000 gp（CRB 法杖表）",
+        "法杖表中的其他高价项：大祭司法杖（Staff of the Hierophant）220,000 gp、通路法杖（Staff of Passage）206,900 gp",
+        "戒指表中最高价为 200,000 gp，对应元素命令戒指（Ring of Elemental Command）与高等储法戒指（Ring of Spell Storing, Major）",
+        "全量价格分布可通过「表：法杖」「表：戒指」等价格表格 chunk 排序验证（装备模块内未发现任何 ≥240,000 gp 的标价物品）"
+      ],
+      "answer": "",
+      "notes": "原 5e medium-17 为「最贵物品」，期望约 250,000 金币级。PF 装备模块全量扫描（全部 5384 chunks 的文本）未发现 ≥240,000 gp 的标价物品，最高为力量法杖 235,000 gp（CRB，equipment_page_222_0000 法杖价格表），戒指最高 200,000 gp（equipment_page_220_0000）。注意 PF 神器（如龙珠）无标价，不计入「可购买」答案；答案须以价格表格排序得出，属数值最优解题。"
+    },
+    {
+      "id": "medium-18",
+      "tier": "medium",
+      "dimension": "应用计算",
+      "status": "R",
+      "source_question": "Consider a multiclassing character with 10 wizard levels and 5 paladin levels. How many level 3 spell slots does the character have? Can the character use those slots to cast level 3 paladin spells?",
+      "question": "在 PF 1e 中，一名 10 级法师与 5 级牧师兼职的角色，其 3 环法术位应当分别按哪个职业的哪个表格计算？法师 10 级和牧师 5 级各有多少个 3 环法术位？",
+      "module": "class",
+      "expected_chunks": [
+        "879ff7c28ef1c776f92a10a6f4ce82bfe887b4071568a81fa195afd70da17218",
+        "10118326e87cdc710c6b201c7ca179d0d32324b24f8f4896af7a0dbca491169e",
+        "2911f6a6306185398ac9b80d312c9a8df7435311f282e90e7dd5155aee56b066"
+      ],
+      "golden_answer_points": [
+        "PF 无统一施法位表：兼职施法职业时，各职业法术位按各自职业等级在其职业表上独立核算（兼职 chunk：职业能力基于该特定职业等级）。",
+        "表：法师 10 级行每日法术为 4/4/4/3/3/2（0-5环），即 3 环法术位=3 个。",
+        "表：牧师 5 级行每日法术为 4/3+1/2+1/1+1（0-3环），即 3 环法术位=1 个基础 +1 个领域 = 2 个。",
+        "两职业的法术位分别来自各自的职业表，互不合并。"
+      ],
+      "answer": "",
+      "notes": "维度选应用计算。实体替换：5e 统一施法表 → PF 各职业独立核算；题面「圣武士 5 级」替换为「牧师 5 级」——经全量检索确认圣骑士（圣武士）的法术进度表未入库（职业模块仅有职业特性/类特性 chunk，无「表：圣骑士」），为保证 expected_chunks 与 golden points 可实查验证，改用同属准备施法神术职业且表格完整的牧师。锚点三处实查命中：表：法师（10级 3环=4）、表：牧师（5级 3环=1+1）、兼职规则。难度 medium。"
+    },
+    {
+      "id": "medium-19",
+      "tier": "medium",
+      "dimension": "数值最优解",
+      "status": "D",
+      "source_question": "As a level 20 Paladin, what is the highest AC without external help?",
+      "question": "在 PF 1e 中，一名 20 级圣武士在对抗受其「制裁邪恶」的目标时，其 AC 最高可达到多少？请结合 PF 的 AC 公式、圣武士的护甲/盾牌擅长，以及制裁邪恶提供的偏斜加值来计算。",
+      "module": "rule,class",
+      "expected_chunks": [
+        "rule_rpage_0002_0007",
+        "a9690a73eafc00fe0838f6506e8481911eb9057f0c5519587000070d53a0df09",
+        "50271f8a3062f1ecf7f9c99ee0f64e13fd0f80e5c9ff7154c98c8098c658d914"
+      ],
+      "golden_answer_points": [
+        "AC = 10 + 护甲加值 + 盾牌加值 + 敏捷修正 + 其他加值。",
+        "圣武士擅长所有盔甲（轻/中/重）和盾牌（塔盾除外），可穿全身甲持重盾；重甲（如全身甲）限制最大敏捷加值为+1。",
+        "制裁邪恶生效期间，圣武士对抗被制裁目标时，AC 获得等同于魅力加值的偏斜加值（若为加值）。",
+        "最高 AC 计算示例：10（基础）+9（全身甲）+2（重盾）+1（敏捷）+5（魅力20=+5偏斜）= 27。"
+      ],
+      "answer": "",
+      "notes": "维度选数值最优解。实体替换：5e AC 堆叠 → PF AC 公式 + 圣武士职业能力。锚点三处实查命中：AC 公式规则、圣骑士职业特性（擅长+甲类）、制裁邪恶（魅力偏斜AC加值）。注：单件防具 AC 数值（全身甲+9/重盾+2）stat block 在装备模块被截断，示例数字采用标准 PF 值并在 notes 说明。难度 medium。"
+    },
+    {
+      "id": "medium-20",
+      "tier": "medium",
+      "dimension": "事实点查",
+      "status": "R",
+      "source_question": "How can a player character cast two spells (lvl 1 or higher) in a single turn?",
+      "question": "PF 1e 中，超魔专长「法术瞬发」如何让施法者在同一轮内施放两个法术？它有哪些限制与代价？",
+      "module": "feat",
+      "expected_chunks": [
+        "feat_page_195_0361"
+      ],
+      "golden_answer_points": [
+        "法术瞬发：施展瞬发法术是迅捷动作，同一轮内还可做另一个动作，甚至施展另一个法术。",
+        "代价：瞬发法术占用比该法术实际等级高 4 环的法术位。",
+        "限制：施法时间超过 1 个整轮动作或 1 轮的法术无法被瞬发；施展瞬发法术不会触发借机攻击。"
+      ],
+      "answer": "",
+      "notes": "5e Quicken Spell（附赠动作施法）在 PF 中对应「法术瞬发」（迅捷动作施法，高 4 环位）。维度事实点查，单锚点即覆盖完整机制。"
+    },
+    {
+      "id": "medium-21",
+      "tier": "medium",
+      "dimension": "交叉判定",
+      "status": "D",
+      "source_question": "List all the ways a player character gains a way to better resist a charm effect, e.g. advantage on saving throws, immunity to charm, ... without polymorph, shapechange or other transforming spells and without magic items.",
+      "question": "在 PF 中，角色可以通过哪些途径抵抗或免疫魅惑（惑控系）类效果？",
+      "module": "race,spell",
+      "expected_chunks": [
+        "spell_Spell CRB_0421",
+        "spell_Spell CRB_0358",
+        "race_page_939_0003"
+      ],
+      "golden_answer_points": [
+        "防护邪恶（Protection from Evil）法术：可防护精神控制；对魅惑[魅惑]与胁迫[胁迫]效果（如魅惑人类、支配人类）提供额外一次豁免（+2 士气加值、使用原 DC），成功则在该法术持续时间内压制该效果，且目标免疫新的精神控制尝试",
+        "心灵屏障（Mind Blank）法术：使受术者抵御所有预言系获取目标信息的法术或装置（侦测邪恶、生物定位、探知、识破隐形），并对所有影响心灵（mind-affecting）法术与效果提供豁免 +8 抗力加值（非免疫）。",
+        "仿生人（被创造者）种族特性：对抗影响心灵（mind-affecting）的效果豁免 +4 种族加值，免疫睡眠，并免疫恐惧与基于情感的效果"
+      ],
+      "answer": "",
+      "notes": "原 5e medium-21 为抵抗魅惑途径。PF 侧锚定：防护邪恶法术（CRB spell_Spell CRB_0421）明确写出防护精神控制与二次豁免；心灵屏障（CRB spell_Spell CRB_0358）提供影响心灵免疫；仿生人（COMP race_page_939_0003）影响心灵豁免+4+免疫睡眠/恐惧。原稿含水栖精灵免疫（BotS 未整理目录），不满足验收标准，已替换为 CRB 心灵屏障；核心精灵种族条目 book=? 不可作锚点。难度 medium（交叉判定，需法术与种族特性结合）。"
+    },
+    {
+      "id": "medium-22",
+      "tier": "medium",
+      "dimension": "交叉判定",
+      "status": "D",
+      "source_question": "If an invisible creature has rolled a stealth check that surpasses that passive perception of a purple worm, can the purple worm still detect the creature? Why?",
+      "question": "PF 1e 中，颤动感知（Tremorsense）能否发现隐形的敌人？它能反制潜行（隐匿 Stealth）吗？",
+      "module": "rule,skill",
+      "expected_chunks": [
+        "rule_page_302_0121",
+        "rule_page_240_0040",
+        "skill_page_190_0000"
+      ],
+      "golden_answer_points": [
+        "颤动感知能感觉到地面震颤，自动辨别出任何接触地面的东西的位置，因此只要隐形生物接触地面就能被自动定位，隐形无法规避它",
+        "具有颤动感知的水栖生物亦可感觉出在水中移动的生物的位置；其有效范围在生物描述中给出",
+        "对不接触地面（如飞行/悬浮）或虚体的目标无效；由于颤动感知是自动定位而非『看见』，隐匿（潜行）检定无法反制它——这正印证语料原文『由于某些生物能侦测、甚至直接看到隐形生物，因此隐形状态下躲藏依然是有帮助的』"
+      ],
+      "answer": "",
+      "notes": "迁移说明：5e Tremorsense 概念迁移为 PF 通用怪物规则-颤动感知（rule_page_302_0121），其自动定位『接触地面的东西』天然同时反制隐形与潜行。锚点另含特殊能力-隐形（rule_page_240_0040）与隐匿技能定义（skill_page_190_0000）。三锚点均实查命中。"
+    },
+    {
+      "id": "medium-23",
+      "tier": "medium",
+      "dimension": "交叉判定",
+      "status": "D",
+      "source_question": "List all the ways to increase the damage of a cantrip.",
+      "question": "PF 1e 的 0 环戏法（如酸液飞溅、冰冻射线）基础伤害很低且不随施法者等级提升。有哪些途径可以增强这类 0 环法术的伤害？",
+      "module": "spell,feat,class",
+      "expected_chunks": [
+        "spell_Spell CRB_0002",
+        "feat_page_195_0222",
+        "feat_page_195_0347",
+        "96267fefd361203d0753e6a98bb83332d47ef769767e9f3bcdd41306304f5ced"
+      ],
+      "golden_answer_points": [
+        "0 环戏法如酸液飞溅（1d3 强酸）、冰冻射线（1d3 寒冷）伤害固定，需远程接触攻击命中，不随 CL 自动升级。",
+        "超魔专长可增强：法术强效（占用高 2 环法术位，变量值+50%）、法术极效（占用高 3 环法术位，变量取最大值）；二者可叠加。",
+        "血统/学派能力可加伤：如龙脉血统奥秘令能量描述法术每个伤害骰 +1（配合戏法的基础骰生效）。"
+      ],
+      "answer": "",
+      "notes": "5e 戏法随等级自动升级，PF 0 环戏法固定 1d3，因此增强只能依赖超魔（强效/极效）与血统奥秘等外部来源，属于多来源交叉判断。维度选交叉判定。"
+    },
+    {
+      "id": "medium-24",
+      "tier": "medium",
+      "dimension": "全量枚举",
+      "status": "D",
+      "source_question": "List all the magic items that can make you fly.",
+      "question": "在 PF 中，有哪些魔法物品或法术能够为角色提供飞行能力？请至少举出两种魔法物品和一种法术，并说明其效果。",
+      "module": "equipment,spell",
+      "expected_chunks": [
+        "equipment_page_234_0034",
+        "equipment_page_234_0040",
+        "spell_Spell CRB_0216",
+        "equipment_page_232_0049",
+        "equipment_page_234_0042",
+        "spell_Spell APG_0114"
+      ],
+      "golden_answer_points": [
+        "飞行扫帚（Broom of Flying）：效果如同翱翔天际（overland flight），飞行检定 +4，每天最多飞行 9 小时；载重 ≤200 磅时速度 40 尺，200~400 磅降为 30 尺",
+        "飞天魔毯（Carpet of Flying）：效果如同无时间限制的翱翔天际；5x5 规格 20,000 gp / 5x10 规格 35,000 gp / 10x10 规格 60,000 gp；可盘旋且无需飞行检定",
+        "飞行术（Fly，3环）：受术者以 60 尺速度飞行（穿中/重甲或中/重载时为 40 尺），机动性良好，持续时间 1 分钟/等级；施法者等级一半作为飞行技能检定加值",
+        "同类可补充：飞行之翼（Wings of Flying，肩部奇物）、飞行之釜、群体飞行术等"
+      ],
+      "answer": "",
+      "notes": "原 5e medium-24 为能提供飞行的物品/法术。PF 装备模块 CRB 有飞行扫帚（equipment_page_234_0034）、飞天魔毯（equipment_page_234_0040），法术模块有飞行术（spell_Spell CRB_0216），速度/载重/价格/持续时间等事实点完整可查。还可扩展飞行之翼等同类奇物作补充。"
+    },
+    {
+      "id": "medium-25",
+      "tier": "medium",
+      "dimension": "全量枚举",
+      "status": "D",
+      "source_question": "List all the ways a character can be better at Grappling.",
+      "question": "PF 1e 中，提升战技加值（CMB）、特别是提高擒抱成功率，有哪些途径？",
+      "module": "rule,feat",
+      "expected_chunks": [
+        "rule_rpage_0008_0009",
+        "feat_page_195_0297",
+        "rule_page_302_0050"
+      ],
+      "golden_answer_points": [
+        "CMB基础公式：CMB = BAB + 力量修正 + 体型修正（体型超小型及以下的生物可用敏捷修正代替力量修正）；体型修正范围从超微型-8到超巨型+8",
+        "精通擒抱（Improved Grapple）专长（先决条件：敏捷13、精通徒手打击）：使用擒抱战技时不引发借机攻击，擒抱检定+2，对抗擒抱的战技防御（CMD）+2",
+        "怪物攫抓（Grab）能力使开始和维持擒抱的战技检定+4；此外增大体型（体型修正随体型提升）与提升BAB/力量均可提高CMB"
+      ],
+      "answer": "",
+      "notes": "迁移说明：5e 提升擒抱（优势/专长）迁移为 PF 的 CMB 公式（rule_rpage_0008_0009）+ 精通擒抱专长（feat_page_195_0297）+ 攫抓+4（rule_page_302_0050）。维度取全量枚举。module 标 class 是因精通擒抱的先决条件涉及武僧职业能力（精通徒手打击），实为 feats 为主。三锚点均实查命中。"
+    },
+    {
+      "id": "medium-26",
+      "tier": "medium",
+      "dimension": "数值最优解",
+      "status": "R",
+      "source_question": "What's the maximum damage a high elf level 5 Hunter Ranger with a dexterity score of 16 and Colossus Slayer can deal with a single weapon attack, given that the weapon is a +1 heavy crossbow and the ammunitions have oil of sharpness applied to them?",
+      "question": "在 PF 1e 中，一名 20 级游侠使用复合长弓射击其宿敌目标时，单发伤害最多可堆叠哪些加值？宿敌加值在 20 级最高为多少，「致命瞄准」在 BAB 20 时提供多少伤害，「狩猎目标」对攻击与重击有何作用，复合长弓如何将力量修正计入伤害？",
+      "module": "class,feat,equipment",
+      "expected_chunks": [
+        "2cac5db218c9ead2607ceabf3de43eb87ee6ca3c7233d3f46f6c61305192c797",
+        "e58b38f294a149e9b1241d4a93e8805ec4d9795036d21af72857e572bc41ae8f",
+        "feat_page_195_0210",
+        "equipment_page_207_0058"
+      ],
+      "golden_answer_points": [
+        "宿敌（Favored Enemy）：1级时对宿敌生物的攻击和伤害检定+2，5级起每5级可将任意一种宿敌的加值再+2，20级对最高宿敌加值可达+10。",
+        "致命瞄准（Deadly Aim）：远程攻击检定-1换伤害+2，BAB每+4再-1攻击/+2伤害，BAB 20 时最多-5攻击/+10伤害。",
+        "狩猎目标（Quarry）：对指定目标（须为宿敌类型）攻击检定+2洞察加值，且所有重击威胁自动确认。",
+        "复合长弓可将持用者的力量修正加至伤害检定（最高不超过弓的力量级别），20级游侠对宿敌单发伤害 = 基础骰 + 宿敌 +10 + 致命瞄准 +10 + 力量修正 + 武器增强等。"
+      ],
+      "answer": "",
+      "notes": "维度选数值最优解。实体替换：5e 游侠子职伤害特性 → PF 游侠宿敌/狩猎目标/致命瞄准/复合长弓伤害链。锚点四处实查命中：游侠职业特性（宿敌加值递增）、狩猎目标（+2洞察攻击+重击自动确认）、致命瞄准（-1/+2 递增）、复合长弓（力量修正入伤害）。注：题面提及的「重力箭/重力弓」法术未在法术索引中找到对应条目（检索 重力/弓 均无命中），故伤害链改用可检索的 宿敌+致命瞄准+狩猎目标+复合长弓；狩猎目标本身不加伤害，仅加攻击与重击确认。难度 medium。"
+    },
+    {
+      "id": "medium-27",
+      "tier": "medium",
+      "dimension": "交叉判定",
+      "status": "D",
+      "source_question": "What happens when I combine the effect of the spell Plant Growth (with Overgrowth used) with the spell Web?",
+      "question": "PF 1e 中，在困难地形（Difficult Terrain）上移动的同时又处于纠缠（Entangled）状态，两种减速效果会叠加吗？",
+      "module": "rule",
+      "expected_chunks": [
+        "rule_rpage_0005_0019",
+        "rule_page_9_0013",
+        "rule_page_127_0028"
+      ],
+      "golden_answer_points": [
+        "困难地形：每移动1格需消耗2格速度，对角格需消耗3格速度，无法通过奔跑或冲锋跨越",
+        "纠缠：只能以半速移动，无法奔跑或冲锋，所有攻击检定-2、敏捷-4；施法需通过DC为15+法术环级的专注检定",
+        "二者可叠加：困难地形属于每格移动消耗翻倍（地形效果），纠缠属于速度减半的移动限制（状态效果），两种减速同时生效；且两者都禁止奔跑/冲锋"
+      ],
+      "answer": "",
+      "notes": "迁移说明：5e 困难地形与纠缠的叠加在 PF 中分别是地形消耗（rule_rpage_0005_0019）与状态速度减半（rule_page_9_0013），由叠加通用规则（rule_page_127_0028）支撑『不同来源可合并』。维度取交叉判定。三锚点均实查命中。"
+    },
+    {
+      "id": "medium-28",
+      "tier": "medium",
+      "dimension": "数值最优解",
+      "status": "X",
+      "source_question": "What numbers should a Kraken roll not to fall prone on slippery ice?",
+      "question": "",
+      "module": "rule",
+      "expected_chunks": [],
+      "golden_answer_points": [],
+      "answer": "",
+      "notes": "无法映射：原 dnd5e 题为克拉肯（kraken）的豁免加值，依赖怪物 stat block 的豁免数值。PF 无怪物图鉴数据。我的解决方案：按 X 处理。待人工优化点：可换「PF 环境危险的豁免 DC」——规则模块 CRB 有陷阱规则（rule_page_279_*，陷阱有察觉/解除装置 DC 与豁免 DC）和环境规则（坠落等 rule_page_284_*），可做成「某陷阱/环境危险的豁免 DC」数值最优解题；但与原题（怪物豁免）对象不同，需人工确认。"
+    },
+    {
+      "id": "medium-29",
+      "tier": "medium",
+      "dimension": "应用计算",
+      "status": "D",
+      "source_question": "How many turns does it take for a spirit summoned through Horn of Valhalla to escape from the area of the Spike Growth spell given the spirit is in the exact middle of the area?",
+      "question": "PF 1e 中，一个速度30尺（6格）的角色在困难地形（Difficult Terrain）里，单次移动动作（30尺移动力）能前进多远？若移动被严重阻碍，规则提供了什么替代移动方式？",
+      "module": "rule",
+      "expected_chunks": [
+        "rule_rpage_0005_0019",
+        "rule_rpage_0003_0057"
+      ],
+      "golden_answer_points": [
+        "困难地形每移动1格需消耗2格速度：30尺移动力只能前进15尺（3格）；移动对角格则每格消耗3格速度",
+        "若占据区域有多种地形，移动力按其中最困难的地形计算；飞行或虚体生物不受困难地形影响",
+        "当移动被严重阻碍时，角色可以整轮动作向包括对角的任意方向移动5尺（1格），该移动类似5尺快步但会引发借机攻击"
+      ],
+      "answer": "",
+      "notes": "迁移说明：5e 困难地形2倍消耗在 PF 中为『每移动1格消耗2格速度』（rule_rpage_0005_0019），配合整轮动作强行移动5尺的兜底规则（rule_rpage_0003_0057）。维度取应用计算（30尺/2=15尺=3格）。两锚点均实查命中。"
+    },
+    {
+      "id": "medium-30",
+      "tier": "medium",
+      "dimension": "比较对比",
+      "status": "X",
+      "source_question": "How many successful attacks does it take to kill an orc with 1 hp, given that: his Warlock friends has the orc's name written on the tome using Gift of the Protectors and his Clerc friend has casted Death Ward on the orc?",
+      "question": "",
+      "module": "spell",
+      "expected_chunks": [],
+      "golden_answer_points": [],
+      "answer": "",
+      "notes": "无法映射：原 dnd5e 题为 Gift of Protectors（5e 魔契 Eldritch Invocation 能力，在队友间转移伤害/守护），PF 无对应魔契机制（PF 无 Eldritch Invocation）。我的解决方案：按 X 处理。待人工优化点：可部分 R——Death Ward（防死结界）在法术模块 CRB 有对应条目（spell_Spell CRB_0124），可改造成「PF 防死结界法术效果」的事实点查题；但与原题「队友间伤害转移守护」的机制不同，R 版仅能保留「防死结界」主题，需人工确认是否接受该主题偏移。"
+    },
+    {
+      "id": "medium-31",
+      "tier": "medium",
+      "dimension": "全量枚举",
+      "status": "D",
+      "source_question": "",
+      "question": "PF 1e 中，法师（Wizard）职业的 1 环法术有哪些？请尽可能列出完整清单。",
+      "module": "spell",
+      "expected_chunks": [
+        "职业 → 核心职业 → 法师 → 法术列表"
+      ],
+      "golden_answer_points": [
+        "完整清单出自官方法师法术列表页（核心规则书 职业 → 核心职业 → 法师 → 法术列表），法师 1 环共 117 条",
+        "代表条目：魔法警报（Alarm）、忍受环境（Endure Elements）、封门术（Hold Portal）、护盾术（Shield）、油腻术（Grease）、法师护甲（Mage Armor）、坐骑术（Mount）等，来源书 CRB",
+        "逐条格式应为「序号. 中文名（英文名） [书缩写]」，如 1. 魔法警报（Alarm） [CRB]"
+      ],
+      "answer": "",
+      "notes": "SP3 F-007 新增（无 5e 原题）：枚举式列举验证题。法师为 26 个 canonical 职业之一（无别名），预期 Agent 走 getSpellList 直查官方列表页，溯源锚定法师法术列表页 tocPath（列表页 Document 作权威出处）。"
+    },
+    {
+      "id": "medium-32",
+      "tier": "medium",
+      "dimension": "全量枚举",
+      "status": "D",
+      "source_question": "",
+      "question": "PF 1e 中，诗人（Bard，规则书中称吟游诗人）职业的 0 环戏法（0 级法术）有哪些？请尽可能列出完整清单。",
+      "module": "spell",
+      "expected_chunks": [
+        "职业 → 核心职业 → 吟游诗人 → 法术列表"
+      ],
+      "golden_answer_points": [
+        "完整清单出自官方吟游诗人法术列表页（核心规则书 职业 → 核心职业 → 吟游诗人 → 法术列表），0 环共 20 条",
+        "代表条目：舞光术（Dancing Lights）、晕眩术（Daze）、侦测魔法（Detect Magic）、闪光术（Flare）、幻音术（Ghost Sound）、指北术（Know Direction）、光亮术（Light）、催眠曲（Lullaby）等，来源书 CRB",
+        "「诗人」为吟游诗人别名，别名归一后应直查吟游诗人官方列表页而非「诗人」名目"
+      ],
+      "answer": "",
+      "notes": "SP3 F-007 新增：别名归一路径验证题（诗人→吟游诗人，别名表含 诗人/游吟诗人）。题面用「诗人」昵称，验证 Agent 别名 resolve 后直查官方列表页，溯源锚吟游诗人法术列表页 tocPath。"
+    },
+    {
+      "id": "medium-33",
+      "tier": "medium",
+      "dimension": "全量枚举",
+      "status": "D",
+      "source_question": "",
+      "question": "PF 1e 中，女巫（Witch）职业的 1 环法术有哪些？请尽可能列出完整清单。",
+      "module": "spell",
+      "expected_chunks": [
+        "职业 → 基础职业 → 女巫 → 法术列表"
+      ],
+      "golden_answer_points": [
+        "完整清单出自官方女巫法术列表页（基础职业 职业 → 基础职业 → 女巫 → 法术列表），女巫 1 环共 68 条",
+        "代表条目：燃烧之手（Burning Hands）、惊恐术（Cause Fear）、魅惑人类（Charm Person）、寒冷之触（Chill Touch）、命令术（Command）、通晓语言（Comprehend Languages）、治疗轻伤（Cure Light Wounds）、侦测密门（Detect Secret Doors）等，来源书 CRB",
+        "女巫是 searchByMetadata 元数据 spell_level 缺失与职业名脏变体重灾区，本题验证 getSpellList 直查列表页不受其影响"
+      ],
+      "answer": "",
+      "notes": "SP3 F-007 新增：女巫 1 环 68 条 canonical 直查验证题（基础职业类别）。女巫在数据侧曾受 className 脏变体影响，getSpellList 直查官方列表页应稳定全量枚举。溯源锚女巫法术列表页 tocPath。"
+    }
+  ]
+}

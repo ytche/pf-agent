@@ -1,0 +1,729 @@
+[
+ {
+  "file": "pf_rules_md_organized/种族/核心种族/半兽人/page_934.md",
+  "tf_index": 3,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "兽人血脉和兽人凶猛",
+   "威慑力"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**此种族特性替换原本的属性加值，威慑力，兽人血脉和兽人凶猛**"
+  ]
+ },
+ {
+  "file": "种族/常见种族/page_160.md",
+  "tf_index": 2,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "体貌描述",
+   "英尺"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**体貌描述**：典型的猫族身高5英尺…"
+  ]
+ },
+ {
+  "file": "种族/常见种族/page_160.md",
+  "tf_index": 3,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "Vision"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "Vision****）**：猫族拥有昏暗视觉…"
+  ]
+ },
+ {
+  "file": "种族/常见种族/page_19.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "常用男名"
+  ],
+  "tokens_elsewhere": {
+   "鹰眼": [
+    "种族/常见种族/page_160.md"
+   ]
+  },
+  "bad_segments": [
+   "**常用男名**：鹰眼（Falcon…"
+  ]
+ },
+ {
+  "file": "种族/常见种族/page_163.md",
+  "tf_index": 2,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "亲者",
+   "Kinslayer"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "亲者（****Kinslayer****）******"
+  ]
+ },
+ {
+  "file": "种族/常见种族/page_164.md",
+  "tf_index": 2,
+  "verdict": "invented",
+  "tokens_own": [],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**渎神契约（****Blasphemous",
+   "Bond****）**：…"
+  ]
+ },
+ {
+  "file": "种族/常见种族/page_165.md",
+  "tf_index": 2,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "Fetchling"
+  ],
+  "tokens_elsewhere": {
+   "窃影鬼种族特性": [
+    "种族/罕见种族/阴影血脉BoS_窃影鬼.md",
+    "种族/阴影血脉BoS_影生暗生种族特性.md"
+   ]
+  },
+  "bad_segments": [
+   "**窃影鬼种族特性（****Fetchling"
+  ]
+ },
+ {
+  "file": "种族/常见种族/page_165.md",
+  "tf_index": 3,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "召唤怪物"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**召唤怪物Ⅰ（****Summon",
+   "Monster I****）**：…"
+  ]
+ },
+ {
+  "file": "种族/常见种族/page_167.md",
+  "tf_index": 2,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "猎巫人"
+  ],
+  "tokens_elsewhere": {
+   "Witch": [
+    "种族/常见种族/page_205.md",
+    "种族/page_10.md",
+    "种族/怪物种族/page_806.md"
+   ]
+  },
+  "bad_segments": [
+   "**猎巫人（****Witch"
+  ]
+ },
+ {
+  "file": "种族/常见种族/page_204.md",
+  "tf_index": 2,
+  "verdict": "cross_file",
+  "tokens_own": [],
+  "tokens_elsewhere": {
+   "魔战士": [
+    "种族/核心种族/侏儒/侏儒天赋职业奖励.md",
+    "种族/常见种族/page_164.md",
+    "种族/常见种族/page_165.md"
+   ]
+  },
+  "bad_segments": [
+   "**魔战士（****Magus**"
+  ]
+ },
+ {
+  "file": "种族/常见种族/page_204.md",
+  "tf_index": 3,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "野蛮人",
+   "Barbarian"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**野蛮人（****Barbarian****）：**…"
+  ]
+ },
+ {
+  "file": "种族/常见种族/page_205.md",
+  "tf_index": 2,
+  "verdict": "invented",
+  "tokens_own": [],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "特性（****Orc Racial Traits****）******"
+  ]
+ },
+ {
+  "file": "种族/常见种族/page_205.md",
+  "tf_index": 3,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "残酷智商"
+  ],
+  "tokens_elsewhere": {
+   "Cruel": [
+    "种族/常见种族/page_167.md",
+    "种族/怪物种族/怪物法典MC/熊地精.md",
+    "种族/巫团血脉BotC_替换儿种族选项.md"
+   ]
+  },
+  "bad_segments": [
+   "**   残酷智商（****Cruel"
+  ]
+ },
+ {
+  "file": "种族/罕见种族/page_323.md",
+  "tf_index": 3,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "昼明术",
+   "比如太阳光或者",
+   "范围内就会目眩",
+   "该生物在强光",
+   "Sensitivity"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "Sensitivity, Ex****）**：该生物在强光，比如太阳光或者'昼明术'范围内就会目眩。"
+  ]
+ },
+ {
+  "file": "种族/罕见种族/位面冒险PA_熵裔.md",
+  "tf_index": 2,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "有着血统联系的熵裔",
+   "英灵",
+   "Champion",
+   "Einherji"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "Champion，Su）：**与[英灵]（Einherji）有着血统联系的熵裔…"
+  ]
+ },
+ {
+  "file": "种族/其他种族/page_814.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "体质",
+   "敏捷",
+   "魅力"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "Traits****+2敏捷，+2魅力，-2体质：**…（整段压缩）"
+  ]
+ },
+ {
+  "file": "种族/page_10.md",
+  "tf_index": 2,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "传古学者",
+   "先知",
+   "圣武士",
+   "女巫",
+   "审判者",
+   "战士",
+   "替换儿",
+   "核心种族",
+   "牧师",
+   "督教",
+   "石之领主",
+   "破敌之锤",
+   "织梦者",
+   "缚法师",
+   "罕见种族",
+   "锻造大师",
+   "Ancient Lorekeeper",
+   "Dreamweaver",
+   "Exarch",
+   "Foehammer",
+   "Forgemaster",
+   "Spellbinder",
+   "Stonelord"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "| 核心种族 | 矮人 | 督教（Exarch, 审判者）\\r       锻造大师（Forgemaster, 牧师） | 破敌之锤（Foehammer, 战士）\\r       石之领主（Stonelord, 圣武士） |",
+   "| 精灵 | 传古学者（Ancient Lorekeeper, 先知）\\r       缚法师（Spellbinder, ",
+   "| 罕见种族 | 替换儿 | 织梦者（Dreamweaver, \\n       女巫） |  |"
+  ]
+ },
+ {
+  "file": "种族/page_11.md",
+  "tf_index": 2,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "中年",
+   "先知",
+   "天赋之力",
+   "此类职业包括野蛮人",
+   "盗贼和术士",
+   "自学成才",
+   "训练有素",
+   "Intuitive",
+   "Middle",
+   "Self-Taught",
+   "Trained"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "| 天赋之力（Intuitive）：此类职业包括野蛮人、先知、盗贼和术士。\\r       自学成才（Self-Taught）：…\\r       训练有素（Trained）：…\\r       中年（Middle "
+  ]
+ },
+ {
+  "file": "种族/怪物种族/page_816.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "他们几乎是凡人的完美复制品",
+   "但因此能完成强大的即兴创作",
+   "如出一辙",
+   "白板",
+   "Blank Slate",
+   "Facsimile"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**白板（Blank Slate）：**有些舍卜提失去了过去生活的记忆，但因此能完成强大的即兴创作。...",
+   "**如出一辙（Facsimile）：**有部分舍卜提被高超技巧制成，他们几乎是凡人的完美复制品。..."
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/种族/怪物种族/怪物法典MC/狗头人.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "察觉检定",
+   "挑战等级",
+   "效果",
+   "机械式陷阱",
+   "解除装置检定",
+   "龙焰陷阱",
+   "Dragonfire Trap"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**龙焰陷阱（Dragonfire Trap）挑战等级1****类型：**机械式陷阱；**察觉检定DC：**25；**解除装置检定DC：**20==============================================**效果**=============================================="
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/种族/怪物种族/怪物法典MC/食人魔.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "挑战等级",
+   "的食人魔个体",
+   "皮包骨",
+   "苗条",
+   "这些瘦高",
+   "Pickin"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**皮包骨 Pickin（挑战等级+0）**这些瘦高，「苗条」的食人魔个体…"
+  ]
+ },
+ {
+  "file": "种族/怪物种族/内海怪物志/半人马_陷阵士.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "与生存作为本职技能",
+   "人马一体",
+   "本职技能",
+   "知识",
+   "自然",
+   "陷阵士只有在满足专长的先决条件时视为拥有专长",
+   "陷阵士获得特技",
+   "骑乘战斗",
+   "Class",
+   "Natural"
+  ],
+  "tokens_elsewhere": {
+   "nMount": [
+    "种族/常见种族/神裔/神裔种族特性替换汇总.md"
+   ]
+  },
+  "bad_segments": [
+   "**本职技能（Class \\nSkills）：**陷阵士获得特技、知识（自然）与生存作为本职技能...",
+   "**人马一体（Natural \\nMount，Ex）：**陷阵士只有在满足专长的先决条件时视为拥有专长“骑乘战斗”..."
+  ]
+ },
+ {
+  "file": "种族/怪物种族/内海怪物志/半蝎人.md",
+  "tf_index": 2,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "你对族群职责的奉献让神明降下奖励",
+   "护卫传统",
+   "虫类领域",
+   "Guardian of",
+   "Vermin",
+   "nDomain"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "虫类领域（Vermin \\nDomain）**：**",
+   "**护卫传统（Guardian of \\nTradition）****你对族群职责的奉献让神明降下奖励"
+  ]
+ },
+ {
+  "file": "种族/怪物种族/内海怪物志/德洛人.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "当炼金术士制作炼金炸弹时",
+   "炼金术士学会了将自己的疯狂融入自己的炼金术士职业能力中",
+   "疯狂研究",
+   "碧幻菌炸弹",
+   "Cytillesh",
+   "Method to the Madness"
+  ],
+  "tokens_elsewhere": {
+   "nBomb": [
+    "种族/常见种族/page_166.md",
+    "种族/常见种族/page_238.md"
+   ]
+  },
+  "bad_segments": [
+   "碧幻菌炸弹**（Cytillesh \\nBomb）：当炼金术士制作炼金炸弹时...",
+   "疯狂研究（Ex）**（Method to the Madness \\n(Ex)）：炼金术士学会了将自己的疯狂融入自己的炼金术士职业能力中..."
+  ]
+ },
+ {
+  "file": "种族/怪物种族/内海怪物志/透肌魔人.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "你对死亡的热情",
+   "包括你自己",
+   "尸鬼蝙蝠伙伴",
+   "必然毁灭",
+   "这只来自于亵渎邪魔仪式的骇人不死坐骑与你形成紧密羁绊",
+   "Assured",
+   "Skaveling"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "必然毁灭**（Assured \\nDestruction）**你对死亡的热情——包括你自己...",
+   "尸鬼蝙蝠伙伴**（Skaveling \\nCompanion）**这只来自于亵渎邪魔仪式的骇人不死坐骑与你形成紧密羁绊。"
+  ]
+ },
+ {
+  "file": "种族/怪物种族/内海怪物志/透肌魔人.md",
+  "tf_index": 2,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "大型",
+   "尸鬼蝙蝠"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "尸鬼蝙蝠\\n体型：大型 "
+  ]
+ },
+ {
+  "file": "种族/怪物种族/内海怪物志/鸮形人.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "先决条件",
+   "强力之翼",
+   "战斗",
+   "摄风之翼",
+   "效果",
+   "盘旋",
+   "Buffeting Wings",
+   "Combat"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "摄风之翼（战斗）**Buffeting Wings \\n(Combat)**先决条件**：盘旋，强力之翼**效果**：..."
+  ]
+ },
+ {
+  "file": "种族/怪物种族/冒险之路AP/冒险之路AP_怪物.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "冒险之路",
+   "寻罪者",
+   "潮池龙",
+   "颅骨与镣铐",
+   "龙类",
+   "AP-source",
+   "Dragon",
+   "Mutiny",
+   "Tidepool",
+   "Tidepool --",
+   "Wormwood",
+   "nSeeker"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "## 冒险之路AP 寻罪者（Sin \\nSeeker）",
+   "<!-- 冒险之路AP-source:颅骨与镣铐/55_The_Wormwood_Mutiny.md:龙类，潮池龙（Dragon，Tidepool -->\\n## 冒险之路AP 龙类，潮池龙（Dragon，Tidepool"
+  ]
+ },
+ {
+  "file": "种族/怪物种族/冒险之路AP/冒险之路AP_怪物.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "寻罪者",
+   "nSeeker"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "寻罪者（Sin \\nSeeker）"
+  ]
+ },
+ {
+  "file": "种族/海洋之血BotS_种族.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "来源",
+   "洛卡鱼人",
+   "海之血脉",
+   "Blood of the"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**洛卡鱼人 **来源：《海之血脉》（Blood of the\\nSea）第10页  "
+  ]
+ },
+ {
+  "file": "种族/海洋之血BotS_种族.md",
+  "tf_index": 2,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "替代墨汁云",
+   "替代快速游泳者",
+   "来源",
+   "某些洛卡鱼人人头部钝圆",
+   "海洋血脉",
+   "游泳速度减至",
+   "灵巧触须",
+   "钝头",
+   "颌强",
+   "齿锐",
+   "Blunt",
+   "Dexterous"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "替代墨汁云：\\n灵巧触须（Dexterous \\nTentacles）\\n来源：《海洋血脉》第7页  ",
+   "替代快速游泳者：\\n钝头（Blunt \\nHead）：某些洛卡鱼人人头部钝圆、齿锐、颌强。游泳速度减至40尺..."
+  ]
+ },
+ {
+  "file": "种族/海洋之血BotS_种族.md",
+  "tf_index": 3,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "外海沙华鱼人",
+   "子种族",
+   "来源",
+   "缘界英雄",
+   "Outsear Sahuagin"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "子种族  \\n外海沙华鱼人（Outsear Sahuagin）  \\n来源：《缘界英雄》第31页"
+  ]
+ },
+ {
+  "file": "种族/内海种族ISR_核心种族替换特性.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "旧日之敌",
+   "有些矮人以他们可怕的记仇心而闻名",
+   "本特性替换防御训练和仇恨",
+   "Lasting"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "旧日之敌（****Lasting \\nGrudge****）：**有些矮人以他们可怕的记仇心而闻名。...本特性替换防御训练和仇恨。**"
+  ]
+ },
+ {
+  "file": "种族/内海种族ISR_其他种族替换特性.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "不朽贵族的继承者",
+   "作为不死生物贵族的后裔",
+   "入侵的魔族",
+   "吸血裔",
+   "圣战魔法",
+   "此种族特性替换技能奖励和类法术能力",
+   "此种族特性替换类法术能力",
+   "神裔",
+   "许多神裔都觉得有义务受训以对抗例如从世界之伤",
+   "Aasimars",
+   "Crusading",
+   "Dhampirs",
+   "Heir to Undying",
+   "Worldwound",
+   "nMagic"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**神裔——圣战魔法（Aasimars—Crusading \\nMagic）：**许多神裔都觉得有义务受训以对抗例如从世界之伤（Worldwound）入侵的魔族...此种族特性替换技能奖励和类法术能力。",
+   "**吸血裔——不朽贵族的继承者（Dhampirs—Heir to Undying \\nNobility）：**作为不死生物贵族的后裔...此种族特性替换类法术能力。"
+  ]
+ },
+ {
+  "file": "种族/内海种族ISR_其他种族替换特性.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "变迁学问",
+   "特里亚克萨斯人",
+   "Transitional",
+   "Triaxians"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**特里亚克萨斯人*PS1*——变迁学问（Triaxians—Transitional \\nLore）：**"
+  ]
+ },
+ {
+  "file": "种族/内海种族ISR_其他种族替换特性.md",
+  "tf_index": 2,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "内海图鉴",
+   "在此列出基础数据",
+   "未有翻译",
+   "猫头鹰人",
+   "Syrinx",
+   "Syrinxes",
+   "Syrinxes Racial Traits"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "PS2—猫头鹰人（Syrinxes）出自＜内海图鉴＞，未有翻译，在此列出基础数据Syrinxes Racial Traits–2 Dex, +2 \\nWisdom: Syrinx"
+  ]
+ },
+ {
+  "file": "种族/内海种族ISR_新种族.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "勒珊塔灵族角色",
+   "拉申塔人是由他们的职业等级来定级的",
+   "标准速度",
+   "绪任克斯枭族的基本速度为",
+   "Lashunta",
+   "Normal"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**标准速度（Normal \\nSpeed）**：绪任克斯枭族的基本速度为30尺。",
+   "**勒珊塔灵族角色（Lashunta \\nCharacters，11 \\nRP）\\n**拉申塔人是由他们的职业等级来定级的..."
+  ]
+ },
+ {
+  "file": "种族/内海种族ISR_新种族.md",
+  "tf_index": 2,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "残酷压迫",
+   "绪任克斯枭族种族特性替换",
+   "绪任克斯枭族经常有着如何对其他生物引起不安和压迫的天赋",
+   "Oppressive",
+   "Syrinx Alternate Racial"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**绪任克斯枭族种族特性替换（Syrinx Alternate Racial \\nTraits）**\\n\\n**残酷压迫（Oppressive）**：绪任克斯枭族经常有着如何对其他生物引起不安和压迫的天赋..."
+  ]
+ },
+ {
+  "file": "种族/内海种族ISR_新种族.md",
+  "tf_index": 3,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "伤害的齧咬攻击",
+   "替换兽性特征",
+   "蝙蝠人后裔",
+   "血印",
+   "这些兽态人",
+   "造成",
+   "Bestial",
+   "Features",
+   "Werebat-kin",
+   "bloodmarked"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "| 蝙蝠人后裔（Werebat-kin）［血印（bloodmarked）］　　这些兽态人...替换兽性特征（Alternate \\n       Bestial \\n       Features）：．造成1d6伤害的齧咬攻击... |  |"
+  ]
+ },
+ {
+  "file": "种族/野兽血脉BotB_种族特性.md",
+  "tf_index": 3,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "尽管狐妖很友善",
+   "敏锐狐妖",
+   "种族特性替换",
+   "Keen",
+   "nKitsune"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**种族特性替换****敏锐狐妖（Keen \\nKitsune）**：尽管狐妖很友善..."
+  ]
+ },
+ {
+  "file": "种族/阴影血脉BoS_影生暗生种族特性.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "那些居住在光亮的人常常使用蜡烛和火炉保证黑暗即使是在睡觉的时候也远离他们",
+   "阴影污染"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "~~阴影污染\\n那些居住在光亮的人常常使用蜡烛和火炉保证黑暗即使是在睡觉的时候也远离他们。..."
+  ]
+ },
+ {
+  "file": "种族/阴影血脉BoS_影生暗生种族特性.md",
+  "tf_index": 2,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "低光视觉",
+   "先决条件",
+   "有着该特性的人物擅长隐藏他们的肢体语言",
+   "混合视觉",
+   "面纱之后",
+   "Behind",
+   "Blended"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "面纱之后（Behind \\nthe Veil）（1RP）：有着该特性的人物擅长隐藏他们的肢体语言...",
+   "混合视觉（Blended \\nView）（~~~~2RP~~~~）~~\\n先决条件：低光视觉"
+  ]
+ }
+]

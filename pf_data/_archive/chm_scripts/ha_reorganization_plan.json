@@ -1,0 +1,313 @@
+{
+  "entries": [
+    {
+      "md_name": "page_758.md",
+      "html_name": "page_758.html",
+      "toc_path": "未整理 → 惧怖冒险HA → 变体/职业选项 → 炼金术师"
+    },
+    {
+      "md_name": "物品9.md",
+      "html_name": "物品9.htm",
+      "toc_path": "未整理 → 惧怖冒险HA → 物品"
+    },
+    {
+      "md_name": "page_749.md",
+      "html_name": "page_749.html",
+      "toc_path": "未整理 → 惧怖冒险HA → 变体/职业选项 → 操念使"
+    },
+    {
+      "md_name": "page_554.md",
+      "html_name": "page_554.html",
+      "toc_path": "未整理 → 惧怖冒险HA → 变体/职业选项 → 德鲁伊"
+    },
+    {
+      "md_name": "神秘仪式3.md",
+      "html_name": "神秘仪式3.htm",
+      "toc_path": "未整理 → 惧怖冒险HA → 神秘仪式"
+    },
+    {
+      "md_name": "page_861.md",
+      "html_name": "page_861.html",
+      "toc_path": "未整理 → 惧怖冒险HA → 变体/职业选项 → 女巫"
+    },
+    {
+      "md_name": "page_511.md",
+      "html_name": "page_511.html",
+      "toc_path": "未整理 → 惧怖冒险HA"
+    },
+    {
+      "md_name": "专长42.md",
+      "html_name": "专长42.htm",
+      "toc_path": "未整理 → 惧怖冒险HA → 专长"
+    },
+    {
+      "md_name": "page_524.md",
+      "html_name": "page_524.html",
+      "toc_path": "未整理 → 惧怖冒险HA → 替换种族特性"
+    },
+    {
+      "md_name": "page_634.md",
+      "html_name": "page_634.html",
+      "toc_path": "未整理 → 惧怖冒险HA → 变体/职业选项 → 牧师"
+    },
+    {
+      "md_name": "page_573.md",
+      "html_name": "page_573.html",
+      "toc_path": "未整理 → 惧怖冒险HA → 变体/职业选项 → 圣骑士"
+    },
+    {
+      "md_name": "page_912.md",
+      "html_name": "page_912.html",
+      "toc_path": "未整理 → 惧怖冒险HA → 变体/职业选项 → 杀手"
+    },
+    {
+      "md_name": "page_664.md",
+      "html_name": "page_664.html",
+      "toc_path": "未整理 → 惧怖冒险HA → 变体/职业选项 → 野蛮人"
+    },
+    {
+      "md_name": "page_557.md",
+      "html_name": "page_557.html",
+      "toc_path": "未整理 → 惧怖冒险HA → 变体/职业选项 → 审判者"
+    },
+    {
+      "md_name": "page_584.md",
+      "html_name": "page_584.html",
+      "toc_path": "未整理 → 惧怖冒险HA → 变体/职业选项 → 法师"
+    },
+    {
+      "md_name": "page_660.md",
+      "html_name": "page_660.html",
+      "toc_path": "未整理 → 惧怖冒险HA → 变体/职业选项 → 唤魂师"
+    },
+    {
+      "md_name": "page_745.md",
+      "html_name": "page_745.html",
+      "toc_path": "未整理 → 惧怖冒险HA → 变体/职业选项 → 侠客"
+    },
+    {
+      "md_name": "page_817.md",
+      "html_name": "page_817.html",
+      "toc_path": "未整理 → 惧怖冒险HA → 变体/职业选项 → 调查员"
+    },
+    {
+      "md_name": "肉体改制.md",
+      "html_name": "肉体改制.htm",
+      "toc_path": "未整理 → 惧怖冒险HA → 肉体改制"
+    },
+    {
+      "md_name": "page_548.md",
+      "html_name": "page_548.html",
+      "toc_path": "未整理 → 惧怖冒险HA → 变体/职业选项"
+    },
+    {
+      "md_name": "page_558.md",
+      "html_name": "page_558.html",
+      "toc_path": "未整理 → 惧怖冒险HA → 变体/职业选项 → 通灵者"
+    },
+    {
+      "md_name": "page_858.md",
+      "html_name": "page_858.html",
+      "toc_path": "未整理 → 惧怖冒险HA → 变体/职业选项 → 催眠师"
+    },
+    {
+      "md_name": "page_559.md",
+      "html_name": "page_559.html",
+      "toc_path": "未整理 → 惧怖冒险HA → 变体/职业选项 → 秘学士"
+    }
+  ],
+  "changes": [
+    {
+      "file": "page_758.md",
+      "class": "炼金术师",
+      "target": "职业/基础职业/炼金术师/page_21.md"
+    },
+    {
+      "file": "物品9.md",
+      "targets": {
+        "装备_魔法物品/魔法物品/奇物/page_231.md": [
+          "护身符"
+        ],
+        "装备_魔法物品/魔法物品/魔法武器防具/page_218.md": [
+          "处刑人之索",
+          "特殊魔法武器"
+        ],
+        "装备_魔法物品/魔法物品/戒指_权杖_法杖/page_220.md": [
+          "鍊魔戒",
+          "戒指"
+        ],
+        "page_234.md": [
+          "腥红祭坛",
+          "奇物"
+        ],
+        "装备_魔法物品/魔法物品/魔法武器防具/page_216.md": [
+          "特殊魔法防具"
+        ],
+        "装备_魔法物品/魔法物品/魔法武器防具/page_217.md": [
+          "武器附魔"
+        ],
+        "装备_魔法物品/魔法物品/戒指_权杖_法杖/page_222.md": [
+          "法杖"
+        ]
+      }
+    },
+    {
+      "file": "page_749.md",
+      "class": "操念使",
+      "target": "职业/异能冒险（Occult Adventures）/操念使/page_297.md"
+    },
+    {
+      "file": "page_554.md",
+      "class": "德鲁伊",
+      "target": "职业/核心职业/德鲁伊/page_45.md"
+    },
+    {
+      "file": "神秘仪式3.md",
+      "target": "法术/惧怖冒险HA_神秘仪式.md",
+      "merged": [
+        "神秘仪式列表"
+      ]
+    },
+    {
+      "file": "page_861.md",
+      "class": "女巫",
+      "target": "职业/基础职业/女巫/page_70.md"
+    },
+    {
+      "file": "专长42.md",
+      "target": "专长/惧怖冒险HA_专长.md",
+      "merged": [
+        "专长列表"
+      ]
+    },
+    {
+      "file": "page_524.md",
+      "trait_changes": [
+        {
+          "race": "矮人",
+          "target": "种族/核心种族/矮人/矮人种族特性替换汇总.md",
+          "traits": [
+            "谨慎"
+          ]
+        },
+        {
+          "race": "侏儒",
+          "target": "种族/核心种族/侏儒/page_1366.md",
+          "traits": [
+            "捕精人"
+          ]
+        },
+        {
+          "race": "半身人",
+          "target": "种族/核心种族/半身人/半身人种族特性替换汇总.md",
+          "traits": [
+            "小便宜",
+            "专一心",
+            "坚定",
+            "深林居民"
+          ]
+        }
+      ],
+      "fcb_changes": [
+        {
+          "race": "矮人",
+          "target": "种族/核心种族/矮人/矮人天赋职业奖励.md"
+        },
+        {
+          "race": "精灵",
+          "target": "种族/核心种族/精灵/精灵天赋职业奖励.md"
+        },
+        {
+          "race": "侏儒",
+          "target": "种族/核心种族/侏儒/侏儒天赋职业奖励.md"
+        },
+        {
+          "race": "半精灵",
+          "target": "种族/核心种族/半精灵/半精灵天赋职业奖励.md"
+        },
+        {
+          "race": "半身人",
+          "target": "种族/核心种族/半身人/半身人天赋职业奖励.md"
+        },
+        {
+          "race": "半兽人",
+          "target": "种族/核心种族/半兽人/半兽人天赋职业奖励.md"
+        },
+        {
+          "race": "人类",
+          "target": "种族/核心种族/人类/人类天赋职业奖励.md"
+        }
+      ]
+    },
+    {
+      "file": "page_634.md",
+      "class": "牧师",
+      "target": "职业/核心职业/牧师/page_41.md"
+    },
+    {
+      "file": "page_573.md",
+      "class": "圣骑士",
+      "target": "职业/核心职业/圣骑士/page_55.md"
+    },
+    {
+      "file": "page_912.md",
+      "class": "杀手",
+      "target": "职业/混合职业/杀手/page_117.md"
+    },
+    {
+      "file": "page_664.md",
+      "class": "野蛮人",
+      "target": "职业/核心职业/野蛮人/page_35.md"
+    },
+    {
+      "file": "page_557.md",
+      "class": "审判者",
+      "target": "职业/基础职业/审判者/page_78.md"
+    },
+    {
+      "file": "page_584.md",
+      "class": "法师",
+      "target": "职业/核心职业/法师/page_67.md"
+    },
+    {
+      "file": "page_660.md",
+      "class": "唤魂师",
+      "target": "职业/异能冒险（Occult Adventures）/唤魂师/page_270.md"
+    },
+    {
+      "file": "page_745.md",
+      "class": "侠客",
+      "target": "职业/极限诡道/侠客/page_346.md"
+    },
+    {
+      "file": "page_817.md",
+      "class": "调查员",
+      "target": "职业/混合职业/调查员/page_107.md"
+    },
+    {
+      "file": "肉体改制.md",
+      "target": "规则/惧怖冒险HA_肉体改制.md",
+      "merged": [
+        "肉体改制规则"
+      ]
+    },
+    {
+      "file": "page_558.md",
+      "class": "通灵者",
+      "target": "职业/异能冒险（Occult Adventures）/通灵者/page_262.md"
+    },
+    {
+      "file": "page_858.md",
+      "class": "催眠师",
+      "target": "职业/异能冒险（Occult Adventures）/催眠师/page_305.md"
+    },
+    {
+      "file": "page_559.md",
+      "class": "秘学士",
+      "target": "职业/异能冒险（Occult Adventures）/秘学士/page_266.md"
+    }
+  ],
+  "skipped": [
+    "page_511.md"
+  ]
+}

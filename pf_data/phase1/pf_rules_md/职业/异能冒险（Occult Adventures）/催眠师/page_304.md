@@ -1,0 +1,270 @@
+[http://45.79.87.129/bbs/index.php?topic=81196.0](http://45.79.87.129/bbs/index.php?topic=81196.0)
+
+
+**译者：四月**
+
+
+**催眠师法术（Mesmerist 
+Spells）**
+催眠师能够使用后述法术。本文按照书目和法术环级为催眠师法术列表进行了分类。**催眠师所施放的所有法术均为异能法术（psychic 
+spells）。**
+书目名称与缩写对照：
+CRB = 核心手册（Core Rulebook）
+APG = 
+进阶玩家手册（Advanced Player's Guide）
+ARG = 进阶种族手册（Advanced Race Guide）
+ACG = 
+进化职业手册（Advanced Class Guide）
+UM = 极限魔法（Ultimate Magic）
+UC = 极限战斗（Ultimate 
+Combat）
+OA = 异能冒险（Occult Adventures）
+MA = 神话冒险（Mythic Adventures）
+MC = 
+怪物志（Monster Codex）
+*【译注：ARG的法术苦痛责难（Agonizing 
+Rebuke）在2环以及3环列表中均出现了，原文如此。】*
+
+
+
+---
+
+
+
+
+**0级催眠师法术**
+**CRB——**出血术（Bleed），舞光术（Dancing 
+Lights），晕眩术（Daze），侦测魔法（Detect Magic），侦测毒性（Detect Poison），闪光术（Flare），幻音术（Ghost 
+Sound），光亮术（Light），催眠曲（Lullaby），法师之手（Mage 
+Hand），传讯术（Message），开关术（Open/Close），魔法伎俩（prestidigitation），阅读魔法（read 
+magic），疲乏之触（touch of fatigue）
+**APG——**敌我不分（Unwitting 
+Ally）
+**UC——**精怪之相（Haunted Fey 
+Aspect）
+**OA——**侦测异能存在（Detect Psychic Significance）
+
+
+
+---
+
+
+
+
+**1级催眠师法术**
+**CRB——**活化绳（Animate 
+Rope），绝望术（Bane），惊恐术（Cause Fear），魅惑人类（Charm Person），七彩喷射（Color 
+Spray），命令术（Command），通晓语言（Comprehend Languages），次等困惑术（Confusion, 
+Lesser），侦测密门（Detect Secret Doors），侦测死灵（Detect Undead），易容术（Disguise 
+Self），丧志术（Doom），脚底抹油（Expeditious Retreat），妖火（Faerie 
+Fire），油腻术（Grease），狂笑术（Hideous Laughter），催眠术（Hypnotism），魔法灵光（Magic Aura），魔嘴（Magic 
+Mouth），遮蔽物品（Obscure Object），隐雾术（Obscuring Mist），衰弱射线（Ray of 
+Enfeeblement），移除恐惧（Remove Fear），无声幻影（Silent Image），睡眠术（Sleep），隐匿阵营（Undetectable 
+Alignment），隐形仆役（Unseen 
+Servant），腹语术（Ventriloquism）
+**APG——**诱人赠礼（beguiling 
+Gift），呼唤动物（Call Animal），凶兆（Ill Omen），无罪术（Innocence），战意鼓舞（Invigorate），记忆空白（Memory 
+Lapse），共享语言（Share Language），笨拙之触（Touch of 
+Gracelessness），渐隐术（Vanish）
+**ARG——**融境迷彩（Blend），附体虫影（Jitterbugs），自法充盈（Recharge 
+Innate Magic），播种思想（Sow Thought），防盗结界（Theft 
+Ward）
+**ACG——**飘渺步伐（Blurred Movement），辨知亲族（Discern Next of 
+Kin），武器伪装术（Disguise Weapon），强化认知（Heightened Awareness），背书咒（Memorize 
+Page）
+**UM——**预知危险（Anticipate 
+Peril），笨手笨脚（Bungle），妄尊自大（Delusional Pride），诊断疾病（Diagnose Disease），行动禁制（Forbid 
+Action），强迫安静（Forced Quiet），大舌头咒（Fumbletongue），拷问（Interrogation），谋杀指令（Murderous 
+Command），万灵秘药（Polypurpose Panacea），恶心射线（Ray of Sickening），移除恶心（Remove 
+Sickness），欲火焚身（Unnatural Lust），手忙脚乱（Unprepared Combatant），扭曲嗓音（Vocal 
+Alteration）
+**UC——**魅力四射（Adoration），强迫敌对（Compel 
+Hostility），治疗窃取（Healing Thief），平静幻象（Illusion of Calm），强迫凝视（Lock 
+Gaze）
+**OA——**肾上腺素激增（Burst of Adrenaline），洞察力激增（Burst of 
+Insight），填写异能（Charge Object），破旧伪装（Decrepit Disguise），既视感（Deja Vu），强索赠礼（Demand 
+Offering），脑力屏蔽（Mental Block），讯息传递（Mindlink），狂乱偏执（Paranoia），读心阅人（Psychic 
+Reading），完美假象（Quintessence），心绪投影（Telempathic Projection），思维回音（Thought 
+Echo）
+
+
+
+---
+
+
+
+
+**2级催眠师法术**
+**CRB——**变身术（Alter 
+Self），动物信使（Animal Messenger），迷惑动物（Animal 
+Trance），目盲/耳聋术（Blindness/Deafness），朦胧术（Blur），安定心神（Calm emotions），猫之优雅（Cat's 
+Grace），怪物晕眩术（Daze Monster），减缓毒发（Delay Poison），侦测思想（Detect Thoughts），鹰之威仪（Eagle's 
+Splendor），注目术（Enthrall），虚假生命（False Life），闪光尘（Glitterdust），动物定身术（Hold 
+Animal），人类定身术（Hold Person），催眠图纹（Hypnotic 
+Pattern），隐形术（Invisibility），敲击术（Knock），浮空术（Levitate），物品定位术（Locate 
+Object），弱效幻影（Minor Image），镜影术（Mirror Image），误导术（Misdirection），魅影陷阱（Phantom 
+Trap），烟火术（Pyrotechnics），狂暴术（Rage），次等复原术（Restoration, 
+Lesser），恐吓术（Scare），沉默术（Silence），暗示术（Suggestion），巧言术（Tongues），愚者之触（Touch of 
+Idiocy），风讯术（Whispering Wind）
+**APG——**灼热凝视（Burning 
+Gaze），严加斥责（Castigate），告解（Confess），意识投影（Enter Image），隐秘传信（Hidden 
+Speech），甜言蜜语（Honeyed Tongue），察觉细节（Perceive 
+Cues）
+**ARG——**苦痛责难（Agonizing Rebuke），赋予洞察力（Bestow 
+Insight），问询群鸟（Commune With Birds），暂缓病发（Delay Disease），影锚术（Shadow 
+Anchor），窃取呼吸（Steal Breath）
+**ACG——**无名路人（Anonymous 
+Interaction），欢欣之云（Euphoric Cloud），监察焦点（Focused Scrutiny），探究精神（Investigative 
+Mind），宁静斗篷（Mantle of Calm），心锁信使（Mindlocked Messenger），消音术（Muffle 
+Sound），隔音罩（Silent Table），剜心手（Stricken Heart），暮色烟云（Twilight Haze），死灵狂暴术（Unliving 
+Rage）
+**UM——**战友情深（Compassionate Ally），延缓痛苦（Delay 
+Pain），毁容之触（Disfiguring Touch），幽灵伪装（Ghostly Disguise），鬼灵迷雾（Haunting 
+Mists），惨嚎剧痛（Howling Agony），疯狂幻象（Mad Hallucination），示敌以弱（Miserable 
+Pity），闲极无聊（Oppressive Boredom），疯狂迷恋（Reckless Infatuation），共享记忆（Share 
+Memory），盗取嗓音（Steal Voice），镜影徽记（symbol of Mirroring），纯粹厌恶（Unadulterated 
+Loathing），战斗坐骑（Wartrain Mount）
+**UC——**酷烈苛责（Blistering 
+Invective），第三只手（Pilfering Hand），顾虑重重（Qualm），共用共享语言（Share Language, 
+Communal）
+**OA——**思维预读（Anticipate Thoughts），物体召来（Apport 
+Object），烦厌术（Aversion），狂语乱言（Babble），肉体僵直（Catatonia），认知妨碍（Cognitive 
+Block），侦测心像结界（Detect Mindscape），情感障碍（Emotive Block），遮盖思想（Enshroud 
+Thoughts），虚妄植入术（Implant False Reading），苦痛刑罚（Inflict Pain），异能宣战（Instigate Psychic 
+Duel），读取物体（Object Reading），恐惧梦魇（Oneiric Horror），安慰效应（Placebo 
+Effect）
+**MC——**【暂无翻译】（Blood In the Water）
+
+
+
+---
+
+
+
+
+**3级催眠师法术**
+**CRB——**降咒（Bestow 
+Curse），魅惑怪物（Charm 
+Monster），锐耳术/鹰眼术（Clairaudience/Clairvoyance），困惑术（Confusion），极度绝望（Crushing 
+Despair），深度睡眠（Deep Slumber），解除魔法（Dispel Magic），移位术（Displacement），支配动物（Dominate 
+Animal），恐惧术（Fear），次等指使术（Geas, Lesser），花言巧语（Glibness），迷幻手稿（Illusory 
+Script），隐形法球（Invisibility Sphere），强效幻影（Major Image），回避侦测（Nondetection），力竭射线（Ray 
+of Exhaustion），移除目盲/耳聋（Remove Blindness/Deafness），移除诅咒（Remove 
+Curse），探知（Scrying），秘密文页（Secret Page）,识破隐形（See 
+Invisibility），短讯术（Sending），吸血鬼之触（Vampiric 
+Touch）
+**APG——**尘埃之饮（Cup of Dust），元素之语（Elemental 
+Speech），群体战意鼓舞（Invigorate, Mass），丑角之旅（Jester's Jaunt），探寻思想（Seek 
+Thoughts），怨毒反击（Spite）
+**ARG——**苦痛责难（Agonizing 
+Rebuke），恐怖假身（Fearsome Duplicate），弱效托梦术（Minor Dream），水妖诱惑（Nixie's 
+Lure），惩戒之池（Resilient Reservoir）
+**ACG——**可调易容术（Adjustable 
+Disguise），阵营视域（Aura Sight），迫退附魔（Enchantment Foil），狂笑徽记（Symbol of 
+Laughter），触发型暗示术（Triggered Suggestion）
+**UM——**控制召唤生物（Control 
+Summoned Creature），厌恶诅咒（Curse of Disgust），法力诅咒·否决（Curse of Magic 
+Negation），高等虚假生命（False Life, Greater），哀鸣合唱团（Haunting Choir），憎恶之纱（Loathsome 
+Veil），恶意迫害（Malicious Spite），傀儡凭依（Marionette Possession），无尽悲痛（Overwhelming 
+Grief），极度自恋（Smug Narcissism），深沉忏悔（Terrible Remorse），地狱幻景（Vision of 
+Hell），联觉（Witness）
+**UC——**恶意浮空（Hostile 
+Levitation），共用巧言术（Tongues, Communal）
+**OA——**分析灵光（Analyze 
+Aura），动物召来（Apport Animal），改写灵光（Aura Alteration），心像门（Mindscape Door），结点冲击（Node of 
+Blasting），次等物体占据术（Object Possession，Lesser），高等恐惧梦魇（Oneiric 
+Horror，Greater），神经脉冲（Synaptic Pulse），神经乱流（Synaptic 
+Scramble），通感超载（Synesthesia）
+**MA——**流逝荣耀（Bleed 
+Glory），隔绝神力（Mythic Severance）
+**MC——**孤立无援（Isolate）
+
+
+
+---
+
+
+
+
+**4级催眠师法术**
+**CRB——**秘法眼（Arcane 
+Eye），破除结界（Break Enchantment），高等命令术（Command, Greater），侦测探知（Detect 
+Scrying），任意门（Dimension Door），支配人类（Dominate 
+Person），托梦术（Dream），弱能术（Enervation），行动自如（Freedom of Movement），幻景（Hallucinatory 
+Terrain），怪物定身术（Hold Monster），幻墙术（Illusory Wall），高等隐形术（Invisibility, 
+Greater），生物定位术（Locate Creature），修改记忆（Modify Memory），魅影杀手（Phantasmal 
+Killer），毒击术（Poison），复原术（Restoration），幽影咒法术（Shadow Conjuration），重雾术（Solid 
+Fog），心灵连线（Telepathic bond），静默之域（Zone of 
+Silence）
+**APG——**谴责（Denounce），梦游（Sleepwalk）
+**ARG——**遗忘沉眠（Forgetful 
+Slumber），弱效虚假物品（Minor Phantom Object），老水手的诅咒（Old Salt's 
+Curse），真实之语（Truespeak）
+**ACG——**恐惧饕宴（Feast on 
+Fear）
+**UM——**心有灵犀（Battlemind Link），强效诅咒（Curse, 
+Major），群体晕眩术（Daze, Mass），羡慕嫉妒恨（Envious Urge），高等行动禁制（Forbid Action, 
+Greater），原初怒嚎（Primal Scream），和谐（Serenity），目中无人（Utter 
+Contempt）
+**UC——**恶意换位（Hostile 
+Juxtaposition），共用回避侦测（Nondetection, Communal），幻影爆碎（Shocking 
+Image）
+**OA——**塑造心像结界（Create Mindscape），抹除异能（Erase 
+Impressions），精神质询（Mind Probe），心智擦除（Mindwipe），驾行占据术（Riding 
+Possession），神经过载（Synapse Overload），高等神经脉冲（Synaptic 
+Pulse，Greater），心灵感应（Telepathy），感知思维（Thoughtsense）
+**MA——**窃取神力（Steal 
+Power）
+
+
+
+---
+
+
+
+
+**5级催眠师法术**
+**CRB——**虚假景象（False 
+Vision），弱智术（Feeblemind），法师密室（Mage's Private Sanctum），心灵迷雾（Mind Fog），海市蜃楼（Mirage 
+Arcana），假象术（Mislead），梦魇（Nightmare），穿墙术（Passwall），长驻幻影（Persistent 
+Image），窥视魔眼（Prying Eyes），秘藏箱（Secret Chest），伪装术（Seeming），幽影塑能术（Shadow 
+Evocation），行影术（Shadow Walk），群体暗示术（Suggestion, Mass），痛苦徽记（Symbol of 
+Pain），睡眠徽记（Symbol of Sleep），疲乏波（Waves of 
+Fatigue）
+**APG——**群体严加斥责（Castigate, Mass），梦之衣（Cloak of 
+Dreams），化敌为友（Foe to Friend），魅影蛛网（Phantasmal Web），强迫护卫（Unwilling 
+Shield）
+**ARG——**强效虚假物品（Major Phantom Object），幻想面纱（Village 
+Veil）
+**UM——**欢欣鼓舞（Joyful Rapture），复仇之怒（Vengeful 
+Outrage）
+**OA——**梦境会议（Dream Council），窥视梦境（Dream 
+Scan），煽动恨意（Foster Hatred），群体苦痛刑罚（Inflict Pain，Mass），换身术（Mind Swap），物体占据术（Object 
+Possession），占据术（Possession），原始退行（Primal Regression），精神庇护所（Psychic 
+Asylum），心智手术（Psychic Surgery），压制记忆（Repress 
+Memory），群体通感超载（Synesthesia，Mass）
+
+
+
+---
+
+
+
+
+**6级催眠师法术**
+**CRB——**群体魅惑怪物（Charm 
+Monster, Mass），短讯暗示（Demand），摄心目光（Eyebite），指使术（Geas/Quest），群体人类定身术（Hold Person, 
+Mass），精神错乱（Insanity），群体隐形术（Invisibility, Mass），迷舞（Irresistible 
+Dance），永恒幻影（Permanent Image），真言术：盲（Power Word Blind），预置幻影（Programmed 
+Image），投影术（Project Image），高等探知（Scrying, Greater），说服徽记（Symbol of 
+Persuasion），真知术（True Seeing），隐匿之纱（Veil），力竭波（Waves of 
+Exhaustion）
+**APG——**爱与和平（Euphoric 
+Tranquility），回城术（Getaway），复仇鬼影（Phantasmal 
+Revenge）
+**UM——**神威如狱（Overwhelming Presence），极乐波（Waves of 
+Ecstasy）
+**UC——**高等恶意换位（Hostile Juxtaposition, 
+Greater）
+**OA——**高等塑造心像结界（Create Mindscape，Greater），梦境旅行（Dream 
+Travel）

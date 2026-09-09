@@ -1,0 +1,110 @@
+
+
+
+
+**牧师（****Cleric****）和先知（****Oracle****）法术列表******
+
+
+
+
+
+【译者注：此列表包含CRB/APG/UM/UC/ACG中所有牧师/先知法术列表中的法术，ARG由于种族限制原因没有收录。】
+
+
+
+
+
+| 0级法术 | CRB | 出血术（Bleed）       造水术（Create        Water）       侦测魔法（Detect        Magic）       侦测毒性（Detect        Poison）       神导术（Guidance）       光亮术（Light） | 修复术（Mending）       净化食粮（Purify        Food and Drink）       阅读魔法（Read        Magic）       提升抗力（Resistance）       稳定伤势（Stabilize）       恩赐（Virtue） |
+| --- | --- | --- | --- |
+| APG | 火花术（Spark） |  |
+|  |
+| 1级法术 | CRB | 绝望术（Bane）       祝福术（Bless）       祝福圣水（Bless        Water）       惊恐术（Cause        Fear）       命令术（Command）       通晓语言（Comprehend        languages）       治疗轻伤（Cure        light wounds）       诅咒邪水（Curse        Water）       观命术（Deathwatch）       侦测混乱/邪恶/善良/守序（Detect        Chaos/Evil/Good/Law）       侦测死灵（Detect        Undead）       神恩（Divine        Favor）       丧志术（Doom） | 忍受环境（Endure        Elements）       熵光护盾（Entropic        Shield）       亡灵无视术（Hide        from Undead）       造成轻伤（Inflict        Light Wounds）       魔石术（Magic        Stone）       魔化武器（Magic        Weapon）       隐雾术（Obscuring        Mist）       防护混乱/邪恶/善良/守序（Protection        from C/E/G/L）       移除恐惧（Remove        Fear）       圣域术（Sanctuary）       虔诚护盾（Shield        of Faith）       一级怪物召唤术（Summon        Monster I） |
+| APG | 重负术（Ant        Haul） | 舞灯术（Dancing        Lantern） |
+| UM | 分解尸体（Decompose        Corpse）       诊断疾病（Diagnose        Disease）       行动禁制（Forbid        Action）       知己知彼（Know        the Enemy）       谋杀指令（Murderous        Command） | 恶心射线（Ray        of Sickening）       移除恶心（Remove        Sickness）       尸体重构（Restore        Corpse）       尸体圣化（Sanctify        Corpse）       召唤次级怪物（Summon        Minor Monster） |
+| UC | 弹药补给（Abundant        Ammunition）       气泡术（Air        Bubble）       强迫敌对（Compel        Hostility）       神射手传奇（Deadeye's        Lore） | 脱困指令（Liberating        Command）       光荣时刻（Moment        of Greatness）       强固武装（Reinforce        Armaments）       阳炎武器（Sun        Metal） |
+| ACG | 祝福之拳（Blessed        Fist）       强固临时武器（Refine        Improvised Weapon） | 反震屏障（Stunning        Barrier） |
+|  |
+| 2级法术 | CRB | 援助术（Aid）       阵营武器（Align        Weapon）       占卜术（Augury）       熊之坚韧（Bear's        Endurance）       牛之力量（Bull's        Strength）       安定心神（Calm        Emotions）       崇敬术（Consecrate）       治疗中度伤（Cure        Moderate Wounds）       黑暗术（Darkness）       死亡丧钟（Death        Knell）       减缓毒发（Delay        Poison）       亵渎术（Desecrate）       鹰之威仪（Eagle's        splendor）       注目术（Enthrall）       寻找陷阱（Find        Traps）       遗体防腐（Gentle        Repose） | 人类定身术（Hold        Person）       造成中度伤（Inflict        Moderate Wounds）       完全修复术（Make        Whole）       枭之睿智（Owl's        Wisdom）       移除麻痹（Remove        Paralysis）       抵抗能量伤害（Resist        Energy）       次等复原术（Restoration,        Lesser）       粉碎音波（Shatter）       护卫他人（Shield        Other）       沉默术（Silence）       音鸣爆（Sound        Burst）       灵能武器（Spiritual        Weapon）       关照术（Status）       二级怪物召唤术（Summon        Monster II）       隐匿阵营（Undetectable        Alignment）       诚实之域（Zone        of Truth） |
+| APG | 生存勇气祝福（Blessing        of Courage and Life）       镇魂曲（Ghostbane        Dirge）       优雅步伐（Grace）       临时盔甲（Instant        Armor） | 先知的负担（Oracle's        Burden）（先知专用）       共享语言（Share        Language）       敬畏武器（Weapon        of Awe） |
+| UM | 次级操纵尸体（Animate        Dead, Lesser）       秩序之箭（Arrow        of Law）       血沸（Boiling        Blood）       战友情深（Compassionate        Ally）       延缓痛苦（Delay        Pain）       毁容之触（Disfiguring        Touch）       恐惧之矢（Dread        Bolt） | 灵光灌注（Imbue        with Aura）       鬼斧神工（Masterwork        Transformation）       防护之影（Protective        Penumbra）       混乱碎片（Shard        of Chaos）       纯善之矛（Spear        of Purity）       克服困境（Surmount        Affliction）       蛛网庇护所（Web        Shelter） |
+| UC | 共用重负术（Ant        Haul, Communal）       赋予武器熟练（Bestow        Weapon Proficiency）       轻便盔甲（Effortless        Armor）       共用忍受环境（Endure        Elements, Communal）       痛苦刑具（Instrument        of Agony）       魔化攻城器械（Magic        Siege Engine）       第三只手（Pilfering        Hand） | 共用防护混乱（Protection        from Chaos, Communal）       共用防护邪恶（Protection        from Evil, Communal）       共用防护善良（Protection        from Good, Communal）       共用防护守序（Protection        from Law, Communal）       共用强固武装（Reinforce        Armaments, Communal）       回力武器（Returning        Weapon） |
+| ACG | 踏风而行（Air        Step）       圣冰武器（Holy        Ice Weapon）       生命契约（Life        Pact）       行军号子（Marching        Chant）       消音术（Muffle        Sound） | 荣耀之路（Path        of Glory）       护命屏障（Shield        of Fortification）       隔音罩（Silent        Table）       邪冰武器（Unholy        Ice Weapon）       死灵狂暴术（Unliving        Rage） |
+|  |
+| 3级法术 | CRB | 操纵死尸（Animate        Dead）       降咒（Bestow        Curse）       目盲/耳聋术（Blindness/Deafness）       疫病术（Contagion）       不灭明焰（Continual        Flame）       造粮术（Create        Food and Water）       治疗重伤（Cure        Serious Wounds）       昼明术（Daylight）       深幽黑暗术（Deeper        Darkness）       解除魔法（Dispel        Magic）       守卫刻文（Glyph        of Warding）       引导之手（Helping        Hand）       造成重伤（Inflict        Serious Wounds）       消除隐形（Invisibility        Purge）       物品定位术（Locate        Object）       反混乱/邪恶/善良/守序法阵（Magic        Circle against C/E/G/L） | 魔化防具（Magic        Vestment）       融身入石（Meld        into Stone）       遮蔽物品（Obscure        Object）       祈祷术（Prayer）       防护能量伤害（Protection        from Energy）       移除目盲/耳聋（Remove        Blindness/Deafness）       移除诅咒（Remove        Curse）       移除疾病（Remove        Disease）       灼热光辉（Searing        Light）       死者交谈（Speak        with Dead）       塑石术（Stone        Shape）       三级怪物召唤术（Summon        Monster III）       水中呼吸（Water        Breathing）       水面行走（Water        Walk）       风墙术（Wind        Wall） |
+| APG | 血之讯息（Blood        Biography）       透支幸运（Borrow        Fortune）（先知专用）       元素之语（Elemental        Speech）       意识投影（Enter        Image） | 群星的引导（Guiding        Star）       压缩睡眠（Nap        Stack）       神圣链接（Sacred        Bond）       狂怒斗篷（Wrathful        Mantle） |
+| UM | 压榨劳工（Agonize）       亚空灵气（Archon's        Aura）       獾之凶暴（Badger's        Ferocity）       鼹鼠祝福（Blessing        of the Mole） | 北冥神功（Ki        Leech）       时之沙（Sands        of Time）       医疗徽记（Symbol        of Healing）       地狱幻景（Vision        of Hell） |
+| UC | 星云锁链（Chain        of Perdition）       破晓之箭（Daybreak        Arrow）       死亡化身（Deadly        Juggernaut）       共用延迟毒发（Delay        Poison, Communal） | 探索之触（Discovery        Torch）       共用抵抗能量（Resist        Energy, Communal）       共用回力武器（Returning        Weapon, Communal）       共用共享语言（Share        Language, Communal） |
+| ACG | 共用阵营武器（Align        Weapon, Communal）       阵营视域（Aura        Sight）       宁静斗篷（Mantle        of Calm） | 伦理印记（Mark        of Obvious Ethics）       高等反震屏障（Stunning        Barrier, Greater） |
+|  |
+| 4级法术 | CRB | 凌空而行（Air        Walk）       混沌之锤（Chaos        Hammer）       操纵水位（Control        Water）       治疗致命伤（Cure        critical wounds）       防死结界（Death        Ward）       次元锚（Dimensional        Anchor）       辨识谎言（Discern        Lies）       驱逐术（Dismissal）       预言术（Divination）       神能（Divine        Power）       行动自如（Freedom        of Movement）       巨虫术（Giant        Vermin）       神圣之裁（Holy        Smite）       法术灌输（Imbue        with Spell Ability） | 造成致命伤（Inflict        Critical Wounds）       高等魔化武器（Magic        Weapon, Greater）       中和毒性（Neutralize        Poison）       秩序之怒（Order's        Wrath）       次等异界盟约（Planar        Ally, Lesser）       毒击术（Poison）       驱离害虫（Repel        Vermin）       复原术（Restoration）       短讯术（Sending）       法术免疫（Spell        immunity）       四级怪物召唤术（Summon        Monster IV）       巧言术（Tongues）       秽邪恶疫（Unholy        Blight） |
+| APG | 热情祝福（Blessing        of Fervor）       位面适应（Planar        Adaptation） | 永恒安眠（Rest        Eternal）       灵能盟友（Spiritual        Ally） |
+| UM | 毁灭灵气（Aura        of Doom）       血鸦击（Blood        Crow Strike）       控制召唤生物（Control        Summoned Creature）       血蛆侵袭（Fleshworm        Infestation）       先知的化身（Oracle's        Vessel）       瘟疫打击（Plague        Carrier） | 驭波术（Ride        the Waves）       安抚构装（Soothe        Construct）       毒液喷吐（Spit        Venom）       启示徽记（Symbol        of Revelation）       迟缓徽记（Symbol        of Slowing）       深沉忏悔（Terrible        Remorse） |
+| UC | 衰弱预兆（Debilitating        Portent）       共用防护能量伤害（Protection        from Energy, Communal） | 灵魂连接（Summoner        Conduit）       共用水上行走（Water        Walk, Communal） |
+| ACG | 反虚体护罩（Anti-Incorporeal        Shell）       腐尸爆弹（BloatBomb）       迫退附魔（Enchantment        Foil）       信仰戍卫（Guardian        of Faith）       高等荣耀之路（Path        of Glory, Greater） | 恒久活力（Persistent        Vigor）       高等护命屏障（Shield        of Fortification, Greater）       作祟灵交谈（Speak        With Haunt）       次等碎法咒（Spellcrash,        Lesser） |
+|  |
+| 5级法术 | CRB | 赎罪术（Atonement）       破除结界（Break        Enchantment）       生命之息（Breath        of Life）       高等命令术（Command,        Greater）       通神术（Commune）       群体治疗轻伤（Cure        Light Wounds, Mass）       反制混乱/邪恶/善良/守序（Dispel        C/E/G/L）       毁灭武器（Disrupting        Weapon）       焰击术（Flame        Strike）       圣居（Hallow）       群体造成轻伤（Inflict        Light Wounds, Mass）       疫病虫群（Insect        Plague）       审判烙印（Mark        of Justice） | 异界传送（Plane        Shift）       死者复活（Raise        Dead）       正气如虹（Righteous        Might）       探知（Scrying）       杀生术（Slay        Living）       法术抗力（Spell        resistance）       五级怪物召唤术（Summon        Monster V）       痛苦徽记（Symbol        of Pain）       沉睡徽记（Symbol        of Sleep）       真知术（True        Seeing）       邪居（Unhallow）       石墙术（Wall        of Stone） |
+| APG | 清洁术（Cleanse）       群体镇魂歌（Ghostbane        Dirge, Mass）       维生气泡（Life        Bubble） | 光明之泉（Pillar        of Life）       灵蛇杖（Snake        Staff）       藏宝刺绣（Treasure        Stitching） |
+| UM | 次级星界投射（Astral        Projection, Lesser）       高等疫病术（Contagion,        Greater）       法力诅咒·否决（Curse        of Magic Negation）       强效诅咒（Curse,        Major）       无相之风（Fickle        Winds）       高等行动禁制（Forbid        Action, Greater） | 神圣冰川（Holy        Ice）       快速修复（Rapid        Repair）       谴责术（Reprobation）       和谐（Serenity       探知徽记（Symbol        of Scrying）       秽邪冰川（Unholy        Ice） |
+| UC | 共用凌空而行（Air        Walk, Communal）       高等魔化攻城器械（Magic        Siege Engine, Greater）       共用法术免疫（Spell        Immunity, Communal） | 打击徽记（Symbol        of Striking）       共用巧言术（Tongues,        Communal） |
+| ACG | 异界杀手之念（Planeslayer’s        Call） | 目盲/耳聋之墙（Wall        of Blindness/Deafness） |
+|  |
+| 6级法术 | CRB | 活化物体（Animate        Objects）       防活物护罩（Antilife        Shell）       放逐术（Banishment）       群体熊之坚韧（Bear's        Endurance, Mass）       剑刃护壁（Blade        Barrier）       群体牛之力量（Bull's        Strength, Mass）       唤起死灵（Create        Undead）       群体治疗中度伤（Cure        Moderate Wounds, Mass）       高等解除魔法（Dispel        Magic, Greater）       群体鹰之威仪（Eagle's        Splendor, mass）       寻找捷径（Find        the Path）       禁制术（Forbiddance）       指使术（Geas/Quest） | 高等守卫刻文（Glyph        of Warding, Greater）       重伤术（Harm）       医疗术（Heal）       英雄宴（Heroes'        Feast）       群体造成中度伤（Inflict        Moderate Wounds, Mass）       群体枭之睿智（Owl's        wisdom, mass）       异界盟约（Planar        Ally）       六级怪物召唤术（Summon        Monster VI）       恐惧徽记（Symbol        of Fear）       说服徽记（Symbol        of Persuasion）       亡灵归亡（Undeath        to Death）       御风而行（Wind        Walk）       回返真言（Word        of Recall） |
+| APG | 群体位面适应（Planar        Adaptation, Mass） |  |
+| UM | 碎冰之击（Cold        Ice Strike）       传染病（Epidemic）       欢欣鼓舞（Joyful        Rapture） | 疫病风暴（Plague        Storm）       封印徽记（Symbol        of Sealing） |
+| UC | 沙化形态（Dust        Form） |  |
+| ACG | 碎法咒（Spellcrash） |  |
+|  |
+| 7级法术 | CRB | 渎神之语（Blasphemy）       操控天气（Control        Weather）       群体治疗重伤（Cure        Serious Wounds, Mass）       灰飞湮灭（Destruction）       律言（Dictum）       幻化灵体（Ethereal        Jaunt）       圣言（Holy        Word）       群体造成重伤（Inflict        Serious Wounds, Mass）       脱身术（Refuge） | 再生术（Regenerate）       排斥术（Repulsion）       高等复原术（Restoration,        Greater）       复生术（Resurrection）       高等探知（Scrying,        Greater）       七级怪物召唤术（Summon        Monster VII）       震慑徽记（Symbol        of Stunning）       虚弱徽记（Symbol        of Weakness）       混沌真言（Word        of Chaos） |
+| UM | 勇士赐福（Bestow        Grace of the Champion）       明晰之环（Circle        of Clarity）       次级创造半位面（Create        Demiplane, Lesser） | 月光面纱（Lunar        Veil）       极乐波（Waves        of Ecstasy） |
+| UC | 动荡征兆（Jolting        Portent） |  |
+|  |
+| 8级法术 | CRB | 反魔场（Antimagic        Field）       混沌披风（Cloak        of Chaos）       唤起高等死灵（Create        Greater Undead）       群体治疗致命伤（Cure        Critical Wounds, Mass）       空间锁（Dimensional        Lock）       感知位置（Discern        Location）       地震术（Earthquake）       火焰风暴（Fire        Storm）       圣洁灵光（Holy        Aura） | 群体造成致命伤（Inflict        Critical Wounds, Mass）       高等异界盟约（Planar        Ally, Greater）       秩序之盾（Shield        of Law）       高等法术免疫（Spell        Immunity, Greater）       八级怪物召唤术（Summon        Monster VIII）       死亡徽记（Symbol        of Death）       疯狂徽记（Symbol        of Insanity）       邪恶灵光（Unholy        Aura） |
+| APG | 神圣化身（Divine        Vessel）（先知专用）       爱与和平（Euphoric        Tranquility） | 雷暴箭雨（Stormbolts） |
+| UM | 呼唤构装（Call        Construct）       创造半位面（Create        Demiplane） | 虚空法球（Orb        of the Void） |
+| UC | 骇人外形（Frightful        Aspect） |  |
+| ACG | 高等碎法咒（Spellcrash,        Greater） |  |
+|  |
+| 9级法术 | CRB | 星界投射（Astral        Projection）       吸能术（Energy        Drain）       同游灵界（Etherealness）       异界之门（Gate）       群体医疗术（Heal,        Mass）       内爆术（Implosion） | 神迹术（Miracle）       缚魂术（Soul        Bind）       复仇风暴（Storm        of Vengeance）       九级怪物召唤术（Summon        Monster IX）       完全复生术（True        Resurrection） |
+| APG | 复仇之风（Winds        of Vengeance） |  |
+| UM | 高等创造半位面（Create        Demiplane, Greater）       诅咒之地（Cursed        Earth）       跨位面传送术（Interplanetary        Teleport）       神威如狱（Overwhelming        Presence） | 冷酷凛冬（Polar        Midnight）       斗争徽记（Symbol        of Strife）       削弱徽记（Symbol        of Vulnerability）       树界降诞（Wooden        Phalanx） |
+| UC | 共用高等法术免疫（Spell        Immunity, Greater Communal） |  |<!-- ARMOR-source:变体/page_422.md:盾卫者 -->
+盾卫者(Shieldbearer)**
+> 来源：护甲大师手册（Armor Master's Handbook），页码见原书，未整理 → 护甲大师手册 → 变体
+盾卫者是站在战场前线，与士兵肩并肩的神之勇士。长久以来盾卫者的传统便是五王山脉中矮人的伟大遗产，同样的，林诺姆诸王国和猛犸象大王之国的许多女性盾卫者也以“盾之少女”而出名。休盎提的盾卫者经常扮演着智者和战场指挥官的角色，而莽吉荒原上的盾卫者则因抗击黑猩猩王的军队，保卫村庄而闻名。
+
+盾牌熟练****(Shield 
+Adept [Ex])**：1级时，盾卫者获得"*精通盾击*"作为奖励专长。当手中持有盾牌时，盾卫者可以在防御式施法的专注检定上加上盾牌加值。此能力替换专注武器。**
+神圣武器****(Sacred 
+Weapon [Su])**：盾卫者可以将盾牌当作他的神圣武器(代替神祇擅长武器)，同样也可以选择具有武器专攻专长的其他武器作为神圣武器。盾卫者的神圣武器伤害只能应用在用盾牌作出的攻击上。直到7级开始，盾卫者才获得增强神圣武器的能力。7级之后的每3级，加值会加1(直到19级最大为+5)。此能力改变了神圣武器并替换了神圣装甲。**
+神圣之盾****(Sacred 
+Shield [Su])**：4级时，盾卫者能以迅捷动作使用神力增强他的盾牌。除了以下几点，该能力如同神圣装甲般起作用。该能力使盾牌获得+1增强加值(此加值不会加在盾击时的攻击和伤害骰上)。该加值在4级之后的每4个战斗祭司等级加1(直到20级最大+5)。盾卫者能够用以下任何护甲特性来增强盾牌(取代神圣装甲能力中的特性)：辟矢，目盲，护命(次等，中等和高等)，镜反和抗法(SR13，15，17和19)。**
+引导能量****(Channel 
+Energy [Su])**：盾卫者只有在持有盾牌时才能引导能量，且范围不再是半径30尺圆形，而是30尺锥形爆发。此能力修正了引导能量。
+
+
+<!-- UW-source:职业变体_选项/page_1466.md:野性斗士 -->
+**野性斗士（Feral Champion） 
+［战斗祭司变体］**
+> 来源：极限荒野（Ultimate Wilderness），页码见原书，未整理 → 极限荒野UW → 变体
+**出自《Ultimate Wilderness pg. 
+97》**
+
+*　　当一名战斗祭司献身于自然界之神，有时候他将被赐予能引发动物般力量和狂怒的超自然之力。 
+*
+
+**野性祝福（Feral 
+Blessing）：**野性斗士必须选择动物祝福而且不获得第二个祝福。
+
+此调整祝福。
+
+**神圣利爪（Sacred Claws, 
+Su）：**野性斗士并不强化物理武器，而是在每只手上长爪抓作为主要天生武器。这些爪抓造成如同战争祭司的神圣武器伤害并且能以同相方式增强。
+
+此调整神圣武器。
+
+**自然变身（Wild Shape, 
+Su）：**7级时，一名野性斗士获得如同德鲁伊同名的自然变身能力，并将其战争祭司-3作为此能力的有效德鲁伊等级。然而，野性斗士不获得通过自然变身化身为元素或植物形态的能力。在7级时野性斗士能每天1次使用自然变身，以及之后每4级额外1次，至在19级时合共每天4次。
+
+此取代神圣护甲。
+
+

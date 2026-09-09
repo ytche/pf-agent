@@ -1,0 +1,966 @@
+[
+  {
+    "batch": "B1_重训速查_s1",
+    "kb": 54,
+    "files": [
+      "pf_rules_md_organized/page_159.md",
+      "pf_rules_md_organized/常用速查/page_1.md",
+      "pf_rules_md_organized/常用速查/page_508.md",
+      "pf_rules_md_organized/常用速查/page_9.md"
+    ],
+    "toc_group_map": {
+      "page_159.md": "retrain",
+      "常用速查/page_1.md": "quick_reference",
+      "常用速查/page_508.md": "quick_reference",
+      "常用速查/page_9.md": "quick_reference"
+    }
+  },
+  {
+    "batch": "B2_战斗规则_s2",
+    "kb": 118,
+    "files": [
+      "pf_rules_md_organized/核心规则 Core Rulebook【CRB】/战斗规则/rpage_0001.md",
+      "pf_rules_md_organized/核心规则 Core Rulebook【CRB】/战斗规则/rpage_0002.md",
+      "pf_rules_md_organized/核心规则 Core Rulebook【CRB】/战斗规则/rpage_0003.md",
+      "pf_rules_md_organized/核心规则 Core Rulebook【CRB】/战斗规则/rpage_0004.md",
+      "pf_rules_md_organized/核心规则 Core Rulebook【CRB】/战斗规则/rpage_0005.md",
+      "pf_rules_md_organized/核心规则 Core Rulebook【CRB】/战斗规则/rpage_0006.md",
+      "pf_rules_md_organized/核心规则 Core Rulebook【CRB】/战斗规则/rpage_0007.md",
+      "pf_rules_md_organized/核心规则 Core Rulebook【CRB】/战斗规则/rpage_0008.md",
+      "pf_rules_md_organized/核心规则 Core Rulebook【CRB】/战斗规则/rpage_0009.md"
+    ],
+    "toc_group_map": {
+      "核心规则 Core Rulebook【CRB】/战斗规则/rpage_0001.md": "core_rules",
+      "核心规则 Core Rulebook【CRB】/战斗规则/rpage_0002.md": "core_rules",
+      "核心规则 Core Rulebook【CRB】/战斗规则/rpage_0003.md": "core_rules",
+      "核心规则 Core Rulebook【CRB】/战斗规则/rpage_0004.md": "core_rules",
+      "核心规则 Core Rulebook【CRB】/战斗规则/rpage_0005.md": "core_rules",
+      "核心规则 Core Rulebook【CRB】/战斗规则/rpage_0006.md": "core_rules",
+      "核心规则 Core Rulebook【CRB】/战斗规则/rpage_0007.md": "core_rules",
+      "核心规则 Core Rulebook【CRB】/战斗规则/rpage_0008.md": "core_rules",
+      "核心规则 Core Rulebook【CRB】/战斗规则/rpage_0009.md": "core_rules"
+    }
+  },
+  {
+    "batch": "B3_环境_s3",
+    "kb": 154,
+    "files": [
+      "pf_rules_md_organized/核心规则 Core Rulebook【CRB】/环境/page_278.md",
+      "pf_rules_md_organized/核心规则 Core Rulebook【CRB】/环境/page_279.md",
+      "pf_rules_md_organized/核心规则 Core Rulebook【CRB】/环境/page_280.md",
+      "pf_rules_md_organized/核心规则 Core Rulebook【CRB】/环境/page_281.md",
+      "pf_rules_md_organized/核心规则 Core Rulebook【CRB】/环境/page_282.md",
+      "pf_rules_md_organized/核心规则 Core Rulebook【CRB】/环境/page_283.md",
+      "pf_rules_md_organized/核心规则 Core Rulebook【CRB】/环境/page_284.md"
+    ],
+    "toc_group_map": {
+      "核心规则 Core Rulebook【CRB】/环境/page_278.md": "core_rules",
+      "核心规则 Core Rulebook【CRB】/环境/page_279.md": "core_rules",
+      "核心规则 Core Rulebook【CRB】/环境/page_280.md": "core_rules",
+      "核心规则 Core Rulebook【CRB】/环境/page_281.md": "core_rules",
+      "核心规则 Core Rulebook【CRB】/环境/page_282.md": "core_rules",
+      "核心规则 Core Rulebook【CRB】/环境/page_283.md": "core_rules",
+      "核心规则 Core Rulebook【CRB】/环境/page_284.md": "core_rules"
+    }
+  },
+  {
+    "batch": "B4_CRB其余_s4",
+    "kb": 163,
+    "files": [
+      "pf_rules_md_organized/核心规则 Core Rulebook【CRB】/page_127.md",
+      "pf_rules_md_organized/核心规则 Core Rulebook【CRB】/page_130.md",
+      "pf_rules_md_organized/核心规则 Core Rulebook【CRB】/page_235.md",
+      "pf_rules_md_organized/核心规则 Core Rulebook【CRB】/page_236.md",
+      "pf_rules_md_organized/核心规则 Core Rulebook【CRB】/page_239.md",
+      "pf_rules_md_organized/核心规则 Core Rulebook【CRB】/page_240.md",
+      "pf_rules_md_organized/核心规则 Core Rulebook【CRB】/page_242.md",
+      "pf_rules_md_organized/核心规则 Core Rulebook【CRB】/page_243.md",
+      "pf_rules_md_organized/核心规则 Core Rulebook【CRB】/page_313.md",
+      "pf_rules_md_organized/核心规则 Core Rulebook【CRB】/page_408.md",
+      "pf_rules_md_organized/核心规则 Core Rulebook【CRB】/page_413.md"
+    ],
+    "toc_group_map": {
+      "核心规则 Core Rulebook【CRB】/page_127.md": "core_rules",
+      "核心规则 Core Rulebook【CRB】/page_130.md": "core_rules",
+      "核心规则 Core Rulebook【CRB】/page_235.md": "core_rules",
+      "核心规则 Core Rulebook【CRB】/page_236.md": "core_rules",
+      "核心规则 Core Rulebook【CRB】/page_239.md": "core_rules",
+      "核心规则 Core Rulebook【CRB】/page_240.md": "core_rules",
+      "核心规则 Core Rulebook【CRB】/page_242.md": "core_rules",
+      "核心规则 Core Rulebook【CRB】/page_243.md": "core_rules",
+      "核心规则 Core Rulebook【CRB】/page_313.md": "core_rules",
+      "核心规则 Core Rulebook【CRB】/page_408.md": "core_rules",
+      "核心规则 Core Rulebook【CRB】/page_413.md": "core_rules"
+    }
+  },
+  {
+    "batch": "B5_ACG_MA_s5",
+    "kb": 88,
+    "files": [
+      "pf_rules_md_organized/规则/ACG规则/page_1240.md",
+      "pf_rules_md_organized/规则/MA规则/page_642.md",
+      "pf_rules_md_organized/规则/MA规则/page_643.md",
+      "pf_rules_md_organized/规则/MA规则/page_644.md"
+    ],
+    "toc_group_map": {
+      "规则/ACG规则/page_1240.md": "rules",
+      "规则/MA规则/page_642.md": "rules",
+      "规则/MA规则/page_643.md": "rules",
+      "规则/MA规则/page_644.md": "rules"
+    }
+  },
+  {
+    "batch": "B5_APG_s6",
+    "kb": 98,
+    "files": [
+      "pf_rules_md_organized/规则/APG规则/page_415.md",
+      "pf_rules_md_organized/规则/APG规则/page_416.md"
+    ],
+    "toc_group_map": {
+      "规则/APG规则/page_415.md": "rules",
+      "规则/APG规则/page_416.md": "rules"
+    }
+  },
+  {
+    "batch": "B5_HA_s7",
+    "kb": 190,
+    "files": [
+      "pf_rules_md_organized/page_1495.md",
+      "pf_rules_md_organized/规则/HA规则/page_733.md",
+      "pf_rules_md_organized/规则/HA规则/page_740.md",
+      "pf_rules_md_organized/规则/HA规则/新怪物模板.md",
+      "pf_rules_md_organized/规则/HA规则/环境.md",
+      "pf_rules_md_organized/规则/HA规则/疾病.md",
+      "pf_rules_md_organized/规则/HA规则/腐化/不义.md",
+      "pf_rules_md_organized/规则/HA规则/腐化/兽变.md",
+      "pf_rules_md_organized/规则/HA规则/腐化/受疫.md",
+      "pf_rules_md_organized/规则/HA规则/腐化/受诅.md",
+      "pf_rules_md_organized/规则/HA规则/腐化/尸鬼化.md",
+      "pf_rules_md_organized/规则/HA规则/腐化/底栖魔鱼.md",
+      "pf_rules_md_organized/规则/HA规则/腐化/影契.md"
+    ],
+    "toc_group_map": {
+      "page_1495.md": "rules",
+      "规则/HA规则/page_733.md": "rules",
+      "规则/HA规则/page_740.md": "rules",
+      "规则/HA规则/新怪物模板.md": "rules",
+      "规则/HA规则/环境.md": "rules",
+      "规则/HA规则/疾病.md": "rules",
+      "规则/HA规则/腐化/不义.md": "rules",
+      "规则/HA规则/腐化/兽变.md": "rules",
+      "规则/HA规则/腐化/受疫.md": "rules",
+      "规则/HA规则/腐化/受诅.md": "rules",
+      "规则/HA规则/腐化/尸鬼化.md": "rules",
+      "规则/HA规则/腐化/底栖魔鱼.md": "rules",
+      "规则/HA规则/腐化/影契.md": "rules"
+    }
+  },
+  {
+    "batch": "B5_HA_s8",
+    "kb": 101,
+    "files": [
+      "pf_rules_md_organized/规则/HA规则/腐化/心能.md",
+      "pf_rules_md_organized/规则/HA规则/腐化/恶魔化.md",
+      "pf_rules_md_organized/规则/HA规则/腐化/改造人.md",
+      "pf_rules_md_organized/规则/HA规则/腐化/活尸化.md",
+      "pf_rules_md_organized/规则/HA规则/腐化/深潜者.md",
+      "pf_rules_md_organized/规则/HA规则/腐化/渴血.md",
+      "pf_rules_md_organized/规则/HA规则/腐化/狱契.md",
+      "pf_rules_md_organized/规则/HA规则/腐化/虫群寄体.md",
+      "pf_rules_md_organized/规则/HA规则/腐化/鬼上身.md",
+      "pf_rules_md_organized/规则/HA规则/诅咒.md"
+    ],
+    "toc_group_map": {
+      "规则/HA规则/腐化/心能.md": "rules",
+      "规则/HA规则/腐化/恶魔化.md": "rules",
+      "规则/HA规则/腐化/改造人.md": "rules",
+      "规则/HA规则/腐化/活尸化.md": "rules",
+      "规则/HA规则/腐化/深潜者.md": "rules",
+      "规则/HA规则/腐化/渴血.md": "rules",
+      "规则/HA规则/腐化/狱契.md": "rules",
+      "规则/HA规则/腐化/虫群寄体.md": "rules",
+      "规则/HA规则/腐化/鬼上身.md": "rules",
+      "规则/HA规则/诅咒.md": "rules"
+    }
+  },
+  {
+    "batch": "B5_UW_PA_s9",
+    "kb": 153,
+    "files": [
+      "pf_rules_md_organized/规则/CaC部属与伙伴_规则.md",
+      "pf_rules_md_organized/规则/PA规则/page_1490.md",
+      "pf_rules_md_organized/规则/PA规则/page_1573.md",
+      "pf_rules_md_organized/规则/PA规则/神赐.md",
+      "pf_rules_md_organized/规则/UW规则/page_1220.md",
+      "pf_rules_md_organized/规则/UW规则/page_1459.md",
+      "pf_rules_md_organized/规则/UW规则/草药学.md",
+      "pf_rules_md_organized/规则/UW规则/采收毒药.md"
+    ],
+    "toc_group_map": {
+      "规则/CaC部属与伙伴_规则.md": "rules",
+      "规则/PA规则/page_1490.md": "rules",
+      "规则/PA规则/page_1573.md": "rules",
+      "规则/PA规则/神赐.md": "rules",
+      "规则/UW规则/page_1220.md": "rules",
+      "规则/UW规则/page_1459.md": "rules",
+      "规则/UW规则/草药学.md": "rules",
+      "规则/UW规则/采收毒药.md": "rules"
+    }
+  },
+  {
+    "batch": "B6_UC_s10",
+    "kb": 144,
+    "files": [
+      "pf_rules_md_organized/规则/UC规则/page_452.md",
+      "pf_rules_md_organized/规则/UC规则/page_473.md",
+      "pf_rules_md_organized/规则/UC规则/page_474.md",
+      "pf_rules_md_organized/规则/UC规则/page_475.md",
+      "pf_rules_md_organized/规则/UC规则/page_488.md",
+      "pf_rules_md_organized/规则/UC规则/page_493.md",
+      "pf_rules_md_organized/规则/UC规则/page_498.md"
+    ],
+    "toc_group_map": {
+      "规则/UC规则/page_452.md": "rules",
+      "规则/UC规则/page_473.md": "rules",
+      "规则/UC规则/page_474.md": "rules",
+      "规则/UC规则/page_475.md": "rules",
+      "规则/UC规则/page_488.md": "rules",
+      "规则/UC规则/page_493.md": "rules",
+      "规则/UC规则/page_498.md": "rules"
+    }
+  },
+  {
+    "batch": "B6_UC_s11",
+    "kb": 68,
+    "files": [
+      "pf_rules_md_organized/规则/UC规则/page_499.md"
+    ],
+    "toc_group_map": {
+      "规则/UC规则/page_499.md": "rules"
+    }
+  },
+  {
+    "batch": "B6_UCa休整期_s12",
+    "kb": 161,
+    "files": [
+      "pf_rules_md_organized/规则/UCa规则/休整期/page_968.md",
+      "pf_rules_md_organized/规则/UCa规则/休整期/page_969.md",
+      "pf_rules_md_organized/规则/UCa规则/休整期/page_970.md",
+      "pf_rules_md_organized/规则/UCa规则/休整期/page_971.md",
+      "pf_rules_md_organized/规则/UCa规则/休整期/page_972.md"
+    ],
+    "toc_group_map": {
+      "规则/UCa规则/休整期/page_968.md": "rules",
+      "规则/UCa规则/休整期/page_969.md": "rules",
+      "规则/UCa规则/休整期/page_970.md": "rules",
+      "规则/UCa规则/休整期/page_971.md": "rules",
+      "规则/UCa规则/休整期/page_972.md": "rules"
+    }
+  },
+  {
+    "batch": "B6_UCa战役_s13",
+    "kb": 188,
+    "files": [
+      "pf_rules_md_organized/规则/UCa规则/战役系统/page_953.md",
+      "pf_rules_md_organized/规则/UCa规则/战役系统/page_954.md",
+      "pf_rules_md_organized/规则/UCa规则/战役系统/page_955.md",
+      "pf_rules_md_organized/规则/UCa规则/战役系统/page_956.md",
+      "pf_rules_md_organized/规则/UCa规则/战役系统/page_957.md",
+      "pf_rules_md_organized/规则/UCa规则/战役系统/page_958.md",
+      "pf_rules_md_organized/规则/UCa规则/战役系统/page_959.md",
+      "pf_rules_md_organized/规则/UCa规则/战役系统/page_960.md",
+      "pf_rules_md_organized/规则/UCa规则/战役系统/page_961.md"
+    ],
+    "toc_group_map": {
+      "规则/UCa规则/战役系统/page_953.md": "rules",
+      "规则/UCa规则/战役系统/page_954.md": "rules",
+      "规则/UCa规则/战役系统/page_955.md": "rules",
+      "规则/UCa规则/战役系统/page_956.md": "rules",
+      "规则/UCa规则/战役系统/page_957.md": "rules",
+      "规则/UCa规则/战役系统/page_958.md": "rules",
+      "规则/UCa规则/战役系统/page_959.md": "rules",
+      "规则/UCa规则/战役系统/page_960.md": "rules",
+      "规则/UCa规则/战役系统/page_961.md": "rules"
+    }
+  },
+  {
+    "batch": "B6_UCa战役_s14",
+    "kb": 70,
+    "files": [
+      "pf_rules_md_organized/规则/UCa规则/战役系统/page_962.md",
+      "pf_rules_md_organized/规则/UCa规则/战役系统/page_963.md",
+      "pf_rules_md_organized/规则/UCa规则/战役系统/page_964.md",
+      "pf_rules_md_organized/规则/UCa规则/战役系统/page_965.md",
+      "pf_rules_md_organized/规则/UCa规则/战役系统/page_966.md"
+    ],
+    "toc_group_map": {
+      "规则/UCa规则/战役系统/page_962.md": "rules",
+      "规则/UCa规则/战役系统/page_963.md": "rules",
+      "规则/UCa规则/战役系统/page_964.md": "rules",
+      "规则/UCa规则/战役系统/page_965.md": "rules",
+      "规则/UCa规则/战役系统/page_966.md": "rules"
+    }
+  },
+  {
+    "batch": "B6_UCa王国_s15",
+    "kb": 122,
+    "files": [
+      "pf_rules_md_organized/规则/UCa规则/王国与战争/page_510.md",
+      "pf_rules_md_organized/规则/UCa规则/王国与战争/page_517.md"
+    ],
+    "toc_group_map": {
+      "规则/UCa规则/王国与战争/page_510.md": "rules",
+      "规则/UCa规则/王国与战争/page_517.md": "rules"
+    }
+  },
+  {
+    "batch": "B6_UCa王国_s16",
+    "kb": 110,
+    "files": [
+      "pf_rules_md_organized/规则/UCa规则/王国与战争/page_521.md",
+      "pf_rules_md_organized/规则/UCa规则/王国与战争/page_525.md"
+    ],
+    "toc_group_map": {
+      "规则/UCa规则/王国与战争/page_521.md": "rules",
+      "规则/UCa规则/王国与战争/page_525.md": "rules"
+    }
+  },
+  {
+    "batch": "B6_UCa王国_s17",
+    "kb": 153,
+    "files": [
+      "pf_rules_md_organized/规则/UCa规则/角色背景生成器.md"
+    ],
+    "toc_group_map": {
+      "规则/UCa规则/角色背景生成器.md": "rules"
+    }
+  },
+  {
+    "batch": "B6_UI_s18",
+    "kb": 143,
+    "files": [
+      "pf_rules_md_organized/page_732.md",
+      "pf_rules_md_organized/规则/UI规则/page_1049.md",
+      "pf_rules_md_organized/规则/UI规则/page_1061.md",
+      "pf_rules_md_organized/规则/UI规则/page_734.md",
+      "pf_rules_md_organized/规则/UI规则/page_735.md"
+    ],
+    "toc_group_map": {
+      "page_732.md": "rules",
+      "规则/UI规则/page_1049.md": "rules",
+      "规则/UI规则/page_1061.md": "rules",
+      "规则/UI规则/page_734.md": "rules",
+      "规则/UI规则/page_735.md": "rules"
+    }
+  },
+  {
+    "batch": "B6_UM_s19",
+    "kb": 171,
+    "files": [
+      "pf_rules_md_organized/规则/UM规则/page_532.md",
+      "pf_rules_md_organized/规则/UM规则/page_539.md",
+      "pf_rules_md_organized/规则/UM规则/page_564.md",
+      "pf_rules_md_organized/规则/UM规则/page_585.md"
+    ],
+    "toc_group_map": {
+      "规则/UM规则/page_532.md": "rules",
+      "规则/UM规则/page_539.md": "rules",
+      "规则/UM规则/page_564.md": "rules",
+      "规则/UM规则/page_585.md": "rules"
+    }
+  },
+  {
+    "batch": "B6_UM_s20",
+    "kb": 142,
+    "files": [
+      "pf_rules_md_organized/规则/UM规则/page_596.md",
+      "pf_rules_md_organized/规则/UM规则/page_597.md",
+      "pf_rules_md_organized/规则/UM规则/咒字/page_598.md"
+    ],
+    "toc_group_map": {
+      "规则/UM规则/page_596.md": "rules",
+      "规则/UM规则/page_597.md": "rules",
+      "规则/UM规则/咒字/page_598.md": "rules"
+    }
+  },
+  {
+    "batch": "B6_UM_s21",
+    "kb": 135,
+    "files": [
+      "pf_rules_md_organized/规则/UM规则/咒字/page_601.md",
+      "pf_rules_md_organized/规则/UM规则/咒字/page_602.md",
+      "pf_rules_md_organized/规则/UM规则/咒字/page_604.md",
+      "pf_rules_md_organized/规则/UM规则/咒字/page_607.md"
+    ],
+    "toc_group_map": {
+      "规则/UM规则/咒字/page_601.md": "rules",
+      "规则/UM规则/咒字/page_602.md": "rules",
+      "规则/UM规则/咒字/page_604.md": "rules",
+      "规则/UM规则/咒字/page_607.md": "rules"
+    }
+  },
+  {
+    "batch": "B6_Unchained_s22",
+    "kb": 193,
+    "files": [
+      "pf_rules_md_organized/page_645.md",
+      "pf_rules_md_organized/规则/Unchained规则/游戏进行/page_1239.md",
+      "pf_rules_md_organized/规则/Unchained规则/游戏进行/page_650.md",
+      "pf_rules_md_organized/规则/Unchained规则/游戏进行/page_651.md",
+      "pf_rules_md_organized/规则/Unchained规则/游戏进行/page_731.md",
+      "pf_rules_md_organized/规则/Unchained规则/游戏进行/疾病与毒药.md",
+      "pf_rules_md_organized/规则/Unchained规则/游戏进行/移除多次攻击.md",
+      "pf_rules_md_organized/规则/Unchained规则/游戏进行/阵营与阵营专长.md"
+    ],
+    "toc_group_map": {
+      "page_645.md": "rules",
+      "规则/Unchained规则/游戏进行/page_1239.md": "rules",
+      "规则/Unchained规则/游戏进行/page_650.md": "rules",
+      "规则/Unchained规则/游戏进行/page_651.md": "rules",
+      "规则/Unchained规则/游戏进行/page_731.md": "rules",
+      "规则/Unchained规则/游戏进行/疾病与毒药.md": "rules",
+      "规则/Unchained规则/游戏进行/移除多次攻击.md": "rules",
+      "规则/Unchained规则/游戏进行/阵营与阵营专长.md": "rules"
+    }
+  },
+  {
+    "batch": "B6_Unchained_s23",
+    "kb": 115,
+    "files": [
+      "pf_rules_md_organized/规则/Unchained规则/职业/page_646.md",
+      "pf_rules_md_organized/规则/Unchained规则/职业/page_943.md",
+      "pf_rules_md_organized/规则/Unchained规则/魔法/page_1327.md",
+      "pf_rules_md_organized/规则/Unchained规则/魔法/page_652.md",
+      "pf_rules_md_organized/规则/Unchained规则/魔法/page_653.md",
+      "pf_rules_md_organized/规则/Unchained规则/魔法/page_654.md",
+      "pf_rules_md_organized/规则/Unchained规则/魔法/page_738.md",
+      "pf_rules_md_organized/规则/Unchained规则/魔法/法术变动.md"
+    ],
+    "toc_group_map": {
+      "规则/Unchained规则/职业/page_646.md": "rules",
+      "规则/Unchained规则/职业/page_943.md": "rules",
+      "规则/Unchained规则/魔法/page_1327.md": "rules",
+      "规则/Unchained规则/魔法/page_652.md": "rules",
+      "规则/Unchained规则/魔法/page_653.md": "rules",
+      "规则/Unchained规则/魔法/page_654.md": "rules",
+      "规则/Unchained规则/魔法/page_738.md": "rules",
+      "规则/Unchained规则/魔法/法术变动.md": "rules"
+    }
+  },
+  {
+    "batch": "B6_异能_s24",
+    "kb": 155,
+    "files": [
+      "pf_rules_md_organized/page_314.md",
+      "pf_rules_md_organized/规则/异能规则/page_1004.md",
+      "pf_rules_md_organized/规则/异能规则/page_316.md",
+      "pf_rules_md_organized/规则/异能规则/page_317.md",
+      "pf_rules_md_organized/规则/异能规则/page_655.md",
+      "pf_rules_md_organized/规则/异能规则/page_656.md",
+      "pf_rules_md_organized/规则/异能规则/page_657.md",
+      "pf_rules_md_organized/规则/异能规则/page_730.md",
+      "pf_rules_md_organized/规则/异能规则/page_737.md",
+      "pf_rules_md_organized/规则/异能规则/地域精魂.md"
+    ],
+    "toc_group_map": {
+      "page_314.md": "rules",
+      "规则/异能规则/page_1004.md": "rules",
+      "规则/异能规则/page_316.md": "rules",
+      "规则/异能规则/page_317.md": "rules",
+      "规则/异能规则/page_655.md": "rules",
+      "规则/异能规则/page_656.md": "rules",
+      "规则/异能规则/page_657.md": "rules",
+      "规则/异能规则/page_730.md": "rules",
+      "规则/异能规则/page_737.md": "rules",
+      "规则/异能规则/地域精魂.md": "rules"
+    }
+  },
+  {
+    "batch": "B6_散件书件_s25",
+    "kb": 187,
+    "files": [
+      "pf_rules_md_organized/规则/亡灵杀手手册_法术.md",
+      "pf_rules_md_organized/规则/传奇编年史CoL_替代巅峰.md",
+      "pf_rules_md_organized/规则/传奇编年史CoL_神秘仪式.md",
+      "pf_rules_md_organized/规则/位面行者手册PHH_动物伙伴变体.md",
+      "pf_rules_md_organized/规则/位面行者手册PHH_魔宠变体.md",
+      "pf_rules_md_organized/规则/内海神殿_神秘仪式.md",
+      "pf_rules_md_organized/规则/内海诡道ISI_假面伪装.md",
+      "pf_rules_md_organized/规则/内海酒馆ISTav_酒馆斗殴.md",
+      "pf_rules_md_organized/规则/内海魔法ISM_原能魔法.md",
+      "pf_rules_md_organized/规则/内海魔法ISM_塑肉仪式.md",
+      "pf_rules_md_organized/规则/内海魔法ISM_瑟西隆魔法.md",
+      "pf_rules_md_organized/规则/再探死灵UndeadRevisited_制造不死生物.md",
+      "pf_rules_md_organized/规则/冒险之路AP_神秘仪式.md",
+      "pf_rules_md_organized/规则/冒险者的军械库2_规则.md",
+      "pf_rules_md_organized/规则/冒险者的军械库_装备技法.md",
+      "pf_rules_md_organized/规则/冒险者的军械库_装备技法汇总.md",
+      "pf_rules_md_organized/规则/动物档案AArch_动物伙伴变体.md",
+      "pf_rules_md_organized/规则/动物档案AArch_动物技巧.md",
+      "pf_rules_md_organized/规则/动物档案AArch_动物装备栏位.md"
+    ],
+    "toc_group_map": {
+      "规则/亡灵杀手手册_法术.md": "rules",
+      "规则/传奇编年史CoL_替代巅峰.md": "rules",
+      "规则/传奇编年史CoL_神秘仪式.md": "rules",
+      "规则/位面行者手册PHH_动物伙伴变体.md": "rules",
+      "规则/位面行者手册PHH_魔宠变体.md": "rules",
+      "规则/内海神殿_神秘仪式.md": "rules",
+      "规则/内海诡道ISI_假面伪装.md": "rules",
+      "规则/内海酒馆ISTav_酒馆斗殴.md": "rules",
+      "规则/内海魔法ISM_原能魔法.md": "rules",
+      "规则/内海魔法ISM_塑肉仪式.md": "rules",
+      "规则/内海魔法ISM_瑟西隆魔法.md": "rules",
+      "规则/再探死灵UndeadRevisited_制造不死生物.md": "rules",
+      "规则/冒险之路AP_神秘仪式.md": "rules",
+      "规则/冒险者的军械库2_规则.md": "rules",
+      "规则/冒险者的军械库_装备技法.md": "rules",
+      "规则/冒险者的军械库_装备技法汇总.md": "rules",
+      "规则/动物档案AArch_动物伙伴变体.md": "rules",
+      "规则/动物档案AArch_动物技巧.md": "rules",
+      "规则/动物档案AArch_动物装备栏位.md": "rules"
+    }
+  },
+  {
+    "batch": "B6_散件书件_s26",
+    "kb": 188,
+    "files": [
+      "pf_rules_md_organized/规则/动物档案AArch_新动物伙伴.md",
+      "pf_rules_md_organized/规则/动物档案AArch_魔宠变体.md",
+      "pf_rules_md_organized/规则/卡蒂亚QJotE_新动物伙伴.md",
+      "pf_rules_md_organized/规则/卡蒂亚QJotE_马匹技巧.md",
+      "pf_rules_md_organized/规则/商人货单MM_服务.md",
+      "pf_rules_md_organized/规则/夜之血脉BotN_不死生物饥渴可选规则.md",
+      "pf_rules_md_organized/规则/对立协调CoR_神秘仪式.md",
+      "pf_rules_md_organized/规则/巨龙之遗LoD_新魔宠.md",
+      "pf_rules_md_organized/规则/巨龙之遗LoD_种族特性替换.md",
+      "pf_rules_md_organized/规则/巨龙之遗LoD_龙兽伙伴.md",
+      "pf_rules_md_organized/规则/巫团血脉BotC_神秘仪式.md",
+      "pf_rules_md_organized/规则/异能奥秘OM_占星事件.md",
+      "pf_rules_md_organized/规则/异能源始OO_神秘仪式.md",
+      "pf_rules_md_organized/规则/异能选集PA_心能代谢腐化.md",
+      "pf_rules_md_organized/规则/恶魔猎人手册_新游侠陷阱.md",
+      "pf_rules_md_organized/规则/惊骇国度HR_咒怨伙伴.md",
+      "pf_rules_md_organized/规则/惧怖冒险HA_肉体改制.md",
+      "pf_rules_md_organized/规则/月之血脉BotM_狂暴之力.md",
+      "pf_rules_md_organized/规则/极限荒野UW_动物伙伴变体.md",
+      "pf_rules_md_organized/规则/极限荒野UW_动物装备栏位修正.md",
+      "pf_rules_md_organized/规则/极限荒野UW_新动物伙伴.md",
+      "pf_rules_md_organized/规则/极限荒野UW_新基础魔宠.md",
+      "pf_rules_md_organized/规则/极限荒野UW_昆虫伙伴.md"
+    ],
+    "toc_group_map": {
+      "规则/动物档案AArch_新动物伙伴.md": "rules",
+      "规则/动物档案AArch_魔宠变体.md": "rules",
+      "规则/卡蒂亚QJotE_新动物伙伴.md": "rules",
+      "规则/卡蒂亚QJotE_马匹技巧.md": "rules",
+      "规则/商人货单MM_服务.md": "rules",
+      "规则/夜之血脉BotN_不死生物饥渴可选规则.md": "rules",
+      "规则/对立协调CoR_神秘仪式.md": "rules",
+      "规则/巨龙之遗LoD_新魔宠.md": "rules",
+      "规则/巨龙之遗LoD_种族特性替换.md": "rules",
+      "规则/巨龙之遗LoD_龙兽伙伴.md": "rules",
+      "规则/巫团血脉BotC_神秘仪式.md": "rules",
+      "规则/异能奥秘OM_占星事件.md": "rules",
+      "规则/异能源始OO_神秘仪式.md": "rules",
+      "规则/异能选集PA_心能代谢腐化.md": "rules",
+      "规则/恶魔猎人手册_新游侠陷阱.md": "rules",
+      "规则/惊骇国度HR_咒怨伙伴.md": "rules",
+      "规则/惧怖冒险HA_肉体改制.md": "rules",
+      "规则/月之血脉BotM_狂暴之力.md": "rules",
+      "规则/极限荒野UW_动物伙伴变体.md": "rules",
+      "规则/极限荒野UW_动物装备栏位修正.md": "rules",
+      "规则/极限荒野UW_新动物伙伴.md": "rules",
+      "规则/极限荒野UW_新基础魔宠.md": "rules",
+      "规则/极限荒野UW_昆虫伙伴.md": "rules"
+    }
+  },
+  {
+    "batch": "B6_散件书件_s27",
+    "kb": 195,
+    "files": [
+      "pf_rules_md_organized/规则/极限荒野UW_植物伙伴.md",
+      "pf_rules_md_organized/规则/极限荒野UW_魔宠变体.md",
+      "pf_rules_md_organized/规则/构装体手册CH_模板.md",
+      "pf_rules_md_organized/规则/构装体手册CH_灵导械背景.md",
+      "pf_rules_md_organized/规则/格拉里昂的秽邪勇士_缺陷.md",
+      "pf_rules_md_organized/规则/正义编年史_禁欲仪式.md",
+      "pf_rules_md_organized/规则/武器大师手册_武器设计.md",
+      "pf_rules_md_organized/规则/水下冒险AA_水下危险与特征.md",
+      "pf_rules_md_organized/规则/水下冒险AA_水下战斗.md",
+      "pf_rules_md_organized/规则/水下冒险AA_游泳和水下冒险.md",
+      "pf_rules_md_organized/规则/法术荒疫_哈罗牌手册THH.md",
+      "pf_rules_md_organized/规则/皇庭英豪HotHC_茶道仪式.md",
+      "pf_rules_md_organized/规则/秘术选集ArcaneAnthology_祈祷书与冥想书.md",
+      "pf_rules_md_organized/规则/第一世界TFWRotF_第一世界施法规则.md",
+      "pf_rules_md_organized/规则/荒野源始WO_动物伙伴变体.md",
+      "pf_rules_md_organized/规则/荒野源始WO_魔宠变体.md",
+      "pf_rules_md_organized/规则/药剂与毒药P&P_规则.md",
+      "pf_rules_md_organized/规则/贝尔克泽恩BHotOH_新伙伴.md",
+      "pf_rules_md_organized/规则/近战战术工具箱CTT_规则详解.md",
+      "pf_rules_md_organized/规则/远程战术工具箱RTT_游侠陷阱.md",
+      "pf_rules_md_organized/规则/遥远世界DS_神秘仪式.md",
+      "pf_rules_md_organized/规则/遥远世界DS_神话道途能力.md",
+      "pf_rules_md_organized/规则/邪恶特务AoE_法术.md",
+      "pf_rules_md_organized/规则/门徒教义DD_神秘仪式.md",
+      "pf_rules_md_organized/规则/阴招战术工具箱DTT_诡术种族特性.md",
+      "pf_rules_md_organized/规则/魔宠手记FF_学派魔宠.md",
+      "pf_rules_md_organized/规则/魔宠手记FF_新罕见魔宠.md",
+      "pf_rules_md_organized/规则/魔宠手记FF_新魔宠.md"
+    ],
+    "toc_group_map": {
+      "规则/极限荒野UW_植物伙伴.md": "rules",
+      "规则/极限荒野UW_魔宠变体.md": "rules",
+      "规则/构装体手册CH_模板.md": "rules",
+      "规则/构装体手册CH_灵导械背景.md": "rules",
+      "规则/格拉里昂的秽邪勇士_缺陷.md": "rules",
+      "规则/正义编年史_禁欲仪式.md": "rules",
+      "规则/武器大师手册_武器设计.md": "rules",
+      "规则/水下冒险AA_水下危险与特征.md": "rules",
+      "规则/水下冒险AA_水下战斗.md": "rules",
+      "规则/水下冒险AA_游泳和水下冒险.md": "rules",
+      "规则/法术荒疫_哈罗牌手册THH.md": "rules",
+      "规则/皇庭英豪HotHC_茶道仪式.md": "rules",
+      "规则/秘术选集ArcaneAnthology_祈祷书与冥想书.md": "rules",
+      "规则/第一世界TFWRotF_第一世界施法规则.md": "rules",
+      "规则/荒野源始WO_动物伙伴变体.md": "rules",
+      "规则/荒野源始WO_魔宠变体.md": "rules",
+      "规则/药剂与毒药P&P_规则.md": "rules",
+      "规则/贝尔克泽恩BHotOH_新伙伴.md": "rules",
+      "规则/近战战术工具箱CTT_规则详解.md": "rules",
+      "规则/远程战术工具箱RTT_游侠陷阱.md": "rules",
+      "规则/遥远世界DS_神秘仪式.md": "rules",
+      "规则/遥远世界DS_神话道途能力.md": "rules",
+      "规则/邪恶特务AoE_法术.md": "rules",
+      "规则/门徒教义DD_神秘仪式.md": "rules",
+      "规则/阴招战术工具箱DTT_诡术种族特性.md": "rules",
+      "规则/魔宠手记FF_学派魔宠.md": "rules",
+      "规则/魔宠手记FF_新罕见魔宠.md": "rules",
+      "规则/魔宠手记FF_新魔宠.md": "rules"
+    }
+  },
+  {
+    "batch": "B6_散件书件_s28",
+    "kb": 75,
+    "files": [
+      "pf_rules_md_organized/规则/魔宠手记FF_混血魔宠.md",
+      "pf_rules_md_organized/规则/魔宠手记FF_眷属魔宠.md",
+      "pf_rules_md_organized/规则/魔宠手记FF_近似魔宠.md",
+      "pf_rules_md_organized/规则/魔宠手记FF_魔宠变体.md",
+      "pf_rules_md_organized/规则/魔宠手记FF_魔宠选项.md",
+      "pf_rules_md_organized/规则/黑市指南BM_尸体贸易.md",
+      "pf_rules_md_organized/规则/黑市指南BM_黑市规则.md"
+    ],
+    "toc_group_map": {
+      "规则/魔宠手记FF_混血魔宠.md": "rules",
+      "规则/魔宠手记FF_眷属魔宠.md": "rules",
+      "规则/魔宠手记FF_近似魔宠.md": "rules",
+      "规则/魔宠手记FF_魔宠变体.md": "rules",
+      "规则/魔宠手记FF_魔宠选项.md": "rules",
+      "规则/黑市指南BM_尸体贸易.md": "rules",
+      "规则/黑市指南BM_黑市规则.md": "rules"
+    }
+  },
+  {
+    "batch": "B7_GMG主题_s29",
+    "kb": 78,
+    "files": [
+      "pf_rules_md_organized/规则/GMG规则/冒险的主题/page_1003.md",
+      "pf_rules_md_organized/规则/GMG规则/冒险的主题/page_418.md",
+      "pf_rules_md_organized/规则/GMG规则/冒险的主题/page_436.md",
+      "pf_rules_md_organized/规则/GMG规则/冒险的主题/page_952.md",
+      "pf_rules_md_organized/规则/GMG规则/冒险的主题/灾难.md",
+      "pf_rules_md_organized/规则/GMG规则/冒险的主题/赌博与运气游戏.md",
+      "pf_rules_md_organized/规则/GMG规则/冒险的主题/险境.md"
+    ],
+    "toc_group_map": {
+      "规则/GMG规则/冒险的主题/page_1003.md": "rules",
+      "规则/GMG规则/冒险的主题/page_418.md": "rules",
+      "规则/GMG规则/冒险的主题/page_436.md": "rules",
+      "规则/GMG规则/冒险的主题/page_952.md": "rules",
+      "规则/GMG规则/冒险的主题/灾难.md": "rules",
+      "规则/GMG规则/冒险的主题/赌博与运气游戏.md": "rules",
+      "规则/GMG规则/冒险的主题/险境.md": "rules"
+    }
+  },
+  {
+    "batch": "B7_GMG其余_s30",
+    "kb": 131,
+    "files": [
+      "pf_rules_md_organized/规则/GMG规则/创造世界.md"
+    ],
+    "toc_group_map": {
+      "规则/GMG规则/创造世界.md": "rules"
+    }
+  },
+  {
+    "batch": "B7_GMG其余_s31",
+    "kb": 132,
+    "files": [
+      "pf_rules_md_organized/规则/GMG规则/奖励.md"
+    ],
+    "toc_group_map": {
+      "规则/GMG规则/奖励.md": "rules"
+    }
+  },
+  {
+    "batch": "B7_GMG其余_s32",
+    "kb": 92,
+    "files": [
+      "pf_rules_md_organized/规则/GMG规则/玩家角色.md"
+    ],
+    "toc_group_map": {
+      "规则/GMG规则/玩家角色.md": "rules"
+    }
+  },
+  {
+    "batch": "B7_GMG其余_s33",
+    "kb": 143,
+    "files": [
+      "pf_rules_md_organized/规则/GMG规则/运作游戏.md"
+    ],
+    "toc_group_map": {
+      "规则/GMG规则/运作游戏.md": "rules"
+    }
+  },
+  {
+    "batch": "B7_GMG其余_s34",
+    "kb": 91,
+    "files": [
+      "pf_rules_md_organized/规则/GMG规则/非玩家角色.md"
+    ],
+    "toc_group_map": {
+      "规则/GMG规则/非玩家角色.md": "rules"
+    }
+  },
+  {
+    "batch": "B7_GMG冒险_s35",
+    "kb": 139,
+    "files": [
+      "pf_rules_md_organized/规则/GMG规则/page_1330.md",
+      "pf_rules_md_organized/规则/GMG规则/冒险/page_444.md",
+      "pf_rules_md_organized/规则/GMG规则/冒险/page_449.md"
+    ],
+    "toc_group_map": {
+      "规则/GMG规则/page_1330.md": "rules",
+      "规则/GMG规则/冒险/page_444.md": "rules",
+      "规则/GMG规则/冒险/page_449.md": "rules"
+    }
+  },
+  {
+    "batch": "B7_GMG冒险_s36",
+    "kb": 179,
+    "files": [
+      "pf_rules_md_organized/规则/GMG规则/冒险/page_739.md",
+      "pf_rules_md_organized/规则/GMG规则/冒险/冒险、地城、荒野.md",
+      "pf_rules_md_organized/规则/GMG规则/冒险/酒馆.md"
+    ],
+    "toc_group_map": {
+      "规则/GMG规则/冒险/page_739.md": "rules",
+      "规则/GMG规则/冒险/冒险、地城、荒野.md": "rules",
+      "规则/GMG规则/冒险/酒馆.md": "rules"
+    }
+  },
+  {
+    "batch": "B7_PFS探索者协会_s37",
+    "kb": 136,
+    "files": [
+      "pf_rules_md_organized/规则/PFS专用/探索者协会(PFS) 论坛资料/PFS官方战役指南/page_586.md",
+      "pf_rules_md_organized/规则/PFS专用/探索者协会(PFS) 论坛资料/PFS官方战役指南/page_587.md",
+      "pf_rules_md_organized/规则/PFS专用/探索者协会(PFS) 论坛资料/PFS官方战役指南/page_588.md",
+      "pf_rules_md_organized/规则/PFS专用/探索者协会(PFS) 论坛资料/PFS官方战役指南/page_589.md",
+      "pf_rules_md_organized/规则/PFS专用/探索者协会(PFS) 论坛资料/PFS官方战役指南/page_590.md",
+      "pf_rules_md_organized/规则/PFS专用/探索者协会(PFS) 论坛资料/PFS官方战役指南/page_591.md",
+      "pf_rules_md_organized/规则/PFS专用/探索者协会(PFS) 论坛资料/page_322.md",
+      "pf_rules_md_organized/规则/初探探索者协会_探索者编年史.md"
+    ],
+    "toc_group_map": {
+      "规则/PFS专用/探索者协会(PFS) 论坛资料/PFS官方战役指南/page_586.md": "rules",
+      "规则/PFS专用/探索者协会(PFS) 论坛资料/PFS官方战役指南/page_587.md": "rules",
+      "规则/PFS专用/探索者协会(PFS) 论坛资料/PFS官方战役指南/page_588.md": "rules",
+      "规则/PFS专用/探索者协会(PFS) 论坛资料/PFS官方战役指南/page_589.md": "rules",
+      "规则/PFS专用/探索者协会(PFS) 论坛资料/PFS官方战役指南/page_590.md": "rules",
+      "规则/PFS专用/探索者协会(PFS) 论坛资料/PFS官方战役指南/page_591.md": "rules",
+      "规则/PFS专用/探索者协会(PFS) 论坛资料/page_322.md": "rules",
+      "规则/初探探索者协会_探索者编年史.md": "rules"
+    }
+  },
+  {
+    "batch": "B7_PFS核心_s38",
+    "kb": 32,
+    "files": [
+      "pf_rules_md_organized/规则/PFS专用/page_2.md",
+      "pf_rules_md_organized/规则/PFS专用/page_5.md",
+      "pf_rules_md_organized/规则/PFS专用/page_570.md",
+      "pf_rules_md_organized/规则/PFS专用/page_6.md",
+      "pf_rules_md_organized/规则/PFS专用/page_7.md",
+      "pf_rules_md_organized/规则/PFS专用/page_8.md"
+    ],
+    "toc_group_map": {
+      "规则/PFS专用/page_2.md": "rules",
+      "规则/PFS专用/page_5.md": "rules",
+      "规则/PFS专用/page_570.md": "rules",
+      "规则/PFS专用/page_6.md": "rules",
+      "规则/PFS专用/page_7.md": "rules",
+      "规则/PFS专用/page_8.md": "rules"
+    }
+  },
+  {
+    "batch": "B7_PFS第十季_s39",
+    "kb": 169,
+    "files": [
+      "pf_rules_md_organized/第十季战役说明（Season_10_Campaign_Clarifications）.md",
+      "pf_rules_md_organized/第十季额外资源（Season_10_Additional_Resource）.md",
+      "pf_rules_md_organized/规则/PFS专用/第十季战役说明（Season 10 Campaign Clarifications）/冒险之路1.md",
+      "pf_rules_md_organized/规则/PFS专用/第十季战役说明（Season 10 Campaign Clarifications）/战役设定1.md",
+      "pf_rules_md_organized/规则/PFS专用/第十季战役说明（Season 10 Campaign Clarifications）/核心书籍1.md",
+      "pf_rules_md_organized/规则/PFS专用/第十季战役说明（Season 10 Campaign Clarifications）/玩家手册5.md",
+      "pf_rules_md_organized/规则/PFS专用/第十季额外资源（Season 10 Additional Resource）/冒险之路.md"
+    ],
+    "toc_group_map": {
+      "第十季战役说明（Season_10_Campaign_Clarifications）.md": "rules",
+      "第十季额外资源（Season_10_Additional_Resource）.md": "rules",
+      "规则/PFS专用/第十季战役说明（Season 10 Campaign Clarifications）/冒险之路1.md": "rules",
+      "规则/PFS专用/第十季战役说明（Season 10 Campaign Clarifications）/战役设定1.md": "rules",
+      "规则/PFS专用/第十季战役说明（Season 10 Campaign Clarifications）/核心书籍1.md": "rules",
+      "规则/PFS专用/第十季战役说明（Season 10 Campaign Clarifications）/玩家手册5.md": "rules",
+      "规则/PFS专用/第十季额外资源（Season 10 Additional Resource）/冒险之路.md": "rules"
+    }
+  },
+  {
+    "batch": "B7_PFS第十季_s40",
+    "kb": 108,
+    "files": [
+      "pf_rules_md_organized/规则/PFS专用/第十季额外资源（Season 10 Additional Resource）/战役设定.md",
+      "pf_rules_md_organized/规则/PFS专用/第十季额外资源（Season 10 Additional Resource）/核心书籍.md",
+      "pf_rules_md_organized/规则/PFS专用/第十季额外资源（Season 10 Additional Resource）/模组.md"
+    ],
+    "toc_group_map": {
+      "规则/PFS专用/第十季额外资源（Season 10 Additional Resource）/战役设定.md": "rules",
+      "规则/PFS专用/第十季额外资源（Season 10 Additional Resource）/核心书籍.md": "rules",
+      "规则/PFS专用/第十季额外资源（Season 10 Additional Resource）/模组.md": "rules"
+    }
+  },
+  {
+    "batch": "B7_PFS第十季_s41",
+    "kb": 114,
+    "files": [
+      "pf_rules_md_organized/规则/PFS专用/第十季额外资源（Season 10 Additional Resource）/玩家手册4.md",
+      "pf_rules_md_organized/规则/PFS专用/第十季额外资源（Season 10 Additional Resource）/纪录单和部落格.md"
+    ],
+    "toc_group_map": {
+      "规则/PFS专用/第十季额外资源（Season 10 Additional Resource）/玩家手册4.md": "rules",
+      "规则/PFS专用/第十季额外资源（Season 10 Additional Resource）/纪录单和部落格.md": "rules"
+    }
+  },
+  {
+    "batch": "B7_怪物_s42",
+    "kb": 189,
+    "files": [
+      "pf_rules_md_organized/规则/怪物召唤者手册MSH_page_667.md",
+      "pf_rules_md_organized/规则/怪物召唤者手册MSH_守护灵.md",
+      "pf_rules_md_organized/规则/怪物召唤者手册MSH_扩展召唤列表.md",
+      "pf_rules_md_organized/规则/怪物召唤者手册MSH_简易模板.md",
+      "pf_rules_md_organized/规则/怪物规则/page_1018.md",
+      "pf_rules_md_organized/规则/怪物规则/page_1125.md",
+      "pf_rules_md_organized/规则/怪物规则/page_1224.md",
+      "pf_rules_md_organized/规则/怪物规则/page_299.md",
+      "pf_rules_md_organized/规则/怪物规则/page_300.md"
+    ],
+    "toc_group_map": {
+      "规则/怪物召唤者手册MSH_page_667.md": "rules",
+      "规则/怪物召唤者手册MSH_守护灵.md": "rules",
+      "规则/怪物召唤者手册MSH_扩展召唤列表.md": "rules",
+      "规则/怪物召唤者手册MSH_简易模板.md": "rules",
+      "规则/怪物规则/page_1018.md": "rules",
+      "规则/怪物规则/page_1125.md": "rules",
+      "规则/怪物规则/page_1224.md": "rules",
+      "规则/怪物规则/page_299.md": "rules",
+      "规则/怪物规则/page_300.md": "rules"
+    }
+  },
+  {
+    "batch": "B7_怪物_s43",
+    "kb": 156,
+    "files": [
+      "pf_rules_md_organized/规则/怪物规则/page_301.md",
+      "pf_rules_md_organized/规则/怪物规则/page_302.md",
+      "pf_rules_md_organized/规则/怪物规则/page_400.md",
+      "pf_rules_md_organized/规则/怪物规则/page_863.md"
+    ],
+    "toc_group_map": {
+      "规则/怪物规则/page_301.md": "rules",
+      "规则/怪物规则/page_302.md": "rules",
+      "规则/怪物规则/page_400.md": "rules",
+      "规则/怪物规则/page_863.md": "rules"
+    }
+  },
+  {
+    "batch": "B7_神祇_作祟_s44",
+    "kb": 116,
+    "files": [
+      "pf_rules_md_organized/规则/page_320.md",
+      "pf_rules_md_organized/规则/作祟汇总.md"
+    ],
+    "toc_group_map": {
+      "规则/page_320.md": "rules",
+      "规则/作祟汇总.md": "rules"
+    }
+  },
+  {
+    "batch": "B8_其他聚合_s45",
+    "kb": 158,
+    "files": [
+      "pf_rules_md_organized/规则/废土子民PotW_废土规则.md",
+      "pf_rules_md_organized/规则/异能国度OR_神秘仪式与偶像.md"
+    ],
+    "toc_group_map": {
+      "规则/废土子民PotW_废土规则.md": "rules",
+      "规则/异能国度OR_神秘仪式与偶像.md": "rules"
+    }
+  },
+  {
+    "batch": "B8_其他聚合_s46",
+    "kb": 123,
+    "files": [
+      "pf_rules_md_organized/规则/第一世界的遗产LotFW_第一世界规则.md"
+    ],
+    "toc_group_map": {
+      "规则/第一世界的遗产LotFW_第一世界规则.md": "rules"
+    }
+  },
+  {
+    "batch": "B8_永罪之书_s47",
+    "kb": 173,
+    "files": [
+      "pf_rules_md_organized/规则/永罪之书_仪式.md",
+      "pf_rules_md_organized/规则/永罪之书_其他魔神神恩.md",
+      "pf_rules_md_organized/规则/永罪之书_地狱魔神神恩.md"
+    ],
+    "toc_group_map": {
+      "规则/永罪之书_仪式.md": "rules",
+      "规则/永罪之书_其他魔神神恩.md": "rules",
+      "规则/永罪之书_地狱魔神神恩.md": "rules"
+    }
+  },
+  {
+    "batch": "B8_永罪之书_s48",
+    "kb": 37,
+    "files": [
+      "pf_rules_md_organized/规则/永罪之书_末日荒原魔神神恩.md"
+    ],
+    "toc_group_map": {
+      "规则/永罪之书_末日荒原魔神神恩.md": "rules"
+    }
+  },
+  {
+    "batch": "B8_永罪之书_s49",
+    "kb": 289,
+    "files": [
+      "pf_rules_md_organized/规则/永罪之书_深渊魔神神恩.md"
+    ],
+    "toc_group_map": {
+      "规则/永罪之书_深渊魔神神恩.md": "rules"
+    }
+  }
+]

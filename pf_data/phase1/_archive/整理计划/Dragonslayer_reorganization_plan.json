@@ -1,0 +1,485 @@
+{
+  "source_book": "屠龙者手册",
+  "source_book_english": "Dragonslayer's Handbook",
+  "source_dir": "pf_data/phase1/pf_rules_md/未整理/屠龙者手册Dragonslayer's Handbook",
+  "stats": {
+    "added": 59,
+    "skipped": 0,
+    "errors": []
+  },
+  "sections": [
+    {
+      "source": "page_818.md",
+      "title": "龙类工艺家",
+      "english": "NEW FEAT: DRAGONCRAFTING",
+      "target": "专长/屠龙者手册_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "page_818.md",
+      "title": "达哈克之火",
+      "english": "DAHAK'S FIRE",
+      "target": "装备_魔法物品/货品服务/屠龙者手册_物品.md",
+      "section_title": "龙类制品",
+      "action": "added"
+    },
+    {
+      "source": "page_818.md",
+      "title": "龙香水",
+      "english": "DRACONIC PERFUME",
+      "target": "装备_魔法物品/货品服务/屠龙者手册_物品.md",
+      "section_title": "龙类制品",
+      "action": "added"
+    },
+    {
+      "source": "page_818.md",
+      "title": "龙之血",
+      "english": "DRACON'S BLOOD",
+      "target": "装备_魔法物品/货品服务/屠龙者手册_物品.md",
+      "section_title": "龙类制品",
+      "action": "added"
+    },
+    {
+      "source": "page_818.md",
+      "title": "龙肠",
+      "english": "DRACON'S GUT",
+      "target": "装备_魔法物品/货品服务/屠龙者手册_物品.md",
+      "section_title": "龙类制品",
+      "action": "added"
+    },
+    {
+      "source": "page_818.md",
+      "title": "龙皮缠柄",
+      "english": "DRACONSKIN'S GRIP",
+      "target": "装备_魔法物品/货品服务/屠龙者手册_物品.md",
+      "section_title": "龙类制品",
+      "action": "added"
+    },
+    {
+      "source": "page_818.md",
+      "title": "龙精粹",
+      "english": "WYRM PESH",
+      "target": "装备_魔法物品/货品服务/屠龙者手册_物品.md",
+      "section_title": "龙类制品",
+      "action": "added"
+    },
+    {
+      "source": "page_818.md",
+      "title": "气球陷阱",
+      "english": "BALLOON TRAP",
+      "target": "装备_魔法物品/货品服务/屠龙者手册_物品.md",
+      "section_title": "冒险工具",
+      "action": "added"
+    },
+    {
+      "source": "page_818.md",
+      "title": "龙用嘴套",
+      "english": "DRAGON MUZZLE",
+      "target": "装备_魔法物品/货品服务/屠龙者手册_物品.md",
+      "section_title": "冒险工具",
+      "action": "added"
+    },
+    {
+      "source": "page_818.md",
+      "title": "龙类工艺家工具箱",
+      "english": "DRAGONCRAFTING KIT",
+      "target": "装备_魔法物品/货品服务/屠龙者手册_物品.md",
+      "section_title": "冒险工具",
+      "action": "added"
+    },
+    {
+      "source": "page_818.md",
+      "title": "抗元素伤害凝胶",
+      "english": "ELEMENTAL PROOFING",
+      "target": "装备_魔法物品/货品服务/屠龙者手册_物品.md",
+      "section_title": "冒险工具",
+      "action": "added"
+    },
+    {
+      "source": "page_818.md",
+      "title": "烟雾罩幕",
+      "english": "SMOKE COVER",
+      "target": "装备_魔法物品/货品服务/屠龙者手册_物品.md",
+      "section_title": "冒险工具",
+      "action": "added"
+    },
+    {
+      "source": "page_818.md",
+      "title": "探照灯",
+      "english": "SPOTLIGHT",
+      "target": "装备_魔法物品/货品服务/屠龙者手册_物品.md",
+      "section_title": "冒险工具",
+      "action": "added"
+    },
+    {
+      "source": "page_818.md",
+      "title": "风台",
+      "english": "WIND PLATFORM",
+      "target": "装备_魔法物品/货品服务/屠龙者手册_物品.md",
+      "section_title": "冒险工具",
+      "action": "added"
+    },
+    {
+      "source": "page_818.md",
+      "title": "翼钩",
+      "english": "WING HOBBLE",
+      "target": "装备_魔法物品/货品服务/屠龙者手册_物品.md",
+      "section_title": "冒险工具",
+      "action": "added"
+    },
+    {
+      "source": "page_818.md",
+      "title": "弩炮网",
+      "english": "BALLISTA NET",
+      "target": "装备_魔法物品/货品服务/屠龙者手册_物品.md",
+      "section_title": "攻城兵器弹药",
+      "action": "added"
+    },
+    {
+      "source": "page_818.md",
+      "title": "高射炮",
+      "english": "FLAK",
+      "target": "装备_魔法物品/货品服务/屠龙者手册_物品.md",
+      "section_title": "攻城兵器弹药",
+      "action": "added"
+    },
+    {
+      "source": "page_818.md",
+      "title": "箭弹",
+      "english": "FLECHETTE BOLT",
+      "target": "装备_魔法物品/货品服务/屠龙者手册_物品.md",
+      "section_title": "攻城兵器弹药",
+      "action": "added"
+    },
+    {
+      "source": "page_818.md",
+      "title": "加重箭",
+      "english": "WEIGHTED BOLT",
+      "target": "装备_魔法物品/货品服务/屠龙者手册_物品.md",
+      "section_title": "攻城兵器弹药",
+      "action": "added"
+    },
+    {
+      "source": "page_818.md",
+      "title": "青足龙蛇复仇靴",
+      "english": "BOOTS OF THE VENGEFUL BEHIR",
+      "target": "装备_魔法物品/魔法物品/奇物/屠龙者手册_奇物.md",
+      "section_title": "奇物",
+      "action": "added"
+    },
+    {
+      "source": "page_818.md",
+      "title": "存尸混织铁甲",
+      "english": "DEATH'S PRESERVATION BANDED MAIL",
+      "target": "装备_魔法物品/魔法物品/奇物/屠龙者手册_奇物.md",
+      "section_title": "奇物",
+      "action": "added"
+    },
+    {
+      "source": "page_818.md",
+      "title": "龙型甲",
+      "english": "DRAGONFORM ARMOR",
+      "target": "装备_魔法物品/魔法物品/奇物/屠龙者手册_奇物.md",
+      "section_title": "奇物",
+      "action": "added"
+    },
+    {
+      "source": "page_818.md",
+      "title": "龙之尾",
+      "english": "DRAGON'S TAIL",
+      "target": "装备_魔法物品/魔法物品/奇物/屠龙者手册_奇物.md",
+      "section_title": "奇物",
+      "action": "added"
+    },
+    {
+      "source": "page_818.md",
+      "title": "元素防护灵药",
+      "english": "ELIXIR OF ELEMENTAL PROTECTION",
+      "target": "装备_魔法物品/魔法物品/奇物/屠龙者手册_奇物.md",
+      "section_title": "奇物",
+      "action": "added"
+    },
+    {
+      "source": "page_818.md",
+      "title": "防护能量伤害巫术符文",
+      "english": "HEXING RUNES",
+      "target": "装备_魔法物品/魔法物品/奇物/屠龙者手册_奇物.md",
+      "section_title": "奇物",
+      "action": "added"
+    },
+    {
+      "source": "page_818.md",
+      "title": "感官迟钝薰香",
+      "english": "INCENSE OF DULLED SENSES",
+      "target": "装备_魔法物品/魔法物品/奇物/屠龙者手册_奇物.md",
+      "section_title": "奇物",
+      "action": "added"
+    },
+    {
+      "source": "page_818.md",
+      "title": "耳聋术捕网",
+      "english": "NET OF SNARING",
+      "target": "装备_魔法物品/魔法物品/奇物/屠龙者手册_奇物.md",
+      "section_title": "奇物",
+      "action": "added"
+    },
+    {
+      "source": "page_818.md",
+      "title": "蛛网术危险手套",
+      "english": "PERILOUS GLOVES",
+      "target": "装备_魔法物品/魔法物品/奇物/屠龙者手册_奇物.md",
+      "section_title": "奇物",
+      "action": "added"
+    },
+    {
+      "source": "page_818.md",
+      "title": "恐惧反射戒指",
+      "english": "RING OF FEAR REFLECTION",
+      "target": "装备_魔法物品/魔法物品/奇物/屠龙者手册_奇物.md",
+      "section_title": "奇物",
+      "action": "added"
+    },
+    {
+      "source": "page_818.md",
+      "title": "提升抗力鳞片腰带",
+      "english": "SCALED SASH",
+      "target": "装备_魔法物品/魔法物品/奇物/屠龙者手册_奇物.md",
+      "section_title": "奇物",
+      "action": "added"
+    },
+    {
+      "source": "page_818.md",
+      "title": "狩猎之杖",
+      "english": "STAFF OF HUNTING",
+      "target": "装备_魔法物品/魔法物品/奇物/屠龙者手册_奇物.md",
+      "section_title": "奇物",
+      "action": "added"
+    },
+    {
+      "source": "page_818.md",
+      "title": "内蚀之杖",
+      "english": "STAFF OF INTERNAL ASSAULT",
+      "target": "装备_魔法物品/魔法物品/奇物/屠龙者手册_奇物.md",
+      "section_title": "奇物",
+      "action": "added"
+    },
+    {
+      "source": "page_819.md",
+      "title": "龙血饮者",
+      "english": "",
+      "target": "职业/核心职业/术士/屠龙者手册_变体.md",
+      "section_title": "术士变体",
+      "action": "added"
+    },
+    {
+      "source": "page_819.md",
+      "title": "猎龙人",
+      "english": "",
+      "target": "职业/核心职业/游侠/屠龙者手册_变体.md",
+      "section_title": "游侠变体",
+      "action": "added"
+    },
+    {
+      "source": "page_819.md",
+      "title": "狙龙者",
+      "english": "",
+      "target": "职业/基础职业/铳手/屠龙者手册_变体.md",
+      "section_title": "铳士变体",
+      "action": "added"
+    },
+    {
+      "source": "page_820.md",
+      "title": "人多胆壮",
+      "english": "COURAGE IN NUMBERS (TEAMWORK)",
+      "target": "专长/屠龙者手册_专长.md",
+      "section_title": "团队专长",
+      "action": "added"
+    },
+    {
+      "source": "page_820.md",
+      "title": "压制",
+      "english": "OVERWHELM (COMBAT, TEAMWORK)",
+      "target": "专长/屠龙者手册_专长.md",
+      "section_title": "团队专长",
+      "action": "added"
+    },
+    {
+      "source": "page_820.md",
+      "title": "合作规避",
+      "english": "TANDEM EVASION (COMBAT, TEAMWORK)",
+      "target": "专长/屠龙者手册_专长.md",
+      "section_title": "团队专长",
+      "action": "added"
+    },
+    {
+      "source": "page_820.md",
+      "title": "盾牌掩护",
+      "english": "COVERING SHIELD (COMBAT)",
+      "target": "专长/屠龙者手册_专长.md",
+      "section_title": "新专长",
+      "action": "added"
+    },
+    {
+      "source": "page_820.md",
+      "title": "死自下现",
+      "english": "DEATH FROM BELOW (COMBAT)",
+      "target": "专长/屠龙者手册_专长.md",
+      "section_title": "新专长",
+      "action": "added"
+    },
+    {
+      "source": "page_820.md",
+      "title": "龙之心",
+      "english": "DRAGONHEART (COMBAT)",
+      "target": "专长/屠龙者手册_专长.md",
+      "section_title": "新专长",
+      "action": "added"
+    },
+    {
+      "source": "page_820.md",
+      "title": "屠龙者",
+      "english": "DRAGONSLAYER (COMBAT)",
+      "target": "专长/屠龙者手册_专长.md",
+      "section_title": "新专长",
+      "action": "added"
+    },
+    {
+      "source": "page_820.md",
+      "title": "剥皮重击",
+      "english": "FLAYING CRlTlCAL (COMBAT, CRlTlCAL)",
+      "target": "专长/屠龙者手册_专长.md",
+      "section_title": "新专长",
+      "action": "added"
+    },
+    {
+      "source": "page_820.md",
+      "title": "以牙还牙",
+      "english": "PORCUPINE DEFENSE (COMBAT)",
+      "target": "专长/屠龙者手册_专长.md",
+      "section_title": "新专长",
+      "action": "added"
+    },
+    {
+      "source": "page_820.md",
+      "title": "长距防御",
+      "english": "REACH DEFENSE (COMBAT)",
+      "target": "专长/屠龙者手册_专长.md",
+      "section_title": "新专长",
+      "action": "added"
+    },
+    {
+      "source": "page_820.md",
+      "title": "擒鼻锁嘴",
+      "english": "SNOUTGRIP (COMBAT)",
+      "target": "专长/屠龙者手册_专长.md",
+      "section_title": "新专长",
+      "action": "added"
+    },
+    {
+      "source": "page_820.md",
+      "title": "削翼",
+      "english": "WINGCLIPPER (COMBAT)",
+      "target": "专长/屠龙者手册_专长.md",
+      "section_title": "新专长",
+      "action": "added"
+    },
+    {
+      "source": "page_820.md",
+      "title": "龙触者",
+      "english": "DRAGON-TOUCHED (STORY)",
+      "target": "专长/屠龙者手册_专长.md",
+      "section_title": "新专长",
+      "action": "added"
+    },
+    {
+      "source": "page_821.md",
+      "title": "龙龟之壳",
+      "english": "DRAGON TURTLE SHELL",
+      "target": "法术/屠龙者手册_法术.md",
+      "section_title": "法术",
+      "action": "added"
+    },
+    {
+      "source": "page_821.md",
+      "title": "抑制龙类",
+      "english": "DRACONIC SUPPRESSION",
+      "target": "法术/屠龙者手册_法术.md",
+      "section_title": "法术",
+      "action": "added"
+    },
+    {
+      "source": "page_821.md",
+      "title": "龙之声",
+      "english": "DRAGONVOICE",
+      "target": "法术/屠龙者手册_法术.md",
+      "section_title": "法术",
+      "action": "added"
+    },
+    {
+      "source": "page_821.md",
+      "title": "地城视野",
+      "english": "DUNGEONSIGHT",
+      "target": "法术/屠龙者手册_法术.md",
+      "section_title": "法术",
+      "action": "added"
+    },
+    {
+      "source": "page_821.md",
+      "title": "侵蚀防御",
+      "english": "ERODE DEFENSES",
+      "target": "法术/屠龙者手册_法术.md",
+      "section_title": "法术",
+      "action": "added"
+    },
+    {
+      "source": "page_821.md",
+      "title": "重力井",
+      "english": "GRAVITY WELL",
+      "target": "法术/屠龙者手册_法术.md",
+      "section_title": "法术",
+      "action": "added"
+    },
+    {
+      "source": "page_821.md",
+      "title": "猛犸之心",
+      "english": "HEART OF THE MAMMOTH",
+      "target": "法术/屠龙者手册_法术.md",
+      "section_title": "法术",
+      "action": "added"
+    },
+    {
+      "source": "page_821.md",
+      "title": "虚假宝藏",
+      "english": "ILLUSORY HOARD",
+      "target": "法术/屠龙者手册_法术.md",
+      "section_title": "法术",
+      "action": "added"
+    },
+    {
+      "source": "page_821.md",
+      "title": "先祖的迁徙",
+      "english": "ANCIENTS' FLIGHT",
+      "target": "法术/屠龙者手册_世界名著.md",
+      "section_title": "世界名著",
+      "action": "added"
+    },
+    {
+      "source": "page_821.md",
+      "title": "法夫尼尔和第一个国王",
+      "english": "FAFNHEIR AND THE FIRST KING",
+      "target": "法术/屠龙者手册_世界名著.md",
+      "section_title": "世界名著",
+      "action": "added"
+    },
+    {
+      "source": "page_821.md",
+      "title": "孔雀盛会",
+      "english": "PAGEANT OF THE PEACOCK",
+      "target": "法术/屠龙者手册_世界名著.md",
+      "section_title": "世界名著",
+      "action": "added"
+    }
+  ],
+  "skipped_files": []
+}

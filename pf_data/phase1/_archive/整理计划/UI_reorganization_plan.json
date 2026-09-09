@@ -1,0 +1,726 @@
+{
+  "source_book": "极限诡道UI",
+  "source_book_english": "Ultimate Intrigue",
+  "source_dir": "pf_data/phase1/pf_rules_md/未整理/极限诡道UI/变体_职业选项",
+  "stats": {
+    "added": 0,
+    "skipped": 71,
+    "errors": []
+  },
+  "sections": [
+    {
+      "source": "page_350.md",
+      "cls": "游荡剑客",
+      "title": "引导之刃",
+      "english": "Guiding Blade",
+      "target": "职业/混合职业/游荡剑客/page_120.md",
+      "marker": "**引导之刃（",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_350.md",
+      "cls": "游荡剑客",
+      "title": "贵族剑士",
+      "english": "Noble Fencer",
+      "target": "职业/混合职业/游荡剑客/page_120.md",
+      "marker": "**贵族剑士（",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_350.md",
+      "cls": "游荡剑客",
+      "title": "潜藏之刃",
+      "english": "Veiled Blade",
+      "target": "职业/混合职业/游荡剑客/page_120.md",
+      "marker": "**潜藏之刃（",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_351.md",
+      "cls": "铳士",
+      "title": "赌侠",
+      "english": "Maverick",
+      "target": "职业/基础职业/铳手/page_76.md",
+      "marker": "**赌侠（",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_353.md",
+      "cls": "炼金术师",
+      "title": "炼金爆破手",
+      "english": "Alchemical Sapper",
+      "target": "职业/基础职业/炼金术师/全变体未整合.md",
+      "marker": "**炼金爆破手**** Alchemical",
+      "duplicate_skip": true,
+      "action": "skipped",
+      "reason": "existing_content (Alchemical Sapper)"
+    },
+    {
+      "source": "page_353.md",
+      "cls": "炼金术师",
+      "title": "审讯官",
+      "english": "Interrogator",
+      "target": "职业/基础职业/炼金术师/全变体未整合.md",
+      "marker": "**审讯官**** Interrogator",
+      "duplicate_skip": true,
+      "action": "skipped",
+      "reason": "existing_content (审讯官)"
+    },
+    {
+      "source": "page_353.md",
+      "cls": "炼金术师",
+      "title": "变异人",
+      "english": "Metamorph",
+      "target": "职业/基础职业/炼金术师/全变体未整合.md",
+      "marker": "**变异人**** Metamorph",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_352.md",
+      "cls": "圣武士",
+      "title": "灰骑士",
+      "english": "Gray Paladin",
+      "target": "职业/核心职业/圣骑士/page_55.md",
+      "marker": "**灰骑士**** Gray",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_354.md",
+      "cls": "歌者",
+      "title": "战爵",
+      "english": "Battle Scion",
+      "target": "职业/混合职业/歌者/page_115.md",
+      "marker": "**战爵**** Battle",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_354.md",
+      "cls": "歌者",
+      "title": "战略专家",
+      "english": "Bold Schemer",
+      "target": "职业/混合职业/歌者/page_115.md",
+      "marker": "**战略专家**** Bold",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_354.md",
+      "cls": "歌者",
+      "title": "煽动家",
+      "english": "Instigator",
+      "target": "职业/混合职业/歌者/page_115.md",
+      "marker": "**煽动家**** Instigator",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_354.md",
+      "cls": "歌者",
+      "title": "军阀",
+      "english": "Warlord",
+      "target": "职业/混合职业/歌者/page_115.md",
+      "marker": "军阀",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_355.md",
+      "cls": "游荡者",
+      "title": "UI盗贼天赋",
+      "english": "UI Rogue Talents",
+      "target": "职业/掉链子（Unchained）/盗贼/盗贼天赋汇总.md",
+      "marker": "**盗贼天赋：**",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_355.md",
+      "cls": "游荡者",
+      "title": "UI高等盗贼天赋",
+      "english": "UI Advanced Rogue Talents",
+      "target": "职业/掉链子（Unchained）/盗贼/盗贼天赋汇总.md",
+      "marker": "**高等盗贼天赋：**",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_355.md",
+      "cls": "游荡者",
+      "title": "参谋",
+      "english": "Consigliere",
+      "target": "职业/掉链子（Unchained）/盗贼/page_22.md",
+      "marker": "参谋 Consigliere",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_355.md",
+      "cls": "游荡者",
+      "title": "公会特工",
+      "english": "Guild Agent",
+      "target": "职业/掉链子（Unchained）/盗贼/page_22.md",
+      "marker": "Agent~~****~~（游荡者变体）",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_355.md",
+      "cls": "游荡者",
+      "title": "飞贼",
+      "english": "Heister",
+      "target": "职业/掉链子（Unchained）/盗贼/page_22.md",
+      "marker": "**飞贼 Heister",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_355.md",
+      "cls": "游荡者",
+      "title": "易容大师",
+      "english": "Master of Disguise",
+      "target": "职业/掉链子（Unchained）/盗贼/page_22.md",
+      "marker": "Disguise****（游荡者变体）",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_355.md",
+      "cls": "游荡者",
+      "title": "怪盗",
+      "english": "Phantom Thief",
+      "target": "职业/掉链子（Unchained）/盗贼/page_22.md",
+      "marker": "**怪盗 Phantom Thief",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_355.md",
+      "cls": "游荡者",
+      "title": "赌徒",
+      "english": "Sharper",
+      "target": "职业/掉链子（Unchained）/盗贼/page_22.md",
+      "marker": "**赌徒 Sharper",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_355.md",
+      "cls": "游荡者",
+      "title": "暗探",
+      "english": "Snoop",
+      "target": "职业/掉链子（Unchained）/盗贼/page_22.md",
+      "marker": "**暗探 Snoop",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_356.md",
+      "cls": "反圣武士",
+      "title": "暴君",
+      "english": "Tyrant",
+      "target": "职业/基础职业/反圣武士/page_406.md",
+      "marker": "**暴君 Tyrant",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_357.md",
+      "cls": "牧师",
+      "title": "教廷枢机",
+      "english": "Cardinal",
+      "target": "职业/核心职业/牧师/page_41.md",
+      "marker": "**教廷枢机 Cardinal",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_358.md",
+      "cls": "武僧",
+      "title": "黑蝰僧",
+      "english": "Black Asp",
+      "target": "职业/掉链子（Unchained）/武僧/职业变体汇总1.md",
+      "marker": "**黑蝰僧 Black Asp",
+      "duplicate_skip": true,
+      "action": "skipped",
+      "reason": "existing_content (黑蝰僧)"
+    },
+    {
+      "source": "page_358.md",
+      "cls": "武僧",
+      "title": "僧官",
+      "english": "Sage Counselor",
+      "target": "职业/掉链子（Unchained）/武僧/职业变体汇总1.md",
+      "marker": "Counselor****（武僧变体）",
+      "duplicate_skip": true,
+      "action": "skipped",
+      "reason": "existing_content (僧官)"
+    },
+    {
+      "source": "page_359.md",
+      "cls": "调查员",
+      "title": "阴谋家",
+      "english": "Conspirator",
+      "target": "职业/混合职业/调查员/page_107.md",
+      "marker": "**阴谋家**** Conspirator",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_359.md",
+      "cls": "调查员",
+      "title": "密探",
+      "english": "Cipher",
+      "target": "职业/混合职业/调查员/page_107.md",
+      "marker": "~~**密探~~",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_359.md",
+      "cls": "调查员",
+      "title": "法医",
+      "english": "Forensic Physician",
+      "target": "职业/混合职业/调查员/page_107.md",
+      "marker": "**法医**** Forensic",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_359.md",
+      "cls": "调查员",
+      "title": "管家",
+      "english": "Majordomo",
+      "target": "职业/混合职业/调查员/page_107.md",
+      "marker": "**管家 Majordomo",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_359.md",
+      "cls": "调查员",
+      "title": "瘾君子",
+      "english": "Hallucinist",
+      "target": "职业/混合职业/调查员/page_107.md",
+      "marker": "**瘾君子Hallucinist",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_360.md",
+      "cls": "游侠",
+      "title": "游侠战斗流派",
+      "english": "Combat Style",
+      "target": "职业/核心职业/游侠/page_58.md",
+      "marker": "**游侠战斗流派 Combat Style",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_360.md",
+      "cls": "游侠",
+      "title": "传码员",
+      "english": "Code Runner",
+      "target": "职业/核心职业/游侠/page_58.md",
+      "marker": "传码员 Code Runner",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_360.md",
+      "cls": "游侠",
+      "title": "贵公子",
+      "english": "Dandy",
+      "target": "职业/核心职业/游侠/page_58.md",
+      "marker": "**贵公子 Dandy",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_360.md",
+      "cls": "游侠",
+      "title": "帮派杀手",
+      "english": "Guildbreaker",
+      "target": "职业/核心职业/游侠/page_58.md",
+      "marker": "**帮派杀手 Guildbreaker",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_360.md",
+      "cls": "游侠",
+      "title": "禁卫",
+      "english": "Sentinel",
+      "target": "职业/核心职业/游侠/page_58.md",
+      "marker": "**禁卫 Sentinel",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_360.md",
+      "cls": "游侠",
+      "title": "交通员",
+      "english": "Transporter",
+      "target": "职业/核心职业/游侠/page_58.md",
+      "marker": "**交通员 Transporter",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_448.md",
+      "cls": "吟游诗人",
+      "title": "无漏信使",
+      "english": "Impervious Messenger",
+      "target": "职业/核心职业/吟游诗人/page_38.md",
+      "marker": "无漏信使",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_448.md",
+      "cls": "吟游诗人",
+      "title": "假面艺人",
+      "english": "Masked Performer",
+      "target": "职业/核心职业/吟游诗人/page_38.md",
+      "marker": "Masked Performer",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_448.md",
+      "cls": "吟游诗人",
+      "title": "带头大哥",
+      "english": "Ringleader",
+      "target": "职业/核心职业/吟游诗人/page_38.md",
+      "marker": "Ringleader",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_448.md",
+      "cls": "吟游诗人",
+      "title": "悲伤之魂",
+      "english": "Sorrowsoul",
+      "target": "职业/核心职业/吟游诗人/page_38.md",
+      "marker": "悲伤之魂",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_448.md",
+      "cls": "吟游诗人",
+      "title": "俏皮客",
+      "english": "Wit",
+      "target": "职业/核心职业/吟游诗人/page_38.md",
+      "marker": "俏皮客",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_497.md",
+      "cls": "先知",
+      "title": "阴谋秘示域",
+      "english": "Intrigue",
+      "target": "职业/基础职业/先知/page_88.md",
+      "marker": "**阴谋秘示域",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_563.md",
+      "cls": "德鲁伊",
+      "title": "妖精语者",
+      "english": "Feyspeaker",
+      "target": "职业/核心职业/德鲁伊/page_45.md",
+      "marker": "**妖精语者****",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_563.md",
+      "cls": "德鲁伊",
+      "title": "变脸人",
+      "english": "SkinShaper",
+      "target": "职业/核心职业/德鲁伊/page_45.md",
+      "marker": "**变脸人****SkinShaper",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_563.md",
+      "cls": "德鲁伊",
+      "title": "毒葛",
+      "english": "Urushiol",
+      "target": "职业/核心职业/德鲁伊/page_45.md",
+      "marker": "**毒葛****Urushiol",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_592.md",
+      "cls": "催眠师",
+      "title": "无踪客",
+      "english": "Enigma",
+      "target": "职业/异能冒险（Occult Adventures）/催眠师/page_305.md",
+      "marker": "无踪客",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_592.md",
+      "cls": "催眠师",
+      "title": "瞳术师",
+      "english": "Eyebiter",
+      "target": "职业/异能冒险（Occult Adventures）/催眠师/page_305.md",
+      "marker": "Eyebiter",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_592.md",
+      "cls": "催眠师",
+      "title": "妖精诈欺师",
+      "english": "Fey Trickster",
+      "target": "职业/异能冒险（Occult Adventures）/催眠师/page_305.md",
+      "marker": "Fey Trickster",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_592.md",
+      "cls": "催眠师",
+      "title": "窃忆魔",
+      "english": "Thought Eater",
+      "target": "职业/异能冒险（Occult Adventures）/催眠师/page_305.md",
+      "marker": "Thought Eater",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_592.md",
+      "cls": "催眠师",
+      "title": "辅士",
+      "english": "Vizier",
+      "target": "职业/异能冒险（Occult Adventures）/催眠师/page_305.md",
+      "marker": "Vizier",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_592.md",
+      "cls": "催眠师",
+      "title": "秘语者",
+      "english": "Vox",
+      "target": "职业/异能冒险（Occult Adventures）/催眠师/page_305.md",
+      "marker": "Vox",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_593.md",
+      "cls": "骑将",
+      "title": "宫廷骑士",
+      "english": "Courtly Knight",
+      "target": "职业/基础职业/骑将/page_74.md",
+      "marker": "宫廷骑士",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_593.md",
+      "cls": "骑将",
+      "title": "总帅",
+      "english": "Daring General",
+      "target": "职业/基础职业/骑将/page_74.md",
+      "marker": "总帅",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_593.md",
+      "cls": "骑将",
+      "title": "骁骑",
+      "english": "Hussar",
+      "target": "职业/基础职业/骑将/page_74.md",
+      "marker": "骁骑",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_1437.md",
+      "cls": "猎人",
+      "title": "宫廷猎人",
+      "english": "Courtly Hunter",
+      "target": "职业/混合职业/猎人/page_104.md",
+      "marker": "**宫廷猎人（Courtly Hunter）",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_1437.md",
+      "cls": "猎人",
+      "title": "穹顶行者",
+      "english": "Roof Runner",
+      "target": "职业/混合职业/猎人/page_104.md",
+      "marker": "**穹顶行者 Roof Runner",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_1438.md",
+      "cls": "杀手",
+      "title": "华裳剑",
+      "english": "Velvet Blade",
+      "target": "职业/混合职业/杀手/page_117.md",
+      "marker": "华裳剑",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_1439.md",
+      "cls": "召唤师",
+      "title": "精类召唤师",
+      "english": "Fey Caller",
+      "target": "职业/掉链子（Unchained）/召唤师/page_274.md",
+      "marker": "精类召唤师",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_1440.md",
+      "cls": "审判者",
+      "title": "犯罪裁决域",
+      "english": "Crime Inquisition",
+      "target": "职业/基础职业/审判者/page_79.md",
+      "marker": "裁决：犯罪（Crime）UI",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_1440.md",
+      "cls": "审判者",
+      "title": "守秘裁决域",
+      "english": "Secrets Inquisition",
+      "target": "职业/基础职业/审判者/page_79.md",
+      "marker": "裁决：守秘（Secrets）UI",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_1440.md",
+      "cls": "审判者",
+      "title": "恶狼",
+      "english": "Cloaked Wolf",
+      "target": "职业/基础职业/审判者/page_78.md",
+      "marker": "**恶狼 Cloaked",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_1440.md",
+      "cls": "审判者",
+      "title": "信猎使",
+      "english": "Faith Hunter",
+      "target": "职业/基础职业/审判者/page_78.md",
+      "marker": "**信猎使 Faith",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_1440.md",
+      "cls": "审判者",
+      "title": "伏影特工",
+      "english": "Umbral Stalker",
+      "target": "职业/基础职业/审判者/page_78.md",
+      "marker": "**伏影特工 Umbral",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_1440.md",
+      "cls": "审判者",
+      "title": "护法官",
+      "english": "Vigilant Defender",
+      "target": "职业/基础职业/审判者/page_78.md",
+      "marker": "**护法官 Vigilant",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_1440.md",
+      "cls": "审判者",
+      "title": "寻秘者",
+      "english": "Secret Seeker",
+      "target": "职业/基础职业/审判者/page_78.md",
+      "marker": "**寻秘者 SECRET",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_1440.md",
+      "cls": "审判者",
+      "title": "无痕执行官",
+      "english": "Traceless Operative",
+      "target": "职业/基础职业/审判者/page_78.md",
+      "marker": "**无痕执行官 TRACELESS",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_1440.md",
+      "cls": "审判者",
+      "title": "战术统帅",
+      "english": "Tactical Leader",
+      "target": "职业/基础职业/审判者/page_78.md",
+      "marker": "**战术统帅（Tactical Leader）",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_1441.md",
+      "cls": "唤魂师",
+      "title": "唤影师",
+      "english": "Shadow Call",
+      "target": "职业/异能冒险（Occult Adventures）/唤魂师/page_270.md",
+      "marker": "唤影师",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_1441.md",
+      "cls": "唤魂师",
+      "title": "思潮领袖",
+      "english": "Zeitgeist Binder",
+      "target": "职业/异能冒险（Occult Adventures）/唤魂师/page_270.md",
+      "marker": "思潮领袖",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_1442.md",
+      "cls": "秘学士",
+      "title": "古老野心家",
+      "english": "Ancestral Aspirant",
+      "target": "职业/异能冒险（Occult Adventures）/秘学士/page_266.md",
+      "marker": "古老野心家",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_1442.md",
+      "cls": "秘学士",
+      "title": "秘密掮客",
+      "english": "Secret Broker",
+      "target": "职业/异能冒险（Occult Adventures）/秘学士/page_266.md",
+      "marker": "秘密掮客",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    }
+  ]
+}

@@ -1,0 +1,904 @@
+{
+  "source_book": "反派法典VC",
+  "source_book_english": "Villain Codex",
+  "source_dir": "pf_data/phase1/pf_rules_md/未整理/反派法典VC",
+  "stats": {
+    "added": 6,
+    "skipped": 93,
+    "errors": []
+  },
+  "sections": [
+    {
+      "source": "变体/page_1443.md",
+      "title": "魔镜女巫",
+      "english": "Mirror Witch",
+      "cls": "女巫",
+      "section_title": "变体",
+      "target": "职业/基础职业/女巫/page_70.md",
+      "marker": "**魔镜女巫（女巫变体）",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "变体/page_1444.md",
+      "title": "算命师傅",
+      "english": "Fortune-Teller",
+      "cls": "吟游诗人",
+      "section_title": "变体",
+      "target": "职业/核心职业/吟游诗人/page_38.md",
+      "marker": "**算命师傅（Fortune-Teller）",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "变体/通灵者1.md",
+      "title": "虚空之声",
+      "english": "Voice of the Void",
+      "cls": "通灵者",
+      "section_title": "变体",
+      "target": "职业/异能冒险（Occult Adventures）/通灵者/page_262.md",
+      "marker": "**虚空之声（Voice of the",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长22.md",
+      "title": "狡黠(Cunning)",
+      "english": "",
+      "target": "专长/反派法典VC_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长22.md",
+      "title": "优雅双武Two-Weapon",
+      "english": "",
+      "target": "专长/反派法典VC_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长22.md",
+      "title": "火枪手闪避",
+      "english": "",
+      "target": "专长/反派法典VC_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长22.md",
+      "title": "火枪手换位",
+      "english": "",
+      "target": "专长/反派法典VC_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长22.md",
+      "title": "巴洛炎魔之鞭笞",
+      "english": "",
+      "target": "专长/反派法典VC_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长22.md",
+      "title": "精通巴洛炎魔之鞭笞",
+      "english": "",
+      "target": "专长/反派法典VC_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长22.md",
+      "title": "协调捕获Coordinated",
+      "english": "",
+      "target": "专长/反派法典VC_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长22.md",
+      "title": "掩护射击Covering",
+      "english": "",
+      "target": "专长/反派法典VC_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长22.md",
+      "title": "制造劣质物品Craft",
+      "english": "",
+      "target": "专长/反派法典VC_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长22.md",
+      "title": "致命之吻Deadly",
+      "english": "",
+      "target": "专长/反派法典VC_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长22.md",
+      "title": "高等巴洛炎魔之鞭笞Greater",
+      "english": "",
+      "target": "专长/反派法典VC_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长22.md",
+      "title": "精通强势姿态Improved",
+      "english": "",
+      "target": "专长/反派法典VC_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长22.md",
+      "title": "火枪手的胆气Musketeer's",
+      "english": "",
+      "target": "专长/反派法典VC_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长22.md",
+      "title": "火枪手的滑步",
+      "english": "",
+      "target": "专长/反派法典VC_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长22.md",
+      "title": "自然之怒",
+      "english": "",
+      "target": "专长/反派法典VC_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长22.md",
+      "title": "疫抗",
+      "english": "",
+      "target": "专长/反派法典VC_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长22.md",
+      "title": "强势姿态",
+      "english": "",
+      "target": "专长/反派法典VC_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长22.md",
+      "title": "防护列阵",
+      "english": "",
+      "target": "专长/反派法典VC_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长22.md",
+      "title": "快速收纳",
+      "english": "",
+      "target": "专长/反派法典VC_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长22.md",
+      "title": "收割病弱",
+      "english": "",
+      "target": "专长/反派法典VC_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长22.md",
+      "title": "恐怖行刺",
+      "english": "",
+      "target": "专长/反派法典VC_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长22.md",
+      "title": "蝮血香",
+      "english": "",
+      "target": "专长/反派法典VC_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "神秘仪式.md",
+      "title": "返祖归元",
+      "english": "",
+      "target": "法术/反派法典VC_神秘仪式.md",
+      "section_title": "神秘仪式",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "神秘仪式.md",
+      "title": "绯色青春",
+      "english": "",
+      "target": "法术/反派法典VC_神秘仪式.md",
+      "section_title": "神秘仪式",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "神秘仪式.md",
+      "title": "猫和老鼠",
+      "english": "",
+      "target": "法术/反派法典VC_神秘仪式.md",
+      "section_title": "神秘仪式",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "神秘仪式.md",
+      "title": "进入内环",
+      "english": "",
+      "target": "法术/反派法典VC_神秘仪式.md",
+      "section_title": "神秘仪式",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "神秘仪式.md",
+      "title": "自然改造",
+      "english": "",
+      "target": "法术/反派法典VC_神秘仪式.md",
+      "section_title": "神秘仪式",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "神秘仪式.md",
+      "title": "不移警惕",
+      "english": "",
+      "target": "法术/反派法典VC_神秘仪式.md",
+      "section_title": "神秘仪式",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_1036.md",
+      "title": "苦修",
+      "english": "Ascetic",
+      "target": "职业/基础职业/先知/page_88.md",
+      "section_title": "先知秘示域",
+      "action": "added"
+    },
+    {
+      "source": "page_1036.md",
+      "title": "毒血",
+      "english": "Toxic Blood",
+      "target": "职业/基础职业/先知/先知诅咒全扩展.md",
+      "section_title": "先知诅咒",
+      "action": "added"
+    },
+    {
+      "source": "page_1036.md",
+      "title": "蝮狩忍",
+      "english": "Hunting Serpent",
+      "target": "职业/基础职业/忍者/忍者职业变体.md",
+      "section_title": "忍者变体",
+      "action": "added"
+    },
+    {
+      "source": "page_1036.md",
+      "title": "贰牙突",
+      "english": "Twin Fang Lunge",
+      "target": "专长/反派法典VC_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "page_1036.md",
+      "title": "贰牙击",
+      "english": "Twin Fang Strike",
+      "target": "专长/反派法典VC_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "page_1036.md",
+      "title": "贰牙流",
+      "english": "Twin Fang Style",
+      "target": "专长/反派法典VC_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "物品10.md",
+      "title": "蹦跳拖鞋",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/奇物/反派法典VC_奇物.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "空中飞人之杖",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/戒指_权杖_法杖/反派法典VC_权杖.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "动物面具",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/奇物/反派法典VC_奇物.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "愚者沉疴",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/戒指_权杖_法杖/反派法典VC_戒指.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "窃息项链Necklace of Stolen Breath",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/奇物/反派法典VC_奇物.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "炼金清洁剂",
+      "english": "",
+      "target": "装备_魔法物品/货品服务/反派法典VC_物品.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "呼吸管",
+      "english": "",
+      "target": "装备_魔法物品/货品服务/反派法典VC_物品.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "商队主人的货车",
+      "english": "",
+      "target": "装备_魔法物品/货品服务/反派法典VC_物品.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "卫兵工具包",
+      "english": "",
+      "target": "装备_魔法物品/货品服务/反派法典VC_物品.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "加料猜杯游戏杯组",
+      "english": "",
+      "target": "装备_魔法物品/货品服务/反派法典VC_物品.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "苍白悬液",
+      "english": "",
+      "target": "装备_魔法物品/货品服务/反派法典VC_物品.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "速收桌",
+      "english": "",
+      "target": "装备_魔法物品/货品服务/反派法典VC_物品.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "劣质物品",
+      "english": "",
+      "target": "装备_魔法物品/货品服务/反派法典VC_物品.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "走私货车",
+      "english": "",
+      "target": "装备_魔法物品/货品服务/反派法典VC_物品.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "骗客桶",
+      "english": "",
+      "target": "装备_魔法物品/货品服务/反派法典VC_物品.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "滑索钩",
+      "english": "",
+      "target": "装备_魔法物品/货品服务/反派法典VC_物品.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "猛力披毛甲",
+      "english": "",
+      "target": "装备_魔法物品/特定魔法防具/反派法典VC_特定魔法防具.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "统治者之戒",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/戒指_权杖_法杖/反派法典VC_戒指.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "社团之戒",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/戒指_权杖_法杖/反派法典VC_戒指.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "燃血权杖",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/戒指_权杖_法杖/反派法典VC_权杖.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "巴洛炎魔之长鞭",
+      "english": "",
+      "target": "装备_魔法物品/武器/反派法典VC_特殊武器.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "守护拳套",
+      "english": "",
+      "target": "装备_魔法物品/武器/反派法典VC_特殊武器.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "波浪水兵刀",
+      "english": "",
+      "target": "装备_魔法物品/武器/反派法典VC_特殊武器.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "黑暗箭",
+      "english": "",
+      "target": "装备_魔法物品/武器/反派法典VC_特殊武器.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "死神灯笼",
+      "english": "",
+      "target": "装备_魔法物品/武器/反派法典VC_特殊武器.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "催眠闷棍",
+      "english": "",
+      "target": "装备_魔法物品/武器/反派法典VC_特殊武器.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "藤蔓之箭",
+      "english": "",
+      "target": "装备_魔法物品/武器/反派法典VC_特殊武器.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "步行踝链",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/奇物/反派法典VC_奇物.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "锁联之箭",
+      "english": "",
+      "target": "装备_魔法物品/武器/反派法典VC_特殊武器.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "权威徽章",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/奇物/反派法典VC_奇物.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "战行者之靴",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/奇物/反派法典VC_奇物.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "追踪烙印铁",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/奇物/反派法典VC_奇物.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "秘密凭证",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/奇物/反派法典VC_奇物.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "指挥官帐篷",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/奇物/反派法典VC_奇物.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "保鲜板条箱",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/奇物/反派法典VC_奇物.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "魔鬼涎",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/奇物/反派法典VC_奇物.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "魔鬼之钟",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/奇物/反派法典VC_奇物.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "远行门把手",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/奇物/反派法典VC_奇物.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "抹消之书",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/奇物/反派法典VC_奇物.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "余烬视目",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/奇物/反派法典VC_奇物.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "受罚之眼",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/奇物/反派法典VC_奇物.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "真菌便鞋",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/奇物/反派法典VC_奇物.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "沉默口塞",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/奇物/反派法典VC_奇物.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "迷醉铃铛脚环",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/奇物/反派法典VC_奇物.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "七风之帽",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/奇物/反派法典VC_奇物.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "行旅之家",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/奇物/反派法典VC_奇物.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "胡德之饰",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/奇物/反派法典VC_奇物.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "攀升之钩",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/奇物/反派法典VC_奇物.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "象牙魅魔",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/奇物/反派法典VC_奇物.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "苔藓披风",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/奇物/反派法典VC_奇物.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "江湖骗子之喇叭筒",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/奇物/反派法典VC_奇物.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "虔信护符",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/奇物/反派法典VC_奇物.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "至虔护符",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/奇物/反派法典VC_奇物.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "海盗领主眼罩",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/奇物/反派法典VC_奇物.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "疫生披肩",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/奇物/反派法典VC_奇物.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "温驯灵药",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/奇物/反派法典VC_奇物.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "验证羽笔",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/奇物/反派法典VC_奇物.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "遗忘烟雾弹",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/奇物/反派法典VC_奇物.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "丰饲挎袋",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/奇物/反派法典VC_奇物.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "失衡天平",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/奇物/反派法典VC_奇物.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "厄迦图娅之息",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/奇物/反派法典VC_奇物.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品10.md",
+      "title": "流浪者兜帽",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/奇物/反派法典VC_奇物.md",
+      "section_title": "物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    }
+  ],
+  "skipped_files": []
+}

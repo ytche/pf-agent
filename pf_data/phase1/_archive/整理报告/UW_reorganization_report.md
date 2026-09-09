@@ -1,0 +1,368 @@
+# 极限荒野（Ultimate Wilderness）整理报告
+
+## 整理策略
+
+极限荒野（Ultimate Wilderness）内容分散在专长、物品、魔法植物、武器附魔、自然仪式、动物伙伴专长、动物装备栏位修正、新动物伙伴、植物伙伴、昆虫伙伴、动物伙伴变体、魔宠变体、新基础魔宠、职业变体等文件中。
+本次将所有规则条目按类型合并到 `pf_rules_md_organized/` 下对应分类目录。
+
+## 源目录
+
+- `pf_data/phase1/pf_rules_md/未整理/极限荒野UW/`
+
+## 处理统计
+
+- 新增条目：0
+- 跳过重复：319
+- 错误：0
+
+## 处理内容
+
+- 专长：专长11.md → `专长/极限荒野UW_专长.md`
+- 物品：物品3.md → 按子类型拆分：
+  - 冒险装备表格与 31 个条目 → `装备_魔法物品/货品服务/page_210.md`
+  - 擦剂 → `装备_魔法物品/货品服务/page_212.md`
+  - 蛮兽裹布 → `装备_魔法物品/魔法物品/奇物/极限荒野UW_奇物.md`
+  - 旧聚合文件 `装备_魔法物品/魔法物品/极限荒野UW_物品.md` 已删除
+- 魔法植物：魔法植物.md → `装备_魔法物品/魔法物品/极限荒野UW_魔法植物.md`
+- 武器附魔：武器附魔9.md → `装备_魔法物品/武器附魔/极限荒野UW_武器附魔.md`
+- 自然仪式：自然仪式.md → `法术/极限荒野UW_自然仪式.md`
+- 动物伙伴专长：伙伴/动物伙伴专长.md → `专长/极限荒野UW_动物伙伴专长.md`
+- 动物装备栏位修正：伙伴/动物装备栏位修正.md → `规则/极限荒野UW_动物装备栏位修正.md`
+- 新动物伙伴：伙伴/page_1419.md → `规则/极限荒野UW_新动物伙伴.md`
+- 植物伙伴：伙伴/page_1420.md → `规则/极限荒野UW_植物伙伴.md`
+- 昆虫伙伴：伙伴/page_1421.md → `规则/极限荒野UW_昆虫伙伴.md`
+- 动物伙伴变体：伙伴/page_1422.md → `规则/极限荒野UW_动物伙伴变体.md`
+- 魔宠变体：伙伴/page_1461.md → `规则/极限荒野UW_魔宠变体.md`
+- 新基础魔宠：伙伴/page_1493.md → `规则/极限荒野UW_新基础魔宠.md`
+- 职业变体：职业变体_选项/ 下全部文件 → 各职业对应变体页面
+
+## 重复/跳过项
+
+- `职业变体_选项/page_1424.md` `自然学家 / Naturalist` → `职业/基础职业/秘学士/全变体未整合.md`（原因：hidden_marker）
+- `职业变体_选项/page_1424.md` `探地者 / Geomancer` → `职业/基础职业/秘学士/全变体未整合.md`（原因：hidden_marker）
+- `职业变体_选项/page_1425.md` `恐龙卫士 / Saurian Champion` → `职业/基础职业/骑将/page_74.md`（原因：hidden_marker）
+- `职业变体_选项/page_1425.md` `苍翠骑士 / Green Knight` → `职业/基础职业/骑将/page_74.md`（原因：hidden_marker）
+- `职业变体_选项/page_1426.md` `金牌箭客 / Arrow Champion` → `职业/混合职业/游荡剑客/page_120.md`（原因：hidden_marker）
+- `职业变体_选项/page_1426.md` `荒野神行客 / Wildstrider` → `职业/混合职业/游荡剑客/page_120.md`（原因：hidden_marker）
+- `职业变体_选项/page_1427.md` `尖兵战士 / Skirmisher` → `职业/核心职业/战士/page_49.md`（原因：hidden_marker）
+- `职业变体_选项/page_1427.md` `维京 / Vikings` → `职业/核心职业/战士/page_49.md`（原因：hidden_marker）
+- `职业变体_选项/page_1428.md` `毒拳士 / Venomfist` → `职业/混合职业/拳师/page_102.md`（原因：hidden_marker）
+- `职业变体_选项/page_1428.md` `先登 / Living Avalanche` → `职业/混合职业/拳师/page_102.md`（原因：hidden_marker）
+- `职业变体_选项/page_1428.md` `苍翠擒缚师 / Verdant Grappler` → `职业/混合职业/拳师/page_102.md`（原因：hidden_marker）
+- `职业变体_选项/page_1428.md` `野性袭者 / Feral Striker` → `职业/混合职业/拳师/page_102.md`（原因：hidden_marker）
+- `职业变体_选项/page_1428.md` `地形拳士 / Turfer` → `职业/混合职业/拳师/page_102.md`（原因：hidden_marker）
+- `职业变体_选项/page_1429.md` `人猿泰山 / Treestrider` → `职业/混合职业/猎人/page_104.md`（原因：hidden_marker）
+- `职业变体_选项/page_1451.md` `潮汐猎人 / Tidal Hunter` → `职业/核心职业/游侠/page_55.md`（原因：hidden_marker）
+- `职业变体_选项/page_1451.md` `火焰守望者 / Flamewarden` → `职业/核心职业/游侠/page_55.md`（原因：hidden_marker）
+- `职业变体_选项/page_1451.md` `荒野探险家 / Wilderness Explorer` → `职业/核心职业/游侠/page_55.md`（原因：hidden_marker）
+- `职业变体_选项/page_1452.md` `锐利之牙 / Sharptooth` → `职业/核心职业/野蛮人/page_49.md`（原因：hidden_marker）
+- `职业变体_选项/page_1452.md` `荒野之子 / Wildborn` → `职业/核心职业/野蛮人/page_49.md`（原因：hidden_marker）
+- `职业变体_选项/page_1452.md` `野蛮沼人 / Brutish Swamper` → `职业/核心职业/野蛮人/page_49.md`（原因：hidden_marker）
+- `职业变体_选项/page_1453.md` `植者 / Herbalist` → `职业/基础职业/炼金术师/全变体未整合.md`（原因：hidden_marker）
+- `职业变体_选项/page_1453.md` `园林学者 / Horticulturist` → `职业/基础职业/炼金术师/全变体未整合.md`（原因：hidden_marker）
+- `职业变体_选项/page_1454.md` `游击枪手 / Commando` → `职业/基础职业/铳手/page_76.md`（原因：hidden_marker）
+- `职业变体_选项/page_1455.md` `自然贤者 / Natural Philosopher` → `职业/混合职业/调查员/page_107.md`（原因：hidden_marker）
+- `职业变体_选项/page_1455.md` `星空守望者 / Star Watcher` → `职业/混合职业/调查员/page_107.md`（原因：hidden_marker）
+- `职业变体_选项/page_1455.md` `绘图师 / Cartographer` → `职业/混合职业/调查员/page_107.md`（原因：hidden_marker）
+- `职业变体_选项/page_1457.md` `守林人 / Forest Preserver` → `职业/核心职业/圣骑士/page_55.md`（原因：hidden_marker）
+- `职业变体_选项/page_1458.md` `妖精侍臣 / Fey Courtier` → `职业/核心职业/吟游诗人/page_55.md`（原因：hidden_marker）
+- `职业变体_选项/page_1458.md` `耕种师 / Cultivator` → `职业/核心职业/吟游诗人/page_55.md`（原因：hidden_marker）
+- `职业变体_选项/page_1460.md` `妖精戏耍者 / Fey Prankster` → `职业/核心职业/盗贼/page_49.md`（原因：hidden_marker）
+- `职业变体_选项/page_1460.md` `机巧毁坏者 / Sly Saboteur` → `职业/核心职业/盗贼/page_49.md`（原因：hidden_marker）
+- `职业变体_选项/page_1460.md` `沙漠劫掠者 / Desert Raider` → `职业/核心职业/盗贼/page_49.md`（原因：hidden_marker）
+- `职业变体_选项/page_1460.md` `林精妖术师 / Sylvan Trickster` → `职业/核心职业/盗贼/page_49.md`（原因：hidden_marker）
+- `职业变体_选项/page_1463.md` `元素使先知 / Elementalist Oracle` → `职业/基础职业/先知/全变体未整合.md`（原因：hidden_marker）
+- `职业变体_选项/page_1463.md` `河灵先知 / River Soul` → `职业/基础职业/先知/全变体未整合.md`（原因：hidden_marker）
+- `职业变体_选项/page_1463.md` `树灵先知 / Tree Soul` → `职业/基础职业/先知/全变体未整合.md`（原因：hidden_marker）
+- `职业变体_选项/page_1464.md` `恐龙德鲁伊 / Dinosaur Druid` → `职业/核心职业/德鲁伊/page_49.md`（原因：hidden_marker）
+- `职业变体_选项/page_1464.md` `羽巢守护人 / Aerie Protector` → `职业/核心职业/德鲁伊/page_49.md`（原因：hidden_marker）
+- `职业变体_选项/page_1464.md` `苍翠誓约入信者 / Green Faith Initiate` → `职业/核心职业/德鲁伊/page_49.md`（原因：hidden_marker）
+- `职业变体_选项/page_1465.md` `复仇猎兽 / Avenging Beast` → `职业/基础职业/审判者/page_78.md`（原因：hidden_marker）
+- `职业变体_选项/page_1466.md` `野性斗士 / Feral Champion` → `职业/混合职业/战斗祭司/page_43.md`（原因：hidden_marker）
+- `职业变体_选项/page_1467.md` `临崖客 / Avalancher` → `职业/混合职业/杀手/page_117.md`（原因：hidden_marker）
+- `职业变体_选项/page_1467.md` `林地狙击手 / Woodland Sniper` → `职业/混合职业/杀手/page_117.md`（原因：hidden_marker）
+- `职业变体_选项/page_1467.md` `沙丘骑手 / Dune Rider` → `职业/混合职业/杀手/page_117.md`（原因：hidden_marker）
+- `职业变体_选项/page_1468.md` `洪流行者 / Flood Walker` → `职业/基础职业/女巫/全变体未整合.md`（原因：hidden_marker）
+- `职业变体_选项/page_1468.md` `香草药魔女 / Herb Witch` → `职业/基础职业/女巫/全变体未整合.md`（原因：hidden_marker）
+- `职业变体_选项/page_1468.md` `季节女巫 / Season Witch` → `职业/基础职业/女巫/全变体未整合.md`（原因：hidden_marker）
+- `职业变体_选项/操念使3.md` `荒芜渎行师 / Blighted Defiler` → `职业/基础职业/秘学士/全变体未整合.md`（原因：hidden_marker）
+- `职业变体_选项/反圣武士.md` `荒疫追随者 / Blighted Myrmidon` → `职业/基础职业/反圣武士/page_76.md`（原因：hidden_marker）
+- `职业变体_选项/歌者.md` `酒神宾客 / Bacchanal` → `职业/混合职业/歌者/page_104.md`（原因：hidden_marker）
+- `职业变体_选项/武僧3.md` `圣遗迹护卫 / Menhir Guardian` → `职业/核心职业/武僧/page_55.md`（原因：hidden_marker）
+- `职业变体_选项/武僧3.md` `水舞者 / Water Dancer` → `职业/核心职业/武僧/page_55.md`（原因：hidden_marker）
+- `职业变体_选项/武僧3.md` `荒墟禅师 / Wasteland Meditant` → `职业/核心职业/武僧/page_55.md`（原因：hidden_marker）
+- `职业变体_选项/血脉狂怒者1.md` `苍翠血脉 / Verdant` → `职业/混合职业/血脉狂怒者/page_104.md`（原因：hidden_marker）
+- `职业变体_选项/召唤师1.md` `莱西呼唤者 / Leshy Caller` → `职业/基础职业/召唤师/page_410.md`（原因：hidden_marker）
+- `职业变体_选项/召唤师1.md` `植物幻灵 / Plant Eidolon` → `职业/基础职业/召唤师/page_410.md`（原因：hidden_marker）
+- `专长11.md` `突袭警惕` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `动物仿声` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `动物伪装` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `突袭警惕` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `动物凶猛` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `当你被逼入绝境并负伤` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `水下战斗法` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `辟水法术` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `极地适应` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `野兽猎人` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `兽王怒` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `兽王援` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `兽王流` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `树冠突袭` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `怒意冲撞` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `你将敌人撞进困难地形` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `怒意拖拽` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `当你在困难地形中拖拽` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `伪装陷阱` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `贴附攀爬` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `命令动物` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `命令植物` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `掩盖行踪` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `碎浪搏` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `碎浪破` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `碎浪流` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `奇植培育` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `为了种植魔法植物` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `致命陷阱` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `深潜孤航` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `沙漠居民` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `鹰眼` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `大地魔法` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `充能自然变身` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `增强侏儒魔法` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `你与第一世界` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `异种血脉` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `专业制图师` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `专业探险家` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `专业搜集者` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `长效动物之力` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `额外拟态` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `伪造踪迹` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `洞悉精类` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `你可以精类` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `精类表演` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `守御精类` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `狂掷冲锋` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `高等野兽猎人` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `高等猎手羁绊` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `高等跳跃攻击` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `高等荒野打击` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `团队法术共享` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `摔得更狠` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `皮匠` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `攀冰者` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `精通野兽猎人` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `精通猎手羁绊` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `精通天然毒素采集员` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `精通跳跃攻击` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `精通荒野打击` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `岳峙渊渟` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `岳峙巅` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `岳峙流` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `威吓动物` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `猎豹突袭` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `丛林求生者` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `靠山吃山` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `月裔` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `登山者` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `变异型态` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `天然毒素抗毒剂` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `天然毒素采集员` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `荒野自如` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `天然武器` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `夜空巫术` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `睁一只眼` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `身合大地` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `烈阳眩目` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `河流袭击者` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `废墟散兵` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `大地子嗣` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `变形者刃爪` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `变形者冲刺` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `风暴幸存者` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `沼地行者` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `猎杀快感` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `酷热耐性` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `图腾门徒` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `图腾学徒` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `图腾大师` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `树跃者` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `部落猎手` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `丛生引导` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `荒生巫术` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `野性活力` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `荒野之痕` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `荒野思维` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `荒野感官` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `荒野步伐` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `荒野打击` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `猎巫人` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `狼骑兵` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `狼抓` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `狼拳` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `狼摔` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `木匠` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `专长11.md` `林中恶鬼` → `专长/极限荒野UW_专长.md`（原因：hidden_marker）
+- `物品3.md` `表格7-1：冒险装备` → `装备_魔法物品/货品服务/page_210.md`（原因：hidden_marker）
+- `物品3.md` `避兽袋 / Animal-repellant Sack` → `装备_魔法物品/货品服务/page_210.md`（原因：hidden_marker）
+- `物品3.md` `负宠背包 / Backpack, Carrier` → `装备_魔法物品/货品服务/page_210.md`（原因：hidden_marker）
+- `物品3.md` `饮水背包 / Backpack, Hydration` → `装备_魔法物品/货品服务/page_210.md`（原因：hidden_marker）
+- `物品3.md` `武器架背包 / Backpack, Weaponrack` → `装备_魔法物品/货品服务/page_210.md`（原因：hidden_marker）
+- `物品3.md` `迷彩帆布 / Camouflaged Canvas` → `装备_魔法物品/货品服务/page_210.md`（原因：hidden_marker）
+- `物品3.md` `伙伴用御寒衣物 / Companion Cold-weather Outfit` → `装备_魔法物品/货品服务/page_210.md`（原因：hidden_marker）
+- `物品3.md` `冷藏箱 / Cooler Chest` → `装备_魔法物品/货品服务/page_210.md`（原因：hidden_marker）
+- `物品3.md` `鞋垫 / Cushion Inserts` → `装备_魔法物品/货品服务/page_210.md`（原因：hidden_marker）
+- `物品3.md` `双人锯 / Duo Saw` → `装备_魔法物品/货品服务/page_210.md`（原因：hidden_marker）
+- `物品3.md` `高效帐篷 / Efficient Tent` → `装备_魔法物品/货品服务/page_210.md`（原因：hidden_marker）
+- `物品3.md` `原野生存手册 / Field Survival Guide` → `装备_魔法物品/货品服务/page_210.md`（原因：hidden_marker）
+- `物品3.md` `防尘巾 / Filter Scarf` → `装备_魔法物品/货品服务/page_210.md`（原因：hidden_marker）
+- `物品3.md` `防火衣 / Flame-retardant Outfit` → `装备_魔法物品/货品服务/page_210.md`（原因：hidden_marker）
+- `物品3.md` `地精鱼饵 / Goblin Fishing Lure` → `装备_魔法物品/货品服务/page_210.md`（原因：hidden_marker）
+- `物品3.md` `猎手平台 / Hunter’s Stand` → `装备_魔法物品/货品服务/page_210.md`（原因：hidden_marker）
+- `物品3.md` `隐藏口袋 / Inside Pocket` → `装备_魔法物品/货品服务/page_210.md`（原因：hidden_marker）
+- `物品3.md` `保温瓶 / Insulated Flask` → `装备_魔法物品/货品服务/page_210.md`（原因：hidden_marker）
+- `物品3.md` `野外攀爬背带 / Nature Climbing Harness` → `装备_魔法物品/货品服务/page_210.md`（原因：hidden_marker）
+- `物品3.md` `贵族郊游工具组 / Noble’s Excursion Kit` → `装备_魔法物品/货品服务/page_210.md`（原因：hidden_marker）
+- `物品3.md` `个人庇护所 / Privacy Shelter` → `装备_魔法物品/货品服务/page_210.md`（原因：hidden_marker）
+- `物品3.md` `变形者工具包 / Shifter's Kit` → `装备_魔法物品/货品服务/page_210.md`（原因：hidden_marker）
+- `物品3.md` `无声岩钉 / Silent Piton` → `装备_魔法物品/货品服务/page_210.md`（原因：hidden_marker）
+- `物品3.md` `蛇咬工具组 / Snakebite Kit` → `装备_魔法物品/货品服务/page_210.md`（原因：hidden_marker）
+- `物品3.md` `快速腕鞘 / Speed Sheath` → `装备_魔法物品/货品服务/page_210.md`（原因：hidden_marker）
+- `物品3.md` `弹力绳 / Stretch Cords` → `装备_魔法物品/货品服务/page_210.md`（原因：hidden_marker）
+- `物品3.md` `皮匠工具组 / Tanner’s Kit` → `装备_魔法物品/货品服务/page_210.md`（原因：hidden_marker）
+- `物品3.md` `篷盖 / Tent Cover` → `装备_魔法物品/货品服务/page_210.md`（原因：hidden_marker）
+- `物品3.md` `登山杖 / Trekking Pole` → `装备_魔法物品/货品服务/page_210.md`（原因：hidden_marker）
+- `物品3.md` `防水长靴 / Wading Boots` → `装备_魔法物品/货品服务/page_210.md`（原因：hidden_marker）
+- `物品3.md` `挎包 / Waist Pouch` → `装备_魔法物品/货品服务/page_210.md`（原因：hidden_marker）
+- `物品3.md` `八音盒 / Windup Music Box` → `装备_魔法物品/货品服务/page_210.md`（原因：hidden_marker）
+- `物品3.md` `擦剂 / Liniment` → `装备_魔法物品/货品服务/page_212.md`（原因：hidden_marker）
+- `物品3.md` `蛮兽裹布 / Bestial Rags` → `装备_魔法物品/魔法物品/奇物/极限荒野UW_奇物.md`（原因：hidden_marker）
+- `魔法植物.md` `魔法植物` → `装备_魔法物品/魔法物品/极限荒野UW_魔法植物.md`（原因：hidden_marker）
+- `魔法植物.md` `日产量` → `装备_魔法物品/魔法物品/极限荒野UW_魔法植物.md`（原因：hidden_marker）
+- `魔法植物.md` `奇植培育` → `装备_魔法物品/魔法物品/极限荒野UW_魔法植物.md`（原因：hidden_marker）
+- `魔法植物.md` `鱼草` → `装备_魔法物品/魔法物品/极限荒野UW_魔法植物.md`（原因：hidden_marker）
+- `魔法植物.md` `酸味柠檬树` → `装备_魔法物品/魔法物品/极限荒野UW_魔法植物.md`（原因：hidden_marker）
+- `魔法植物.md` `高原蕨类` → `装备_魔法物品/魔法物品/极限荒野UW_魔法植物.md`（原因：hidden_marker）
+- `魔法植物.md` `火焰苹果树` → `装备_魔法物品/魔法物品/极限荒野UW_魔法植物.md`（原因：hidden_marker）
+- `魔法植物.md` `神莓灌木` → `装备_魔法物品/魔法物品/极限荒野UW_魔法植物.md`（原因：hidden_marker）
+- `魔法植物.md` `攫抓藤蔓` → `装备_魔法物品/魔法物品/极限荒野UW_魔法植物.md`（原因：hidden_marker）
+- `魔法植物.md` `帮手藤蔓` → `装备_魔法物品/魔法物品/极限荒野UW_魔法植物.md`（原因：hidden_marker）
+- `魔法植物.md` `颓废盛宴的棕榈` → `装备_魔法物品/魔法物品/极限荒野UW_魔法植物.md`（原因：hidden_marker）
+- `魔法植物.md` `吮毒树` → `装备_魔法物品/魔法物品/极限荒野UW_魔法植物.md`（原因：hidden_marker）
+- `魔法植物.md` `门户橡树` → `装备_魔法物品/魔法物品/极限荒野UW_魔法植物.md`（原因：hidden_marker）
+- `魔法植物.md` `宁静桦树` → `装备_魔法物品/魔法物品/极限荒野UW_魔法植物.md`（原因：hidden_marker）
+- `魔法植物.md` `救赎仙人掌` → `装备_魔法物品/魔法物品/极限荒野UW_魔法植物.md`（原因：hidden_marker）
+- `魔法植物.md` `庇护灌木` → `装备_魔法物品/魔法物品/极限荒野UW_魔法植物.md`（原因：hidden_marker）
+- `魔法植物.md` `知识之树` → `装备_魔法物品/魔法物品/极限荒野UW_魔法植物.md`（原因：hidden_marker）
+- `魔法植物.md` `凶兆之树` → `装备_魔法物品/魔法物品/极限荒野UW_魔法植物.md`（原因：hidden_marker）
+- `魔法植物.md` `水行芦苇` → `装备_魔法物品/魔法物品/极限荒野UW_魔法植物.md`（原因：hidden_marker）
+- `魔法植物.md` `葬花` → `装备_魔法物品/魔法物品/极限荒野UW_魔法植物.md`（原因：hidden_marker）
+- `魔法植物.md` `芳香莲` → `装备_魔法物品/魔法物品/极限荒野UW_魔法植物.md`（原因：hidden_marker）
+- `魔法植物.md` `净蓟` → `装备_魔法物品/魔法物品/极限荒野UW_魔法植物.md`（原因：hidden_marker）
+- `魔法植物.md` `幽灵花` → `装备_魔法物品/魔法物品/极限荒野UW_魔法植物.md`（原因：hidden_marker）
+- `武器附魔9.md` `骤降` → `装备_魔法物品/武器附魔/极限荒野UW_武器附魔.md`（原因：hidden_marker）
+- `自然仪式.md` `自然仪式` → `法术/极限荒野UW_自然仪式.md`（原因：hidden_marker）
+- `自然仪式.md` `神秘仪式在Pathfinder` → `法术/极限荒野UW_自然仪式.md`（原因：hidden_marker）
+- `自然仪式.md` `形成荒疫怪` → `法术/极限荒野UW_自然仪式.md`（原因：hidden_marker）
+- `自然仪式.md` `荒野迷阵` → `法术/极限荒野UW_自然仪式.md`（原因：hidden_marker）
+- `自然仪式.md` `加固营地` → `法术/极限荒野UW_自然仪式.md`（原因：hidden_marker）
+- `自然仪式.md` `魔法警报` → `法术/极限荒野UW_自然仪式.md`（原因：hidden_marker）
+- `自然仪式.md` `防御圈` → `法术/极限荒野UW_自然仪式.md`（原因：hidden_marker）
+- `自然仪式.md` `庇护所` → `法术/极限荒野UW_自然仪式.md`（原因：hidden_marker）
+- `自然仪式.md` `归于休憩` → `法术/极限荒野UW_自然仪式.md`（原因：hidden_marker）
+- `自然仪式.md` `切断精神联系` → `法术/极限荒野UW_自然仪式.md`（原因：hidden_marker）
+- `自然仪式.md` `隔断社神御守` → `法术/极限荒野UW_自然仪式.md`（原因：hidden_marker）
+- `自然仪式.md` `伴侣解脱` → `法术/极限荒野UW_自然仪式.md`（原因：hidden_marker）
+- `伙伴/动物伙伴专长.md` `动物伙伴专长` → `专长/极限荒野UW_动物伙伴专长.md`（原因：hidden_marker）
+- `伙伴/动物装备栏位修正.md` `动物装备栏位修正` → `规则/极限荒野UW_动物装备栏位修正.md`（原因：hidden_marker）
+- `伙伴/page_1419.md` `魔鬼鱼(**ANGLERFISH**)**` → `规则/极限荒野UW_新动物伙伴.md`（原因：hidden_marker）
+- `伙伴/page_1419.md` `始祖鸟(**ARCHAEOPTERYX**)**这只原始的有齿鸟类有着明亮的羽毛，但却相对的不是一个出色的飞行者。**起始数据**体型` → `规则/极限荒野UW_新动物伙伴.md`（原因：hidden_marker）
+- `伙伴/page_1419.md` `盾皮鱼(**ARMORFISH**)**盾皮鱼是一种原始的水生生物，头部到背部附有极其厚重的甲鳞。**起始数据**体型` → `规则/极限荒野UW_新动物伙伴.md`（原因：hidden_marker）
+- `伙伴/page_1419.md` `鸨(BUSTARD)**鸨是一种有着长腿又颇具体型的鸟儿；它们可以飞但飞得并不好，而更喜欢行走和跑动。**起始数据**体型` → `规则/极限荒野UW_新动物伙伴.md`（原因：hidden_marker）
+- `伙伴/page_1419.md` `水豚(CAPYBARA)**这种棕褐色的大型啮齿动物以半水半陆为家，经常有人在河畔和湖畔发现它们。**起始数据**体型` → `规则/极限荒野UW_新动物伙伴.md`（原因：hidden_marker）
+- `伙伴/page_1419.md` `家牛(CATTLE)**家牛是温顺又常见的牲畜，但一只坏脾气的家牛也能成为一个很不错的动物伙伴。**起始数据**体型` → `规则/极限荒野UW_新动物伙伴.md`（原因：hidden_marker）
+- `伙伴/page_1419.md` `黑猩猩(CHIMPANZEE)**这种小型的灵长类的危险程度超出它的体型预示的那样。**起始数据**体型` → `规则/极限荒野UW_新动物伙伴.md`（原因：hidden_marker）
+- `伙伴/page_1419.md` `始祖马(EOHIPPUS)**始祖马是现代马类的小型先祖，它们有着三趾的足部而不是蹄子。**起始数据**体型` → `规则/极限荒野UW_新动物伙伴.md`（原因：hidden_marker）
+- `伙伴/page_1419.md` `猎鹰(FALCON)**这种迅捷的猛禽拥有惊人的视力和锐利的爪子。**起始数据**体型` → `规则/极限荒野UW_新动物伙伴.md`（原因：hidden_marker）
+- `伙伴/page_1419.md` `巨伞蜥(FRILLED` → `规则/极限荒野UW_新动物伙伴.md`（原因：hidden_marker）
+- `伙伴/page_1419.md` `灰熊(GRIZZLY` → `规则/极限荒野UW_新动物伙伴.md`（原因：hidden_marker）
+- `伙伴/page_1419.md` `锤头鲨(HAMMERHEAD` → `规则/极限荒野UW_新动物伙伴.md`（原因：hidden_marker）
+- `伙伴/page_1419.md` `袋獾(MARSUPIAL` → `规则/极限荒野UW_新动物伙伴.md`（原因：hidden_marker）
+- `伙伴/page_1419.md` `袋狮(MARSUPIAL` → `规则/极限荒野UW_新动物伙伴.md`（原因：hidden_marker）
+- `伙伴/page_1419.md` `巨鼹鼠(MOLE,` → `规则/极限荒野UW_新动物伙伴.md`（原因：hidden_marker）
+- `伙伴/page_1419.md` `驼鹿(MOOSE)**既力大无比又通常是个坏脾气，驼鹿作为动物伙伴可真是个吓人的选择。**起始数据**体型` → `规则/极限荒野UW_新动物伙伴.md`（原因：hidden_marker）
+- `伙伴/page_1419.md` `似鸟龙(ORNITHOMIMOSAUR)**这种双足恐龙拥有赋予了它们速度的大长腿和赋予了它们名字的长脖子。**起始数据**体型` → `规则/极限荒野UW_新动物伙伴.md`（原因：hidden_marker）
+- `伙伴/page_1419.md` `巨枭(OWL,` → `规则/极限荒野UW_新动物伙伴.md`（原因：hidden_marker）
+- `伙伴/page_1419.md` `熊猫(PANDA)**熊猫通常很温顺也行动迟缓，但也能在需要的时候爆发出令人惊讶的行动力。**起始数据**体型` → `规则/极限荒野UW_新动物伙伴.md`（原因：hidden_marker）
+- `伙伴/page_1419.md` `巨豪猪(PORCUPINE,` → `规则/极限荒野UW_新动物伙伴.md`（原因：hidden_marker）
+- `伙伴/page_1419.md` `锯齿螈(PRIONOSUCHUS)**这种原始的巨鳄在水上和陆上都同样犀利，它能够用的巨颌中蕴藏的力量咬碎些什么。**起始数据**体型` → `规则/极限荒野UW_新动物伙伴.md`（原因：hidden_marker）
+- `伙伴/page_1419.md` `礁蛇(REEF` → `规则/极限荒野UW_新动物伙伴.md`（原因：hidden_marker）
+- `伙伴/page_1419.md` `驯鹿(REINDEER)**驯鹿居住在冰原上，是冻土上非常可靠的伙伴，在运输和防御上都能帮上忙。**起始数据**体型` → `规则/极限荒野UW_新动物伙伴.md`（原因：hidden_marker）
+- `伙伴/page_1419.md` `剑齿猫(SABER-TOOTHED` → `规则/极限荒野UW_新动物伙伴.md`（原因：hidden_marker）
+- `伙伴/page_1419.md` `巨蝾螈(SALAMANDER,` → `规则/极限荒野UW_新动物伙伴.md`（原因：hidden_marker）
+- `伙伴/page_1419.md` `巨臭鼬(SKUNK,` → `规则/极限荒野UW_新动物伙伴.md`（原因：hidden_marker）
+- `伙伴/page_1419.md` `射毒眼镜蛇(SPITTING` → `规则/极限荒野UW_新动物伙伴.md`（原因：hidden_marker）
+- `伙伴/page_1419.md` `巨乌贼(SQUID,` → `规则/极限荒野UW_新动物伙伴.md`（原因：hidden_marker）
+- `伙伴/page_1419.md` `狼狗(WOLFDOG)**这种狗狗是可靠的狼与狗的杂交品种。**起始数据**体型` → `规则/极限荒野UW_新动物伙伴.md`（原因：hidden_marker）
+- `伙伴/page_1419.md` `牦牛(YAK)**粗壮固执的牦牛在崎岖的地形上脚踏实实，坚实可靠。**起始数据**体型` → `规则/极限荒野UW_新动物伙伴.md`（原因：hidden_marker）
+- `伙伴/page_1419.md` `斑马(ZEBRA)**斑马标志性的黑白条纹让它能很方便地被认出来。**起始数据**体型` → `规则/极限荒野UW_新动物伙伴.md`（原因：hidden_marker）
+- `伙伴/page_1420.md` `植物伙伴` → `规则/极限荒野UW_植物伙伴.md`（原因：hidden_marker）
+- `伙伴/page_1421.md` `巨猎蝽(ASSASSIN` → `规则/极限荒野UW_昆虫伙伴.md`（原因：hidden_marker）
+- `伙伴/page_1421.md` `巨毛虫(CATERPILLAR,` → `规则/极限荒野UW_昆虫伙伴.md`（原因：hidden_marker）
+- `伙伴/page_1421.md` `巨蟑螂(COCKROACH,` → `规则/极限荒野UW_昆虫伙伴.md`（原因：hidden_marker）
+- `伙伴/page_1421.md` `巨蜻蜓(DRAGONFLY,` → `规则/极限荒野UW_昆虫伙伴.md`（原因：hidden_marker）
+- `伙伴/page_1421.md` `广翅鲎(EURYPTERID)**这种水生虫类也被叫做海蝎，有着一双大螯和细长的尾刺。**起始数据**体型` → `规则/极限荒野UW_昆虫伙伴.md`（原因：hidden_marker）
+- `伙伴/page_1421.md` `巨蝗虫(LOCUST,` → `规则/极限荒野UW_昆虫伙伴.md`（原因：hidden_marker）
+- `伙伴/page_1421.md` `巨螳螂虾(MANTIS` → `规则/极限荒野UW_昆虫伙伴.md`（原因：hidden_marker）
+- `伙伴/page_1421.md` `巨蚊(MOSQUITO,` → `规则/极限荒野UW_昆虫伙伴.md`（原因：hidden_marker）
+- `伙伴/page_1421.md` `巨避日蛛(SOLIFUGID,` → `规则/极限荒野UW_昆虫伙伴.md`（原因：hidden_marker）
+- `伙伴/page_1421.md` `蛛网暴君(SPIDER,` → `规则/极限荒野UW_昆虫伙伴.md`（原因：hidden_marker）
+- `伙伴/page_1421.md` `巨白蚁(TERMITE,` → `规则/极限荒野UW_昆虫伙伴.md`（原因：hidden_marker）
+- `伙伴/page_1421.md` `巨鞭尾蜈蚣(WHIPTAIL` → `规则/极限荒野UW_昆虫伙伴.md`（原因：hidden_marker）
+- `伙伴/page_1422.md` `畸体伙伴(Aberrant` → `规则/极限荒野UW_动物伙伴变体.md`（原因：hidden_marker）
+- `伙伴/page_1461.md` `大使` → `规则/极限荒野UW_魔宠变体.md`（原因：hidden_marker）
+- `伙伴/page_1461.md` `大使技能` → `规则/极限荒野UW_魔宠变体.md`（原因：hidden_marker）
+- `伙伴/page_1461.md` `说服者` → `规则/极限荒野UW_魔宠变体.md`（原因：hidden_marker）
+- `伙伴/page_1461.md` `个性强化` → `规则/极限荒野UW_魔宠变体.md`（原因：hidden_marker）
+- `伙伴/page_1461.md` `动物典范` → `规则/极限荒野UW_魔宠变体.md`（原因：hidden_marker）
+- `伙伴/page_1461.md` `动物典范技能` → `规则/极限荒野UW_魔宠变体.md`（原因：hidden_marker）
+- `伙伴/page_1461.md` `影响动物` → `规则/极限荒野UW_魔宠变体.md`（原因：hidden_marker）
+- `伙伴/page_1461.md` `淘气精` → `规则/极限荒野UW_魔宠变体.md`（原因：hidden_marker）
+- `伙伴/page_1461.md` `淘气精技能` → `规则/极限荒野UW_魔宠变体.md`（原因：hidden_marker）
+- `伙伴/page_1461.md` `自主连接` → `规则/极限荒野UW_魔宠变体.md`（原因：hidden_marker）
+- `伙伴/page_1461.md` `精通阴招` → `规则/极限荒野UW_魔宠变体.md`（原因：hidden_marker）
+- `伙伴/page_1461.md` `魔法捉弄` → `规则/极限荒野UW_魔宠变体.md`（原因：hidden_marker）
+- `伙伴/page_1461.md` `巧言喜剧` → `规则/极限荒野UW_魔宠变体.md`（原因：hidden_marker）
+- `伙伴/page_1461.md` `高等阴招` → `规则/极限荒野UW_魔宠变体.md`（原因：hidden_marker）
+- `伙伴/page_1461.md` `虚假诡述` → `规则/极限荒野UW_魔宠变体.md`（原因：hidden_marker）
+- `伙伴/page_1461.md` `自大怪` → `规则/极限荒野UW_魔宠变体.md`（原因：hidden_marker）
+- `伙伴/page_1461.md` `本职技能` → `规则/极限荒野UW_魔宠变体.md`（原因：hidden_marker）
+- `伙伴/page_1461.md` `自我之歌` → `规则/极限荒野UW_魔宠变体.md`（原因：hidden_marker）
+- `伙伴/page_1461.md` `命令主人` → `规则/极限荒野UW_魔宠变体.md`（原因：hidden_marker）
+- `伙伴/page_1461.md` `获得接触法术` → `规则/极限荒野UW_魔宠变体.md`（原因：hidden_marker）
+- `伙伴/page_1461.md` `探知主人` → `规则/极限荒野UW_魔宠变体.md`（原因：hidden_marker）
+- `伙伴/page_1461.md` `缚魂魔宠` → `规则/极限荒野UW_魔宠变体.md`（原因：hidden_marker）
+- `伙伴/page_1461.md` `魂器` → `规则/极限荒野UW_魔宠变体.md`（原因：hidden_marker）
+- `伙伴/page_1461.md` `阵营差异` → `规则/极限荒野UW_魔宠变体.md`（原因：hidden_marker）
+- `伙伴/page_1493.md` `喙嘴翼龙` → `规则/极限荒野UW_新基础魔宠.md`（原因：hidden_marker）
+- `伙伴/page_1493.md` `喙嘴翼龙` → `规则/极限荒野UW_新基础魔宠.md`（原因：hidden_marker）
+- `伙伴/page_1493.md` `防御能力` → `规则/极限荒野UW_新基础魔宠.md`（原因：hidden_marker）
+- `伙伴/page_1493.md` `攻击能力` → `规则/极限荒野UW_新基础魔宠.md`（原因：hidden_marker）
+- `伙伴/page_1493.md` `数据` → `规则/极限荒野UW_新基础魔宠.md`（原因：hidden_marker）
+- `伙伴/page_1493.md` `生态背景` → `规则/极限荒野UW_新基础魔宠.md`（原因：hidden_marker）
+- `伙伴/page_1493.md` `特殊能力` → `规则/极限荒野UW_新基础魔宠.md`（原因：hidden_marker）
+- `伙伴/page_1493.md` `迅猛俯冲` → `规则/极限荒野UW_新基础魔宠.md`（原因：hidden_marker）
+- `伙伴/page_1493.md` `血液感知` → `规则/极限荒野UW_新基础魔宠.md`（原因：hidden_marker）
+- `伙伴/page_1493.md` `缝合伤口` → `规则/极限荒野UW_新基础魔宠.md`（原因：hidden_marker）
+- `伙伴/page_1493.md` `藤蔓` → `规则/极限荒野UW_新基础魔宠.md`（原因：hidden_marker）
+- `伙伴/page_1493.md` `蟑螂` → `规则/极限荒野UW_新基础魔宠.md`（原因：hidden_marker）
+- `伙伴/page_1493.md` `眼镜猴` → `规则/极限荒野UW_新基础魔宠.md`（原因：hidden_marker）
+- `伙伴/page_1493.md` `眼镜猴之跃` → `规则/极限荒野UW_新基础魔宠.md`（原因：hidden_marker）
+
+## 验证清单
+
+- [x] 原目录未被修改
+- [x] 新增条目均出现 `> 来源：` 标注
+- [x] 标注位于条目标题下一行
+- [x] 未重复追加
+- [x] 进度文档已更新
+- [ ] 已提交 Git

@@ -1,0 +1,39 @@
+{
+  "source_book": "怪物法典MC",
+  "source_book_english": "Monster Codex",
+  "source_dir": "pf_data/phase1/pf_rules_md/未整理/怪物法典MC",
+  "target_dir": "pf_data/phase1/pf_rules_md_organized/种族/怪物种族/怪物法典MC",
+  "strategy": "按种族拆分，每个种族作为一个独立文件存放于 种族/怪物种族/怪物法典MC/ 下，保留原书新规则结构",
+  "special_handling": "怪物种族来源书，暂不合并进玩家种族/职业目录",
+  "mappings": [
+    {"source": "page_1397.md", "target": "开篇.md", "race": "开篇"},
+    {"source": "page_1398.md", "target": "沼蜍人.md", "race": "沼蜍人"},
+    {"source": "page_1399.md", "target": "熊地精.md", "race": "熊地精"},
+    {"source": "page_1400.md", "target": "卓尔精灵.md", "race": "卓尔精灵"},
+    {"source": "page_1401.md", "target": "灰矮人.md", "race": "灰矮人"},
+    {"source": "page_1402.md", "target": "火巨人.md", "race": "火巨人"},
+    {"source": "page_1403.md", "target": "霜巨人.md", "race": "霜巨人"},
+    {"source": "page_1404.md", "target": "食尸鬼.md", "race": "食尸鬼"},
+    {"source": "page_1405.md", "target": "豺狼人.md", "race": "豺狼人"},
+    {"source": "page_1406.md", "target": "地精.md", "race": "地精"},
+    {"source": "page_1407.md", "target": "大地精.md", "race": "大地精"},
+    {"source": "page_1408.md", "target": "狗头人.md", "race": "狗头人"},
+    {"source": "page_1409.md", "target": "蜥蜴人.md", "race": "蜥蜴人"},
+    {"source": "page_1410.md", "target": "食人魔.md", "race": "食人魔"},
+    {"source": "page_1411.md", "target": "兽人.md", "race": "兽人"},
+    {"source": "page_1412.md", "target": "鼠族.md", "race": "鼠族"},
+    {"source": "page_1413.md", "target": "沙华鱼人.md", "race": "沙华鱼人"},
+    {"source": "page_1414.md", "target": "蛇人.md", "race": "蛇人"},
+    {"source": "page_1415.md", "target": "战蜥人.md", "race": "战蜥人"},
+    {"source": "page_1416.md", "target": "巨魔.md", "race": "巨魔"},
+    {"source": "page_1417.md", "target": "吸血鬼.md", "race": "吸血鬼"},
+    {"source": "其他物品1.md", "target": "其他物品.md", "race": "其他物品"}
+  ],
+  "duplicates_noted": [
+    {"file": "法术/MC-怪物志.md", "description": "已包含多个MC种族法术，与新种族文件中的法术段落重复"},
+    {"file": "其他物品1.md", "description": "根目录其他物品1.md与MC源文件内容完全相同"},
+    {"file": "全变体未整合.md", "description": "已摘录部分MC职业变体"},
+    {"file": "先知诅咒全扩展.md", "description": "已摘录MC先知诅咒"}
+  ],
+  "source_note_template": "> 来源：怪物志（Monster Codex）MC，页码见原书，未整理 → 怪物法典MC → {race}"
+}

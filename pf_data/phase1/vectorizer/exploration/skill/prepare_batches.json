@@ -1,0 +1,82 @@
+[
+  {
+    "batch": "A1",
+    "kb": 139,
+    "files": [
+      "pf_rules_md_organized/技能/技能详述/力量决定/page_171.md",
+      "pf_rules_md_organized/技能/技能详述/力量决定/page_192.md",
+      "pf_rules_md_organized/技能/技能详述/敏捷决定/page_168.md",
+      "pf_rules_md_organized/技能/技能详述/敏捷决定/page_174.md",
+      "pf_rules_md_organized/技能/技能详述/敏捷决定/page_176.md",
+      "pf_rules_md_organized/技能/技能详述/敏捷决定/page_177.md",
+      "pf_rules_md_organized/技能/技能详述/敏捷决定/page_186.md",
+      "pf_rules_md_organized/技能/技能详述/敏捷决定/page_188.md",
+      "pf_rules_md_organized/技能/技能详述/敏捷决定/page_190.md",
+      "pf_rules_md_organized/技能/技能详述/智力决定/page_169.md",
+      "pf_rules_md_organized/技能/技能详述/智力决定/page_172.md",
+      "pf_rules_md_organized/技能/技能详述/智力决定/page_181.md",
+      "pf_rules_md_organized/技能/技能详述/智力决定/page_189.md",
+      "pf_rules_md_organized/技能/技能详述/感知决定/page_179.md",
+      "pf_rules_md_organized/技能/技能详述/感知决定/page_183.md",
+      "pf_rules_md_organized/技能/技能详述/感知决定/page_185.md",
+      "pf_rules_md_organized/技能/技能详述/感知决定/page_187.md",
+      "pf_rules_md_organized/技能/技能详述/感知决定/page_191.md",
+      "pf_rules_md_organized/技能/技能详述/魅力决定/page_170.md",
+      "pf_rules_md_organized/技能/技能详述/魅力决定/page_173.md",
+      "pf_rules_md_organized/技能/技能详述/魅力决定/page_175.md",
+      "pf_rules_md_organized/技能/技能详述/魅力决定/page_178.md",
+      "pf_rules_md_organized/技能/技能详述/魅力决定/page_180.md",
+      "pf_rules_md_organized/技能/技能详述/魅力决定/page_184.md",
+      "pf_rules_md_organized/技能/技能详述/魅力决定/page_193.md"
+    ]
+  },
+  {
+    "batch": "A2",
+    "kb": 82,
+    "files": [
+      "pf_rules_md_organized/技能/技能详述/UI的技能补充/page_1039.md",
+      "pf_rules_md_organized/技能/技能详述/UI的技能补充/page_1040.md",
+      "pf_rules_md_organized/技能/技能详述/UI的技能补充/page_1041.md",
+      "pf_rules_md_organized/技能/技能详述/UI的技能补充/page_1042.md",
+      "pf_rules_md_organized/技能/技能详述/UI的技能补充/page_1043.md",
+      "pf_rules_md_organized/技能/技能详述/UI的技能补充/page_1044.md",
+      "pf_rules_md_organized/技能/技能详述/UI的技能补充/page_1045.md",
+      "pf_rules_md_organized/技能/技能详述/UI的技能补充/page_1046.md",
+      "pf_rules_md_organized/技能/技能详述/智力决定/语言学【训】/格拉利昂语言汇总.md",
+      "pf_rules_md_organized/page_161.md",
+      "pf_rules_md_organized/page_162.md",
+      "pf_rules_md_organized/page_182.md",
+      "pf_rules_md_organized/page_1038.md"
+    ]
+  },
+  {
+    "batch": "B1",
+    "kb": 150,
+    "files": [
+      "pf_rules_md_organized/规则/Unchained规则/技能与选项/page_647.md",
+      "pf_rules_md_organized/规则/Unchained规则/技能与选项/page_648.md",
+      "pf_rules_md_organized/规则/Unchained规则/技能与选项/page_649.md",
+      "pf_rules_md_organized/规则/Unchained规则/技能与选项/背景技能.md",
+      "pf_rules_md_organized/规则/Unchained规则/技能与选项/整合技能.md",
+      "pf_rules_md_organized/规则/Unchained规则/技能与选项/分组技能.md"
+    ]
+  },
+  {
+    "batch": "B2",
+    "kb": 169,
+    "files": [
+      "pf_rules_md_organized/技能/巨人猎手手册_新技能选项.md",
+      "pf_rules_md_organized/背景技能.md",
+      "pf_rules_md_organized/分组技能.md",
+      "pf_rules_md_organized/整合技能.md",
+      "pf_rules_md_organized/新技能选项.md",
+      "pf_rules_md_organized/新技能规则.md",
+      "pf_rules_md_organized/工具和技能工具包.md",
+      "pf_rules_md_organized/工具包.md",
+      "pf_rules_md_organized/规则/河域子民PotR_新技能规则.md",
+      "pf_rules_md_organized/规则/异能规则/page_315.md",
+      "pf_rules_md_organized/科技指南/科技世界/page_760.md",
+      "pf_rules_md_organized/官方FAQ/page_837.md"
+    ]
+  }
+]

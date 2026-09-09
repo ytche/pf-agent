@@ -1,0 +1,56 @@
+[http://45.79.87.129/bbs/index.php?topic=53385](http://45.79.87.129/bbs/index.php?topic=53385)
+
+
+**译者：四月，格里菲因**
+
+
+**吟游诗人（****Bard****）法术列表******
+
+
+
+
+
+【译者注：此列表包含CRB/APG/UM/UC/ACG中所有吟游诗人法术列表中的法术，ARG由于种族限制原因没有收录。】
+
+
+
+
+
+| 0级法术 | CRB | 舞光术（Dancing        Lights）       晕眩术（Daze）       侦测魔法（Detect        Magic）       闪光术（Flare）       幻音术（Ghost        Sound）       指北术（Know        Direction）       光亮术（Light）       催眠曲（Lullaby） | 法师之手（Mage        Hand）       修复术（Mending）       传讯术（Message）       开关术（Open/Close）       魔法伎俩（Prestidigitation）       阅读魔法（Read        Magic）       提升抗力（Resistance）       乐器召唤术（Summon        Instrument） |
+| --- | --- | --- | --- |
+| APG | 搜寻术（Sift）       火花术（Spark） | 敌我不分（Unwitting        Ally） |
+| UC | 精怪之相（Haunted        Fey Aspect） |  |
+|  |
+| 1级法术 | CRB | 魔法警报（Alarm）       活化绳（Animate        Rope）       惊恐术（Cause        Fear）       魅惑人类（Charm        Person）       通晓语言（Comprehend        languages）       次等困惑术（Confusion,        Lesser）       治疗轻伤（Cure        light wounds）       侦测密门（Detect        secret doors）       抹消术（Erase）       脚底抹油（Expeditious        retreat）       羽落术（Feather        Fall）       油腻术（Grease） | 狂笑术（Hideous        Laughter）       催眠术（Hypnotism）       鉴定术（Identify）       魔法灵光（Magic        Aura）       遮蔽物品（Obscure        Object）       移除恐惧（Remove        Fear）       无声幻影（Silent        Image）       睡眠术（Sleep）       一级怪物召唤术（Summon        Monster I）       隐匿阵营（Undetectable        alignment）       隐型仆役（Unseen        Servant）       腹语术（Ventriloquism） |
+| APG | 诱人赠礼（Beguiling        Gift）       借技术（Borrow        Skill）       舞灯术（Dancing        Lantern）       轻羽步（Feather        Step）       闪光爆（Flare        Burst）       无辜眼神（Innocence）       战意鼓舞（Invigorate）       记忆空白（Memory        Lapse） | 舒适沉眠（Restful        Sleep）       拯救谢幕曲（Saving        Finale）       共享语言（Share        Language）       固化音符（Solid        Note）       适时启言（Timely        Inspiration）       笨拙之触（Touch        of Gracelessness）       渐隐术（Vanish） |
+| UM | 预知危险（Anticipate        Peril）       锋鸣碎片（Chord        of Shards）       妄尊自大（Delusional        Pride）       刺耳尖啸（Ear-Piercing        Scream）       强迫安静（Forced        Quiet）       大舌头咒（Fumbletongue）       集结号（Horn        of Pursuit） | 气灌飞矢（Ki        Arrow）       即兴演奏（Play        Instrument）       召唤次级怪物（Summon        Minor Monster）       欲火焚身（Unnatural        Lust）       手忙脚乱（Unprepared        Combatant）       扭曲嗓音（Vocal        Alteration）       返老还童（Youthful        Appearance） |
+| UC | 谨慎步伐（Adjuring        Step）       弹药补给（Abundant        Ammunition）       魅力四射（Adoration）       强迫敌对（Compel        Hostility）       神射手传奇（Deadeye's        Lore）       应急措施（Jury-Rig） | 脱困指令（Liberating        Command）       强迫凝视（Lock        Gaze）       光荣时刻（Moment        of Greatness）       忽视存在（Negative        Reaction）       检视阵营（See        Alignment） |
+| ACG | 乐器变音（Alter        Musical Instrument）       飘渺步伐（Blurred        Movement）       辨知亲族（Discern        Next of Kin）       武器伪装术（Disguise        Weapon） | 粘液封锁（Glue        Seal）       强化认知（Heightened        Awareness）       反隐警报（Invisibility        Alarm）       背书咒（Memorize        Page） |
+|  |
+| 2级法术 | CRB | 变身术（Alter        self）       动物信使（Animal        Messenger）       迷惑动物（Animal        Trance）       目盲/耳聋术（Blindness/Deafness）       朦胧术（Blur）       安定心神（Calm        Emotions）       猫之优雅（Cat's        grace）       治疗中度伤（Cure        moderate wounds）       黑暗术（Darkness）       怪物晕眩术（Daze        Monster）       减缓毒发（Delay        Poison）       侦测思想（Detect        thoughts）       鹰之威仪（Eagle's        splendor）       注目术（Enthrall）       狐之狡黠（Fox's        cunning）       闪光尘（Glitterdust）       英雄气概（Heroism）       人类定身术（Hold        Person） | 催眠图纹（Hypnotic        Pattern）       隐形术（Invisibility）       物品定位术（Locate        Object）       弱效幻影（Minor        Image）       镜影术（Mirror        Image）       误导术（Misdirection）       烟火术（Pyrotechnics）       狂暴术（Rage）       恐吓术（Scare）       粉碎音波（Shatter）       沉默术（Silence）       音鸣爆（Sound Burst）       暗示术（Suggestion）       二级怪物召唤术（Summon Monster II）       飞虫走兽（Summon Swarm）       巧言术（Tongues）       风讯术（Whispering Wind） |
+| APG | 血之讯息（Blood Biography）       扰神唤音（Cacophonous Call）       创造宝图（Create Treasure Map）       暮光之尘（Dust of Twilight）       意识投影（Enter Image） | 英勇启言（Gallant Inspiration）       镇魂曲（Ghostbane Dirge）       隐秘传信（Hidden Speech）       甜言蜜语（Honeyed Tongue）       武器幻化（Versatile Weapon） |
+| UM | 敏锐感官（Acute Senses）       快板演奏（Allegro）       血沸（Boiling Blood）       战友情深（Compassionate Ally）       延缓痛苦（Delay Pain）       易容他人（Disguise Other）       扰人噪音（Distracting Cacophony）       痛苦之声（Distressing Tone）       幽灵伪装（Ghostly Disguise）       鬼灵迷雾（Haunting Mists）       疯狂幻象（Mad Hallucination） | 鬼斧神工（Masterwork Transformation）       示敌以弱（Miserable Pity）       闲极无聊（Oppressive Boredom）       厉声尖啸（Piercing Shriek）       疯狂迷恋（Reckless Infatuation）       共享记忆（Share Memory）       束布成钢（Silk to Steel）       火龙烟花（Snapdragon Fireworks）       盗取嗓音（Steal Voice）       纯粹厌恶（Unadulterated Loathing）       战斗坐骑（Wartrain Mount） |
+| UC | 酷烈苛责（Blistering Invective）       探索之触（Discovery Torch）       第三只手（Pilfering Hand）       顾虑重重（Qualm） | 回力武器（Returning Weapon）       共用共享语言（Share Language, Communal）       战术敏锐（Tactical Acumen）       雷鸣枪击（Thunder Fire） |
+| ACG | 踏风而行（Air Step）       短期动物训练（Animal Purpose Training）       无名路人（Anonymous Interaction）       弹丸结界（Bullet Ward）       上浮术（Buoyancy）       监察焦点（Focused Scrutiny）       强化反应（Heightened Reflexes） | 探究精神（Investigative Mind）       行军号子（Marching Chant）       心锁信使（Mindlocked Messenger）       消音术（Muffle Sound）       荣耀之路（Path of Glory）       隔音罩（Silent Table）       音爆狂嚎（Sonic Scream）       蜘蛛长鞭（Whip of Spiders） |
+|  |
+| 3级法术 | CRB | 闪现术（Blink）       魅惑怪物（Charm Monster）       锐耳术/鹰眼术（Clairaudience/Clairvoyance）       困惑术（Confusion）       极度绝望（Crushing Despair）       治疗重伤（Cure Serious Wounds）       昼明术（Daylight）       深度睡眠（Deep Slumber）       解除魔法（Dispel Magic）       移位术（Displacement）       恐惧术（Fear）       气化形体（Gaseous form）       次等指使术（Geas, Lesser）       花言巧语（Glibness）       强大希望（Good Hope） | 加速术（Haste）       谜幻手稿M（Illusory Script）       隐形法球（Invisibility Sphere）       强效幻影（Major Image）       魅影驹（Phantom Steed）       移除诅咒（Remove Curse）       探知（Scrying）       塑语术（Sculpt Sound）       秘密文页（Secret Page）       识破隐形（See invisibility）       蛇文法印（Sepia Snake Sigil）       缓慢术（Slow）       动物交谈术（Speak with Animals）       三级怪物召唤术（Summon Monster III）       避难小屋（Tiny Hut） |
+| APG | 秘法调和（Arcane Concordance）       营火之墙（Campfire Wall）       协调行动（Coordinated Effort）       元素之语（Elemental Speech）       群体轻羽步（Feather Step, Mass）       群体战意鼓舞（Invigorate, Mass） | 丑角之旅（Jester's Jaunt）       净涤谢幕曲（Purging Finale）       复苏谢幕曲（Reviving Finale）       探寻思想（Seek Thoughts）       雷鸣鼓击（Thunderous Drums） |
+| UM | 控制召唤生物（Control Summoned Creature）       厌恶诅咒（Curse of Disgust）       幽影伴奏（Exquisite Accompaniment）       天降之蛙（Rain of Frogs）       哀鸣合唱团（Haunting Choir）       疯狂猴群（Mad Monkeys） | 恶意迫害（Malicious Spite）       无尽悲痛（Overwhelming Grief）       极度自恋（Smug Narcissism）       深沉忏悔（Terrible Remorse）       地狱幻景（Vision of Hell）       联觉（Witness） |
+| UC | 共用延迟毒发（Delay Poison, Communal）       幻影车夫（Phantom Driver） | 共用回力武器（Returning Weapon, Communal）       共用巧言术（Tongues, Communal） |
+| ACG | 可调易容术（Adjustable Disguise）       行动触发术（Contingent        Action）       灵活怒火（Flexible Fury） | 洞见伪装（Pierce Disguise）       触发型暗示术（Triggered Suggestion）       晕厥之墙（WAll of Nausea） |
+|  |
+| 4级法术 | CRB | 破除结界（Break Enchantment）       治疗致命伤（Cure critical wounds）       侦测探知（Detect Scrying）       任意门（Dimension Door）       支配人类（Dominate Person）       行动自如（Freedom of Movement）       幻景（Hallucinatory Terrain）       怪物定身术（Hold Monster）       高级隐形术（Invisibility, Greater）       通晓传奇（Legend Lore）       生物定位术（Locate Creature） | 篡改记忆（Modify Memory）       中和毒性（Neutralize Poison）       虹彩图纹（Rainbow Pattern）       驱离害虫（Repel Vermin）       庇护所（Secure Shelter）       幽影咒法术（Shadow Conjuration）       咆哮术（Shout）       植物交谈术（Speak with Plants）       四级怪物召唤术（Summon Monster IV）       寂静之域（Zone of Silence） |
+| APG | 谴责（Denounce）       噪音爆破（Discordant Blast）       群体镇魂歌（Ghostbane Dirge, Mass） | 英勇谢幕曲（Heroic Finale）       藏宝刺绣（Treasure Stitching）       游荡星尘（Wandering Star Motes） |
+| UM | 百袭战舞（Dance of a Hundred Cuts）       群体晕眩术（Daze, Mass）       回声定位（Echolocation）       羡慕嫉妒恨（Envious Urge）       原初怒嚎（Primal Scream）       和谐（Serenity） | 暗影步（Shadow Step）       音波冲击（Sonic Thrust）       目中无人（Utter Contempt）       宗师表演（Virtuoso Performance）       音墙术（Wall of Sound） |
+| UC | 共用魅影驹（Phantom Steed, Communal） | 幻影爆碎（Shocking Image） |
+| ACG | 可调变身术（Adjustable Polymorph）       卷轴触发术（Contingent Scroll）       恐惧饕宴（Feast On Fear） | 高等荣耀之路（Path of Glory, Greater）       目盲/耳聋之墙（Wall of Blindness/Deafness） |
+|  |
+| 5级法术 | CRB | 群体治疗轻伤（Cure Light Wounds, Mass）       高等解除魔法（Dispel Magic, Greater）       托梦术（Dream）       防范探知M（False Vision）       高等英雄气概（Heroism, Greater）       心灵迷雾（Mind Fog）       海市蜃楼（Mirage Arcana）       假象术（Mislead） | 梦魇（Nightmare）       长驻幻影（Persistent Image）       伪装术（Seeming）       幽影塑能术（Shadow Evocation）       行影术（Shadow walk）       狂乱之歌（Song of Discord）       群体暗示术（Suggestion, Mass）       五级怪物召唤术（Summon Monster V） |
+| APG | 诗人逃脱术（Bard's Escape）       群体扰神唤音（Cacophonous Call, Mass）       梦之衣（Cloak of Dreams）       爆音箭（Deafening Song Bolt）       化敌为友（Foe to Friend） | 冻结音符（Frozen Note）       魅影蛛网（Phantasmal Web）       惊叹谢幕曲（Stunning Finale）       强迫护卫M（Unwilling Shield） |
+| UM | 欢欣鼓舞（Joyful Rapture）       狮子吼（Ki Shout）       共振之语（Resonating Word） | 幽影诗人（Shadowbard）       复仇之怒（Vengeful Outrage） |
+| ACG | 蜈蚣长鞭（Whip of Centipedes） |  |
+|  |
+| 6级法术 | CRB | 解析咒文（Analyze dweomer）       活化物体（Animate Objects）       群体猫之优雅（Cat's Grace, Mass）       群体魅惑怪物（Charm Monster, Mass）       群体治疗中度伤（Cure Moderate Wounds, Mass）       群体鹰之威仪（Eagle's Splendor, mass）       摄心目光（Eyebite）       寻找捷径（Find the Path）       群体狐之狡黠（Fox's cunning, mass）       指使术（Geas/Quest） | 英雄宴（Heroes' Feast）       迷舞（Irresistible Dance）       永恒幻影（Permanent Image）       预置幻影（Programmed Image）       投影术（Project Image）       高等探知（Scrying, Greater）       高等咆哮术（Shout, Greater）       六级怪物召唤术（Summon Monster VI）       共振（Sympathetic Vibration）       隐匿之纱（Veil） |
+| APG | 辉煌启言（Brilliant Inspiration）       夺命谢幕曲（Deadly Finale）       爱与和平（Euphoric Tranquility） | 愚者禁令（Fool's Forbiddance）       回城术（Getaway）       花衣魔幻曲（Pied Piping） |
+| UM | 千袭战舞（Dance of a Thousand Cuts）       神威如狱（Overwhelming Presence） | 极乐波（Waves of Ecstasy） |
+| ACG | 渐强钟鸣（Magnifying Chime）       音波形态（Sonic Form） | 兵蚁长鞭（Whip of Ants） |

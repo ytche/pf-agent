@@ -1,0 +1,130 @@
+进阶玩家手册（Advanced Player's 
+Guide） (翻译 by 月夜白雨)
+
+
+**种族和职业**
+
+
+
+炼金术师，施法选择：如果我准备了一个有多个选择的化合炼成 
+(比如防护能量)，我是喝的时候选择具体能量，还是准备的时候选择？　　喝的时候选择。炼金术师和灌注炼成：灌注炼成可以用来准备一个限定范围为自己的化合炼成 
+(比如克敌机先)，然后让别人喝下这瓶灌注炼成并生效吗？　　可以。炼金术师：如果我有急速炸弹科研发现，我可以使用快速射击、双武器攻击、精通双武器攻击、加速术等类似能力获得多次攻击吗？　　可以。因为选了这个发现后，全回合投掷炸弹被视为使用远程武器。炼金术师：从Cheliax，Empire of Devils一书里的专长Accelerated 
+Drinker可以让角色用一个移动动作使用化合炼成吗？　　不行炼金术师：近程射击专长对炸弹伤害有效吗？　　有狱火炸弹、毒气炸弹、烟雾炸弹、粘性炸弹等类型炸弹是在造成炸弹伤害的同时造成指定效果吗？　　是的。比如烟雾炸弹就是在造成伤害的同时制造区域烟雾。炼金术师：在炼金术职业能力里面，毒素是不是被视为炼金物品？　　是的。炼金术师：在制作非药水的魔法物品时，炼金术师可以被视为施法者吗？　　字面理解，不能，炼金术师不是施法者，因为也无法选择制造奇物等专长。　　设计组认为这会让炼金术师不能制造魔像等标志性物体，所以在考虑如何修改。炼金术师：使用化合炼成、突变药剂和投掷炸弹都是什么动作？　　都是标准动作。这个动作包含从背包或什么地方取出必要的道具或材料。Archetype 
+Stacking and Altering: What exactly counts as altering a class feature for the 
+purpose of stacking archetypes?In 
+general, if a class feature grants multiple subfeatures, it's OK to take two 
+archetypes that only change two separate subfeatures. This includes two bard 
+archetypes that alter or replace different bardic performances (even though 
+bardic performance is technically a single class feature) or two fighter 
+archetypes that replace the weapon training gained at different levels 
+(sometimes referred to as “weapon training I, II, III, or IV”) even though those 
+all fall under the class feature weapon training. However, if something alters 
+the way the parent class feature works, such as a mime archetype that makes all 
+bardic performances completely silent, with only visual components instead of 
+auditory, you can't take that archetype with an archetype that alters or 
+replaces any of the sub-features. This even applies for something as small as 
+adding 1 extra round of bardic performance each day, adding an additional bonus 
+feat to the list of bonus feats you can select, or adding an additional class 
+skill to the class. As always, individual GMs should feel free to houserule to 
+allow small overlaps on a case by case basis, but the underlying rule exists due 
+to the unpredictability of combining these changes.Barbarian 
+Increased Damage Reduction: The increased damage reduction rage power says it 
+increases the “barbarian's damage reduction”, but does that refer to the 
+barbarian class feature “damage reduction” or to any damage reduction the 
+barbarian might possess. In particular, the invulnerable rager archetype trades 
+away the barbarian's damage reduction class feature for a new ability called 
+invulnerability that gives a slightly different form of damage reduction, so 
+would the rage power work with that?The 
+rage power refers to the class feature damage reduction, meaning that it doesn't 
+help invulnerable ragers' invulnerability class feature. The suggestion for the 
+archetype to take that rage power in the suggested rage powers is in error and 
+will be removed in the next errata.野蛮人，次级灵魂图腾：谁来决定这些灵魂攻击谁？它们会受到什么影响吗？　　每轮都由野蛮人自己决定。它们不会受到增减攻击和伤害的效果影响 
+(比如祝福术和绝望术)。它们的攻击出发点一直是野蛮人的位置。它们不会得到夹击加值也无法与其他单位造夹击。野蛮人，图腾战士：这个变体可以让野蛮人选择不同系列的图腾狂暴之力吗？　　不能。事实上，野蛮人不能选择多余1系列的图腾狂暴之力。骑士：从德鲁伊职业得到的动物伙伴等级和骑士的坐骑等级叠加吗？　　如果这个坐骑 
+(动物伙伴) 
+同时在骑士的坐骑列表和德鲁伊的伙伴列表上，那么就叠加等级来计算能力。如果没有同时在两个列表上，那么就无法叠加，而该角色将会获得两只动物。　　这个回答同样适用于骑士和游侠的兼职。牧师，子域：对于某些子域来说，我该如何处理这些子域奖励的异界誓缚法术？　　这里是我们的错。打个比方来说异界誓缚邪恶生物需要用反邪恶法阵来进行束缚，但一个会异界誓缚邪恶生物的牧师 
+(比如恶魔子域的牧师) 奖励法术是反善良法阵，这会使得该角色无法正常使用异界誓缚，因为这名牧师无法使用反邪恶法阵，这是一个[善良]法术。　　解决方法有两个，一个是让你的dm让你不需要法阵就可以使用异界誓缚，一个是找别的施法者帮忙。德鲁伊，图腾萨满：这个变体在什么等级得到自然变身？　　他们在6级的时候才会得到自然变身能力。德鲁伊，鹰图腾萨满：大鹏的体型是巨型，而我自然变身最大只能变成超大型，咋搞？　　这是一个bug。　　为了解决这个问题，你可以自然变身成中体型鹰，或自然变身冲超大型大鹏。变身的能力获取和属性调整正常按野兽邢台法术来计算，施法者等级取鹰图腾萨满的有效德鲁伊等级。　　这个规则只对鹰图腾萨满生效，不适用于其它图腾萨满变体。半精灵和半兽人：这两个种族的角色可以选择人类的天赋职业奖励吗？　　可以。因为这两个种族被同时视为2个种族。半兽人，獠牙：这个替换种族特性可以和利牙尖突专长叠加使角色得到2个啮咬攻击吗？　　这个地方我们很重视如何达成同质化。因此，回答是，不行，除非你有多于1张嘴。　　一般而言，一个天武一轮只能使用一次。这同样适用于野性之怒狂暴之力。神圣辩护者：这个职业给予了一种AC加值会持续到“战斗中被击中”。接触攻击被视为“击中”吗？类似的法术比如魔法飞弹或火球术呢？　　只有需要骰攻击骰对抗AC的攻击，才被视为“被击中”。因此接触攻击算，飞弹和火球不算。大地旅者：地形熟稔能力中给予盟友的加值持续多久？　　这个能力基本上类似于游侠的猎手羁绊 
+(伙伴)，只不过是将大地旅者的地形加值给予盟友而不是宿敌加值。由此考虑，持续轮数等于大地旅者的感知调整值 (最少为1轮)。审判者：审判者的破敌能力可以影响双头武器的两个头吗？　　不能。因为制作组将双头武器视为两个不同的武器，因为那些能力、法术、效果作用于“一个武器”的，都只会影响双头武器的一个头。审判者：当具有独行战术的审判者同时拥有包抄专长时，敌人被盟友重击时会受到审判者的借机攻击吗？　　会，不过只有该敌人被确认重击且此时被审判者和重击发起者夹击才行。此时审判者获得一次借机攻击机会。炼金大师：对于双重思想进化突变，当你第二次豁免成功并改变形态时，会消耗一次突变药剂使用次数吗？　　会。这个能力实质上就是花费一次使用次数来克服第一次的失败豁免带来的影响。因此如果角色已经没有了突变每日使用次数，那么就无法通过这个能力克服突变了。炼金大师：对于突变能力，如果下轮该角色无法进行标准动作，那么是会被强制突变还是会怎样？又是使用什么动作哦？　　强制突变不好，但是不能忽视这个问题。我们认为，在这种环境下，炼金大师会使用剩下的动作尽可能的突变。比如若反胃，那么就用移动动作突变。若只有迅捷动作，那么就用迅捷动作突变。若没有动作，比如被人类定身或干脆无助，那么在得到动作后的第一时间就要进行突变。Monk ki 
+mystic archetype: The ki mystic ability seems like it alters the monk's ki pool 
+ability, but it doesn't say “This ability alters ki pool.” Is this because the 
+ki mystic's ki pool is a separate second pool that can only be used for the 
+powers described in the ki mystic archetype, and the monk then also receives the 
+regular ki pool that works as normal?No. 
+When Advanced Player's Guide was written, archetypes were new and the “this 
+alters” language didn't exist yet, meaning archetypes in this book, including ki 
+mystic, never include it, even when they should by current standards. The ki 
+mystic ability alters ki pool. At 3rd level, a ki mystic gets a ki pool of 
+Wisdom modifier points that can be used for the abilities listed in the 
+archetype. At level 4, this upgrades to a ki pool of 1/2 monk level + Wisdom 
+modifier + 2 points, which is a single ki pool (the ki mystic does not gain two) 
+that can be used in all the usual ways a monk can use ki, plus those mentioned 
+in the archetype.先知：我可以选择一个启示多次吗？　　一般不行，看启示具体说明。先知：对于那些法术说明里需要使用感知决定效果的法术 
+(比如灵能武器)，我可以用我的魅力吗？　　如果按字面而言那么不能，你还是得用感知。　　不过我想你的房规可以解决这个。先知：知识秘示域的先知选择闪避秘诀启示后可以用魅力代替敏捷来决定CMD吗？如果我措手，那么会失去魅力上AC吗？　　尽管这里没有明确写出，但是选择该启示后的确可以用魅力代替敏捷决定CMD。措手的这种先知同样会失去魅力上AC，因为魅力此时是敏捷的替代品。先知：鬼扰诅咒如何影响法术材料包里的东西？　　对于特殊施法材料，你得花一个标准动作从法术材料包里找到它。但是由于法术材料包的特性，普通施法材料在其中并不会受鬼扰诅咒影响。因此为了游戏顺畅，我们建议特殊材料也不要受到鬼扰诅咒影响。先知：鬼扰诅咒会延长我拔出武器的时间吗？　　不会。诅咒影响的是“携带的物品”。而如果你只是“拔出武器”，从一柄刀鞘里，那么这就不会受到鬼扰诅咒影响。　　不过如果你试图从背包里拿出武器，那么就会受到影响。先知：启示“月之帷幕”能强迫目标受到“狂暴术”影响，可这是一个作用于“自愿”目标的法术？　　通过接触攻击该能力使得目标进入如同“狂暴术”效果的一种状态，而不是等同于“狂暴术”。这不需要豁免。每次使用该能力都只作用于一个目标。先知：我施展的正气如虹法术获得什么DR？　　根据你选择将什么法术自动加入已知法术列表来判断。选择“治疗”法术的如同会“引导正能量”般判断，选择“造成伤害”法术的如同会“引导负能量”般判断。Oracle 
+Bones Mystery: What exactly does the raise the dead revelation mean when it says 
+you can summon a skeleton or zombie to serve you? Do I need a corpse? If not, 
+can I just summon whatever I want, like a tarrasque fast 
+zombie?The 
+raise the dead doesn't require a corpse; you summon the creature (rising up out 
+of the earth is a potential visual for this effect). You summon the base 
+creature from the Bestiary in either case (human skeleton or human zombie) aside 
+from the modifications from the revelation (adding extra HD, fast or bloody, and 
+the advanced template). At the GM's discretion, an oracle with a noticeably 
+different body or bone structure might summon skeletons and zombies with this 
+ability that look cosmetically more similar to the oracle than to a human, but 
+this doesn't affect their game mechanics.先知，生命秘示域，能量盈身：每轮我可以用这个能力治疗一个单位几次？　　1次。无论你穿过了该单位的占据格多少次，或者他穿越你的占据格多少次，都只治疗1次。圣武士：神圣使徒变体会得到一个领域。那么会得到该领域的所有好处，比如神授力量吗？　　会。包括神授力量，领域法术，可以正常获得并使用的领域法术位。 
+(比如神圣使徒最多只有1-4环领域法术和领域法术位)怒火先知：狂野预知能力能让该角色获得新的狂暴之力或启示吗？　　不能。盗贼：防御式突袭游荡者天赋带来的闪避AC叠加吗？这个加值是对所有敌人有效，还是只对被偷袭者有效？　　这里有两个重点要解释。　　第一，初版时它写的是“对被偷袭者的AC得到+1环境加值”，这就非常弱鸡。二版时改为了“闪避加值”而不是“环境加值”，但省略了“对被偷袭者”几个字，这就太强了。　　第二，它并没有指出这种闪避加值是否与自己的叠加，这样就会造成一个奇怪的现象：闪避加值可以叠加，但是大多数房规表示这个闪避加值无法与自己叠加。我们还没有讨论出对这个天赋的最终修改，因此我们倾向于下列处理：这个闪避加值只针对被偷袭者才有效，并且无法与自身叠加。这就阻止该贼偷袭弱鸡敌人得到闪避加值来对抗boss，也防止盗贼通过多次偷袭来堆出一个逆天AC。游侠：渗透者变体的游侠失去了偏好地形能力，那么伪装能力和视线躲藏能力怎么办？　　渗透者变体可以在使用[模仿能力]时使用伪装和视线躲藏，而无需偏好地形。术士：深洋血统的术士在9级时获得间歇泉法术作为血统法术，可是这是一个5环法术，此时术士没有5环法术位？什么情况？　　没有错，该术士将该法术作为4环法术获得了。因为对于德鲁伊来说这是一个4环，所以这样处理不会滥强。子域：德鲁伊、审判者和其他能获得领域的职业可以选择子域吗？　　可以。那些不信神的职业可以选择的子域就限定于他们可以获得的领域相关子域。召唤师：我可以在不是我的回合、我麻痹中或其它我无法做动作时使用生命连结吗？　　虽然在职业描述中这是一个自由动作，但它可以让召唤师帮幻灵吸收伤害来使幻灵不被遣返，因此不是召唤师的回合、召唤师因丢失力量敏捷而无助、中了人类定身术等情况都不影响召唤师使用该能力。召唤师：生命羁绊能力如何作用？当召唤师失去意识时幻灵就会立刻遣返，那么这个能力看起来就无法触发。　　这个能力将在召唤师hp将要掉到0以下时被触发，而不是将要死亡时。二版已经修正。召唤师：如果我选择触及进化，那么我有多少次攻击可以提升触及？　　这个进化写的是“一次攻击”而不是“一次攻击类型”，因此若幻灵有两次爪抓而我选择“爪抓”提升触及，那么只有1次爪抓是提升触及后的攻击。召唤师：选择天防强化进化的最低等级是？　　文中写的是“每5个召唤师等级可以选择一次”不是很明确。　　1-4级召唤师可以选择第一次，5-9级召唤师可以选择第二次，10-14第三次，15-19第四次，到20级时可以第五次选择。若我召唤被放逐或驱逐的幻灵，那么召唤出来时的幻灵hp是？　　被放逐或驱逐时的hp是多少，再召唤出时就是多少。女巫，尖笑巫术：我可以用标准动作使用它然后再用移动动作使用它，这样1轮使用2次尖笑巫术吗？　　不能。你每轮只能使用1次尖笑巫术。女巫，尖笑巫术：使用该巫术时我的角色是不是要真的疯狂大笑，还是说只是一个描述？　　你的角色必须真实的“尖笑”——至少声音要大，如同法术里面的“声音”成分。　　更新：若女巫被沉默，则无法使用尖笑巫术。若目标被沉默，则无法收到尖笑法术影响。女巫，魔釜巫术：1级女巫就能选择了这个巫术获得制造药剂专长？那不是一个3级专长嘛？　　可以的。女巫，易容巫术：这个巫术的时间限制是？　　忘了写了。持续时间是每女巫等级1小时。女巫，邪眼巫术：我可以用这个巫术多次针对一个目标吗？　　可以，若多次使用该巫术并选择不同的减值，那么多项减值可以共存。选择已有的减值则只会刷新该减值的持续时间。　　但多个不同角色对同一目标使用邪眼巫术选择同一减值时，该减值不会叠加——因为它们是来自同一个资源——邪眼巫术。不过以此类推，降咒法术选择不同减值后也可以在同一目标身上共存 
+(降力量、降敏捷等等)。只要邪眼巫术选择降低不同的数据，就可以叠加。女巫，飞翔巫术：我可以将羽落术和漂浮术对别人使用吗？　　不行。这个巫术的能力都只能对女巫自己起效。不过你可以抱着别人然后自己飞。女巫，治愈巫术：我可以用这个巫术伤害不死生物吗？如果可以，可以用多少次？　　这个巫术如同治疗伤口法术，所以可以伤害不死生物。　　对某不死生物使用后，24小时内都对它无效咯。女巫：若一个巫术说24小时内对同一单位只生效一次，那么是否意味着其他女巫也无法让该巫术对该单位起效？　　不，只是使用巫术的女巫的该巫术对目标24小时内只能生效一次，不影响其他女巫。女巫：若我进阶了一个提升施法能力的进阶职业，我还可以在升级时从庇护主那里获得奖励法术吗？　　不能，进阶职业一般只会提升你的已知法术量、每日法术数量、施法者等级。
+
+
+**专长和背景特性**
+
+
+
+奥能爆发：使用这个专长是类法术能力还是超自然能力？　　是超自然能力。Bodyguard: 
+The Bodyguard feat says that I can spend one of my attacks of opportunity to aid 
+another the AC of an adjacent ally, but it doesn't say one way or the other 
+whether this removes other restrictions on aid another? Particularly, do I need 
+to threaten the attacking enemy? Also, has that enemy provoked an attack of 
+opportunity from me?You 
+still need to fulfill all requirements of aid another, including threatening the 
+attacking enemy. Bodyguard uses up one of your attacks of opportunity for the 
+round, but the enemy hasn't provoked an attack of opportunity from you, nor are 
+you making one (which is relevant for abilities like Paired 
+Opportunist).梯云纵：这个专长 
+(同时还有壁虎游墙专长) 对于有无限轻身落的20级武僧来说怎么搞？　　这两个专长都可以让20级武僧移动最多50尺，因为不考虑无限的话，轻身落的限制是100尺，所以一半就是50尺。一拥而上：这个专长可以让你与远程武器一起造夹击吗？　　这个专长并不会改变夹击需要近战攻击的规则，只是改变夹击的连线判定规则，所以远程攻击依然无法夹击。魔法裔 
+(背景特性)：我可以用这个背景特性将某个法术的环数降低到比正常该法术环低吗？　　不行。比如你不能将火球术给弄成2环。完美打击：我可以用徒手攻击使用该专长嘛？　　如文字所言，只能使用文中所描述的特定武器。　　那么为什么学习该专长有“精通徒手攻击”这个前置呢？因为这个东西是我们想刷武僧的时髦值才做的，因此让其它职业难以学习它。这个前置意味着自动获得该专长的武僧可以轻易学习该专长。要是前置只是“武僧等级X”的话，那么就只有武僧能学了，这可不好，不好。远古血脉：选了这个专长的人类可以获得特殊的种族职业变体吗？　　可以，你可以获得专长所选种族的特殊职业变体。甄选法术：如文，允许选择某些单位忽略法术，比如黑触手和反魔场？　　滚蛋。它只对持续时间为“立刻”的法术有效。
+
+
+**装备和魔法物品**
+
+
+
+制造物品和施法者等级：APG的造物规则说“制造者的施法者等级必须高于物品的施法者等级”。这跟CRB书不同，哪个是对的？　　APG错了。物品的施法者等级并不是制造它的前置条件，特殊情况除外。魔法物品增加的有效等级：一些物品会增加职业能力的有效等级，比如禅定项链、奥术传承之袍、复仇骑士护腕，它们具体如何作用？　　项链说“提升丹田气池能力4级”，包括气池大小和击破DR的有效等级。而其他消耗气的能力并不是丹田气池能力，所以没有影响。　　长袍说“提升术士的血统力量效果”，要知道术士的血统力量、血统奥秘、血统法术是三个不同的能力，所以该袍子只影响血统力量。　　护腕说“提升圣武士的制裁邪恶能力4级”，这个能力的等级提升只影响额外伤害和每日使用次数。猎人附魔：这个附魔提供给生存检定的加值是多少？　　等于该武器的增强加值。法杖：APG里的不少法杖价格是正常是一半，是打错了吗？　　没有，这里的价格是卖出去的价格，买入价是两倍。UE里面是正确的。Weapon 
+Cord：用这个东西拉会武器是个什么动作？　　在原书 
+中我们写的是一个迅捷动作，不过设计小组最近把它改成一个移动动作，我们会在新印刷的版本里修改这一条.
+
+
+**法术 
+(Spells)**
+
+
+
+"Does not 
+stack with" and spells with effects other than bonuses: What does it mean if a 
+spell tells me it doesn't stack with another spell or "similar effects" if some 
+of the effects aren't bonuses?If 
+you have two spells with effects other than bonuses and those spells or effects 
+are called out not to stack, that means that the effects that apply to the same 
+rules component or situation do not stack, so if they apply different non-bonus 
+effects to the same rules component, the most recent spell takes precedent. For 
+example, aspect of the falcon specifically doesn't stack with any other effect 
+that expands the threat range of a weapon, such as Improved Critical or keen. 
+This means that the part of aspect of the falcon that applies to criticals 
+doesn't stack with those effects, but it doesn't prevent someone with Improved 
+Critical from receiving the competence bonuses on attack rolls and Perception 
+checks. If a character with Improved Critical (light crossbow) cast aspect of 
+the falcon, his criticals would change from 17–20/x2 to 19–20/x3. Similarly, 
+blessing of fervor does not stack with haste, which means that the increased 
+speed, extra attack, and attack roll/AC/Reflex save bonuses wouldn't stack 
+between the two spells, but if you had both spells active, you could still get 
+those three benefits from haste while choosing to stand up as a swift action or 
+apply metamagic to a low-level spell.

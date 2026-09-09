@@ -1,0 +1,391 @@
+{
+  "source_book": "位面冒险",
+  "source_book_english": "Planar Adventures",
+  "source_dir": "pf_data/phase1/pf_rules_md/未整理/位面冒险PA",
+  "stats": {
+    "added": 33,
+    "skipped": 9,
+    "errors": []
+  },
+  "sections": [
+    {
+      "source": "新玩家种族/page_1482.md",
+      "title": "秩裔",
+      "english": "Aphorite",
+      "target": "种族/罕见种族/位面冒险PA_秩裔.md",
+      "section_title": "新玩家种族",
+      "action": "added"
+    },
+    {
+      "source": "新玩家种族/page_1483.md",
+      "title": "熵裔",
+      "english": "Ganzi",
+      "target": "种族/罕见种族/位面冒险PA_熵裔.md",
+      "section_title": "新玩家种族",
+      "action": "added"
+    },
+    {
+      "source": "新玩家种族/page_1488.md",
+      "title": "暮行者",
+      "english": "Duskwalker",
+      "target": "种族/罕见种族/位面冒险PA_暮行者.md",
+      "section_title": "新玩家种族",
+      "action": "added"
+    },
+    {
+      "source": "职业变体/page_1433.md",
+      "title": "暗刃",
+      "english": "Gloomblade",
+      "cls": "战士",
+      "section_title": "变体",
+      "target": "职业/核心职业/战士/page_49.md",
+      "marker": "暗刃",
+      "duplicate_skip": true,
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体/page_1475.md",
+      "title": "幻梦贼",
+      "english": "Dreamthief",
+      "cls": "盗贼",
+      "section_title": "变体",
+      "target": "职业/核心职业/盗贼/page_47.md",
+      "marker": "幻梦贼",
+      "duplicate_skip": true,
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体/page_1477.md",
+      "title": "原初使者",
+      "english": "Progenitor",
+      "cls": "德鲁伊",
+      "section_title": "变体",
+      "target": "职业/核心职业/德鲁伊/page_37.md",
+      "marker": "**原初使者（Progenitor）**",
+      "duplicate_skip": true,
+      "action": "added"
+    },
+    {
+      "source": "职业变体/page_1479.md",
+      "title": "位面斥候",
+      "english": "Planar Scout",
+      "cls": "游侠",
+      "section_title": "变体",
+      "target": "职业/核心职业/游侠/page_51.md",
+      "marker": "**位面斥候（Planar",
+      "duplicate_skip": true,
+      "action": "added"
+    },
+    {
+      "source": "职业变体/page_1484.md",
+      "title": "契约巫师",
+      "english": "Pact Witch",
+      "cls": "女巫",
+      "section_title": "变体",
+      "target": "职业/基础职业/女巫/page_70.md",
+      "marker": "契约巫师（Pact Witch）",
+      "duplicate_skip": true,
+      "action": "skipped",
+      "reason": "existing_content (契约巫师)"
+    },
+    {
+      "source": "职业变体/page_1478.md",
+      "title": "诸界见证人",
+      "english": "Chronicler of Worlds",
+      "cls": "吟游诗人",
+      "section_title": "变体",
+      "target": "职业/核心职业/吟游诗人/page_38.md",
+      "marker": "**诸界见证人**",
+      "duplicate_skip": true,
+      "action": "skipped",
+      "reason": "existing_content (诸界见证人)"
+    },
+    {
+      "source": "职业变体/page_1476.md",
+      "title": "灵魂守卫",
+      "english": "Soul Warden",
+      "cls": "唤魂师",
+      "section_title": "变体",
+      "target": "职业/异能冒险（Occult Adventures）/通灵者/page_262.md",
+      "marker": "**灵魂守卫（Soul",
+      "duplicate_skip": true,
+      "action": "skipped",
+      "reason": "existing_content (灵魂守卫)"
+    },
+    {
+      "source": "职业变体/page_1485.md",
+      "title": "界门寻索人",
+      "english": "Portal Seeker",
+      "cls": "调查员",
+      "section_title": "变体",
+      "target": "职业/混合职业/调查员/page_31.md",
+      "marker": "界门寻索人",
+      "duplicate_skip": true,
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体/page_1486.md",
+      "title": "唯心教众",
+      "english": "Idealist",
+      "cls": "牧师",
+      "section_title": "变体",
+      "target": "职业/核心职业/牧师/page_41.md",
+      "marker": "唯心教众",
+      "duplicate_skip": true,
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体/page_1487.md",
+      "title": "世界探索者",
+      "english": "Worldseeker",
+      "cls": "法师",
+      "section_title": "变体",
+      "target": "职业/核心职业/法师/page_45.md",
+      "marker": "世界探索者",
+      "duplicate_skip": true,
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体/游荡剑客.md",
+      "title": "爱塔剑客",
+      "english": "Azatariel",
+      "cls": "游荡剑客",
+      "section_title": "变体",
+      "target": "职业/混合职业/游荡剑客/page_56.md",
+      "marker": "爱塔剑客",
+      "duplicate_skip": true,
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长/page_1492.md",
+      "title": "闪现步",
+      "english": "",
+      "target": "专长/位面冒险PA_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "专长/page_1492.md",
+      "title": "暗影风暴",
+      "english": "",
+      "target": "专长/位面冒险PA_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "专长/page_1492.md",
+      "title": "相位打击(战斗,汲引)",
+      "english": "",
+      "target": "专长/位面冒险PA_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "专长/page_1492.md",
+      "title": "浪徒之幸(汲引)",
+      "english": "",
+      "target": "专长/位面冒险PA_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "专长/page_1492.md",
+      "title": "公理化论述",
+      "english": "",
+      "target": "专长/位面冒险PA_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "专长/其他专长1.md",
+      "title": "鞭击用尾巴",
+      "english": "",
+      "target": "专长/位面冒险PA_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "专长/其他专长1.md",
+      "title": "调皮用尾巴",
+      "english": "",
+      "target": "专长/位面冒险PA_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "专长/其他专长1.md",
+      "title": "位面血脉",
+      "english": "",
+      "target": "专长/位面冒险PA_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "专长/其他专长1.md",
+      "title": "你是一个通过异界传送",
+      "english": "",
+      "target": "专长/位面冒险PA_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "专长/其他专长1.md",
+      "title": "引导圣临",
+      "english": "",
+      "target": "专长/位面冒险PA_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "专长/位面谐律.md",
+      "title": "位面谐律",
+      "english": "Planar Infusions",
+      "target": "专长/位面冒险PA_位面谐律.md",
+      "section_title": "位面谐律",
+      "action": "added"
+    },
+    {
+      "source": "新物品/page_1570.md",
+      "title": "魔法物品",
+      "english": "",
+      "target": "装备_魔法物品/防具附魔/位面冒险PA_防具附魔.md",
+      "section_title": "防具附魔",
+      "action": "added"
+    },
+    {
+      "source": "新物品/page_1570.md",
+      "title": "护甲特殊能力",
+      "english": "",
+      "target": "装备_魔法物品/防具附魔/位面冒险PA_防具附魔.md",
+      "section_title": "防具附魔",
+      "action": "added"
+    },
+    {
+      "source": "新物品/page_1569.md",
+      "title": "武器特殊能力",
+      "english": "",
+      "target": "装备_魔法物品/武器/位面冒险PA_武器附魔.md",
+      "section_title": "武器附魔",
+      "action": "added"
+    },
+    {
+      "source": "新物品/page_1569.md",
+      "title": "以下武器特殊能力对那些面临跨位面威胁以及在伟大彼岸",
+      "english": "",
+      "target": "装备_魔法物品/武器/位面冒险PA_武器附魔.md",
+      "section_title": "武器附魔",
+      "action": "added"
+    },
+    {
+      "source": "新物品/page_1568.md",
+      "title": "特殊武器",
+      "english": "",
+      "target": "装备_魔法物品/武器/位面冒险PA_特殊武器.md",
+      "section_title": "特殊武器",
+      "action": "added"
+    },
+    {
+      "source": "新物品/page_1566.md",
+      "title": "权杖",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/戒指_权杖_法杖/位面冒险PA_权杖.md",
+      "section_title": "权杖",
+      "action": "added"
+    },
+    {
+      "source": "新物品/page_1566.md",
+      "title": "末日超魔权杖",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/戒指_权杖_法杖/位面冒险PA_权杖.md",
+      "section_title": "权杖",
+      "action": "added"
+    },
+    {
+      "source": "新物品/page_1566.md",
+      "title": "喝令超魔权杖",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/戒指_权杖_法杖/位面冒险PA_权杖.md",
+      "section_title": "权杖",
+      "action": "added"
+    },
+    {
+      "source": "新物品/page_1566.md",
+      "title": "福佑超魔权杖",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/戒指_权杖_法杖/位面冒险PA_权杖.md",
+      "section_title": "权杖",
+      "action": "added"
+    },
+    {
+      "source": "新物品/page_1566.md",
+      "title": "墓园超魔权杖",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/戒指_权杖_法杖/位面冒险PA_权杖.md",
+      "section_title": "权杖",
+      "action": "added"
+    },
+    {
+      "source": "新物品/page_1566.md",
+      "title": "冥河超魔权杖",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/戒指_权杖_法杖/位面冒险PA_权杖.md",
+      "section_title": "权杖",
+      "action": "added"
+    },
+    {
+      "source": "新物品/page_1566.md",
+      "title": "喧嚣超魔权杖",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/戒指_权杖_法杖/位面冒险PA_权杖.md",
+      "section_title": "权杖",
+      "action": "added"
+    },
+    {
+      "source": "新物品/page_1572.md",
+      "title": "戒指",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/戒指_权杖_法杖/位面冒险PA_戒指.md",
+      "section_title": "戒指",
+      "action": "added"
+    },
+    {
+      "source": "新物品/page_1572.md",
+      "title": "这些戒指带有与伟大彼岸",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/戒指_权杖_法杖/位面冒险PA_戒指.md",
+      "section_title": "戒指",
+      "action": "added"
+    },
+    {
+      "source": "新物品/page_1572.md",
+      "title": "灵魂联结戒指",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/戒指_权杖_法杖/位面冒险PA_戒指.md",
+      "section_title": "戒指",
+      "action": "added"
+    },
+    {
+      "source": "新物品/page_1567.md",
+      "title": "奇物",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/奇物/位面冒险PA_奇物.md",
+      "section_title": "奇物",
+      "action": "added"
+    },
+    {
+      "source": "新物品/page_1567.md",
+      "title": "受膏者圣徽",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/奇物/位面冒险PA_奇物.md",
+      "section_title": "奇物",
+      "action": "added"
+    }
+  ],
+  "skipped_files": []
+}

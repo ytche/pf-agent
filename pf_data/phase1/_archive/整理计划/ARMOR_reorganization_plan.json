@@ -1,0 +1,492 @@
+{
+  "source_book": "护甲大师手册",
+  "source_book_english": "Armor Master's Handbook",
+  "source_dir": "pf_data/phase1/pf_rules_md/未整理/护甲大师手册",
+  "stats": {
+    "added": 1,
+    "skipped": 51,
+    "errors": []
+  },
+  "sections": [
+    {
+      "source": "变体/魔战士.md",
+      "title": "战甲智库",
+      "english": "Armored Battlemage",
+      "cls": "魔战士",
+      "section_title": "变体",
+      "target": "职业/基础职业/魔战士/page_82.md",
+      "marker": "战甲智库",
+      "action": "added"
+    },
+    {
+      "source": "变体/page_376.md",
+      "title": "用心棒",
+      "english": "Yojimbo",
+      "cls": "战士",
+      "section_title": "变体",
+      "target": "职业/核心职业/战士/page_49.md",
+      "marker": "用心棒",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "变体/page_397.md",
+      "title": "摩尔苏恩防御者",
+      "english": "Molthuni Defender",
+      "cls": "战士",
+      "section_title": "变体",
+      "target": "职业/核心职业/战士/page_49.md",
+      "marker": "摩尔苏恩防御者",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "变体/page_422.md",
+      "title": "盾卫者",
+      "english": "Shieldbearer",
+      "cls": "战斗祭司",
+      "section_title": "变体",
+      "target": "职业/混合职业/战斗祭司/page_43.md",
+      "marker": "盾卫者",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "变体/page_423.md",
+      "title": "圣使",
+      "english": "Legate",
+      "cls": "圣武士",
+      "section_title": "变体",
+      "target": "职业/核心职业/圣骑士/page_55.md",
+      "marker": "圣使",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "变体/page_1233.md",
+      "title": "阿尼萨恩特骑士",
+      "english": "Knight of Arnisant",
+      "cls": "骑士",
+      "section_title": "变体",
+      "target": "职业/基础职业/骑士/护甲大师手册_骑士变体.md",
+      "marker": "阿尼萨恩特骑士",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_375.md",
+      "title": "格拉里昂的盔甲与护盾战斗流派",
+      "english": "",
+      "target": "专长/护甲大师手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_375.md",
+      "title": "甲斗流派",
+      "english": "",
+      "target": "专长/护甲大师手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_375.md",
+      "title": "甲斗流派专长",
+      "english": "",
+      "target": "专长/护甲大师手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_375.md",
+      "title": "鲨蜥流",
+      "english": "",
+      "target": "专长/护甲大师手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_375.md",
+      "title": "金雕流",
+      "english": "",
+      "target": "专长/护甲大师手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_375.md",
+      "title": "鹰啄流",
+      "english": "",
+      "target": "专长/护甲大师手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_375.md",
+      "title": "盾战流派",
+      "english": "",
+      "target": "专长/护甲大师手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_375.md",
+      "title": "护盾流派专长",
+      "english": "",
+      "target": "专长/护甲大师手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_375.md",
+      "title": "铁壁流",
+      "english": "",
+      "target": "专长/护甲大师手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_375.md",
+      "title": "铁手流",
+      "english": "",
+      "target": "专长/护甲大师手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_375.md",
+      "title": "强击流",
+      "english": "",
+      "target": "专长/护甲大师手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_375.md",
+      "title": "先锋流",
+      "english": "",
+      "target": "专长/护甲大师手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_1089.md",
+      "title": "盔甲掌握专长Armor",
+      "english": "",
+      "target": "专长/护甲大师手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_1089.md",
+      "title": "进阶盔甲专攻Improved",
+      "english": "",
+      "target": "专长/护甲大师手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_1089.md",
+      "title": "盔甲掌握专长Armor",
+      "english": "",
+      "target": "专长/护甲大师手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_1089.md",
+      "title": "盔甲材料专家Armor",
+      "english": "",
+      "target": "专长/护甲大师手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_1089.md",
+      "title": "盔甲材料大师Armor",
+      "english": "",
+      "target": "专长/护甲大师手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_1089.md",
+      "title": "高等装甲反应Greater",
+      "english": "",
+      "target": "专长/护甲大师手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_1089.md",
+      "title": "强进姿态Imposing",
+      "english": "",
+      "target": "专长/护甲大师手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_1089.md",
+      "title": "装甲反应Ironclad",
+      "english": "",
+      "target": "专长/护甲大师手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_1089.md",
+      "title": "震撼冲击Knocking",
+      "english": "",
+      "target": "专长/护甲大师手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_1089.md",
+      "title": "护心盔甲Secured",
+      "english": "",
+      "target": "专长/护甲大师手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_1089.md",
+      "title": "轻快盔甲Sprightly",
+      "english": "",
+      "target": "专长/护甲大师手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_1184.md",
+      "title": "护甲技法",
+      "english": "",
+      "target": "专长/护甲大师手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "page_1184.md",
+      "title": "战策",
+      "english": "",
+      "target": "专长/护甲大师手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "防具附魔1.md",
+      "title": "出自护甲大师手册p26",
+      "english": "",
+      "target": "装备_魔法物品/防具附魔/护甲大师手册_防具附魔.md",
+      "section_title": "防具附魔",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "防具附魔1.md",
+      "title": "推进",
+      "english": "",
+      "target": "装备_魔法物品/防具附魔/护甲大师手册_防具附魔.md",
+      "section_title": "防具附魔",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "防具附魔1.md",
+      "title": "折叠",
+      "english": "",
+      "target": "装备_魔法物品/防具附魔/护甲大师手册_防具附魔.md",
+      "section_title": "防具附魔",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "防具附魔1.md",
+      "title": "跃迁Phase",
+      "english": "",
+      "target": "装备_魔法物品/防具附魔/护甲大师手册_防具附魔.md",
+      "section_title": "防具附魔",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "防具附魔1.md",
+      "title": "审视Assiduous",
+      "english": "",
+      "target": "装备_魔法物品/防具附魔/护甲大师手册_防具附魔.md",
+      "section_title": "防具附魔",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "防具附魔1.md",
+      "title": "地通Terrain-Striding",
+      "english": "",
+      "target": "装备_魔法物品/防具附魔/护甲大师手册_防具附魔.md",
+      "section_title": "防具附魔",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "防具附魔1.md",
+      "title": "抗敌Withstanding",
+      "english": "",
+      "target": "装备_魔法物品/防具附魔/护甲大师手册_防具附魔.md",
+      "section_title": "防具附魔",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "防具附魔1.md",
+      "title": "暴走Rampaging",
+      "english": "",
+      "target": "装备_魔法物品/防具附魔/护甲大师手册_防具附魔.md",
+      "section_title": "防具附魔",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "防具附魔1.md",
+      "title": "幻影Phantasmal",
+      "english": "",
+      "target": "装备_魔法物品/防具附魔/护甲大师手册_防具附魔.md",
+      "section_title": "防具附魔",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "防具附魔1.md",
+      "title": "集矢Arrow-collecting",
+      "english": "",
+      "target": "装备_魔法物品/防具附魔/护甲大师手册_防具附魔.md",
+      "section_title": "防具附魔",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "防具附魔1.md",
+      "title": "堡垒Bastion",
+      "english": "",
+      "target": "装备_魔法物品/防具附魔/护甲大师手册_防具附魔.md",
+      "section_title": "防具附魔",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "防具附魔1.md",
+      "title": "缓冲",
+      "english": "",
+      "target": "装备_魔法物品/防具附魔/护甲大师手册_防具附魔.md",
+      "section_title": "防具附魔",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "防具附魔1.md",
+      "title": "锁匠",
+      "english": "",
+      "target": "装备_魔法物品/防具附魔/护甲大师手册_防具附魔.md",
+      "section_title": "防具附魔",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "特殊魔法防具.md",
+      "title": "血汞外衣",
+      "english": "",
+      "target": "装备_魔法物品/特定魔法防具/护甲大师手册_特定魔法防具.md",
+      "section_title": "特定魔法防具",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "特殊魔法防具.md",
+      "title": "巧星风衣",
+      "english": "",
+      "target": "装备_魔法物品/特定魔法防具/护甲大师手册_特定魔法防具.md",
+      "section_title": "特定魔法防具",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "特殊魔法防具.md",
+      "title": "理想山阵",
+      "english": "",
+      "target": "装备_魔法物品/特定魔法防具/护甲大师手册_特定魔法防具.md",
+      "section_title": "特定魔法防具",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "特殊材料3.md",
+      "title": "虚空玻璃",
+      "english": "Voidglass",
+      "target": "装备_魔法物品/特殊材料/护甲大师手册_特殊材料.md",
+      "section_title": "特殊材料",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "背景特性50.md",
+      "title": "龙之战甲(Dragon",
+      "english": "",
+      "target": "背景/护甲大师手册_背景特性.md",
+      "section_title": "背景特性",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "背景特性50.md",
+      "title": "甲骑手",
+      "english": "",
+      "target": "背景/护甲大师手册_背景特性.md",
+      "section_title": "背景特性",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "背景特性50.md",
+      "title": "着甲之魂",
+      "english": "",
+      "target": "背景/护甲大师手册_背景特性.md",
+      "section_title": "背景特性",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "背景特性50.md",
+      "title": "深红甲壳",
+      "english": "",
+      "target": "背景/护甲大师手册_背景特性.md",
+      "section_title": "背景特性",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    }
+  ],
+  "skipped_files": []
+}

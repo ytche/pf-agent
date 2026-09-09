@@ -1,0 +1,43 @@
+# 巫团血脉 BotC 专长
+
+<!-- BotC-source:专长37.md:__preamble__ -->
+## 巫团血脉 BotC 战团专长
+> 来源：巫团血脉（Blood of the Coven）BotC，页码见原书，未整理 → 巫团血脉BotC → 专长
+下列两项专长属于战团专长（coven feats），这种特殊团队专长（teamwork 
+feats）的效果需要三名参与者。虽然这类专长通常代表了战团（coven）成员、以及视为战团（coven）的小组间的联系，但是任何符合先决条件的三个独立个体的小组都可以选择这些专长。
+
+<!-- BotC-source:专长37.md:魔宠连接 -->
+## 魔宠连接（Familiar Link）
+> 来源：巫团血脉（Blood of the Coven）BotC，页码见原书，未整理 → 巫团血脉BotC → 专长
+*在你的战团（coven）内，你与你同伴的女巫魔宠产生联系。*
+**先决条件**：战团巫术（Coven 
+hex）或战团之触（Coven-Touched），魔宠（familiar）或魂兽（spirit 
+animal）职业能力，女巫1级。
+**专长效果**：你分享了你战团（coven）内所有其他拥有此项专长女巫的魔宠的情感连接（empathic 
+link）。此外，你可以以一个战团（coven）的魔宠为目标，使用法术共享（share spells）、传递接触法术（deliver touch 
+spells）、以及探知魔宠（scry on familiar）能力，只要你的女巫等级足够高到获取这些能力。你可以与该魔宠使用它与主人交谈（speak with 
+master）的能力进行交流。你在帮助你的魔宠从你战团（coven）成员的魔宠那里学习法术的法术辨识检定（Spellcraft 
+checks）获得+5加值。
+
+<!-- BotC-source:专长37.md:协同超魔 -->
+## 协同超魔（Metamagical Synergy）
+> 来源：巫团血脉（Blood of the Coven）BotC，页码见原书，未整理 → 巫团血脉BotC → 专长
+*你和你战团（coven）的其他成员可以将你们的法术编织到一起从而产生巨大的效果。*
+**先决条件**：团队法师（Allied 
+Spellcaster）。
+**专长效果**：如果所有拥有这项专长的三名战团（coven）成员在同一轮施展一道相同的法术，你可以联合你们的努力，这种法术仅可由最后行动的成员主动做出决定。这种法术的效果只能被决定一次，但是该战团（coven）可以在不改变所用法术位的情况夏应用下列超魔专长之一：法术强效（Empower 
+Spell）、法术增远（Enlarge Spell）、法术延时（Extend Spell）、法术极效（Maximize Spell）、或法术扩展（Widen 
+Spell）。通过这项专长，施法者们不必拥有适当的超魔专长便可以应用它。这道协同法术使用的施法者等级、豁免DC、以及其他修正（modifiers）由该战团（coven）选择的一位施法者决定。该法术不能应用于其他超魔专长，除非全部的三名成员在他们的施法上都包含了同样的专长。如果所选超魔专长通常会改变一道法术所使用的法术位超过了9环，则该能力无法被使用。
+
+<!-- BotC-source:专长37.md:战团之触 -->
+## 战团之触（Coven-Touched）
+> 来源：巫团血脉（Blood of the Coven）BotC，页码见原书，未整理 → 巫团血脉BotC → 专长
+*你拥有对战团（coven）魔力的自然亲和。*
+**先决条件**：魅力11，替换儿（changeling）。
+**专长效果**：即便你不是一个拥有战团巫术（coven 
+hex）的女巫，你也可以加入一个替换儿战团（changeling coven）。你的有效女巫等级等同于你角色等级的一半。一个替换儿战团（changeling 
+coven）必须至少包括一名拥有战团巫术（coven hex）的替换儿女巫（changeling 
+witch）。
+此外，从女巫法术列表中选择一道0环法术。你获得每日三次以类法术能力施展这条法术的能力，其施法者等级等同于你的角色等级。这条法术的豁免DC为10+你的智力调整值（Intelligence 
+modifier）。
+

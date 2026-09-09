@@ -1,0 +1,332 @@
+{
+  "source_book": "闹鬼英雄手册",
+  "source_book_english": "Haunted Heroes Handbook",
+  "source_dir": "pf_data/phase1/pf_rules_md/未整理/闹鬼英雄手册HHH",
+  "stats": {
+    "added": 40,
+    "skipped": 0,
+    "errors": []
+  },
+  "sections": [
+    {
+      "source": "闹鬼专长.md",
+      "title": "鬼上手",
+      "english": "POSSESSED HAND",
+      "target": "专长/闹鬼英雄手册HHH_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "闹鬼专长.md",
+      "title": "自动手",
+      "english": "HAND’S AUTONOMY",
+      "target": "专长/闹鬼英雄手册HHH_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "闹鬼专长.md",
+      "title": "人手分离",
+      "english": "HAND’S DETACHMENT",
+      "target": "专长/闹鬼英雄手册HHH_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "闹鬼专长.md",
+      "title": "手不释卷",
+      "english": "HAND’S KNOWLEDGE",
+      "target": "专长/闹鬼英雄手册HHH_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "闹鬼专长.md",
+      "title": "手心长眼",
+      "english": "HAND’S SIGHT",
+      "target": "专长/闹鬼英雄手册HHH_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "闹鬼专长.md",
+      "title": "精魄受体",
+      "english": "SPIRIT RIDDEN",
+      "target": "专长/闹鬼英雄手册HHH_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "闹鬼专长.md",
+      "title": "英灵受体",
+      "english": "CHANNEL SPIRIT",
+      "target": "专长/闹鬼英雄手册HHH_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "闹鬼专长.md",
+      "title": "精魄盟友",
+      "english": "SPIRIT ALLY",
+      "target": "专长/闹鬼英雄手册HHH_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "闹鬼专长.md",
+      "title": "精神训练",
+      "english": "SPIRITUAL TRAINING",
+      "target": "专长/闹鬼英雄手册HHH_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "闹鬼专长.md",
+      "title": "虚幻杀手",
+      "english": "Ghostslayer",
+      "target": "专长/闹鬼英雄手册HHH_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "闹鬼专长.md",
+      "title": "灵魂打击",
+      "english": "Soulwrecking Strike",
+      "target": "专长/闹鬼英雄手册HHH_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "闹鬼专长.md",
+      "title": "魂刃",
+      "english": "Soulblade",
+      "target": "专长/闹鬼英雄手册HHH_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "闹鬼专长.md",
+      "title": "解说之策",
+      "english": "Studied Expertise",
+      "target": "专长/闹鬼英雄手册HHH_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "闹鬼专长.md",
+      "title": "魅影盟友",
+      "english": "Phantom Ally",
+      "target": "专长/闹鬼英雄手册HHH_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "闹鬼专长.md",
+      "title": "十方鬼众",
+      "english": "Spirit Oni Master",
+      "target": "专长/闹鬼英雄手册HHH_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "闹鬼专长.md",
+      "title": "作祟拾荒者",
+      "english": "Haunt Scavenger",
+      "target": "专长/闹鬼英雄手册HHH_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "背景特性25.md",
+      "title": "英灵向导/英灵引",
+      "english": "Guiding Spirit",
+      "target": "背景特性/闹鬼英雄手册HHH_背景特性.md",
+      "section_title": "背景特性",
+      "action": "added"
+    },
+    {
+      "source": "背景特性25.md",
+      "title": "灵性依恋",
+      "english": "Spiritual Attachment",
+      "target": "背景特性/闹鬼英雄手册HHH_背景特性.md",
+      "section_title": "背景特性",
+      "action": "added"
+    },
+    {
+      "source": "背景特性25.md",
+      "title": "钉魂门信徒",
+      "english": "Rivethun Adherent",
+      "target": "背景特性/闹鬼英雄手册HHH_背景特性.md",
+      "section_title": "背景特性",
+      "action": "added"
+    },
+    {
+      "source": "牧师变体领域力量.md",
+      "title": "阿斯莫迪斯（诡术领域变体力量）",
+      "english": "Asmodeus",
+      "target": "职业/核心职业/牧师/page_41.md",
+      "section_title": "牧师变体领域力量",
+      "action": "added"
+    },
+    {
+      "source": "牧师变体领域力量.md",
+      "title": "凯登凯连（混乱领域变体力量）",
+      "english": "Cayden Cailean",
+      "target": "职业/核心职业/牧师/page_41.md",
+      "section_title": "牧师变体领域力量",
+      "action": "added"
+    },
+    {
+      "source": "牧师变体领域力量.md",
+      "title": "义洛理（医疗领域变体力量）",
+      "english": "Irori",
+      "target": "职业/核心职业/牧师/page_41.md",
+      "section_title": "牧师变体领域力量",
+      "action": "added"
+    },
+    {
+      "source": "牧师变体领域力量.md",
+      "title": "奈德丽（高贵领域变体力量）",
+      "english": "Naderi",
+      "target": "职业/核心职业/牧师/page_41.md",
+      "section_title": "牧师变体领域力量",
+      "action": "added"
+    },
+    {
+      "source": "牧师变体领域力量.md",
+      "title": "法莱斯玛（安眠领域变体力量）",
+      "english": "Pharasma",
+      "target": "职业/核心职业/牧师/page_41.md",
+      "section_title": "牧师变体领域力量",
+      "action": "added"
+    },
+    {
+      "source": "牧师变体领域力量.md",
+      "title": "厄加图娅（死亡领域变体力量）",
+      "english": "Urgathoa",
+      "target": "职业/核心职业/牧师/page_41.md",
+      "section_title": "牧师变体领域力量",
+      "action": "added"
+    },
+    {
+      "source": "仪式3.md",
+      "title": "地缚结界",
+      "english": "Earthbound Ward",
+      "target": "法术/闹鬼英雄手册HHH_驱魔仪式.md",
+      "section_title": "驱魔仪式",
+      "action": "added"
+    },
+    {
+      "source": "仪式3.md",
+      "title": "驱除作祟",
+      "english": "Exorcise Haunt",
+      "target": "法术/闹鬼英雄手册HHH_驱魔仪式.md",
+      "section_title": "驱魔仪式",
+      "action": "added"
+    },
+    {
+      "source": "仪式3.md",
+      "title": "采集亵渎之魂",
+      "english": "Harvest the Defiled Soul",
+      "target": "法术/闹鬼英雄手册HHH_驱魔仪式.md",
+      "section_title": "驱魔仪式",
+      "action": "added"
+    },
+    {
+      "source": "仪式3.md",
+      "title": "诅咒之音",
+      "english": "Voice of the Damned",
+      "target": "法术/闹鬼英雄手册HHH_驱魔仪式.md",
+      "section_title": "驱魔仪式",
+      "action": "added"
+    },
+    {
+      "source": "page_672.md",
+      "title": "鬼屠",
+      "english": "Spiritslayer",
+      "target": "职业/混合职业/杀手/page_117.md",
+      "section_title": "杀手变体",
+      "action": "added"
+    },
+    {
+      "source": "page_672.md",
+      "title": "祈求者",
+      "english": "Invoker",
+      "target": "职业/基础职业/女巫/page_70.md",
+      "section_title": "女巫变体",
+      "action": "added"
+    },
+    {
+      "source": "page_672.md",
+      "title": "除灵师",
+      "english": "Expulsionist",
+      "target": "职业/基础职业/审判者/page_78.md",
+      "section_title": "审判者变体",
+      "action": "added"
+    },
+    {
+      "source": "page_672.md",
+      "title": "炼魂士",
+      "english": "Ectoplasm Master",
+      "target": "职业/基础职业/炼金术师/page_21.md",
+      "section_title": "炼金术师变体",
+      "action": "added"
+    },
+    {
+      "source": "page_672.md",
+      "title": "钢魂神兵",
+      "english": "Steelbound Fighter",
+      "target": "职业/核心职业/战士/page_49.md",
+      "section_title": "战士变体",
+      "action": "added"
+    },
+    {
+      "source": "page_672.md",
+      "title": "密契法师",
+      "english": "Pact wizard",
+      "target": "职业/核心职业/法师/page_67.md",
+      "section_title": "法师变体",
+      "action": "added"
+    },
+    {
+      "source": "page_672.md",
+      "title": "导灵修士",
+      "english": "Rivethun Spirit Channeler",
+      "target": "职业/异能冒险（Occult Adventures）/通灵者/page_262.md",
+      "section_title": "通灵者变体",
+      "action": "added"
+    },
+    {
+      "source": "page_672.md",
+      "title": "巫毒祭司",
+      "english": "Uda Wendo",
+      "target": "职业/异能冒险（Occult Adventures）/通灵者/page_262.md",
+      "section_title": "通灵者变体",
+      "action": "added"
+    },
+    {
+      "source": "page_672.md",
+      "title": "痛苦之源",
+      "english": "Scourges",
+      "target": "职业/异能冒险（Occult Adventures）/唤魂师/page_270.md",
+      "section_title": "唤魂师变体",
+      "action": "added"
+    },
+    {
+      "source": "page_672.md",
+      "title": "怪谈终结者",
+      "english": "Skeptic",
+      "target": "职业/混合职业/调查员/page_107.md",
+      "section_title": "调查员变体",
+      "action": "added"
+    },
+    {
+      "source": "page_1217.md",
+      "title": "操灵血统",
+      "english": "Possessed",
+      "target": "职业/核心职业/术士/page_64.md",
+      "section_title": "术士血脉",
+      "action": "added"
+    }
+  ]
+}

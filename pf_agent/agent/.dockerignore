@@ -1,0 +1,15 @@
+# 构建上下文仅需 pom + src；排除开发/产物/文档目录（SP6 D5：.dockerignore 排除 target 与 qa 输出）
+target/
+.git/
+.gitignore
+# agent 模块下的设计与验收文档不进镜像
+docs/
+# 评测集与评测输出（qa/evaluate.py 产物不进镜像）
+qa/
+*.md
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+# jenv
+.java-version

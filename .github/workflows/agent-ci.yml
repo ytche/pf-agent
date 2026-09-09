@@ -1,0 +1,39 @@
+# CI — Java Agent 构建与测试（SP6 D6）
+#
+# ⚠️ 与数据侧 ci.yml（向量化数据质量闸口）并存：那个跑 Python vectorizer、
+# 收窄到 vectorizer/** 路径；本 workflow 专跑 Java 模块（pf_agent/agent）。
+# 两个文件各自 paths 收窄，文档/数据提交不会互相触发空跑。
+#
+# 基线：mvn test 247 全绿（SP5 修复验收口径）；Java 17（pom java.version）。
+name: agent-ci
+
+on:
+  push:
+    branches: ["main", "dev/pf-agent", "feat/**"]
+    paths:
+      - 'pf_agent/agent/**'
+      - '.github/workflows/agent-ci.yml'
+  pull_request:
+    paths:
+      - 'pf_agent/agent/**'
+      - '.github/workflows/agent-ci.yml'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: pf_agent/agent
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+          cache: maven
+
+      # 单元测试零外部依赖（向量库/数据文件在 ~/.pf_agent 与 pf_data 产物，
+      # gitignored；本批测试均为 mock / @TempDir 级，无需数据）。
+      - name: Maven 测试
+        run: mvn test -B

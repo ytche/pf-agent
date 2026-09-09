@@ -1,0 +1,548 @@
+{
+  "source_book": "巨人猎手手册",
+  "source_book_english": "Giant Slayer's Handbook",
+  "source_dir": "pf_data/phase1/pf_rules_md/未整理/巨人猎手手册",
+  "stats": {
+    "added": 2,
+    "skipped": 57,
+    "errors": []
+  },
+  "sections": [
+    {
+      "source": "职业选项/page_1574.md",
+      "title": "泰坦战士",
+      "english": "Titan Fighter",
+      "cls": "战士",
+      "section_title": "变体",
+      "target": "职业/核心职业/战士/page_49.md",
+      "marker": "泰坦战士（Titan Fighter）",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业选项/page_399.md",
+      "title": "歌利亚德鲁伊",
+      "english": "Goliath Druid",
+      "cls": "德鲁伊",
+      "section_title": "变体",
+      "target": "职业/核心职业/德鲁伊/page_49.md",
+      "marker": "Goliath",
+      "action": "added"
+    },
+    {
+      "source": "职业选项/盗贼变体.md",
+      "title": "阴险纠缠者",
+      "english": "Vexing Dodger",
+      "cls": "盗贼",
+      "section_title": "变体",
+      "target": "职业/核心职业/盗贼/page_49.md",
+      "marker": "阴险纠缠者（Vexing dodger）",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长51.md",
+      "title": "巧夺缴械物",
+      "english": "",
+      "target": "专长/巨人猎手手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长51.md",
+      "title": "摔得更狠",
+      "english": "",
+      "target": "专长/巨人猎手手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长51.md",
+      "title": "躲避投石",
+      "english": "",
+      "target": "专长/巨人猎手手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长51.md",
+      "title": "抑制再生",
+      "english": "",
+      "target": "专长/巨人猎手手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长51.md",
+      "title": "辗转腾挪",
+      "english": "",
+      "target": "专长/巨人猎手手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长51.md",
+      "title": "弧线抛投",
+      "english": "",
+      "target": "专长/巨人猎手手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长51.md",
+      "title": "高呼挑衅",
+      "english": "",
+      "target": "专长/巨人猎手手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长51.md",
+      "title": "巨人克星施法者",
+      "english": "",
+      "target": "专长/巨人猎手手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长51.md",
+      "title": "巨人杀手姿态",
+      "english": "",
+      "target": "专长/巨人猎手手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长51.md",
+      "title": "抓地者",
+      "english": "",
+      "target": "专长/巨人猎手手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长51.md",
+      "title": "开山掌",
+      "english": "",
+      "target": "专长/巨人猎手手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长51.md",
+      "title": "致命毒刺",
+      "english": "",
+      "target": "专长/巨人猎手手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长51.md",
+      "title": "急爬",
+      "english": "",
+      "target": "专长/巨人猎手手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长51.md",
+      "title": "仿巨鬼法术",
+      "english": "",
+      "target": "专长/巨人猎手手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长51.md",
+      "title": "巨人之敌",
+      "english": "",
+      "target": "专长/巨人猎手手册_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "新武器1.md",
+      "title": "萨里沙长矛",
+      "english": "",
+      "target": "装备_魔法物品/武器/巨人猎手手册_新武器.md",
+      "section_title": "新武器",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "新武器1.md",
+      "title": "巨型套牛绳",
+      "english": "",
+      "target": "装备_魔法物品/武器/巨人猎手手册_新武器.md",
+      "section_title": "新武器",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "新武器1.md",
+      "title": "刺矛",
+      "english": "",
+      "target": "装备_魔法物品/武器/巨人猎手手册_新武器.md",
+      "section_title": "新武器",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "新武器1.md",
+      "title": "爆瓶矛",
+      "english": "",
+      "target": "装备_魔法物品/武器/巨人猎手手册_新武器.md",
+      "section_title": "新武器",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "新物品.md",
+      "title": "伐敌斧",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/巨人猎手手册_新物品.md",
+      "section_title": "新物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "新物品.md",
+      "title": "大地之子面罩",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/巨人猎手手册_新物品.md",
+      "section_title": "新物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "新物品.md",
+      "title": "大地之子面罩装饰有大地之子精锐",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/巨人猎手手册_新物品.md",
+      "section_title": "新物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "新物品.md",
+      "title": "轻松缎带",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/巨人猎手手册_新物品.md",
+      "section_title": "新物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "新物品.md",
+      "title": "紧抓套牛索",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/巨人猎手手册_新物品.md",
+      "section_title": "新物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "新物品.md",
+      "title": "紧抓套牛索所产生的活化绳索有AC22点、硬度10点和DR5/挥砍。若紧抓套牛索被切断",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/巨人猎手手册_新物品.md",
+      "section_title": "新物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "新物品.md",
+      "title": "催眠竖琴",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/巨人猎手手册_新物品.md",
+      "section_title": "新物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "新物品.md",
+      "title": "冲击手套",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/巨人猎手手册_新物品.md",
+      "section_title": "新物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "新物品.md",
+      "title": "小鼠罩衣",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/巨人猎手手册_新物品.md",
+      "section_title": "新物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "新物品.md",
+      "title": "萎缩之刃",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/巨人猎手手册_新物品.md",
+      "section_title": "新物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "新物品.md",
+      "title": "走私者投石索",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/巨人猎手手册_新物品.md",
+      "section_title": "新物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "新物品.md",
+      "title": "巨魔克星涂层",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/巨人猎手手册_新物品.md",
+      "section_title": "新物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "新物品.md",
+      "title": "巨魔之血灵药",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/巨人猎手手册_新物品.md",
+      "section_title": "新物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "新物品.md",
+      "title": "巨魔之血灵药不会影响物体或是例如构装体和不死生物的无生命生物",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/巨人猎手手册_新物品.md",
+      "section_title": "新物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "装备5.md",
+      "title": "精金锁链",
+      "english": "",
+      "target": "装备_魔法物品/货品服务/巨人猎手手册_装备.md",
+      "section_title": "装备",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "装备5.md",
+      "title": "秘银锁链",
+      "english": "",
+      "target": "装备_魔法物品/货品服务/巨人猎手手册_装备.md",
+      "section_title": "装备",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "装备5.md",
+      "title": "磁石靴",
+      "english": "",
+      "target": "装备_魔法物品/货品服务/巨人猎手手册_装备.md",
+      "section_title": "装备",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "装备5.md",
+      "title": "壁虎手套",
+      "english": "",
+      "target": "装备_魔法物品/货品服务/巨人猎手手册_装备.md",
+      "section_title": "装备",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "装备5.md",
+      "title": "口香糖绳",
+      "english": "",
+      "target": "装备_魔法物品/货品服务/巨人猎手手册_装备.md",
+      "section_title": "装备",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "装备5.md",
+      "title": "火巨人猎手工具包",
+      "english": "",
+      "target": "装备_魔法物品/货品服务/巨人猎手手册_装备.md",
+      "section_title": "装备",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "装备5.md",
+      "title": "霜巨人猎手工具包",
+      "english": "",
+      "target": "装备_魔法物品/货品服务/巨人猎手手册_装备.md",
+      "section_title": "装备",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "装备5.md",
+      "title": "巨人巢穴渗透者工具包",
+      "english": "",
+      "target": "装备_魔法物品/货品服务/巨人猎手手册_装备.md",
+      "section_title": "装备",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "背景特性24.md",
+      "title": "巨人调查员",
+      "english": "",
+      "target": "背景/巨人猎手手册_背景特性.md",
+      "section_title": "背景特性",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "背景特性24.md",
+      "title": "巨人闪避者",
+      "english": "",
+      "target": "背景/巨人猎手手册_背景特性.md",
+      "section_title": "背景特性",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "背景特性24.md",
+      "title": "倾心巨人",
+      "english": "",
+      "target": "背景/巨人猎手手册_背景特性.md",
+      "section_title": "背景特性",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "背景特性24.md",
+      "title": "巨人歧感",
+      "english": "",
+      "target": "背景/巨人猎手手册_背景特性.md",
+      "section_title": "背景特性",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "背景特性24.md",
+      "title": "残虐铸冷心",
+      "english": "",
+      "target": "背景/巨人猎手手册_背景特性.md",
+      "section_title": "背景特性",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "背景特性24.md",
+      "title": "惊惶仆役",
+      "english": "",
+      "target": "背景/巨人猎手手册_背景特性.md",
+      "section_title": "背景特性",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "背景特性24.md",
+      "title": "巨人受害者",
+      "english": "",
+      "target": "背景/巨人猎手手册_背景特性.md",
+      "section_title": "背景特性",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "新技能选项.md",
+      "title": "巨人猎手们的技能",
+      "english": "",
+      "target": "技能/巨人猎手手册_新技能选项.md",
+      "section_title": "新技能选项",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "新技能选项.md",
+      "title": "佯装无害Feign",
+      "english": "",
+      "target": "技能/巨人猎手手册_新技能选项.md",
+      "section_title": "新技能选项",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "新技能选项.md",
+      "title": "躲在生物身后Hide",
+      "english": "",
+      "target": "技能/巨人猎手手册_新技能选项.md",
+      "section_title": "新技能选项",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "新技能选项.md",
+      "title": "威吓体型更大的生物Intimidate",
+      "english": "",
+      "target": "技能/巨人猎手手册_新技能选项.md",
+      "section_title": "新技能选项",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "新技能选项.md",
+      "title": "植入想法Plant",
+      "english": "",
+      "target": "技能/巨人猎手手册_新技能选项.md",
+      "section_title": "新技能选项",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "防具附魔3.md",
+      "title": "贴身",
+      "english": "",
+      "target": "装备_魔法物品/防具附魔/巨人猎手手册_防具附魔.md",
+      "section_title": "防具附魔",
+      "action": "added"
+    },
+    {
+      "source": "武器附魔3.md",
+      "title": "贴身",
+      "english": "",
+      "target": "装备_魔法物品/武器附魔/巨人猎手手册_武器附魔.md",
+      "section_title": "武器附魔",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "武器附魔3.md",
+      "title": "放缩",
+      "english": "",
+      "target": "装备_魔法物品/武器附魔/巨人猎手手册_武器附魔.md",
+      "section_title": "武器附魔",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    }
+  ],
+  "skipped_files": []
+}

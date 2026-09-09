@@ -1,0 +1,145 @@
+# 神术选集DA 牧师子域
+
+<!-- 神术选集DA-source:page_1215.md:cleric_subdomains -->
+## 神术选集DA 牧师子域
+> 来源：神术选集（Divine Anthology），页码见原书，未整理 → 神术选集DA → 职业选项 → 牧师
+## 炼金子域（Alchemy Subdomain）
+
+**关联领域**：手艺（Artifice），魔法（Magic）**关联神祇**：Brigh, 
+Haagenti, Norgorber*(仅限手艺), Orgesh* (仅限魔法), Qi Zhong**替换领域力量**：下列领域力量替换了手艺领域的技工之触（artificer's 
+touch power）和魔法领域的随从之手（hand of the acolyte power ）**神圣炼金（Divine Alchemy，Su）**：你可以花费一分钟的仪式，将一个准备好的法术灌注到一瓶水中，创造一个临时的药水，持续时间直到被消耗或者下一次准备法术为止。这个能力所使用的法术的目标必须是一个或者多个生物。并且你能通过这个能力灌注的法术最大环位为1+每4个牧师等级再加1。在判断领域法术时，这些药水被视为化合炼成。你能使用这个能力的次数为3+感知调整次数。**替换领域法术**：2nd-*接触注射（touch 
+injection）UC*，4th-*增效灵药（amplify 
+elixir）APG*，6th-*即效延迟剂（Delayed 
+Consumption）APG*
+
+## 迷惑子域（Captivation Subdomain）
+
+**关联领域**：魅惑（Charm）**关联神祇**：Calistria, 
+Kofusachi, Nalinivati,Norgorber, Shelyn**替换领域力量**：下列领域力量替换了魅惑领域的魅惑微笑（charming 
+smile power）能力。**迷心灵光（Entrancing Aura ，Su）**：在8级，你可以用一个标准动作发散出一个难以察觉的30尺灵光，每日可用轮数等同于你的牧师等级，这些轮数不必连续。在这个灵光范围内的敌人在察觉检定上受到-5的减值，而且在判断你给予他们的迷魂状态的效果时，他们的生命骰被视为减少2点（最小为1），在16级时，在决定那些效果时，作为代替他们的生命骰被视为减少3点。**替换领域法术**: 
+1st—*催眠术（hypnotism）*, 
+2nd—*催眠图纹（hypnotic 
+pattern）*, 
+4th—*彩虹图纹（rainbow 
+pattern）*。
+
+## 傲慢子域（Hubris Subdomain）
+
+**关联领域**：荣耀（Glory），高贵（Nobility）**关联神祇**：Dispater, 
+General Susumu, Iomedae,Jaidz, Lissala, Olheon, Ydersius**替换领域力量**：你获得威吓作为你的本职技能。这取代了荣耀领域的在对抗引导正能量豁免DC的增长。下列领域力量替换了荣耀领域的神力光临（divine 
+presence ）或者高贵领域的领导力（Leadership）能力。**神圣索取（Divine Demand）**：在6级，你可以请求你的神给予远比你所应得的更强的力量。激活这个能力是一个迅捷动作，你必须释放一个能够在成功豁免后削弱效果（不能是无效）的法术。这个法术的DC增加两点，并且你在克服法术抗力的施法者等级检定上获得+2加值。作为代替，任何成功通过豁免的生物会完全免收这个效果，如果有一半或者超过一半的目标不受影响，那么你会变得颤栗（Shaken）等同于你的法术环位轮数。如果所有生物都通过了豁免，作为代替，你会失去施放神术，引导能量，使用领域力量的能力1d4+1轮。你可以用一个会受到借机攻击的整轮动作，大声祈求你的神明宽恕，以此来结束这个效果。你可以在6级使用这个能力一次，在6级之后每4级额外获得一次使用次数。**替换领域法术**: 
+4th—*虚伪气度（hollow 
+heroism）UI*, 
+7th—*高等虚伪气度（greater 
+hollow heroism）UI*, 
+9th—*神威如狱（overwhelming 
+presence）UM*. 如果你是邪恶阵营，将祝福武器和圣洁灵光分别替换为援助术和邪恶灵光
+
+## 昆虫子域（Insect Subdomain）
+
+**关联领域**：动物（Animal）**关联神祇**：Achaekek*, 
+Aldinach, Deskari*,Ghlaunder, Kitumu, Mazmezz**替换领域力量**：昆虫领域提供的领域法术将虫类（Vermin）视为动物而决定效果，将他们视为好像不对具有影响心灵描述符的法术免疫一样。任何这样的法术如果允许意志豁免，那么作为代替，目标虫类可以作一个强韧豁免使其无效，DC与原来相同。下列神授力量取代动物领域的动物交谈（speak 
+with animals）。**外骨骼（Exoskeleton，Su）**：以一个迅捷动作，你可以长出一副外骨骼，这将会给你与在天生防御上+1增强加值以及1d4+1/2牧师等级的临时生命。你每有5个牧师等级，你的天生防御加值增加1点。这个外骨骼在一轮之后缩回，结束它的效果。你每天能使用这个能力的次数为3+感知调整加值。替换领域法术: 
+4th—*巨虫术（giant 
+vermin）*, 
+5th—*虫类形态II（vermin 
+shape II）*UM, 
+8th—*召唤自然盟友VIII（summon 
+nature's ally VIII）* (1d3 [巨人锹甲虫](http://www.goddessfantasy.net/bbs/index.php?topic=56693.msg551451#msg551451); 
+Pathfinder RPG Bestiary 2 44)
+
+## 传奇子域（Legend Subdomain）
+
+**关联领域**: 
+荣耀**关联神祇**: 
+General Susumu, Gorum, Shizuru**替换领域力量**：在可以使用英雄点系统的活动中(Pathfinder 
+RPG Advanced Player's Guide 322)，你获得洪福齐天（Hero's Fortune，Advanced Player's Guide 
+324)，否则你获得注定荣耀(Marked for Glory，Pathfinder RPG Mythic Adventures 
+69)作为奖励专长，即使你不满足先决条件。这替换了荣耀领域的引导能量豁免DC的增长。除此之外，下列神授力量取代了荣耀领域的神力光临（divine 
+presence）能力。**见证传奇（Witness the Legend）**：在8级时，以一个移动动作，你可以褒扬你自己或者在60尺内你所能看到的盟友的的美德。这会让目标像火炬一样发光一分钟，在效果持续的时候，以一个直觉动作，你可以花费荣耀领域的一次光荣触摸（Touch 
+of 
+Glory）的使用次数让目标在一次攻击，豁免掷骰，或者能力检定上获得1d6的加值；在重击确认和对抗恐惧效果的豁免掷骰上用d12代替。在8级的时候你能每天使用这个能力一次，在8级之后的每4级获得额外一次使用次数。**替换领域法术**: 
+2nd—*援助术（aid）*, 
+3rd—*热诚蔓延（contagious 
+zeal）OA*, 
+4th— *正义狂热（righteous 
+vigor）APG*, 
+6th— *狂热执念（unshakable 
+zeal）OA*. 
+如果你是邪恶，将圣光击（holy smite）, 圣剑（holy sword）, 圣洁灵光（holy aura）分别替换为 邪影击（unholy 
+blight）, 邪剑术（unholy sword）UM和邪恶灵光（ 
+unholy aura）。
+
+## 闪电子域（Lightning Subdomain）
+
+**关联领域**：气（Air）**关联神祇**: 
+哥兹莱（Gozreh）, 黑风（Hei Feng）,洛瓦古格（ Rovagug）, Rull**替换领域力量**：下列领域的神授力量取代了气领域的电抗性（Electricity 
+Resistance）**闪电权杖/引雷针（Lightning Rod ，Su）**：当你用施放带有电描述符的法术时，你可以用一个迅捷动作指定一个在视线范围内的生物。 
+这个法术的会对该生物造成的伤害增加50％，仿佛受到法术强效超魔（Empower Spell 
+feat）专长的影响。 这个额外的伤害是神力所造成的，所以不会因为闪电抗力而被减少，并且你会在你施放这个法术后立刻受到等量的闪电伤害。（译者注：这个地方有争议）这个法术只造成一次额外伤害，即便它可以多次对目标造成影响。 
+你可以在8级时每天使用一次这种能力，在8级之后每额外4个牧师等级你可以每天再获得一次使用次数。**替换领域法术**：1st *电爪（shocking 
+grasp）*, *2nd—**火焰刀 （flame 
+blade ）***（造成闪电伤害并且以电描述符替换火描述符）Cool！划重点！,*3rd 
+闪电束（lightning bolt）*译者吐槽：Lightning 
+Rod从断句来看，自己受到的伤害只有额外的那50%部分，不过那一部分伤害能否被电抗减免目前有争议。单从字面意思来看自身所受到的伤害是是闪电伤害，但是也有些人认为受到的应该是神圣伤害，而不可被减免。
+
+## 医药子域（Medicine Subdomain）
+
+**关联领域**：医疗（Healing）**关联神祇**：  
+Dalenydra, Immonhiel, Irori, Korada,Qi Zhong, Sarenrae**替换领域力量**：下列神授力量替换了医疗领域的制止死亡（Rebuke 
+Death）能力。**受福手术（Blessed Surgery ，Su）**：你的神指引着你的双手治愈他人，用平凡的医术来创造小小的奇迹。你可以用自由动作来使用这个能力，当你使用医疗进行检定时，你可以双骰取高。当你使用这个能力，任何需要一个小时的医疗检定最多只需要花费一分钟。你每日可以使用这个能力次数等于你的3+感知调整加值。**替换领域法术**: 
+1st—*诊断疾病（diagnose 
+disease）UM*,2nd—*安慰效益（placebo 
+effect）OA*.
+
+## 雨季子域（Monsoon Subdomain）
+
+**关联领域**：天气（Weather）**关联神祇**： 
+Daikitsu, Gozreh, Hei Feng, Rull.**替换领域能力**：下列神授力量替换了天气领域的闪电主宰（lightning 
+lord）能力。**甘霖（Refreshing Rain ，Su）**：在8级时，用一个标准动作，你可以在半径30尺范围内呼唤降雨来做一次短暂的阵雨。在这个区域内的生物会治疗等同于你两倍牧师等级的非致命伤害，并且不会再力竭（exhausted）,疲乏（fatigued）, 
+反胃（nauseated）, 或者恶心（sickened）。你在8级可以每天使用这个能力一次，在8级之后每4级额外获得一次使用次数。**替换领域法术:** 3rd—*水流爆发（hydraulic torrent）APG*,4th—*控制水位（control water）*, 5th—*无相之风（fickle winds）APG*, 9th—*津波（tsunami）APG*
+
+## 化石子域（Petrification Subdomain）
+
+**关联领域**：土（Earth）**关联神祇**：Ayrzul, Minderhal, Soralyon, Xoveron**替换领域力量**：下列神授力量替换土领域的酸镖（Acid Dart）能力。**化石形态（Fossil Form ，Su）**：在你的回合开始的时候以一个迅捷动作，你可以在你的血肉里注入矿物，这会给予你笨重的保护。直到你的下回合开始，你变得恍惚，获得2点硬度并在对抗石化的豁免上检定上获得+2加值。你每有4个牧师等级，这个硬度会增加2点，对抗石化的豁免检定上增加1点。你每天能使用这个能力的次数为3+感知调整次数。**替换领域法术**: 4th—*石化之触（calcific touch）APG*,5th—*石肤术（stoneskin）*, 6th—*石化术（flesh to stone）*, 8th—*雕像术（statue）*
+
+## 门户子域（Portal Subdomain）
+
+**关联领域**：旅行（Travel）**关联神祇**： Abadar, Alseta*, Barbatos, Yog-Sothoth**替换领域力量**：下列神授力量替换旅行领域的基础速度增长和灵巧步伐（Agile Feet）能力。**祝福之阈（Sacred Threshold ）**：以一个标准动作，你可以通过一个接触祝福一个门，一个窗户或者其他一个门户。你可以在持续一分钟的时间内，增加或减少任何解锁或者暴力破门检定的DC，其数值等同于你牧师等级的一半。除此之外，在持续时间内，你的第一个通过这个门户的盟友，获得1d4+1/2牧师等级临时生命，这个临时生命持续一分钟的时间。你每天可以使用这个能力的次数为3+感知调整次数。**一体旅行（Travel as One）**：当你施放一个带有传送描述符的法术时，在判断你能携带多少生物时，视为你的施法者等级提高三级。此外，你和任何你所传送的生物会获得等同于你等级的临时生命，在到达目的地后消失。这可以抵消任何你从传送意外或者尝试传送进入固体时所受到的伤害。**替换领域法术**: 1st—*门户错觉（open and shut）UI*, 2nd—*敲击术（knock）*, 3rd—*都市跃迁术（urban step）*UI, 9th—*传送法阵（teleportation circle）*.
+
+## 仪式子域（Rites Subdomain）
+
+**关联领域**: 魔法（Magic）.**关联神祇**: Abraxas, Asmodeus, Nalinivati,Nethys, Nyarlathotep, 
+Sivanah.**替换领域力量**：当你施放仪式领域法术而需要昂贵的材料和器材时——或者施放魔法恒定术在任意领域法术时——减少任何所需成本20%。下列领域神授力量替换了魔法领域的随从之手（Hand 
+of the Acolyte）能力。**持久仪式（Enduring Ritual ，Su）**：以一个迅捷动作，当你施放一个时长至少为每施法者等级1分钟的法术时，你可以将法术的有效施法者等级提高1级，来判断法术的持续时间和防止它被尝试解除。你每有10个牧师等级，这个法术的有效施法者等级提升增加1级（最多+3），你每日可以使用这个能力的次数为3+感知调整次数。替换领域法术: 1st—*尸体圣化（sanctify corpse）UM*,5th—*魔法恒定术（permanency）*, 8th—*束缚大法（binding）*
+
+## 自我完善子域（Self-Realization Subdomain）
+
+**关联领域**：解放（Liberation）, 力量（Strength）**关联神祇**：Arshea, Falayna, Haagenti, Irori, Kurgess, Shei, 
+Urgathoa**替换领域力量**：下列神授力量替换了解放领域的解放（Liberation）能力或者力量领域的力量满溢（Strength 
+Surge）能力。**完美形态（Perfected Form， Su）**：你对自我有着不可动摇的感觉，没有什么了力量可以让你成为别的什么东西。你获得+1神圣加值（如果你的阵营是善良或者中立）或亵渎加值（如果你的阵营是邪恶）在对抗变形（polymorph），石化（petrification）和变化系（transmutation）效果的豁免检定上。你每有5个牧师等级这个加值增加1（最大+5）。每天一次，当你在上述的一个效果中豁免成功时，这会给予你一股强烈的自信心，以一个直觉动作你可以获得等同于你牧师等级的临时生命，在攻击检定，技能检定和豁免检定上获得+2士气加值，这两个效果持续一分钟的时间。替换领域法术: 4th—*博采众长（paragon surge） (Pathfinder RPG Advanced Race Guide 48; 
+总是匹配你的实际种族)*, 6th—*原初怒嚎（primal scream）UM*, 7th—*转变术（transformation）*.Campaign Clarifications：The Self-Realization subdomain does allow characters who 
+are not half-elves to cast paragon surge, by passing the standard race-specific 
+restriction for spells from the Pathfinder RPG Advanced Race Guide. Regardless 
+of the race of the character who casts the spell, the character keeps all of her 
+extraordinary and supernatural abilities, and the enhancement bonuses apply to 
+Dexterity and Intelligence as typical for the spell.**编注:Campaign 
+Clarifications仅适用于PFS游戏，非官方勘误。**简单翻译一下：自我完善子域允许一个不是半精灵的角色施放博采众长，绕过APG的种族限制。
+
+## 干涸子域（Thirst Subdomain）
+
+**关联领域**：太阳（Sun）**关联神祇**：Aldinach, Lalaci, Nurgal, Sarenrae**替换领域力量**：下列领域力量替换了太阳领域的太阳祝福（Sun's Blessing）能力并且改变了光轮（Nimbus of 
+Light）能力。**枯萎凝视（Wilting Glare ，Su）**：以一个标准动作，你可以从30尺内活着的生物中汲取水分和生命力，目标受到每1d6+1/2牧师等级的非致命伤害，并且直到你的下一轮开始变得疲乏（强韧无效）。植物生物和具有水生以及水生亚种的生物会受到致命伤害，并且变得疲乏等同于你的感知调整轮数。你每日能使用这个能力的次数等同于3+你的感知调整次数。**枯萎光轮（Withering Nimbus ，Su）**：这个能力作用方式如同太阳领域的光轮（Nimbus of 
+Light）能力，但是它伤害植物和具有水生以及水生亚种的生物而不是不死生物。**替换领域法术**: 3rd—*尘埃之饮（cup of dust）APG*, 9th—*凋死术（horrid wilting）*.
+
+## 荆棘子域（Thorns Subdomain）
+
+**关联领域**: 植物（Plant）**关联神祇**: Shub-Niggurath, The Green Mother, Zyphu**替换领域力量**：下列领域力量替换了植物领域的木拳（Wooden Fist）能力。**狂野荆棘（Cruel Thicket ，Su）**：以一个标准动作，你可以让以你自己为中心5尺半径爆发范围内的地面蔓延，长出带有荆棘的藤蔓，任何穿过它的生物必须半速移动并受到等同于你牧师等级一半的流血伤害。如果你在拥有众多植物的地区激活此能力，该区域也会变成困难地形，这个效果持续一分钟，之后藤蔓崩坏成尘土，能够不受阻碍地穿过自然灌木丛的生物不会受到这个能力的影响。你每天能使用这个能力的次数为3+感知调整加值。**替换领域法术**: 1st—*荆棘标枪（thorn javelinACG）*, 3rd—*飞刺纠缠术（thorny entanglement）ACG*, 4th—*荆棘之躯（thorn body）APG*.
+
+## 真理子域（Truth Subdomain）
+
+**关联领域**：狂乱（Madness）**关联神祇**: 格罗图斯（Groetus）,拉玛什图（Lamashtu）,西芙 凯什（Sif 
+kesh）,西芙娜（Sivanah）**替换领域力量:** 下列神授力量替换狂乱领域的狂乱灵光（Aura of Madness）**破晓启示（Dawning Realization，Su）**：在8级时，你能通过一个标准动作碰触某一活物，并向其灌输无以理解，无以名状的破碎幻象，之后你的回合立刻结束。你和你的目标因为所获知之物而导致你被眩晕（daze）一轮并且你的目标困惑（confused）一轮。在接下来一轮中，你们会因为你们所发现的成果都恍惚（staggered）一轮，第三轮当你们尝试重拾意识（regain 
+your 
+bearings）时，你困惑（confused）一轮而目标眩晕（daze）一轮，每一轮你的目标都能尝试一次DC=10+1/2牧师等级+感知调整的意志豁免检定，使那一轮对你们所造成的效果无效，尽管这个效果直到第三轮结束前，该效果不会结束。这是一个影响心灵的效果，而你每日可使用次数等于你牧师等级的1/2。**替换领域法术**：3rd *晕厥之墙(WAll of Nausea)ACG*、5th*异界探知 (Contact Other Plane)*、6th*疯狂祷言 (Litany of Madness)*UC
+

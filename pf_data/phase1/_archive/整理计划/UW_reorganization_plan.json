@@ -1,0 +1,2996 @@
+{
+  "source_book": "极限荒野",
+  "source_book_english": "Ultimate Wilderness",
+  "source_dir": "pf_data/phase1/pf_rules_md/未整理/极限荒野UW",
+  "stats": {
+    "added": 0,
+    "skipped": 319,
+    "errors": []
+  },
+  "sections": [
+    {
+      "source": "职业变体_选项/page_1424.md",
+      "title": "自然学家",
+      "english": "Naturalist",
+      "cls": "秘学士",
+      "section_title": "变体",
+      "target": "职业/基础职业/秘学士/全变体未整合.md",
+      "marker": "自然学家（Naturalist）",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体_选项/page_1424.md",
+      "title": "探地者",
+      "english": "Geomancer",
+      "cls": "秘学士",
+      "section_title": "变体",
+      "target": "职业/基础职业/秘学士/全变体未整合.md",
+      "marker": "探地者(Geomancer)",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体_选项/page_1425.md",
+      "title": "恐龙卫士",
+      "english": "Saurian Champion",
+      "cls": "骑士",
+      "section_title": "变体",
+      "target": "职业/基础职业/骑将/page_74.md",
+      "marker": "恐龙卫士(Saurian Champion)",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体_选项/page_1425.md",
+      "title": "苍翠骑士",
+      "english": "Green Knight",
+      "cls": "骑士",
+      "section_title": "变体",
+      "target": "职业/基础职业/骑将/page_74.md",
+      "marker": "苍翠骑士（Green\nKnight）",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体_选项/page_1426.md",
+      "title": "金牌箭客",
+      "english": "Arrow Champion",
+      "cls": "游荡剑客",
+      "section_title": "变体",
+      "target": "职业/混合职业/游荡剑客/page_120.md",
+      "marker": "金牌箭客(ARROW CHAMPION)",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体_选项/page_1426.md",
+      "title": "荒野神行客",
+      "english": "Wildstrider",
+      "cls": "游荡剑客",
+      "section_title": "变体",
+      "target": "职业/混合职业/游荡剑客/page_120.md",
+      "marker": "荒野神行客(WILDSTRIDER)",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体_选项/page_1427.md",
+      "title": "尖兵战士",
+      "english": "Skirmisher",
+      "cls": "战士",
+      "section_title": "变体",
+      "target": "职业/核心职业/战士/page_49.md",
+      "marker": "尖兵战士Skirmisher",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体_选项/page_1427.md",
+      "title": "维京",
+      "english": "Vikings",
+      "cls": "战士",
+      "section_title": "变体",
+      "target": "职业/核心职业/战士/page_49.md",
+      "marker": "维京（Vikings）",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体_选项/page_1428.md",
+      "title": "毒拳士",
+      "english": "Venomfist",
+      "cls": "拳师",
+      "section_title": "变体",
+      "target": "职业/混合职业/拳师/page_102.md",
+      "marker": "毒拳士（Venomfist）",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体_选项/page_1428.md",
+      "title": "先登",
+      "english": "Living Avalanche",
+      "cls": "拳师",
+      "section_title": "变体",
+      "target": "职业/混合职业/拳师/page_102.md",
+      "marker": "先登(Living\nAvalanche)",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体_选项/page_1428.md",
+      "title": "苍翠擒缚师",
+      "english": "Verdant Grappler",
+      "cls": "拳师",
+      "section_title": "变体",
+      "target": "职业/混合职业/拳师/page_102.md",
+      "marker": "苍翠擒缚师（Verdant\nGrappler）",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体_选项/page_1428.md",
+      "title": "野性袭者",
+      "english": "Feral Striker",
+      "cls": "拳师",
+      "section_title": "变体",
+      "target": "职业/混合职业/拳师/page_102.md",
+      "marker": "野性袭者（Feral\nStriker）",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体_选项/page_1428.md",
+      "title": "地形拳士",
+      "english": "Turfer",
+      "cls": "拳师",
+      "section_title": "变体",
+      "target": "职业/混合职业/拳师/page_102.md",
+      "marker": "地形拳士（Turfer）",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体_选项/page_1429.md",
+      "title": "人猿泰山",
+      "english": "Treestrider",
+      "cls": "猎人",
+      "section_title": "变体",
+      "target": "职业/混合职业/猎人/page_104.md",
+      "marker": "人猿泰山（****Treestrider****）",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体_选项/page_1451.md",
+      "title": "潮汐猎人",
+      "english": "Tidal Hunter",
+      "cls": "游侠",
+      "section_title": "变体",
+      "target": "职业/核心职业/游侠/page_55.md",
+      "marker": "潮汐猎人（Tidal\nHunter）",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体_选项/page_1451.md",
+      "title": "火焰守望者",
+      "english": "Flamewarden",
+      "cls": "游侠",
+      "section_title": "变体",
+      "target": "职业/核心职业/游侠/page_55.md",
+      "marker": "火焰守望者【游侠变体】（Flamewarden）",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体_选项/page_1451.md",
+      "title": "荒野探险家",
+      "english": "Wilderness Explorer",
+      "cls": "游侠",
+      "section_title": "变体",
+      "target": "职业/核心职业/游侠/page_55.md",
+      "marker": "荒野探险家（Wilderness\nExplorer）",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体_选项/page_1452.md",
+      "title": "锐利之牙",
+      "english": "Sharptooth",
+      "cls": "野蛮人",
+      "section_title": "变体",
+      "target": "职业/核心职业/野蛮人/page_49.md",
+      "marker": "锐利之牙（Sharptooth）",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体_选项/page_1452.md",
+      "title": "荒野之子",
+      "english": "Wildborn",
+      "cls": "野蛮人",
+      "section_title": "变体",
+      "target": "职业/核心职业/野蛮人/page_49.md",
+      "marker": "荒野之子（Wildborn）",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体_选项/page_1452.md",
+      "title": "野蛮沼人",
+      "english": "Brutish Swamper",
+      "cls": "野蛮人",
+      "section_title": "变体",
+      "target": "职业/核心职业/野蛮人/page_49.md",
+      "marker": "野蛮沼人（Brutish Swamper）",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体_选项/page_1453.md",
+      "title": "植者",
+      "english": "Herbalist",
+      "cls": "炼金术师",
+      "section_title": "变体",
+      "target": "职业/基础职业/炼金术师/全变体未整合.md",
+      "marker": "植者（Herbalist）",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体_选项/page_1453.md",
+      "title": "园林学者",
+      "english": "Horticulturist",
+      "cls": "炼金术师",
+      "section_title": "变体",
+      "target": "职业/基础职业/炼金术师/全变体未整合.md",
+      "marker": "园林学者（Horticulturist）",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体_选项/page_1454.md",
+      "title": "游击枪手",
+      "english": "Commando",
+      "cls": "铳士",
+      "section_title": "变体",
+      "target": "职业/基础职业/铳手/page_76.md",
+      "marker": "游击枪手（Commando）",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体_选项/page_1455.md",
+      "title": "自然贤者",
+      "english": "Natural Philosopher",
+      "cls": "调查员",
+      "section_title": "变体",
+      "target": "职业/混合职业/调查员/page_107.md",
+      "marker": "自然贤者（Natural\nPhilosopher）",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体_选项/page_1455.md",
+      "title": "星空守望者",
+      "english": "Star Watcher",
+      "cls": "调查员",
+      "section_title": "变体",
+      "target": "职业/混合职业/调查员/page_107.md",
+      "marker": "星空守望者（Star\nWatcher）",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体_选项/page_1455.md",
+      "title": "绘图师",
+      "english": "Cartographer",
+      "cls": "调查员",
+      "section_title": "变体",
+      "target": "职业/混合职业/调查员/page_107.md",
+      "marker": "绘图师（Cartographer）",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体_选项/page_1457.md",
+      "title": "守林人",
+      "english": "Forest Preserver",
+      "cls": "圣武士",
+      "section_title": "变体",
+      "target": "职业/核心职业/圣骑士/page_55.md",
+      "marker": "守林人（Forest\nPreserver）",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体_选项/page_1458.md",
+      "title": "妖精侍臣",
+      "english": "Fey Courtier",
+      "cls": "吟游诗人",
+      "section_title": "变体",
+      "target": "职业/核心职业/吟游诗人/page_55.md",
+      "marker": "妖精侍臣（Fey\nCourtier）",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体_选项/page_1458.md",
+      "title": "耕种师",
+      "english": "Cultivator",
+      "cls": "吟游诗人",
+      "section_title": "变体",
+      "target": "职业/核心职业/吟游诗人/page_55.md",
+      "marker": "耕种师（Cultivator）",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体_选项/page_1460.md",
+      "title": "妖精戏耍者",
+      "english": "Fey Prankster",
+      "cls": "盗贼",
+      "section_title": "变体",
+      "target": "职业/核心职业/盗贼/page_49.md",
+      "marker": "妖精戏耍者（Fey\nPrankster）",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体_选项/page_1460.md",
+      "title": "机巧毁坏者",
+      "english": "Sly Saboteur",
+      "cls": "盗贼",
+      "section_title": "变体",
+      "target": "职业/核心职业/盗贼/page_49.md",
+      "marker": "机巧毁坏者（Sly\nSaboteur）",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体_选项/page_1460.md",
+      "title": "沙漠劫掠者",
+      "english": "Desert Raider",
+      "cls": "盗贼",
+      "section_title": "变体",
+      "target": "职业/核心职业/盗贼/page_49.md",
+      "marker": "沙漠劫掠者(Desert Raider)",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体_选项/page_1460.md",
+      "title": "林精妖术师",
+      "english": "Sylvan Trickster",
+      "cls": "盗贼",
+      "section_title": "变体",
+      "target": "职业/核心职业/盗贼/page_49.md",
+      "marker": "林精妖术师（Sylvan\nTrickster）",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体_选项/page_1463.md",
+      "title": "元素使先知",
+      "english": "Elementalist Oracle",
+      "cls": "先知",
+      "section_title": "变体",
+      "target": "职业/基础职业/先知/全变体未整合.md",
+      "marker": "元素使先知（Elementalist\nOracle）",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体_选项/page_1463.md",
+      "title": "河灵先知",
+      "english": "River Soul",
+      "cls": "先知",
+      "section_title": "变体",
+      "target": "职业/基础职业/先知/全变体未整合.md",
+      "marker": "河灵先知（River\nSoul）",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体_选项/page_1463.md",
+      "title": "树灵先知",
+      "english": "Tree Soul",
+      "cls": "先知",
+      "section_title": "变体",
+      "target": "职业/基础职业/先知/全变体未整合.md",
+      "marker": "树灵先知（Tree\nSoul）",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体_选项/page_1464.md",
+      "title": "恐龙德鲁伊",
+      "english": "Dinosaur Druid",
+      "cls": "德鲁伊",
+      "section_title": "变体",
+      "target": "职业/核心职业/德鲁伊/page_49.md",
+      "marker": "恐龙德鲁伊（Dinosaur Druid）",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体_选项/page_1464.md",
+      "title": "羽巢守护人",
+      "english": "Aerie Protector",
+      "cls": "德鲁伊",
+      "section_title": "变体",
+      "target": "职业/核心职业/德鲁伊/page_49.md",
+      "marker": "羽巢守护人（Aerie\nProtector）",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体_选项/page_1464.md",
+      "title": "苍翠誓约入信者",
+      "english": "Green Faith Initiate",
+      "cls": "德鲁伊",
+      "section_title": "变体",
+      "target": "职业/核心职业/德鲁伊/page_49.md",
+      "marker": "苍翠誓约入信者（Green Faith\nInitiate）",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体_选项/page_1465.md",
+      "title": "复仇猎兽",
+      "english": "Avenging Beast",
+      "cls": "侠客",
+      "section_title": "变体",
+      "target": "职业/基础职业/审判者/page_78.md",
+      "marker": "复仇猎兽（Avenging Beast）",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体_选项/page_1466.md",
+      "title": "野性斗士",
+      "english": "Feral Champion",
+      "cls": "战斗祭司",
+      "section_title": "变体",
+      "target": "职业/混合职业/战斗祭司/page_43.md",
+      "marker": "野性斗士（Feral Champion）",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体_选项/page_1467.md",
+      "title": "临崖客",
+      "english": "Avalancher",
+      "cls": "杀手",
+      "section_title": "变体",
+      "target": "职业/混合职业/杀手/page_117.md",
+      "marker": "临崖客(Avalancher)",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体_选项/page_1467.md",
+      "title": "林地狙击手",
+      "english": "Woodland Sniper",
+      "cls": "杀手",
+      "section_title": "变体",
+      "target": "职业/混合职业/杀手/page_117.md",
+      "marker": "林地狙击手（Woodland\nSniper）",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体_选项/page_1467.md",
+      "title": "沙丘骑手",
+      "english": "Dune Rider",
+      "cls": "杀手",
+      "section_title": "变体",
+      "target": "职业/混合职业/杀手/page_117.md",
+      "marker": "沙丘骑手（Dune\nRider）",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体_选项/page_1468.md",
+      "title": "洪流行者",
+      "english": "Flood Walker",
+      "cls": "女巫",
+      "section_title": "变体",
+      "target": "职业/基础职业/女巫/全变体未整合.md",
+      "marker": "洪流行者【女巫变体】（Flood Walker）",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体_选项/page_1468.md",
+      "title": "香草药魔女",
+      "english": "Herb Witch",
+      "cls": "女巫",
+      "section_title": "变体",
+      "target": "职业/基础职业/女巫/全变体未整合.md",
+      "marker": "香草药魔女",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体_选项/page_1468.md",
+      "title": "季节女巫",
+      "english": "Season Witch",
+      "cls": "女巫",
+      "section_title": "变体",
+      "target": "职业/基础职业/女巫/全变体未整合.md",
+      "marker": "季节女巫（Season\nWitch）",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体_选项/操念使3.md",
+      "title": "荒芜渎行师",
+      "english": "Blighted Defiler",
+      "cls": "操念使",
+      "section_title": "变体",
+      "target": "职业/基础职业/秘学士/全变体未整合.md",
+      "marker": "荒芜渎行师（Blighted\nDefiler）",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体_选项/反圣武士.md",
+      "title": "荒疫追随者",
+      "english": "Blighted Myrmidon",
+      "cls": "反圣武士",
+      "section_title": "变体",
+      "target": "职业/基础职业/反圣武士/page_76.md",
+      "marker": "荒疫追随者（Blighted\nMyrmidon）",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体_选项/歌者.md",
+      "title": "酒神宾客",
+      "english": "Bacchanal",
+      "cls": "歌者",
+      "section_title": "变体",
+      "target": "职业/混合职业/歌者/page_104.md",
+      "marker": "酒神宾客（Bacchanal）",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体_选项/武僧3.md",
+      "title": "圣遗迹护卫",
+      "english": "Menhir Guardian",
+      "cls": "武僧",
+      "section_title": "变体",
+      "target": "职业/核心职业/武僧/page_55.md",
+      "marker": "圣遗迹护卫（Menhir\nGuardian）",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体_选项/武僧3.md",
+      "title": "水舞者",
+      "english": "Water Dancer",
+      "cls": "武僧",
+      "section_title": "变体",
+      "target": "职业/核心职业/武僧/page_55.md",
+      "marker": "水舞者Water\nDancer",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体_选项/武僧3.md",
+      "title": "荒墟禅师",
+      "english": "Wasteland Meditant",
+      "cls": "武僧",
+      "section_title": "变体",
+      "target": "职业/核心职业/武僧/page_55.md",
+      "marker": "荒墟禅师（Wasteland\nMeditant）",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体_选项/血脉狂怒者1.md",
+      "title": "苍翠血脉",
+      "english": "Verdant",
+      "cls": "血脉狂怒者",
+      "section_title": "变体",
+      "target": "职业/混合职业/血脉狂怒者/page_104.md",
+      "marker": "苍翠血脉（Verdant）",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体_选项/召唤师1.md",
+      "title": "莱西呼唤者",
+      "english": "Leshy Caller",
+      "cls": "召唤师",
+      "section_title": "变体",
+      "target": "职业/基础职业/召唤师/page_410.md",
+      "marker": "莱西呼唤者（Leshy\nCaller）",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "职业变体_选项/召唤师1.md",
+      "title": "植物幻灵",
+      "english": "Plant Eidolon",
+      "cls": "召唤师",
+      "section_title": "变体",
+      "target": "职业/基础职业/召唤师/page_410.md",
+      "marker": "植物（Plant）",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "突袭警惕",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "动物仿声",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "动物伪装",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "突袭警惕",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "动物凶猛",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "当你被逼入绝境并负伤",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "水下战斗法",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "辟水法术",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "极地适应",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "野兽猎人",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "兽王怒",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "兽王援",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "兽王流",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "树冠突袭",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "怒意冲撞",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "你将敌人撞进困难地形",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "怒意拖拽",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "当你在困难地形中拖拽",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "伪装陷阱",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "贴附攀爬",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "命令动物",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "命令植物",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "掩盖行踪",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "碎浪搏",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "碎浪破",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "碎浪流",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "奇植培育",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "为了种植魔法植物",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "致命陷阱",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "深潜孤航",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "沙漠居民",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "鹰眼",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "大地魔法",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "充能自然变身",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "增强侏儒魔法",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "你与第一世界",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "异种血脉",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "专业制图师",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "专业探险家",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "专业搜集者",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "长效动物之力",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "额外拟态",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "伪造踪迹",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "洞悉精类",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "你可以精类",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "精类表演",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "守御精类",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "狂掷冲锋",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "高等野兽猎人",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "高等猎手羁绊",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "高等跳跃攻击",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "高等荒野打击",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "团队法术共享",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "摔得更狠",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "皮匠",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "攀冰者",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "精通野兽猎人",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "精通猎手羁绊",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "精通天然毒素采集员",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "精通跳跃攻击",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "精通荒野打击",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "岳峙渊渟",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "岳峙巅",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "岳峙流",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "威吓动物",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "猎豹突袭",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "丛林求生者",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "靠山吃山",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "月裔",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "登山者",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "变异型态",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "天然毒素抗毒剂",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "天然毒素采集员",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "荒野自如",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "天然武器",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "夜空巫术",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "睁一只眼",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "身合大地",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "烈阳眩目",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "河流袭击者",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "废墟散兵",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "大地子嗣",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "变形者刃爪",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "变形者冲刺",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "风暴幸存者",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "沼地行者",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "猎杀快感",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "酷热耐性",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "图腾门徒",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "图腾学徒",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "图腾大师",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "树跃者",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "部落猎手",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "丛生引导",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "荒生巫术",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "野性活力",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "荒野之痕",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "荒野思维",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "荒野感官",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "荒野步伐",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "荒野打击",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "猎巫人",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "狼骑兵",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "狼抓",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "狼拳",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "狼摔",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "木匠",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "专长11.md",
+      "title": "林中恶鬼",
+      "english": "",
+      "target": "专长/极限荒野UW_专长.md",
+      "section_title": "专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品3.md",
+      "title": "表格7-1：冒险装备",
+      "english": "",
+      "target": "装备_魔法物品/货品服务/page_210.md",
+      "section_title": "冒险装备",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品3.md",
+      "title": "避兽袋",
+      "english": "Animal-repellant Sack",
+      "target": "装备_魔法物品/货品服务/page_210.md",
+      "section_title": "冒险装备",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品3.md",
+      "title": "负宠背包",
+      "english": "Backpack, Carrier",
+      "target": "装备_魔法物品/货品服务/page_210.md",
+      "section_title": "冒险装备",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品3.md",
+      "title": "饮水背包",
+      "english": "Backpack, Hydration",
+      "target": "装备_魔法物品/货品服务/page_210.md",
+      "section_title": "冒险装备",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品3.md",
+      "title": "武器架背包",
+      "english": "Backpack, Weaponrack",
+      "target": "装备_魔法物品/货品服务/page_210.md",
+      "section_title": "冒险装备",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品3.md",
+      "title": "迷彩帆布",
+      "english": "Camouflaged Canvas",
+      "target": "装备_魔法物品/货品服务/page_210.md",
+      "section_title": "冒险装备",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品3.md",
+      "title": "伙伴用御寒衣物",
+      "english": "Companion Cold-weather Outfit",
+      "target": "装备_魔法物品/货品服务/page_210.md",
+      "section_title": "冒险装备",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品3.md",
+      "title": "冷藏箱",
+      "english": "Cooler Chest",
+      "target": "装备_魔法物品/货品服务/page_210.md",
+      "section_title": "冒险装备",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品3.md",
+      "title": "鞋垫",
+      "english": "Cushion Inserts",
+      "target": "装备_魔法物品/货品服务/page_210.md",
+      "section_title": "冒险装备",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品3.md",
+      "title": "双人锯",
+      "english": "Duo Saw",
+      "target": "装备_魔法物品/货品服务/page_210.md",
+      "section_title": "冒险装备",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品3.md",
+      "title": "高效帐篷",
+      "english": "Efficient Tent",
+      "target": "装备_魔法物品/货品服务/page_210.md",
+      "section_title": "冒险装备",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品3.md",
+      "title": "原野生存手册",
+      "english": "Field Survival Guide",
+      "target": "装备_魔法物品/货品服务/page_210.md",
+      "section_title": "冒险装备",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品3.md",
+      "title": "防尘巾",
+      "english": "Filter Scarf",
+      "target": "装备_魔法物品/货品服务/page_210.md",
+      "section_title": "冒险装备",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品3.md",
+      "title": "防火衣",
+      "english": "Flame-retardant Outfit",
+      "target": "装备_魔法物品/货品服务/page_210.md",
+      "section_title": "冒险装备",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品3.md",
+      "title": "地精鱼饵",
+      "english": "Goblin Fishing Lure",
+      "target": "装备_魔法物品/货品服务/page_210.md",
+      "section_title": "冒险装备",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品3.md",
+      "title": "猎手平台",
+      "english": "Hunter’s Stand",
+      "target": "装备_魔法物品/货品服务/page_210.md",
+      "section_title": "冒险装备",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品3.md",
+      "title": "隐藏口袋",
+      "english": "Inside Pocket",
+      "target": "装备_魔法物品/货品服务/page_210.md",
+      "section_title": "冒险装备",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品3.md",
+      "title": "保温瓶",
+      "english": "Insulated Flask",
+      "target": "装备_魔法物品/货品服务/page_210.md",
+      "section_title": "冒险装备",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品3.md",
+      "title": "野外攀爬背带",
+      "english": "Nature Climbing Harness",
+      "target": "装备_魔法物品/货品服务/page_210.md",
+      "section_title": "冒险装备",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品3.md",
+      "title": "贵族郊游工具组",
+      "english": "Noble’s Excursion Kit",
+      "target": "装备_魔法物品/货品服务/page_210.md",
+      "section_title": "冒险装备",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品3.md",
+      "title": "个人庇护所",
+      "english": "Privacy Shelter",
+      "target": "装备_魔法物品/货品服务/page_210.md",
+      "section_title": "冒险装备",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品3.md",
+      "title": "变形者工具包",
+      "english": "Shifter's Kit",
+      "target": "装备_魔法物品/货品服务/page_210.md",
+      "section_title": "冒险装备",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品3.md",
+      "title": "无声岩钉",
+      "english": "Silent Piton",
+      "target": "装备_魔法物品/货品服务/page_210.md",
+      "section_title": "冒险装备",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品3.md",
+      "title": "蛇咬工具组",
+      "english": "Snakebite Kit",
+      "target": "装备_魔法物品/货品服务/page_210.md",
+      "section_title": "冒险装备",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品3.md",
+      "title": "快速腕鞘",
+      "english": "Speed Sheath",
+      "target": "装备_魔法物品/货品服务/page_210.md",
+      "section_title": "冒险装备",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品3.md",
+      "title": "弹力绳",
+      "english": "Stretch Cords",
+      "target": "装备_魔法物品/货品服务/page_210.md",
+      "section_title": "冒险装备",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品3.md",
+      "title": "皮匠工具组",
+      "english": "Tanner’s Kit",
+      "target": "装备_魔法物品/货品服务/page_210.md",
+      "section_title": "冒险装备",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品3.md",
+      "title": "篷盖",
+      "english": "Tent Cover",
+      "target": "装备_魔法物品/货品服务/page_210.md",
+      "section_title": "冒险装备",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品3.md",
+      "title": "登山杖",
+      "english": "Trekking Pole",
+      "target": "装备_魔法物品/货品服务/page_210.md",
+      "section_title": "冒险装备",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品3.md",
+      "title": "防水长靴",
+      "english": "Wading Boots",
+      "target": "装备_魔法物品/货品服务/page_210.md",
+      "section_title": "冒险装备",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品3.md",
+      "title": "挎包",
+      "english": "Waist Pouch",
+      "target": "装备_魔法物品/货品服务/page_210.md",
+      "section_title": "冒险装备",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品3.md",
+      "title": "八音盒",
+      "english": "Windup Music Box",
+      "target": "装备_魔法物品/货品服务/page_210.md",
+      "section_title": "冒险装备",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品3.md",
+      "title": "擦剂",
+      "english": "Liniment",
+      "target": "装备_魔法物品/货品服务/page_212.md",
+      "section_title": "炼金工具",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "物品3.md",
+      "title": "蛮兽裹布",
+      "english": "Bestial Rags",
+      "target": "装备_魔法物品/魔法物品/奇物/极限荒野UW_奇物.md",
+      "section_title": "奇物",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "魔法植物.md",
+      "title": "魔法植物",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/极限荒野UW_魔法植物.md",
+      "section_title": "魔法植物",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "魔法植物.md",
+      "title": "日产量",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/极限荒野UW_魔法植物.md",
+      "section_title": "魔法植物",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "魔法植物.md",
+      "title": "奇植培育",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/极限荒野UW_魔法植物.md",
+      "section_title": "魔法植物",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "魔法植物.md",
+      "title": "鱼草",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/极限荒野UW_魔法植物.md",
+      "section_title": "魔法植物",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "魔法植物.md",
+      "title": "酸味柠檬树",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/极限荒野UW_魔法植物.md",
+      "section_title": "魔法植物",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "魔法植物.md",
+      "title": "高原蕨类",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/极限荒野UW_魔法植物.md",
+      "section_title": "魔法植物",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "魔法植物.md",
+      "title": "火焰苹果树",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/极限荒野UW_魔法植物.md",
+      "section_title": "魔法植物",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "魔法植物.md",
+      "title": "神莓灌木",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/极限荒野UW_魔法植物.md",
+      "section_title": "魔法植物",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "魔法植物.md",
+      "title": "攫抓藤蔓",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/极限荒野UW_魔法植物.md",
+      "section_title": "魔法植物",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "魔法植物.md",
+      "title": "帮手藤蔓",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/极限荒野UW_魔法植物.md",
+      "section_title": "魔法植物",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "魔法植物.md",
+      "title": "颓废盛宴的棕榈",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/极限荒野UW_魔法植物.md",
+      "section_title": "魔法植物",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "魔法植物.md",
+      "title": "吮毒树",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/极限荒野UW_魔法植物.md",
+      "section_title": "魔法植物",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "魔法植物.md",
+      "title": "门户橡树",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/极限荒野UW_魔法植物.md",
+      "section_title": "魔法植物",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "魔法植物.md",
+      "title": "宁静桦树",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/极限荒野UW_魔法植物.md",
+      "section_title": "魔法植物",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "魔法植物.md",
+      "title": "救赎仙人掌",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/极限荒野UW_魔法植物.md",
+      "section_title": "魔法植物",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "魔法植物.md",
+      "title": "庇护灌木",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/极限荒野UW_魔法植物.md",
+      "section_title": "魔法植物",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "魔法植物.md",
+      "title": "知识之树",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/极限荒野UW_魔法植物.md",
+      "section_title": "魔法植物",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "魔法植物.md",
+      "title": "凶兆之树",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/极限荒野UW_魔法植物.md",
+      "section_title": "魔法植物",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "魔法植物.md",
+      "title": "水行芦苇",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/极限荒野UW_魔法植物.md",
+      "section_title": "魔法植物",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "魔法植物.md",
+      "title": "葬花",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/极限荒野UW_魔法植物.md",
+      "section_title": "魔法植物",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "魔法植物.md",
+      "title": "芳香莲",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/极限荒野UW_魔法植物.md",
+      "section_title": "魔法植物",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "魔法植物.md",
+      "title": "净蓟",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/极限荒野UW_魔法植物.md",
+      "section_title": "魔法植物",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "魔法植物.md",
+      "title": "幽灵花",
+      "english": "",
+      "target": "装备_魔法物品/魔法物品/极限荒野UW_魔法植物.md",
+      "section_title": "魔法植物",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "武器附魔9.md",
+      "title": "骤降",
+      "english": "",
+      "target": "装备_魔法物品/武器附魔/极限荒野UW_武器附魔.md",
+      "section_title": "武器附魔",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "自然仪式.md",
+      "title": "自然仪式",
+      "english": "",
+      "target": "法术/极限荒野UW_自然仪式.md",
+      "section_title": "自然仪式",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "自然仪式.md",
+      "title": "神秘仪式在Pathfinder",
+      "english": "",
+      "target": "法术/极限荒野UW_自然仪式.md",
+      "section_title": "自然仪式",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "自然仪式.md",
+      "title": "形成荒疫怪",
+      "english": "",
+      "target": "法术/极限荒野UW_自然仪式.md",
+      "section_title": "自然仪式",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "自然仪式.md",
+      "title": "荒野迷阵",
+      "english": "",
+      "target": "法术/极限荒野UW_自然仪式.md",
+      "section_title": "自然仪式",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "自然仪式.md",
+      "title": "加固营地",
+      "english": "",
+      "target": "法术/极限荒野UW_自然仪式.md",
+      "section_title": "自然仪式",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "自然仪式.md",
+      "title": "魔法警报",
+      "english": "",
+      "target": "法术/极限荒野UW_自然仪式.md",
+      "section_title": "自然仪式",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "自然仪式.md",
+      "title": "防御圈",
+      "english": "",
+      "target": "法术/极限荒野UW_自然仪式.md",
+      "section_title": "自然仪式",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "自然仪式.md",
+      "title": "庇护所",
+      "english": "",
+      "target": "法术/极限荒野UW_自然仪式.md",
+      "section_title": "自然仪式",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "自然仪式.md",
+      "title": "归于休憩",
+      "english": "",
+      "target": "法术/极限荒野UW_自然仪式.md",
+      "section_title": "自然仪式",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "自然仪式.md",
+      "title": "切断精神联系",
+      "english": "",
+      "target": "法术/极限荒野UW_自然仪式.md",
+      "section_title": "自然仪式",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "自然仪式.md",
+      "title": "隔断社神御守",
+      "english": "",
+      "target": "法术/极限荒野UW_自然仪式.md",
+      "section_title": "自然仪式",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "自然仪式.md",
+      "title": "伴侣解脱",
+      "english": "",
+      "target": "法术/极限荒野UW_自然仪式.md",
+      "section_title": "自然仪式",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/动物伙伴专长.md",
+      "title": "动物伙伴专长",
+      "english": "",
+      "target": "专长/极限荒野UW_动物伙伴专长.md",
+      "section_title": "动物伙伴专长",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/动物装备栏位修正.md",
+      "title": "动物装备栏位修正",
+      "english": "",
+      "target": "规则/极限荒野UW_动物装备栏位修正.md",
+      "section_title": "动物装备栏位修正",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1419.md",
+      "title": "魔鬼鱼(**ANGLERFISH**)**",
+      "english": "",
+      "target": "规则/极限荒野UW_新动物伙伴.md",
+      "section_title": "新动物伙伴",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1419.md",
+      "title": "始祖鸟(**ARCHAEOPTERYX**)**这只原始的有齿鸟类有着明亮的羽毛，但却相对的不是一个出色的飞行者。**起始数据**体型",
+      "english": "",
+      "target": "规则/极限荒野UW_新动物伙伴.md",
+      "section_title": "新动物伙伴",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1419.md",
+      "title": "盾皮鱼(**ARMORFISH**)**盾皮鱼是一种原始的水生生物，头部到背部附有极其厚重的甲鳞。**起始数据**体型",
+      "english": "",
+      "target": "规则/极限荒野UW_新动物伙伴.md",
+      "section_title": "新动物伙伴",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1419.md",
+      "title": "鸨(BUSTARD)**鸨是一种有着长腿又颇具体型的鸟儿；它们可以飞但飞得并不好，而更喜欢行走和跑动。**起始数据**体型",
+      "english": "",
+      "target": "规则/极限荒野UW_新动物伙伴.md",
+      "section_title": "新动物伙伴",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1419.md",
+      "title": "水豚(CAPYBARA)**这种棕褐色的大型啮齿动物以半水半陆为家，经常有人在河畔和湖畔发现它们。**起始数据**体型",
+      "english": "",
+      "target": "规则/极限荒野UW_新动物伙伴.md",
+      "section_title": "新动物伙伴",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1419.md",
+      "title": "家牛(CATTLE)**家牛是温顺又常见的牲畜，但一只坏脾气的家牛也能成为一个很不错的动物伙伴。**起始数据**体型",
+      "english": "",
+      "target": "规则/极限荒野UW_新动物伙伴.md",
+      "section_title": "新动物伙伴",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1419.md",
+      "title": "黑猩猩(CHIMPANZEE)**这种小型的灵长类的危险程度超出它的体型预示的那样。**起始数据**体型",
+      "english": "",
+      "target": "规则/极限荒野UW_新动物伙伴.md",
+      "section_title": "新动物伙伴",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1419.md",
+      "title": "始祖马(EOHIPPUS)**始祖马是现代马类的小型先祖，它们有着三趾的足部而不是蹄子。**起始数据**体型",
+      "english": "",
+      "target": "规则/极限荒野UW_新动物伙伴.md",
+      "section_title": "新动物伙伴",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1419.md",
+      "title": "猎鹰(FALCON)**这种迅捷的猛禽拥有惊人的视力和锐利的爪子。**起始数据**体型",
+      "english": "",
+      "target": "规则/极限荒野UW_新动物伙伴.md",
+      "section_title": "新动物伙伴",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1419.md",
+      "title": "巨伞蜥(FRILLED",
+      "english": "",
+      "target": "规则/极限荒野UW_新动物伙伴.md",
+      "section_title": "新动物伙伴",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1419.md",
+      "title": "灰熊(GRIZZLY",
+      "english": "",
+      "target": "规则/极限荒野UW_新动物伙伴.md",
+      "section_title": "新动物伙伴",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1419.md",
+      "title": "锤头鲨(HAMMERHEAD",
+      "english": "",
+      "target": "规则/极限荒野UW_新动物伙伴.md",
+      "section_title": "新动物伙伴",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1419.md",
+      "title": "袋獾(MARSUPIAL",
+      "english": "",
+      "target": "规则/极限荒野UW_新动物伙伴.md",
+      "section_title": "新动物伙伴",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1419.md",
+      "title": "袋狮(MARSUPIAL",
+      "english": "",
+      "target": "规则/极限荒野UW_新动物伙伴.md",
+      "section_title": "新动物伙伴",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1419.md",
+      "title": "巨鼹鼠(MOLE,",
+      "english": "",
+      "target": "规则/极限荒野UW_新动物伙伴.md",
+      "section_title": "新动物伙伴",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1419.md",
+      "title": "驼鹿(MOOSE)**既力大无比又通常是个坏脾气，驼鹿作为动物伙伴可真是个吓人的选择。**起始数据**体型",
+      "english": "",
+      "target": "规则/极限荒野UW_新动物伙伴.md",
+      "section_title": "新动物伙伴",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1419.md",
+      "title": "似鸟龙(ORNITHOMIMOSAUR)**这种双足恐龙拥有赋予了它们速度的大长腿和赋予了它们名字的长脖子。**起始数据**体型",
+      "english": "",
+      "target": "规则/极限荒野UW_新动物伙伴.md",
+      "section_title": "新动物伙伴",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1419.md",
+      "title": "巨枭(OWL,",
+      "english": "",
+      "target": "规则/极限荒野UW_新动物伙伴.md",
+      "section_title": "新动物伙伴",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1419.md",
+      "title": "熊猫(PANDA)**熊猫通常很温顺也行动迟缓，但也能在需要的时候爆发出令人惊讶的行动力。**起始数据**体型",
+      "english": "",
+      "target": "规则/极限荒野UW_新动物伙伴.md",
+      "section_title": "新动物伙伴",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1419.md",
+      "title": "巨豪猪(PORCUPINE,",
+      "english": "",
+      "target": "规则/极限荒野UW_新动物伙伴.md",
+      "section_title": "新动物伙伴",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1419.md",
+      "title": "锯齿螈(PRIONOSUCHUS)**这种原始的巨鳄在水上和陆上都同样犀利，它能够用的巨颌中蕴藏的力量咬碎些什么。**起始数据**体型",
+      "english": "",
+      "target": "规则/极限荒野UW_新动物伙伴.md",
+      "section_title": "新动物伙伴",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1419.md",
+      "title": "礁蛇(REEF",
+      "english": "",
+      "target": "规则/极限荒野UW_新动物伙伴.md",
+      "section_title": "新动物伙伴",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1419.md",
+      "title": "驯鹿(REINDEER)**驯鹿居住在冰原上，是冻土上非常可靠的伙伴，在运输和防御上都能帮上忙。**起始数据**体型",
+      "english": "",
+      "target": "规则/极限荒野UW_新动物伙伴.md",
+      "section_title": "新动物伙伴",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1419.md",
+      "title": "剑齿猫(SABER-TOOTHED",
+      "english": "",
+      "target": "规则/极限荒野UW_新动物伙伴.md",
+      "section_title": "新动物伙伴",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1419.md",
+      "title": "巨蝾螈(SALAMANDER,",
+      "english": "",
+      "target": "规则/极限荒野UW_新动物伙伴.md",
+      "section_title": "新动物伙伴",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1419.md",
+      "title": "巨臭鼬(SKUNK,",
+      "english": "",
+      "target": "规则/极限荒野UW_新动物伙伴.md",
+      "section_title": "新动物伙伴",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1419.md",
+      "title": "射毒眼镜蛇(SPITTING",
+      "english": "",
+      "target": "规则/极限荒野UW_新动物伙伴.md",
+      "section_title": "新动物伙伴",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1419.md",
+      "title": "巨乌贼(SQUID,",
+      "english": "",
+      "target": "规则/极限荒野UW_新动物伙伴.md",
+      "section_title": "新动物伙伴",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1419.md",
+      "title": "狼狗(WOLFDOG)**这种狗狗是可靠的狼与狗的杂交品种。**起始数据**体型",
+      "english": "",
+      "target": "规则/极限荒野UW_新动物伙伴.md",
+      "section_title": "新动物伙伴",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1419.md",
+      "title": "牦牛(YAK)**粗壮固执的牦牛在崎岖的地形上脚踏实实，坚实可靠。**起始数据**体型",
+      "english": "",
+      "target": "规则/极限荒野UW_新动物伙伴.md",
+      "section_title": "新动物伙伴",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1419.md",
+      "title": "斑马(ZEBRA)**斑马标志性的黑白条纹让它能很方便地被认出来。**起始数据**体型",
+      "english": "",
+      "target": "规则/极限荒野UW_新动物伙伴.md",
+      "section_title": "新动物伙伴",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1420.md",
+      "title": "植物伙伴",
+      "english": "",
+      "target": "规则/极限荒野UW_植物伙伴.md",
+      "section_title": "植物伙伴",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1421.md",
+      "title": "巨猎蝽(ASSASSIN",
+      "english": "",
+      "target": "规则/极限荒野UW_昆虫伙伴.md",
+      "section_title": "昆虫伙伴",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1421.md",
+      "title": "巨毛虫(CATERPILLAR,",
+      "english": "",
+      "target": "规则/极限荒野UW_昆虫伙伴.md",
+      "section_title": "昆虫伙伴",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1421.md",
+      "title": "巨蟑螂(COCKROACH,",
+      "english": "",
+      "target": "规则/极限荒野UW_昆虫伙伴.md",
+      "section_title": "昆虫伙伴",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1421.md",
+      "title": "巨蜻蜓(DRAGONFLY,",
+      "english": "",
+      "target": "规则/极限荒野UW_昆虫伙伴.md",
+      "section_title": "昆虫伙伴",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1421.md",
+      "title": "广翅鲎(EURYPTERID)**这种水生虫类也被叫做海蝎，有着一双大螯和细长的尾刺。**起始数据**体型",
+      "english": "",
+      "target": "规则/极限荒野UW_昆虫伙伴.md",
+      "section_title": "昆虫伙伴",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1421.md",
+      "title": "巨蝗虫(LOCUST,",
+      "english": "",
+      "target": "规则/极限荒野UW_昆虫伙伴.md",
+      "section_title": "昆虫伙伴",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1421.md",
+      "title": "巨螳螂虾(MANTIS",
+      "english": "",
+      "target": "规则/极限荒野UW_昆虫伙伴.md",
+      "section_title": "昆虫伙伴",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1421.md",
+      "title": "巨蚊(MOSQUITO,",
+      "english": "",
+      "target": "规则/极限荒野UW_昆虫伙伴.md",
+      "section_title": "昆虫伙伴",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1421.md",
+      "title": "巨避日蛛(SOLIFUGID,",
+      "english": "",
+      "target": "规则/极限荒野UW_昆虫伙伴.md",
+      "section_title": "昆虫伙伴",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1421.md",
+      "title": "蛛网暴君(SPIDER,",
+      "english": "",
+      "target": "规则/极限荒野UW_昆虫伙伴.md",
+      "section_title": "昆虫伙伴",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1421.md",
+      "title": "巨白蚁(TERMITE,",
+      "english": "",
+      "target": "规则/极限荒野UW_昆虫伙伴.md",
+      "section_title": "昆虫伙伴",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1421.md",
+      "title": "巨鞭尾蜈蚣(WHIPTAIL",
+      "english": "",
+      "target": "规则/极限荒野UW_昆虫伙伴.md",
+      "section_title": "昆虫伙伴",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1422.md",
+      "title": "畸体伙伴(Aberrant",
+      "english": "",
+      "target": "规则/极限荒野UW_动物伙伴变体.md",
+      "section_title": "动物伙伴变体",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1461.md",
+      "title": "大使",
+      "english": "",
+      "target": "规则/极限荒野UW_魔宠变体.md",
+      "section_title": "魔宠变体",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1461.md",
+      "title": "大使技能",
+      "english": "",
+      "target": "规则/极限荒野UW_魔宠变体.md",
+      "section_title": "魔宠变体",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1461.md",
+      "title": "说服者",
+      "english": "",
+      "target": "规则/极限荒野UW_魔宠变体.md",
+      "section_title": "魔宠变体",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1461.md",
+      "title": "个性强化",
+      "english": "",
+      "target": "规则/极限荒野UW_魔宠变体.md",
+      "section_title": "魔宠变体",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1461.md",
+      "title": "动物典范",
+      "english": "",
+      "target": "规则/极限荒野UW_魔宠变体.md",
+      "section_title": "魔宠变体",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1461.md",
+      "title": "动物典范技能",
+      "english": "",
+      "target": "规则/极限荒野UW_魔宠变体.md",
+      "section_title": "魔宠变体",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1461.md",
+      "title": "影响动物",
+      "english": "",
+      "target": "规则/极限荒野UW_魔宠变体.md",
+      "section_title": "魔宠变体",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1461.md",
+      "title": "淘气精",
+      "english": "",
+      "target": "规则/极限荒野UW_魔宠变体.md",
+      "section_title": "魔宠变体",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1461.md",
+      "title": "淘气精技能",
+      "english": "",
+      "target": "规则/极限荒野UW_魔宠变体.md",
+      "section_title": "魔宠变体",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1461.md",
+      "title": "自主连接",
+      "english": "",
+      "target": "规则/极限荒野UW_魔宠变体.md",
+      "section_title": "魔宠变体",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1461.md",
+      "title": "精通阴招",
+      "english": "",
+      "target": "规则/极限荒野UW_魔宠变体.md",
+      "section_title": "魔宠变体",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1461.md",
+      "title": "魔法捉弄",
+      "english": "",
+      "target": "规则/极限荒野UW_魔宠变体.md",
+      "section_title": "魔宠变体",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1461.md",
+      "title": "巧言喜剧",
+      "english": "",
+      "target": "规则/极限荒野UW_魔宠变体.md",
+      "section_title": "魔宠变体",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1461.md",
+      "title": "高等阴招",
+      "english": "",
+      "target": "规则/极限荒野UW_魔宠变体.md",
+      "section_title": "魔宠变体",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1461.md",
+      "title": "虚假诡述",
+      "english": "",
+      "target": "规则/极限荒野UW_魔宠变体.md",
+      "section_title": "魔宠变体",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1461.md",
+      "title": "自大怪",
+      "english": "",
+      "target": "规则/极限荒野UW_魔宠变体.md",
+      "section_title": "魔宠变体",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1461.md",
+      "title": "本职技能",
+      "english": "",
+      "target": "规则/极限荒野UW_魔宠变体.md",
+      "section_title": "魔宠变体",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1461.md",
+      "title": "自我之歌",
+      "english": "",
+      "target": "规则/极限荒野UW_魔宠变体.md",
+      "section_title": "魔宠变体",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1461.md",
+      "title": "命令主人",
+      "english": "",
+      "target": "规则/极限荒野UW_魔宠变体.md",
+      "section_title": "魔宠变体",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1461.md",
+      "title": "获得接触法术",
+      "english": "",
+      "target": "规则/极限荒野UW_魔宠变体.md",
+      "section_title": "魔宠变体",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1461.md",
+      "title": "探知主人",
+      "english": "",
+      "target": "规则/极限荒野UW_魔宠变体.md",
+      "section_title": "魔宠变体",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1461.md",
+      "title": "缚魂魔宠",
+      "english": "",
+      "target": "规则/极限荒野UW_魔宠变体.md",
+      "section_title": "魔宠变体",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1461.md",
+      "title": "魂器",
+      "english": "",
+      "target": "规则/极限荒野UW_魔宠变体.md",
+      "section_title": "魔宠变体",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1461.md",
+      "title": "阵营差异",
+      "english": "",
+      "target": "规则/极限荒野UW_魔宠变体.md",
+      "section_title": "魔宠变体",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1493.md",
+      "title": "喙嘴翼龙",
+      "english": "",
+      "target": "规则/极限荒野UW_新基础魔宠.md",
+      "section_title": "新基础魔宠",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1493.md",
+      "title": "喙嘴翼龙",
+      "english": "",
+      "target": "规则/极限荒野UW_新基础魔宠.md",
+      "section_title": "新基础魔宠",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1493.md",
+      "title": "防御能力",
+      "english": "",
+      "target": "规则/极限荒野UW_新基础魔宠.md",
+      "section_title": "新基础魔宠",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1493.md",
+      "title": "攻击能力",
+      "english": "",
+      "target": "规则/极限荒野UW_新基础魔宠.md",
+      "section_title": "新基础魔宠",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1493.md",
+      "title": "数据",
+      "english": "",
+      "target": "规则/极限荒野UW_新基础魔宠.md",
+      "section_title": "新基础魔宠",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1493.md",
+      "title": "生态背景",
+      "english": "",
+      "target": "规则/极限荒野UW_新基础魔宠.md",
+      "section_title": "新基础魔宠",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1493.md",
+      "title": "特殊能力",
+      "english": "",
+      "target": "规则/极限荒野UW_新基础魔宠.md",
+      "section_title": "新基础魔宠",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1493.md",
+      "title": "迅猛俯冲",
+      "english": "",
+      "target": "规则/极限荒野UW_新基础魔宠.md",
+      "section_title": "新基础魔宠",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1493.md",
+      "title": "血液感知",
+      "english": "",
+      "target": "规则/极限荒野UW_新基础魔宠.md",
+      "section_title": "新基础魔宠",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1493.md",
+      "title": "缝合伤口",
+      "english": "",
+      "target": "规则/极限荒野UW_新基础魔宠.md",
+      "section_title": "新基础魔宠",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1493.md",
+      "title": "藤蔓",
+      "english": "",
+      "target": "规则/极限荒野UW_新基础魔宠.md",
+      "section_title": "新基础魔宠",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1493.md",
+      "title": "蟑螂",
+      "english": "",
+      "target": "规则/极限荒野UW_新基础魔宠.md",
+      "section_title": "新基础魔宠",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1493.md",
+      "title": "眼镜猴",
+      "english": "",
+      "target": "规则/极限荒野UW_新基础魔宠.md",
+      "section_title": "新基础魔宠",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "伙伴/page_1493.md",
+      "title": "眼镜猴之跃",
+      "english": "",
+      "target": "规则/极限荒野UW_新基础魔宠.md",
+      "section_title": "新基础魔宠",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    }
+  ],
+  "skipped_files": []
+}

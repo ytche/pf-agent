@@ -1,0 +1,374 @@
+{
+  "source_book": "恶魔猎人手册",
+  "source_book_english": "Demon Hunter's Handbook",
+  "source_dir": "pf_data/phase1/pf_rules_md/未整理/恶魔猎人手册DHH",
+  "stats": {
+    "added": 44,
+    "skipped": 1,
+    "errors": []
+  },
+  "sections": [
+    {
+      "source": "专长16.md",
+      "title": "恶魔克星",
+      "english": "Demonic Nemesis",
+      "target": "专长/恶魔猎人手册_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "专长16.md",
+      "title": "驱魔师的反击",
+      "english": "Exorcist's Rebuttal",
+      "target": "专长/恶魔猎人手册_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "专长16.md",
+      "title": "外域旅行者",
+      "english": "Outer Planes Traveler",
+      "target": "专长/恶魔猎人手册_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "专长16.md",
+      "title": "协同干扰",
+      "english": "Coordinated Distraction",
+      "target": "专长/恶魔猎人手册_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "专长16.md",
+      "title": "穿透打击",
+      "english": "Punch Through",
+      "target": "专长/恶魔猎人手册_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "专长16.md",
+      "title": "法术连锁",
+      "english": "Spell Chain",
+      "target": "专长/恶魔猎人手册_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "专长16.md",
+      "title": "复仇驱逐者",
+      "english": "VENGEFUL BANISHER",
+      "target": "专长/恶魔猎人手册_专长.md",
+      "section_title": "专长",
+      "action": "added"
+    },
+    {
+      "source": "背景特性51.md",
+      "title": "深渊秘听者",
+      "english": "Abyssal Eavesdropper",
+      "target": "背景/恶魔猎人手册_背景特性.md",
+      "section_title": "背景特性",
+      "action": "added"
+    },
+    {
+      "source": "背景特性51.md",
+      "title": "防恶魔心智",
+      "english": "Demon-Proof Mind",
+      "target": "背景/恶魔猎人手册_背景特性.md",
+      "section_title": "背景特性",
+      "action": "added"
+    },
+    {
+      "source": "背景特性51.md",
+      "title": "查咯猿人猎手",
+      "english": "Charau-Ka Slayer",
+      "target": "背景/恶魔猎人手册_背景特性.md",
+      "section_title": "背景特性",
+      "action": "added"
+    },
+    {
+      "source": "背景特性51.md",
+      "title": "恐怖预知",
+      "english": "Dreadful Forethought",
+      "target": "背景/恶魔猎人手册_背景特性.md",
+      "section_title": "背景特性",
+      "action": "added"
+    },
+    {
+      "source": "背景特性51.md",
+      "title": "精灵恨意",
+      "english": "Elven bitterness",
+      "target": "背景/恶魔猎人手册_背景特性.md",
+      "section_title": "背景特性",
+      "action": "added"
+    },
+    {
+      "source": "背景特性51.md",
+      "title": "星象解读者",
+      "english": "Star reader",
+      "target": "背景/恶魔猎人手册_背景特性.md",
+      "section_title": "背景特性",
+      "action": "added"
+    },
+    {
+      "source": "背景特性51.md",
+      "title": "逃亡奴隶",
+      "english": "Runaway slave",
+      "target": "背景/恶魔猎人手册_背景特性.md",
+      "section_title": "背景特性",
+      "action": "added"
+    },
+    {
+      "source": "背景特性51.md",
+      "title": "位面谈判者",
+      "english": "Planar Negotiator",
+      "target": "背景/恶魔猎人手册_背景特性.md",
+      "section_title": "背景特性",
+      "action": "added"
+    },
+    {
+      "source": "背景特性51.md",
+      "title": "真名唤者",
+      "english": "True Name Caller",
+      "target": "背景/恶魔猎人手册_背景特性.md",
+      "section_title": "背景特性",
+      "action": "added"
+    },
+    {
+      "source": "职业选项/审判者4.md",
+      "title": "寒铁看守者",
+      "english": "COLD lRON WARDEN",
+      "target": "职业/基础职业/审判者/page_78.md",
+      "section_title": "变体",
+      "action": "added"
+    },
+    {
+      "source": "职业选项/审判者4.md",
+      "title": "深渊净化",
+      "english": "Abyssal",
+      "target": "职业/基础职业/审判者/page_78.md",
+      "section_title": "变体",
+      "action": "added"
+    },
+    {
+      "source": "职业选项/审判者4.md",
+      "title": "审判宿敌",
+      "english": "Favored",
+      "target": "职业/基础职业/审判者/page_78.md",
+      "section_title": "变体",
+      "action": "added"
+    },
+    {
+      "source": "职业选项/审判者4.md",
+      "title": "读取心灵感应",
+      "english": "Translate",
+      "target": "职业/基础职业/审判者/page_78.md",
+      "section_title": "变体",
+      "action": "added"
+    },
+    {
+      "source": "职业选项/新游侠陷阱.md",
+      "title": "锚定陷阱",
+      "english": "ANCHORING TRAP",
+      "target": "规则/恶魔猎人手册_新游侠陷阱.md",
+      "section_title": "新游侠陷阱",
+      "action": "added"
+    },
+    {
+      "source": "职业选项/新游侠陷阱.md",
+      "title": "心灵感应陷阱",
+      "english": "TELEPATHY TRAP",
+      "target": "规则/恶魔猎人手册_新游侠陷阱.md",
+      "section_title": "新游侠陷阱",
+      "action": "added"
+    },
+    {
+      "source": "职业选项/新游侠陷阱.md",
+      "title": "换位陷阱",
+      "english": "TRANSPOSITIONAL TRAP",
+      "target": "规则/恶魔猎人手册_新游侠陷阱.md",
+      "section_title": "新游侠陷阱",
+      "action": "added"
+    },
+    {
+      "source": "职业选项/野蛮人3.md",
+      "title": "血腥之拳",
+      "english": "Bloody Fist",
+      "target": "职业/核心职业/野蛮人/恶魔猎人手册_新狂暴之力.md",
+      "section_title": "新狂暴之力",
+      "action": "added"
+    },
+    {
+      "source": "职业选项/野蛮人3.md",
+      "title": "血之盛宴",
+      "english": "Feast of Blood",
+      "target": "职业/核心职业/野蛮人/恶魔猎人手册_新狂暴之力.md",
+      "section_title": "新狂暴之力",
+      "action": "added"
+    },
+    {
+      "source": "工具包.md",
+      "title": "驱邪工具包",
+      "english": "Exorcism Kit",
+      "target": "装备_魔法物品/货品服务/恶魔猎人手册_物品.md",
+      "section_title": "物品",
+      "action": "added"
+    },
+    {
+      "source": "工具包.md",
+      "title": "审讯工具",
+      "english": "INTERROGATION TOOLS",
+      "target": "装备_魔法物品/货品服务/恶魔猎人手册_物品.md",
+      "section_title": "物品",
+      "action": "added"
+    },
+    {
+      "source": "工具包.md",
+      "title": "位面旅行者工具包",
+      "english": "PLANAR TRAVELER’S KIT",
+      "target": "装备_魔法物品/货品服务/恶魔猎人手册_物品.md",
+      "section_title": "物品",
+      "action": "added"
+    },
+    {
+      "source": "工具包.md",
+      "title": "天使羽箭头",
+      "english": "Angel Quill Arrowhead",
+      "target": "装备_魔法物品/货品服务/恶魔猎人手册_物品.md",
+      "section_title": "物品",
+      "action": "added"
+    },
+    {
+      "source": "工具包.md",
+      "title": "阳灰",
+      "english": "Sun cinder",
+      "target": "装备_魔法物品/货品服务/恶魔猎人手册_物品.md",
+      "section_title": "物品",
+      "action": "added"
+    },
+    {
+      "source": "工具包.md",
+      "title": "寒铁铁蒺藜",
+      "english": "Caltrops, cold iron",
+      "target": "装备_魔法物品/货品服务/恶魔猎人手册_物品.md",
+      "section_title": "物品",
+      "action": "added"
+    },
+    {
+      "source": "工具包.md",
+      "title": "圣战军十字架",
+      "english": "Crusader's cross",
+      "target": "装备_魔法物品/货品服务/恶魔猎人手册_物品.md",
+      "section_title": "物品",
+      "action": "added"
+    },
+    {
+      "source": "工具包.md",
+      "title": "圣泉烟花",
+      "english": "Holy fountainfirework",
+      "target": "装备_魔法物品/货品服务/恶魔猎人手册_物品.md",
+      "section_title": "物品",
+      "action": "added"
+    },
+    {
+      "source": "工具包.md",
+      "title": "便携式祭坛",
+      "english": "Portable altar",
+      "target": "装备_魔法物品/货品服务/恶魔猎人手册_物品.md",
+      "section_title": "物品",
+      "action": "added"
+    },
+    {
+      "source": "工具包.md",
+      "title": "精制品便携式祭坛",
+      "english": "PORTABLE ALTAR, MASTERWORK",
+      "target": "装备_魔法物品/货品服务/恶魔猎人手册_物品.md",
+      "section_title": "物品",
+      "action": "added"
+    },
+    {
+      "source": "炼金物品4.md",
+      "title": "粘液凝滞剂/史莱慢",
+      "english": "Slime slow",
+      "target": "装备_魔法物品/货品服务/恶魔猎人手册_炼金物品.md",
+      "section_title": "炼金物品",
+      "action": "added"
+    },
+    {
+      "source": "炼金物品4.md",
+      "title": "工艺",
+      "english": "",
+      "target": "装备_魔法物品/货品服务/恶魔猎人手册_炼金物品.md",
+      "section_title": "炼金物品",
+      "action": "skipped",
+      "reason": "hidden_marker"
+    },
+    {
+      "source": "魔法物品11.md",
+      "title": "灵使之狂想",
+      "english": "Azata's Whimsy",
+      "target": "装备_魔法物品/魔法物品/奇物/恶魔猎人手册_奇物.md",
+      "section_title": "奇物",
+      "action": "added"
+    },
+    {
+      "source": "魔法物品11.md",
+      "title": "堡垒旗帜",
+      "english": "Bastion Banner",
+      "target": "装备_魔法物品/魔法物品/奇物/恶魔猎人手册_奇物.md",
+      "section_title": "奇物",
+      "action": "added"
+    },
+    {
+      "source": "魔法物品11.md",
+      "title": "复醒匕首",
+      "english": "Dagger of Repossession",
+      "target": "装备_魔法物品/魔法物品/奇物/恶魔猎人手册_奇物.md",
+      "section_title": "奇物",
+      "action": "added"
+    },
+    {
+      "source": "魔法物品11.md",
+      "title": "晨花之光",
+      "english": "Dawnflower's Light",
+      "target": "装备_魔法物品/魔法物品/奇物/恶魔猎人手册_奇物.md",
+      "section_title": "奇物",
+      "action": "added"
+    },
+    {
+      "source": "魔法物品11.md",
+      "title": "死肢针",
+      "english": "Deadlimb Pins",
+      "target": "装备_魔法物品/魔法物品/奇物/恶魔猎人手册_奇物.md",
+      "section_title": "奇物",
+      "action": "added"
+    },
+    {
+      "source": "魔法物品11.md",
+      "title": "带刺手铐",
+      "english": "ThornedManacles",
+      "target": "装备_魔法物品/魔法物品/奇物/恶魔猎人手册_奇物.md",
+      "section_title": "奇物",
+      "action": "added"
+    },
+    {
+      "source": "魔法物品11.md",
+      "title": "防护唇片",
+      "english": "Dagger of Repossession",
+      "target": "装备_魔法物品/魔法物品/奇物/恶魔猎人手册_奇物.md",
+      "section_title": "奇物",
+      "action": "added"
+    },
+    {
+      "source": "魔法物品11.md",
+      "title": "蒺藜珠",
+      "english": "CALTROP BEAD",
+      "target": "装备_魔法物品/魔法物品/奇物/恶魔猎人手册_奇物.md",
+      "section_title": "奇物",
+      "action": "added"
+    }
+  ],
+  "skipped_files": []
+}

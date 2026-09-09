@@ -1,0 +1,1636 @@
+[
+ {
+  "file": "专长10.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "不屈坐骑",
+   "格拉利昂的城市",
+   "Cities of",
+   "Indomitable Mount"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**不屈坐骑(战斗) Indomitable Mount (Combat)** 出自 格拉利昂的城市（Cities of"
+  ]
+ },
+ {
+  "file": "专长10.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "许多追求冒险生涯并愿为帝国效力的塔尔多人来到卡索米尔",
+   "Taldor"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "Taldor）*****许多追求冒险生涯并愿为帝国效力的塔尔多人来到卡索米尔..."
+  ]
+ },
+ {
+  "file": "专长13.md",
+  "tf_index": 2,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "高等食咒者",
+   "Greater"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "高等食咒者Greater"
+  ]
+ },
+ {
+  "file": "专长19.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "狡诈施法者",
+   "Cunning"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**狡诈施法者Cunning"
+  ]
+ },
+ {
+  "file": "专长2.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "极端情绪波动",
+   "Extreme Mood Swings"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**极端情绪波动(**Extreme Mood Swings"
+  ]
+ },
+ {
+  "file": "专长22.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "优雅双武",
+   "Two-Weapon Grace"
+  ],
+  "tokens_elsewhere": {
+   "不可用": [
+    "专长30.md",
+    "专长46.md",
+    "专长/page_1367.md"
+   ]
+  },
+  "bad_segments": [
+   "**优雅双武Two-Weapon Grace（战斗专长）（PFS不可用）"
+  ]
+ },
+ {
+  "file": "专长22.md",
+  "tf_index": 4,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "你与盟友协作以阻止敌人逃脱",
+   "协调捕获",
+   "基础攻击加值",
+   "Coordinated Capture"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**协调捕获Coordinated",
+   "Capture（战斗，团队）",
+   "***你与盟友协作以阻止敌人逃脱。***先决条件**：基础攻击加值+1..."
+  ]
+ },
+ {
+  "file": "专长23.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "元素融合"
+  ],
+  "tokens_elsewhere": {
+   "teamwork": [
+    "专长37.md",
+    "专长/page_856.md",
+    "专长/巫团血脉BotC_专长.md"
+   ]
+  },
+  "bad_segments": [
+   "**元素融合（团队专长）**",
+   "elemental commixture (teamwork)"
+  ]
+ },
+ {
+  "file": "专长35.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "孤狼独舞",
+   "Solo"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**孤狼独舞(战斗)PFS可(Solo "
+  ]
+ },
+ {
+  "file": "专长36.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "间谍大师手册",
+   "Spymaster's Handbook pg"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**出自**：间谍大师手册Spymaster's Handbook pg. 21"
+  ]
+ },
+ {
+  "file": "专长36.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "Ascendant"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "Ascendant（故事）**"
+  ]
+ },
+ {
+  "file": "专长36.md",
+  "tf_index": 2,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "Concilator"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "Concilator（故事）**"
+  ]
+ },
+ {
+  "file": "专长36.md",
+  "tf_index": 3,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "黄金联盟刺青",
+   "Golden League",
+   "Tattoos"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**黄金联盟刺青 Golden League ",
+   "Tattoos**"
+  ]
+ },
+ {
+  "file": "专长37.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "战团",
+   "魔宠连接",
+   "Coven",
+   "Familiar",
+   "Link"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**【PFS】魔宠连接（战团，团队）（Familiar ",
+   "Link）（Coven，Teamwork）"
+  ]
+ },
+ {
+  "file": "专长45.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "激励指挥官",
+   "Inspirational Commander",
+   "Quests and Campaigns"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**激励指挥官（Inspirational Commander）** 出自Quests and Campaigns"
+  ]
+ },
+ {
+  "file": "专长45.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "你已将忠诚的追随者安插至最关键的位置",
+   "权力中心",
+   "CENTER OF POWER"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**权力中心（CENTER OF POWER）****　　*你已将忠诚的追随者安插至最关键的位置。*"
+  ]
+ },
+ {
+  "file": "专长45.md",
+  "tf_index": 2,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "你拥有特定领域的特殊天赋",
+   "TRAINER"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "TRAINER）****　　*你拥有特定领域的特殊天赋"
+  ]
+ },
+ {
+  "file": "专长45.md",
+  "tf_index": 3,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "你被命运标选为未来的神明",
+   "登神之路",
+   "APOTHEOSIS"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**登神之路（APOTHEOSIS）（故事）****　　*你被命运标选为未来的神明"
+  ]
+ },
+ {
+  "file": "专长52.md",
+  "tf_index": 4,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "学派鼓吹手",
+   "Arcane School"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**学派鼓吹手Arcane School "
+  ]
+ },
+ {
+  "file": "专长52.md",
+  "tf_index": 5,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "无助囚徒",
+   "Helpless"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**无助囚徒Helpless "
+  ]
+ },
+ {
+  "file": "专长52.md",
+  "tf_index": 6,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "撒泼打滚",
+   "Tantrum"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**撒泼打滚Tantrum（战斗）"
+  ]
+ },
+ {
+  "file": "专长52.md",
+  "tf_index": 7,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "妙语虚招",
+   "Witty Feint"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**妙语虚招Witty Feint "
+  ]
+ },
+ {
+  "file": "专长56.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "专长效果",
+   "你在解读奥术魔法文字的法术辨识检定上获得",
+   "你有着使用他人法术书的技巧",
+   "加值",
+   "有能力准备奥术法术",
+   "Ability to prepare arcane",
+   "Reader",
+   "spells"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "Reader）*****你有着使用他人法术书的技巧。*",
+   "先决条件**：有能力准备奥术法术（Ability to prepare arcane ",
+   "spells）。**专长效果**：你在解读奥术魔法文字的法术辨识检定上获得+2加值..."
+  ]
+ },
+ {
+  "file": "专长58.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "从以下塞卡利亚专注纹中选择一个",
+   "塞卡利亚",
+   "塞卡利亚专注纹",
+   "Cecaelia Focus",
+   "Tattoo"
+  ],
+  "tokens_elsewhere": {
+   "为你带来专注与骄傲": [
+    "专长/海洋之血BotS_专长.md"
+   ],
+   "你在自己类人躯体的皮肤上纹刻了涡旋的图案": [
+    "专长/海洋之血BotS_专长.md"
+   ]
+  },
+  "bad_segments": [
+   "塞卡利亚专注纹**（Cecaelia Focus ",
+   "Tattoo）**你在自己类人躯体的皮肤上纹刻了涡旋的图案，为你带来专注与骄傲。",
+   "先决条件**：塞卡利亚**效果**：从以下塞卡利亚专注纹中选择一个..."
+  ]
+ },
+ {
+  "file": "专长9.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "你们将声音本身变成了武器先决条件",
+   "你可以尝试进行一次",
+   "你的盟友在下一回合开始之前施放的造成强酸",
+   "另一半伤害直接原自神力",
+   "合唱支援",
+   "因此抵抗音波攻击的方式无法对这一部分起作用",
+   "如果检定成功",
+   "寒冷",
+   "检定来协助一位同样拥有这一专长的盟友",
+   "歌唱",
+   "的表演",
+   "级专长效果",
+   "表演",
+   "通常造成音波伤害的法术将会变成一半造成音波伤害",
+   "通过一个标准动作",
+   "通过与盟友一起高唱",
+   "闪电或火焰伤害的法术伤害类型将会变成音波伤害",
+   "Choral",
+   "Support"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "合唱支援Choral ",
+   "Support（团队专长）通过与盟友一起高唱，你们将声音本身变成了武器先决条件：表演（歌唱）3级专长效果：通过一个标准动作，你可以尝试进行一次DC10的表演（歌唱）检定来协助一位同样拥有这一专长的盟友。如果检定成功，你的盟友在下一回合开始之前施放的造成强酸、寒冷、闪电或火焰伤害的法术伤害类型将会变成音波伤害。通常造成音波伤害的法术将会变成一半造成音波伤害，另一半伤害直接原自神力，因此抵抗音波攻击的方式无法对这一部分起作用。"
+  ]
+ },
+ {
+  "file": "闹鬼专长.md",
+  "tf_index": 2,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "虚幻杀手",
+   "Ghostslayer"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**虚幻杀手（Ghostslayer）专长** "
+  ]
+ },
+ {
+  "file": "专长/page_203.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "异变疖体",
+   "Aberrant Tumor"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**异变疖体**** Aberrant Tumor**"
+  ]
+ },
+ {
+  "file": "专长/page_203.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "业余剑客",
+   "Amateur Swashbuckler"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**业余剑客**** Amateur Swashbuckler****（战斗专长）******"
+  ]
+ },
+ {
+  "file": "专长/page_203.md",
+  "tf_index": 2,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "准线规避",
+   "Coordinated Shot"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**准线规避**** Coordinated Shot****（战斗，团队专长）******"
+  ]
+ },
+ {
+  "file": "专长/page_203.md",
+  "tf_index": 3,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "旋舞花招",
+   "派头专长",
+   "Confounding Tumble Deed"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**旋舞花招**** Confounding Tumble Deed****（派头专长）******"
+  ]
+ },
+ {
+  "file": "专长/page_311.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "注视",
+   "血溢双瞳",
+   "Bleeding Stare"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "血溢双瞳（战斗，注视）****Bleeding Stare (Combat, "
+  ]
+ },
+ {
+  "file": "专长/page_311.md",
+  "tf_index": 3,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "威慑眼神",
+   "Intimidating Glance"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "威慑眼神（战斗）****Intimidating Glance (Combat)"
+  ]
+ },
+ {
+  "file": "专长/page_321.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "奥术魔法的力量帮助你洞悉对手的招数",
+   "洞观奥秘",
+   "Arcane Insight"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**洞观奥秘**** ",
+   "Arcane Insight*****  ******奥术魔法的力量帮助你洞悉对手的招数*********"
+  ]
+ },
+ {
+  "file": "专长/page_321.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "英勇介入",
+   "Heroic Interposition"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**英勇介入**** Heroic Interposition****（****Combat****）****"
+  ]
+ },
+ {
+  "file": "专长/page_321.md",
+  "tf_index": 2,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "英勇介入",
+   "Heroic Interposition"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**英勇介入**** Heroic Interposition****（****Combat****）****"
+  ]
+ },
+ {
+  "file": "专长/page_361.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "精通盾牌专攻",
+   "Improved Shield Focus"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**精通盾牌专攻**** ",
+   "Improved Shield Focus****（战斗）******"
+  ]
+ },
+ {
+  "file": "专长/page_361.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "流派专长",
+   "Bulette Charge Style"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "Bulette Charge Style****（战斗，流派专长）****"
+  ]
+ },
+ {
+  "file": "专长/page_361.md",
+  "tf_index": 3,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "鲨蜥",
+   "Bulette Leap"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "鲨蜥****·****扑**** ",
+   "Bulette Leap****（战斗专长）****"
+  ]
+ },
+ {
+  "file": "专长/page_500.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "伏击感知",
+   "Ambush Sense"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**伏击感知**** ",
+   "Ambush Sense****（战斗专长）****"
+  ]
+ },
+ {
+  "file": "专长/page_500.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "优雅挑刺",
+   "Fencing Grace"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "优雅挑刺**** ",
+   "Fencing Grace****（战斗专长）****"
+  ]
+ },
+ {
+  "file": "专长/page_505.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "阵营武具",
+   "Align Equipment"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**阵营武具**** ",
+   "Align Equipment**"
+  ]
+ },
+ {
+  "file": "专长/page_538.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "酩酊侠"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "****酩酊侠**** "
+  ]
+ },
+ {
+  "file": "专长/page_538.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "中的射击",
+   "他们驯养的战兽也在和自己的主人一起战斗时更加协调灵活",
+   "埃拉斯蒂尔",
+   "效力埃拉斯蒂尔的战士对张弓搭箭颇有心得"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**埃拉斯蒂尔****效力埃拉斯蒂尔的战士对张弓搭箭颇有心得，他们驯养的战兽也在和自己的主人一起战斗时更加协调灵活。****\n中的射击**** "
+  ]
+ },
+ {
+  "file": "专长/page_555.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "巧妙闪躲",
+   "Artful Dodge"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**巧妙闪躲****Artful Dodge****（战斗）****"
+  ]
+ },
+ {
+  "file": "专长/page_555.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "擒抱施法",
+   "Grappled Caster"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**擒抱施法****Grappled Caster"
+  ]
+ },
+ {
+  "file": "专长/page_566.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "超魔专长",
+   "轻快超魔",
+   "brisk spell"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**轻快超魔**** brisk spell****（超魔专长）****"
+  ]
+ },
+ {
+  "file": "专长/page_566.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "敏锐射击",
+   "acute shot"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**敏锐射击**** acute shot**"
+  ]
+ },
+ {
+  "file": "专长/page_670.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "上天赐予你的庇护和抗性异常惊人",
+   "冠位专长",
+   "冠位抗力",
+   "当以迅捷动作使用",
+   "神授权能职业特性",
+   "角色等级",
+   "Ennobled",
+   "Resistances"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "冠位专长(Vested Feats)**...**冠位抗力**Ennobled ",
+   "Resistances*上天赐予你的庇护和抗性异常惊人***先决条件：**神授权能职业特性，角色等级4**效果：**当以迅捷动作使用..."
+  ]
+ },
+ {
+  "file": "专长/page_670.md",
+  "tf_index": 1,
+  "verdict": "invented",
+  "tokens_own": [],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "乐府训练你在位于扎摩诔..."
+  ]
+ },
+ {
+  "file": "专长/page_673.md",
+  "tf_index": 3,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "不恭敬或者怀疑帮助你排斥他们的力量",
+   "专长效果",
+   "你对于神祇的不信任",
+   "神力抵抗",
+   "DlVlNE DEFIANCE"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "神力抵抗 DlVlNE DEFIANCE你对于神祇的不信任，不恭敬或者怀疑帮助你排斥他们的力量。专长效果：..."
+  ]
+ },
+ {
+  "file": "专长/page_673.md",
+  "tf_index": 4,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "万神祝福",
+   "作为你对万神殿的神契尊崇的奖励",
+   "你会失去施展这个类法术的能力",
+   "你的魅力修正",
+   "你获得了少许神圣力量",
+   "你获得了所选万神殿的类法术能力",
+   "在下列万神殿中选择一个",
+   "如同牧师恢复失去的职业能力",
+   "如果你违背了你的万神殿的信条",
+   "如果获取的法术需要豁免",
+   "当你取得专长时",
+   "必须信仰一个万神殿专长效果",
+   "感知",
+   "每日",
+   "直到你赎罪为止",
+   "角色等级",
+   "PANTHEISTIC BLESSlNG"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "万神祝福 PANTHEISTIC BLESSlNG作为你对万神殿的神契尊崇的奖励，你获得了少许神圣力量。先决条件：感知13，必须信仰一个万神殿专长效果：当你取得专长时，在下列万神殿中选择一个。你获得了所选万神殿的类法术能力，每日1次。如果获取的法术需要豁免，则DC=10+1/2角色等级+你的魅力修正。特殊情况：如果你违背了你的万神殿的信条，你会失去施展这个类法术的能力，直到你赎罪为止（如同牧师恢复失去的职业能力）"
+  ]
+ },
+ {
+  "file": "专长/page_856.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "你能够通过纯熟的动作来避免施法受到敌人的干扰",
+   "特技施法者",
+   "Acrobatic Spellcaster"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**特技施法者（战斗）**Acrobatic Spellcaster (Combat)*你能够通过纯熟的动作来避免施法受到敌人的干扰。"
+  ]
+ },
+ {
+  "file": "专长/位面冒险PA_专长.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "汲引",
+   "闪现步",
+   "Conduit",
+   "Flickering Step",
+   "Planar Adventures pg"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**闪现步（汲引）（Flickering Step (Conduit)）出自《Planar Adventures pg. 28》"
+  ]
+ },
+ {
+  "file": "专长/位面冒险PA_专长.md",
+  "tf_index": 2,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "精通异界传送",
+   "Improved Plane Shift"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**【PFS】精通异界传送（Improved Plane Shift）"
+  ]
+ },
+ {
+  "file": "专长/初探探索者协会_专长.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "在加入探索者协会最初的培训中",
+   "改善日常工作",
+   "Impro Day Jos"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**改善日常工作 Impro Day Jos*在加入探索者协会最初的培训中"
+  ]
+ },
+ {
+  "file": "专长/动物档案AArch_动物专长.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "你与你的魔宠或动物伙伴的关系异常地亲密",
+   "好伙伴",
+   "Boon Companion"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**好伙伴**Boon Companion*你与你的魔宠或动物伙伴的关系异常地亲密。***先决条件**"
+  ]
+ },
+ {
+  "file": "专长/反派法典VC_专长.md",
+  "tf_index": 2,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "协调捕获",
+   "Coordinated Capture"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**协调捕获Coordinated Capture（战斗，团队）"
+  ]
+ },
+ {
+  "file": "专长/护甲大师手册_专长.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "中或重甲来代替精通徒手打击作为前置条件",
+   "从没想过它们会成为一种战斗流派",
+   "对于任何目的",
+   "尽管许多新手战士觉得盔甲作为一种被动防御",
+   "所有的甲斗流派都需要擅长轻",
+   "护甲流派专长只有在穿着符合该专长前置的盔甲时才生效",
+   "而不管该盔甲的特殊材料带来的特性",
+   "而那些沙场老将却充分利用了盔甲",
+   "这些专长都视为流派专长",
+   "这些甲斗流派中的流派专长采用",
+   "页的一般流派专长规则",
+   "Styles"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "Styles****）****尽管许多新手战士觉得盔甲作为一种被动防御，从没想过它们会成为一种战斗流派，而那些沙场老将却充分利用了盔甲。这些甲斗流派中的流派专长采用UC78页的一般流派专长规则。所有的甲斗流派都需要擅长轻，中或重甲来代替精通徒手打击作为前置条件。护甲流派专长只有在穿着符合该专长前置的盔甲时才生效，而不管该盔甲的特殊材料带来的特性。对于任何目的，这些专长都视为流派专长。"
+  ]
+ },
+ {
+  "file": "专长/护甲大师手册_专长.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "盔甲专攻",
+   "Armor focus"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**盔甲专攻Armor focus (战斗)**"
+  ]
+ },
+ {
+  "file": "专长/格拉里昂的城市CoG_专长.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "塔尔多的私掠船员",
+   "许多追求冒险生涯",
+   "Corsair of Taldor"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**塔尔多的私掠船员（Corsair of Taldor）*****许多追求冒险生涯"
+  ]
+ },
+ {
+  "file": "专长/格拉里昂的城市CoG_专长.md",
+  "tf_index": 2,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "你与你的坐骑能在你坚强地突击下粉碎敌人的阵线",
+   "Onslaught"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "Onslaught）（战斗）*****你与你的坐骑能在你坚强地突击下粉碎敌人的阵线*"
+  ]
+ },
+ {
+  "file": "专长/武器大师手册_专长.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "你熟练地掌握了一些武器的用法",
+   "武器专家",
+   "Martial Focus"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "武器专家 Martial Focus****（战斗专长）****   *你熟练地掌握了一些武器的用法。*"
+  ]
+ },
+ {
+  "file": "专长/武器大师手册_专长.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "你迅速而强力的一击可以将呼啸而来的飞弹弹开",
+   "武器掌握专长",
+   "矢切",
+   "Cut from the"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "矢切 Cut from the ",
+   "Air****（武器掌握专长）****   *你迅速而强力的一击可以将呼啸而来的飞弹弹开。*"
+  ]
+ },
+ {
+  "file": "专长/武术手册MAH_专长.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "战斗韵律",
+   "融会专长",
+   "Rhythm"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**战斗韵律****Combat  Rhythm****（战斗专长，融会专长）**"
+  ]
+ },
+ {
+  "file": "专长/水下冒险AA_专长.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "一般情况",
+   "不会承受额外的命中和伤害减值",
+   "专长效果",
+   "以至于你在水下使用它们时不会受到任何阻碍",
+   "你会在攻击骰上有",
+   "你在你所选择武器的技艺上太过娴熟",
+   "你在水下战斗使用拥有武器专攻专长的挥砍和钝击近战武器时",
+   "减值",
+   "基本攻击加值",
+   "并且伤害减半",
+   "当你在水下使用钝击和挥砍的近战武器时",
+   "武器专攻",
+   "水下战斗专攻",
+   "Aquadynamic"
+  ],
+  "tokens_elsewhere": {
+   "focus": [
+    "专长1.md",
+    "专长45.md",
+    "专长/page_198.md"
+   ]
+  },
+  "bad_segments": [
+   "水下战斗专攻（战斗）Aquadynamic ",
+   "focus 你在你所选择武器的技艺上太过娴熟，以至于你在水下使用它们时不会受到任何阻碍。先决条件：武器专攻，基本攻击加值+1专长效果：你在水下战斗使用拥有武器专攻专长的挥砍和钝击近战武器时，不会承受额外的命中和伤害减值。一般情况：当你在水下使用钝击和挥砍的近战武器时，你会在攻击骰上有-2减值，并且伤害减半。"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/专长/海洋之血BotS_专长.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "塞卡利亚专注纹",
+   "Cecaelia Focus"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "塞卡利亚专注纹**（Cecaelia Focus "
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/专长/秘术选集ArcaneAnthology_专长.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "苦痛一击",
+   "Painful Blow"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "## 苦痛一击（Painful Blow）〔战斗〕"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/专长/第一世界TFWRotF_专长.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "古老者的服从仪典"
+  ],
+  "tokens_elsewhere": {
+   "Eldest": [
+    "专长/page_321.md"
+   ]
+  },
+  "bad_segments": [
+   "**古老者的服从仪典Obedience to the ",
+   "Eldest**"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/专长/药剂与毒药P&P_专长.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "你在使用喷毒专长喷射毒素时",
+   "你的毒液足以摧毁血管融化骨骼",
+   "可以来对豁免失败的目标在其他效果之外额外造成",
+   "喷毒",
+   "基本攻击加值",
+   "溢血之毒",
+   "点流血伤害",
+   "致命毒液",
+   "这个流血可以正常被",
+   "Hemorrhaging Venom"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "娜迦裔专长以下专长对娜迦裔可用，并且能够增强喷毒种族专长。溢血之毒 Hemorrhaging Venom（战斗专长）你的毒液足以摧毁血管融化骨骼。先决条件：喷毒，致命毒液，基本攻击加值+7，娜迦裔专长效果：你在使用喷毒专长喷射毒素时，可以来对豁免失败的目标在其他效果之外额外造成2d6点流血伤害。这个流血可以正常被DC "
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/专长/药剂与毒药P&P_专长.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "毒性分泌物",
+   "Toxic"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "Feats以下专长对于树蛙人角色可用。毒性分泌物 Toxic "
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/专长/遥远国度DR_专长.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "以下专长代表了这些技巧",
+   "合唱支援",
+   "在第六翼学院中受训的神圣战士发展了它们的神术技巧",
+   "这些致命的学员们经常把这些技巧带回到自己的家乡",
+   "Choral"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "| 在第六翼学院中受训的神圣战士发展了它们的神术技巧，这些致命的学员们经常把这些技巧带回到自己的家乡。以下专长代表了这些技巧。合唱支援Choral "
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/专长/魔宠手记FF_专长.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "一般",
+   "不能携带重量超过",
+   "不过",
+   "不过侦测魔法",
+   "不过我想应该指的是有效法师等级",
+   "不过此时的持续时间与探知效果的持续时间相同",
+   "与动物同类交谈",
+   "两栖动物",
+   "个专长",
+   "个巫术",
+   "个魔宠",
+   "主人专长",
+   "之类的法术仍旧会如常侦测到变身术",
+   "从而进一步使用各自的魔宠",
+   "以取代让其失败",
+   "以此进行心灵感应的范围至多为",
+   "会获得魔宠的职业的等级",
+   "但是当你与魔宠间的距离超过",
+   "你不会获得魔宠通常会赋予主人的特殊能力",
+   "你也能够对彼此的魔宠施放",
+   "你仅能拥有",
+   "你会失去原有的魔宠专长并交换成了新的",
+   "你便会意识到这次探知的尝试",
+   "你便可以将该专长的好处应用至其他种类的生物上作为替代",
+   "你可以多次选取该专长",
+   "你可以通过心灵感应来和自己的魔宠进行交流",
+   "你可以通过自己的魔宠来愚弄那些想要窥探你的家伙",
+   "你和任何具有该专长的盟友均能凭借彼此的魔宠施放法术",
+   "你和任何具有该专长的盟友均能够将目标为",
+   "你和其他队伍成员可以通过彼此的魔宠传递接触法术",
+   "你和盟友可以向彼此的魔宠施放法术",
+   "你和自己的魔宠均能通过心灵感应向彼此进行交流",
+   "你和魔宠之间的情感连接",
+   "你学会了一种让自己获得魔宠的仪式",
+   "你的每个等级会让魔宠获得",
+   "你的魔宠不仅能够与同类交流",
+   "你的魔宠很难被杀死",
+   "你的魔宠的最高队伍成员数量增加",
+   "你的魔宠能够与许多生物产生联系",
+   "你的魔宠能够与该类生物进行交流",
+   "你的魔宠能够花费整轮动作来对自己进行重塑",
+   "你的魔宠能够获得更强的力量",
+   "你的魔宠能够重塑构造出自己的实体梦境",
+   "你的魔宠能引导出体内那神圣的勇气",
+   "你的魔宠获得所有正常法师魔宠的可用能力",
+   "你的魔宠还没有获得与动物同类交谈",
+   "你获得一个魔宠",
+   "你还会获得正常来说依照魔宠类型为主人提供的特殊能力",
+   "使用你的总生命骰来作为法师等级",
+   "使用总生命骰来判断你的魔宠的能力",
+   "健壮战宠",
+   "即便是某些通常无法影响目标魔宠的生物类型的法术",
+   "原文为",
+   "只能以此方式替换",
+   "只要你的魔宠与你之间的距离不超过",
+   "只要你的魔宠与你相邻",
+   "只要你的魔宠和你在情感连接",
+   "可以用铅来隔断连接",
+   "后述专长可以被具有魔宠且满足先决条件的角色进行选取",
+   "和法术共享",
+   "啮齿动物",
+   "因此它会获得所有基于这些职业等级而提供给魔宠的特殊能力",
+   "因此按照能力意思选择了",
+   "团队传递接触法术",
+   "团队法术共享",
+   "在判断能力的获取时将你的总生命骰视为法师等级",
+   "士气加值",
+   "失去的专长不能作为其他你所具有的专长的先决条件",
+   "如果你现有的魔宠不满足当前你所具有的魔宠专长的先决条件",
+   "实际上",
+   "就会变得免疫恐惧效果",
+   "就如同你成功使用了法术辨识检定鉴别了它一般",
+   "就如同它的假扮主人",
+   "就如同法师的奥术联结",
+   "就如同目标是你一般",
+   "就如每个盟友都能使用彼此魔宠的法术共享能力一般",
+   "巧言魔宠",
+   "并没有这个能力",
+   "幻梦易形",
+   "当你由于近战攻击而受到伤害时",
+   "当你获得新的等级时",
+   "当你身陷危难之时",
+   "必须具有使用了吉祥物",
+   "必须具有使用了幻梦",
+   "必须具有使用了戍卫宠",
+   "必须具有使用了战宠",
+   "必须具有使用了神使",
+   "必须具有使用了饵宠",
+   "必须具有拥有与主人交谈",
+   "必须具有拥有传递接触法术",
+   "必须具有拥有法术共享",
+   "戍卫归还",
+   "或在之后获得",
+   "或法术抗力",
+   "或者选择仅用那个提供魔宠的职业等级来判断魔宠的能力",
+   "或虫类",
+   "探知效果的制造者会一直观察魔宠",
+   "探知魔宠",
+   "效果时",
+   "效果时获得",
+   "新增的魔宠契约专长能够让任何角色获得魔宠",
+   "无关其本身的职业",
+   "无脊椎动物",
+   "无论距离有多远",
+   "智力",
+   "本节为具有魔宠的角色提供了新的专长",
+   "次该能力",
+   "此外",
+   "每当你成功通过意志豁免以抵御一次探知",
+   "每当你提升",
+   "每日",
+   "每次都要选择不同的生物种类",
+   "法师可以将魔宠专长作为奖励专长",
+   "法术共享",
+   "满足先决条件的新魔宠会自动获得专长的好处",
+   "满足先决条件的角色可以获得后述专长",
+   "点生命值",
+   "点进化点数的幻灵进化",
+   "爬虫类",
+   "特殊",
+   "猫科动物",
+   "猿类",
+   "用以判断魔宠的能力",
+   "的效果",
+   "的法术作为接触法术施放至彼此的魔宠身上",
+   "的范围内",
+   "目标魔宠和魔宠的主人都必须自愿接受法术才会得到效果",
+   "磅的物品",
+   "神使之鼓舞",
+   "类法术能力",
+   "级以及之后的每",
+   "级会增加",
+   "级时",
+   "级时变为每日",
+   "级时的",
+   "级能够每日使用",
+   "级起",
+   "而且你的魔宠必须满足新专长的先决条件",
+   "而且你能够选择让法术如常生效",
+   "而女巫可以选择魔宠专长来替换",
+   "而新魔宠却无法满足你所具有的魔宠专长的先决条件的话",
+   "职业能力一样",
+   "能力",
+   "能力一般",
+   "能力的话",
+   "自己",
+   "至多为",
+   "若你具有",
+   "若你在初次选取该专长时",
+   "若你在失去了魔宠之后又获得了新魔宠",
+   "若你的魔宠在后来获得了与动物同类交谈的能力",
+   "若你这么做",
+   "英里以上时",
+   "英里远",
+   "讨喜吉祥物",
+   "译注",
+   "该专长在其他方面就如同传递接触法术",
+   "该能力在其他方面都如同任意门",
+   "距离无法切断你与魔宠间的联系",
+   "还可以和其他的动物进行沟通",
+   "这个加值在",
+   "这也包括对它的特殊能力的限制",
+   "这些特殊能力",
+   "这会使得魔宠立即变形",
+   "这会重新分配",
+   "这包括探知和高等探知",
+   "这类似于用铅板阻挡侦测魔法效果",
+   "这边虽然没说",
+   "远行魔宠",
+   "连通心灵感应",
+   "选择一类生物",
+   "那么你可以习得一个新的魔宠专长以替代魔宠无法使用的专长",
+   "那么你可以选择使用该专长的效果",
+   "那么你就会在对抗恐惧",
+   "那么你必须选择与魔宠同类的生物",
+   "那么你的新魔宠就无法获得该专长带来的好处",
+   "那么你能够选择将探知效果变更至你的魔宠身上",
+   "那么它便能够以直觉动作传送到你所占据的空间",
+   "都不会中断",
+   "钢铁意志",
+   "锦囊妙计",
+   "饵宠的诱导",
+   "高等魔宠契约",
+   "魔宠专长",
+   "魔宠也不会获得传递接触法术",
+   "魔宠会传送到你的身边",
+   "魔宠在",
+   "魔宠在以此方式进行传送时",
+   "魔宠失去的进化不能是任何其他它所具有的进化的先决条件",
+   "魔宠契约",
+   "鸟类",
+   "Alter Self",
+   "Arcane Bond",
+   "Bond",
+   "Decoy",
+   "Deliver Touch Spells",
+   "Dimension Door",
+   "Emissary",
+   "Empathic Link",
+   "Familiar",
+   "Familiar Bond",
+   "Familiar Feats",
+   "Far-Roaming Familiar",
+   "Figment",
+   "Group Deliver Touch Spells",
+   "Group Shared Spells",
+   "Improved Familiar Bond",
+   "Iron Will",
+   "Kind",
+   "Mascot",
+   "Master Feats",
+   "Mauler",
+   "Polyglot Familiar",
+   "Protector",
+   "Scry on Familiar",
+   "Share Spells",
+   "Speak with Animals of Its",
+   "Speak with Master",
+   "Spell Resistance",
+   "Telepathic Link",
+   "amphibians",
+   "birds",
+   "bonus feat",
+   "detect magic",
+   "fear",
+   "felines",
+   "invertebrates",
+   "reptiles",
+   "rodents",
+   "scrying",
+   "secret sharer spell-like ability",
+   "simians",
+   "vermin"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**魔宠专长（****Familiar Feats****）****本节为具有魔宠的角色提供了新的专长。此外，新增的魔宠契约专长能够让任何角色获得魔宠，无关其本身的职业。主人专长（****Master Feats****）****满足先决条件的角色可以获得后述专长，从而进一步使用各自的魔宠。魔宠契约****Familiar  Bond*你学会了一种让自己获得魔宠的仪式。*先决条件：钢铁意志（Iron Will）好处：你获得一个魔宠，就如同法师的奥术联结（Arcane Bond）职业能力一样。你不会获得魔宠通常会赋予主人的特殊能力，魔宠也不会获得传递接触法术（Deliver Touch Spells）、探知魔宠（Scry on Familiar）、法术共享（Share Spells）、与动物同类交谈（Speak with Animals of Its Kind）或法术抗力（Spell Resistance）这些特殊能力。此外，使用你的总生命骰来作为法师等级，用以判断魔宠的能力。特殊：若你具有（或在之后获得）会获得魔宠的职业的等级，那么你可以选择使用该专长的效果，使用总生命骰来判断你的魔宠的能力（这也包括对它的特殊能力的限制），或者选择仅用那个提供魔宠的职业等级来判断魔宠的能力（因此它会获得所有基于这些职业等级而提供给魔宠的特殊能力）。你仅能拥有1个魔宠。远行魔宠****Far-Roaming Familiar*距离无法切断你与魔宠间的联系。*先决条件：智力13，必须具有魔宠好处：无论距离有多远，你和魔宠之间的情感连接（Empathic Link）都不会中断，但是当你与魔宠间的距离超过1英里以上时，可以用铅来隔断连接（这类似于用铅板阻挡侦测魔法效果）。团队传递接触法术（团队专长）****Group Deliver Touch Spells (Teamwork)*你和其他队伍成员可以通过彼此的魔宠传递接触法术。*先决条件：团队法术共享（Group Shared Spells），必须具有拥有传递接触法术（Deliver Touch Spells）和法术共享（Share Spells）能力的魔宠好处：你和任何具有该专长的盟友均能凭借彼此的魔宠施放法术，就如每个盟友都能使用彼此魔宠的法术共享能力一般。该专长在其他方面就如同传递接触法术（Deliver Touch Spells）能力一般。团队法术共享（团队专长）****Group Shared Spells (Teamwork)*你和盟友可以向彼此的魔宠施放法术。*先决条件：必须具有拥有法术共享（Share Spells）能力的魔宠好处：你和任何具有该专长的盟友均能够将目标为“自己（you）”的法术作为接触法术施放至彼此的魔宠身上。目标魔宠和魔宠的主人都必须自愿接受法术才会得到效果。即便是某些通常无法影响目标魔宠的生物类型的法术，你也能够对彼此的魔宠施放。高等魔宠契约****Improved Familiar Bond*你的魔宠能够获得更强的力量。*先决条件：魔宠契约（Familiar Bond），钢铁意志（Iron Will）好处：你的魔宠获得所有正常法师魔宠的可用能力，在判断能力的获取时将你的总生命骰视为法师等级。你还会获得正常来说依照魔宠类型为主人提供的特殊能力。连通心灵感应****Telepathic Link*你可以通过心灵感应来和自己的魔宠进行交流。*先决条件：必须具有拥有与主人交谈（Speak with Master）能力的魔宠好处：你和自己的魔宠均能通过心灵感应向彼此进行交流，以此进行心灵感应的范围至多为1英里远。魔宠专长（****Familiar Feats****）****后述专长可以被具有魔宠且满足先决条件的角色进行选取。法师可以将魔宠专长作为奖励专长（bonus feat），而女巫可以选择魔宠专长来替换1个巫术（hex）。若你在失去了魔宠之后又获得了新魔宠，而新魔宠却无法满足你所具有的魔宠专长的先决条件的话，那么你的新魔宠就无法获得该专长带来的好处。满足先决条件的新魔宠会自动获得专长的好处。当你获得新的等级时，如果你现有的魔宠不满足当前你所具有的魔宠专长的先决条件，那么你可以习得一个新的魔宠专长以替代魔宠无法使用的专长。实际上，你会失去原有的魔宠专长并交换成了新的。失去的专长不能作为其他你所具有的专长的先决条件，而且你的魔宠必须满足新专长的先决条件。每当你提升1级时，只能以此方式替换1个专长。饵宠的诱导（魔宠专长）****Decoy’s Misdirection (Familiar)*你可以通过自己的魔宠来愚弄那些想要窥探你的家伙。*先决条件：必须具有使用了饵宠（Decoy）变体的魔宠好处：只要你的魔宠与你之间的距离不超过30尺，每当你成功通过意志豁免以抵御一次探知（scrying）效果时（这包括探知和高等探知），你便会意识到这次探知的尝试，就如同你成功使用了法术辨识检定鉴别了它一般，而且你能够选择让法术如常生效，以取代让其失败。若你这么做，那么你能够选择将探知效果变更至你的魔宠身上，这会使得魔宠立即变形，就如同它的假扮主人（Master’s Guise）类法术能力*一般，不过此时的持续时间与探知效果的持续时间相同。探知效果的制造者会一直观察魔宠，就如同目标是你一般，不过侦测魔法（detect magic）之类的法术仍旧会如常侦测到变身术（Alter Self）的效果。【*译注：原文为secret sharer spell-like ability，不过Decoy并没有这个能力，因此按照能力意思选择了Master’s Guise能力。】神使之鼓舞（魔宠专长）****Emissary’s Emboldening (Familiar)*你的魔宠能引导出体内那神圣的勇气。*先决条件：必须具有使用了神使（Emissary）变体的魔宠好处：只要你的魔宠与你相邻，那么你就会在对抗恐惧（fear）效果时获得+1士气加值。这个加值在4级以及之后的每4级会增加1点（至多为16级时的+5点）。20级起，只要你的魔宠与你相邻，就会变得免疫恐惧效果。幻梦易形（魔宠专长）****Figment’s Fluidity (Familiar)*你的魔宠能够重塑构造出自己的实体梦境。*先决条件：必须具有使用了幻梦（Figment）变体的魔宠好处：每日1次，你的魔宠能够花费整轮动作来对自己进行重塑，这会重新分配1点进化点数的幻灵进化。魔宠失去的进化不能是任何其他它所具有的进化的先决条件。魔宠在7级能够每日使用2次该能力，在13级时变为每日3次。戍卫归还（魔宠专长）****Guardian’s Return (Familiar)*当你身陷危难之时，魔宠会传送到你的身边。*先决条件：必须具有使用了戍卫宠（Protector）变体的魔宠好处：每日1次，当你由于近战攻击而受到伤害时，只要你的魔宠和你在情感连接（Empathic Link）的范围内，那么它便能够以直觉动作传送到你所占据的空间。魔宠在以此方式进行传送时，不能携带重量超过5磅的物品。该能力在其他方面都如同任意门（Dimension Door）一般。讨喜吉祥物（魔宠专长）****Mascot’s Affection (Familiar)*你的魔宠能够与许多生物产生联系。*先决条件：必须具有使用了吉祥物（Mascot）变体的魔宠好处：你的魔宠的最高队伍成员数量增加2名。健壮战宠（魔宠专长）****Mauler’s Endurance (Familiar)*你的魔宠很难被杀死。*先决条件：必须具有使用了战宠（Mauler）变体的魔宠好处：你的每个等级会让魔宠获得2点生命值。【译注：这边虽然没说，不过我想应该指的是有效法师等级。】巧言魔宠（魔宠专长）****Polyglot Familiar (Familiar)*你的魔宠不仅能够与同类交流，还可以和其他的动物进行沟通。*先决条件：必须具有魔宠好处：选择一类生物：两栖动物（amphibians）、鸟类（birds）、猫科动物（felines）、无脊椎动物（invertebrates）、爬虫类（reptiles）、啮齿动物（rodents）、猿类（simians）或虫类（vermin）。你的魔宠能够与该类生物进行交流。特殊：你可以多次选取该专长，每次都要选择不同的生物种类。若你在初次选取该专长时，你的魔宠还没有获得与动物同类交谈（Speak with Animals of Its Kind）能力的话，那么你必须选择与魔宠同类的生物。若你的魔宠在后来获得了与动物同类交谈的能力，你便可以将该专长的好处应用至其他种类的生物上作为替代。锦囊妙计（魔宠专长）**Sage’s"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/专长/魔宠手记FF_专长.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "一般",
+   "不能携带重量超过",
+   "不过",
+   "不过侦测魔法",
+   "不过我想应该指的是有效法师等级",
+   "不过此时的持续时间与探知效果的持续时间相同",
+   "与动物同类交谈",
+   "两栖动物",
+   "个专长",
+   "个巫术",
+   "个魔宠",
+   "主人专长",
+   "之类的法术仍旧会如常侦测到变身术",
+   "从而进一步使用各自的魔宠",
+   "以取代让其失败",
+   "以此进行心灵感应的范围至多为",
+   "会获得魔宠的职业的等级",
+   "但是当你与魔宠间的距离超过",
+   "你不会获得魔宠通常会赋予主人的特殊能力",
+   "你也能够对彼此的魔宠施放",
+   "你仅能拥有",
+   "你会失去原有的魔宠专长并交换成了新的",
+   "你便会意识到这次探知的尝试",
+   "你便可以将该专长的好处应用至其他种类的生物上作为替代",
+   "你可以多次选取该专长",
+   "你可以通过心灵感应来和自己的魔宠进行交流",
+   "你可以通过自己的魔宠来愚弄那些想要窥探你的家伙",
+   "你和任何具有该专长的盟友均能凭借彼此的魔宠施放法术",
+   "你和任何具有该专长的盟友均能够将目标为",
+   "你和其他队伍成员可以通过彼此的魔宠传递接触法术",
+   "你和盟友可以向彼此的魔宠施放法术",
+   "你和自己的魔宠均能通过心灵感应向彼此进行交流",
+   "你和魔宠之间的情感连接",
+   "你学会了一种让自己获得魔宠的仪式",
+   "你的每个等级会让魔宠获得",
+   "你的魔宠不仅能够与同类交流",
+   "你的魔宠很难被杀死",
+   "你的魔宠的最高队伍成员数量增加",
+   "你的魔宠能够与许多生物产生联系",
+   "你的魔宠能够与该类生物进行交流",
+   "你的魔宠能够花费整轮动作来对自己进行重塑",
+   "你的魔宠能够获得更强的力量",
+   "你的魔宠能够重塑构造出自己的实体梦境",
+   "你的魔宠能引导出体内那神圣的勇气",
+   "你的魔宠获得所有正常法师魔宠的可用能力",
+   "你的魔宠还没有获得与动物同类交谈",
+   "你获得一个魔宠",
+   "你还会获得正常来说依照魔宠类型为主人提供的特殊能力",
+   "使用你的总生命骰来作为法师等级",
+   "使用总生命骰来判断你的魔宠的能力",
+   "健壮战宠",
+   "即便是某些通常无法影响目标魔宠的生物类型的法术",
+   "原文为",
+   "只能以此方式替换",
+   "只要你的魔宠与你之间的距离不超过",
+   "只要你的魔宠与你相邻",
+   "只要你的魔宠和你在情感连接",
+   "可以用铅来隔断连接",
+   "后述专长可以被具有魔宠且满足先决条件的角色进行选取",
+   "和法术共享",
+   "啮齿动物",
+   "因此它会获得所有基于这些职业等级而提供给魔宠的特殊能力",
+   "因此按照能力意思选择了",
+   "团队传递接触法术",
+   "团队法术共享",
+   "在判断能力的获取时将你的总生命骰视为法师等级",
+   "士气加值",
+   "失去的专长不能作为其他你所具有的专长的先决条件",
+   "如果你现有的魔宠不满足当前你所具有的魔宠专长的先决条件",
+   "实际上",
+   "就会变得免疫恐惧效果",
+   "就如同你成功使用了法术辨识检定鉴别了它一般",
+   "就如同它的假扮主人",
+   "就如同法师的奥术联结",
+   "就如同目标是你一般",
+   "就如每个盟友都能使用彼此魔宠的法术共享能力一般",
+   "巧言魔宠",
+   "并没有这个能力",
+   "幻梦易形",
+   "当你由于近战攻击而受到伤害时",
+   "当你获得新的等级时",
+   "当你身陷危难之时",
+   "必须具有使用了吉祥物",
+   "必须具有使用了幻梦",
+   "必须具有使用了戍卫宠",
+   "必须具有使用了战宠",
+   "必须具有使用了神使",
+   "必须具有使用了饵宠",
+   "必须具有拥有与主人交谈",
+   "必须具有拥有传递接触法术",
+   "必须具有拥有法术共享",
+   "戍卫归还",
+   "或在之后获得",
+   "或法术抗力",
+   "或者选择仅用那个提供魔宠的职业等级来判断魔宠的能力",
+   "或虫类",
+   "探知效果的制造者会一直观察魔宠",
+   "探知魔宠",
+   "效果时",
+   "效果时获得",
+   "新增的魔宠契约专长能够让任何角色获得魔宠",
+   "无关其本身的职业",
+   "无脊椎动物",
+   "无论距离有多远",
+   "智力",
+   "本节为具有魔宠的角色提供了新的专长",
+   "次该能力",
+   "此外",
+   "每当你成功通过意志豁免以抵御一次探知",
+   "每当你提升",
+   "每日",
+   "每次都要选择不同的生物种类",
+   "法师可以将魔宠专长作为奖励专长",
+   "法术共享",
+   "满足先决条件的新魔宠会自动获得专长的好处",
+   "满足先决条件的角色可以获得后述专长",
+   "点生命值",
+   "点进化点数的幻灵进化",
+   "爬虫类",
+   "特殊",
+   "猫科动物",
+   "猿类",
+   "用以判断魔宠的能力",
+   "的效果",
+   "的法术作为接触法术施放至彼此的魔宠身上",
+   "的范围内",
+   "目标魔宠和魔宠的主人都必须自愿接受法术才会得到效果",
+   "磅的物品",
+   "神使之鼓舞",
+   "类法术能力",
+   "级以及之后的每",
+   "级会增加",
+   "级时",
+   "级时变为每日",
+   "级时的",
+   "级能够每日使用",
+   "级起",
+   "而且你的魔宠必须满足新专长的先决条件",
+   "而且你能够选择让法术如常生效",
+   "而女巫可以选择魔宠专长来替换",
+   "而新魔宠却无法满足你所具有的魔宠专长的先决条件的话",
+   "职业能力一样",
+   "能力",
+   "能力一般",
+   "能力的话",
+   "自己",
+   "至多为",
+   "若你具有",
+   "若你在初次选取该专长时",
+   "若你在失去了魔宠之后又获得了新魔宠",
+   "若你的魔宠在后来获得了与动物同类交谈的能力",
+   "若你这么做",
+   "英里以上时",
+   "英里远",
+   "讨喜吉祥物",
+   "译注",
+   "该专长在其他方面就如同传递接触法术",
+   "该能力在其他方面都如同任意门",
+   "距离无法切断你与魔宠间的联系",
+   "还可以和其他的动物进行沟通",
+   "这个加值在",
+   "这也包括对它的特殊能力的限制",
+   "这些特殊能力",
+   "这会使得魔宠立即变形",
+   "这会重新分配",
+   "这包括探知和高等探知",
+   "这类似于用铅板阻挡侦测魔法效果",
+   "这边虽然没说",
+   "远行魔宠",
+   "连通心灵感应",
+   "选择一类生物",
+   "那么你可以习得一个新的魔宠专长以替代魔宠无法使用的专长",
+   "那么你可以选择使用该专长的效果",
+   "那么你就会在对抗恐惧",
+   "那么你必须选择与魔宠同类的生物",
+   "那么你的新魔宠就无法获得该专长带来的好处",
+   "那么你能够选择将探知效果变更至你的魔宠身上",
+   "那么它便能够以直觉动作传送到你所占据的空间",
+   "都不会中断",
+   "钢铁意志",
+   "锦囊妙计",
+   "饵宠的诱导",
+   "高等魔宠契约",
+   "魔宠专长",
+   "魔宠也不会获得传递接触法术",
+   "魔宠会传送到你的身边",
+   "魔宠在",
+   "魔宠在以此方式进行传送时",
+   "魔宠失去的进化不能是任何其他它所具有的进化的先决条件",
+   "魔宠契约",
+   "鸟类",
+   "Alter Self",
+   "Arcane Bond",
+   "Bond",
+   "Decoy",
+   "Deliver Touch Spells",
+   "Dimension Door",
+   "Emissary",
+   "Empathic Link",
+   "Familiar",
+   "Familiar Bond",
+   "Familiar Feats",
+   "Far-Roaming Familiar",
+   "Figment",
+   "Group Deliver Touch Spells",
+   "Group Shared Spells",
+   "Improved Familiar Bond",
+   "Iron Will",
+   "Kind",
+   "Mascot",
+   "Master Feats",
+   "Mauler",
+   "Polyglot Familiar",
+   "Protector",
+   "Scry on Familiar",
+   "Share Spells",
+   "Speak with Animals of Its",
+   "Speak with Master",
+   "Spell Resistance",
+   "Telepathic Link",
+   "amphibians",
+   "birds",
+   "bonus feat",
+   "detect magic",
+   "fear",
+   "felines",
+   "invertebrates",
+   "reptiles",
+   "rodents",
+   "scrying",
+   "secret sharer spell-like ability",
+   "simians",
+   "vermin"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**魔宠专长（****Familiar Feats****）****本节为具有魔宠的角色提供了新的专长。此外，新增的魔宠契约专长能够让任何角色获得魔宠，无关其本身的职业。主人专长（****Master Feats****）****满足先决条件的角色可以获得后述专长，从而进一步使用各自的魔宠。魔宠契约****Familiar  Bond*你学会了一种让自己获得魔宠的仪式。*先决条件：钢铁意志（Iron Will）好处：你获得一个魔宠，就如同法师的奥术联结（Arcane Bond）职业能力一样。你不会获得魔宠通常会赋予主人的特殊能力，魔宠也不会获得传递接触法术（Deliver Touch Spells）、探知魔宠（Scry on Familiar）、法术共享（Share Spells）、与动物同类交谈（Speak with Animals of Its Kind）或法术抗力（Spell Resistance）这些特殊能力。此外，使用你的总生命骰来作为法师等级，用以判断魔宠的能力。特殊：若你具有（或在之后获得）会获得魔宠的职业的等级，那么你可以选择使用该专长的效果，使用总生命骰来判断你的魔宠的能力（这也包括对它的特殊能力的限制），或者选择仅用那个提供魔宠的职业等级来判断魔宠的能力（因此它会获得所有基于这些职业等级而提供给魔宠的特殊能力）。你仅能拥有1个魔宠。远行魔宠****Far-Roaming Familiar*距离无法切断你与魔宠间的联系。*先决条件：智力13，必须具有魔宠好处：无论距离有多远，你和魔宠之间的情感连接（Empathic Link）都不会中断，但是当你与魔宠间的距离超过1英里以上时，可以用铅来隔断连接（这类似于用铅板阻挡侦测魔法效果）。团队传递接触法术（团队专长）****Group Deliver Touch Spells (Teamwork)*你和其他队伍成员可以通过彼此的魔宠传递接触法术。*先决条件：团队法术共享（Group Shared Spells），必须具有拥有传递接触法术（Deliver Touch Spells）和法术共享（Share Spells）能力的魔宠好处：你和任何具有该专长的盟友均能凭借彼此的魔宠施放法术，就如每个盟友都能使用彼此魔宠的法术共享能力一般。该专长在其他方面就如同传递接触法术（Deliver Touch Spells）能力一般。团队法术共享（团队专长）****Group Shared Spells (Teamwork)*你和盟友可以向彼此的魔宠施放法术。*先决条件：必须具有拥有法术共享（Share Spells）能力的魔宠好处：你和任何具有该专长的盟友均能够将目标为“自己（you）”的法术作为接触法术施放至彼此的魔宠身上。目标魔宠和魔宠的主人都必须自愿接受法术才会得到效果。即便是某些通常无法影响目标魔宠的生物类型的法术，你也能够对彼此的魔宠施放。高等魔宠契约****Improved Familiar Bond*你的魔宠能够获得更强的力量。*先决条件：魔宠契约（Familiar Bond），钢铁意志（Iron Will）好处：你的魔宠获得所有正常法师魔宠的可用能力，在判断能力的获取时将你的总生命骰视为法师等级。你还会获得正常来说依照魔宠类型为主人提供的特殊能力。连通心灵感应****Telepathic Link*你可以通过心灵感应来和自己的魔宠进行交流。*先决条件：必须具有拥有与主人交谈（Speak with Master）能力的魔宠好处：你和自己的魔宠均能通过心灵感应向彼此进行交流，以此进行心灵感应的范围至多为1英里远。魔宠专长（****Familiar Feats****）****后述专长可以被具有魔宠且满足先决条件的角色进行选取。法师可以将魔宠专长作为奖励专长（bonus feat），而女巫可以选择魔宠专长来替换1个巫术（hex）。若你在失去了魔宠之后又获得了新魔宠，而新魔宠却无法满足你所具有的魔宠专长的先决条件的话，那么你的新魔宠就无法获得该专长带来的好处。满足先决条件的新魔宠会自动获得专长的好处。当你获得新的等级时，如果你现有的魔宠不满足当前你所具有的魔宠专长的先决条件，那么你可以习得一个新的魔宠专长以替代魔宠无法使用的专长。实际上，你会失去原有的魔宠专长并交换成了新的。失去的专长不能作为其他你所具有的专长的先决条件，而且你的魔宠必须满足新专长的先决条件。每当你提升1级时，只能以此方式替换1个专长。饵宠的诱导（魔宠专长）****Decoy’s Misdirection (Familiar)*你可以通过自己的魔宠来愚弄那些想要窥探你的家伙。*先决条件：必须具有使用了饵宠（Decoy）变体的魔宠好处：只要你的魔宠与你之间的距离不超过30尺，每当你成功通过意志豁免以抵御一次探知（scrying）效果时（这包括探知和高等探知），你便会意识到这次探知的尝试，就如同你成功使用了法术辨识检定鉴别了它一般，而且你能够选择让法术如常生效，以取代让其失败。若你这么做，那么你能够选择将探知效果变更至你的魔宠身上，这会使得魔宠立即变形，就如同它的假扮主人（Master’s Guise）类法术能力*一般，不过此时的持续时间与探知效果的持续时间相同。探知效果的制造者会一直观察魔宠，就如同目标是你一般，不过侦测魔法（detect magic）之类的法术仍旧会如常侦测到变身术（Alter Self）的效果。【*译注：原文为secret sharer spell-like ability，不过Decoy并没有这个能力，因此按照能力意思选择了Master’s Guise能力。】神使之鼓舞（魔宠专长）****Emissary’s Emboldening (Familiar)*你的魔宠能引导出体内那神圣的勇气。*先决条件：必须具有使用了神使（Emissary）变体的魔宠好处：只要你的魔宠与你相邻，那么你就会在对抗恐惧（fear）效果时获得+1士气加值。这个加值在4级以及之后的每4级会增加1点（至多为16级时的+5点）。20级起，只要你的魔宠与你相邻，就会变得免疫恐惧效果。幻梦易形（魔宠专长）****Figment’s Fluidity (Familiar)*你的魔宠能够重塑构造出自己的实体梦境。*先决条件：必须具有使用了幻梦（Figment）变体的魔宠好处：每日1次，你的魔宠能够花费整轮动作来对自己进行重塑，这会重新分配1点进化点数的幻灵进化。魔宠失去的进化不能是任何其他它所具有的进化的先决条件。魔宠在7级能够每日使用2次该能力，在13级时变为每日3次。戍卫归还（魔宠专长）****Guardian’s Return (Familiar)*当你身陷危难之时，魔宠会传送到你的身边。*先决条件：必须具有使用了戍卫宠（Protector）变体的魔宠好处：每日1次，当你由于近战攻击而受到伤害时，只要你的魔宠和你在情感连接（Empathic Link）的范围内，那么它便能够以直觉动作传送到你所占据的空间。魔宠在以此方式进行传送时，不能携带重量超过5磅的物品。该能力在其他方面都如同任意门（Dimension Door）一般。讨喜吉祥物（魔宠专长）****Mascot’s Affection (Familiar)*你的魔宠能够与许多生物产生联系。*先决条件：必须具有使用了吉祥物（Mascot）变体的魔宠好处：你的魔宠的最高队伍成员数量增加2名。健壮战宠（魔宠专长）****Mauler’s Endurance (Familiar)*你的魔宠很难被杀死。*先决条件：必须具有使用了战宠（Mauler）变体的魔宠好处：你的每个等级会让魔宠获得2点生命值。【译注：这边虽然没说，不过我想应该指的是有效法师等级。】巧言魔宠（魔宠专长）****Polyglot Familiar (Familiar)*你的魔宠不仅能够与同类交流，还可以和其他的动物进行沟通。*先决条件：必须具有魔宠好处：选择一类生物：两栖动物（amphibians）、鸟类（birds）、猫科动物（felines）、无脊椎动物（invertebrates）、爬虫类（reptiles）、啮齿动物（rodents）、猿类（simians）或虫类（vermin）。你的魔宠能够与该类生物进行交流。特殊：你可以多次选取该专长，每次都要选择不同的生物种类。若你在初次选取该专长时，你的魔宠还没有获得与动物同类交谈（Speak with Animals of Its Kind）能力的话，那么你必须选择与魔宠同类的生物。若你的魔宠在后来获得了与动物同类交谈的能力，你便可以将该专长的好处应用至其他种类的生物上作为替代。锦囊妙计（魔宠专长）**Sage’s"
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/专长/魔法战术工具箱MTT_调查员与盗贼天赋.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "以一个整轮动作",
+   "奥法导管",
+   "拥有该天赋的盗贼可以使用两瓶药水"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "   奥法导管eldritch conduit（su）：以一个整轮动作，拥有该天赋的盗贼可以使用两瓶药水..."
+  ]
+ },
+ {
+  "file": "pf_rules_md_organized/专长/魔法战术工具箱MTT_调查员与盗贼天赋.md",
+  "tf_index": 1,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "作为奖励专长",
+   "卓越狙击手",
+   "拥有该天赋的盗贼获得老练狙击",
+   "阴招战术工具匣",
+   "Dirty Tactics Toolbox",
+   "Expert Sniper"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "   卓越狙击手：拥有该天赋的盗贼获得老练狙击Expert Sniper（阴招战术工具匣Dirty Tactics Toolbox）作为奖励专长。"
+  ]
+ },
+ {
+  "file": "专长/流派专长一览/page_1564.md",
+  "tf_index": 0,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "奥多里决斗流",
+   "Aldori Style"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**奥多里决斗流****Aldori Style****（战斗，流派）**"
+  ]
+ },
+ {
+  "file": "专长/流派专长一览/page_1564.md",
+  "tf_index": 2,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "死手流",
+   "Deadhand Style"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**死手流****Deadhand Style**** (战斗,流派)**"
+  ]
+ },
+ {
+  "file": "专长/流派专长一览/page_1564.md",
+  "tf_index": 4,
+  "verdict": "in_own_file",
+  "tokens_own": [
+   "擒牛式",
+   "邵氏流",
+   "Bull-Catcher Style"
+  ],
+  "tokens_elsewhere": {},
+  "bad_segments": [
+   "**擒牛式****（战斗，流派）(Bull-Catcher Style)**邵氏流"
+  ]
+ }
+]

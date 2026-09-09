@@ -1,0 +1,21 @@
+{
+  "_description": "法术描述符中文→英文映射。未知描述符保留原文，标记 field_status.descriptor='partial'。",
+  "mapping": {
+    "酸": "acid",
+    "电": "electricity",
+    "火": "fire",
+    "寒": "cold",
+    "力场": "force",
+    "音波": "sonic",
+    "光": "light",
+    "暗": "darkness",
+    "邪恶": "evil",
+    "善良": "good",
+    "秩序": "lawful",
+    "混乱": "chaotic",
+    "恐惧": "fear",
+    "心灵": "mind-affecting",
+    "依赖语言": "language-dependent",
+    "死亡": "death"
+  }
+}

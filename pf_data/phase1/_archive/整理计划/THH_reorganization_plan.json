@@ -1,0 +1,83 @@
+{
+  "book": "哈罗牌手册（Tarot Heroes Handbook）THH",
+  "source_dir": "pf_data/phase1/pf_rules_md/未整理/哈罗牌手册THH/",
+  "source_files_count": 14,
+  "status": "completed",
+  "completed_at": "2026-06-23",
+  "outputs": [
+    {
+      "type": "feat",
+      "count": 5,
+      "path": "专长/哈罗牌手册THH_专长.md",
+      "items": ["哈罗召唤术", "致命发牌者", "自残旋风", "熊之平衡", "残忍击打"]
+    },
+    {
+      "type": "rogue_talent",
+      "count": 6,
+      "path": "专长/哈罗牌手册THH_盗贼天赋.md",
+      "items": ["以牌为镖", "恶魔提灯", "愉悦吉格舞", "纸质工具", "狂飙手速", "哈罗一击"]
+    },
+    {
+      "type": "witch_hex",
+      "count": 2,
+      "path": "专长/哈罗牌手册THH_女巫巫术.md",
+      "items": ["占卜者（巫术）", "哈罗诅咒（强力巫术）"]
+    },
+    {
+      "type": "magus_arcana",
+      "count": 2,
+      "path": "专长/哈罗牌手册THH_魔战士奥能.md",
+      "items": ["奥术发牌者", "罗刹之幸"]
+    },
+    {
+      "type": "magic_item",
+      "count": 10,
+      "path": "装备_魔法物品/魔法物品/哈罗牌手册THH_装备.md",
+      "items": ["Backbiter's focus", "堡垒靴", "削命牌", "占卜者透镜", "山人铠", "灵媒哈罗牌垫", "哑巴娃娃", "旅行者大箱", "兔爷之剑", "蛇咬匕首"]
+    },
+    {
+      "type": "normal_item",
+      "count": 2,
+      "path": "装备_魔法物品/货品服务/page_212.md",
+      "items": ["哈罗牌匣", "哈罗牌垫"],
+      "action": "append"
+    },
+    {
+      "type": "bardic_masterpiece",
+      "count": 2,
+      "path": "传世名作汇总.md",
+      "items": ["幻象的裁决", "扭曲钢铁的传说"],
+      "action": "append"
+    },
+    {
+      "type": "spellscar",
+      "count": 1,
+      "path": "规则/法术荒疫_哈罗牌手册THH.md",
+      "items": ["哈罗扰乱"]
+    },
+    {
+      "type": "summoner_variant_and_eidolon",
+      "count": 2,
+      "path": "职业/基础职业/召唤师/THH_故事召唤师与故事形态.md",
+      "items": ["故事召唤师（变体）", "故事形态（幻灵范例）"]
+    }
+  ],
+  "appended_variants": [
+    {"variant": "斯科扎尼老千", "class": "盗贼", "target": "职业/核心职业/盗贼/page_49.md"},
+    {"variant": "寻牌者", "class": "审判者", "target": "职业/基础职业/审判者/page_78.md"},
+    {"variant": "哈罗牌守卫", "class": "武僧", "target": "职业/核心职业/武僧/page_53.md"},
+    {"variant": "太阳秘示域", "class": "先知秘示域", "target": "职业/基础职业/先知/page_88.md"},
+    {"variant": "故事召唤师", "class": "召唤师", "target": "职业/基础职业/召唤师/page_411.md"},
+    {"variant": "牌法师", "class": "魔战士", "target": "职业/基础职业/魔战士/page_82.md"},
+    {"variant": "牌灵师", "class": "女巫", "target": "职业/基础职业/女巫/page_92.md"},
+    {"variant": "哈罗血统", "class": "术士血统", "target": "职业/核心职业/术士/page_64.md"}
+  ],
+  "script": "pf_data/phase1/organize_thh.py",
+  "report": "pf_data/phase1/THH_reorganization_report.md",
+  "marker_format": "<!-- THH-source:<source_md>[:<entry_name>] -->",
+  "notes": [
+    "merge_broken_bold 改用 lambda 单次扫描（替代原 while-loop 方案），避免循环误匹配跨越不同 **...** 块边界",
+    "split_talent_block 放弃 [:：]\\s*\\n+ 后缀要求（源文件标题后直接接正文），改用纯 [:：] 锚点",
+    "Backbiter's focus（无中文名）和山人铠（Man mountain armor）通过物品表格的 cn_map 补全中文名"
+  ]
+}
