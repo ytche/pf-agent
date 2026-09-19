@@ -27,7 +27,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
         HibernateJpaAutoConfiguration.class,
         FlywayAutoConfiguration.class
 })
-@EnableJpaRepositories(basePackages = "com.pfagent.agent.memory")
+@EnableJpaRepositories(basePackages = {"com.pfagent.agent.memory", "com.pfagent.agent.auth"})
 @EnableTransactionManagement
 public class JdbcDataConfig {
 }

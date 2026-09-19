@@ -99,6 +99,61 @@ class SpellMetadataReplayToolTest {
         assertThat(stats.skipped()).isTrue();
     }
 
+    /** SP8c J6：已重放过（含 school 扁平键）但缺 base_spell_* 的旧库，逐条比对能再补齐 */
+    @Test
+    void replayPicksUpBaseSpellFieldsOnPreviouslyReplayedStore() throws Exception {
+        Path store = writePreviouslyReplayedStore();
+        Path jsonl = writeChunksJsonlWithMythicVariant();
+        SpellMetadataReplayTool tool = tool(store, jsonl);
+
+        SpellMetadataReplayTool.ReplayStats stats = tool.replay();
+
+        assertThat(stats.skipped()).isFalse();
+        assertThat(stats.replayed()).isEqualTo(1);   // 只有变体条目的 metadata 不一致
+        Map<String, Object> saved = objectMapper.readValue(store.toFile(), Map.class);
+        @SuppressWarnings("unchecked")
+        Map<String, Object> m2 = (Map<String, Object>) ((Map<String, Object>) saved.get("uuid-002")).get("metadata");
+        assertThat(m2.get("base_spell_chunk_id")).isEqualTo("spell_001");
+        assertThat(m2.get("base_spell_title")).isEqualTo("火球术");
+        // 普通法术条目 metadata 与 mapper 产物一致，不重复替换
+        SpellMetadataReplayTool.ReplayStats second = tool.replay();
+        assertThat(second.skipped()).isTrue();
+    }
+
+    /** SP8c J6 补测：store metadata 含 mapper 产物之外的额外键（如未来 Layer 1 entry_links）——逐条比对判为不一致，重放整表替换（额外键被清除），再次运行跳过 */
+    @Test
+    void replayReplacesMetadataWithExtraKeysAndStaysIdempotent() throws Exception {
+        Path jsonl = writeChunksJsonlWithMythicVariant();
+        Path store = tempDir.resolve("store-extra.json");
+        Map<String, Object> storeMap = new LinkedHashMap<>();
+        int seq = 0;
+        for (String line : Files.readAllLines(jsonl, StandardCharsets.UTF_8)) {
+            if (line.isBlank()) {
+                continue;
+            }
+            SpellChunk chunk = objectMapper.readValue(line, SpellChunk.class);
+            Map<String, Object> meta = new LinkedHashMap<>(mapper.toDocument(chunk).getMetadata());
+            meta.put("entry_links", List.of(Map.of("name", "闪避")));
+            storeMap.put("uuid-extra-" + seq, storeDoc("uuid-extra-" + seq, meta));
+            seq++;
+        }
+        objectMapper.writeValue(store.toFile(), storeMap);
+        SpellMetadataReplayTool tool = tool(store, jsonl);
+
+        SpellMetadataReplayTool.ReplayStats stats = tool.replay();
+
+        assertThat(stats.skipped()).isFalse();
+        assertThat(stats.replayed()).isEqualTo(2);
+        Map<String, Object> saved = objectMapper.readValue(store.toFile(), Map.class);
+        for (Object value : saved.values()) {
+            @SuppressWarnings("unchecked")
+            Map<String, Object> meta = (Map<String, Object>) ((Map<String, Object>) value).get("metadata");
+            assertThat(meta).doesNotContainKey("entry_links");
+        }
+        SpellMetadataReplayTool.ReplayStats second = tool.replay();
+        assertThat(second.skipped()).isTrue();
+    }
+
     /**
      * 门控接线：设计 §13 要求该工具是 CommandLineRunner——metadata-replay=true 时
      * 启动即自动执行一次重放。验证 run() 无参调用等价于触发 replay()。
@@ -139,6 +194,67 @@ class SpellMetadataReplayToolTest {
         store.put("uuid-999", doc("uuid-999", "spell_999", "旧数据", "旧数据正文", List.of(0.5, 0.6)));
         Path p = tempDir.resolve("store.json");
         objectMapper.writeValue(p.toFile(), store);
+        return p;
+    }
+
+    /** 构造"已重放过"的 store：metadata = 当前 mapper 产物去掉 base_spell_*（v1.6 重放产物） */
+    private Path writePreviouslyReplayedStore() throws Exception {
+        SpellChunk base = new SpellChunk("spell_001", "page_spell_001", "spell", "spell", "火球术", "火球术正文",
+                "CRB", "核心规则书", "Core Rulebook", 1, null, Map.of("school", "塑能系"), Map.of(),
+                null, null, null);
+        SpellChunk mythic = new SpellChunk("spell_002", "page_spell_002", "spell", "spell", "火球术（神话）", "神话变体正文",
+                "CRB", "核心规则书", "Core Rulebook", 1, null, Map.of("school", "塑能系"), Map.of(),
+                "spell_001", "火球术", "CRB");
+        Map<String, Object> store = new LinkedHashMap<>();
+        Map<String, Object> m1 = new LinkedHashMap<>(mapper.toDocument(base).getMetadata());
+        store.put("uuid-001", storeDoc("uuid-001", m1));
+        Map<String, Object> m2 = new LinkedHashMap<>(mapper.toDocument(mythic).getMetadata());
+        m2.remove("base_spell_chunk_id");
+        m2.remove("base_spell_title");
+        m2.remove("base_spell_book");
+        store.put("uuid-002", storeDoc("uuid-002", m2));
+        Path p = tempDir.resolve("store.json");
+        objectMapper.writeValue(p.toFile(), store);
+        return p;
+    }
+
+    private Map<String, Object> storeDoc(String id, Map<String, Object> metadata) {
+        Map<String, Object> d = new LinkedHashMap<>();
+        d.put("id", id);
+        d.put("text", metadata.get("title") + "正文");
+        d.put("metadata", metadata);
+        d.put("embedding", List.of(0.1, 0.2));
+        return d;
+    }
+
+    /** 构造含神话变体（base_spell_*）的 chunks.jsonl */
+    private Path writeChunksJsonlWithMythicVariant() throws Exception {
+        Path p = tempDir.resolve("chunks.jsonl");
+        Map<String, Object> c1 = new LinkedHashMap<>();
+        c1.put("chunk_id", "spell_001");
+        c1.put("doc_id", "page_spell_001");
+        c1.put("category", "spell");
+        c1.put("component_type", "spell");
+        c1.put("title", "火球术");
+        c1.put("text", "火球术正文");
+        c1.put("book_abbreviation", "CRB");
+        c1.put("book_name_cn", "核心规则书");
+        c1.put("book_name_en", "Core Rulebook");
+        c1.put("source_confidence", 1);
+        c1.put("aliases", List.of());
+        c1.put("metadata", Map.of("school", "塑能系"));
+        c1.put("extra", Map.of());
+        Map<String, Object> c2 = new LinkedHashMap<>(c1);
+        c2.put("chunk_id", "spell_002");
+        c2.put("doc_id", "page_spell_002");
+        c2.put("title", "火球术（神话）");
+        c2.put("text", "神话变体正文");
+        c2.put("base_spell_chunk_id", "spell_001");
+        c2.put("base_spell_title", "火球术");
+        c2.put("base_spell_book", "CRB");
+        String content = objectMapper.writeValueAsString(c1) + "\n"
+                + objectMapper.writeValueAsString(c2) + "\n";
+        Files.writeString(p, content, StandardCharsets.UTF_8);
         return p;
     }
 

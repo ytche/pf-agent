@@ -86,7 +86,28 @@ _RULE_SOURCE_OVERRIDES = {
     "规则/Unchained规则/": ("PU", "解放者手册", "Pathfinder Unchained"),
     "规则/UW规则/": ("UW", "极限荒野", "Ultimate Wilderness"),
     "规则/异能规则/": ("OA", "异能冒险", "Occult Adventures"),
-    "规则/怪物规则/": ("怪物", "怪物规则", "Monster Rules"),
+    # ---- 怪物规则章节（KN226，D1 批次 2026-09-18 逐文件勘察修复）----
+    # 原键 "规则/怪物规则/": ("怪物", ...) 把 TOC 章节名当书名（843 条失真）。
+    # 逐文件内容勘察定性（论坛译文合集，按主内容归属；依据登记 KN226）：
+    #   page_299 动物伙伴一览：编注「本页面包括怪物图鉴的所有动物伙伴」→ B1
+    #   page_300 生物类型与怪物亚种：Bestiary 生物类型章 → B1
+    #   page_301 魔宠和模板：约 90% 为魔宠基本规则（CRB 法师奥术联结），
+    #             尾部生物模板段（进化/天界/巨化等）出 Bestiary 系——按主内容归 CRB
+    #   page_302 通用怪物规则：Bestiary 通用怪物规则附录 → B1
+    #   page_400 召唤怪物/自然盟友速查：CRB 召唤法术列表（含 B2 编注）→ CRB
+    #   page_863 怪物志-魔改怪物：职业简单模板 = Monster Codex → MC（本表首登记）
+    #   page_1018 扮演怪物：ARG 出版前的论坛先行译文，无单行本出处 → '?'（KN226 登记）
+    #   page_1125 怪物进化：Bestiary 怪物进化/模板附录 → B1
+    #   page_1224 怪物体型修正与飞行技能调整：体型/活吞等效表（Bestiary 系）→ B1
+    "规则/怪物规则/page_299": ("B1", "怪物图鉴", "Bestiary 1"),
+    "规则/怪物规则/page_300": ("B1", "怪物图鉴", "Bestiary 1"),
+    "规则/怪物规则/page_301": ("CRB", "核心规则书", "Core Rulebook"),
+    "规则/怪物规则/page_302": ("B1", "怪物图鉴", "Bestiary 1"),
+    "规则/怪物规则/page_400": ("CRB", "核心规则书", "Core Rulebook"),
+    "规则/怪物规则/page_863": ("MC", "怪物志", "Monster Codex"),
+    "规则/怪物规则/page_1018": ("?", "未知", "Unknown"),
+    "规则/怪物规则/page_1125": ("B1", "怪物图鉴", "Bestiary 1"),
+    "规则/怪物规则/page_1224": ("B1", "怪物图鉴", "Bestiary 1"),
     # ---- 散件前缀键（规则/ 根下书件，来源行/注释权威定性）----
     "规则/CaC部属与伙伴_": ("CaC", "部属与伙伴", "Cohorts and Companions"),
     "规则/亡灵杀手手册_": ("UNDEAD", "亡灵杀手手册", "Undead Slayer's Handbook"),

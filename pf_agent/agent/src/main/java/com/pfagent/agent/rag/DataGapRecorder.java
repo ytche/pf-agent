@@ -12,7 +12,12 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Deque;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -35,6 +40,60 @@ public class DataGapRecorder {
     @Value("${pf.gaps.file-path}")
     private String filePath;
     private final ObjectMapper objectMapper = new ObjectMapper();
+
+    /**
+     * 读取最近的数据缺口记录（SP8a J3，只读）
+     *
+     * 反向（最新在前）扫描 JSONL，单行损坏跳过并记 warn（不整体失败）；keyword
+     * 非空时对 question/reason 做子串匹配；命中数达到 limit 即停，不全量载入内存
+     * （滑动双端队列只保留最近 limit 条命中，最后倒序输出）。
+     *
+     * @param limit   返回条数上限（调用方已做默认与上限收敛）
+     * @param keyword 匹配 question/reason 的子串，可空
+     * @return 最新在前的记录列表；文件不存在/为空/全损坏时为空列表
+     */
+    public List<GapEntry> listGaps(int limit, String keyword) {
+        Path path = Path.of(filePath);
+        if (limit <= 0 || !Files.exists(path)) {
+            return List.of();
+        }
+        Deque<GapEntry> matched = new ArrayDeque<>();
+        try {
+            for (String line : Files.readAllLines(path, StandardCharsets.UTF_8)) {
+                if (line.isBlank()) {
+                    continue;
+                }
+                try {
+                    Map<?, ?> entry = objectMapper.readValue(line, Map.class);
+                    String question = entry.get("question") == null ? "" : entry.get("question").toString();
+                    String reason = entry.get("reason") == null ? "" : entry.get("reason").toString();
+                    if (keyword != null && !keyword.isBlank()
+                            && !question.contains(keyword) && !reason.contains(keyword)) {
+                        continue;
+                    }
+                    matched.addLast(new GapEntry(
+                            entry.get("timestamp") == null ? "" : entry.get("timestamp").toString(),
+                            question, reason));
+                    if (matched.size() > limit) {
+                        matched.removeFirst();
+                    }
+                } catch (Exception e) {
+                    // 单行损坏跳过：gap 读取是尽力而为的辅助通路，不拖垮主链路
+                    log.warn("[DataGap] 跳过损坏的缺口记录行: {}", e.getMessage());
+                }
+            }
+        } catch (Exception e) {
+            log.error("[DataGap] 读取数据缺口失败: {}", filePath, e);
+            return List.of();
+        }
+        List<GapEntry> result = new ArrayList<>(matched);
+        Collections.reverse(result); // 双端队列为最旧在前，倒序成最新在前
+        return result;
+    }
+
+    /** 一条数据缺口记录（读取侧视图，字段同写入 JSONL） */
+    public record GapEntry(String timestamp, String question, String reason) {
+    }
 
     /**
      * 追加一条数据缺口记录（JSONL 一行）

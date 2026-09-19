@@ -9,10 +9,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 /**
  * Web 配置 — 注册拦截器
  *
- * 注册顺序 Auth → RateLimit：各自独立 preHandle，先后不敏感。限频拦截器按
- * pf.rate-limit.enabled 条件装配，absent 时 ObjectProvider 为空跳过注册（默认关闭 =
- * 零行为变化）。addPathPatterns("/api/chat") 为精确匹配——/api/chat/feedback 等子路径
- * 不在限频范围（非目标，仅拦问答主入口）。
+ * 注册顺序 Auth → RateLimit：各自独立 preHandle，先后不敏感。鉴权拦截器（D5）只拦
+ * /api/chat、/api/chat/feedback——/api/auth/**、/api/health、静态资源与 / 天然不在
+ * 拦截范围（豁免由路径注册保证）；pf.auth.enabled=false（默认）时 preHandle 全放行。
+ *
+ * 限频拦截器（SP2 F-010）按 pf.rate-limit.enabled 条件装配，absent 时 ObjectProvider
+ * 为空跳过注册（默认关闭 = 零行为变化）。SP7 T3 起拦截范围纳入 /api/auth/**（§5 风险表：
+ * 注册接口防刷库，开关同源）；/api/chat/feedback 不限。
  */
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
@@ -24,11 +27,11 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+        // SP7 D5：鉴权只拦问答主入口与反馈，/api/auth/** 全豁免
         registry.addInterceptor(authInterceptor)
-                // 健康检查不需要登录
-                .excludePathPatterns("/api/health");
-        // F-010 按 IP 限频（仅 /api/chat；feedback/health 不限）
+                .addPathPatterns("/api/chat", "/api/chat/feedback");
+        // F-010 按 IP 限频：/api/chat 主入口 + /api/auth/**（SP7 防注册刷库）
         rateLimitInterceptor.ifAvailable(interceptor ->
-                registry.addInterceptor(interceptor).addPathPatterns("/api/chat"));
+                registry.addInterceptor(interceptor).addPathPatterns("/api/chat", "/api/auth/**"));
     }
 }

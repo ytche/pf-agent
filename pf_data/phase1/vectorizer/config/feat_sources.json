@@ -43,5 +43,26 @@
     "UW":       {"abbr": "UW", "cn": "极限荒野", "en": "Ultimate Wilderness"},
     "VC":       {"abbr": "VC", "cn": "反派法典", "en": "Villain Codex"},
     "WEAPON":   {"abbr": "WEAPON", "cn": "武器大师手册", "en": "Weapon Master's Handbook"}
+  },
+  "_abbr_candidates_description": "D1（2026-09-18）：通道 1 来源引用块箭头段无 ASCII 尾部时的中文→规范缩写兜底表。key = 通道 1 归一前的原样值（= 源文件箭头段文本，如 '秽邪勇士'/'CaC部属与伙伴'，个别与规范中文名不同）。value.abbr 取值优先对齐仓库既有体系（同书同值）：FEAT_SOURCES/SOURCE_BOOK_ABBREVIATIONS/规则模块专属表先例；无先例的按 docs/规则书缩写对应表.md 或 toc 目录名核定（人工核定项在 en 注释列注明）。",
+  "abbr_candidates": {
+    "CaC部属与伙伴": {"abbr": "CaC",   "cn": "部属与伙伴",     "en": "Cohorts and Companions"},
+    "秽邪勇士":     {"abbr": "CoC",   "cn": "秽邪勇士",       "en": "Champions of Corruption"},
+    "纯洁勇士":     {"abbr": "CoP",   "cn": "纯洁勇士",       "en": "Champions of Purity"},
+    "平衡勇士":     {"abbr": "CoB",   "cn": "平衡勇士",       "en": "Champions of Balance"},
+    "武器大师手册": {"abbr": "WEAPON","cn": "武器大师手册",   "en": "Weapon Master's Handbook"},
+    "护甲大师手册": {"abbr": "ARMOR", "cn": "护甲大师手册",   "en": "Armor Master's Handbook"},
+    "亡灵杀手手册": {"abbr": "UNDEAD","cn": "亡灵杀手手册",   "en": "Undead Slayer's Handbook"},
+    "巨人猎手手册": {"abbr": "GIANT", "cn": "巨人猎手手册",   "en": "Giant Slayer's Handbook"},
+    "任务与战役":   {"abbr": "QaC",   "cn": "任务与战役",     "en": "Quests and Campaigns"},
+    "冒险者的军械库": {"abbr": "AA",  "cn": "冒险者的军械库", "en": "Adventurer's Armory"},
+    "初探探索者协会": {"abbr": "PSP", "cn": "探索者协会初探", "en": "Pathfinder Society Primer"},
+    "格拉里昂的半身人": {"abbr": "HaG", "cn": "格拉里昂的半身人", "en": "Halflings of Golarion"},
+    "格拉里昂的矮人": {"abbr": "DoG", "cn": "格拉里昂的矮人", "en": "Dwarves of Golarion"},
+    "格拉里昂的混种": {"abbr": "BoG", "cn": "格拉里昂的混种", "en": "Bastards of Golarion"},
+    "格拉里昂的狗头人": {"abbr": "KoG", "cn": "格拉里昂的狗头人", "en": "Kobolds of Golarion"},
+    "格拉里昂的兽人": {"abbr": "OoG", "cn": "格拉里昂的兽人", "en": "Orcs of Golarion"},
+    "格拉里昂的地精": {"abbr": "GoG", "cn": "格拉里昂的地精", "en": "Goblins of Golarion"},
+    "格拉里昂的侏儒": {"abbr": "GnomeG", "cn": "格拉里昂的侏儒", "en": "Gnomes of Golarion"}
   }
 }

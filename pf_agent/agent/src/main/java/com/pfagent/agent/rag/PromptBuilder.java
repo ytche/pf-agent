@@ -36,6 +36,17 @@ public class PromptBuilder {
             - 引用检索结果的句子末尾标注来源编号 [#N]（SP4 D3）：N 只能取自工具返回
               文本中的 [#N] 标记；多个依据连写 [#1][#2]；禁止编造编号；无检索依据的
               推断内容不标注；reportDataGap 路径回答无编号
+            - 拿到检索命中但需要完整原文（全文条款、表格）时，用 getEntryById 按
+              返回结果中的 chunk_id 点查；超长条目会截断，需要子片段再用 vectorSearch
+            - searchByMetadata 过滤条件从宽到窄、一次只加一个条件；多本书/多个候选值
+              用 query.orFilters；范围比较用 query.gte/lte（level 比较必须配合
+              filters.className）；无结果先放宽或转 vectorSearch，勿直接 reportDataGap
+            - 调用 reportDataGap 前，先用 listDataGaps 检查是否已有相同缺口记录，
+              避免重复上报
+            - 拿到条目名但不知道它在哪个模块、或需要引用链（基础/变体形态、前置专长、
+              哪些条目引用了它、职业环级表）时，用 resolveEntry/getEntryLinks 按名字解析；
+              resolveEntry 查无此名但确定条目存在、或 vectorSearch 漏召回精确术语时，
+              用 keywordSearch 按 title/别名子串兜底；拿到 chunk_id 需要原文时用 getEntryById 点查
             """;
 
     /**

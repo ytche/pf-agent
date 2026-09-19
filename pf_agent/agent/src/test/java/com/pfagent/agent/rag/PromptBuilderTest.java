@@ -109,4 +109,15 @@ class PromptBuilderTest {
         assertThat(prompt).contains("禁止编造编号");
         assertThat(prompt).contains("reportDataGap");
     }
+
+    /** SP8c J6：条目名消歧/引用链引导 resolveEntry/getEntryLinks，原文点查引导 getEntryById */
+    @Test
+    void buildSystemPromptIncludesEntryLinkGuidance() {
+        String prompt = promptBuilder.buildSystemPrompt();
+
+        assertThat(prompt).contains("resolveEntry");
+        assertThat(prompt).contains("getEntryLinks");
+        assertThat(prompt).contains("getEntryById");
+        assertThat(prompt).contains("引用链");
+    }
 }

@@ -338,6 +338,293 @@ class RetrievalToolsTest {
         verifyNoInteractions(collector);
     }
 
+    // ---------- searchByMetadata 增强版（SP8a J2，参数对象） ----------
+
+    /** 合法 orFilters 查询：透传参数对象、紧凑列表含 chunk_id、limit 默认 50 */
+    @Test
+    void searchByMetadataQueryOrFiltersPassesQueryAndDefaultsLimit() {
+        Document doc = spellDoc("猛力攻击", Map.of(
+                "title", "猛力攻击", "book_abbreviation", "CRB", "chunk_id", "feat-1"));
+        when(searchService.searchByMetadata(eq("feat"), any(MetadataSearchQuery.class)))
+                .thenReturn(List.of(doc));
+        stubAddSequential();
+        MetadataSearchQuery query = new MetadataSearchQuery();
+        query.setOrFilters(Map.of("book", List.of("CRB", "APG")));
+
+        String result = tools(1500).searchByMetadata("feat", query);
+
+        assertThat(result).contains("猛力攻击", "chunk_id:feat-1", " [#1]");
+        verify(collector).add(any());
+        ArgumentCaptor<MetadataSearchQuery> captor = ArgumentCaptor.forClass(MetadataSearchQuery.class);
+        verify(searchService).searchByMetadata(eq("feat"), captor.capture());
+        assertThat(captor.getValue().getLimit()).isEqualTo(50);   // 默认 limit 已注入
+        assertThat(captor.getValue().getOffset()).isZero();
+    }
+
+    /** query 为 null 或全空：返回可读提示，不查询 */
+    @Test
+    void searchByMetadataQueryNullOrEmptyReturnsHintWithoutQuery() {
+        assertThat(tools(1500).searchByMetadata("spell", (MetadataSearchQuery) null)).contains("请提供至少一个过滤条件");
+        assertThat(tools(1500).searchByMetadata("spell", new MetadataSearchQuery()))
+                .contains("请提供至少一个过滤条件");
+        verifyNoInteractions(searchService);
+        verifyNoInteractions(collector);
+    }
+
+    /** query 含未知字段：返回可用字段清单让 LLM 自纠（白名单防线不破） */
+    @Test
+    void searchByMetadataQueryUnknownFieldListsAvailableWithoutQuery() {
+        MetadataSearchQuery query = new MetadataSearchQuery();
+        query.setFilters(Map.of("foo", "bar"));
+
+        String result = tools(1500).searchByMetadata("spell", query);
+
+        assertThat(result).contains("未知过滤字段", "foo", "className", "school");
+        verifyNoInteractions(searchService);
+    }
+
+    /** orFilters 里的未知字段同样触发字段清单自纠 */
+    @Test
+    void searchByMetadataQueryUnknownOrFieldListsAvailableWithoutQuery() {
+        MetadataSearchQuery query = new MetadataSearchQuery();
+        query.setOrFilters(Map.of("foo", List.of("a", "b")));
+
+        String result = tools(1500).searchByMetadata("spell", query);
+
+        assertThat(result).contains("未知过滤字段", "foo", "className", "school");
+        verifyNoInteractions(searchService);
+    }
+
+    /** spell 的 level 比较缺 className：返回组合键提示 */
+    @Test
+    void searchByMetadataQueryLevelComparisonWithoutClassNameReturnsHint() {
+        MetadataSearchQuery query = new MetadataSearchQuery();
+        query.setGte(Map.of("level", "3"));
+
+        String result = tools(1500).searchByMetadata("spell", query);
+
+        assertThat(result).contains("level 比较", "className");
+        verifyNoInteractions(searchService);
+    }
+
+    /** 非法 sortBy/sortOrder：返回可用值清单 */
+    @Test
+    void searchByMetadataQueryInvalidSortReturnsAvailableValues() {
+        MetadataSearchQuery badSortBy = new MetadataSearchQuery();
+        badSortBy.setFilters(Map.of("book", "CRB"));
+        badSortBy.setSortBy("name");
+        assertThat(tools(1500).searchByMetadata("feat", badSortBy))
+                .contains("未知排序字段", "title", "level", "book");
+
+        MetadataSearchQuery badOrder = new MetadataSearchQuery();
+        badOrder.setFilters(Map.of("book", "CRB"));
+        badOrder.setSortOrder("up");
+        assertThat(tools(1500).searchByMetadata("feat", badOrder))
+                .contains("未知排序方向", "asc", "desc");
+        verifyNoInteractions(searchService);
+    }
+
+    /** 空结果：返回固定回退引导文案（不自动改写查询） */
+    @Test
+    void searchByMetadataQueryNoResultsReturnsFallbackGuidance() {
+        when(searchService.searchByMetadata(eq("spell"), any(MetadataSearchQuery.class)))
+                .thenReturn(List.of());
+        MetadataSearchQuery query = new MetadataSearchQuery();
+        query.setFilters(Map.of("school", "咒法系"));
+
+        String result = tools(1500).searchByMetadata("spell", query);
+
+        assertThat(result).contains("无命中", "减少一个过滤条件", "vectorSearch", "reportDataGap");
+        verifyNoInteractions(collector);
+    }
+
+    /** module="all"：紧凑列表行首标注模块名 */
+    @Test
+    void searchByMetadataQueryAllModulePrefixesModuleName() {
+        Document doc = Document.builder().text("正文")
+                .metadata(Map.of("title", "猛力攻击", "book_abbreviation", "CRB",
+                        "chunk_id", "feat-9", "pf_module", "feat")).build();
+        when(searchService.searchByMetadata(eq("all"), any(MetadataSearchQuery.class)))
+                .thenReturn(List.of(doc));
+        stubAddSequential();
+        MetadataSearchQuery query = new MetadataSearchQuery();
+        query.setFilters(Map.of("title", "猛力攻击"));
+
+        String result = tools(1500).searchByMetadata("all", query);
+
+        assertThat(result).contains("[模块:feat]", "猛力攻击");
+        verify(collector).add(any());
+    }
+
+    /** vectorSearch 片段头补充 chunk_id 字段（J1 点查入参来源） */
+    @Test
+    void vectorSearchFragmentIncludesChunkId() {
+        Document doc = spellDoc("火球术", Map.of(
+                "title", "火球术", "book_name_cn", "核心规则书",
+                "book_abbreviation", "CRB", "chunk_id", "spell-42"));
+        when(searchService.search(eq("火球术射程"), eq("spell"))).thenReturn(List.of(doc));
+        stubAddSequential();
+
+        String result = tools(1500).vectorSearch("火球术射程", "spell");
+
+        assertThat(result).contains("chunk_id: spell-42");
+    }
+
+    // ---------- getEntryById（SP8a J1） ----------
+
+    /** 命中：返回完整原文 + 元信息 + 来源编号，交 SourceCollector 溯源 */
+    @Test
+    void getEntryByIdHitReturnsFullTextAndCollects() {
+        Document doc = Document.builder().text("火球术完整规则原文")
+                .metadata(Map.of("title", "火球术", "book_name_cn", "核心规则书",
+                        "book_abbreviation", "CRB")).build();
+        when(searchService.getByChunkId("spell", "spell-1")).thenReturn(doc);
+        stubAddSequential();
+
+        String result = tools(1500).getEntryById("spell", "spell-1");
+
+        assertThat(result).contains("标题: 火球术", "来源: 核心规则书 (CRB)",
+                "模块: spell", "chunk_id: spell-1", "火球术完整规则原文", "[#1]");
+        verify(collector).add(any());
+    }
+
+    /** 未命中：返回可读提示，不收集来源 */
+    @Test
+    void getEntryByIdMissReturnsHintWithoutCollecting() {
+        when(searchService.getByChunkId("spell", "nope")).thenReturn(null);
+
+        String result = tools(1500).getEntryById("spell", "nope");
+
+        assertThat(result).contains("无匹配条目", "chunk_id 需来自检索结果");
+        verifyNoInteractions(collector);
+    }
+
+    /** 非法模块与空 chunkId：返回可读提示，不查询 */
+    @Test
+    void getEntryByIdInvalidArgsReturnHintsWithoutQuery() {
+        assertThat(tools(1500).getEntryById("monster", "x")).contains("未知模块");
+        assertThat(tools(1500).getEntryById("spell", "  ")).contains("chunkId");
+        verifyNoInteractions(searchService);
+        verifyNoInteractions(collector);
+    }
+
+    /** 超长条目截断到 entry-result-chars 并提示（风险缓解：防 oversize chunk 爆上下文） */
+    @Test
+    void getEntryByIdOversizeTextTruncatedWithHint() {
+        Document doc = Document.builder().text("a".repeat(300))
+                .metadata(Map.of("title", "法术索引表", "book_abbreviation", "CRB")).build();
+        when(searchService.getByChunkId("spell", "big")).thenReturn(doc);
+        stubAddSequential();
+        RetrievalTools t = tools(1500);
+        ReflectionTestUtils.setField(t, "entryResultChars", 100);
+
+        String result = t.getEntryById("spell", "big");
+
+        assertThat(result).contains("已截断", "100 字符", "vectorSearch");
+        assertThat(result).doesNotContain("a".repeat(200));
+    }
+
+    // ---------- listDataGaps（SP8a J3） ----------
+
+    /** 默认 limit 走配置（20），输出最新在前的紧凑列表 */
+    @Test
+    void listDataGapsDefaultLimitUsesConfigAndFormatsLines() {
+        List<DataGapRecorder.GapEntry> gaps = List.of(
+                new DataGapRecorder.GapEntry("2026-09-18T10:00:00", "女巫的XX规则", "查不到该变体"));
+        when(recorder.listGaps(20, null)).thenReturn(gaps);
+
+        String result = tools(1500).listDataGaps(null, null);
+
+        assertThat(result).contains("最新在前", "2026-09-18T10:00:00", "女巫的XX规则", "查不到该变体");
+        verify(recorder).listGaps(20, null);
+    }
+
+    /** limit 超 100 收敛到 100；keyword 透传 */
+    @Test
+    void listDataGapsLimitCappedAndKeywordPassed() {
+        when(recorder.listGaps(100, "女巫")).thenReturn(List.of());
+
+        String result = tools(1500).listDataGaps(500, "女巫");
+
+        assertThat(result).contains("暂无匹配");
+        verify(recorder).listGaps(100, "女巫");
+    }
+
+    /** 无记录：返回固定提示 */
+    @Test
+    void listDataGapsEmptyReturnsHint() {
+        when(recorder.listGaps(20, null)).thenReturn(List.of());
+
+        String result = tools(1500).listDataGaps(null, null);
+
+        assertThat(result).contains("暂无数据缺口记录");
+    }
+
+    /** J1 截断边界：正文恰好等于 entry-result-chars（8000）时不截断、无提示 */
+    @Test
+    void getEntryByIdTextExactlyAtCharLimitNotTruncated() {
+        String text = "正".repeat(8000);
+        Document doc = Document.builder().text(text)
+                .metadata(Map.of("title", "长条目", "book_abbreviation", "CRB")).build();
+        when(searchService.getByChunkId("spell", "edge")).thenReturn(doc);
+        stubAddSequential();
+
+        String result = tools(1500).getEntryById("spell", "edge");
+
+        assertThat(result).contains("正".repeat(8000));
+        assertThat(result).doesNotContain("已截断");
+    }
+
+    /** J1 截断边界：正文超出上限 1 字符即截断并提示（末尾标记被截掉） */
+    @Test
+    void getEntryByIdTextOneOverCharLimitTruncated() {
+        String text = "正".repeat(8000) + "ENDMARKER";
+        Document doc = Document.builder().text(text)
+                .metadata(Map.of("title", "长条目", "book_abbreviation", "CRB")).build();
+        when(searchService.getByChunkId("spell", "edge")).thenReturn(doc);
+        stubAddSequential();
+
+        String result = tools(1500).getEntryById("spell", "edge");
+
+        assertThat(result).contains("已截断", "8000 字符");
+        assertThat(result).doesNotContain("ENDMARKER");
+    }
+
+    /** J2 自纠：orFilters 里带 level 但无 className，同样返回组合键提示 */
+    @Test
+    void searchByMetadataQueryOrLevelWithoutClassNameReturnsHint() {
+        MetadataSearchQuery query = new MetadataSearchQuery();
+        query.setOrFilters(Map.of("level", List.of("1", "2")));
+
+        String result = tools(1500).searchByMetadata("spell", query);
+
+        assertThat(result).contains("level 比较", "className");
+        verifyNoInteractions(searchService);
+    }
+
+    /** J2 自纠：lte 里的未知字段同样触发字段清单（不只 filters/orFilters/gte） */
+    @Test
+    void searchByMetadataQueryUnknownLteFieldListsAvailableWithoutQuery() {
+        MetadataSearchQuery query = new MetadataSearchQuery();
+        query.setFilters(Map.of("book", "CRB"));
+        query.setLte(Map.of("foo", "x"));
+
+        String result = tools(1500).searchByMetadata("feat", query);
+
+        assertThat(result).contains("未知过滤字段", "foo");
+        verifyNoInteractions(searchService);
+    }
+
+    /** J3 limit 钳制下界：0 或负数收敛到 1，不向下透传 */
+    @Test
+    void listDataGapsLimitBelowOneClampedToOne() {
+        when(recorder.listGaps(1, null)).thenReturn(List.of());
+
+        tools(1500).listDataGaps(0, null);
+
+        verify(recorder).listGaps(1, null);
+    }
+
     /**
      * stub collector.add 返回与入参等长的递增编号（1..n），模拟真实 SourceCollector 的
      * 编号分配——formatCompact/formatFragments 消费该返回值做 [#N] 注入（SP4 D2）。
@@ -366,6 +653,9 @@ class RetrievalToolsTest {
         ReflectionTestUtils.setField(t, "spellListService", spellListService);
         ReflectionTestUtils.setField(t, "vectorResultChars", vectorResultChars);
         ReflectionTestUtils.setField(t, "metadataResultChars", metadataResultChars);
+        ReflectionTestUtils.setField(t, "entryResultChars", 8000);
+        ReflectionTestUtils.setField(t, "metadataDefaultLimit", 50);
+        ReflectionTestUtils.setField(t, "gapsListDefaultLimit", 20);
         return t;
     }
 

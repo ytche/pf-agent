@@ -17,7 +17,8 @@ import org.springframework.http.client.ClientHttpRequestFactory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
+// 测试豁免（SP7 D1）：CI/本地测试环境无 PG，强制内存模式（覆盖主 yml 的 jdbc 默认）
+@SpringBootTest(properties = "pf.chat.memory=memory")
 class AgentApplicationTests {
 
     // 数据加载器用 mock 隔离：真实导入（法术/职业向量库构建）依赖本地 Ollama 且耗时

@@ -32,7 +32,7 @@ import java.util.Map;
  *  1. 读 chunks.jsonl → 用 SpellChunkMapper 生成每条的"新 metadata"（含扁平键），以 chunk_id 为 join 键
  *  2. 读现有 store JSON（顶层 Map&lt;docId, Document&gt;）→ 逐条按 metadata.chunk_id 匹配 → 替换 metadata
  *  3. 保留 id / text / embedding 原样（不重算向量），只替换 metadata
- *  4. 写回 store JSON，幂等：metadata 已含扁平键（school 等）则跳过
+ *  4. 写回 store JSON，幂等：store metadata 已与 mapper 产物逐条一致则跳过
  *
  * 门控：{@code @ConditionalOnProperty(pf.stores.metadata-replay=true)}，一次性运行后关闭。
  */
@@ -51,7 +51,12 @@ public class SpellMetadataReplayTool implements CommandLineRunner {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     /**
-     * 执行重放（幂等）。store 文件不存在或已重放时跳过。
+     * 执行重放（幂等）。store 文件不存在或无待更新条目时跳过。
+     *
+     * 幂等判断（SP8c J6 修订）：旧版以"metadata 含 school 扁平键"为已重放标记，
+     * 但 mapper 后续新增键（base_spell_*）时该标记失效——改为逐条比对：
+     * 只要存在"fresh metadata（当前 mapper 产物）与存量 metadata 不一致"的条目
+     * 就执行替换；全部一致才跳过。重放后 store 与 mapper 产物逐字一致，天然幂等。
      *
      * @return 重放统计：replayed = 成功替换 metadata 的条数，missed = store 有而 jsonl 无的漂移条数
      */
@@ -66,15 +71,11 @@ public class SpellMetadataReplayTool implements CommandLineRunner {
         if (store == null) {
             return ReplayStats.skip();
         }
-        if (isAlreadyReplayed(store)) {
-            log.info("[MetadataReplay] 已重放（metadata 含扁平键），跳过");
-            return ReplayStats.skip();
-        }
 
         // 1. chunks.jsonl → chunk_id → 新 metadata（复用 mapper 扁平化逻辑，保证与导入一致）
         Map<String, Map<String, Object>> freshMetaByChunkId = buildFreshMetaIndex();
 
-        // 2. 逐条替换 metadata，保留 id/text/embedding
+        // 2. 逐条比对替换 metadata，保留 id/text/embedding
         int replayed = 0;
         int missed = 0;
         for (Object value : store.values()) {
@@ -92,12 +93,19 @@ public class SpellMetadataReplayTool implements CommandLineRunner {
                 log.warn("[MetadataReplay] chunk_id {} 在 chunks.jsonl 中未找到，保留旧 metadata", chunkId);
                 continue;
             }
+            if (fresh.equals(oldMeta)) {
+                continue;   // 已与 mapper 产物一致（含此前已重放过），跳过
+            }
             @SuppressWarnings("unchecked")
             Map<String, Object> mutableDoc = (Map<String, Object>) doc;
             mutableDoc.put("metadata", fresh);
             replayed++;
         }
 
+        if (replayed == 0) {
+            log.info("[MetadataReplay] 无待更新条目（store metadata 已与 mapper 产物一致），跳过");
+            return ReplayStats.skip();
+        }
         writeStore(storePath, store);
         log.info("[MetadataReplay] 完成：替换 {} 条 metadata，漂移 {} 条，已保存 {}", replayed, missed, storeFilePath);
         return new ReplayStats(replayed, missed, false);
@@ -129,18 +137,6 @@ public class SpellMetadataReplayTool implements CommandLineRunner {
         } catch (Exception e) {
             throw new IllegalStateException("重放后写回 store 失败: " + storeFilePath, e);
         }
-    }
-
-    /** 幂等判断：任一条目 metadata 已含扁平键（school）即视为已重放 */
-    private boolean isAlreadyReplayed(Map<String, Object> store) {
-        for (Object value : store.values()) {
-            if (value instanceof Map<?, ?> doc
-                    && doc.get("metadata") instanceof Map<?, ?> meta
-                    && meta.containsKey("school")) {
-                return true;
-            }
-        }
-        return false;
     }
 
     /** 重放统计 */

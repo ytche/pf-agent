@@ -280,3 +280,76 @@ KN207 展示层剥离（`TextSanitizer.stripInternalSourceLine`）按方案口�
 - KN207 / `KN207展示层剥离实施方案_20260825.md`（k3 设计，数据侧保留 + 展示层剥离）
 - `TextSanitizer.java` / `TextSanitizerTest.java` / `RetrievalTools.java` / `ChatService.java`
 - 数据侧 `docs/已知问题记录.md` KN207（处置口径已同步）
+
+---
+
+## AKN-010：评测压测下 Hikari 连接池耗尽（10/10 被占、新请求 30s 超时降级）——待排查
+
+**发现时间**：2026-09-18（SP8a 全量评测 evaluate.py 56 题期间，应用启动约 23 分钟后开始报错）
+
+**现象**：`JdbcChatMemory` 读会话历史报 `HikariPool-1 - Connection is not available, request timed out after 30014ms (total=10, active=10, idle=0)`，随后按空历史降级处理（问答主链路不受影响）。PG 侧 `pg_stat_activity` 显示 10 条连接全部 **idle**（最后一条 query 均为 chat_message 历史查询）——即连接被应用检出但未持有事务，疑似**每处理 1 题评测泄漏 1 条连接**，约 10 题后池子耗尽（eval 启动 01:46，首次报错 02:07，间隔约 10 题）。
+
+**初步定性**：JdbcChatMemory 本身用 TransactionTemplate/Repository 无显式连接持有；疑似 OSIV（spring.jpa.open-in-view 默认 true）+ SSE 长响应使连接随请求生命周期被持有，或他处检出未归还。**未定位根因**（评测运行中未重启排查）。
+
+**影响**：评测/长会话场景下，池耗尽后每请求多等 30s 超时 + 会话历史读取降级为空（eval 每题新会话，对溯源/诚实/结构三指标无实质影响）；生产低并发下难触发。
+
+**处置**：⏸️ 登记待排查（2026-09-18）。待评测完成后：复现（连续 11+ 请求观察池计数）→ 定位（OSIV 开关验证 / Hikari leakDetectionThreshold 抓泄漏点）→ 修复。评测不中断、继续跑。
+
+**根因更新（2026-09-18 03:40）**：非代码泄漏。jstack 定位请求线程全部阻塞在 `OllamaApi.embed`（localhost:11434 embedding 调用无限等待，无超时）；实测 Ollama 进程僵死（embed 请求 >60s 无响应，`brew services restart ollama` 后恢复）。链条：Ollama 僵死 → embedding 调用悬挂 → 请求永不完成 → OSIV/请求域连接永不归还 → 池耗尽 → 后续请求 30s 超时降级。**次生改进项（建议另行评估，不紧急）**：embedding HTTP 客户端缺超时（JdkClientHttpRequest CompletableFuture.get 无界等待），Ollama 僵死时请求会无限悬挂——可给 RestClient 加读超时。
+
+**次生项已修复（2026-09-19，与本记录同批提交于 dev/pf-agent）**：EmbeddingConfig 覆盖装配 `OllamaApi`
+（自动装配的 @ConditionalOnMissingBean 回退），底层换带超时的
+`SimpleClientHttpRequestFactory`；ollama / cloud 双通道共用同一超时 factory，
+超时触发 `ResourceAccessException` → `FallbackEmbeddingModel` 降级而非无界悬挂。
+Truncating/Fallback 包装链不变。新增配置键：`pf.embedding.read-timeout`
+（默认 120s）、`pf.embedding.connect-timeout`（默认 10s），见 application.yml
+`pf.embedding` 节。AKN-010 主项（池耗尽根因链路中的 OSIV/连接归还）仍待排查，
+本条仅消除"embedding 无超时悬挂"这一环。单测：EmbeddingTimeoutTest（配置绑定
+落到 request factory、超时触发 ResourceAccessException、断连快速失败）。
+
+---
+
+## AKN-011：SpellMetadataReplayTool 重放为整表替换，将抹掉 mapper 之外的 metadata 键（M3，登记）
+
+**发现时间**：2026-09-18（SP8c 测试审计，tester 报告 Minor-1；用户拍板登记）
+
+**问题描述**：`SpellMetadataReplayTool`（重放工具）的幂等逻辑为"逐条比对 store
+metadata 与当前 mapper 产物，不一致则**整表替换**"。当前安全——线上库 metadata
+全部由 mapper 生成，替换前后等价（2026-09-18 base_spell_* 重放已逐条验证
+embedding 零变化）。但未来若有**非 mapper 来源**的键写入向量库 metadata
+（典型场景：J6 Layer 1 / F-017 计划由数据侧离线脚本写入 `entry_links`），
+一次重放即被静默抹除，且无报错。
+
+**处置**：✅ 登记（2026-09-18，用户拍板）。Layer 1（F-017）立项时必修：
+重放改 merge（合并）语义，或将 `entry_links` 纳入 mapper 白名单使其成为
+mapper 产物的一部分。补测已固化现行为（store 含额外键 → 整表替换 + 幂等跳过），
+修改时需同步更新该用例。
+
+---
+
+## AKN-012：Ollama embed 超长输入 400——num_ctx/num_batch 默认值与静默截断行为变更（已修复）
+
+**发现时间**：2026-09-19（D1+KN226 重灌规则向量库，RuleDataLoader 导入 ~70 条后启动失败）
+
+**问题描述**：规则库重灌时 Ollama 报 `400 the input length exceeds the context length`，
+应用启动失败。逐层定位：
+1. 表层：Ollama 默认 `num_ctx` 4096；实际生效的硬约束是 **num_batch 2048**——
+   服务端日志 `input (2055 tokens) is too large to process... batch size: 2048`，
+   稠密中文 chunk（如 rule_page_159_0052，3955 字符≈2055 token）超限即 400；
+2. 历史成因：旧版 Ollama 对超长输入**静默截断**（旧库 2026-08-10 建库因此"成功"），
+   新版改为报错——同一份 chunks 今昔行为不同；
+3. 排障陷阱：只调 `num_ctx` 无效（batch 仍是瓶颈）；`OLLAMA_CONTEXT_LENGTH` 环境变量
+   已写入 launchd plist 但 n_ctx_slot 仍为 4096（未生效，原因未查）；**per-request
+   `options.num_batch` 生效**。
+
+**修复**（2026-09-19）：`application.yml` `spring.ai.ollama.embedding.options`
+增加 `num-ctx: 8192` + `num-batch: 8192`（bge-m3 原生上下文 8192，覆盖
+TruncatingEmbeddingModel 5000 字符截断窗的最坏 token 数）。规则库重灌验证通过。
+plist 的 `OLLAMA_CONTEXT_LENGTH=8192` 保留（无害，或可造福其他模型）。
+
+**教训/联动**：
+- embedding 输入硬约束 = min(num_ctx, num_batch)，两个都要看；报错文案只提
+  context length，有误导性；
+- 与 AKN-010（Ollama 僵死 → 连接池耗尽）同为 Ollama 运维类风险，Ollama 侧
+  变更（升级/重启/配置）后应抽查 embed 链路；
+- 待评估遗留：embedding HTTP 客户端无读超时（AKN-010 次生项，仍未实施）。

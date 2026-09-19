@@ -44,5 +44,7 @@ target/
 *_供确认.pdf
 
 # Docker / 本地部署（SP6）
-.env                        # compose 环境变量（模板见 .env.example，勿入库）
-/data/                      # compose 卷映射的向量库数据（./data ↔ 容器 ~/.pf_agent）
+# compose 环境变量（模板见 .env.example，勿入库）
+.env
+# compose 卷映射的向量库数据（./data ↔ 容器 ~/.pf_agent）
+/data/

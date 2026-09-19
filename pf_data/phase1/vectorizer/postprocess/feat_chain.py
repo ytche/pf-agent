@@ -56,16 +56,19 @@ class ApplyChmTocMapping:
     DEFAULT_REPORT_DIR = Path("docs/专长")
 
     # doc_id → (book_abbreviation, book_name_cn, book_name_en)
-    # 值与既有体系对齐（既有同书值直接复用；无则用缩写表标准缩写；无缩写用中文名）。
+    # 值与既有体系对齐（同书同值直接复用 FEAT_SOURCES/共享缩写表/规则模块
+    # 专属表先例；无先例的按 docs/规则书缩写对应表.md 或 toc 目录名核定）。
+    # D1（2026-09-18）：abbr 全部 ASCII 化（原中文名占位值按上列先例归一，
+    # GnomeG/DRR/CTT/OM 为本表首登记，见 docs/PF_缩写表.md）。
     # 依据见 docs/专长/chm_toc_path_映射表.md。
     MAPPING = {
         # --- organized 专长目录 ---
         "page_856": ("UI", "极限诡道", "Ultimate Intrigue"),
         "page_321": ("ISG", "内海诸神", "Inner Sea Gods"),
-        "page_361": ("护甲大师手册", "护甲大师手册", "Armor Master's Handbook"),
+        "page_361": ("ARMOR", "护甲大师手册", "Armor Master's Handbook"),
         "page_311": ("OA", "异能冒险", "Occult Adventures"),
         "page_200": ("UCa", "极限战役", "Ultimate Campaign"),
-        "page_555": ("近战战术工具箱", "近战战术工具箱", "Melee Tactics Toolbox"),
+        "page_555": ("CTT", "近战战术工具箱", "Melee Tactics Toolbox"),
         "page_556": ("DTT", "阴招战术工具箱", "Dirty Tactics Toolbox"),
         "page_194": ("CRB", "核心规则书", "Core Rulebook"),
         "page_276": ("ISC", "内海战斗", "Inner Sea Combat"),
@@ -76,30 +79,30 @@ class ApplyChmTocMapping:
         "page_561": ("CEoD", "切利亚斯，魔鬼帝国", "Cheliax, Empire of Devils"),
         "page_673": ("F&P", "信仰与哲学", "Faiths and Philosophies"),
         "page_670": ("HotHC", "皇庭英豪", "Heroes of the High Court"),
-        "page_505": ("亡灵杀手手册", "亡灵杀手手册", "Undead Slayer's Handbook"),
+        "page_505": ("UNDEAD", "亡灵杀手手册", "Undead Slayer's Handbook"),
         "page_529": ("DH", "冒险家手册", "Dungeoneer's Handbook"),
-        "page_509": ("格拉里昂的半身人", "格拉里昂的半身人", "Halflings of Golarion"),
+        "page_509": ("HaG", "格拉里昂的半身人", "Halflings of Golarion"),
         "page_531": ("STLC", "萨加瓦，失落的殖民地", "Sargava, The Lost Colony"),
-        "page_744": ("异能奥秘", "异能奥秘", "Occult Mysteries"),
-        "page_527": ("瓦瑞西亚，传说诞生之地", "瓦瑞西亚，传说诞生之地", "Varisia, Birthplace of Legends"),
+        "page_744": ("OM", "异能奥秘", "Occult Mysteries"),
+        "page_527": ("VBoL", "瓦瑞西亚，传说诞生之地", "Varisia, Birthplace of Legends"),
         "page_950": ("CRB", "核心规则书", "Core Rulebook"),
         # KN109 纳入（2026-08-04）：MA 神话冒险引言页（神话专长/超魔专长类别介绍）
         "page_622": ("MA", "神话冒险", "Mythic Adventures"),
         # --- 未整理目录 ---
         "专长11": ("UW", "极限荒野", "Ultimate Wilderness"),
-        "专长": ("秽邪勇士", "秽邪勇士", "Champions of Corruption"),
+        "专长": ("CoC", "秽邪勇士", "Champions of Corruption"),
         "专长41": ("ISR", "内海种族", "Inner Sea Races"),
-        "专长33": ("平衡勇士", "平衡勇士", "Champions of Balance"),
+        "专长33": ("CoB", "平衡勇士", "Champions of Balance"),
         "专长1": ("MHH", "怪物猎人手册", "Monster Hunter's Handbook"),
         "专长24": ("HftF", "缘界英雄", "Heroes from the Fringe"),
-        "专长45": ("任务与战役", "任务与战役", "Quests and Campaigns"),
+        "专长45": ("QaC", "任务与战役", "Quests and Campaigns"),
         "page_820": ("DSH", "屠龙者手册", "Dragonslayer's Handbook"),
-        "专长51": ("巨人猎手手册", "巨人猎手手册", "Giant Slayer's Handbook"),
+        "专长51": ("GIANT", "巨人猎手手册", "Giant Slayer's Handbook"),
         "专长7": ("AM", "炼金术手册", "Alchemy Manual"),
         "闹鬼专长": ("HHH", "闹鬼英雄手册", "Haunted Heroes Handbook"),
         "专长28": ("OO", "异能源始", "Occult Origins"),
         "专长36": ("SH", "间谍大师手册", "Spymaster's Handbook"),
-        "专长52": ("格拉里昂的侏儒", "格拉里昂的侏儒", "Gnomes of Golarion"),
+        "专长52": ("GnomeG", "格拉里昂的侏儒", "Gnomes of Golarion"),
         "动物伙伴专长": ("UW", "极限荒野", "Ultimate Wilderness"),
         "专长49": ("PotH", "地狱骑士之道", "Path of the Hellknight"),
         "专长9": ("DR", "遥远国度", "Distant Realms"),
@@ -118,33 +121,33 @@ class ApplyChmTocMapping:
         "专长4": ("BM", "黑市指南", "Black Markets"),
         "专长39": ("QJotE", "卡蒂亚，东方明珠", "Qadira, Jewel of the East"),
         "专长56": ("ArcaneAnthology", "秘术选集", "Arcane Anthology"),
-        "专长57": ("CaC部属与伙伴", "部属与伙伴", "Cohorts and Companions"),
-        "专长6": ("THH", "哈罗牌手册", "Tarot Heroes Handbook"),
+        "专长57": ("CaC", "部属与伙伴", "Cohorts and Companions"),
+        "专长6": ("THH", "哈罗牌手册", "The Harrow Handbook"),
         "专长12": ("PHH", "位面行者手册", "Plane-Hopper's Handbook"),
         "专长37": ("BotC", "巫团血脉", "Blood of the Coven"),
         "专长44": ("PotS", "沙之子民", "People of the Sands"),
-        "专长48": ("格拉里昂的地精", "格拉里昂的地精", "Goblins of Golarion"),
+        "专长48": ("GoG", "格拉里昂的地精", "Goblins of Golarion"),
         "专长5": ("DA", "神术选集", "Divine Anthology"),
         "专长55": ("ISI", "内海诡道", "Inner Sea Intrigue"),
         "专长18": ("PotN", "北地居民", "People of the North"),
         "专长25": ("MM", "魔法市集指南", "Magical Marketplace"),
         "专长27": ("2", "冒险者的军械库2", "Adventurer's Armory 2"),
-        "专长35": ("格拉里昂的混种", "格拉里昂的混种", "Bastards of Golarion"),
-        "专长50": ("格拉里昂的矮人", "格拉里昂的矮人", "Dwarves of Golarion"),
-        "专长31": ("格拉里昂的半身人", "格拉里昂的半身人", "Halflings of Golarion"),
-        "专长54": ("巨人再临", "巨人再临", "Giants Revisited"),
+        "专长35": ("BoG", "格拉里昂的混种", "Bastards of Golarion"),
+        "专长50": ("DoG", "格拉里昂的矮人", "Dwarves of Golarion"),
+        "专长31": ("HaG", "格拉里昂的半身人", "Halflings of Golarion"),
+        "专长54": ("GR", "巨人再临", "Giants Revisited"),
         "专长15": ("SoS", "秘密探寻者", "Seekers of Secrets"),
-        "专长8": ("繁星子民", "繁星子民", "People of the Stars"),
+        "专长8": ("PoS", "繁星子民", "People of the Stars"),
         "专长17": ("F&P", "信仰与哲学", "Faiths and Philosophies"),
-        "专长20": ("再探经典宝藏", "再探经典宝藏", "Classic Treasures Revisited"),
+        "专长20": ("CTR", "再探经典宝藏", "Classic Treasures Revisited"),
         "专长23": ("BotE", "元素血脉", "Blood of the Elements"),
-        "专长26": ("冒险者的军械库", "冒险者的军械库", "Adventurer's Armory"),
-        "专长29": ("格拉里昂的兽人", "格拉里昂的兽人", "Orcs of Golarion"),
+        "专长26": ("AA", "冒险者的军械库", "Adventurer's Armory"),
+        "专长29": ("OoG", "格拉里昂的兽人", "Orcs of Golarion"),
         "专长32": ("AH", "反英雄手册", "Antihero's Handbook"),
-        "专长34": ("巨龙再临", "巨龙再临", "Dragons Revisited"),
+        "专长34": ("DRR", "巨龙再临", "Dragons Revisited"),
         "专长43": ("ASoL", "安多安，自由之魂", "Andoran, Spirit of Liberty"),
-        "专长46": ("格拉里昂的狗头人", "格拉里昂的狗头人", "Kobolds of Golarion"),
-        "专长47": ("亡灵杀手手册", "亡灵杀手手册", "Undead Slayer's Handbook"),
+        "专长46": ("KoG", "格拉里昂的狗头人", "Kobolds of Golarion"),
+        "专长47": ("UNDEAD", "亡灵杀手手册", "Undead Slayer's Handbook"),
         "其他专长2": ("MAH", "武术手册", "Martial Arts Handbook"),
     }
 
@@ -248,10 +251,10 @@ class ApplyFeatCreationSourcePromote:
         "B1":   ("B1", "怪物图鉴", "Bestiary 1"),
         "AM":   ("AM", "炼金术手册", "Alchemy Manual"),
         "AA2":  ("2", "冒险者的军械库2", "Adventurer's Armory 2"),
-        "CoC":  ("秽邪勇士", "秽邪勇士", "Champions of Corruption"),
+        "CoC":  ("CoC", "秽邪勇士", "Champions of Corruption"),
         "UW":   ("UW", "极限荒野", "Ultimate Wilderness"),
         "HA":   ("HA", "恐怖冒险", "Horror Adventures"),
-        "CaC":  ("CaC部属与伙伴", "部属与伙伴", "Cohorts and Companions"),
+        "CaC":  ("CaC", "部属与伙伴", "Cohorts and Companions"),
         "HHH":  ("HHH", "闹鬼英雄手册", "Haunted Heroes Handbook"),
         "BM":   ("BM", "黑市指南", "Black Markets"),
         "ISM":  ("ISM", "内海魔法", "Inner Sea Magic"),
@@ -275,7 +278,10 @@ class ApplyFeatCreationSourcePromote:
     # 期刊出处行：'Pathfinder #N: Name pg. X'
     _JOURNAL_RE = re.compile(r"^Pathfinder #(\d+):")
 
-    # 空 source 条目归属补源：列表行标注回溯（正文条目与列表行同名）+ 子物品归属
+    # 空 source 条目归属补源：列表行标注回溯（正文条目与列表行同名）+ 子物品归属。
+    # D1（2026-09-18）：补 7 个 CRB 造物专长（列表行【CRB】标注回溯，源文件
+    # 顶部列表可证：调制药剂/制造魔法武器和防具/制造法杖/制造魔杖/制造奇物/
+    # 锻造戒指/抄写卷轴均【CRB】）——修复后专长 '?' 清零至 page_1367 92 条。
     FALLBACK_TITLE = {
         "抵异作成": "PotW",
         "制造构装体": "B1",
@@ -288,10 +294,17 @@ class ApplyFeatCreationSourcePromote:
         "灌法毒药": "BM",
         "施法者刺青": "ISM", "贮法刺青": "ISM", "法术刺青": "ISM",  # 绘制魔法刺青【ISM】子物品
         "强固作成": "PotW",
+        "调制药剂": "CRB", "制造魔法武器和防具": "CRB", "制造法杖": "CRB",
+        "制造魔杖": "CRB", "制造奇物": "CRB", "锻造戒指": "CRB", "抄写卷轴": "CRB",
     }
 
     def resolve_key(self, source: str, title: str) -> Optional[str]:
-        """source → 标注 key；空 source 走条目归属补源。返回 None 表示未识别。"""
+        """source → 标注 key；空 source 或出处行无法识别时走条目归属补源。
+
+        D1（2026-09-18）：原实现对「source 非空但无法识别」直接返回 None
+        （如锻造戒指 chunk 因相邻子条目粘连混入 '**Source Monster Hunter's
+        Handbook pg. 24' 行，按条目归属应归 CRB）——现改为先尝试出处行识别，
+        未识别再回退 FALLBACK_TITLE（title 归属），仍无命中才返回 None。"""
         src = (source or "").strip()
         if src:
             if src in self.SRC_KEY_TO_BOOK:
@@ -302,7 +315,8 @@ class ApplyFeatCreationSourcePromote:
             for name, key in self.TITLE_TO_KEY.items():
                 if src.startswith(name):
                     return key
-            return None  # 未识别的出处（调用方告警）
+            # 出处行无法识别 → 条目归属补源兜底（D1）
+            return self.FALLBACK_TITLE.get(title)
         return self.FALLBACK_TITLE.get(title)
 
     def run(self, output_dir: Path, report_dir: Optional[Path] = None) -> Dict[str, Any]:

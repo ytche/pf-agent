@@ -100,7 +100,9 @@ for m in re.finditer(r'## (.+?)（(\d+) 个术语）', text):
 
 ### Git 操作
 
-仓库的 Git 根在 `pf_agent/`（2026-07-30 起，远程 `git@github.com:ytche/pf_agent.git`），覆盖整个仓库。日常工作目录仍在 `pf_data/phase1/`。
+仓库的 Git 根在 `pf_agent/`（2026-07-30 起，远程 `git@github.com:ytche/pf_agent.git`，**PRIVATE**），覆盖整个仓库。日常工作目录仍在 `pf_data/phase1/`。
+
+**开源公开仓**：`https://github.com/ytche/pf-agent`（PUBLIC，注意连字符）——一期公开基线，2026-09-14 快照式发布（commit `5ff226b` + tag `data-20260915`，与私有仓历史不连通）。发新版=向公开仓推新快照。
 
 ```bash
 cd /Users/chezi/code/java/pf_agent
@@ -191,7 +193,7 @@ python3 vectorization_prep_profession.py
   - 产物：**2390 chunks** / 11 component_type / pytest **629** / est 2132 ↔ got 2390（**+258 全定性**）
   - 遗留：首轮审计已闭环（2026-08-04）；KN098~106 登记（KN104 登记不修）；检索端语义降权评估（KN098/100）待一期联调——详见 `docs/已知问题记录.md`
 
-- **各模块 pipeline 统一验收入口（feat/race/trait/equipment/rule 五类目）**：
+- **各模块 pipeline 统一验收入口（cicd 已接入 7 类目：feat/race/trait/equipment/rule/spell/profession；skill 未接入，见 KN227）**：
   ```bash
   cd /Users/chezi/code/java/pf_agent/pf_data/phase1
   # 单命令完整验证链（pytest 类目收集 → pipeline 含 finalize → verify 公共框架
@@ -210,6 +212,7 @@ python3 vectorization_prep_profession.py
 - 每个阶段完成后应 `git commit`，保持可回滚基线。
 - "推荐翻译"必须是纯净译名，不能混入描述句子；"其他翻译"列只保留不同译名变体，去掉上下文例句。
 - **先理解后向量化**：整理任何职业或规则主题前，先阅读其 CHM 目录末级基础页和关键补充文件；脚本输出后必须抽样核对核心条目（如基础页列出的巫术/变体数量是否与 chunk 一致），发现常识性错误时回到源文件修正，禁止仅靠正则硬修。
+- **源数据修改分级审批（2026-09-19 起）**：修改 `pf_rules_md_organized/` 源数据是敏感操作，分两级——① **格式类**（标题断裂/行内粘连/星号漂移/CRLF/表格形态等**不改变规则含义**的排版修复）：可自行判断执行，照常走 fix_*.py 脚本纪律（内容锚定/幂等/CRLF 保留）；② **内容类**（规则文字、译名、数值、条目增删、来源归属等**任何影响语义**的改动）：**必须经用户单独审批**——以独立醒目条目提出（写清文件/位置/原文→改文/依据），**禁止打包进批量拍板清单混在其他条目里**。跨模块派单（coder/tester）时本规则必须写进派单红线。
 - **先理解代码设计再修 bug**：修改 bug 需要改代码时，先阅读相关模块/类/钩子的现有设计（如 `FileProcessor` 模板方法、`EXPAND_STRATEGIES` 注册表等），优先利用已有扩展点注入规则；避免在通用流程中直接硬编码 `if class_name == "X"` 这类业务特判，防止代码腐化。
 - **讨论阶段不动手**：问题/方案讨论期间只读不改——不执行代码修改、不跑修复命令，讨论输出只写方案文档；方案经用户明确拍板后再动手。清理/修复类工作先统一记入方案文档（如 `pf_data/phase1/docs/向量化设计优化方案_20260805.md`），按方案批次执行，不边讨论边改。
 - **沉淀先收割既有沉淀**：写经验沉淀/复盘文档时，第一步收割既有沉淀——经验链三条：`pf_data/phase1/docs/流程教训沉淀.md`（专长）→ `跨模块经验沉淀_种族模块_20260805.md` → `跨模块经验沉淀_背景特性模块_20260806.md`（trait，第三条 2026-08-06），另加各模块开工清单、架构文档教训登记中的相关条目，合并引用后再补新条目；禁止只凭本模块文档链总结——已登记的教训被重新发明时会丢原文、丢引用、丢速查入口（2026-08-05 种族沉淀漏收 E4/E5 实例）。
@@ -227,7 +230,11 @@ python3 vectorization_prep_profession.py
 - **Java 方法命名（2026-08-16 起）**：Java 代码（含单元测试）的方法名必须使用标准英文驼峰命名（camelCase），禁止在方法名/标识符中出现中文字符；方法的中文说明写入方法 Javadoc（`/** 说明 */`）。**仅约束 Java，Python 不受此限制**（Python 方法/pytest 方法名按既有约定）。
 - **Java 方法顺序（2026-08-16 起）**：类中方法按访问级别排序——静态public > public > 静态protected > protected > 静态package（默认可见性）> package > 静态private > private（rank 1~8，同级稳定排序保持原相对顺序）。只调整方法块相对顺序：方法前导 Javadoc/注解随方法移动，**字段/构造器/内部类保持原位**；顶层类结束 `}` 不随方法移动。`@PostConstruct`/`@Test`/`@BeforeEach` 等注解方法按访问级别参与排序（package 级测试方法排在 public 之后、private 之前）。**仅约束 Java，Python 不受此限制**（Python 方法/pytest 方法名按既有约定）。
 - **Spring 注入方式（Java）**（2026-08-16 起）：Spring bean 的依赖注入统一用 **`@Autowired` 字段注入**，配置值用 **`@Value` 字段注入**，**禁止构造器注入**——不写带参构造器；构造器里的组装/初始化逻辑（如从依赖构建注册表、索引）移到 `@PostConstruct` 方法。多实例 bean（如各模块 `SimpleVectorStore`）在字段上保留 `@Qualifier`。边界：`@Configuration` 类的 `@Bean` 工厂方法参数注入（Spring 官方配置风格）与手动 `new` 的普通类（非 Spring bean）不受此限。**仅约束 Java/Spring，Python 不受此限制**。
+- **Java 参数对象（2026-09-18 起）**：方法参数不宜过多，超过 5 个时应考虑收敛为参数对象（POJO/record）传入，避免一长串散参。**仅约束 Java，Python 不受此限制**。
 - **交接/交付文档统一放置（2026-08-26 起）**：所有 pf_agent 交接/交付文档（含「交付」「交接」「移交」「接手」字样）统一放 `docs/handover/`，禁止放仓库根目录；规则与索引见 `docs/handover/README.md`。例外：`PROJECT_HANDOVER.md`（项目总交接，顶层常驻）保留根目录；kimi 会话导出（`kimi-export-session_*.md`）非交付文档保留原位置。
+- **Java↔数据偏离登记（2026-09-18 起）**：Java 侧实际消费数据与数据侧 pipeline 产物的任何偏离（重放/补丁/手工修库）必须登记 `docs/数据一致性技术债务登记.md`（时间/原因/处理/临时产物位置/清偿计划）。原则：**数据侧输出=Java 侧输入，禁止 Java 侧再加工倒排数据侧**；修数据走"数据侧修产物 + Java 重灌"，不造新补丁工具。
+- **项目文档总索引（2026-09-18 起）**：全项目非报告类文档总索引为 `docs/项目文档总索引.md`（仓库级/Java侧/数据侧分域速查）。报告类不重复收录，走各自索引：`docs/handover/README.md`（交接/交付）、`docs/test-reports/README.md`（测试报告）。新增非报告类文档时登记该索引。
+- **多 Agent 开发流程（2026-09-16 起）**：任务分级执行——轻量任务（配置/小修/文档）主 Agent 直接做 → tester 验证 → 主 Agent 验收，不留档；标准/大工程走 architect（方案落盘 `docs/design/方案_<主题>_<日期>.md`，**用户拍板后才动工**）→ coder（派单附红线摘要 + 方案路径）→ tester（黑盒 + 测试代码审计/白盒补测，报告落盘 `docs/test-reports/`）→ 主 Agent 验收。打回一律经主 Agent 中转，tester 打回上限 3 轮后升级用户；Blocker/Major 必修，Minor 由用户拍板（可登记 KN 放行）。角色定义见 `.kimi-code/agents/`，完整流程见 `docs/WORKFLOW.md`。
 
 ## 当前状态与优先级
 

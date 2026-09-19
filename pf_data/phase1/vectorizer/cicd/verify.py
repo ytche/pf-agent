@@ -27,7 +27,14 @@ CATEGORIES = {
     "feat": {
         "output_dir": "vectorizer/output/专长",
         "verify_module": "vectorizer.verify.verify_feats",
-        "invariants": ["verify_data_invariants.py"],
+        "invariants": [
+            "verify_data_invariants.py",
+            # D1（2026-09-18）：book '?' 100 → 92 顶格。造物专长一览 8 条
+            # 经 ApplyFeatCreationSourcePromote 补源修复（CRB）；page_1367
+            # 超魔专长一览 92 条混排无法单一归书，KN228 设计保留同 KN106
+            # 口径——上限棘轮只降不升（原默认 100）
+            "--max-book-unknown", "92",
+        ],
         "tests": [
             "test_category_*",                    # A~G 通用（所有类目验收面共用）
             "test_verify_base.py",                # verify 公共框架

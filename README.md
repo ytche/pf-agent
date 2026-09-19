@@ -48,7 +48,10 @@ PF Agent 是把 **Pathfinder 1e 中文规则书**结构化、向量化后，架�
 - **法术清单直查工具**：26 职业环级清单，别名归一（如 诗人 → 吟游诗人），自带来源路径。
 - **诚实缺省**：检索不到/数据缺口时工具引导报告缺口，不硬凑答案。
 - **双通道 embedding（SP5）**：默认本地 Ollama `bge-m3`（开源自部署零配置）；可选托管云通道做主备降级。
-- **会话记忆可选持久化**：默认内存；可选 PostgreSQL（JDBC + Flyway schema 管理）。
+- **会话持久化（SP7 起默认）**：对话历史默认落 PostgreSQL（Docker Compose 一键自带 PG）；
+  显式 `pf.chat.memory=memory` 可回退纯内存。
+- **用户注册/登录 + JWT 鉴权（SP7，可选）**：`pf.auth.enabled` 默认关（零摩擦自部署），
+  开启后 `/api/chat` 需 Bearer token，前端自带登录/注册入口。
 - **按 IP 限频 + 匿名会话轮次配额**：默认关闭，部署公开服务时按需开启。
 - **前端**：内置单页聊天 UI（`static/index.html`），浏览器直达。
 
@@ -146,20 +149,26 @@ docker compose up -d
 - 应用：<http://localhost:8080/>（内置聊天 UI）
 - 健康检查：`curl http://localhost:8080/api/health`
 - Ollama（embedding）：Compose 附带；默认 `http://localhost:11434`
+- PostgreSQL：Compose 默认附带（SP7 起会话持久化默认 `jdbc`，对话历史与用户表自动落库，
+  Flyway 自动建表/迁移）。纯内存模式：`.env` 设 `PF_CHAT_MEMORY=memory`（见
+  [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)）。
 
-要启用 PostgreSQL 会话持久化：`docker compose --profile pg up -d`，并在 `.env` 填 PG 连接
-（见 [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)）。
+可选：开启用户鉴权（`/api/chat` 需登录）——`.env` 设 `PF_AUTH_ENABLED=true` 并**务必**
+覆盖 `PF_AUTH_JWT_SECRET`（密钥警告见 DEPLOYMENT「三个已知配置坑」后追加的鉴权说明）。
 
 ### 路径二：本地开发
 
 前置：**Java 17**（`mvn` 用 `java.version=17`）、**Ollama**（已 `ollama pull bge-m3`）、
-数据已就绪（`~/.pf_agent/` 有向量库，或本地已生成 `chunks.jsonl`）。
+数据已就绪（`~/.pf_agent/` 有向量库，或本地已生成 `chunks.jsonl`）、**本机 PostgreSQL**
+（SP7 起会话持久化默认 `jdbc`；无 PG 时见下方「无 PG 的本地开发」）。
 
 ```bash
 cd pf_agent/agent
 
 # 配置（env 或 export，见配置说明）
 export DEEPSEEK_PF_API=sk-xxxx          # DeepSeek Chat key
+# PG 默认连 jdbc:postgresql://localhost:5432/pf_agent（用户/密码 pf_agent/pf_agent，
+# 可用 SPRING_DATASOURCE_URL/USERNAME/PASSWORD 覆盖；Flyway 自动建表）
 
 # 启动（默认连 http://localhost:11434 的 Ollama bge-m3）
 mvn spring-boot:run
@@ -168,13 +177,22 @@ mvn spring-boot:run
 > 首启无向量库时会从 `chunks.jsonl` 自动构建（需 Ollama 可用；数百 MB、耗时较长）。
 > 复用 `~/.pf_agent` 预构建数据可跳过。
 
+**无 PG 的本地开发**：SP7 起代码默认 `pf.chat.memory=jdbc`，无 PG 时启动会明确报错
+（Flyway 连接拒绝）。两种走法：① 本机起一个 PG（`docker run -e POSTGRES_DB=pf_agent
+-e POSTGRES_USER=pf_agent -e POSTGRES_PASSWORD=pf_agent -p 5432:5432 postgres:16-alpine`）；
+② 显式回退内存：`mvn spring-boot:run -Dspring-boot.run.arguments="--pf.chat.memory=memory"`
+（会话历史不持久，仅适合开发调试）。
+
 ### 环境变量速览
 
 | 变量 | 必填 | 说明 |
 |---|---|---|
 | `DEEPSEEK_PF_API` | ✅ | DeepSeek Chat API key（LLM） |
 | `PF_EMBEDDING_CLOUD_API_KEY` | 仅 cloud 通道 | 托管 bge-m3 API key（`pf.embedding.primary=cloud` 或开启 fallback 时） |
-| `PF_AGENT_PG_*` | 仅 jdbc 模式 | PostgreSQL 连接（启用 `pf.chat.memory=jdbc` 时） |
+| `PF_CHAT_MEMORY` | 否 | `jdbc`（默认，会话历史进 PG）/ `memory`（纯内存回退） |
+| `SPRING_DATASOURCE_URL` / `_USERNAME` / `_PASSWORD` | 否 | PG 连接（默认 `localhost:5432/pf_agent` / `pf_agent`） |
+| `PF_AUTH_ENABLED` | 否 | 鉴权开关（默认 `false`；`true` 时 `/api/chat` 需 JWT） |
+| `PF_AUTH_JWT_SECRET` | 开鉴权时 ✅ | JWT HS256 密钥（**生产必须覆盖**，勿用 yml 开发默认值） |
 
 完整环境变量 + 三个已知配置坑见 [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)。
 
@@ -188,7 +206,10 @@ relaxed binding 覆盖，如 `pf.rate-limit.enabled` ↔ `PF_RATE_LIMIT_ENABLED`
 | `spring.ai.openai.api-key` | `${DEEPSEEK_PF_API:…}` | LLM key（DeepSeek） |
 | `spring.ai.ollama.base-url` | `http://localhost:11434` | Ollama 地址（embedding） |
 | `server.port` | `8080` | HTTP 端口 |
-| `pf.chat.memory` | `memory` | `memory`=内存 / `jdbc`=PostgreSQL 持久化 |
+| `pf.chat.memory` | `${PF_CHAT_MEMORY:jdbc}` | `jdbc`=PostgreSQL 持久化（默认，需 PG）/ `memory`=内存 |
+| `pf.auth.enabled` | `false` | 鉴权开关（`true` 时 `/api/chat` 需 JWT；强制要求 jdbc 模式） |
+| `pf.auth.jwt-secret` | `${PF_AUTH_JWT_SECRET:…}` | JWT HS256 密钥（开发默认值仅本地用，生产必须覆盖） |
+| `pf.auth.token-ttl-hours` | `72` | 签发 JWT 有效期（小时） |
 | `pf.rate-limit.enabled` | `false` | 按 IP 限频开关（`per-minute` 上限） |
 | `pf.quota.enabled` | `false` | 匿名会话轮次配额开关 |
 | `pf.embedding.primary` | `ollama` | 查询 embedding 通道：`ollama` / `cloud` |
@@ -211,7 +232,7 @@ relaxed binding 覆盖，如 `pf.rate-limit.enabled` ↔ `PF_RATE_LIMIT_ENABLED`
 - **发布基线**：溯源命中 ≥52/53、诚实 ≥50/53、结构分 ≥2.89（kimi-k3 验收口径，见
   `docs/handover/`）。
 
-质量闸口（CI）：Java 侧 `mvn test`（247 项单测全绿）；数据侧有独立的规则数据质量闸口
+质量闸口（CI）：Java 侧 `mvn test`（287 项单测全绿）；数据侧有独立的规则数据质量闸口
 （见 `.github/workflows/ci.yml`）。评测题与检索/prompt 改动共版本演进——每次影响回答行为的
 改动需全量重跑评测且不回退。
 
@@ -243,8 +264,10 @@ rulebook text and carry `[#N]` source markers that link back to the exact book /
 so players can verify every rule claim instead of trusting LLM recall. It covers 8 rule modules
 (spells, classes, feats, races, traits, equipment, skills, generic rules) plus authoritative
 per-class spell lists. Embeddings use **BGE-M3** (local Ollama by default, optional cloud channel).
-Run via Docker Compose or local Java 17 + Ollama; a prebuilt vector-store package is published
-under Releases for zero-pipeline setup.
+Run via Docker Compose (bundles Ollama and PostgreSQL by default — conversation history is
+persisted in PG) or local Java 17 + Ollama + PostgreSQL; a prebuilt vector-store package is
+published under Releases for zero-pipeline setup. Optional user registration/login with JWT
+auth (`pf.auth.enabled`, off by default).
 
 **License**: code is [Anti-996](LICENSE_EN) licensed. The bundled Pathfinder 1e rules text is
 distributed under Paizo's Community Use Policy for non-commercial community use (see

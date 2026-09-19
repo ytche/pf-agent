@@ -1,13 +1,15 @@
 """
 verify_feats.py — 专长集成验收（统一验收入口，R7；v2.2 决策 E 迁移进 VerifyBase 框架）
 
-在 pipeline 全量运行后执行，五检查（对齐返工 R7 验收 + R5 probe）：
+在 pipeline 全量运行后执行，七检查（对齐返工 R7 验收 + R5 probe + D1 book 断言）：
   1. 判别器回归：fc_deviation_matrix.json 189 rel 的 est↔got 对账（含豁免）
   2. 召回：audit_baseline.jsonl 基线（1226 行 / name_zh+en 联合去重 1072）↔ chunk title+aliases
   3. title 合法性：无空 title / 无 URL / 无译者标记
   4. 字段健康度：chunk_id 唯一、doc_id 非空、component_type 合法、format_cluster 合法
   5. R5 probe：全库 elided 标题无一为正文句段碎片（_is_fragment_title 同口径，
      基线 3756 快照有 46 个，R5 守卫后清至 0）
+  6. D1 book 中文黑名单：book_abbreviation 中文书名 0 残留（全量枚举防回退）
+  7. D1 negative test：修复前中文 book 的硬编码样例 chunk_id 均已归一
 
 豁免程序：docs/state/feat_exemptions_<日期>.md 登记无法产出或亚产出的 rel，
 verify 读其 YAML 式清单（`rel: <矩阵rel>` 列表），对豁免 rel 不要求 est↔got 全匹配。
@@ -272,6 +274,69 @@ def check_no_fragment_titles(chunks: List[dict], ctx: dict) -> Tuple[bool, List[
 
 
 # ============================================================
+#  检查 6：D1 book_abbreviation 中文黑名单断言（防回退）
+# ============================================================
+
+# D1（2026-09-18）修复前实测中文书名全量枚举（14 个现值 + 通道 1 可产出值），
+# 断言修复后 0 残留。新增中文值即 FAIL（映射表漏登记即显形）。
+_CHINESE_BOOK_BLACKLIST = {
+    "秽邪勇士", "近战战术工具箱", "巨人猎手手册", "格拉里昂的侏儒",
+    "格拉里昂的地精", "异能奥秘", "CaC部属与伙伴", "瓦瑞西亚，传说诞生之地",
+    "格拉里昂的半身人", "格拉里昂的矮人", "巨人再临", "格拉里昂的兽人",
+    "繁星子民", "巨龙再临", "平衡勇士", "纯洁勇士", "护甲大师手册",
+    "武器大师手册", "任务与战役", "冒险者的军械库", "初探探索者协会",
+    "格拉里昂的混种", "格拉里昂的狗头人", "亡灵杀手手册", "再探经典宝藏",
+}
+
+# D1 negative test：修复前 book 为中文的样例 chunk_id（抽样自各来源通道：
+# 通道 1 来源引用块 / chm_toc MAPPING / 造物 promote），硬编码防回退。
+_D1_FIXED_SAMPLE_CHUNK_IDS = [
+    "feat_page_555_0000",      # 近战战术工具箱（MAPPING）
+    "feat_page_527_0000",      # 瓦瑞西亚，传说诞生之地（MAPPING）
+    "feat_page_744_0000",      # 异能奥秘（MAPPING）
+    "feat_专长_0000",          # 秽邪勇士（MAPPING）
+    "feat_专长51_0000",        # 巨人猎手手册（MAPPING）
+    "feat_巨人猎手手册_专长_0000",  # 巨人猎手手册（通道 1）
+    "feat_格拉里昂的侏儒_专长_0000",  # 格拉里昂的侏儒（通道 1）
+    "feat_格拉里昂的地精_专长_0000",  # 格拉里昂的地精（通道 1）
+    "feat_造物专长一览_0000",  # 造物 promote（如列表行）
+    "feat_CaC部属与伙伴_专长_0000",   # CaC部属与伙伴（通道 1）
+]
+
+
+def _has_chinese(s: str) -> bool:
+    return any("一" <= c <= "鿿" for c in (s or ""))
+
+
+def check_book_abbreviation(chunks: List[dict], ctx: dict) -> Tuple[bool, List[str]]:
+    """D1：book_abbreviation 不得为中文书名（黑名单全量枚举 0 残留）。"""
+    hits = [c for c in chunks if c.get("book_abbreviation", "") in _CHINESE_BOOK_BLACKLIST
+            or _has_chinese(c.get("book_abbreviation", ""))]
+    print(f"  — 中文 book_abbreviation: {len(hits)}（黑名单 {len(_CHINESE_BOOK_BLACKLIST)} 值全量枚举）")
+    if hits:
+        by = Counter(c.get("book_abbreviation", "") for c in hits)
+        samples = ", ".join(c["chunk_id"] for c in hits[:5])
+        return False, [f"❌ {len(hits)} 条 chunk book_abbreviation 为中文（D1 回退）: {dict(by)}（示例: {samples}）"]
+    return True, []
+
+
+def check_d1_negative_samples(chunks: List[dict], ctx: dict) -> Tuple[bool, List[str]]:
+    """D1 negative test：修复前中文 book 的硬编码样例 chunk_id 断言已归一。"""
+    by_id = {c.get("chunk_id", ""): c for c in chunks}
+    bad = []
+    for cid in _D1_FIXED_SAMPLE_CHUNK_IDS:
+        c = by_id.get(cid)
+        if c is None:
+            bad.append(f"{cid}（不存在）")
+        elif _has_chinese(c.get("book_abbreviation", "")):
+            bad.append(f"{cid}={c['book_abbreviation']}")
+    print(f"  — D1 negative 样例 {len(_D1_FIXED_SAMPLE_CHUNK_IDS)} 个，中文残留 {len(bad)}")
+    if bad:
+        return False, [f"❌ D1 negative test 失败（样例 chunk book 仍为中文）: {bad}"]
+    return True, []
+
+
+# ============================================================
 #  类目装配（VerifyBase 模板）
 # ============================================================
 
@@ -287,6 +352,8 @@ class FeatVerify(VerifyBase):
         ("title 合法性", check_title_health, "title 全合法"),
         ("字段健康度", check_field_health, "字段全健康"),
         ("R5 probe（elided 标题无正文句段碎片）", check_no_fragment_titles, "全库 elided 标题无一为正文句段碎片"),
+        ("D1 book 中文黑名单", check_book_abbreviation, "中文 book_abbreviation 0 残留"),
+        ("D1 negative test（修复样例 chunk_id）", check_d1_negative_samples, "样例 chunk book 均已归一"),
     ]
 
     def add_args(self, parser):

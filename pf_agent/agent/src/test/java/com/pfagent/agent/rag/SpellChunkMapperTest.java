@@ -23,7 +23,7 @@ class SpellChunkMapperTest {
     void toDocumentMapsTextAndSourceTraceabilityMetadata() {
         SpellChunk c = new SpellChunk(
                 "spell_CRB_0001", "法术 > 火球术", "spell", "spell", "火球术", "火球术正文",
-                "CRB", "核心规则书", "Core Rulebook", 1, List.of("火球"), Map.of(), Map.of());
+                "CRB", "核心规则书", "Core Rulebook", 1, List.of("火球"), Map.of(), Map.of(), null, null, null);
 
         Document doc = mapper.toDocument(c);
 
@@ -42,7 +42,7 @@ class SpellChunkMapperTest {
     void toDocumentNullAliasesAndTextFallbackSafely() {
         SpellChunk c = new SpellChunk(
                 "c1", "d1", "spell", "spell", "t", null,
-                "CRB", "核心规则书", "CRB", 1, null, Map.of(), Map.of());
+                "CRB", "核心规则书", "CRB", 1, null, Map.of(), Map.of(), null, null, null);
 
         Document doc = mapper.toDocument(c);
 
@@ -62,7 +62,7 @@ class SpellChunkMapperTest {
                         Map.of("class", "法师", "level", 1)));
         SpellChunk c = new SpellChunk(
                 "s1", "d1", "spell", "spell", "火球术", "正文",
-                "CRB", "核心规则书", "Core Rulebook", 1, null, meta, Map.of());
+                "CRB", "核心规则书", "Core Rulebook", 1, null, meta, Map.of(), null, null, null);
 
         Document doc = mapper.toDocument(c);
         Map<String, Object> m = doc.getMetadata();
@@ -86,7 +86,7 @@ class SpellChunkMapperTest {
         SpellChunk c = new SpellChunk(
                 "s1", "d1", "spell", "spell", "无等级法术", "正文",
                 "CRB", "核心规则书", "Core Rulebook", 1, null,
-                Map.of("school", "预言系"), Map.of());
+                Map.of("school", "预言系"), Map.of(), null, null, null);
 
         Document doc = mapper.toDocument(c);
         Map<String, Object> m = doc.getMetadata();
@@ -105,7 +105,7 @@ class SpellChunkMapperTest {
                         Map.of("class", "召唤师", "level", 4)));
         SpellChunk c = new SpellChunk(
                 "s1", "d1", "spell", "spell", "召唤怪物", "正文",
-                "CRB", "核心规则书", "Core Rulebook", 1, null, meta, Map.of());
+                "CRB", "核心规则书", "Core Rulebook", 1, null, meta, Map.of(), null, null, null);
 
         Document doc = mapper.toDocument(c);
         Map<String, Object> m = doc.getMetadata();
@@ -120,11 +120,32 @@ class SpellChunkMapperTest {
     void toDocumentNullMetadataFallbackSafely() {
         SpellChunk c = new SpellChunk(
                 "s1", "d1", "spell", "spell", "t", "正文",
-                "CRB", "核心规则书", "Core Rulebook", 1, null, null, Map.of());
+                "CRB", "核心规则书", "Core Rulebook", 1, null, null, Map.of(), null, null, null);
 
         Document doc = mapper.toDocument(c);
 
         assertThat(doc.getText()).isEqualTo("正文");
         assertThat(doc.getMetadata()).doesNotContainKey("school");
+    }
+
+    /** SP8c J6：神话变体的 base_spell_* 三字段透传进 metadata（普通法术不写键） */
+    @Test
+    void toDocumentBaseSpellFieldsMappedForMythicVariant() {
+        SpellChunk variant = new SpellChunk(
+                "s2", "d2", "spell", "spell", "火球术（神话）", "正文",
+                "MA", "神话冒险", "Mythic Adventures", 1, null, Map.of(), Map.of(),
+                "spell_001", "火球术", "CRB");
+        SpellChunk normal = new SpellChunk(
+                "s1", "d1", "spell", "spell", "火球术", "正文",
+                "CRB", "核心规则书", "Core Rulebook", 1, null, Map.of(), Map.of(),
+                null, null, null);
+
+        Map<String, Object> variantMeta = mapper.toDocument(variant).getMetadata();
+        assertThat(variantMeta.get("base_spell_chunk_id")).isEqualTo("spell_001");
+        assertThat(variantMeta.get("base_spell_title")).isEqualTo("火球术");
+        assertThat(variantMeta.get("base_spell_book")).isEqualTo("CRB");
+
+        Map<String, Object> normalMeta = mapper.toDocument(normal).getMetadata();
+        assertThat(normalMeta).doesNotContainKey("base_spell_chunk_id");
     }
 }

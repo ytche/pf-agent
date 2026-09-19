@@ -1,0 +1,70 @@
+{
+  "artifacts": {
+    "lists.spell": {
+      "fingerprint": "7f8d6af48cb5eb3f85b14089e74f257d585373e456e8dfe8505dbd826fb485d5",
+      "outputs": {
+        "vectorizer/output/法术/spell_lists.json": "39cfe5e614561c48a60a19dc9d08815ad497795867bdff6b073d5f2b026ca883",
+        "vectorizer/output/法术/spell_list_export_report.json": "8e45835c43543c57a9d56987bfdbea82fa15231140ebfa26d673fc6c2ee28ed8"
+      }
+    },
+    "chunks.feat": {
+      "fingerprint": "e0d7c3e32184cc419c518ed19244ca69f9e0ff09fa0af8b623205c72e17cf17a",
+      "outputs": {
+        "vectorizer/output/专长/chunks.jsonl": "aba0761b268a16ddbfbe43cea136c3cf1c67f95053fabfd1b64d1e40dd5afa94",
+        "vectorizer/output/专长/index.json": "a456f6d746d0b950246aa0ef811a298a0e86ff661e42c317978bf1ae7e34846d"
+      }
+    },
+    "chunks.race": {
+      "fingerprint": "c1a06267fa548738080104cbbc816a190b14cf954b0ba0f0718a9e61413e4431",
+      "outputs": {
+        "vectorizer/output/种族/chunks.jsonl": "3b2b16b449f00242137492856f1c70bd7919fb2285c009d0ab7b2c22dc7a7e18",
+        "vectorizer/output/种族/index.json": "3f68ce8c7b56028e7fee10eae28423dfca2aa2b2d6d327e87a1e3de18b439083"
+      }
+    },
+    "chunks.trait": {
+      "fingerprint": "4c2195621ebce5c2738a145d777872f9f4ff7f403af4cc2455483ed98d0a7fc5",
+      "outputs": {
+        "vectorizer/output/背景特性/chunks.jsonl": "486a8124dfd32592feffe7727c476e6fa5656f742974cf61c48cb6c66b8c2c67",
+        "vectorizer/output/背景特性/index.json": "277ae700657cab2cf40d18202b5f824808fe922c6415d52106e2948b5b227416"
+      }
+    },
+    "chunks.equipment": {
+      "fingerprint": "393529f81914303aa2536fa8125bb8ea764c7a1c64b038175bf0ce0feb3c388a",
+      "outputs": {
+        "vectorizer/output/装备/chunks.jsonl": "692e54b7398c3300498157b53061534a82727734053da4fae4cca95ef529ad66",
+        "vectorizer/output/装备/index.json": "0cffaf8a27b98a18524621e8703b0280aa0060d727ef0c6e938d4f777f0aa655"
+      }
+    },
+    "chunks.rule": {
+      "fingerprint": "afd09d1a7d1c6b4c87414a6414445e9d59822dbe6622146b6b4c845133eeb96b",
+      "outputs": {
+        "vectorizer/output/规则/chunks.jsonl": "dc1ddc66ebbc01a98928c6ff1e57cb68622c58b25da67541fc8836b3c11e27ca",
+        "vectorizer/output/规则/index.json": "9a46842e9050f0969c0ab167d77636272509356cf8d886476898d7b67882217e"
+      }
+    },
+    "chunks.spell": {
+      "fingerprint": "8e7cf8f667e650220b145e1bcbacc35bdf3a4807145dca4e6687bb11b9441fc2",
+      "outputs": {
+        "vectorizer/output/法术/chunks.jsonl": "ba92cbb3ad479842c476afa3b3e1c49a7b7a109e24214180f501cb74b312d928",
+        "vectorizer/output/法术/index.json": "7aa2bbd168b2af77480304e022144fc9a1395784bcceb88516574f958d093c12"
+      }
+    },
+    "chunks.profession": {
+      "fingerprint": "9821c72a8020a00c0d2d75796dd2ed9a25ff34bb5fd789a9458cd325f00f4035",
+      "outputs": {
+        "vectorizer/output/职业/chunks.jsonl": "12d26cd8f9ab5a7947653a2a32ef2a451c02bc415bf7f1b20861d8587e9c05eb",
+        "vectorizer/output/职业/index.json": "569672af27c98c6131792800d00571884ee5e03eeb7bb3fa3b1e6826bdc5c879"
+      }
+    },
+    "chunks.skill": {
+      "fingerprint": "438c2a97c9e292b64152833de347cd50d60d5cf783196445e1dd216af8d8ba22",
+      "outputs": {
+        "vectorizer/output/技能/chunks.jsonl": "0a2f3c9915403823e024f49fa67a9a61b84da09a1e94473bcd85984d75313bac",
+        "vectorizer/output/技能/index.json": "78738d4c1ab3994bafc63fdd73135d3157744d19a13725373e208d6724b23ceb"
+      }
+    }
+  },
+  "build_version": "1.0",
+  "build_id": "e1a465c80e0b3e1c-20260919T111249Z",
+  "generated_at": "2026-09-19T11:12:49.083190+00:00"
+}

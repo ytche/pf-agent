@@ -16,8 +16,8 @@ import java.time.Duration;
  * Agent 配置
  *
  * - ChatClient：无 defaultAdvisors，历史由 ChatService 手动管理（v1.4 §9.3）
- * - ChatMemory：L1 会话记忆；pf.chat.memory=memory 用内存实现（默认），=jdbc 用 JdbcChatMemory
- *   （PostgreSQL 持久化，SP1），装配互斥
+ * - ChatMemory：L1 会话记忆；pf.chat.memory=memory 用内存实现，=jdbc（SP7 起 yml 默认）
+ *   用 JdbcChatMemory（PostgreSQL 持久化，SP1），装配互斥
  * - ClientHttpRequestFactory：LLM 调用读超时（辅助防线，主防线是应用层轮次上限）
  */
 @Configuration
@@ -29,8 +29,7 @@ public class AgentConfig {
     }
 
     /**
-     * L1 会话记忆：内存实现（默认，pf.chat.memory=memory 或未配置）。
-     * 单用户本地场景够用；跨重启续会话时改用 pf.chat.memory=jdbc（JdbcChatMemory）。
+     * L1 会话记忆：内存实现（pf.chat.memory=memory 或未配置时兜底）。
      */
     @Bean
     @ConditionalOnProperty(name = "pf.chat.memory", havingValue = "memory", matchIfMissing = true)

@@ -299,7 +299,7 @@ class TestResolveSource:
             Path("pf_rules_md_organized/背景特性/格拉里昂的人类_种族背景特性.md"),
             "# 格拉里昂的人类 背景特性\n",
         )
-        assert chunk.book_abbreviation == "格拉里昂的人类"
+        assert chunk.book_abbreviation == "HoG"  # D1-Trait：中文 abbr 归一（人工核定 ★）
 
     def test_foC_conflict_overridden(self):
         """FoC 共享表错义截断：provider 链给「信仰之书：探索者」，专属表权威

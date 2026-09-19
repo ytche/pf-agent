@@ -33,6 +33,14 @@ public class SpellChunkMapper implements ChunkMapper<SpellChunk> {
                 + (c.title() == null ? "" : c.title());
         meta.put("tocPath", tocPath);
 
+        // SP8c J6：神话变体法术的结构化"基础法术"指针透传（257 条链），
+        // 供 getEntryLinks 的"基础/变体"层使用；普通法术行为 null 不写键
+        if (c.base_spell_chunk_id() != null && !c.base_spell_chunk_id().isBlank()) {
+            meta.put("base_spell_chunk_id", c.base_spell_chunk_id());
+            meta.put("base_spell_title", c.base_spell_title() == null ? "" : c.base_spell_title());
+            meta.put("base_spell_book", c.base_spell_book() == null ? "" : c.base_spell_book());
+        }
+
         // 嵌套 metadata 扁平化：filterExpression 只作用于顶层标量，
         // spell_level 是嵌套数组，必须展开为 spell_level_<职业>/has_spell_<职业> 顶层键
         // 才能被 searchByMetadata 精确过滤命中（值统一转 String，保证过滤类型一致）。

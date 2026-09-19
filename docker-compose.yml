@@ -1,4 +1,4 @@
-# PF Agent 一键启动（app + Ollama embedding + 可选 PostgreSQL）
+# PF Agent 一键启动（app + Ollama embedding + PostgreSQL）
 # 用法见 README「路径一：Docker Compose 一键启动」与 docs/DEPLOYMENT.md。
 #
 # 约定：
@@ -6,7 +6,9 @@
 # - 应用把向量库/JSONL 写到容器内 ~/.pf_agent/（= /home/appuser/.pf_agent/），
 #   由 ./data 卷映射持久化——把「预构建数据包」里的 vector_store_*.json 解压进 ./data 即可。
 # - ollama 服务首启在后台 serve 并自动拉取 bge-m3 模型（模型存 named volume，二次启动即用）。
-# - pg 为可选 profile：`docker compose --profile pg up`（jdbc 会话记忆，见 .env 注释）。
+# - pg 为默认服务（SP7 起会话持久化默认 jdbc）：app depends_on pg(service_healthy) 启动即就绪，
+#   会话历史/用户表（Flyway 自动迁移）都落 PG。纯内存模式：PF_CHAT_MEMORY=memory
+#   （此时可手动去掉 depends_on pg，避免无谓拉起 PG）。
 
 name: pf-agent
 
@@ -18,7 +20,11 @@ services:
     container_name: pf-agent-app
     restart: unless-stopped
     depends_on:
-      - ollama
+      ollama:
+        condition: service_started
+      # SP7：pg 默认服务，等 PG 健康（Flyway 迁移就绪）再启动 app
+      pg:
+        condition: service_healthy
     ports:
       - "8080:8080"
     environment:
@@ -30,8 +36,16 @@ services:
       PF_EMBEDDING_PRIMARY: ${PF_EMBEDDING_PRIMARY:-ollama}
       PF_EMBEDDING_FALLBACK_ENABLED: ${PF_EMBEDDING_FALLBACK_ENABLED:-false}
       PF_EMBEDDING_CLOUD_API_KEY: ${PF_EMBEDDING_CLOUD_API_KEY:-}
-      # 会话记忆：默认内存；jdbc 需 --profile pg 并把 PF_CHAT_MEMORY=jdbc
-      PF_CHAT_MEMORY: ${PF_CHAT_MEMORY:-memory}
+      # 会话记忆：SP7 起默认 jdbc（compose 自带 PG）；置 memory 回退纯内存
+      PF_CHAT_MEMORY: ${PF_CHAT_MEMORY:-jdbc}
+      # 数据源指向 compose 内网 pg 服务（Flyway 自动建/迁移表）
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL:-jdbc:postgresql://pg:5432/pf_agent}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME:-pf_agent}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD:-pf_agent}
+      # 鉴权（SP7，默认关；PF_AUTH_ENABLED=true 时务必覆盖 PF_AUTH_JWT_SECRET，见 .env.example）
+      PF_AUTH_ENABLED: ${PF_AUTH_ENABLED:-false}
+      PF_AUTH_JWT_SECRET: ${PF_AUTH_JWT_SECRET:-pf-agent-dev-jwt-secret-change-me}
+      PF_AUTH_TOKEN_TTL_HOURS: ${PF_AUTH_TOKEN_TTL_HOURS:-72}
     volumes:
       # 向量库/JSONL 持久化（预构建数据包放 ./data/）
       - ./data:/home/appuser/.pf_agent
@@ -49,12 +63,11 @@ services:
     ports:
       - "11434:11434"
 
-  # PostgreSQL 会话持久化（可选）：docker compose --profile pg up -d
-  # 启用后：.env 设 PF_CHAT_MEMORY=jdbc，并把 SPRING_DATASOURCE_URL
-  # 指向 jdbc:postgresql://pg:5432/pf_agent（用户/密码见下，Flyway 自动建表）
+  # PostgreSQL 会话持久化 + 用户表（SP7 起默认服务）：
+  # app 经 depends_on(service_healthy) 等待 PG 就绪；Flyway 自动执行 V1~V3 迁移
+  #（chat_conversation / chat_message / user_account，幂等）。
   pg:
     image: postgres:16-alpine
-    profiles: ["pg"]
     container_name: pf-agent-pg
     restart: unless-stopped
     environment:

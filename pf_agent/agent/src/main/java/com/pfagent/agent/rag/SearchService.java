@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -61,6 +62,9 @@ public class SearchService {
     private VectorStore ruleStore;
     @Autowired
     private FilterTranslator filterTranslator;
+    /** J4：全局书过滤（blacklist 默认剔 "?"），在 blank 剔除后、排序前统一过滤两条检索路径 */
+    @Autowired
+    private BookFilter bookFilter;
 
     @Value("${pf.search.top-k:5}")
     private int topK;
@@ -136,6 +140,7 @@ public class SearchService {
         return resolveStores(module).stream()
                 .flatMap(store -> store.similaritySearch(request).stream())
                 .filter(doc -> !filterBlankText || !isBlankText(doc)) // 空 text 剔除（F-002）
+                .filter(bookFilter::keep) // J4 全局书过滤（排序前过滤，被剔条目释放 topK 名额）
                 .sorted(Comparator.comparingDouble((Document doc) -> rankedScore(doc, classModule, tokens))
                         .reversed())
                 .limit(topK)
@@ -143,42 +148,166 @@ public class SearchService {
     }
 
     /**
-     * 枚举式元数据过滤（精确路径，设计 §5.2）
+     * 枚举式元数据过滤（旧签名，SP8a J2 起为兼容保留）
      *
-     * 把逻辑过滤字段翻译为扁平条件后构造 AND 表达式，用大 topK + 相似度阈值全放行
-     * 检索——结果数量由过滤条件决定而非相似度截断，保证枚举完整性
-     * （如"女巫 3 环法术"应返回全部命中，而非语义上最相近的 N 条）。
-     *
-     * @param module  数据模块，spell / class / feat / race / trait / equipment / skill / rule
-     * @param filters 逻辑字段 → 期望值（className/school 等）
-     * @return 过滤命中的 Document 列表；模块非法或无可执行条件时为空列表
-     * @throws IllegalArgumentException 模块名非法时
+     * 仅供无 or/范围/排序需求的 AND 精确过滤调用；内部委托给
+     * {@link #searchByMetadata(String, MetadataSearchQuery)}，行为与旧实现一致
+     * （单模块 store、全部条件 AND、大 topK + 相似度阈值全放行）。
      */
     public List<Document> searchByMetadata(String module, Map<String, String> filters) {
-        VectorStore store = storesByModule.get(module);
-        if (store == null) {
+        MetadataSearchQuery query = new MetadataSearchQuery();
+        query.setFilters(filters);
+        return searchByMetadata(module, query);
+    }
+
+    /**
+     * 枚举式元数据过滤（增强版，SP8a J2）
+     *
+     * 支持 orFilters（组内 OR）/ gte / lte 范围比较 / sort 排序 / limit+offset 分页 /
+     * module="all" 跨模块（八库分别查询后按 (module, chunk_id) 去重合并）。
+     * 过滤表达式由 FilterTranslator 翻译后的条件组组装——eq 条件与 or 组、gte、lte
+     * 之间为 AND；结果集 ≤ enumerationTopK，排序与分页在合并后内存施加，不改检索语义。
+     *
+     * @param module spell / class / feat / race / trait / equipment / skill / rule / all
+     * @param query  过滤参数对象（字段名校验与空查询提示在工具层完成）
+     * @return 过滤命中的 Document 列表（已去重、排序、分页）；无可执行条件时为空列表
+     * @throws IllegalArgumentException 模块名非法时（"all" 除外）
+     */
+    public List<Document> searchByMetadata(String module, MetadataSearchQuery query) {
+        List<VectorStore> stores = resolveStores(module);
+        if (module != null && !"all".equals(module) && stores.isEmpty()) {
             throw new IllegalArgumentException("未知数据模块: " + module + "，可用模块: spell/class/feat/race/trait/equipment/skill/rule");
         }
-        List<FilterField> conditions = filterTranslator.translate(module, filters);
-        if (conditions.isEmpty()) {
-            return List.of();
-        }
 
-        // 全部条件 AND 连接：eq 是 metadata 标量精确匹配（扁平键由 FilterTranslator 保证存在）
+        // 跨模块：逐库用各自模块名翻译（spell 组合键等模块专属逻辑只对 spell 库生效），
+        // 每库构造自己的过滤表达式分别查询；查询时携带模块名（写入 metadata.pf_module
+        // 供展示层标注），合并后按 (module, chunk_id) 去重（chunk_id 缺失退化为 doc id）
+        Map<String, Document> merged = new LinkedHashMap<>();
+        for (VectorStore store : stores) {
+            String storeModule = moduleOf(store);
+            String effectiveModule = "all".equals(module) || module == null ? storeModule : module;
+            FilterTranslator.TranslatedQuery conditions = filterTranslator.translateQuery(effectiveModule, query);
+            if (conditions.isEmpty()) {
+                continue; // 该库无可执行条件（如 spell level 无 className），跳过不查询
+            }
+            FilterExpressionBuilder builder = new FilterExpressionBuilder();
+            FilterExpressionBuilder.Op op = null;
+            for (FilterField condition : conditions.eq()) {
+                op = and(builder, op, builder.eq(condition.key(), condition.value()));
+            }
+            for (FilterTranslator.TranslatedQuery.OrGroup group : conditions.or()) {
+                FilterExpressionBuilder.Op groupOp = null;
+                for (FilterField alternative : group.alternatives()) {
+                    groupOp = groupOp == null ? builder.eq(alternative.key(), alternative.value())
+                            : builder.or(groupOp, builder.eq(alternative.key(), alternative.value()));
+                }
+                if (groupOp != null) {
+                    op = and(builder, op, builder.group(groupOp));
+                }
+            }
+            for (FilterField condition : conditions.gte()) {
+                op = and(builder, op, builder.gte(condition.key(), condition.value()));
+            }
+            for (FilterField condition : conditions.lte()) {
+                op = and(builder, op, builder.lte(condition.key(), condition.value()));
+            }
+            SearchRequest request = SearchRequest.builder()
+                    .query(effectiveModule)
+                    .topK(enumerationTopK)
+                    .similarityThresholdAll()
+                    .filterExpression(op.build())
+                    .build();
+            for (Document doc : store.similaritySearch(request)) {
+                doc.getMetadata().put("pf_module", storeModule);
+                String chunkKey = value(doc, "chunk_id");
+                if (chunkKey.isBlank()) {
+                    chunkKey = doc.getId();
+                }
+                merged.putIfAbsent(storeModule + "|" + chunkKey, doc);
+            }
+        }
+        List<Document> docs = new ArrayList<>(bookFilter.filter(List.copyOf(merged.values())));
+        docs.sort(comparatorOf(query));
+        int offset = Math.max(0, query.getOffset() == null ? 0 : query.getOffset());
+        int limit = Math.max(1, Math.min(query.getLimit() == null ? enumerationTopK : query.getLimit(), enumerationTopK));
+        return docs.stream().skip(offset).limit(limit).toList();
+    }
+
+    /**
+     * 按 chunk_id 点查完整条目（SP8a J1）
+     *
+     * 对目标模块 store 构造 chunk_id 精确过滤 + 相似度阈值全放行 + topK 1，
+     * 走现有 FilterExpressionBuilder 通路，不新增 store 访问机制。
+     *
+     * @param module  数据模块（不支持 all）
+     * @param chunkId 检索结果 metadata 中的 chunk_id
+     * @return 命中的 Document；未命中返回 null
+     */
+    public Document getByChunkId(String module, String chunkId) {
+        VectorStore store = storesByModule.get(module);
+        if (store == null || chunkId == null || chunkId.isBlank()) {
+            return null;
+        }
         FilterExpressionBuilder builder = new FilterExpressionBuilder();
-        FilterExpressionBuilder.Op op = null;
-        for (FilterField condition : conditions) {
-            FilterExpressionBuilder.Op eq = builder.eq(condition.key(), condition.value());
-            op = op == null ? eq : builder.and(op, eq);
-        }
-
         SearchRequest request = SearchRequest.builder()
                 .query(module)
-                .topK(enumerationTopK)
+                .topK(1)
                 .similarityThresholdAll()
-                .filterExpression(op.build())
+                .filterExpression(builder.eq("chunk_id", chunkId).build())
                 .build();
-        return store.similaritySearch(request);
+        List<Document> docs = store.similaritySearch(request);
+        return docs.isEmpty() ? null : docs.get(0);
+    }
+
+    /** 条件 AND 连接辅助：首个条件直接采用，之后 builder.and 累加 */
+    private FilterExpressionBuilder.Op and(FilterExpressionBuilder builder,
+            FilterExpressionBuilder.Op op, FilterExpressionBuilder.Op next) {
+        return op == null ? next : builder.and(op, next);
+    }
+
+    /** 排序比较器：sortBy=title|level|book 字典/数值序，sortOrder=asc|desc；缺省保持默认序 */
+    private Comparator<Document> comparatorOf(MetadataSearchQuery query) {
+        String sortBy = query.getSortBy();
+        Comparator<Document> comparator;
+        if ("title".equals(sortBy)) {
+            comparator = Comparator.comparing(doc -> value(doc, "title"));
+        } else if ("level".equals(sortBy)) {
+            comparator = Comparator.comparingInt(this::levelOf);
+        } else if ("book".equals(sortBy)) {
+            comparator = Comparator.comparing(doc -> value(doc, "book_abbreviation"));
+        } else {
+            return (a, b) -> 0;
+        }
+        return "desc".equals(query.getSortOrder()) ? comparator.reversed() : comparator;
+    }
+
+    /** level 排序取值：第一个 spell_level_* 值的整数，缺失/非数字按 0 */
+    private int levelOf(Document doc) {
+        for (Map.Entry<String, Object> entry : doc.getMetadata().entrySet()) {
+            if (entry.getKey().startsWith("spell_level_")) {
+                try {
+                    return Integer.parseInt(entry.getValue().toString());
+                } catch (NumberFormatException e) {
+                    return 0;
+                }
+            }
+        }
+        return 0;
+    }
+
+    /** metadata 安全取值（缺失返回空串） */
+    private String value(Document doc, String key) {
+        Object v = doc.getMetadata().get(key);
+        return v == null ? "" : v.toString();
+    }
+
+    /** store → 模块名反查（跨模块合并去重时标注来源模块） */
+    private String moduleOf(VectorStore store) {
+        return storesByModule.entrySet().stream()
+                .filter(e -> e.getValue() == store)
+                .map(Map.Entry::getKey)
+                .findFirst()
+                .orElse("");
     }
 
     /** 模块索引：依赖注入完成后构建（八模块 store → 名称索引 + 全量列表），检索按模块路由 */

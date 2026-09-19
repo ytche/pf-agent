@@ -16,9 +16,25 @@ spring:
       embedding:
         options:
           model: bge-m3
+          # AKN-012：Ollama 默认 num_ctx 4096/num_batch 2048，稠密中文 chunk >2048 token
+          # 直接 400（新版不再静默截断）；按 bge-m3 原生 8192 放开，覆盖 5000 字符截断窗
+          num-ctx: 8192
+          num-batch: 8192
     # 关闭 LLM 调用重试，避免超时被放大（Spring AI 默认 max-attempts=10）
     retry:
       max-attempts: 1
+  datasource:
+    # PostgreSQL 会话持久化（SP1 接入，SP7 起为默认持久化）：默认连接本机 PG，
+    # 可用 env（SPRING_DATASOURCE_URL/USERNAME/PASSWORD）覆盖；
+    # pf.chat.memory=memory 时数据层整体不装配（AgentApplication 排除 auto-config），以下配置不生效
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/pf_agent}
+    username: ${SPRING_DATASOURCE_USERNAME:pf_agent}
+    password: ${SPRING_DATASOURCE_PASSWORD:pf_agent}
+  jpa:
+    hibernate:
+      ddl-auto: validate         # schema 由 Flyway 管理（V1__init.sql），Hibernate 只校验不建表
+  flyway:
+    enabled: true
 
 server:
   port: 8080
@@ -32,9 +48,16 @@ pf:
   quota:
     enabled: false             # F-011 匿名会话轮次配额开关（false = 不装配服务，零行为变化）
     anonymous-rounds: 20       # 每会话累计轮数上限（达上限 429 quota_exceeded；新会话重新计）
+  auth:
+    enabled: false             # SP7 鉴权开关（false = 全放行零行为变化；true = /api/chat 需 JWT，且强制要求 jdbc 持久化，见 AuthProperties 校验）
+    # JWT 密钥（HS256）：以下为开发默认值，仅供本地跑通；生产部署必须经 env PF_AUTH_JWT_SECRET 覆盖。
+    # pf.auth.enabled=true 且密钥仍为默认值时启动打 WARN（不阻断，自部署友好，见 AuthProperties）。
+    jwt-secret: ${PF_AUTH_JWT_SECRET:pf-agent-dev-jwt-secret-change-me}
+    token-ttl-hours: 72        # 签发 JWT 的有效期（小时）
   chat:
-    # 会话记忆实现：memory = 内存（默认，不碰数据库）/ jdbc = PostgreSQL 持久化（须配下方 datasource）
-    memory: memory
+    # 会话记忆实现：jdbc = PostgreSQL 持久化（SP7 起默认，需 PG，可用 env PF_CHAT_MEMORY 覆盖）
+    #            memory = 内存（不碰数据库；本机无 PG 的裸 mvn 开发可显式切回）
+    memory: ${PF_CHAT_MEMORY:jdbc}
     # 持久化保留轮数（F-005，仅 jdbc 模式生效）：超过即裁剪最旧轮，默认保留最近 20 轮
     history-rounds: 20
   chunks:
@@ -57,6 +80,10 @@ pf:
     primary: ollama              # ollama（默认，开源自部署零配置，单通道）| cloud（托管 bge-m3）
     fallback-enabled: false      # 主通道调用失败降级另一通道；primary=cloud 时建议置 true
                                  # （未显式设置时按 D6：primary=cloud 默认 true，ollama 默认 false）
+    # AKN-010：embedding 客户端超时（此前底层 JDK HttpClient 无超时，Ollama 僵死时 embed
+    # 调用无界悬挂 → 工作线程占满 → Hikari 池耗尽；超时触发后走 fallback 降级，不悬挂）
+    connect-timeout: 10s         # embedding 客户端连接超时（Ollama/云通道共用）
+    read-timeout: 120s           # embedding 客户端读超时（单条 embed 很快但留余量）
     cloud:
       # 托管 bge-m3（OpenAI 兼容 /v1/embeddings，1024 维与本地一致）；仅 cloud 参与（主/备）时启用
       base-url: https://api.siliconflow.cn
@@ -71,6 +98,17 @@ pf:
     max-history-chars: 50000    # 工具循环上下文字符上限，超限强制收敛作答（不再调工具）
     vector-result-chars: 800    # vectorSearch 单条正文截断长度（topK 扩大后收紧，抵消 token 增量）
     metadata-result-chars: 4000 # searchByMetadata 紧凑列表字符上限，超限截断并提示收窄过滤
+    # SP8a（方案 20260917）：检索工具增强配置
+    entry-result-chars: 8000    # J1 getEntryById 完整原文字符上限（防 oversize chunk 爆上下文，截断并提示）
+    metadata-default-limit: 50  # J2 searchByMetadata 增强版默认返回条数（上限另受 enumeration-top-k 约束）
+    # J4（SP8b）：全局书过滤（blacklist/whitelist，LLM 侧不暴露 book 参数，prompt 零改动）
+    book-filter:
+      enabled: true             # 总开关；false = 全放行
+      mode: blacklist           # blacklist（剔除列名值）| whitelist（仅保留列名值；书单内容为产品策略，留给用户配）
+      books: ["?"]              # 黑名单：剔出的值（过渡策略转正：数据侧 KN226「怪物」已修复，无需再列）
+      unknown-book-keep: true   # book 值缺失/空白（未知）是否保留（默认保留，防数据脏期假缺口）
+    entry-resolver-enabled: true # J6 条目引用链 Layer 0：title/alias 跨模块索引与引用链开关（resolveEntry/getEntryLinks）
+    entry-links-max-per-section: 20 # J6 getEntryLinks 每层链接展示条数上限（防职业被法术反向引用刷屏）
     chat-timeout: 60s           # 单次 LLM 调用读超时（辅助防线，防单次调用卡死）
     # v1.8（AKN-003 方案 B）：class 基础职业页排序加分 + 候选集扩容（补配置，代码 @Value 默认值兜底）
     class-base-bonus: 0.03      # class 基础职业页相似度加分（仅排序，不改 score）
@@ -100,6 +138,7 @@ pf:
   gaps:
     # 数据缺口记录（reportDataGap 工具追加 JSONL，后续脚本分析驱动优化）
     file-path: ${user.home}/.pf_agent/data_gaps.jsonl
+    list-default-limit: 20      # SP8a J3 listDataGaps 默认返回条数（工具层上限 100）
   feedback:
     # 错误标注记录（前端「标错」按钮追加 JSONL，qa/annotations_report.py 聚类分析驱动优化）
     file-path: ${user.home}/.pf_agent/annotations.jsonl
@@ -108,20 +147,6 @@ pf:
     file-path: ${user.home}/.pf_agent/tool_calls.jsonl
   memory:
     history-size: 20            # 注入 prompt 的历史条数上限（L1 手动 ChatMemory）；与 pf.chat.history-rounds（持久化保留轮数）语义不同
-
-# PostgreSQL 会话持久化接入（SP1，可选）：
-# 仅当 pf.chat.memory=jdbc 时数据层启用（AgentApplication 默认排除数据层自动配置，
-# 由 JdbcDataConfig 在 jdbc 模式下按官方 auto-config 装配）。取消下面注释并填连接串即接入：
-# spring:
-#   datasource:
-#     url: jdbc:postgresql://localhost:5432/pf_agent
-#     username: postgres
-#     password: postgres
-#   jpa:
-#     hibernate:
-#       ddl-auto: validate       # schema 由 Flyway 管理（V1__init.sql），Hibernate 只校验不建表
-#   flyway:
-#     enabled: true
 
 # 日志
 logging:

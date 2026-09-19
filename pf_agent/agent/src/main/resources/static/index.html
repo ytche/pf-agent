@@ -19,6 +19,7 @@
       .card { background: #161b22; border-color: #30363d; }
       .source { border-color: #30363d; }
       input, button { background: #0d1117; color: #e6edf3; border-color: #30363d; }
+      .auth-btn { background: transparent; }
       .gap-tip { background: #3d2e00; color: #d29922; }
       .mark-btn { border-color: #d29922; color: #d29922; }
       .mark-btn:hover { background: #3d2e00; }
@@ -31,6 +32,21 @@
     }
     h1 { font-size: 20px; margin: 0 0 4px; }
     .sub { color: #666; font-size: 13px; margin-bottom: 16px; }
+    /* SP7 D6：顶栏（标题 + 鉴权入口）与登录/注册表单 */
+    .head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+    .auth-area { display: none; flex-shrink: 0; font-size: 13px; }
+    .auth-bar { display: flex; align-items: center; gap: 8px; }
+    .auth-bar .who { color: #666; }
+    .auth-btn {
+      padding: 6px 14px; font-size: 13px; border: 1px solid #d0d7de; border-radius: 6px;
+      background: transparent; color: #0969da; cursor: pointer;
+    }
+    .auth-btn:hover { background: rgba(9,105,218,.08); }
+    .auth-form input { width: 100%; margin-top: 6px; }
+    .auth-actions { margin-top: 10px; display: flex; gap: 10px; align-items: center; }
+    .auth-actions button { padding: 8px 18px; font-size: 14px; }
+    .auth-switch { font-size: 13px; color: #0969da; cursor: pointer; user-select: none; }
+    .auth-err { margin-top: 8px; font-size: 13px; color: #cf222e; display: none; }
     .card {
       background: #fff; border: 1px solid #e1e4e8; border-radius: 10px;
       padding: 16px; margin-bottom: 12px;
@@ -100,8 +116,33 @@
   </style>
 </head>
 <body>
-  <h1>🧙 PathFinder 1e 规则问答</h1>
-  <div class="sub">回答基于 PF 规则库检索，来源可追溯</div>
+  <div class="head">
+    <div>
+      <h1>🧙 PathFinder 1e 规则问答</h1>
+      <div class="sub">回答基于 PF 规则库检索，来源可追溯</div>
+    </div>
+    <!-- SP7 D6：鉴权开关开启时显示（启动时探测 /api/auth/status）；关闭时整个入口隐藏，零变化 -->
+    <div id="authArea" class="auth-area">
+      <div class="auth-bar">
+        <span id="authWho" class="who"></span>
+        <button id="authEntry" class="auth-btn">登录 / 注册</button>
+        <button id="authLogout" class="auth-btn" style="display:none">退出</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 登录/注册表单（弹层卡片，默认隐藏）：token 存 localStorage，401 时引导重新登录 -->
+  <div id="authCard" class="card auth-form" style="display:none">
+    <div id="authTitle" style="font-size:14px;font-weight:600">登录</div>
+    <input id="authUsername" type="text" autocomplete="username"
+           placeholder="用户名（3~64 位字母 / 数字 / 下划线 / 中文）">
+    <input id="authPassword" type="password" autocomplete="current-password" placeholder="密码（至少 8 位）">
+    <div class="auth-actions">
+      <button id="authSubmit">登录</button>
+      <span id="authSwitch" class="auth-switch">没有账号？注册</span>
+    </div>
+    <div id="authErr" class="auth-err"></div>
+  </div>
 
   <div class="card row">
     <input id="question" type="text" placeholder="输入规则问题，回车发送…"
@@ -174,6 +215,140 @@
       var fbSubmit = document.getElementById('fbSubmit');
       var fbCancel = document.getElementById('fbCancel');
       var fbStatus = document.getElementById('fbStatus');
+
+      // —— SP7 D6：登录/注册 + token 携带。token 存 localStorage；pf.auth.enabled=false 时
+      //    入口整体隐藏（现状零变化），开启时显示入口、所有请求带 Authorization 头 ——
+      var TOKEN_KEY = 'pfAgentAuthToken';
+      var token = localStorage.getItem(TOKEN_KEY) || '';
+      var authEnabled = false;
+      var authMode = 'login';
+      var authArea = document.getElementById('authArea');
+      var authWho = document.getElementById('authWho');
+      var authEntry = document.getElementById('authEntry');
+      var authLogout = document.getElementById('authLogout');
+      var authCard = document.getElementById('authCard');
+      var authTitle = document.getElementById('authTitle');
+      var authUsername = document.getElementById('authUsername');
+      var authPassword = document.getElementById('authPassword');
+      var authSubmit = document.getElementById('authSubmit');
+      var authSwitch = document.getElementById('authSwitch');
+      var authErr = document.getElementById('authErr');
+      // D4 错误码 → 用户文案（username_taken / invalid_credentials / invalid_request）
+      var AUTH_ERR_MSG = {
+        username_taken: '该用户名已被注册，换一个试试',
+        invalid_credentials: '用户名或密码错误'
+      };
+
+      /** 统一 fetch 出口：有 token 时自动带 Authorization: Bearer 头 */
+      function authFetch(url, options) {
+        options = options || {};
+        options.headers = Object.assign({}, options.headers);
+        if (token) options.headers['Authorization'] = 'Bearer ' + token;
+        return fetch(url, options);
+      }
+
+      function setToken(t) {
+        token = t || '';
+        if (token) localStorage.setItem(TOKEN_KEY, token);
+        else localStorage.removeItem(TOKEN_KEY);
+      }
+
+      function showLoggedIn(name) {
+        authWho.textContent = name;
+        authEntry.style.display = 'none';
+        authLogout.style.display = '';
+      }
+
+      function showLoggedOut() {
+        authWho.textContent = '';
+        authEntry.style.display = '';
+        authLogout.style.display = 'none';
+      }
+
+      function openAuthCard(mode) {
+        authMode = mode;
+        authTitle.textContent = mode === 'register' ? '注册' : '登录';
+        authSubmit.textContent = mode === 'register' ? '注册并登录' : '登录';
+        authSwitch.textContent = mode === 'register' ? '已有账号？登录' : '没有账号？注册';
+        authErr.style.display = 'none';
+        authCard.style.display = 'block';
+        authUsername.focus();
+      }
+
+      function closeAuthCard() {
+        authCard.style.display = 'none';
+        authPassword.value = '';
+        authErr.style.display = 'none';
+      }
+
+      /** 401 统一处理：清 token、引导重新登录（D5：与 429 quota_exceeded 引导区分） */
+      function handleUnauthorized() {
+        setToken('');
+        showLoggedOut();
+        if (authEnabled) openAuthCard('login');
+      }
+
+      authEntry.addEventListener('click', function () { openAuthCard('login'); });
+      authLogout.addEventListener('click', function () {
+        setToken('');
+        showLoggedOut();
+        closeAuthCard();
+      });
+      authSwitch.addEventListener('click', function () {
+        openAuthCard(authMode === 'register' ? 'login' : 'register');
+      });
+      authPassword.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') authSubmit.click();
+      });
+      authSubmit.addEventListener('click', function () {
+        var username = authUsername.value.trim();
+        var password = authPassword.value;
+        if (!username || !password) {
+          authErr.textContent = '请输入用户名和密码';
+          authErr.style.display = 'block';
+          return;
+        }
+        authSubmit.disabled = true;
+        fetch('/api/auth/' + authMode, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username: username, password: password })
+        })
+          .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+          .then(function (res) {
+            if (!res.ok) {
+              authErr.textContent = AUTH_ERR_MSG[res.d && res.d.error] || (res.d && res.d.message)
+                || '操作失败，请稍后重试';
+              authErr.style.display = 'block';
+              return;
+            }
+            setToken(res.d.token);
+            showLoggedIn(res.d.nickname || res.d.username);
+            closeAuthCard();
+          })
+          .catch(function () {
+            authErr.textContent = '网络异常，请稍后重试';
+            authErr.style.display = 'block';
+          })
+          .finally(function () { authSubmit.disabled = false; });
+      });
+
+      // 启动探测：鉴权关闭 → 入口隐藏（零变化）；开启 → 显示入口，有 token 时经 /me 恢复登录态
+      fetch('/api/auth/status')
+        .then(function (r) { return r.json(); })
+        .then(function (d) {
+          authEnabled = !!(d && d.enabled);
+          if (!authEnabled) return;
+          authArea.style.display = 'block';
+          if (!token) { showLoggedOut(); return; }
+          authFetch('/api/auth/me')
+            .then(function (r) {
+              if (r.status === 401) { handleUnauthorized(); return null; }
+              return r.ok ? r.json() : null;
+            })
+            .then(function (u) { if (u) showLoggedIn(u.nickname || u.username); });
+        })
+        .catch(function () { /* status 探测失败按关闭态处理，不影响问答 */ });
 
       // 重置标注表单（每次新问答时调用，避免旧标注状态残留）
       function resetFeedback() {
@@ -259,12 +434,19 @@
         resetFeedback();
         fbWrap.style.display = 'none';
 
-        fetch('/api/chat', {
+        authFetch('/api/chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ question: question, conversationId: conversationId })
         })
           .then(function (r) {
+            if (r.status === 401) {
+              // SP7 D5：token 缺失/过期 → 清 token 并引导重新登录（与 429 的配额引导区分）
+              return r.json().then(function () {
+                handleUnauthorized();
+                throw new Error('登录状态已失效，请重新登录');
+              });
+            }
             if (r.status === 429) {
               // F-010/F-011 超限（限频/配额）：后端返回 {error, message}，展示专属文案
               return r.json().then(function (d) {
@@ -348,12 +530,13 @@
           comment: fbComment.value.trim() || null
         };
         fbSubmit.disabled = true;
-        fetch('/api/chat/feedback', {
+        authFetch('/api/chat/feedback', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         })
           .then(function (r) {
+            if (r.status === 401) { handleUnauthorized(); throw new Error('unauthorized'); }
             if (!r.ok) throw new Error('bad status');
             return r.json();
           })

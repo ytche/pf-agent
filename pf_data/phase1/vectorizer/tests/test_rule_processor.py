@@ -109,7 +109,7 @@ class TestSourceShortCircuit:
         assert _resolve_rule_source("规则/UCa规则/休整期/page_967.md") == (
             "UCa", "极限进阶", "Ultimate Campaign")
         assert _resolve_rule_source("规则/怪物规则/page_300.md") == (
-            "怪物", "怪物规则", "Monster Rules")
+            "B1", "怪物图鉴", "Bestiary 1")  # KN226 D1 批次修复（逐文件勘察定性）
         assert _resolve_rule_source("规则/Unchained规则/page_640.md") == (
             "PU", "解放者手册", "Pathfinder Unchained")
 

@@ -1,7 +1,7 @@
 """
 verify_rule.py — 规则模块集成验收（统一验收入口，VerifyBase 框架）
 
-在 pipeline 全量运行后执行，十检查：
+在 pipeline 全量运行后执行，十一检查：
   1. 判别器回归：rule_per_file.jsonl（286 文件 est 7385 冻结口径）est↔got 对账
   2. 文件级召回与边界：doc_id 全部 ∈ manifest 286（无越权处理）
   3. title 合法性：URL 0 / 译者字段 0 / 星壳 0 / 空 title ≤19（KN204）
@@ -14,6 +14,7 @@ verify_rule.py — 规则模块集成验收（统一验收入口，VerifyBase �
   8. KN159/160 防回退：text CR 0 / title 行首尾单星 0
   9. KN206 防回退：text HTML 注释 0（S1~S5 注释行消费不并入正文）
  10. KN212 防回退：text 4+ 星连排 0（BBS `[b]` 嵌套转换残渣剥壳）
+ 11. KN226 防回退：book「怪物」0 残留，怪物规则 9 文件按勘察表归属（D1 批次）
 
 豁免登记（硬编码理由，技能/专长先例）：
   - 空 title 19（KN204）：正文型无标题锚（S5 无标题形态 17 + S2 前导空行 1 +
@@ -430,7 +431,7 @@ def check_kn206(chunks: List[dict], ctx: dict) -> Tuple[bool, List[str]]:
 
 
 def check_kn212(chunks: List[dict], ctx: dict) -> Tuple[bool, List[str]]:
-    """KN212 防回退：text 含 4+ 星连排（`\*{4,}`）0——BBS `[b]` 嵌套转换
+    r"""KN212 防回退：text 含 4+ 星连排（`\*{4,}`）0——BBS `[b]` 嵌套转换
     残渣（`**重训（****Retraining****）******` / `**野蛮****人****（Unchained）**`），
     format 层 normalize 第 7 步剥除（KN160/206 先例）。干净 2 星加粗与
     单星斜体（305 处全定性保留）不在断言范围。"""
@@ -444,13 +445,58 @@ def check_kn212(chunks: List[dict], ctx: dict) -> Tuple[bool, List[str]]:
 
 
 # ============================================================
+#  检查 11：KN226 防回退（怪物规则章节 book 失真）
+# ============================================================
+
+# KN226（D1 批次 2026-09-18）逐文件勘察定性表——与 processors/rule.py
+# _RULE_SOURCE_OVERRIDES 同源（本模块已 import _resolve_rule_source，
+# 改表两处生效），此处按 rel 前缀断言产物终态（check_source_book 同源表
+# 已覆盖归属一致性，本检查专防「怪物」章节名残留与其他中文/伪书名混入）。
+_KN226_MONSTER_RELS = tuple(
+    rel for rel in RULE_SCAN_RELS if rel.startswith("规则/怪物规则/")
+)
+_KN226_BANNED_BOOKS = {"怪物", "怪物规则"}
+
+
+def check_kn226(chunks: List[dict], ctx: dict) -> Tuple[bool, List[str]]:
+    """KN226 防回退：book「怪物」（TOC 章节名误作书名）0 残留；
+    怪物规则 9 文件全部按勘察表归属（B1/CRB/MC/? 四值）。"""
+    ok = True
+    issues: List[str] = []
+    banned = [c for c in chunks if c.get("book_abbreviation", "") in _KN226_BANNED_BOOKS]
+    print(f"  — book「怪物/怪物规则」残留 {len(banned)}")
+    if banned:
+        ok = False
+        issues.append(f"❌ KN226 回退：{len(banned)} 条 chunk book 为「怪物」"
+                      f"（示例: {[c['chunk_id'] for c in banned[:5]]}）")
+
+    # 怪物规则 9 文件归属齐全性（doc_id 投影 + 专属表期望值对账）
+    monster_docs = {rel.rsplit("/", 1)[1][:-3] for rel in _KN226_MONSTER_RELS}
+    by_doc: Counter = Counter()
+    for c in chunks:
+        if c.get("doc_id", "") in monster_docs:
+            by_doc[(c["doc_id"], c.get("book_abbreviation", ""))] += 1
+    missing = monster_docs - {d for d, _ in by_doc}
+    if missing:
+        ok = False
+        issues.append(f"❌ 怪物规则文件无产出: {sorted(missing)}")
+    bad_book = [(d, b) for (d, b) in by_doc if b not in {"B1", "CRB", "MC", "?"}]
+    if bad_book:
+        ok = False
+        issues.append(f"❌ 怪物规则文件 book 越出勘察表 {sorted(bad_book)[:5]}")
+    dist = {d: b for (d, b) in by_doc}
+    print(f"  — 怪物规则 {len(monster_docs)} 文件归属: {dist}")
+    return ok, issues
+
+
+# ============================================================
 #  类目装配（VerifyBase 模板）
 # ============================================================
 
 
 class RuleVerify(VerifyBase):
     name = "规则集成验收"
-    description = "规则模块集成验收（统一验收入口，十检查）"
+    description = "规则模块集成验收（统一验收入口，十一检查）"
     DEFAULT_CHUNKS = DEFAULT_CHUNKS
 
     checks = [
@@ -464,6 +510,7 @@ class RuleVerify(VerifyBase):
         ("KN159/160 防回退", check_kn159_160, "text CR 0 / title 首尾单星 0"),
         ("KN206 防回退", check_kn206, "text HTML 注释 0（S1~S5 注释消费）"),
         ("KN212 防回退", check_kn212, "text 4+ 星连排 0（BBS 嵌套转换残渣）"),
+        ("KN226 防回退（怪物规则 book 失真）", check_kn226, "book「怪物」0 残留，怪物规则 9 文件按勘察表归属"),
     ]
 
     def add_args(self, parser):

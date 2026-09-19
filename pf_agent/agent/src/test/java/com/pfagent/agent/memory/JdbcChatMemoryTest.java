@@ -32,7 +32,10 @@ import static org.assertj.core.api.Assertions.assertThat;
  * max seq 为起点、窗口从 seq 最旧侧推进），这是把「count 当 max seq」会撞行/超轮的
  * 回归锁。
  */
-@DataJpaTest(properties = "spring.flyway.enabled=false")
+// 关闭 Flyway：V1__init.sql 是 PG 方言（TIMESTAMPTZ 等），H2 内嵌库跑不了；
+// 改由 Hibernate 按实体注解 create-drop 建表（SP7：主 yml 默认 ddl-auto=validate，
+// 测试内必须显式覆盖回 create-drop，否则 H2 schema 校验失败）。
+@DataJpaTest(properties = {"spring.flyway.enabled=false", "spring.jpa.hibernate.ddl-auto=create-drop"})
 class JdbcChatMemoryTest {
 
     @Autowired

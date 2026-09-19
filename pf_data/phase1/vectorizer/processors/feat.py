@@ -119,7 +119,19 @@ def _load_feat_sources() -> Dict[str, dict]:
     return data.get("sources", {})
 
 
+def _load_abbr_candidates() -> Dict[str, dict]:
+    """D1：中文→规范缩写兜底表（通道 1 箭头段无 ASCII 尾部时查表归一）。
+
+    key = 箭头段原样文本（如 '秽邪勇士'），value = 规范缩写 + 中英文书名。
+    与 FEAT_SOURCES 同一 config 文件加载（既有扩展点，不改加载结构）。
+    """
+    with open(_FEAT_SOURCES_JSON, encoding="utf-8") as f:
+        data = json.load(f)
+    return data.get("abbr_candidates", {})
+
+
 FEAT_SOURCES: Dict[str, dict] = _load_feat_sources()
+FEAT_ABBR_CANDIDATES: Dict[str, dict] = _load_abbr_candidates()
 
 # 专长文件的来源书注释形态：<!-- UW-source:专长11.md:突袭警惕 --> / <!-- 秽邪勇士-source:... -->
 # （与 HTMLCommentProvider 识别的 <!-- Source: X --> 格式不同，专长整理时写入）
@@ -146,7 +158,9 @@ def _feat_source_from_content(content: str) -> Optional[tuple]:
     """从文件内容提取来源书（abbr, cn, en）。
 
     通道 1（优先）：来源引用块 → cn/en 权威，abbr 取箭头段尾部 ASCII 缩写
-      （"极限荒野UW"→UW；"药剂与毒药P&P"→P&P；"秽邪勇士"无 ASCII → 中文名）。
+      （"极限荒野UW"→UW；"药剂与毒药P&P"→P&P）。无 ASCII 尾部时查
+      FEAT_ABBR_CANDIDATES 中文→规范缩写兜底表归一（D1，config 扩展点）；
+      查表命中返回规范值，未命中保留原文。
     通道 2（兜底）：HTML 注释缩写查 FEAT_SOURCES 补充表（无引用块的文件）。
     返回 None 表示无来源线索（保持 "?"，不编造）。
     """
@@ -156,8 +170,12 @@ def _feat_source_from_content(content: str) -> Optional[tuple]:
         en = (m.group(2) or "").strip()
         abbr_raw = (m.group(3) or "").strip()
         m_tail = _RE_ABBR_TAIL.search(abbr_raw)
-        abbr = m_tail.group(0) if m_tail else abbr_raw
-        return (abbr, cn, en)
+        if m_tail:
+            return (m_tail.group(0), cn, en)
+        cand = FEAT_ABBR_CANDIDATES.get(abbr_raw)
+        if cand:
+            return (cand["abbr"], cand["cn"], cand["en"])
+        return (abbr_raw, cn, en)
 
     abbr = _extract_comment_source_abbr(content)
     entry = FEAT_SOURCES.get(abbr) if abbr else None

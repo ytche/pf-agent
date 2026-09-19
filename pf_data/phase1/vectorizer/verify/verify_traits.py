@@ -1,7 +1,7 @@
 """verify_traits.py — 背景特性集成验收（VerifyBase 框架）
 
-在 pipeline 全量运行后执行，六检查（对齐专长 verify_feats / 种族 verify_races
-形态 + trait 专属口径）：
+在 pipeline 全量运行后执行，八检查（对齐专长 verify_feats / 种族 verify_races
+形态 + trait 专属口径 + D1-Trait book 断言）：
   1. 判别器回归：per_file_B1/B2/B3.jsonl 合并 63 rel 的 est↔got 对账
      （est>0 got=0 静默丢失 → FAIL；est>got 亚产能 → WARN 不阻断；
      KN 豁免 doc_id 产出可为 0）
@@ -14,6 +14,10 @@
      独有规则体系，误标污染检索语义）
   6. trait_type 词表：metadata.trait_type 值 ∈ 12 值归一词表
      （未知值只警告不阻断——基础（X）已剥壳并入，残留未知值登记）
+  7. D1-Trait book 中文黑名单：book_abbreviation 中文书名 0 残留
+     （6 值全量枚举防回退，与专长 D1 同型）
+  8. D1-Trait negative test：修复前中文 book 的硬编码样例 chunk_id
+     均已归一为 ASCII 缩写
 
 豁免程序：无豁免文件（63 rel 全产出 >0，无静默丢失）；矩阵为 JSONL 行格式
 （feat 为 JSON），est 字段 estimated_count（对齐 race）。
@@ -245,6 +249,63 @@ def check_trait_type_vocab(chunks: List[dict], ctx: dict) -> Tuple[bool, List[st
     return ok, issues
 
 
+# ============================================================
+#  检查 7：D1-Trait book_abbreviation 中文黑名单断言（防回退）
+# ============================================================
+
+# D1-Trait（2026-09-19）修复前实测中文 book_abbreviation 全量枚举（6 值 59 条），
+# 断言修复后 0 残留。新增中文值即 FAIL（映射表漏登记即显形）。
+# 缩写取值与专长 D1 批次（db479cf）对齐：复用 GnomeG/OoG/GoG/GIANT/CoB，
+# 格拉里昂的人类无先例人工核定 HoG（★，见 docs/PF_缩写表.md）。
+_CHINESE_BOOK_BLACKLIST = {
+    "格拉里昂的人类", "格拉里昂的侏儒", "巨人猎手手册",
+    "格拉里昂的地精", "格拉里昂的兽人", "格拉里昂的平衡勇士",
+}
+
+# D1-Trait negative test：修复前 book 为中文的样例 chunk_id（抽样自 6 个
+# 来源文件），硬编码防回退。
+_D1T_FIXED_SAMPLE_CHUNK_IDS = [
+    "trait_格拉里昂的人类_种族背景特性_0000",    # 文件名线索 → HoG
+    "trait_格拉里昂的侏儒_种族背景特性_0000",    # 文件名线索 → GnomeG（复用专长 D1）
+    "trait_格拉里昂的兽人_种族背景特性_0000",    # 文件名线索 → OoG（复用专长 D1）
+    "trait_格拉里昂的地精_种族背景特性_0000",    # 文件名线索 → GoG（复用专长 D1）
+    "trait_格拉里昂的平衡勇士_种族背景特性_0000",  # 文件名线索 → CoB（复用专长 D1）
+    "trait_巨人猎手手册_背景特性_0000",          # 引用块通道 → GIANT（复用专长 D1）
+]
+
+
+def _has_chinese(s: str) -> bool:
+    return any("一" <= c <= "鿿" for c in (s or ""))
+
+
+def check_book_abbreviation(chunks: List[dict], ctx: dict) -> Tuple[bool, List[str]]:
+    """D1-Trait：book_abbreviation 不得为中文书名（黑名单 6 值全量枚举 0 残留）。"""
+    hits = [c for c in chunks if c.get("book_abbreviation", "") in _CHINESE_BOOK_BLACKLIST
+            or _has_chinese(c.get("book_abbreviation", ""))]
+    print(f"  — 中文 book_abbreviation: {len(hits)}（黑名单 {len(_CHINESE_BOOK_BLACKLIST)} 值全量枚举）")
+    if hits:
+        by = Counter(c.get("book_abbreviation", "") for c in hits)
+        samples = ", ".join(c["chunk_id"] for c in hits[:5])
+        return False, [f"❌ {len(hits)} 条 chunk book_abbreviation 为中文（D1-Trait 回退）: {dict(by)}（示例: {samples}）"]
+    return True, []
+
+
+def check_d1t_negative_samples(chunks: List[dict], ctx: dict) -> Tuple[bool, List[str]]:
+    """D1-Trait negative test：修复前中文 book 的硬编码样例 chunk_id 断言已归一。"""
+    by_id = {c.get("chunk_id", ""): c for c in chunks}
+    bad = []
+    for cid in _D1T_FIXED_SAMPLE_CHUNK_IDS:
+        c = by_id.get(cid)
+        if c is None:
+            bad.append(f"{cid}（不存在）")
+        elif _has_chinese(c.get("book_abbreviation", "")):
+            bad.append(f"{cid}={c['book_abbreviation']}")
+    print(f"  — D1-Trait negative 样例 {len(_D1T_FIXED_SAMPLE_CHUNK_IDS)} 个，中文残留 {len(bad)}")
+    if bad:
+        return False, [f"❌ D1-Trait negative test 失败（样例 chunk book 仍为中文）: {bad}"]
+    return True, []
+
+
 class TraitVerify(VerifyBase):
     name = "背景特性集成验收"
     description = "背景特性集成验收（#137）"
@@ -257,6 +318,8 @@ class TraitVerify(VerifyBase):
         ("字段健康度", check_field_health, "字段全健康"),
         ("trait_flaw 归属", check_flaw_origin, "trait_flaw 全来自 page_158"),
         ("trait_type 词表", check_trait_type_vocab, "trait_type 全在归一词表"),
+        ("D1-Trait book 中文黑名单", check_book_abbreviation, "中文 book_abbreviation 0 残留"),
+        ("D1-Trait negative test（修复样例 chunk_id）", check_d1t_negative_samples, "样例 chunk book 均已归一"),
     ]
 
     def add_args(self, parser):

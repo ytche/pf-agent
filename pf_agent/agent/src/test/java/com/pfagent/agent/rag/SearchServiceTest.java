@@ -200,6 +200,33 @@ class SearchServiceTest {
                 .hasMessageContaining("未知数据模块");
     }
 
+    // ---------- J4（SP8b）：BookFilter 全局书过滤 ----------
+
+    /** vectorSearch 路径：黑名单剔除 "?" 条目，释放的 topK 名额由后续条目回填 */
+    @Test
+    void searchAppliesBookFilterAndBackfillsTopK() {
+        Document dirty = doc("脏", 1.0, Map.of("book_abbreviation", "?"));
+        Document crb = doc("正常CRB", 0.9, Map.of("book_abbreviation", "CRB"));
+        Document apg = doc("正常APG", 0.8, Map.of("book_abbreviation", "APG"));
+        when(spellStore.similaritySearch(any(SearchRequest.class))).thenReturn(List.of(dirty, crb, apg));
+
+        List<Document> result = service().search("q", "spell");
+
+        assertThat(result).containsExactly(crb, apg);
+    }
+
+    /** searchByMetadata 路径：黑名单在合并结果上统一过滤 */
+    @Test
+    void searchByMetadataAppliesBookFilterOnMergedResults() {
+        Document dirty = doc("脏", 1.0, Map.of("book_abbreviation", "?"));
+        Document crb = doc("正常", 1.0, Map.of("book_abbreviation", "CRB", "chunk_id", "c1"));
+        when(spellStore.similaritySearch(any(SearchRequest.class))).thenReturn(List.of(dirty, crb));
+
+        List<Document> result = service().searchByMetadata("spell", Map.of("book", "CRB"));
+
+        assertThat(result).containsExactly(crb);
+    }
+
     // ---------- 方案 B（AKN-003）：class 基础职业页加分重排 ----------
 
     /** class 基础页相似度略低于变体时，加分后基础页排前 */
@@ -489,6 +516,191 @@ class SearchServiceTest {
         assertThat(captor.getValue().getFilterExpression()).isNotNull();
     }
 
+    // ---------- SP8a J1：getByChunkId 点查 ----------
+
+    /** 按 chunk_id 点查：构造 eq 过滤 + topK 1 + 阈值全放行，返回首条 */
+    @Test
+    void getByChunkIdBuildsEqFilterTopK1AndReturnsFirst() {
+        Document doc = Document.builder().text("完整原文").metadata(Map.of("chunk_id", "spell-1")).build();
+        when(spellStore.similaritySearch(any(SearchRequest.class))).thenReturn(List.of(doc));
+
+        Document result = service().getByChunkId("spell", "spell-1");
+
+        assertThat(result).isSameAs(doc);
+        ArgumentCaptor<SearchRequest> captor = ArgumentCaptor.forClass(SearchRequest.class);
+        verify(spellStore).similaritySearch(captor.capture());
+        SearchRequest req = captor.getValue();
+        assertThat(req.getTopK()).isEqualTo(1);
+        assertThat(req.getFilterExpression()).isNotNull();
+        assertThat(req.getFilterExpression().toString()).contains("chunk_id");
+        verifyNoInteractions(classStore);
+    }
+
+    /** 未命中返回 null；未知模块/空 chunkId 返回 null 不查询 */
+    @Test
+    void getByChunkIdMissOrInvalidReturnsNull() {
+        when(spellStore.similaritySearch(any(SearchRequest.class))).thenReturn(List.of());
+
+        assertThat(service().getByChunkId("spell", "nope")).isNull();
+        assertThat(service().getByChunkId("monster", "x")).isNull();
+        assertThat(service().getByChunkId("spell", " ")).isNull();
+        verify(spellStore, org.mockito.Mockito.times(1)).similaritySearch(any(SearchRequest.class));
+    }
+
+    // ---------- SP8a J2：增强版 searchByMetadata（参数对象） ----------
+
+    /** orFilters 单字段多值：表达式组内 OR */
+    @Test
+    void searchByMetadataQueryOrFiltersBuildsOrGroup() {
+        when(spellStore.similaritySearch(any(SearchRequest.class))).thenReturn(List.of());
+        MetadataSearchQuery query = new MetadataSearchQuery();
+        query.setOrFilters(Map.of("book", List.of("CRB", "APG")));
+
+        service().searchByMetadata("spell", query);
+
+        ArgumentCaptor<SearchRequest> captor = ArgumentCaptor.forClass(SearchRequest.class);
+        verify(spellStore).similaritySearch(captor.capture());
+        assertThat(captor.getValue().getFilterExpression().toString()).contains("OR");
+    }
+
+    /** gte/lte 范围比较：spell level 带 className 翻译为 spell_level_<职业> 数值比较 */
+    @Test
+    void searchByMetadataQueryGteLevelBuildsRangeFilter() {
+        when(spellStore.similaritySearch(any(SearchRequest.class))).thenReturn(List.of());
+        MetadataSearchQuery query = new MetadataSearchQuery();
+        query.setFilters(Map.of("className", "女巫"));
+        query.setGte(Map.of("level", "3"));
+        query.setLte(Map.of("level", "5"));
+
+        service().searchByMetadata("spell", query);
+
+        ArgumentCaptor<SearchRequest> captor = ArgumentCaptor.forClass(SearchRequest.class);
+        verify(spellStore).similaritySearch(captor.capture());
+        String expression = captor.getValue().getFilterExpression().toString();
+        assertThat(expression).contains("spell_level_女巫").contains("GTE").contains("LTE");
+    }
+
+    /** module="all" 跨模块：八库查询、按 (module, chunk_id) 去重、标注 pf_module */
+    @Test
+    void searchByMetadataQueryAllMergesAndDeduplicatesAcrossStores() {
+        Document spellA = doc("法术A", 0.9, Map.of("chunk_id", "x"));
+        Document spellADup = doc("法术A重复", 0.8, Map.of("chunk_id", "x"));
+        Document classB = doc("职业B", 0.9, Map.of("chunk_id", "x"));
+        when(spellStore.similaritySearch(any(SearchRequest.class))).thenReturn(List.of(spellA, spellADup));
+        when(classStore.similaritySearch(any(SearchRequest.class))).thenReturn(List.of(classB));
+        when(featStore.similaritySearch(any(SearchRequest.class))).thenReturn(List.of());
+        when(raceStore.similaritySearch(any(SearchRequest.class))).thenReturn(List.of());
+        when(traitStore.similaritySearch(any(SearchRequest.class))).thenReturn(List.of());
+        when(equipmentStore.similaritySearch(any(SearchRequest.class))).thenReturn(List.of());
+        when(skillStore.similaritySearch(any(SearchRequest.class))).thenReturn(List.of());
+        when(ruleStore.similaritySearch(any(SearchRequest.class))).thenReturn(List.of());
+        MetadataSearchQuery query = new MetadataSearchQuery();
+        query.setFilters(Map.of("book", "CRB"));
+
+        List<Document> result = service().searchByMetadata("all", query);
+
+        assertThat(result).hasSize(2); // spell 库内重复 chunk_id 去重 + 跨模块各一条
+        assertThat(result.stream().map(d -> d.getMetadata().get("pf_module")))
+                .containsExactly("spell", "class");
+    }
+
+    /** sortBy=title desc：合并后内存降序 */
+    @Test
+    void searchByMetadataQuerySortByTitleDesc() {
+        Document b = doc("b", 0.9, Map.of("title", "火球术", "chunk_id", "1"));
+        Document a = doc("a", 0.8, Map.of("title", "冰风暴", "chunk_id", "2"));
+        when(spellStore.similaritySearch(any(SearchRequest.class))).thenReturn(List.of(b, a));
+        MetadataSearchQuery query = new MetadataSearchQuery();
+        query.setFilters(Map.of("book", "CRB"));
+        query.setSortBy("title");
+        query.setSortOrder("desc");
+
+        List<Document> result = service().searchByMetadata("spell", query);
+
+        assertThat(result.stream().map(d -> d.getMetadata().get("title")))
+                .containsExactly("火球术", "冰风暴");
+    }
+
+    /** limit+offset 在合并后分页生效 */
+    @Test
+    void searchByMetadataQueryLimitAndOffsetPaginate() {
+        List<Document> docs = List.of(
+                doc("a", 0.9, Map.of("title", "A", "chunk_id", "1")),
+                doc("b", 0.8, Map.of("title", "B", "chunk_id", "2")),
+                doc("c", 0.7, Map.of("title", "C", "chunk_id", "3")));
+        when(spellStore.similaritySearch(any(SearchRequest.class))).thenReturn(docs);
+        MetadataSearchQuery query = new MetadataSearchQuery();
+        query.setFilters(Map.of("book", "CRB"));
+        query.setLimit(2);
+        query.setOffset(1);
+
+        List<Document> result = service().searchByMetadata("spell", query);
+
+        assertThat(result).hasSize(2); // skip 1 后取 2 条：B、C
+        assertThat(result.stream().map(d -> d.getMetadata().get("title")))
+                .containsExactly("B", "C");
+    }
+
+    /** level 数值排序：spell_level_* 值按数字比较而非字典序 */
+    @Test
+    void searchByMetadataQuerySortByLevelNumeric() {
+        Document level10 = doc("a", 0.9, Map.of("spell_level_女巫", "10", "chunk_id", "1"));
+        Document level2 = doc("b", 0.8, Map.of("spell_level_女巫", "2", "chunk_id", "2"));
+        when(spellStore.similaritySearch(any(SearchRequest.class))).thenReturn(List.of(level10, level2));
+        MetadataSearchQuery query = new MetadataSearchQuery();
+        query.setFilters(Map.of("className", "女巫"));
+        query.setSortBy("level");
+
+        List<Document> result = service().searchByMetadata("spell", query);
+
+        assertThat(result.get(0)).isSameAs(level2); // 2 < 10，数值序而非字典序
+    }
+
+    /** sortBy=book asc：按 book_abbreviation 字典序 */
+    @Test
+    void searchByMetadataQuerySortByBookAscSortsByBookAbbreviation() {
+        Document apg = doc("b", 0.8, Map.of("book_abbreviation", "APG", "chunk_id", "1"));
+        Document crb = doc("a", 0.9, Map.of("book_abbreviation", "CRB", "chunk_id", "2"));
+        when(spellStore.similaritySearch(any(SearchRequest.class))).thenReturn(List.of(apg, crb));
+        MetadataSearchQuery query = new MetadataSearchQuery();
+        query.setFilters(Map.of("className", "女巫"));
+        query.setSortBy("book");
+
+        List<Document> result = service().searchByMetadata("spell", query);
+
+        assertThat(result.stream().map(d -> d.getMetadata().get("book_abbreviation")))
+                .containsExactly("APG", "CRB");
+    }
+
+    /** offset 越过结果集总量时返回空列表（不抛异常） */
+    @Test
+    void searchByMetadataQueryOffsetBeyondSizeReturnsEmpty() {
+        when(spellStore.similaritySearch(any(SearchRequest.class)))
+                .thenReturn(List.of(doc("a", 0.9, Map.of("chunk_id", "1"))));
+        MetadataSearchQuery query = new MetadataSearchQuery();
+        query.setFilters(Map.of("book", "CRB"));
+        query.setOffset(10);
+
+        List<Document> result = service().searchByMetadata("spell", query);
+
+        assertThat(result).isEmpty();
+    }
+
+    /** 跨模块 all + spell 专属条件：非 spell 库无可执行条件时跳过不查询 */
+    @Test
+    void searchByMetadataQueryAllSkipsStoresWithoutExecutableConditions() {
+        when(spellStore.similaritySearch(any(SearchRequest.class))).thenReturn(List.of());
+        // school/level 均为 spell 专属字段，其余七库翻译后条件为空应短路不查询
+        MetadataSearchQuery query = new MetadataSearchQuery();
+        query.setFilters(Map.of("school", "咒法系"));
+        query.setGte(Map.of("level", "3"));
+
+        service().searchByMetadata("all", query);
+
+        verify(spellStore).similaritySearch(any(SearchRequest.class));
+        verifyNoInteractions(classStore, featStore, ruleStore);
+    }
+
     private SearchService service() {
         return service(0.03, 0.03, 0.02, 5000, true, 0, 0.0, List.of());
     }
@@ -525,6 +737,14 @@ class SearchServiceTest {
         ReflectionTestUtils.setField(s, "skillStore", skillStore);
         ReflectionTestUtils.setField(s, "ruleStore", ruleStore);
         ReflectionTestUtils.setField(s, "filterTranslator", new FilterTranslator());
+        // J4：默认 BookFilter（blacklist ["?"] + unknownBookKeep=true）对无 book_abbreviation
+        // 的测试数据全放行，不干扰既有断言
+        BookFilter bookFilter = new BookFilter();
+        ReflectionTestUtils.setField(bookFilter, "enabled", true);
+        ReflectionTestUtils.setField(bookFilter, "mode", "blacklist");
+        ReflectionTestUtils.setField(bookFilter, "books", List.of("?"));
+        ReflectionTestUtils.setField(bookFilter, "unknownBookKeep", true);
+        ReflectionTestUtils.setField(s, "bookFilter", bookFilter);
         ReflectionTestUtils.setField(s, "topK", 2);
         ReflectionTestUtils.setField(s, "similarityThreshold", 0.5);
         ReflectionTestUtils.setField(s, "enumerationTopK", 500);

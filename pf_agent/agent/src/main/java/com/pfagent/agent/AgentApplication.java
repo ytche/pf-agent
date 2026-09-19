@@ -9,9 +9,9 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerA
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 
 @SpringBootApplication(exclude = {
-        // SP1（可选数据库）：默认内存模式不碰数据库。不排除时，加了 starter-data-jpa 且 classpath
+        // SP1（可选数据库）：pf.chat.memory=memory 时不碰数据库。不排除时，加了 starter-data-jpa 且 classpath
         // 无嵌入式库（H2 仅 test）会导致未配 datasource 的启动直接失败。
-        // jdbc 模式（pf.chat.memory=jdbc）由 JdbcDataConfig 按官方 auto-config 拉回，见该类。
+        // jdbc 模式（SP7 起默认）由 JdbcDataConfig 按官方 auto-config 拉回，见该类。
         DataSourceAutoConfiguration.class,
         DataSourceTransactionManagerAutoConfiguration.class,
         HibernateJpaAutoConfiguration.class,
