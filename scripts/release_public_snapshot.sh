@@ -37,13 +37,16 @@ if [ ! -d "$PUBLIC_CLONE/.git" ]; then
 else
     echo "更新公开仓克隆 $PUBLIC_CLONE ..."
     git -C "$PUBLIC_CLONE" fetch -q origin
-    git -C "$PUBLIC_CLONE" reset -q --hard origin/main
 fi
 
-if git -C "$PUBLIC_CLONE" rev-parse -q --verify "refs/tags/$TAG" >/dev/null; then
-    echo "错误：公开仓已存在 tag $TAG" >&2
+# tag 查重必须在 reset/清场之前：否则重复运行会先 reset 丢掉已备好的本地发布
+if git -C "$PUBLIC_CLONE" rev-parse -q --verify "refs/tags/${TAG}" >/dev/null \
+    || git -C "$PUBLIC_CLONE" ls-remote --tags origin | grep -q "refs/tags/${TAG}$"; then
+    echo "错误：公开仓已存在 tag ${TAG}（本地或远程）。若需重打，先删 tag：git -C ${PUBLIC_CLONE} tag -d ${TAG} && git -C ${PUBLIC_CLONE} push origin :refs/tags/${TAG}" >&2
     exit 1
 fi
+
+git -C "$PUBLIC_CLONE" reset -q --hard origin/main
 
 echo "快照私有仓 HEAD（$(git rev-parse --short HEAD)）跟踪文件 → 公开仓 ..."
 # 清空公开仓工作区（保留 .git），再按跟踪文件清单复制

@@ -24,7 +24,7 @@ WORKDIR /app
 # ~/.pf_agent/ 即 /home/appuser/.pf_agent/（compose 卷挂 ./data 到此路径持久化）
 RUN useradd --create-home --uid 10001 appuser \
     && chown -R appuser:appuser /app
-COPY --from=build /build/target/pf-agent-0.1.0-SNAPSHOT.jar /app/pf-agent.jar
+COPY --from=build /build/target/pf-agent-*.jar /app/pf-agent.jar
 USER appuser
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "/app/pf-agent.jar"]

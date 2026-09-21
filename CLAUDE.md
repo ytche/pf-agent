@@ -235,6 +235,7 @@ python3 vectorization_prep_profession.py
 - **Java↔数据偏离登记（2026-09-18 起）**：Java 侧实际消费数据与数据侧 pipeline 产物的任何偏离（重放/补丁/手工修库）必须登记 `docs/数据一致性技术债务登记.md`（时间/原因/处理/临时产物位置/清偿计划）。原则：**数据侧输出=Java 侧输入，禁止 Java 侧再加工倒排数据侧**；修数据走"数据侧修产物 + Java 重灌"，不造新补丁工具。
 - **项目文档总索引（2026-09-18 起）**：全项目非报告类文档总索引为 `docs/项目文档总索引.md`（仓库级/Java侧/数据侧分域速查）。报告类不重复收录，走各自索引：`docs/handover/README.md`（交接/交付）、`docs/test-reports/README.md`（测试报告）。新增非报告类文档时登记该索引。
 - **多 Agent 开发流程（2026-09-16 起）**：任务分级执行——轻量任务（配置/小修/文档）主 Agent 直接做 → tester 验证 → 主 Agent 验收，不留档；标准/大工程走 architect（方案落盘 `docs/design/方案_<主题>_<日期>.md`，**用户拍板后才动工**）→ coder（派单附红线摘要 + 方案路径）→ tester（黑盒 + 测试代码审计/白盒补测，报告落盘 `docs/test-reports/`）→ 主 Agent 验收。打回一律经主 Agent 中转，tester 打回上限 3 轮后升级用户；Blocker/Major 必修，Minor 由用户拍板（可登记 KN 放行）。角色定义见 `.kimi-code/agents/`，完整流程见 `docs/WORKFLOW.md`。
+- **公开发布留用户执行（2026-09-20 起）**：一切**对外**发布动作一律只准备不执行——推送公开仓 `ytche/pf-agent`、推公开 tag、建 GitHub Release、仓库可见性变更等，agent 只做到本地备好（快照脚本 commit+tag、Release Notes 草稿），**push/外发一律由用户手动执行**。内部私有仓（ytche/pf_agent）dev 分支的日常 commit/push 不在此列。
 
 ## 当前状态与优先级
 
