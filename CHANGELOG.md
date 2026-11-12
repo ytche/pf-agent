@@ -2,6 +2,15 @@
 
 本项目遵循语义化版本。公开仓（github.com/ytche/pf-agent）为快照式发布，历史不连通，版本变更以本文件为准。
 
+## [0.3.1] - 2026-11-12
+
+公开快照清理，无功能变更（运行代码与 0.3.0 相同）。
+
+- 公开快照不再包含内部过程文档：`docs/design/`、`docs/handover/`、`docs/superpowers/`、`docs/test-reports/`、`docs/templates/`、`docs/WORKFLOW.md` 及各登记/索引文档；仅保留 `docs/DEPLOYMENT.md`
+- 公开快照移除本地 agent 配置目录 `.kimi-code/`
+- `scripts/release_public_snapshot.sh` 纳入数据文件打包（8 个向量库 + `lists/` 6 份清单），并固化上述公开口径
+- README 同步数据包清单说明，移除对已剔除过程文档的引用
+
 ## [0.3.0] - 2026-11-12
 
 自 0.2.0（2026-09-19）以来的变更。本版含前端 SPA 改版、管理后台、宽查询收窄门禁，以及一批数据与检索修复。

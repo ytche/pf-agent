@@ -1,6 +1,6 @@
 {
   "name": "pf-agent-frontend",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "private": true,
   "type": "module",
   "description": "PathFinder 1e 规则问答前端（Vue 3 + TypeScript + Vite + Pinia）",

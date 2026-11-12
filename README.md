@@ -105,7 +105,7 @@ pf_agent/
 │   └── qa/                     #   评测集（pf_qa_items.json）与评测脚本（evaluate.py）
 ├── pf_data/                    # 规则数据与向量化（Python）
 │   └── phase1/                 #   pf_rules_md_organized 规则文本 + vectorizer pipeline + 术语表
-├── docs/handover/              # 批次交付/验收/方案文档（工程过程透明）
+├── docs/DEPLOYMENT.md          # 部署/环境变量说明（设计/交接/评测等过程文档不随公开快照发布）
 ├── LICENSE / LICENSE_EN        # 代码许可（Anti-996 中/英）
 └── NOTICE.md                   # 代码 + 数据许可边界声明
 ```
@@ -119,10 +119,13 @@ pf_agent/
 
 - **A. 下载预构建数据包（推荐，开箱即用）**：从本仓库 [Releases](https://github.com/ytche/pf-agent/releases)
   下载最新的 `pf-agent-data-*.zip`，内含 8 个模块**预构建向量库**（`vector_store_*.json`，
-  已用 bge-m3 生成）。解压后放到本机向量库目录 `~/.pf_agent/`（Linux/macOS 为家目录下 `.pf_agent`；
+  已用 bge-m3 生成）与 `lists/` 下 6 份清单 JSON（装备/专长/种族/职业表/法术清单）。
+  解压后把 `vector_store_*.json` 放到本机向量库目录 `~/.pf_agent/`（Linux/macOS 为家目录下 `.pf_agent`；
   文件与本仓库各 `*DataLoader` 的 `pf.stores.*-file-path` 默认值一致）。应用启动时检测到
-  向量库文件已存在即直接加载，**无需本地跑数据管线**。可选把 `spell_lists.json` 一并放入
-  向量化产物目录以启用「职业法术清单」工具。
+  向量库文件已存在即直接加载，**无需本地跑数据管线**。`lists/` 下清单按 `application.yml`
+  默认路径放到 `pf_data/phase1/vectorizer/output/<模块>/`：`equipment_lists.json`→装备、
+  `feat_lists.json`→专长、`race_lists.json`→种族、`class_tables.json`→职业、
+  `spell_lists.json` 与 `spell_lists_union.json`→法术（启用对应清单/直查工具）。
 - **B. 自建向量库（需要本地跑数据管线）**：`pf_data/` 内规则文本 Markdown 已随库发布，
   贡献者可运行各模块 vectorizer pipeline 重新生成 `chunks.jsonl`。之后首次启动应用时，
   `*DataLoader` 检测到向量库缺失会**自动从 chunks 导入构建**（数百 MB，耗时较长，仅首次）。
@@ -238,8 +241,8 @@ relaxed binding 覆盖，如 `pf.rate-limit.enabled` ↔ `PF_RATE_LIMIT_ENABLED`
   应用计算 / 交叉判定 / 比较对比 / 数值最优解。
 - **运行**：`cd pf_agent/agent/qa && python3 evaluate.py`（对运行中的应用做 HTTP 评测，
   可选 `--judge` 用 LLM 判定开放性维度）。
-- **历史发布基线**：溯源命中 ≥52/53、诚实 ≥50/53、结构分 ≥2.89（kimi-k3 验收口径，见
-  `docs/handover/`；题数口径已随新增题调整，以实际题数报告）。
+- **历史发布基线**：溯源命中 ≥52/53、诚实 ≥50/53、结构分 ≥2.89（kimi-k3 验收口径；
+  历史验收报告为开发过程文档，不随公开快照发布；题数口径已随新增题调整，以实际题数报告）。
 - **2026-11-12 最终代码复跑**（56 题，临时实例，仓库原样脚本，M38 门禁守卫合并前
   `1acfd3e`）：溯源 **54/56**、诚实 **55/56**、结构 **166/56（2.96）**；
   0 error / 0 404 / 56 题均有回答。M38 `0096cfa` / M39 `59d6b06` 仅改宽查询门禁守卫，

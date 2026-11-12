@@ -14,7 +14,7 @@
 
     <groupId>com.pfagent</groupId>
     <artifactId>pf-agent</artifactId>
-    <version>0.3.0</version>
+    <version>0.3.1</version>
     <name>PF Agent</name>
     <description>PathFinder 1e 规则问答 Agent</description>
 
