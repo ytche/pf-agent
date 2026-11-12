@@ -242,7 +242,7 @@ IV），心灵遥控（Telekinesis），心灵连线（Telepathic
 Bond）
 **APG——**石化之触（Calcific Touch），祓除（Cast 
 Out），协调行动（Coordinated Effort），群体战意鼓舞（Invigorate, 
-Mass），月狂病（Moonstruck），群体痛苦打击（Pain Strike, Mass），位面适应（Planar 
+Mass），精神错乱（Moonstruck），群体痛苦打击（Pain Strike, Mass），位面适应（Planar 
 Adaptation），梦游（Sleepwalk），现形术（True Form），游荡星尘（Wandering Star 
 Motes）
 **ARG——**遗忘沉眠 (Forgetful Slumber），幽灵狼 (Ghost Wolf），宜人暖意 

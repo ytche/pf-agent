@@ -307,6 +307,35 @@ _RE_OUTER_BOOK_GLUE = re.compile(
     r"(\*\*[^*\n（(]{1,24}?[（(][^）)\n]{1,64}[）)])\*\*(【[^】\n]{1,12}】)\*\*[：:]"
 )
 
+# 壳外闭星与【书】间残星剥除（page_156 CEoD 段 7 条 + page_150 斩魔者 1 条，
+# KN137 方案 R6）：`**A（EN）****【书】**` → `**A（EN）【书】**`（目标形态对齐
+# _RE_OUTER_BOOK_GLUE）。源四星归一后闭合星残留 2-4 星夹在 `）` 与【书】之间，
+# _RE_TITLE_STAR 组5 壳内【书】无法越过夹星 → source 丢失 book 未知。
+# 【】内容字符集排除 `*`；幂等（替换后无夹星）。须在四星归一**前**、壳外【书】
+# 并入（_RE_OUTER_BOOK_GLUE）前——公共层 _RE_BOLD_GLUE_SPLIT（KN070）会把
+# `）****【` 4 星粘连拆行使【书】落行首星壳而丢失 source，故先归一为目标形态；
+# Glue 的 `\*\*` 恰吃夹星残留 2 星时无法区分，统一先剥夹星。无条目名/书名
+# 特判（fix_* 纪律）
+_RE_OUTER_BOOK_LEAD_STAR = re.compile(
+    r"(\*\*[^*\n（(]{1,24}?[（(][^（）)\n*]{1,60}[）)])\*{2,}(【[^】\n*]{1,12}】)\*\*"
+)
+
+# ---- KN241（2026-10-28）：条目级【书】噪声三种形态（见 _normalize_custom
+# 调用处注释；均幂等、无条目名/书名特判）----
+# ① 星壳提前闭合：`**CN**（EN）【书】**` → `**CN（EN）【书】**`
+_RE_HALF_SHELL_BOOK_GLUE = re.compile(
+    r"(\*\*[^*\n（(]{1,24}?)\*\*([（(][^（）()\n]{1,64}[）)])(【[^】\n*]{1,12}】)\*\*"
+)
+# ② 【书】在 EN 括号内：`（EN【书】）` → `（EN）【书】`
+_RE_BOOK_IN_EN_PAREN = re.compile(
+    r"([（(][A-Za-z][A-Za-z ’'’-]{1,40}?)(【[^】\n*]{1,12}】)([）)])"
+)
+# ③ 裸标题行+下行星壳包【书】冒号正文（冒号在壳内）
+_RE_BOOK_LINE_COLON_INLINE = re.compile(
+    r"(\*\*[^*\n（(]{1,24}?[（(][^（）)\n*]{1,60}[）)])\*\*\r?\n"
+    r"[ \t　]*\*{2}【([^】\n*]{1,12}?)】[：:]\*{2}"
+)
+
 # 中文名 + 换行 + 英文名（P&P 段内粘连 `炼金销赃者 \nAlchemical Fence（…）：`）：
 # 行2 后跟括号/冒号防正文误合并
 _RE_CN_EN_LINEBREAK = re.compile(
@@ -658,6 +687,13 @@ class TraitFormat(BaseFormat):
         text = _RE_SOURCE_PAGE_JOIN.sub(r"\1 \2", text)
         # 翻译链接壳剥除（ISG 25 处，正文完整不吞）
         text = _strip_http_links(text)
+        # 壳外闭星与【书】间残星剥除（KN137 R6，须在四星归一前：公共层
+        # _RE_BOLD_GLUE_SPLIT 会把 `）****【` 4 星粘连拆行使【书】落行首星壳
+        # 而丢失 source——此处先归一为目标形态）：`**A（EN）****【书】**` →
+        # `**A（EN）【书】**`（目标形态对齐 _RE_OUTER_BOOK_GLUE）。page_156
+        # CEoD 段 7 条 + page_150 斩魔者 1 条。【】内容字符集排除 `*`；幂等；
+        # 无条目名/书名特判（fix_* 纪律）
+        text = _RE_OUTER_BOOK_LEAD_STAR.sub(r"\1\2**", text)
         # 四壳/嵌套星壳归一（`**A（****B****）**` → `**A（B）**`；ISG 星壳 EN 剥星）
         text = _fix_quadruple_star(text)
         text = _fix_elided_quadruple_title(text)
@@ -800,6 +836,29 @@ class TraitFormat(BaseFormat):
         # 行内【】/B1_marker 前置类型不受影响）。链尾执行——拆行后形态稳定
         _RE_LINE_LEAD_BOOK_GLUE = re.compile(r"\*\*\n\*\*【([^】\n]{1,12}?)】\*\*(?=[：:])")
         text = _RE_LINE_LEAD_BOOK_GLUE.sub(r"【\1】**", text)
+
+        # ---- KN241（2026-10-28）：R6 未覆盖的三种条目级【书】噪声形态 ----
+        # 均为幂等 fix_*，无条目名/书名硬编码特判；替换目标对齐
+        # _RE_TITLE_STAR 组5 壳内【书】标准形态。
+        # ① 星壳提前闭合：`**CN**（EN）【书】**` → `**CN（EN）【书】**`
+        # （page_153 切利亚斯支持者：`**切利亚斯支持者****（Chelish
+        # Sympathizer）【SH****】**：` 四星归一+【】内残星剥除后的壳外形态，
+        # split 半星壳分支产条目但 source 丢失）。与 _RE_HALF_PAREN_COLON
+        # （`**CN**(EN)：正文` 无【书】）输入不相交
+        text = _RE_HALF_SHELL_BOOK_GLUE.sub(r"\1\2\3**", text)
+        # ② 【书】在括号内：`**CN（EN【书】）**` → `**CN（EN）【书】**`
+        # （page_150 诡器使：四壳跨行 `（****Surprise \nWeapon****【UCa】）`
+        # 归一后【书】残留在 EN 括号内 → name_en 吞标签 source 丢失）。
+        # EN 段限字母/撇号/连字符，【】内容排除 `*`
+        text = _RE_BOOK_IN_EN_PAREN.sub(r"\1\3\2", text)
+        # ③ 裸标题行+下行星壳包【书】冒号正文：`**CN（EN）**\n**【书】：**正文`
+        # → `**CN（EN）【书】**：正文`（page_150 护枪匠：删除线壳剥除后
+        # `）****【UCa】：**正文` 被 KN070 拆行，但冒号在壳内
+        # （`**【UCa】：**`）使 _RE_LINE_LEAD_BOOK_GLUE（要求 `】**[：:]`）
+        # 失配——壳外闭星与【书】间残星已由 R6 剥除，此处并回单行）。
+        # 与 _RE_LINE_LEAD_BOOK_GLUE 输入（`】**：` 星在冒号外）不相交
+        text = _RE_BOOK_LINE_COLON_INLINE.sub(r"\1【\2】**：", text)
+
         # 标题空白归一（`Freed  Slave` 双空格 / `( Lion’s` 前导空格）
         text = _normalize_whitespace_title(text)
         return text

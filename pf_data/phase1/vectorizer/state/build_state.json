@@ -1,70 +1,105 @@
 {
   "artifacts": {
     "lists.spell": {
-      "fingerprint": "7f8d6af48cb5eb3f85b14089e74f257d585373e456e8dfe8505dbd826fb485d5",
+      "fingerprint": "da6655237acf42dc2d0d7c00568d38405319143d28e37f5dfab8f7a97345255e",
       "outputs": {
-        "vectorizer/output/法术/spell_lists.json": "39cfe5e614561c48a60a19dc9d08815ad497795867bdff6b073d5f2b026ca883",
-        "vectorizer/output/法术/spell_list_export_report.json": "8e45835c43543c57a9d56987bfdbea82fa15231140ebfa26d673fc6c2ee28ed8"
+        "vectorizer/output/法术/spell_lists.json": "ea906974c1275656b260ac29d17f467064e8d47185684dc5af5c791d5c69978c",
+        "vectorizer/output/法术/spell_list_export_report.json": "77e43baa599c2022d57f15acbec13ccd91ca897108b45b43671d9a5ac4da92c1"
       }
     },
     "chunks.feat": {
-      "fingerprint": "e0d7c3e32184cc419c518ed19244ca69f9e0ff09fa0af8b623205c72e17cf17a",
+      "fingerprint": "3dac17d8f4c65b069df897cd1306244a43cabc82aa0ff5ea6982e7d3eae86e64",
       "outputs": {
-        "vectorizer/output/专长/chunks.jsonl": "aba0761b268a16ddbfbe43cea136c3cf1c67f95053fabfd1b64d1e40dd5afa94",
-        "vectorizer/output/专长/index.json": "a456f6d746d0b950246aa0ef811a298a0e86ff661e42c317978bf1ae7e34846d"
+        "vectorizer/output/专长/chunks.jsonl": "98679cf7068c5d469406267c4d0b3bc0cc60cfaa4db00acc28ab5824b13d5d72",
+        "vectorizer/output/专长/index.json": "5ad3a2a807d761bfa2597621e69cb52f3581137c914583b2ffcc5c65638a13ca"
       }
     },
     "chunks.race": {
-      "fingerprint": "c1a06267fa548738080104cbbc816a190b14cf954b0ba0f0718a9e61413e4431",
+      "fingerprint": "21ace7548c253c179b4fd5c1aeae228f4c67edfac746a72d0f063554ab988d03",
       "outputs": {
-        "vectorizer/output/种族/chunks.jsonl": "3b2b16b449f00242137492856f1c70bd7919fb2285c009d0ab7b2c22dc7a7e18",
+        "vectorizer/output/种族/chunks.jsonl": "b537a3661dfa8ad7e43071054c126dfc0de0f8715baeb5bc974239b536e19028",
         "vectorizer/output/种族/index.json": "3f68ce8c7b56028e7fee10eae28423dfca2aa2b2d6d327e87a1e3de18b439083"
       }
     },
     "chunks.trait": {
-      "fingerprint": "4c2195621ebce5c2738a145d777872f9f4ff7f403af4cc2455483ed98d0a7fc5",
+      "fingerprint": "7b03a63aa43b8dfd6082ff87a85e8dd78e6d7c828892b9f1d65d69775d106500",
       "outputs": {
-        "vectorizer/output/背景特性/chunks.jsonl": "486a8124dfd32592feffe7727c476e6fa5656f742974cf61c48cb6c66b8c2c67",
+        "vectorizer/output/背景特性/chunks.jsonl": "690dfaf50a70a26d2ead0e20fef1dacb874ef62999748b4f321a30169cb96635",
         "vectorizer/output/背景特性/index.json": "277ae700657cab2cf40d18202b5f824808fe922c6415d52106e2948b5b227416"
       }
     },
     "chunks.equipment": {
-      "fingerprint": "393529f81914303aa2536fa8125bb8ea764c7a1c64b038175bf0ce0feb3c388a",
+      "fingerprint": "408b6c36343d8979222743aeef1edb993f3a03081f1d83f0320c81756bd19fef",
       "outputs": {
-        "vectorizer/output/装备/chunks.jsonl": "692e54b7398c3300498157b53061534a82727734053da4fae4cca95ef529ad66",
-        "vectorizer/output/装备/index.json": "0cffaf8a27b98a18524621e8703b0280aa0060d727ef0c6e938d4f777f0aa655"
+        "vectorizer/output/装备/chunks.jsonl": "af58cf841befeee385fd25c9ae93b6ff44adfa4e7034e97817c04dec5dbca25e",
+        "vectorizer/output/装备/index.json": "a99e1dc3109de5d5f77941fa126a9bf67ced34bbe29e578a16459eeed8189563"
       }
     },
     "chunks.rule": {
-      "fingerprint": "afd09d1a7d1c6b4c87414a6414445e9d59822dbe6622146b6b4c845133eeb96b",
+      "fingerprint": "bec4442bceb068b1b1e28e10462e35be6e3ce898953606bd7b44ca362d86898d",
       "outputs": {
-        "vectorizer/output/规则/chunks.jsonl": "dc1ddc66ebbc01a98928c6ff1e57cb68622c58b25da67541fc8836b3c11e27ca",
-        "vectorizer/output/规则/index.json": "9a46842e9050f0969c0ab167d77636272509356cf8d886476898d7b67882217e"
+        "vectorizer/output/规则/chunks.jsonl": "adb4b84e8300561461e815b1ca9e6185f53ac63eba0d2d9a5b0ba0b5a29472ff",
+        "vectorizer/output/规则/index.json": "ad1d4418ff000d6d71a8110245384b1abbec7e6f2a3ad95df09cac0162e18af5"
       }
     },
     "chunks.spell": {
-      "fingerprint": "8e7cf8f667e650220b145e1bcbacc35bdf3a4807145dca4e6687bb11b9441fc2",
+      "fingerprint": "6a532b1947dbd1cbf9b06f8bb9d5afd05b3d3a823001ecb035fec5234273305a",
       "outputs": {
-        "vectorizer/output/法术/chunks.jsonl": "ba92cbb3ad479842c476afa3b3e1c49a7b7a109e24214180f501cb74b312d928",
-        "vectorizer/output/法术/index.json": "7aa2bbd168b2af77480304e022144fc9a1395784bcceb88516574f958d093c12"
+        "vectorizer/output/法术/chunks.jsonl": "ad993fa01e63afad8527f2888c7638411d04e86ccbb5dc31204fa5179a6fb8a5",
+        "vectorizer/output/法术/index.json": "e1067f1f51e36549890769331eb9c49fbc46aaa0c53ddee7a269bd4b016c52de"
       }
     },
     "chunks.profession": {
-      "fingerprint": "9821c72a8020a00c0d2d75796dd2ed9a25ff34bb5fd789a9458cd325f00f4035",
+      "fingerprint": "dd2c4993c2962dc8f86698b6e5415d4b5e20e1e888de719b5a8001e00cbc0568",
       "outputs": {
-        "vectorizer/output/职业/chunks.jsonl": "12d26cd8f9ab5a7947653a2a32ef2a451c02bc415bf7f1b20861d8587e9c05eb",
-        "vectorizer/output/职业/index.json": "569672af27c98c6131792800d00571884ee5e03eeb7bb3fa3b1e6826bdc5c879"
+        "vectorizer/output/职业/chunks.jsonl": "f75229ae9dc36e09f3faf7ab8e4321e7c3d5c7a3bfd13c057e2f258b82fce779",
+        "vectorizer/output/职业/index.json": "706940f808b0415c468488b2e3e3f1add9b296e4f846012883859de4bc18c0a9"
       }
     },
     "chunks.skill": {
-      "fingerprint": "438c2a97c9e292b64152833de347cd50d60d5cf783196445e1dd216af8d8ba22",
+      "fingerprint": "0bc9fb097acf23744699f82cd486854f63356f426a66f382046ee475cd07e1c7",
       "outputs": {
         "vectorizer/output/技能/chunks.jsonl": "0a2f3c9915403823e024f49fa67a9a61b84da09a1e94473bcd85984d75313bac",
         "vectorizer/output/技能/index.json": "78738d4c1ab3994bafc63fdd73135d3157744d19a13725373e208d6724b23ceb"
       }
+    },
+    "lists.profession": {
+      "fingerprint": "f9a1bde98ba1f7ab3ae74e69bc2e71ee6a3ffa673e8be13c1af1e9e51767fc94",
+      "outputs": {
+        "vectorizer/output/职业/class_tables.json": "cd6337b486d1a96dd59a3f8f563b21507b551e0fbae7a16fd86bdeb5013b2a6c",
+        "vectorizer/output/职业/class_table_export_report.json": "6b419a161d63086f38741f56fc552d5d63823b0e8d1a3cf5a907bfa7af71bc20"
+      }
+    },
+    "lists.feat": {
+      "fingerprint": "fcb00cf949222ccca2c6f24d06ed9c5ae7ae74fabb2e533ce80573b77415f6a9",
+      "outputs": {
+        "vectorizer/output/专长/feat_lists.json": "a7a4218561d3c8907fd01d74095cc2f8086645cdc414711f6dbe2fe197c0478f",
+        "vectorizer/output/专长/feat_list_export_report.json": "0af2be41b65910924955d20d883509915b480104764bc4c334370f519520ac54"
+      }
+    },
+    "lists.race": {
+      "fingerprint": "4220d430c77f639109f8aa88674b3ec8a6ed991037a60851d6540f84cccb60f7",
+      "outputs": {
+        "vectorizer/output/种族/race_lists.json": "03f89d1bda8e4887ec5956793cc183a3db3753d83219feb45051576aef82e30a",
+        "vectorizer/output/种族/race_list_export_report.json": "8a595e3b6ca4d4fc47b812e2fe51cf994e4e352a8e4a3e882fabf75ddb12c471"
+      }
+    },
+    "lists.equipment": {
+      "fingerprint": "3de521e5e7815fe0f4950e7bfb5dfa9209d253c629fc837382877075fd5fface",
+      "outputs": {
+        "vectorizer/output/装备/equipment_lists.json": "01294888bd1db7bfa958b150a61c85a1dfba9fc198cd064c5c166462134bb97c",
+        "vectorizer/output/装备/equipment_list_export_report.json": "4c9e33519f2fcc7438a4fef805c008063c4edd915c666caf339a11d4d8d3c2a6"
+      }
+    },
+    "lists.spell_union": {
+      "fingerprint": "f12079ade483ece1899eca253c010b78ec80ef98ae216792c53c637cab3f8e43",
+      "outputs": {
+        "vectorizer/output/法术/spell_lists_union.json": "f115bfadb2e84f02ca7de070c7f50ad9822b82c2aaeef880177e2e94602002d7",
+        "vectorizer/output/法术/spell_list_union_report.json": "4578ee90ffe350b26355049e65fe69aad070295cd05c79597fc22004962e33a8"
+      }
     }
   },
   "build_version": "1.0",
-  "build_id": "e1a465c80e0b3e1c-20260919T111249Z",
-  "generated_at": "2026-09-19T11:12:49.083190+00:00"
+  "build_id": "8d9b33b658b57214-20261112T051650Z",
+  "generated_at": "2026-11-12T05:16:50.397677+00:00"
 }

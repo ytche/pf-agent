@@ -1,103 +1,176 @@
 package com.pfagent.agent.chat;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pfagent.agent.telemetry.ErrorAnnotationEntity;
+import com.pfagent.agent.telemetry.ErrorAnnotationRepository;
+import com.pfagent.agent.telemetry.ErrorAnnotationService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
+import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.util.ReflectionTestUtils;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.support.TransactionTemplate;
 
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
- * FeedbackRecorder 单元测试
+ * FeedbackRecorder 集成测试（F-021：标注入库，@DataJpaTest + H2）
  *
- * 覆盖错误标注 JSONL 落盘（错误标注闭环，对标 DataGapRecorder 的 data_gaps 模式）：
- *  - record 追加一行 JSONL，含 id/conversationId/question/answer/sources/errorType/
- *    correction/comment/resolution/timestamp 全部字段与回答快照
- *  - 多次调用逐行追加（不覆盖）
- *  - 父目录不存在时自动创建
- *  - record 返回生成的 id，且两次调用 id 唯一
- *  - correction/comment 可为空（仅类型标注也落盘）
+ * 覆盖错误标注写 error_annotation 表（替代原 annotations.jsonl 落盘）：
+ *  - record 落一行，含 id/conversationId/question/answer/sources/errorType/
+ *    correction/comment/resolution 全部字段与回答快照（sources 为 JSONB 列）
+ *  - 多次调用各落一行（id 唯一），不覆盖历史
+ *  - correction/comment/sources 可为空
+ *  - 入库成功返回 ok=true + id（降级路径由 FeedbackRecorderMemoryModeTest 覆盖）
+ *
+ * 关闭 Flyway（V4 是 PG 方言）：由 Hibernate 按实体注解 create-drop 建表。
+ * FeedbackRecorder/ErrorAnnotationService 是 @Component，slice 测试不自动装配，
+ * 此处手动 new + 反射注入真仓库与事务模板（同 JdbcChatMemoryTest 口径）。
  */
+@DataJpaTest(properties = {"spring.flyway.enabled=false", "spring.jpa.hibernate.ddl-auto=create-drop"})
 class FeedbackRecorderTest {
 
-    @TempDir
-    Path tempDir;
+    private static final ObjectMapper JSON = new ObjectMapper();
 
-    /** 追加一条 JSONL：含 id/会话/问题/回答/sources 快照/类型/时间戳等全部字段与回答快照 */
-    @Test
-    void recordAppendsJsonlLineWithAllFieldsAndSnapshot() throws Exception {
-        Path file = tempDir.resolve("annotations.jsonl");
-        String id = recorder(file).record(request());
-        String line = Files.readString(file, StandardCharsets.UTF_8).trim();
+    @Autowired
+    private ErrorAnnotationRepository repository;
+    @Autowired
+    private PlatformTransactionManager transactionManager;
 
-        assertThat(id).startsWith("ann-");
-        assertThat(line).contains("\"id\":\"" + id + "\"");
-        assertThat(line).contains("\"conversationId\":\"cid-1\"");
-        assertThat(line).contains("\"question\":\"火球术是几环？\"");
-        assertThat(line).contains("\"answer\":\"3 环\"");
-        assertThat(line).contains("\"errorType\":\"事实错误\"");
-        assertThat(line).contains("\"correction\":\"射程写错了\"");
-        assertThat(line).contains("\"comment\":\"用户备注\"");
-        assertThat(line).contains("\"resolution\":\"待分析\"");
-        assertThat(line).matches(".*\"timestamp\":\"\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\".*");
-        // sources 快照：回答当时引用的 chunk，供分析时精确复现（含 chunk_id 可追溯到具体 chunk）
-        assertThat(line).contains(
-                "\"sources\":[{\"book\":\"核心规则书 (CRB)\",\"tocPath\":\"法术 > 火球术\",\"chunkId\":\"spell_CRB_0001\",\"content\":\"火球术是 3 环法术\"}]");
+    private FeedbackRecorder recorder;
+
+    @BeforeEach
+    void setUp() {
+        ErrorAnnotationService service = new ErrorAnnotationService();
+        ReflectionTestUtils.setField(service, "repository", repository);
+        ReflectionTestUtils.setField(service, "transactionTemplate", new TransactionTemplate(transactionManager));
+
+        recorder = new FeedbackRecorder();
+        ReflectionTestUtils.setField(recorder, "annotationServiceProvider", providerOf(service));
     }
 
-    /** 多次调用逐行追加，不覆盖历史 */
+    /** 落库一行：全部字段与回答快照（sources 存 JSONB）齐备 */
     @Test
-    void recordAppendsMultipleLinesWithoutOverwrite() throws Exception {
-        Path file = tempDir.resolve("annotations.jsonl");
-        FeedbackRecorder r = recorder(file);
+    void recordPersistsRowWithAllFieldsAndSnapshot() throws Exception {
+        FeedbackResponse response = recorder.record(request());
 
-        r.record(request());
-        r.record(new FeedbackRequest("cid-2", "q2", "a2", List.of(), "答非所问", null, null));
+        assertThat(response.ok()).isTrue();
+        assertThat(response.id()).startsWith("ann-");
 
-        assertThat(Files.readString(file, StandardCharsets.UTF_8).lines()).hasSize(2);
+        ErrorAnnotationEntity row = repository.findById(response.id()).orElseThrow();
+        assertThat(row.getConversationId()).isEqualTo("cid-1");
+        assertThat(row.getQuestion()).isEqualTo("火球术是几环？");
+        assertThat(row.getAnswer()).isEqualTo("3 环");
+        assertThat(row.getErrorType()).isEqualTo("事实错误");
+        assertThat(row.getCorrection()).isEqualTo("射程写错了");
+        assertThat(row.getComment()).isEqualTo("用户备注");
+        assertThat(row.getResolution()).isEqualTo("待分析");
+        assertThat(row.getCreatedAt())
+                .isBetween(Instant.now().minus(1, ChronoUnit.MINUTES), Instant.now().plus(1, ChronoUnit.MINUTES));
+
+        // sources 快照：回答当时引用的 chunk，供分析时精确复现（含 chunkId 可追溯到具体 chunk）
+        List<Map<String, Object>> sources = JSON.readValue(row.getSources(), new TypeReference<>() {
+        });
+        assertThat(sources).hasSize(1);
+        assertThat(sources.get(0))
+                .containsEntry("book", "核心规则书 (CRB)")
+                .containsEntry("tocPath", "法术 > 火球术")
+                .containsEntry("chunkId", "spell_CRB_0001")
+                .containsEntry("content", "火球术是 3 环法术");
     }
 
-    /** 父目录不存在时自动创建后落盘 */
+    /** 多次调用各落一行（id 唯一），不覆盖历史 */
     @Test
-    void recordCreatesMissingParentDirectory() throws Exception {
-        Path file = tempDir.resolve("nested").resolve("deep").resolve("annotations.jsonl");
+    void recordPersistsMultipleRowsWithoutOverwrite() {
+        FeedbackResponse first = recorder.record(request());
+        FeedbackResponse second = recorder.record(
+                new FeedbackRequest("cid-2", "q2", "a2", List.of(), "答非所问", null, null));
 
-        recorder(file).record(request());
-
-        assertThat(file).exists();
+        assertThat(first.id()).isNotEqualTo(second.id());
+        assertThat(repository.count()).isEqualTo(2);
+        assertThat(repository.findById(second.id()).orElseThrow().getConversationId()).isEqualTo("cid-2");
     }
 
-    /** 每次调用返回唯一 id，两次不同 */
+    /** correction/comment 为空（仅类型标注）时仍正常落库；空 sources 存 [] 而非 NULL */
     @Test
-    void recordReturnsUniqueIdPerCall() throws Exception {
-        Path file = tempDir.resolve("annotations.jsonl");
-        FeedbackRecorder r = recorder(file);
+    void recordPersistsWithoutOptionalFields() {
+        FeedbackResponse response = recorder.record(
+                new FeedbackRequest("cid-3", "q", "a", List.<ChatResponse.SourceRef>of(), "结构差", null, null));
 
-        String id1 = r.record(request());
-        String id2 = r.record(request());
+        ErrorAnnotationEntity row = repository.findById(response.id()).orElseThrow();
+        assertThat(row.getErrorType()).isEqualTo("结构差");
+        assertThat(row.getCorrection()).isNull();
+        assertThat(row.getComment()).isNull();
+        assertThat(row.getSources().replace(" ", "")).isEqualTo("[]");
+    }
+
+    /** sources 为 null 时存 NULL（与旧 JSONL 口径一致），其余字段照常 */
+    @Test
+    void recordPersistsNullSourcesAsNull() {
+        FeedbackResponse response = recorder.record(
+                new FeedbackRequest("cid-4", "q", "a", null, "事实错误", null, null));
+
+        assertThat(repository.findById(response.id()).orElseThrow().getSources()).isNull();
+    }
+
+    /** 每次调用返回唯一 id，两次不同且都能查到 */
+    @Test
+    void recordReturnsUniqueIdPerCall() {
+        String id1 = recorder.record(request()).id();
+        String id2 = recorder.record(request()).id();
 
         assertThat(id1).isNotEqualTo(id2);
+        assertThat(repository.findById(id1)).isPresent();
+        assertThat(repository.findById(id2)).isPresent();
     }
 
-    /** correction/comment 为空（仅类型标注）时仍正常落盘 */
+    /** 入参非法（errorType 超列宽 varchar(32)）→ 先拒不入库，reason=invalid_input（调用方回 400） */
     @Test
-    void recordPersistsWithoutOptionalFields() throws Exception {
-        Path file = tempDir.resolve("annotations.jsonl");
+    void recordRejectsOverlongErrorTypeWithoutWriting() {
+        FeedbackResponse response = recorder.record(
+                new FeedbackRequest("cid", "q", "a", List.of(), "事实错误".repeat(20), null, null));
 
-        recorder(file).record(new FeedbackRequest("cid-3", "q", "a", List.of(), "结构差", null, null));
-
-        String line = Files.readString(file, StandardCharsets.UTF_8).trim();
-        assertThat(line).contains("\"errorType\":\"结构差\"");
+        assertThat(response.ok()).isFalse();
+        assertThat(response.id()).isNull();
+        assertThat(response.reason()).isEqualTo(FeedbackResponse.REASON_INVALID_INPUT);
+        assertThat(repository.count()).isZero();
     }
 
-    private FeedbackRecorder recorder(Path file) {
-        FeedbackRecorder r = new FeedbackRecorder();
-        ReflectionTestUtils.setField(r, "filePath", file.toString());
-        return r;
+    /** 入参非法（conversationId 超列宽 varchar(36)）同样先拒不入库 */
+    @Test
+    void recordRejectsOverlongConversationIdWithoutWriting() {
+        FeedbackResponse response = recorder.record(
+                new FeedbackRequest("c".repeat(37), "q", "a", List.of(), "事实错误", null, null));
+
+        assertThat(response.reason()).isEqualTo(FeedbackResponse.REASON_INVALID_INPUT);
+        assertThat(repository.count()).isZero();
+    }
+
+    /** 边界：恰好等于列宽上限的入参正常入库 */
+    @Test
+    void recordAcceptsFieldsAtColumnLimit() {
+        FeedbackResponse response = recorder.record(new FeedbackRequest(
+                "c".repeat(36), "q", "a", List.of(), "e".repeat(32), null, null));
+
+        assertThat(response.ok()).isTrue();
+        assertThat(repository.findById(response.id())).isPresent();
+    }
+
+    private static ObjectProvider<ErrorAnnotationService> providerOf(ErrorAnnotationService service) {
+        @SuppressWarnings("unchecked")
+        ObjectProvider<ErrorAnnotationService> provider = mock(ObjectProvider.class);
+        when(provider.getIfAvailable()).thenReturn(service);
+        return provider;
     }
 
     private FeedbackRequest request() {

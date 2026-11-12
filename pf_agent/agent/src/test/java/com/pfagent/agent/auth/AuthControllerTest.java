@@ -1,6 +1,7 @@
 package com.pfagent.agent.auth;
 
 import com.pfagent.agent.config.AuthProperties;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -9,6 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.time.Instant;
 import java.util.Map;
@@ -41,10 +43,19 @@ class AuthControllerTest {
     private ObjectProvider<AuthService> authServiceProvider;
 
     @Mock
+    private ObjectProvider<AppSettingService> appSettingServiceProvider;
+
+    @Mock
     private AuthService authService;
 
     @InjectMocks
     private AuthController controller;
+
+    /** 单测无 yml 注入：把注册开关默认值置为开（与主 yml 一致），使既有注册用例语义不变 */
+    @BeforeEach
+    void enableRegistrationByDefault() {
+        ReflectionTestUtils.setField(controller, "registrationEnabledDefault", true);
+    }
 
     /** register 成功：透传参数，200 返回签发结果 */
     @Test
@@ -157,6 +168,21 @@ class AuthControllerTest {
 
         when(authProperties.isAuthEnabled()).thenReturn(false);
         assertThat(controller.status()).containsEntry("enabled", false);
+    }
+
+    /** status：memoryMode 真实反映 pf.chat.memory（jdbc→false / memory→true，大小写不敏感） */
+    @Test
+    void statusReflectsChatMemoryMode() {
+        when(authProperties.isAuthEnabled()).thenReturn(false);
+
+        ReflectionTestUtils.setField(controller, "chatMemory", "jdbc");
+        assertThat(controller.status()).containsEntry("memoryMode", false);
+
+        ReflectionTestUtils.setField(controller, "chatMemory", "memory");
+        assertThat(controller.status()).containsEntry("memoryMode", true);
+
+        ReflectionTestUtils.setField(controller, "chatMemory", "JDBC");
+        assertThat(controller.status()).containsEntry("memoryMode", false);
     }
 
     /** memory 模式（AuthService 缺席）：register 抛 IllegalStateException，经 handleAuthUnavailable 映射 503 auth_unavailable（见 exceptionHandlersMapToSemanticStatusAndErrorCode），不误判 409/401 */

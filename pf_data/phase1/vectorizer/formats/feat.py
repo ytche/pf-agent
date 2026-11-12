@@ -213,6 +213,20 @@ _RE_FIELD_IN_TEXT = re.compile(
 
 # ---- R3：punct 标题（`**中文：**` 独立行，中文不在字段标签集 → 条目）----
 _RE_PUNCT_TITLE = re.compile(r"^\*\*([一-鿿]{2,})[：:]\*\*$")
+
+# KN234：父条目内子效果/注记行——两类结构信号（并入当前条目 text，不产新
+# 条目，先于全部标题判定；cur is None 时不吞）：
+# ① `_RE_SUBEFFECT_MARK`：加粗行以 1~2 个非中文符号（CHM 转换丢失的项目
+#    符号/字形，如源 md 订正前的 `**?   尘埃（气/土）**`）开头、后随空白再接
+#    内容。以 【《〔（( 或字母数字开头的行（英文标题/`【3.5R】`）天然不匹配。
+# ② `_RE_SUBEFFECT_ELEMENT_PAIR`（2026-09-22 源 md 订正方向 B 后适配）：
+#    加粗独立行 = 短中文名 +（单字元素描述符对，形如（气/土））——「法术
+#    融合」类融合效果子项的结构性特征（全库仅元素血脉 6 处此形态，已扫描
+#    确认），与具体条目名/文件名无关。
+# 源 md `?` 字形订正（KN234 审批单方向 B）由主 Agent 实施，本守卫两信号
+# 并存：旧符号形态对已回填历史/其他副本仍生效，新形态覆盖订正后源。
+_RE_SUBEFFECT_MARK = re.compile(r"^\*\*[^一-鿿*【《〔（(A-Za-z0-9]{1,2}\s+\S[^*]*\*\*$")
+_RE_SUBEFFECT_ELEMENT_PAIR = re.compile(r"^\*\*[一-鿿]{2,6}[（(][一-鿿]/[一-鿿][)）]\s*\*\*$")
 # FC-8n：裸中文条目标题（page_744 痛苦选项型）后行单星斜体描述佐证
 # （判别器 FC-8n 定义：「后行单星 *描述* 佐证」）；与 `**半鱼人专长**`
 # 分节标题区分——分节标题后行为正文（非单星斜体），维持跳过。
@@ -816,6 +830,15 @@ class FeatFormat(BaseFormat):
                 else:
                     break
             if not line:
+                continue
+            # KN234：子效果行并入当前条目 text，不产新条目——先于全部标题判定。
+            # 两信号：符号前缀型（_RE_SUBEFFECT_MARK）/ 元素描述符对型
+            # （_RE_SUBEFFECT_ELEMENT_PAIR，源 md 订正方向 B 后的子效果形态）。
+            if cur is not None and (
+                _RE_SUBEFFECT_MARK.match(line)
+                or _RE_SUBEFFECT_ELEMENT_PAIR.match(line)
+            ):
+                cur["text"] += line + "\n"
                 continue
             # 标题识别：双括号形态先于单括号——FC-1n（**中文（English）**）的
             # `\1` 非贪婪回溯会把第一个括号对吞进 name，必须让更特定的

@@ -44,6 +44,7 @@ from pathlib import Path
 from typing import Dict, List, Set, Tuple
 
 from vectorizer.verify.base import VerifyBase
+from vectorizer.list_export import make_list_soft_check
 
 # 来源书一致性检查 7 的同源表——与 processor 侧专属表同一数据源
 # （_EQUIP_SOURCE_OVERRIDES 的 basename 前缀投影），改一处两处生效
@@ -80,7 +81,8 @@ _EQUIP_EST_OVERRIDES = {
                                   "并入 intro 设计），表行不按行切 chunk"),
     "page_207.md": (229, 207, "KN181 伪条目剔除 -22（规则段标题不产条目，伪条目负向断言拦截）"),
     "纽梅利亚NLoFS_纽梅利亚液体.md": (24, 5, "d% 随机表行 est 高估（表格型），真条目 5 全产出"),
-    "page_220.md": (100, 81, "表格/段型混合页：价格表行并入表 chunk（est 按行粗估 100）"),
+    "page_220.md": (100, 84, "表格/段型混合页：价格表行并入表 chunk（est 按行粗估 100）；"
+                             "KN（数据侧已知）187 同族恢复 4 条、移除尸体重构误切 1 条"),
     "炼金术手册AM_自发炼金术.md": (18, 4, "规则段型（est 按节粗估，真条目 4 全产出）"),
     "药剂与毒药P&P_酊剂.md": (16, 3, "表格型 est 高估（酊剂表行 sink 并入 intro）"),
     "近战战术工具箱CTT_魔法护甲.md": (11, 2, "CTT 表并入 intro（同 CTT_武器 口径）"),
@@ -88,7 +90,8 @@ _EQUIP_EST_OVERRIDES = {
     "废土子民PotW_奇物.md": (11, 2, "表格型 est 高估（表行并入 intro）"),
     "page_775.md": (24, 15, "现代火器表行 est 高估（表格型），真条目 15 全产出"),
     "内海海盗PIS_武器.md": (9, 1, "表格型 est 高估（表行并入 intro）"),
-    "page_208.md": (66, 58, "KN181 伪条目剔除 -8（规则段标题不产条目）"),
+    "page_208.md": (66, 59, "KN（数据侧已知）181 伪条目剔除 -8（规则段标题不产条目）；"
+                             "KN（数据侧已知）187 同族恢复龙骑兵定装弹 1 条"),
     "冒险者的军械库_坐骑、宠物和相关装备.md": (28, 21, "表格型 est 高估（类别/分隔行不计）"),
     "远程战术工具箱RTT_武器.md": (8, 1, "表格型 est 高估（表行并入 intro）"),
     "page_209.md": (43, 36, "表格型 est 高估（特殊材料表行并入 intro）"),
@@ -129,8 +132,8 @@ EQUIP_PACK_EXTRA_ALLOWED = frozenset({
 # 13 位置页锚点（CHM TOC L4 权威词形页，page_223~234）：页级产物数精确断言
 PAGE_SLOT_COUNTS = {
     "page_223": 43, "page_224": 31, "page_225": 30, "page_226": 35,
-    "page_227": 44, "page_228": 45, "page_229": 53, "page_230": 33,
-    "page_231": 68, "page_232": 57, "page_233": 41, "page_234": 314,
+    "page_227": 44, "page_228": 46, "page_229": 53, "page_230": 33,
+    "page_231": 68, "page_232": 57, "page_233": 40, "page_234": 314,
 }
 
 # ---- 空 text 豁免：C 形态价格表行 + A 形态无描述条目（title/价格可检索）----
@@ -333,6 +336,38 @@ def check_item_qa(chunks: List[dict], ctx: dict) -> Tuple[bool, List[str]]:
             ok = False
             issues.append(f"❌ 神意指引包 weight 应含 67磅，实际 {w!r}")
 
+    # KN（数据侧已知）187/188：内联标题与链接标题恢复后的产物级锚点。
+    expected_titles = {
+        "page_208": {"龙骑兵定装弹"},
+        "page_220": {"回生之戒", "银色魂索", "抒情竖琴", "巨魔皮革止血带", "独角兽邪角"},
+        "page_228": {"回生之戒"},
+        "内海诡道ISI_炼金物品": {"醉蜂赐", "胡蜂腑", "解毒剂"},
+        "幽暗地域英雄HotD_物品": {"凝神口香糖", "穆之巨菌分泌物"},
+    }
+    for doc_id, expected in expected_titles.items():
+        actual = {c.get("title") for c in chunks if c.get("doc_id") == doc_id}
+        missing = sorted(expected - actual)
+        if missing:
+            ok = False
+            issues.append(f"❌ {doc_id} 标题恢复缺口: {missing}")
+
+    for doc_id in ("page_220", "page_228"):
+        resumed = next((c for c in chunks
+                        if c.get("doc_id") == doc_id and c.get("title") == "回生之戒"), None)
+        resumed_cost = (resumed or {}).get("metadata", {}).get("craft_cost")
+        if resumed_cost != "15400GP":
+            ok = False
+            issues.append(f"❌ {doc_id} 回生之戒 craft_cost 应 15400GP，实际 {resumed_cost!r}")
+
+    for doc_id in ("page_220", "page_233"):
+        tourniquet = next((c for c in chunks
+                           if c.get("doc_id") == doc_id and c.get("title") == "巨魔皮革止血带"), None)
+        tourniquet_md = (tourniquet or {}).get("metadata", {})
+        if ("尸体重构" not in tourniquet_md.get("craft_conditions", "")
+                or tourniquet_md.get("craft_cost") != "1925GP"):
+            ok = False
+            issues.append(f"❌ {doc_id} 巨魔皮革止血带制造条件/成本未正确归位")
+
     # 位置页条目抽查：page_223（腰部）锚点条目应存在——治疗腰带/虔诚腰带
     # 不在该页（各自位置页不同），锚点换 page_223 实际条目
     #（巨力腰带/敏捷腰带/健体腰带，2026-08-09 首跑实测修正）
@@ -342,7 +377,7 @@ def check_item_qa(chunks: List[dict], ctx: dict) -> Tuple[bool, List[str]]:
     if miss:
         ok = False
         issues.append(f"❌ page_223 腰部奇物锚点缺失: {miss}")
-    print("  — QA 通过：诱饵戒指 price=12000gp(parsed) / 神意指引包 weight / page_223 锚点")
+    print("  — QA 通过：既有字段/位置锚点 + KN187/188 标题与制造成本归位")
     return ok, issues
 
 
@@ -390,7 +425,14 @@ def check_negative(chunks: List[dict], ctx: dict) -> Tuple[bool, List[str]]:
     if bad_ct:
         ok = False
         issues.append(f"❌ page_946 非 equipment_package 类目: {dict(bad_ct)}")
-    print("  — 负向通过：P&P 法术无泄漏 / KN181 伪标题 0 / enchantment 无价格 / page_946 类目纯净")
+    # KN（数据侧已知）187：尸体重构是制造条件，不得独立成装备条目。
+    corpse = [c for c in chunks
+              if c.get("doc_id") in ("page_220", "page_233") and c.get("title") == "尸体重构"]
+    if corpse:
+        ok = False
+        issues.append(f"❌ 尸体重构制造条件被误切为独立条目: {[c.get('doc_id') for c in corpse]}")
+
+    print("  — 负向通过：既有范围/伪标题/类目 + KN（数据侧已知）187 制造条件不误切")
     return ok, issues
 
 
@@ -562,14 +604,15 @@ def check_field_health(chunks: List[dict], ctx: dict) -> Tuple[bool, List[str]]:
 
 
 # ============================================================
-#  检查 5.5：KN190 奇物位置页 slot 回填防回退
+#  检查 5.5：KN（数据侧已知）190 奇物位置页 slot 回填防回退
 #  11 位置页（page_223~233）wondrous_item slot 100% 有值且与页面词形对应；
-#  A1 拍板例外白名单 7 条（源数据「位置：」自声明页内混排）保留原值——
+#  A1 拍板例外白名单 8 条（源数据「位置：」自声明页内混排）保留原值——
 #  白名单计数负向断言（值变/缺失即 FAIL，防未来覆盖误伤）。
 # ============================================================
-# KN190 例外白名单（A1 拍板保留自声明）：(doc_id, title) → 自声明 slot
+# KN（数据侧已知）190 例外白名单（A1 拍板保留自声明）：(doc_id, title) → 自声明 slot
 _EXCEPTION_SLOT_SELF_DECLARED = {
     ("page_225", "复仇追踪者背心"): "躯体",
+    ("page_228", "凤凰之羽"): "无",
     ("page_228", "抒情竖琴"): "无",
     ("page_228", "独角兽邪角"): "无",
     ("page_229", "游击头巾"): "头饰",
@@ -611,8 +654,8 @@ def check_slot_page_backfill(chunks: List[dict], ctx: dict) -> Tuple[bool, List[
     if missed_exc:
         issues.append(f"❌ 例外白名单条目缺失/值变 {len(missed_exc)} 条: {sorted(missed_exc)}")
     if not issues:
-        print(f"  — KN190 位置页 {total} 条 slot 有值率 100%，"
-              f"例外白名单 {len(seen_exc)}/7 保持自声明")
+        print(f"  — KN（数据侧已知）190 位置页 {total} 条 slot 有值率 100%，"
+              f"例外白名单 {len(seen_exc)}/8 保持自声明")
     return not issues, issues
 
 
@@ -765,6 +808,10 @@ class EquipmentVerify(VerifyBase):
         ("title 合法性", check_title_health, "空 title 仅 intro"),
         ("来源书一致性", check_source_book, "rule_version==book.lower() 全库 + 专属表全匹配"),
         ("entity 枚举", check_entity_enum, "produced 全产出/reserved 零产出/slot 值域"),
+        # D2（方案_数据侧产物增强_20260917 §D2）：权威清单产物软检查——
+        # 缺失/version 不符/条目数低于下界只 WARN 不阻断；KN235-① 碎片已在
+        # 导出层 sink（chunks.jsonl 不动），清单 gear 三族条目数按 sink 后口径
+        make_list_soft_check("D2 equipment_lists 产物", "vectorizer/output/装备/equipment_lists.json", 2400),
     ]
 
     def add_args(self, parser):

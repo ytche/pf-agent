@@ -17,6 +17,8 @@ docs/scan_spell_lists_20260729.py（60+ 译名变体归一）。
 import json, os, re
 from collections import Counter, defaultdict
 
+from vectorizer.list_export import fold_lower, fold_ws  # D2 收敛至共用模块
+
 # 与 pf_data/phase1/vectorizer/output/法术/ 同目录，相对 pf_data/phase1 运行
 OUT_DIR = 'vectorizer/output/法术'
 CHUNKS_PATH = os.path.join(OUT_DIR, 'chunks.jsonl')
@@ -104,6 +106,13 @@ LEVEL_WORD_SET = {
     f'{i}环公式' for i in range(10)} | {f'{i}级' for i in range(10)} | {
     f'{i}环' for i in range(10)}
 
+# KN233：源列表页（CHM 原件同）偶有两个异译名相邻无分隔、被 ENTRY 配成一个中文名
+# （血脉狂怒者 page_100：「精神错乱月狂病（moonstruck）」= 精神错乱 + 月狂病 两名黏连）。
+# 已知黏连对 → 拆为两条独立条目；两名皆同一法术的社区异译，交叉各归同一 chunk。
+GLUED_NAME_SPLITS = {
+    ('精神错乱月狂病', 'moonstruck'): ['精神错乱', '月狂病'],
+}
+
 ENTRY = re.compile(  # 中文名（English）对；【学派】前缀可选；中/英文括号皆接受（萨满页半角混用）
     r'(?:【[^】]*】)?\s*([一-鿿][一-鿿A-Za-z0-9/·\s’\'\-]{0,30}?)\s*'
     r'[（(]\s*([A-Za-z][^（）()]*?)\s*[）)]')
@@ -189,16 +198,6 @@ def normalize(s):
         '强迫护卫M': '强迫护卫',
     }
     return fixes.get(s, s)
-
-
-def fold_ws(s):
-    """折叠任意空白（含 \r/\n/多空格）为单个空格并收尾。"""
-    return re.sub(r'\s+', ' ', s).strip()
-
-
-def fold_lower(s):
-    """交叉匹配键：小写 + 去所有空白（对英文名折行/大小写差异鲁棒）。"""
-    return re.sub(r'\s+', '', s).lower()
 
 
 def norm_book(token):
@@ -306,6 +305,10 @@ def extract_entries(body, default_book, book_suffix=False):
             rm = re_book_suffix.search(seg)
             if rm and rm.group(1) in SOURCE_BOOKS:
                 book = rm.group(1)
+        split = GLUED_NAME_SPLITS.get((cn, fold_lower(en)))
+        if split:  # KN233 黏连名 → 拆为两条独立条目（各归同一 chunk）
+            out.extend((s, en, book) for s in split)
+            continue
         out.append((cn, en, book))
     return out
 

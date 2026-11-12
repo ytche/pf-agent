@@ -127,6 +127,15 @@ class TestFingerprint:
         fp2 = compute_fingerprint(art, "m1", root)
         assert fp1 != fp2
 
+    def test_ds_store_excluded_from_expand_inputs(self, tmp_path):
+        """glob 展开忽略 .DS_Store（任意层级），不进入内容指纹输入集合"""
+        (tmp_path / "src" / "nested").mkdir(parents=True)
+        (tmp_path / "src" / "a.md").write_text("hello\n", encoding="utf-8")
+        (tmp_path / "src" / ".DS_Store").write_text("junk\n", encoding="utf-8")
+        (tmp_path / "src" / "nested" / "b.md").write_text("world\n", encoding="utf-8")
+        (tmp_path / "src" / "nested" / ".DS_Store").write_text("junk\n", encoding="utf-8")
+        assert expand_inputs(["src/**"], tmp_path) == ["src/a.md", "src/nested/b.md"]
+
     def test_mtime_change_keeps_fingerprint(self, sandbox):
         root, art = sandbox
         fp1 = compute_fingerprint(art, "m1", root)
@@ -244,6 +253,94 @@ class TestLoadTimeErrors:
                                         "category": "no_such_cat"})
         with pytest.raises(ManifestError, match="装配表"):
             load_manifest(p, root)
+
+
+# ---------- 裸 checkout：产物 input 豁免，非产物 input 不豁免 ----------
+
+class TestBareCheckoutLoad:
+    """F-018 回归（KN239）：装载期校验须识别「input 是另一 artifact 的 outputs」——
+    裸 checkout 时产物尚未构建，不得要求装载期存在；非产物 input 缺失仍须报错。"""
+
+    @pytest.fixture()
+    def bare_expand(self, monkeypatch):
+        """模拟裸 checkout：expand_inputs 隐藏 vectorizer/output/ 下所有已构建产物
+        （monkeypatch 拦截展开结果，不触碰真实产物目录）"""
+        real_expand = build_mod.expand_inputs
+        def fake_expand(patterns, root=build_mod.PHASE1):
+            return [f for f in real_expand(patterns, root)
+                    if not f.startswith("vectorizer/output/")]
+        monkeypatch.setattr(build_mod, "expand_inputs", fake_expand)
+        return fake_expand
+
+    def test_real_manifest_loads_on_bare_checkout(self, bare_expand):
+        """真实 manifest 在裸 checkout（无 vectorizer/output/）下应装载通过——
+        lists.spell/feat/race/equipment/profession 引用 chunks 产物的 input 被识别"""
+        _, artifacts, _ = load_manifest(MANIFEST, PHASE1)
+        names = {a["name"] for a in artifacts}
+        assert {"lists.spell", "lists.profession", "lists.feat",
+                "lists.race", "lists.equipment"} <= names
+
+    def test_export_output_inputs_recognized_as_artifact_outputs(self, loaded):
+        """逐条核对：lists.* 的 inputs 中引用其他 artifact outputs 的条目均被识别"""
+        _, artifacts, _ = load_manifest(MANIFEST, PHASE1)
+        all_outputs = {o for a in artifacts for o in a["outputs"]}
+        expected = {
+            "lists.spell": ["vectorizer/output/法术/chunks.jsonl",
+                            "vectorizer/output/职业/chunks.jsonl"],
+            "lists.profession": ["vectorizer/output/职业/chunks.jsonl"],
+            "lists.feat": ["vectorizer/output/专长/chunks.jsonl"],
+            "lists.race": ["vectorizer/output/种族/chunks.jsonl"],
+            "lists.equipment": ["vectorizer/output/装备/chunks.jsonl"],
+        }
+        for name, outputs in expected.items():
+            art = next(a for a in artifacts if a["name"] == name)
+            for pattern in outputs:
+                assert pattern in all_outputs, f"{name}: {pattern} 不在任何 outputs"
+                assert build_mod._is_output_covered(pattern, all_outputs), \
+                    f"{name}: {pattern} 未被识别为 artifact 产物 input"
+
+    def test_non_product_input_missing_still_rejected(self, tmp_path):
+        """豁免仅限产物 input：真实 input 缺失（即便另有产物 input）仍报错"""
+        (tmp_path / "gen.py").write_text("pass\n", encoding="utf-8")
+        (tmp_path / "mid.json").write_text("{}\n", encoding="utf-8")
+        data = {
+            "build_version": "1.0",
+            "artifacts": [
+                {"name": "mid", "kind": "category_pipeline", "via": "direct",
+                 "command": ["python3", "gen.py"],
+                 "outputs": ["mid.json"], "inputs": ["gen.py"],
+                 "config_deps": [], "schema": {"file": "mid.json", "version_field": None}},
+                {"name": "export", "kind": "export_script", "via": "direct",
+                 "command": ["python3", "gen.py"], "script": "gen.py",
+                 "outputs": ["out.json"], "inputs": ["mid.json", "gone/**"],
+                 "config_deps": [], "schema": {"file": "out.json", "version_field": None}},
+            ],
+        }
+        p = tmp_path / "manifest.json"
+        p.write_text(json.dumps(data), encoding="utf-8")
+        with pytest.raises(ManifestError, match="未命中任何文件"):
+            load_manifest(p, tmp_path)
+
+    def test_output_only_inputs_pass_without_product_file(self, tmp_path):
+        """正向：唯一 input 是其他 artifact 的 output 且文件尚未构建 → 装载通过"""
+        (tmp_path / "gen.py").write_text("pass\n", encoding="utf-8")
+        data = {
+            "build_version": "1.0",
+            "artifacts": [
+                {"name": "mid", "kind": "category_pipeline", "via": "direct",
+                 "command": ["python3", "gen.py"],
+                 "outputs": ["mid.json"], "inputs": ["gen.py"],
+                 "config_deps": [], "schema": {"file": "mid.json", "version_field": None}},
+                {"name": "export", "kind": "export_script", "via": "direct",
+                 "command": ["python3", "gen.py"], "script": "gen.py",
+                 "outputs": ["out.json"], "inputs": ["mid.json"],
+                 "config_deps": [], "schema": {"file": "out.json", "version_field": None}},
+            ],
+        }
+        p = tmp_path / "manifest.json"
+        p.write_text(json.dumps(data), encoding="utf-8")
+        _, artifacts, _ = load_manifest(p, tmp_path)
+        assert [a["name"] for a in artifacts] == ["mid", "export"]
 
 
 # ---------- status/check CLI 冒烟 ----------

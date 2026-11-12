@@ -8,7 +8,7 @@ spring:
       api-key: ${DEEPSEEK_PF_API:your-api-key-here}
       chat:
         options:
-          model: deepseek-chat
+          model: deepseek-flash
           temperature: 0.3
     ollama:
       # 本地 Embedding（BGE-M3, 1024 维，中文检索能力优于 nomic-embed-text）
@@ -22,7 +22,7 @@ spring:
           num-batch: 8192
     # 关闭 LLM 调用重试，避免超时被放大（Spring AI 默认 max-attempts=10）
     retry:
-      max-attempts: 1
+      max-attempts: 5
   datasource:
     # PostgreSQL 会话持久化（SP1 接入，SP7 起为默认持久化）：默认连接本机 PG，
     # 可用 env（SPRING_DATASOURCE_URL/USERNAME/PASSWORD）覆盖；
@@ -33,8 +33,17 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate         # schema 由 Flyway 管理（V1__init.sql），Hibernate 只校验不建表
+    # AKN-010：关闭 OSIV——默认 true 会让 Hikari 连接持有期覆盖整个请求（含
+    # LLM/embedding 外部调用），Ollama 僵死时悬挂请求占满连接池拖垮后续请求；
+    # 关闭后连接随事务边界归还。本应用无请求内懒加载需求，fail-fast 暴露更佳
+    open-in-view: false
   flyway:
     enabled: true
+  web:
+    resources:
+      # F-020：前端构建产物输出到 classpath:/static/dist/，并保留既有 static 资源；
+      # 根路径由 SpaForwardController 显式 forward 到 dist/index.html（hash 路由不需要 history fallback）。
+      static-locations: classpath:/static/,classpath:/static/dist/
 
 server:
   port: 8080
@@ -54,6 +63,16 @@ pf:
     # pf.auth.enabled=true 且密钥仍为默认值时启动打 WARN（不阻断，自部署友好，见 AuthProperties）。
     jwt-secret: ${PF_AUTH_JWT_SECRET:pf-agent-dev-jwt-secret-change-me}
     token-ttl-hours: 72        # 签发 JWT 的有效期（小时）
+    # F-023 管理后台（仅 jdbc 模式生效）：
+    # 初始 admin 用户名；admin 初始密码只经环境变量 PF_ADMIN_PASSWORD 注入（配置文件明文否决，用户拍板
+    # 2026-09-24），首启幂等创建、已有同名账号不覆盖，之后可经 admin 界面改密。留空 = 不自动创建 admin。
+    admin-username: admin
+    admin-password: ${PF_ADMIN_PASSWORD:}
+    # 注册入口开关默认值：app_setting 无 registration_enabled 行时的兜底（V5 迁移种入 true）
+    registration-enabled: true
+  conversation:
+    # F-020 会话列表默认分页条数（GET /api/conversations?limit=；上限 100 由服务端钳制）
+    default-page-size: 30
   chat:
     # 会话记忆实现：jdbc = PostgreSQL 持久化（SP7 起默认，需 PG，可用 env PF_CHAT_MEMORY 覆盖）
     #            memory = 内存（不碰数据库；本机无 PG 的裸 mvn 开发可显式切回）
@@ -75,6 +94,16 @@ pf:
   spell-lists:
     # SP3 F-007：职业法术列表预整理产物（getSpellList 直查数据源，gitignored 可再生）
     file-path: ../../pf_data/phase1/vectorizer/output/法术/spell_lists.json
+  class-tables:
+    # J5 F-019：职业成长表预整理产物（getClassTable 直查数据源，gitignored 可再生）
+    file-path: ../../pf_data/phase1/vectorizer/output/职业/class_tables.json
+  list-exports:
+    # B4：专长/种族/装备权威清单导出产物（listEntries 直查数据源，gitignored 可再生）
+    feat-file-path: ../../pf_data/phase1/vectorizer/output/专长/feat_lists.json
+    race-file-path: ../../pf_data/phase1/vectorizer/output/种族/race_lists.json
+    equipment-file-path: ../../pf_data/phase1/vectorizer/output/装备/equipment_lists.json
+    default-limit: 50          # listEntries 默认返回条数
+    max-limit: 200             # listEntries 单次硬上限（越界钳制并在返回头部注明）
   embedding:
     # SP5：查询 embedding 双通道（模型一致性约束：只能 bge-m3，换模型=重建向量库）
     primary: ollama              # ollama（默认，开源自部署零配置，单通道）| cloud（托管 bge-m3）
@@ -97,7 +126,7 @@ pf:
     max-tool-rounds: 10         # 手动工具循环轮次上限（超限强制收敛作答，不再抛 500）
     max-history-chars: 50000    # 工具循环上下文字符上限，超限强制收敛作答（不再调工具）
     vector-result-chars: 800    # vectorSearch 单条正文截断长度（topK 扩大后收紧，抵消 token 增量）
-    metadata-result-chars: 4000 # searchByMetadata 紧凑列表字符上限，超限截断并提示收窄过滤
+    metadata-result-chars: 4000 # searchByMetadata 紧凑列表字符上限，超限截断并提示分页元数据（总数/has_more/next offset）
     # SP8a（方案 20260917）：检索工具增强配置
     entry-result-chars: 8000    # J1 getEntryById 完整原文字符上限（防 oversize chunk 爆上下文，截断并提示）
     metadata-default-limit: 50  # J2 searchByMetadata 增强版默认返回条数（上限另受 enumeration-top-k 约束）
@@ -133,8 +162,9 @@ pf:
     equipment-file-path: ${user.home}/.pf_agent/vector_store_equipment.json
     skill-file-path: ${user.home}/.pf_agent/vector_store_skills.json
     rule-file-path: ${user.home}/.pf_agent/vector_store_rules.json
-    # v1.6：spell 库 metadata 重放开关（置 true 启动执行一次，幂等，完成后改回 false）
-    metadata-replay: false
+    # DVG-001（2026-11-11）：pf.stores.metadata-replay 已随 SpellMetadataReplayTool 彻底删除。
+    # 旧配置误置 true 时启动由 DeprecatedMetadataReplayGuard fail-fast；
+    # 向量库唯一写路径为数据侧 chunks.jsonl 全量重灌，手册见 docs/DEPLOYMENT.md。
   gaps:
     # 数据缺口记录（reportDataGap 工具追加 JSONL，后续脚本分析驱动优化）
     file-path: ${user.home}/.pf_agent/data_gaps.jsonl

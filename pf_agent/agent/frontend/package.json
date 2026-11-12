@@ -1,0 +1,39 @@
+{
+  "name": "pf-agent-frontend",
+  "version": "0.3.0",
+  "private": true,
+  "type": "module",
+  "description": "PathFinder 1e 规则问答前端（Vue 3 + TypeScript + Vite + Pinia）",
+  "engines": {
+    "node": ">=20.19"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:unit": "vitest run",
+    "pretest:e2e": "npm run build",
+    "test:e2e": "playwright test",
+    "pretest:e2e:fullstack": "npm run build && cd .. && mvn -q -B clean package -Dmaven.test.skip=true",
+    "test:e2e:fullstack": "playwright test -c playwright.fullstack.config.ts",
+    "test:e2e:install": "playwright install --with-deps chromium"
+  },
+  "dependencies": {
+    "dompurify": "^3.2.0",
+    "marked": "^15.0.0",
+    "pinia": "^2.3.0",
+    "vue": "^3.5.13"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.52.0",
+    "@types/node": "^22.0.0",
+    "@vitejs/plugin-vue": "^5.2.0",
+    "@vue/test-utils": "^2.4.0",
+    "jsdom": "^26.0.0",
+    "typescript": "~5.8.0",
+    "vite": "^6.3.0",
+    "vitest": "^3.1.0",
+    "vue-tsc": "^2.2.0"
+  }
+}

@@ -14,6 +14,7 @@
   python3 -m vectorizer.build check             # 只校验不构建（CI 二期挂载点）
 """
 import argparse
+import fnmatch
 import hashlib
 import json
 import subprocess
@@ -52,11 +53,18 @@ def cicd_command(category: str) -> list:
 
 
 def expand_inputs(patterns: list, root: Path = PHASE1) -> list:
-    """inputs glob 展开为去重排序后的相对路径列表（内容指纹的输入集合）"""
+    """inputs glob 展开为去重排序后的相对路径列表（内容指纹的输入集合）
+
+    忽略 basename 为 `.DS_Store` 的文件（任意层级）——macOS 目录元数据，
+    不属于源输入；显式 config_deps/script 不受此过滤影响。"""
     files = set()
     for pattern in patterns:
+        # Python ≤3.12 的 pathlib 尾部 `**` 只匹配目录（3.13+ 才含文件）；
+        # 归一为 `**/*`，保证 3.12（CI）与 3.13+/3.14（本地）展开结果一致
+        if pattern.endswith("/**") or pattern == "**":
+            pattern = pattern + "/*"
         for p in root.glob(pattern):
-            if p.is_file():
+            if p.is_file() and p.name != ".DS_Store":
                 files.add(p.relative_to(root).as_posix())
     return sorted(files)
 
@@ -83,6 +91,24 @@ def compute_fingerprint(artifact: dict, manifest_hash: str, root: Path = PHASE1)
     return _sha256_text("\n".join(lines))
 
 
+def _norm_glob(pattern: str) -> str:
+    # 与 expand_inputs 相同的尾部 `**` 归一，保证 pattern-vs-output 比对口径一致
+    if pattern.endswith("/**") or pattern == "**":
+        return pattern + "/*"
+    return pattern
+
+
+def _is_output_covered(pattern: str, outputs_set: set, root: Path = PHASE1) -> bool:
+    """input pattern 是否指向其他 artifact 的 outputs——这类 input 由构建顺序保证
+    先生成，装载期（裸 checkout，产物尚未构建）不要求其存在。"""
+    hits = expand_inputs([pattern], root)
+    if hits:
+        return any(h in outputs_set for h in hits)
+    # 未命中任何文件（裸 checkout）：pattern 本身是否指向 declared outputs
+    norm = _norm_glob(pattern)
+    return any(fnmatch.fnmatchcase(o, norm) for o in outputs_set)
+
+
 def _validate_manifest(data: dict, manifest_hash: str, root: Path = PHASE1) -> list:
     """装载期校验：结构 + 与 cicd 装配表一致性 + 指向路径存在性。返回 artifacts 列表。"""
     if not isinstance(data, dict):
@@ -98,6 +124,7 @@ def _validate_manifest(data: dict, manifest_hash: str, root: Path = PHASE1) -> l
     from vectorizer.cicd.verify import CATEGORIES
 
     seen = set()
+    all_outputs = {o for art in artifacts for o in art.get("outputs", [])}
     for art in artifacts:
         name = art.get("name")
         if not name:
@@ -121,9 +148,15 @@ def _validate_manifest(data: dict, manifest_hash: str, root: Path = PHASE1) -> l
         else:
             if not art.get("command"):
                 raise ManifestError(f"{name}: via=direct 必须提供 command")
-        # inputs glob 必须至少命中一个文件（指向不存在路径 → 装载期报错）
-        if not expand_inputs(art.get("inputs", []), root):
-            raise ManifestError(f"{name}: inputs glob 未命中任何文件: {art.get('inputs')}")
+        # inputs glob 必须命中文件（指向不存在路径 → 装载期报错）；
+        # 但「指向其他 artifact outputs」的 input 是构建期产物，装载期（裸 checkout）豁免。
+        # 每个 pattern 独立判定：未命中且非产物 input → 报错（防止豁免掩盖真实缺失）
+        other_outputs = all_outputs - set(art["outputs"])
+        for pattern in art.get("inputs", []):
+            if not expand_inputs([pattern], root) and not _is_output_covered(
+                    pattern, other_outputs, root):
+                raise ManifestError(
+                    f"{name}: inputs glob 未命中任何文件: {art.get('inputs')}")
         # config_deps / script 存在性（compute_fingerprint 也会查，装载期先显形）
         for dep in art.get("config_deps", []):
             if not (root / dep).is_file():

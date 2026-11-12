@@ -161,12 +161,36 @@ public class SearchService {
     }
 
     /**
+     * 分页元数据：当页 + 真实总数（skip/limit 截断之前）。
+     *
+     * @param page       当前页 Document 列表（已去重、排序、分页）
+     * @param totalCount 过滤+去重+排序后、skip/limit 之前的完整结果数（不受 limit 截断影响）
+     * @param offset     当前页起始下标（钳制后，≥0）
+     * @param limit      页大小（钳制后，≥1）
+     * @param capped     是否有任一 store 的原始命中数达到 enumerationTopK（总数可能被检索上限截断）
+     * @param cap        单库检索上限（enumerationTopK；跨模块合并后的 totalCount 可大于 cap）
+     */
+    public record PagedResult(List<Document> page, int totalCount, int offset, int limit,
+            boolean capped, int cap) {
+
+        /** 未触达检索上限的兼容构造（测试/旧调用）。 */
+        public PagedResult(List<Document> page, int totalCount, int offset, int limit) {
+            this(page, totalCount, offset, limit, false, 0);
+        }
+
+        /** 当前页之后是否还有结果（检索上限内；limit 截断时为 true，即使当页已全部展示） */
+        public boolean hasMore() {
+            return offset + page.size() < totalCount;
+        }
+    }
+
+    /**
      * 枚举式元数据过滤（增强版，SP8a J2）
      *
      * 支持 orFilters（组内 OR）/ gte / lte 范围比较 / sort 排序 / limit+offset 分页 /
      * module="all" 跨模块（八库分别查询后按 (module, chunk_id) 去重合并）。
      * 过滤表达式由 FilterTranslator 翻译后的条件组组装——eq 条件与 or 组、gte、lte
-     * 之间为 AND；结果集 ≤ enumerationTopK，排序与分页在合并后内存施加，不改检索语义。
+     * 之间为 AND；单库候选 ≤ enumerationTopK，all 合并后可超过该值；排序与分页在合并后内存施加。
      *
      * @param module spell / class / feat / race / trait / equipment / skill / rule / all
      * @param query  过滤参数对象（字段名校验与空查询提示在工具层完成）
@@ -174,6 +198,20 @@ public class SearchService {
      * @throws IllegalArgumentException 模块名非法时（"all" 除外）
      */
     public List<Document> searchByMetadata(String module, MetadataSearchQuery query) {
+        return searchByMetadataPaged(module, query).page();
+    }
+
+    /**
+     * 与 {@link #searchByMetadata} 相同，但额外返回分页元数据（真实总数/offset/limit），
+     * 供工具层输出 has_more/next_offset 提示；真实总数不受 limit 截断影响。
+     * 任一库原始命中数达到 enumerationTopK 时 {@link PagedResult#capped()} 为 true，
+     * 此时 totalCount 只是检索上限内的条数，实际命中可能更多。
+     *
+     * F-026：无业务条件时不再逐库跳过，而是构建不带用户过滤表达式的查询（仅由工具层在
+     * 用户明确放行后调用），并按 title → module → chunk_id 等确定性规则排序；模块可用性、
+     * 全局书过滤、500 上限、跨模块合并去重与 capped 语义保持不变。
+     */
+    public PagedResult searchByMetadataPaged(String module, MetadataSearchQuery query) {
         List<VectorStore> stores = resolveStores(module);
         if (module != null && !"all".equals(module) && stores.isEmpty()) {
             throw new IllegalArgumentException("未知数据模块: " + module + "，可用模块: spell/class/feat/race/trait/equipment/skill/rule");
@@ -183,11 +221,15 @@ public class SearchService {
         // 每库构造自己的过滤表达式分别查询；查询时携带模块名（写入 metadata.pf_module
         // 供展示层标注），合并后按 (module, chunk_id) 去重（chunk_id 缺失退化为 doc id）
         Map<String, Document> merged = new LinkedHashMap<>();
+        boolean capped = false;
+        // F-026：无业务条件时不再跳过查询，而是走不带用户过滤表达式的无条件路径
+        // （仅由用户明确放行后到达；模块可用性/全局过滤/500 上限/合并去重语义不变）
+        boolean unconditional = !query.hasAnyCondition();
         for (VectorStore store : stores) {
             String storeModule = moduleOf(store);
             String effectiveModule = "all".equals(module) || module == null ? storeModule : module;
             FilterTranslator.TranslatedQuery conditions = filterTranslator.translateQuery(effectiveModule, query);
-            if (conditions.isEmpty()) {
+            if (!unconditional && conditions.isEmpty()) {
                 continue; // 该库无可执行条件（如 spell level 无 className），跳过不查询
             }
             FilterExpressionBuilder builder = new FilterExpressionBuilder();
@@ -211,13 +253,18 @@ public class SearchService {
             for (FilterField condition : conditions.lte()) {
                 op = and(builder, op, builder.lte(condition.key(), condition.value()));
             }
-            SearchRequest request = SearchRequest.builder()
+            SearchRequest.Builder requestBuilder = SearchRequest.builder()
                     .query(effectiveModule)
                     .topK(enumerationTopK)
-                    .similarityThresholdAll()
-                    .filterExpression(op.build())
-                    .build();
-            for (Document doc : store.similaritySearch(request)) {
+                    .similarityThresholdAll();
+            if (op != null) {
+                requestBuilder.filterExpression(op.build());
+            }
+            List<Document> hits = store.similaritySearch(requestBuilder.build());
+            if (hits.size() >= enumerationTopK) {
+                capped = true;
+            }
+            for (Document doc : hits) {
                 doc.getMetadata().put("pf_module", storeModule);
                 String chunkKey = value(doc, "chunk_id");
                 if (chunkKey.isBlank()) {
@@ -230,7 +277,9 @@ public class SearchService {
         docs.sort(comparatorOf(query));
         int offset = Math.max(0, query.getOffset() == null ? 0 : query.getOffset());
         int limit = Math.max(1, Math.min(query.getLimit() == null ? enumerationTopK : query.getLimit(), enumerationTopK));
-        return docs.stream().skip(offset).limit(limit).toList();
+        int totalCount = docs.size();
+        List<Document> page = docs.stream().skip(offset).limit(limit).toList();
+        return new PagedResult(page, totalCount, offset, limit, capped, enumerationTopK);
     }
 
     /**
@@ -265,8 +314,15 @@ public class SearchService {
         return op == null ? next : builder.and(op, next);
     }
 
-    /** 排序比较器：sortBy=title|level|book 字典/数值序，sortOrder=asc|desc；缺省保持默认序 */
+    /**
+     * 排序比较器：sortBy=title|level|book 字典/数值序，sortOrder=asc|desc；缺省保持默认序。
+     *
+     * F-026 无条件路径额外保证跨页确定性（只约束无业务条件的查询，不改写既有条件查询）：
+     *  - 未显式指定排序：title → module → chunk_id 升序；
+     *  - 显式排序：主键按 sortOrder，之后追加 module → chunk_id 升序兜底。
+     */
     private Comparator<Document> comparatorOf(MetadataSearchQuery query) {
+        boolean unconditional = !query.hasAnyCondition();
         String sortBy = query.getSortBy();
         Comparator<Document> comparator;
         if ("title".equals(sortBy)) {
@@ -275,10 +331,27 @@ public class SearchService {
             comparator = Comparator.comparingInt(this::levelOf);
         } else if ("book".equals(sortBy)) {
             comparator = Comparator.comparing(doc -> value(doc, "book_abbreviation"));
-        } else {
+        } else if (!unconditional) {
             return (a, b) -> 0;
+        } else {
+            comparator = Comparator.comparing(doc -> value(doc, "title"));
         }
-        return "desc".equals(query.getSortOrder()) ? comparator.reversed() : comparator;
+        if ("desc".equals(query.getSortOrder())) {
+            comparator = comparator.reversed();
+        }
+        return unconditional ? comparator.thenComparing(this::tiebreakComparator) : comparator;
+    }
+
+    /** 无条件路径的同值兜底：module → chunk_id 升序（chunk_id 缺失退化为 doc id） */
+    private int tiebreakComparator(Document a, Document b) {
+        int byModule = value(a, "pf_module").compareTo(value(b, "pf_module"));
+        return byModule != 0 ? byModule : chunkKey(a).compareTo(chunkKey(b));
+    }
+
+    /** 去重/排序兜底键：chunk_id 缺失退化为 doc id */
+    private String chunkKey(Document doc) {
+        String chunkId = value(doc, "chunk_id");
+        return chunkId.isBlank() ? String.valueOf(doc.getId()) : chunkId;
     }
 
     /** level 排序取值：第一个 spell_level_* 值的整数，缺失/非数字按 0 */

@@ -2,7 +2,8 @@ package com.pfagent.agent.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pfagent.agent.auth.JwtService;
-import io.jsonwebtoken.JwtException;
+import com.pfagent.agent.conversation.RequestIdentityResolver;
+import com.pfagent.agent.conversation.UnauthorizedException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,29 +12,35 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.Optional;
 
 /**
- * 登录鉴权拦截器（SP7 T3 / D5）
+ * 登录鉴权拦截器（SP7 T3 / D5；F-020 实施 Spec §8.1 调整匿名语义）
  *
  * pf.auth.enabled=false（默认）：全放行，零行为变化（开源自部署无摩擦）。
- * pf.auth.enabled=true：仅拦截 WebConfig 注册的 /api/chat、/api/chat/feedback
- * （/api/auth/**、/api/health、静态资源天然不在拦截范围），校验
- * {@code Authorization: Bearer <jwt>}：签名/有效期校验失败或无头一律 401 +
- * {error: "unauthorized"}；成功则把 username 放入 request attribute
- * （{@link #USERNAME_ATTRIBUTE}），供将来按用户配额/会话隔离消费——本轮 ChatService
- * 不消费，不改变现有会话行为（D5）。
+ * pf.auth.enabled=true：拦截 WebConfig 注册的 /api/chat、/api/chat/feedback 与
+ * /api/conversations/**（/api/auth/**、/api/health、静态资源天然不在拦截范围）：
+ * - 完全没有 Authorization 头 → 标记匿名并放行（用户明确的语义调整：开启认证不再
+ *   代表强制登录；IP 限频与匿名配额继续生效）；
+ * - 非法、过期或结构错误的 token → 401 unauthorized，绝不静默降级为匿名；
+ * - 有效 Bearer JWT → 把 username / uid 放入 request attribute
+ *   （{@link #USERNAME_ATTRIBUTE} / {@link #USER_ID_ATTRIBUTE}），供会话归属使用。
+ *
+ * 身份解析复用 {@link RequestIdentityResolver}，与 /api/auth/me 等既有入口同一语义。
  */
 @Component
 public class AuthInterceptor implements HandlerInterceptor {
 
-    /** 解析出的登录名在 request attribute 中的键（ChatService 暂不消费，留给按用户维度扩展） */
+    /** 解析出的登录名在 request attribute 中的键 */
     public static final String USERNAME_ATTRIBUTE = "pfAuthUsername";
+    /** 解析出的账号主键在 request attribute 中的键（会话 owner 使用） */
+    public static final String USER_ID_ATTRIBUTE = "pfAuthUserId";
 
     @Autowired
     private AuthProperties authProperties;
 
     @Autowired
-    private JwtService jwtService;
+    private RequestIdentityResolver identityResolver;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -45,25 +52,19 @@ public class AuthInterceptor implements HandlerInterceptor {
         if (!authProperties.isAuthEnabled()) {
             return true;
         }
-        JwtService.JwtPrincipal principal = resolvePrincipal(request.getHeader("Authorization"));
-        if (principal == null) {
+        Optional<JwtService.JwtPrincipal> principal;
+        try {
+            principal = identityResolver.resolve(request.getHeader("Authorization"));
+        } catch (UnauthorizedException ex) {
             writeUnauthorized(response);
             return false;
         }
-        request.setAttribute(USERNAME_ATTRIBUTE, principal.username());
+        principal.ifPresent(p -> {
+            request.setAttribute(USERNAME_ATTRIBUTE, p.username());
+            request.setAttribute(USER_ID_ATTRIBUTE, p.uid());
+        });
+        // 无 token 的匿名请求放行；非法 token 已在上方统一 401
         return true;
-    }
-
-    /** 从 Authorization: Bearer <jwt> 解析身份；缺失/伪造/过期/结构非法一律返回 null */
-    private JwtService.JwtPrincipal resolvePrincipal(String authorization) {
-        if (authorization == null || !authorization.startsWith("Bearer ")) {
-            return null;
-        }
-        try {
-            return jwtService.parseToken(authorization.substring("Bearer ".length()).trim());
-        } catch (JwtException | IllegalArgumentException ex) {
-            return null; // 统一按无效凭证处理
-        }
     }
 
     /** 写 401 + JSON 错误体（D5：与匿名配额 429 quota_exceeded 结构区分，前端分别引导） */

@@ -3,6 +3,7 @@ package com.pfagent.agent.auth;
 import com.pfagent.agent.config.AuthProperties;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -13,22 +14,28 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
  * 鉴权接口（SP7 T3 / D4 + D6）：{@code /api/auth/**} 全豁免鉴权拦截器。
  *
- * - POST /api/auth/register：注册即登录，返回 JWT（D4）
+ * - POST /api/auth/register：注册即登录，返回 JWT（D4）；F-023 起受注册开关控制，
+ *   关闭时 403 registration_closed
  * - POST /api/auth/login：登录，返回 JWT
  * - GET  /api/auth/me：带 token 返回当前用户信息（前端恢复登录态用）
- * - GET  /api/auth/status：返回 {enabled}，前端启动时探测是否显示登录入口（D6）
+ * - GET  /api/auth/status：返回 {enabled, registrationEnabled}，前端启动时据此决定
+ *   是否显示登录/注册入口（D6 + F-023）
  *
  * 错误码语义化（D4）：username_taken / invalid_credentials / invalid_request
  * 对应 409 / 401 / 400，错误体统一 {error: "..."}（可加 message），前端直接消费。
+ * F-023 追加 registration_closed → 403。
  *
  * AuthService 仅在 jdbc 模式装配（memory 模式无用户表，AuthProperties 已拦截
  * auth.enabled=true + memory 的组合）；此处经 ObjectProvider 注入，auth 接口在
  * memory 模式返回 503 auth_unavailable，enabled 与否的默认行为不受影响。
+ * AppSettingService 同理经 ObjectProvider 注入：memory 模式无配置表，注册开关
+ * 回退到 yml 默认值。
  */
 @RestController
 @RequestMapping("/api/auth")
@@ -43,9 +50,23 @@ public class AuthController {
     @Autowired
     private ObjectProvider<AuthService> authServiceProvider;
 
-    /** 注册即登录：成功 200 返回 token + 用户标识 */
+    @Autowired
+    private ObjectProvider<AppSettingService> appSettingServiceProvider;
+
+    /** 注册开关默认值（memory 模式无配置表时的兜底；与 yml / V5 种子一致） */
+    @Value("${pf.auth.registration-enabled:true}")
+    private boolean registrationEnabledDefault;
+
+    /** 会话记忆实现（jdbc/memory）：status 据此暴露 memoryMode，供前端提示临时模式 */
+    @Value("${pf.chat.memory:jdbc}")
+    private String chatMemory;
+
+    /** 注册即登录：成功 200 返回 token + 用户标识；注册开关关闭时 403 registration_closed */
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody AuthBody body) {
+        if (!isRegistrationEnabled()) {
+            throw new RegistrationClosedException();
+        }
         AuthService.AuthResult result = requireAuthService().register(body.username(), body.password());
         return ResponseEntity.ok(result);
     }
@@ -71,10 +92,20 @@ public class AuthController {
                 "nickname", user.getNickname() == null ? user.getUsername() : user.getNickname()));
     }
 
-    /** 鉴权开关探测：前端启动时据此决定是否显示登录入口（D6） */
+    /** 鉴权/注册开关探测：前端启动时据此决定是否显示登录/注册入口（D6 + F-023） */
     @GetMapping("/status")
     public Map<String, Object> status() {
-        return Map.of("enabled", authProperties.isAuthEnabled());
+        Map<String, Object> status = new LinkedHashMap<>();
+        status.put("enabled", authProperties.isAuthEnabled());
+        status.put("registrationEnabled", isRegistrationEnabled());
+        status.put("memoryMode", chatMemory != null && !"jdbc".equalsIgnoreCase(chatMemory.trim()));
+        return status;
+    }
+
+    /** 注册入口是否开放：jdbc 模式读 app_setting（缺行回退 yml 默认），memory 模式回退 yml 默认 */
+    private boolean isRegistrationEnabled() {
+        AppSettingService appSettingService = appSettingServiceProvider.getIfAvailable();
+        return appSettingService == null ? registrationEnabledDefault : appSettingService.isRegistrationEnabled();
     }
 
     /** UsernameTakenException → 409 username_taken（D4） */
@@ -82,6 +113,13 @@ public class AuthController {
     public ResponseEntity<?> handleUsernameTaken(UsernameTakenException ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT)
                 .body(Map.of("error", "username_taken", "message", ex.getMessage()));
+    }
+
+    /** RegistrationClosedException → 403 registration_closed（F-023 注册开关） */
+    @ExceptionHandler(RegistrationClosedException.class)
+    public ResponseEntity<?> handleRegistrationClosed(RegistrationClosedException ex) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(Map.of("error", "registration_closed", "message", ex.getMessage()));
     }
 
     /** InvalidCredentialsException → 401 invalid_credentials（D4） */

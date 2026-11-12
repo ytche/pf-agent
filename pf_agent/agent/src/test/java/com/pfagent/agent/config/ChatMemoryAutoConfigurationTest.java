@@ -1,6 +1,7 @@
 package com.pfagent.agent.config;
 
 import com.pfagent.agent.memory.ChatConversationRepository;
+import com.pfagent.agent.memory.ConversationStore;
 import com.pfagent.agent.memory.ChatMessageRepository;
 import com.pfagent.agent.memory.JdbcChatMemory;
 import org.junit.jupiter.api.Test;
@@ -20,8 +21,9 @@ import static org.mockito.Mockito.mock;
  *
  * 用 ApplicationContextRunner 加载 AgentConfig + JdbcChatMemory，验证 pf.chat.memory
  * 三种取值装配出正确实现且互斥：
- * - 未配置 / memory → InMemoryChatMemory（默认内存模式，不碰数据库）
- * - jdbc → JdbcChatMemory（会话持久化；这里仅验装配，Repository/事务均 mock）
+ * - 未配置 / memory → InMemoryChatMemory（AgentConfig 兜底；F-020 的 StoreChatMemory
+ *   适配 bean 不在本 runner 范围）
+ * - jdbc → JdbcChatMemory（会话持久化；这里仅验装配，ConversationStore/Repository/事务均 mock）
  */
 class ChatMemoryAutoConfigurationTest {
 
@@ -57,6 +59,7 @@ class ChatMemoryAutoConfigurationTest {
                 // @Value "60s"→Duration 需 Boot 的 ApplicationConversionService 才能转
                 .withBean(ConversionService.class, ApplicationConversionService::getSharedInstance)
                 .withBean(OpenAiChatModel.class, () -> mock(OpenAiChatModel.class))
+                .withBean(ConversationStore.class, () -> mock(ConversationStore.class))
                 .withBean(ChatMessageRepository.class, () -> mock(ChatMessageRepository.class))
                 .withBean(ChatConversationRepository.class, () -> mock(ChatConversationRepository.class))
                 .withBean(PlatformTransactionManager.class, () -> mock(PlatformTransactionManager.class));

@@ -15,7 +15,9 @@ test_trait_book_abbreviation.py — D1-Trait 背景特性 book 中文→ASCII �
 
 取证来源：
   - 格拉里昂的侏儒=GnomeG / 兽人=OoG / 地精=GoG：复用专长 D1 登记（PF_缩写表.md）
-  - 巨人猎手手册=GIANT / 平衡勇士=CoB：复用专长 D1 abbr_candidates（feat_sources.json）
+  - 巨人猎手手册=GIANT：复用专长 D1 abbr_candidates（feat_sources.json）；
+    平衡勇士=CoBal：KN230 后 feat 侧归并值（原 CoB 为 KN230 登记脏值，
+    trait 配置存量 CoB 待随 trait 批次对齐，见 KN230 观察项）
   - 格拉里昂的人类=HoG：源文件引用块无 ASCII 缩写，人工核定（PF_缩写表.md ★，
     对齐 EoG/HaG/DoG/KoG/GnomeG 家族风格）
 """
@@ -91,7 +93,7 @@ class TestCrossModuleConsistency:
         ("格拉里昂的兽人", "OoG"),
         ("格拉里昂的地精", "GoG"),
         ("巨人猎手手册", "GIANT"),
-        ("平衡勇士", "CoB"),
+        ("平衡勇士", "CoBal"),  # KN230：feat 侧 CoB → CoBal（trait 侧 CoB 存量待对齐）
     ])
     def test_reuses_feat_d1_abbr(self, feat_sources, cn, abbr):
         # 与专长 D1 批次重叠的书必须复用同一缩写（红线）

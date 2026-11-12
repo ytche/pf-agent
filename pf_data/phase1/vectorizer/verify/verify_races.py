@@ -31,6 +31,7 @@ from pathlib import Path
 from typing import Dict, List, Set, Tuple
 
 from vectorizer.verify.base import VerifyBase, make_row_recall_check
+from vectorizer.list_export import make_list_soft_check
 
 DEFAULT_CHUNKS = Path("vectorizer/output/种族/chunks.jsonl")
 DEFAULT_MATRIX = Path("vectorizer/exploration/race/race_per_file.jsonl")
@@ -478,6 +479,9 @@ class RaceVerify(VerifyBase):
         ("page_11 行级召回", check_page11_row_recall, "源表数据行族名全命中（KN130 防回归）"),
         ("page_752 component_type", check_page752_component_type, "page_752 全 alt_trait（KN131 防回归）"),
         ("race_name 实体枚举", check_race_name_enum, "race_name 全在枚举或豁免内（B2）"),
+        # D2（方案_数据侧产物增强_20260917 §D2）：权威清单产物软检查——
+        # 缺失/version 不符/条目数低于下界只 WARN 不阻断（导出脚本独立运行）
+        make_list_soft_check("D2 race_lists 产物", "vectorizer/output/种族/race_lists.json", 100),
     ]
 
     def add_args(self, parser):

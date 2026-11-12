@@ -38,7 +38,7 @@
 | UC | 散弹爆发（Pellet Blast）       进阶生命通道（Life Conduit, Improved）       黑曜之流（Obsidian Flow）       魅影战车（Phantom Chariot） | 共用魅影驹（Phantom Steed, Communal）       共用防护箭矢（Protection from Arrows, Communal）       共用抵抗能量（Resist Energy, Communal）       共用蛛行术（Spider Climb, Communal） |
 |  |
 | 4环法术 | CRB | 恶意变形术（Baleful Polymorph）       群体熊之坚韧（Bear's Endurance, Mass）       群体牛之力量（Bull's Strength, Mass）       群体猫之优雅（Cat's Grace, Mass）       异界探知（Contact other plane）       驱逐术（Dismissal）       群体鹰之威仪（Eagle's Splendor, mass）       群体狐之狡黠（Fox's cunning, mass）       怪物定身术（Hold Monster）       疫病虫群（Insect Plague） | 法师的忠犬（Mage's Faithful Hound）       魔魂壶（Magic jar）       强效造物术（Major Creation）       翱翔天际（Overland flight）       群体枭之睿智（Owl's wisdom, mass）       次等异界誓缚（Planar Binding, Lesser）       短讯术（Sending）       五级怪物召唤术（Summon Monster V）       传送术（Teleport）       石墙术（Wall of Stone） |
-| APG | 酸池坑（Acid Pit）       高等激励进化（Evolution Surge, Greater） | 纯化唤回（Purified Calling）       幻灵重塑术（Transmogrify） |
+| APG | 酸池坑（Acid Pit）       高等激励进化（Evolution Surge, Greater） | 纯化唤回（Purified Calling）       向导重塑术（Transmogrify） |
 | UM | 群体晕眩术（Daze, Mass） | 硫酸之雾（Vitriolic Mist） |
 | UC | 恶意换位（Hostile Juxtaposition）       共用防护能量伤害（Protection from Energy, Communal）       共用石肤术（Stoneskin, Communal） | 灵魂连接（Summoner Conduit）       共用巧言术（Tongues, Communal） |
 |  |

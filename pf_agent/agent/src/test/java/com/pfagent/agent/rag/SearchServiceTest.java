@@ -686,6 +686,117 @@ class SearchServiceTest {
         assertThat(result).isEmpty();
     }
 
+    /** offset 为负时钳制为 0（不抛异常，等价于第一页） */
+    @Test
+    void searchByMetadataQueryNegativeOffsetClampedToZero() {
+        when(spellStore.similaritySearch(any(SearchRequest.class)))
+                .thenReturn(List.of(
+                        doc("a", 0.9, Map.of("title", "A", "chunk_id", "1")),
+                        doc("b", 0.8, Map.of("title", "B", "chunk_id", "2"))));
+        MetadataSearchQuery query = new MetadataSearchQuery();
+        query.setFilters(Map.of("book", "CRB"));
+        query.setOffset(-5);
+        query.setLimit(1);
+
+        List<Document> result = service().searchByMetadata("spell", query);
+
+        assertThat(result).hasSize(1);
+        assertThat(result.get(0).getMetadata().get("title")).isEqualTo("A"); // 从第一条开始，未跳过
+    }
+
+    /** 分页元数据：totalCount 是 skip/limit 之前的完整结果数，不受 limit 截断影响 */
+    @Test
+    void searchByMetadataPagedTotalCountIgnoresLimit() {
+        List<Document> docs = List.of(
+                doc("a", 0.9, Map.of("title", "A", "chunk_id", "1")),
+                doc("b", 0.8, Map.of("title", "B", "chunk_id", "2")),
+                doc("c", 0.7, Map.of("title", "C", "chunk_id", "3")));
+        when(spellStore.similaritySearch(any(SearchRequest.class))).thenReturn(docs);
+        MetadataSearchQuery query = new MetadataSearchQuery();
+        query.setFilters(Map.of("book", "CRB"));
+        query.setLimit(2);
+
+        SearchService.PagedResult result = service().searchByMetadataPaged("spell", query);
+
+        assertThat(result.page()).hasSize(2);
+        assertThat(result.totalCount()).isEqualTo(3);
+        assertThat(result.hasMore()).isTrue();
+    }
+
+    /** 分页元数据：翻页过程中 totalCount 稳定不变，hasMore 在末页翻转为 false */
+    @Test
+    void searchByMetadataPagedTotalCountStableAcrossPages() {
+        List<Document> docs = List.of(
+                doc("a", 0.9, Map.of("title", "A", "chunk_id", "1")),
+                doc("b", 0.8, Map.of("title", "B", "chunk_id", "2")),
+                doc("c", 0.7, Map.of("title", "C", "chunk_id", "3")));
+        when(spellStore.similaritySearch(any(SearchRequest.class))).thenReturn(docs);
+        MetadataSearchQuery query = new MetadataSearchQuery();
+        query.setFilters(Map.of("book", "CRB"));
+        query.setLimit(1);
+        query.setOffset(1);
+
+        SearchService.PagedResult middle = service().searchByMetadataPaged("spell", query);
+        assertThat(middle.totalCount()).isEqualTo(3);
+        assertThat(middle.page().get(0).getMetadata().get("title")).isEqualTo("B");
+        assertThat(middle.hasMore()).isTrue();
+
+        query.setOffset(2);
+        SearchService.PagedResult last = service().searchByMetadataPaged("spell", query);
+        assertThat(last.totalCount()).isEqualTo(3);
+        assertThat(last.page().get(0).getMetadata().get("title")).isEqualTo("C");
+        assertThat(last.hasMore()).isFalse();
+    }
+
+    /** 检索上限触达：任一 store 原始命中数达到 enumerationTopK → capped=true 并回传上限（AKN015-T1） */
+    @Test
+    void searchByMetadataPagedMarksCappedWhenStoreHitsEnumerationTopK() {
+        when(spellStore.similaritySearch(any(SearchRequest.class))).thenReturn(hitDocs(500));
+        MetadataSearchQuery query = new MetadataSearchQuery();
+        query.setFilters(Map.of("book", "COMP"));
+        query.setLimit(50);
+
+        SearchService.PagedResult result = service().searchByMetadataPaged("spell", query);
+
+        assertThat(result.capped()).isTrue();
+        assertThat(result.cap()).isEqualTo(500);
+        assertThat(result.totalCount()).isEqualTo(500);
+        assertThat(result.page()).hasSize(50);
+        assertThat(result.hasMore()).isTrue();       // 上限内仍有下一页
+    }
+
+    /** 未达检索上限：capped=false，totalCount 即可信真实条数 */
+    @Test
+    void searchByMetadataPagedNotCappedBelowEnumerationTopK() {
+        when(spellStore.similaritySearch(any(SearchRequest.class))).thenReturn(hitDocs(499));
+        MetadataSearchQuery query = new MetadataSearchQuery();
+        query.setFilters(Map.of("book", "COMP"));
+        query.setLimit(500);
+
+        SearchService.PagedResult result = service().searchByMetadataPaged("spell", query);
+
+        assertThat(result.capped()).isFalse();
+        assertThat(result.totalCount()).isEqualTo(499);
+        assertThat(result.page()).hasSize(499);
+        assertThat(result.hasMore()).isFalse();
+    }
+
+    /** 跨模块：任一库触达上限即 capped（其他库结果很少也不掩盖截断） */
+    @Test
+    void searchByMetadataPagedCappedIfAnyStoreHitsLimit() {
+        when(spellStore.similaritySearch(any(SearchRequest.class))).thenReturn(hitDocs(500));
+        when(classStore.similaritySearch(any(SearchRequest.class))).thenReturn(hitDocs(3));
+        MetadataSearchQuery query = new MetadataSearchQuery();
+        query.setFilters(Map.of("book", "CRB"));
+        query.setLimit(500);
+
+        SearchService.PagedResult result = service().searchByMetadataPaged("all", query);
+
+        assertThat(result.capped()).isTrue();
+        assertThat(result.cap()).isEqualTo(500);
+        assertThat(result.totalCount()).isEqualTo(503);
+    }
+
     /** 跨模块 all + spell 专属条件：非 spell 库无可执行条件时跳过不查询 */
     @Test
     void searchByMetadataQueryAllSkipsStoresWithoutExecutableConditions() {
@@ -699,6 +810,74 @@ class SearchServiceTest {
 
         verify(spellStore).similaritySearch(any(SearchRequest.class));
         verifyNoInteractions(classStore, featStore, ruleStore);
+    }
+
+    /** F-026：无业务条件时不再跳过，构建不带用户过滤表达式的查询并逐库执行 */
+    @Test
+    void unconditionalQueryBuildsRequestWithoutFilterExpression() {
+        MetadataSearchQuery query = new MetadataSearchQuery();
+        query.setLimit(50);
+        when(spellStore.similaritySearch(any(SearchRequest.class))).thenReturn(List.of());
+
+        SearchService.PagedResult result = service().searchByMetadataPaged("all", query);
+
+        ArgumentCaptor<SearchRequest> captor = ArgumentCaptor.forClass(SearchRequest.class);
+        verify(spellStore).similaritySearch(captor.capture());
+        assertThat(captor.getValue().getFilterExpression()).isNull();
+        verify(classStore).similaritySearch(any(SearchRequest.class));
+        verify(ruleStore).similaritySearch(any(SearchRequest.class));
+        assertThat(result.totalCount()).isZero();
+    }
+
+    /** F-026：无条件路径默认序 title → module → chunk_id，跨页稳定 */
+    @Test
+    void unconditionalQueryDefaultOrderIsTitleThenModuleThenChunkId() {
+        when(spellStore.similaritySearch(any(SearchRequest.class))).thenReturn(List.of(
+                doc("B", 0.9, Map.of("title", "B", "chunk_id", "chunk-2")),
+                doc("A", 0.8, Map.of("title", "A", "chunk_id", "chunk-9")),
+                doc("A", 0.7, Map.of("title", "A", "chunk_id", "chunk-3"))));
+        MetadataSearchQuery query = new MetadataSearchQuery();
+        query.setLimit(10);
+
+        List<Document> result = service().searchByMetadata("spell", query);
+
+        assertThat(result.stream().map(d -> d.getMetadata().get("chunk_id")))
+                .containsExactly("chunk-3", "chunk-9", "chunk-2");
+    }
+
+    /** F-026：无条件路径显式排序时追加 module → chunk_id 升序兜底（主键按 sortOrder） */
+    @Test
+    void unconditionalQueryExplicitSortAppendsChunkIdTiebreak() {
+        when(spellStore.similaritySearch(any(SearchRequest.class))).thenReturn(List.of(
+                doc("A", 0.9, Map.of("title", "A", "chunk_id", "chunk-9")),
+                doc("A", 0.8, Map.of("title", "A", "chunk_id", "chunk-3")),
+                doc("B", 0.7, Map.of("title", "B", "chunk_id", "chunk-1"))));
+        MetadataSearchQuery query = new MetadataSearchQuery();
+        query.setSortBy("title");
+        query.setSortOrder("desc");
+
+        List<Document> result = service().searchByMetadata("spell", query);
+
+        assertThat(result.stream().map(d -> d.getMetadata().get("title")))
+                .containsExactly("B", "A", "A");
+        assertThat(result.stream().map(d -> d.getMetadata().get("chunk_id")))
+                .containsExactly("chunk-1", "chunk-3", "chunk-9");
+    }
+
+    /** F-026：无条件路径同样保留 500 上限与 capped 语义 */
+    @Test
+    void unconditionalQueryKeepsCapAndCappedSemantics() {
+        when(spellStore.similaritySearch(any(SearchRequest.class))).thenReturn(hitDocs(500));
+        MetadataSearchQuery query = new MetadataSearchQuery();
+        query.setLimit(50);
+
+        SearchService.PagedResult result = service().searchByMetadataPaged("spell", query);
+
+        assertThat(result.capped()).isTrue();
+        assertThat(result.cap()).isEqualTo(500);
+        assertThat(result.totalCount()).isEqualTo(500);
+        assertThat(result.page()).hasSize(50);
+        assertThat(result.hasMore()).isTrue();
     }
 
     private SearchService service() {
@@ -764,6 +943,15 @@ class SearchServiceTest {
     /** 构造带 metadata 的 Document（component_type 等降权判据字段） */
     private Document doc(String text, double score, Map<String, Object> meta) {
         return Document.builder().text(text).score(score).metadata(meta).build();
+    }
+
+    /** n 条唯一 chunk_id 的命中，用于模拟 store 返回达到检索上限 */
+    private List<Document> hitDocs(int n) {
+        List<Document> docs = new java.util.ArrayList<>(n);
+        for (int i = 0; i < n; i++) {
+            docs.add(doc("d" + i, 0.9, Map.of("title", "T" + i, "chunk_id", "c" + i)));
+        }
+        return docs;
     }
 
     private Document classDoc(String text, double score, String tocPath) {

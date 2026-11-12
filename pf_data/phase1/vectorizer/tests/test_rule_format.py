@@ -1355,3 +1355,159 @@ class TestBatchCContName:
                 if first.startswith("|") else [""]
             head = parts[0].strip() if parts else ""
             assert it["title"].startswith(head), (it["title"], head)
+
+
+# M5 专项（2026-09-23，KN181+KN174 rule 星壳伪条目 / KN100 搭车，C9 批）：
+# 原为独立文件 test_rule_format_m5_kn100.py（基线重建误覆盖后从 __pycache__
+# 字节码还原），按项目惯例（单模块单测试文件）合并回本文件。
+class TestM5Kn100RuleFamily:
+    def test_feat_field_rows_join_parent(self):
+        """page_651 战策块：`**专长效果**：…` / `**通常情况**：…` /
+        `**战策**：…`（战策在既有词表）并入专长条目，不独立成节"""
+        raw = ("**蝰蛇打击（Adder Strike）（UC）**\n"
+               "　　*描述*\n"
+               "    **先决条件**：【用毒】职业特性。\n"
+               "    **专长效果**：以一个迅捷动作涂毒。\n"
+               "    **通常情况**：给武器涂毒是标准动作。\n"
+               "    **战策**：花费2点耐力以迅捷动作涂毒。\n")
+        items = run(raw)
+        assert titles(items) == ["蝰蛇打击（Adder Strike）（UC）"], titles(items)
+        assert "**专长效果**" in items[0]["text"]
+        assert "**通常情况**" in items[0]["text"]
+
+    def test_uc_snipe_field_rows_join_parent(self):
+        """page_488 狙击专长段：`**专长效果**：…` / `**通常状况**：…` 并入"""
+        raw = ("**狙击（Focused Shot）（核心）**\n"
+               "**专长效果**：你在狙击时获得+2加值。\n"
+               "**通常状况**：你每轮只能以整轮动作做一次狙击。\n")
+        items = run(raw)
+        assert len(items) == 1 and "**通常状况**" in items[0]["text"]
+
+    def test_monster_block_section_rows_join_parent(self):
+        """魔宠手记FF 怪物数据块：XP 汇总行 / 防御能力 / 攻击能力 /
+        基本数据 / 生态背景 / 弱点 全部并入魔宠条目"""
+        raw = ("**命途艾恩石（Ioun Wyrd），CR 1/3**\n"
+               "**XP 135**\n"
+               "**防御能力**\n"
+               "**AC** 15，**接触** 15\n"
+               "**攻击能力**\n"
+               "**基本数据**\n"
+               "**弱点** 强光敏感\n"
+               "**生态背景**\n"
+               "出没于艾恩石丛中。\n"
+               "**艾恩石亲和（Ioun Affinity，Su）**\n"
+               "正文。\n")
+        items = run(raw)
+        assert titles(items) == ["命途艾恩石（Ioun Wyrd），CR 1/3",
+                                 "艾恩石亲和（Ioun Affinity，Su）"], titles(items)
+        body = items[0]["text"]
+        for frag in ("**XP 135**", "**防御能力**", "**攻击能力**",
+                     "**基本数据**", "**弱点**", "**生态背景**"):
+            assert frag in body, frag
+
+    def test_monster_header_summary_row_joins_parent(self):
+        """魔宠手记FF_新魔宠整行汇总形态：`**XP 100****绝对中立 …` 并入"""
+        raw = ("**鸭嘴兽（Platypus），CR 1/6**\n"
+               "**XP 100****绝对中立  超小型 动物 先攻** +2；**感官** 昏暗视觉\n")
+        items = run(raw)
+        assert len(items) == 1, titles(items)
+        assert "XP 100" in items[0]["text"]
+
+    def test_demiplane_stat_rows_join_parent(self):
+        """page_1490 半位面 stat 行：类别/特征/正常/界域/结构/恒常/性质/
+        居民/核心神祇/其他神祇/祈并者/注能/精通/高等 并入半位面条目"""
+        raw = ("**郝金挂毯**\n"
+               "**纳宝锦织**\n"
+               "**类别：**半位面\n"
+               "**特征**\n"
+               "**正常\n"
+               "**时间 **正常\n"
+               "**界域 **有限\n"
+               "**结构 \n"
+               "**恒常\n"
+               "**性质 **混合\n"
+               "**阵营 \n"
+               "**轻微中立阵营\n"
+               "**魔法 **普通\n"
+               "**居民**\n"
+               "**核心神祇** \n"
+               "无\n"
+               "**其他神祇** 无\n"
+               "**祈并者** 无\n"
+               "**注能**\n"
+               "**基础 \n"
+               "**你对超维度空间变得敏感。\n"
+               "**精通\n"
+               "**高等\n")
+        items = run(raw)
+        assert items[0]["title"] == "郝金挂毯"
+        assert titles(items)[1] == "纳宝锦织", titles(items)
+        # 级联归属（KN174 rule 档案）：纳宝锦织直属的 stat 行并入；
+        # 时间/魔法为 KN215 撞名词开节，其后的可剥 stat 行
+        # （界域/结构/恒常/性质/阵营）随撞名节归并——文本保真、不独立成节
+        body = items[1]["text"]
+        for frag in ("**类别：**半位面", "**特征**", "**正常"):
+            assert frag in body, frag
+        merged = "\n".join(it["text"] for it in items)
+        for frag in ("**界域 **有限", "**结构", "**恒常", "**性质 **混合",
+                     "**居民**", "**核心神祇**", "**其他神祇** 无",
+                     "**祈并者** 无"):
+            assert frag in merged, frag
+        # 注能为 KN215 撞名词（page_601 咒字），保持独立节；
+        # 基础 ∈ M5 词表并入注能节；精通/高等 ∈ M5 词表，不独立成节
+        neng = [it for it in items if it["title"] == "注能"]
+        assert neng, titles(items)
+        assert "**基础" in neng[0]["text"]
+        assert not any(
+            t in ("类别", "特征", "居民", "精通", "高等", "正常",
+                  "界域", "恒常", "性质", "祈并者", "核心神祇", "基础")
+            for t in titles(items)[2:]
+        ), titles(items)
+
+    def test_three_star_field_line_joins_parent(self):
+        """page_1125 3 星斜粗壳字段行：`**特殊** ***(Special)：***…`
+        剥 1 前缀星按词表判定（特殊 ∈ 既有词表），并入所属节"""
+        raw = ("**角色分类**\n"
+               "前置正文。\n"
+               "***特殊*** ***(Special)：***不属于以上三种角色中的怪物可以被划归为特殊怪物。\n")
+        items = run(raw)
+        assert len(items) == 1, titles(items)
+        assert "特殊怪物" in items[0]["text"]
+
+    def test_dice_table_rows_join_table_section(self):
+        """构装体手册CH_模板骰表：`**1**、…` ~ `**10**、…` 并入
+        `d10 功能失调` 表节，不独立成节"""
+        raw = ("**d10  功能失调（Malfunction）**\n"
+               "**1**、没有额外影响。\n"
+               "**2**、火花从构装物中飞出。\n"
+               "**10**、进入狂暴。\n")
+        items = run(raw)
+        assert titles(items) == ["d10 功能失调（Malfunction）"], titles(items)
+        assert "**5**" not in items[0]["text"]
+        assert "**10**、进入狂暴" in items[0]["text"]
+
+    def test_legit_compound_titles_not_sunk(self):
+        """负例：复合标题与 KN215 撞名词不入口——page_656 心像结界
+        `**重力（Gravity）**` / `**正常重力（Normal Gravity）**`、
+        page_302 通用怪物规则 `**毒素** **(Poison,…` 仍为独立节；
+        `**精通反射闪避**` 仍为独立节"""
+        raw = ("**心像结界特征**\n"
+               "**重力（Gravity）**\n"
+               "心像结界的重力特征。\n"
+               "**正常重力（Normal Gravity）**\n"
+               "标准重力。\n"
+               "**精通反射闪避**\n"
+               "反射闪避加强版。\n")
+        items = run(raw)
+        assert "重力（Gravity）" in titles(items), titles(items)
+        assert "正常重力（Normal Gravity）" in titles(items)
+        assert "精通反射闪避" in titles(items)
+
+    def test_legit_universal_monster_rule_not_sunk(self):
+        """负例：page_302 通用怪物规则 `**毒素** **(Poison,** **Ex/Su)**`
+        是真规则条目（KN100 rule 档案裁定），不得因字段词表并入前节——
+        毒素不在 M5 词表，本条钉住防未来误加"""
+        raw = ("**毒血（Poisonous Blood, Ex）**：任何使用穿刺武器重击的生物会受到毒液喷溅。\n"
+               "**毒素** **(Poison,** **Ex/Su)****：**拥有此能力的生物可以将其攻击淬毒。\n")
+        items = run(raw)
+        assert "毒素" in titles(items), titles(items)

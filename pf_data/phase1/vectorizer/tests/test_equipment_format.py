@@ -2867,3 +2867,72 @@ class TestEquipmentSeeds:
         t = items[0].get("text", "")
         assert not t.startswith("**"), f"text 不应以空壳行 `**` 开头，实际 {t[:80]!r}"
         assert t.startswith("当艾恩石"), f"text 应从正文开始，实际 {t[:80]!r}"
+
+
+class TestKN187188TitleRecovery:
+    def test_linked_star_title_halfwidth_is_preserved(self):
+        items = run("\n".join([
+            "[**醉蜂赐(Calistria's kindness)**](https://example.test/item)",
+            "价格：3gp；重量：无",
+            "效果：每瓶可供服用30次。",
+        ]))
+        item = next(x for x in items if x.get("title") == "醉蜂赐")
+        assert item["title_en"] == "Calistria's kindness"
+        assert item["fields"]["price"] == "3gp"
+
+    def test_linked_star_title_fullwidth_is_preserved(self):
+        items = run("\n".join([
+            "[**凝神口香糖（Focus chew）**](https://example.test/item)",
+            "价格：40gp；重量：无",
+            "效果：咀嚼后强化注意力。",
+        ]))
+        item = next(x for x in items if x.get("title") == "凝神口香糖")
+        assert item["title_en"] == "Focus chew"
+        assert item["fields"]["price"] == "40gp"
+
+    def test_plain_text_link_is_still_removed(self):
+        fmt = EquipmentFormat()
+        normalized = fmt.normalize("正文[德洛人](https://example.test/race)继续")
+        assert normalized == "正文继续"
+
+    def test_multiple_inline_star_titles_with_field_tails_split(self):
+        items = run("\n".join([
+            "**回生之戒 RING OF RESUMPTION**灵光：中等咒法系",
+            "制造成本：15400GP**银色魂索 SILVER SOUL CORD**灵光：中等防护系",
+            "制造成本：12500GP",
+        ]), source_name="page_220.md")
+        by_title = {x.get("title"): x for x in items}
+        assert by_title["回生之戒"]["fields"]["craft_cost"] == "15400GP"
+        assert by_title["银色魂索"]["fields"]["craft_cost"] == "12500GP"
+
+    def test_single_inline_star_title_with_field_tail_is_unchanged(self):
+        items = run("\n".join([
+            "**回生之戒 RING OF RESUMPTION**灵光：中等咒法系",
+            "施法者等级：11",
+            "制造成本：15400GP",
+        ]), source_name="page_220.md")
+        assert len(items) == 1
+        assert items[0]["title"] == "回生之戒"
+        assert items[0]["fields"]["craft_cost"] == "15400GP"
+
+    def test_craft_requirement_continuation_does_not_open_item(self):
+        items = run("\n".join([
+            "**巨魔皮革止血带 TROLLSKIN TOURNIQUET**灵光：中等咒法系",
+            "价格：3850GP",
+            "制造条件：制造奇物，再生术（regenerate）,",
+            "尸体重构（restore corpse）制造成本：1925GP",
+        ]), source_name="page_220.md")
+        assert len(items) == 1
+        item = items[0]
+        assert item["title"] == "巨魔皮革止血带"
+        assert "尸体重构" in item["fields"]["craft_conditions"]
+        assert item["fields"]["craft_cost"] == "1925GP"
+
+    def test_inline_source_comment_is_not_absorbed_into_craft_cost(self):
+        items = run("\n".join([
+            "**回生之戒 RING OF RESUMPTION**灵光：中等咒法系",
+            "制造成本：15400GP ",
+            "<!-- HH-source:page_715.md:独角兽邪角 -->",
+        ]), source_name="page_228.md")
+        item = next(x for x in items if x.get("title") == "回生之戒")
+        assert item["fields"]["craft_cost"] == "15400GP"

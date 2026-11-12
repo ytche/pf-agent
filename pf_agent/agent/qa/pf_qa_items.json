@@ -1185,6 +1185,63 @@
       ],
       "answer": "",
       "notes": "SP3 F-007 新增：女巫 1 环 68 条 canonical 直查验证题（基础职业类别）。女巫在数据侧曾受 className 脏变体影响，getSpellList 直查官方列表页应稳定全量枚举。溯源锚女巫法术列表页 tocPath。"
+    },
+    {
+      "id": "medium-34",
+      "tier": "medium",
+      "dimension": "数值最优解",
+      "status": "D",
+      "source_question": "",
+      "question": "PF 装备数据中，有明确标价的魔法戒指里，价格最高的是哪一枚？价格是多少？",
+      "module": "equipment",
+      "expected_chunks": [
+        "equipment_page_220_0000"
+      ],
+      "golden_answer_points": [
+        "有明确标价（price_gp）的魔法戒指最高价为 200,000 gp，并列两枚：元素命令戒指（Ring of Elemental Command）与高等储法戒指（Ring of Spell Storing, Major），出处均为 CRB",
+        "次高价为呼唤风巨灵戒指（Ring of Djinni Calling）125,000 gp、三愿戒指（Ring of Three Wishes）120,000 gp，均出自 CRB 戒指价格表",
+        "价格表出处为 CRB 戒指表（equipment_page_220_0000）；无标价神器不计入「可购买/有明确标价」口径"
+      ],
+      "answer": "",
+      "notes": "AKN-025/L2 新增（价格契约）：戒指类极值题。价格表原文见 equipment_page_220_0000；答案须由 price_gp 排序得出，最高 200,000 gp 并列两枚。验证 L1 清单补全戒指类别 + L3 price 排序。"
+    },
+    {
+      "id": "medium-35",
+      "tier": "medium",
+      "dimension": "数值最优解",
+      "status": "D",
+      "source_question": "",
+      "question": "在 CRB（核心规则书）的魔法法杖里，价格最高的是哪一根？价格是多少？",
+      "module": "equipment",
+      "expected_chunks": [
+        "equipment_page_222_0000"
+      ],
+      "golden_answer_points": [
+        "CRB 魔法法杖中价格最高的是力量法杖（Staff of Power），235,000 gp",
+        "CRB 法杖次高价为通路法杖（Staff of Passage）206,900 gp，其后是生命法杖（Staff of Life）109,400 gp",
+        "限定 CRB 时须按价格表「出处」列筛选：大祭司法杖 220,000 gp 的出处为 UE，不属于 CRB 结果；价格表出处为 equipment_page_222_0000"
+      ],
+      "answer": "",
+      "notes": "AKN-025/L2 新增（价格契约）：指定书最贵法杖题。法杖表在 CRB 页面但混有 UE/APG 条目，按「出处」列过滤后 CRB 最高为力量法杖 235,000 gp；用于验证 book 过滤 + price 排序组合，且与 medium-17 全库口径区分。"
+    },
+    {
+      "id": "medium-36",
+      "tier": "medium",
+      "dimension": "数值最优解",
+      "status": "D",
+      "source_question": "",
+      "question": "PF 装备数据中，有明确标价的魔法戒指里，价格在 100,000 gp 到 200,000 gp 之间（含两端）的有哪些？请列出名称与价格。",
+      "module": "equipment",
+      "expected_chunks": [
+        "equipment_page_220_0000"
+      ],
+      "golden_answer_points": [
+        "区间内共 6 枚（含端点）：法术反转戒指（Ring of Spell Turning）100,000 gp、四型巫术戒指（Ring of Wizardry IV）100,000 gp、三愿戒指（Ring of Three Wishes）120,000 gp、呼唤风巨灵戒指（Ring of Djinni Calling）125,000 gp、元素命令戒指（Ring of Elemental Command）200,000 gp、高等储法戒指（Ring of Spell Storing, Major）200,000 gp",
+        "以上条目出处均为 CRB 戒指价格表（equipment_page_220_0000），价格单位为 gp",
+        "区间口径为 price_min=100000、price_max=200000 且含两端；无标价条目不计入"
+      ],
+      "answer": "",
+      "notes": "AKN-025/L2 新增（价格契约）：价格区间题。验证 L3 price_min/price_max 范围过滤与含端点口径；共 6 枚，边界 100,000 与 200,000 各两枚，可同时校验边界是否被遗漏或多算。"
     }
   ]
 }

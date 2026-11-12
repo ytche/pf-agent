@@ -52,6 +52,10 @@ def main() -> int:
     parser.add_argument("--max-book-unknown", type=int, default=100, help="book '?' 上限（来源书终态）")
     # 各类目取值见 cicd/verify.py 装配表（参数变更即登记 KN，KN106 口径）
     parser.add_argument("--max-toc-empty", type=int, default=0, help="chm_toc_path 空上限")
+    parser.add_argument("--max-spell-level-empty", type=int, default=10**9,
+                        help="metadata.spell_level 为空的 chunk 数上限"
+                             "（KN242 棘轮门，仅 spell 类目装配传入；"
+                             "默认极大值 = 其他类目不启用此门）")
     args = parser.parse_args()
 
     path = Path(args.chunks)
@@ -101,6 +105,22 @@ def main() -> int:
         failures.append(f"book '?' {len(book_unknown)} > 上限 {args.max_book_unknown}"
                         "（来源书终态回归，"
                         + f"示例: {dict(Counter(r['doc_id'] for r in book_unknown[:5]))}）")
+    # KN242：spell_level 空率棘轮门（仅当装配显式传 --max-spell-level-empty
+    # 时生效；默认极大值对其他类目零影响）。field_status 标为
+    # not_applicable 的非法术条目（KN245 阿底顿等）不计入。
+    spell_level_empty = [
+        r for r in rows
+        if "spell_level" in (r.get("metadata") or {})
+        and not (r["metadata"].get("spell_level") or [])
+        and (r["metadata"].get("field_status") or {}).get("spell_level") != "not_applicable"
+    ]
+    if len(spell_level_empty) > args.max_spell_level_empty:
+        failures.append(f"spell_level 空 {len(spell_level_empty)} > 上限 "
+                        f"{args.max_spell_level_empty}（KN242 空率棘轮门违反，"
+                        f"示例: "
+                        + ", ".join(f"{r['doc_id']}|{r['title']}"
+                                    for r in spell_level_empty[:5]) + "）")
+
     if len(toc_empty) > args.max_toc_empty:
         failures.append(f"chm_toc_path 空 {len(toc_empty)} 个（上限 {args.max_toc_empty}，"
                         "回填回归）: "

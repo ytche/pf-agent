@@ -47,7 +47,7 @@ _PREPARE_BATCHES_JSON = (
 
 # 来源书专属表（KN165 落地，2026-08-08 逐文件核验；2026-08-09 M4 批次 2
 # 增 74 页键）：
-# rel 前缀 → (abbr, 中文名, 英文名)。覆盖 P1+P2 全部 297 文件（88 前缀 + 74 页键）。
+# rel 前缀 → (abbr, 中文名, 英文名)。覆盖 P1+P2 全部 299 文件（89 前缀 + 74 页键 + 毒品迁入）。
 # 缩写来源优先级：源数据 HTML 注释（`<!-- XXX-source:`）> `> 来源：` 行括号缩写
 # > 官方缩写；模块内同名冲突已拍板区分（登记 KN）：
 #   - MM=商人货单（Merchant's Manifest）/ MMG=魔法市集指南（Magical Marketplace）
@@ -168,6 +168,7 @@ _EQUIP_SOURCE_OVERRIDES = {
                                   "Guide to the River Kingdoms"),
     "繁星子民PotS": ("PoS", "繁星子民", "People of the Stars"),
     "永罪之书": ("BotD", "永罪之书", "Book of the Damned"),
+    "玩家伴侣COMP": ("COMP", "玩家伴侣", "Companion"),
     "炼金术手册AM": ("AM", "炼金术手册", "Alchemy Manual"),
     "黑市指南BM": ("BM", "黑市指南", "Black Markets"),
     # 无来源行的 8 文件（2026-08-08 逐文件定性）：
@@ -326,7 +327,7 @@ def _resolve_equip_source(rel: str) -> Optional[tuple]:
 
 
 def _load_equip_scan_rels() -> set:
-    """加载批次扫描清单 → {rel}（P1x 223 文件 M3 批次 1 + P2x 74 页件 M4 批次 2 = 297）"""
+    """加载批次扫描清单 → {rel}（P1x 223 + P2x 74 + 毒品迁入 2 = 299）"""
     try:
         with open(_PREPARE_BATCHES_JSON, encoding="utf-8") as f:
             raw = json.load(f)
@@ -339,8 +340,8 @@ def _load_equip_scan_rels() -> set:
         if batch.get("batch", "").startswith(("P1", "P2")):
             for f in batch.get("files", []):
                 rels.add(f.removeprefix("pf_rules_md_organized/"))
-    if len(rels) != 297:
-        raise RuntimeError(f"装备批次扫描清单应为 297 文件（P1 223 + P2 74），实际 {len(rels)}")
+    if len(rels) != 299:
+        raise RuntimeError(f"装备批次扫描清单应为 299 文件（P1 223 + P2 74 + 毒品迁入 2），实际 {len(rels)}")
     # 专属表完整性自证：清单内每个文件必须可短路命中（漏表 = 来源失实，
     # 技能 3.1 教训的编译期等价物）
     miss = sorted(rel for rel in rels if _resolve_equip_source(rel) is None)

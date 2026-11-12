@@ -177,10 +177,55 @@ class SpellFormat(BaseFormat):
 
         return text
 
+    def _repair_spell_title_boundaries(self, text: str) -> str:
+        """在标题归一前修复跨行、嵌套括号和章节粘连边界。"""
+        # KN019 已批准译名：编译页与 page_1177 同条目共用中文名。
+        text = re.sub(
+            r'【(死灵)】\s*\(Calamitous Flailing\)',
+            r'【\1】手舞足蹈(Calamitous Flailing)',
+            text,
+            flags=re.IGNORECASE,
+        )
+        text = re.sub(
+            r'(【[^】]+】)([^（(\n]+?)[（(]([一-鿿][^）)]*)[）)]\s*[（(]([A-Za-z][^）)]*)[）)]',
+            lambda m: f'{m.group(1)}({m.group(3)}){m.group(2)}({m.group(4)})',
+            text,
+        )
+        text = re.sub(
+            r'(【[^】]+】(?:\([^)]*\))?[^（(\n【]+?)\r?\n\s*([IVX]{1,6})\s*(?=[（(])',
+            lambda m: f'{m.group(1).rstrip()} {m.group(2)}',
+            text,
+        )
+        text = re.sub(
+            r'(\*\*[^*\n（(]+?)(?:\*\*)?\r?\n\s*([IVX]{1,6})\s*([（(][^）)\n]+[）)])\*\*',
+            lambda m: f'{m.group(1).rstrip()} {m.group(2)}{m.group(3)}**',
+            text,
+        )
+        text = re.sub(
+            r'(\*\*[^*\n]+?)(?:\*\*)?\r?\n\s*([IVX]{1,6})\*\*(?=[（(]\[)',
+            lambda m: f'{m.group(1).rstrip()} {m.group(2)}**',
+            text,
+        )
+        text = re.sub(
+            r'(^|[。！？])([一-鿿][^（(\n。！？]{0,30}?)\r?\n\s*([IVX]{1,6})[（(]([A-Za-z][^）)\n]+)[）)](?=学派[：:])',
+            lambda m: f'{m.group(1)}\n**{m.group(2).rstrip()} {m.group(3)} ({m.group(4)})**\n',
+            text,
+            flags=re.MULTILINE,
+        )
+        return re.sub(
+            r'(?<=[。！？])\*\*(?=【(?:防护|咒法|预言|惑控|塑能|幻术|死灵|变化|通用|附魔)[^】]*】)',
+            '**\n',
+            text,
+        )
+
     # ---- Phase 1 normalize（法术特有） ----
 
     def _normalize_custom(self, text: str) -> str:
         """法术类目特有的去噪规则（按顺序执行）"""
+        # KN225：整行加粗 markdown 链接且锚文本为 PZO 书目号（`**[PZOxxxx 书名](url)**`）
+        # 定向剥除（KN136 守卫只拒收其为伪标题、不剥除该行，残留会并入相邻法术 chunk 尾部）。
+        # 仅剥这一种形态，不动 KN131 收窄后保留的锚=中文正文链接行（禁动共享层口径）。
+        text = self._strip_pzo_bibliography_lines(text)
         # Phase 1a：全局去噪（不依赖格式上下文）
         text = self._strip_markdown_url_lines(text)
         text = self._strip_html_artifacts(text)
@@ -210,12 +255,16 @@ class SpellFormat(BaseFormat):
         text = self._fix_bracket_crossline_english_name(text)
         text = self._fix_closing_bold_on_newline(text)
 
-        # Phase 1b：标题清理
+        # Phase 1b：标题清理与跨行/嵌套括号边界修复
         text = self._strip_strikethrough(text)
         text = self._strip_title_suffixes(text)
+        text = self._repair_spell_title_boundaries(text)
 
         # Phase 1c：标题归一化为 **中文 (English)**
         # 必须先处理 【学派】和分组标题，再处理裸标题加粗和格式统一
+        # KN242 修订 1 M1：_unify_school_bracket_titles 调用前原文快照
+        # （C 桶窄路补救通道数据源；只加实例缓存键，不改任何既有输出字段）
+        self._pre_unify_text = text
         text = self._unify_school_bracket_titles(text)
         text = self._normalize_group_headers(text)
         text = self._wrap_bare_spell_titles(text)
@@ -245,6 +294,19 @@ class SpellFormat(BaseFormat):
         text = self._normalize_spell_titles(text)
         return text
 
+    def _strip_pzo_bibliography_lines(self, text: str) -> str:
+        """KN225：剥除整行 PZO 书目导航链接（`**[PZOxxxx 书名（英文）](url)**`）。
+
+        仅匹配整行、加粗包裹、锚文本以 PZO 书目号开头的 markdown 链接；
+        其他链接行（含锚=中文正文的章节链接，KN131 收窄口径）一律不动。
+        """
+        return re.sub(
+            r'^\s*\*\*\[PZO[^\]]*\]\s*\([^)\n]+\)\*\*\s*$',
+            '',
+            text,
+            flags=re.MULTILINE,
+        )
+
     def _strip_markdown_url_lines(self, text: str) -> str:
         """剥离整行 URL（Markdown 链接或裸 URL 占一行的模式）"""
         # [text](url)
@@ -273,13 +335,13 @@ class SpellFormat(BaseFormat):
         """剥离 ◎ ○ 译者标记。
 
         两步处理：
-          1. 剥离 ◎[name]译文引自[translator] 前缀（行首与行内），保留后续内容
+          1. 剥离 ◎[name]译文引自/来自[translator] 前缀（行首与行内），保留后续内容
           2. 纯译者注释行（无 【）整行剥离
         """
-        # ◎[name]译文引自[translator] → 保留后续内容（行首与行内均适用）
-        text = re.sub(r'[◎○]\[[^\]]+\]译文引自[^\]]*\]', '', text)
+        # 译者名可为 [笨哈] 或直接接学派标题的 笨哈【学派】 两种形态。
+        text = re.sub(r'[◎○]\[[^\]]+\]译文(?:引自|来自)(?:\[[^\]]*\]|[^【\n]*)', '', text)
         # 行尾残余的独立 ◎ ○ 行（无 【 跟随）：整行剥离
-        text = re.sub(r'^[◎○]\s*.*$', '', text, flags=re.MULTILINE)
+        text = re.sub(r'^[◎○]\s*(?!.*【).*$', '', text, flags=re.MULTILINE)
         return text
 
     def _strip_image_markers(self, text: str) -> str:
@@ -543,9 +605,10 @@ class SpellFormat(BaseFormat):
             r'\1',
             text
         )
-        # ─种族(English) 后缀（如 ─加隆德人(Garundi)）
+        # ─种族(English) 后缀（如 ─加隆德人(Garundi)）；
+        # 排除正文句读和学派标记，避免从正文破折号吞到下一法术标题。
         text = re.sub(
-            r'─[^（(]*[（(][^）)]*[）)]$',
+            r'─[^（(\n。！？【】]*[（(][^）)\n]*[）)]$',
             '',
             text,
             flags=re.MULTILINE
@@ -623,8 +686,14 @@ class SpellFormat(BaseFormat):
         """剥离 【学派】 标题前的多余 * 号（如 *【防护】或 **【防护】）"""
         # 行首：无条件剥离
         text = re.sub(r'^\*+【', '【', text, flags=re.MULTILINE)
-        # 行内：仅当 ** 前是句号/空格时剥离（安全边界，不破坏字段内的 **）
-        text = re.sub(r'([。！？\s])\*+【', r'\1【', text)
+        # 行内：双星若是章节引言闭合则保留并换行；单星噪声剥除。
+        # 仅作用于已知学派标题，避免拆动译注等其他【】内容。
+        text = re.sub(
+            r'([。！？\s])\*\*(?=【(?:防护|咒法|预言|惑控|塑能|幻术|死灵|变化|通用|附魔)[^】]*】)',
+            r'\1**\n【',
+            text,
+        )
+        text = re.sub(r'([。！？\s])\*(?=【)', r'\1【', text)
         return text
 
     def _fix_closing_bold_on_newline(self, text: str) -> str:
@@ -821,7 +890,7 @@ class SpellFormat(BaseFormat):
         输出：**强酸箭 (Acid Arrow)**
 
         格式模式：
-          【学派】(可选子学派)中文名(English)[可选描述符]
+          【学派】(可选子学派)中文名(English)[可选描述符/链接]...
 
         仅当标题行包含英文名（括号内）时转换，避免误转单行分组标题（如 【防护系】 单独一行）。
         """
@@ -832,8 +901,8 @@ class SpellFormat(BaseFormat):
             r'([^（(]+)'                          # 中文名
             r'[（(]([^）)]+)[）)]'                # (English)
             r'(?:/[^\n（(]*)?'                    # 可选/神祇名（Spell FoP 格式）
-            r'(?:[ \t]*\[[^]]*\])?'               # 可选[描述符]（前可有空格）
-            r'\s*(?:\*\*.*)?$',                   # 可选紧跟字段标签
+            r'(?:[ \t]*\[[^]]*\](?:\([^)]*\))?)*'  # 可选[描述符/链接]（前可有空格）
+            r'\s*$',                                  # 字段标签与首组值留给后续归一链
             re.MULTILINE,
         )
         text = pattern.sub(r'**\1 (\2)**', text)
@@ -847,7 +916,7 @@ class SpellFormat(BaseFormat):
             r'([^（(【\n]+?)'                     # 中文名
             r'[（(]([^）)]+)[）)]'                # (English)
             r'(?:/[^\n（(]*)?'                    # 可选/神祇名（Spell FoP 格式）
-            r'(?:[ \t]*\[[^]]*\])?',              # 可选[描述符]（前可有空格）
+            r'(?:[ \t]*\[[^]]*\](?:\([^)]*\))?)*',              # 可选[描述符]（前可有空格）
             lambda m: (m.group(1) or '') + '**' + m.group(2) + ' (' + m.group(3) + ')**',
             text
         )
@@ -929,6 +998,15 @@ class SpellFormat(BaseFormat):
         text = re.sub(
             rf'(\*\*[^*]*[一-鿿])\s+([A-Z][A-Za-z\s\'’]*[a-z][A-Za-z\s\'’]*?)\*\*((?:{"|".join(LEGACY_13_LABELS)}))',
             r'\1 (\2)**\n**\3',
+            text
+        )
+
+        # Step 0a9: 同行裸标题的罗马后缀 — 中文名 I（English）field：
+        # 仅允许“中文基名 + 空格 + 罗马数字”带空格，先于通用内联标题规则，
+        # 避免注记前缀或罗马后缀被吞入/截取为标题。
+        text = re.sub(
+            r'([。！？，；\s）)])(?!出自)([^\n。！？，；（(]{1,40}?[一-鿿]\s+[IVX]{1,6})\s*（(' + _EN + r')）((?:' + field_pat + r')[：:])',
+            r'\1\n**\2 (\3)**\n**\4**',
             text
         )
 
@@ -1215,6 +1293,33 @@ class SpellFormat(BaseFormat):
             r'|见下文|见文本|见后文)',
             lambda m: f"{m.group(1)}\n**{_normalize_label(m.group(2))}：** {m.group(3)}",
             text
+        )
+
+        # SMF010（KN245 裁定 2026-10-30）：等级/环位 标签无冒号的三族形态。
+        #   ① 空值 bold：**环位       ** → **环位：**（Spell ARG 窃取呼吸）
+        #   ② 与前一字段同行、以 ；/; 分隔：**学派：** 变化系；等级 \n牧师1…（典礼）
+        #   ③ 裸标签后接 2+ 空格：**学派：** 防护环位  \n炼金术师3…（屠龙者手册）、
+        #      …[诅咒]环位      反圣武士 \n3,…（BotM）、**学派   咒法（医疗）环位   牧师2…
+        #      （Spell CRB 医疗系列整行挤压）
+        # 只取「环位」的裸空格形态：「等级」在正文里常作后缀词出现
+        # （施法者等级 / 1分钟/等级 / 全部等级），放宽会改写 duration 与法术名。
+        # 值尾紧贴的下一字段标签（…术士/法师3施法时间 标准动作）不由本函数拆成
+        # 新字段——那会让 casting_time 吞掉整段表头；改由 _truncate_trailing_prose
+        # 在环位取值时切断（只影响环位值，不新增字段）。
+        text = re.sub(
+            r'\*\*(等级|环位)[ \t]+\*\*',
+            lambda m: f"**{_normalize_label(m.group(1))}：**",
+            text,
+        )
+        text = re.sub(
+            r'[；;][ \t]*(等级|环位)[ \t]*(?=\n|\s)',
+            lambda m: f"\n**{_normalize_label(m.group(1))}：** ",
+            text,
+        )
+        text = re.sub(
+            r'环位[ \t]{2,}',
+            lambda m: "\n**环位：** ",
+            text,
         )
 
         return text
@@ -1608,6 +1713,20 @@ class SpellFormat(BaseFormat):
                 "name_en": current_name_en,
                 "text": "\n".join(lines[current_start:]).strip(),
             })
+
+        # KN242 修订 1 M1：split 入口快照分发——每条 item 带其标题在
+        # _unify_school_bracket_titles 调用前原文（_pre_unify_text，normalize
+        # 时实例缓存）中的邻域切片（标题起 400 字符），供 processor C 桶窄路
+        # 补救通道消费。键缺失/找不到标题 → 不设置（processor 跳过，向后兼容）。
+        pre = getattr(self, "_pre_unify_text", "")
+        if pre:
+            for it in items:
+                nm = (it.get("name") or "").strip()
+                if not nm:
+                    continue
+                pos = pre.find(nm)
+                if pos != -1:
+                    it["_pre_unify_text"] = pre[pos:pos + 400]
 
         return items
 

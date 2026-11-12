@@ -19,7 +19,7 @@
 | page_194 | 专长 → 专长概述 | 核心规则手册专长概述章 | CRB | 内容：Feat Concept 概述（专长是什么/先决条件），CRB 专长章引言 |
 | page_276 | 专长 → 内海战斗 | Inner Sea Combat 内海战斗 | ISC | 缩写表 |
 | page_500 | 专长 → 进化职业起源（ACO） | Advanced Class Origins 进化职业起源 | ACO | 目录名自带 |
-| page_538 | 专长 → 纯善/平衡/堕落信念 | Champions of Purity/Balance/Corruption 三合一 | CoP/CoB/CoC | 内容：酩酊侠/占决预导等三本 Champion 合集 |
+| page_538 | 专长 → 纯善/平衡/堕落信念 | Champions of Purity/Balance/Corruption 三合一 | **分节映射**（KN230）：纯善信念节→CoPur 12 / 平衡信念节→CoBal 6 / 堕落信念节→CoCorr 11 | 内容：酩酊侠/占决预导等三本 Champion 合集；原 CoP/CoB/CoC 为 KN230 登记脏值，feat_chain SECTION_MAPPING 按源文件章节边界（page_538.md line 5/88/140）逐 chunk 归并 |
 | page_201 | 专长 → B1 怪物图鉴 | Bestiary 1 怪物图鉴 | B1 | 目录名 |
 | page_552 | 专长 → 远程战术工具箱 | Ranged Tactics Toolbox | RTT | 缩写表 |
 | page_561 | 专长 → 切里亚斯，魔鬼王朝 | Cheliax, Empire of Devils | CEoD | 缩写表（切利亚斯，魔鬼帝国） |
@@ -39,9 +39,9 @@
 | doc_id | chm_toc_path | 判定书 | 缩写 |
 |---|---|---|---|
 | 专长11 | 未整理 → 极限荒野UW → 专长 | Ultimate Wilderness 极限荒野 | UW |
-| 专长 | 未整理 → 秽邪勇士 → 专长 | Champions of Corruption 秽邪勇士 | CoC |
+| 专长 | 未整理 → 秽邪勇士 → 专长 | Champions of Corruption 秽邪勇士 | CoCorr（KN230 归并，原 CoC） |
 | 专长41 | 未整理 → 内海种族 → 专长 | Inner Sea Races | ISR |
-| 专长33 | 未整理 → 平衡勇士 → 专长 | Champions of Balance | CoB |
+| 专长33 | 未整理 → 平衡勇士 → 专长 | Champions of Balance | CoBal（KN230 归并，原 CoB） |
 | 专长1 | 未整理 → 怪物猎人手册MHH → 专长 | Monster Hunter's Handbook | MHH |
 | 专长24 | 未整理 → 缘界英雄Heroes from the Fringe → 专长 | Heroes from the Fringe | HftF |
 | 专长45 | 未整理 → 任务与战役 → 专长 | 任务与战役 | QaC |
@@ -69,7 +69,7 @@
 | 专长21 | 未整理 → 遥远世界Distant Shores → 专长 | Distant Shores | DS |
 | 专长4 | 未整理 → 黑市指南BM → 专长 | Black Markets | BM |
 | 专长39 | 未整理 → 卡蒂亚，东方明珠QJotE → 专长 | Qadira, Jewel of the East | QJotE |
-| 专长56 | 未整理 → 秘术选集Arcane Anthology → 专长 | Arcane Anthology | ArcaneAnthology |
+| 专长56 | 未整理 → 秘术选集Arcane Anthology → 专长 | Arcane Anthology | ArAn（KN230 归并，原 ArcaneAnthology；AA 被冒险者的军械库占用，同书同值对齐 trait 侧 KN231） |
 | 专长57 | 未整理 → CaC部属与伙伴 → 专长 | Cohorts & Companions | CaC |
 | 专长6 | 未整理 → 哈罗牌手册THH → 专长 | The Harrow Handbook | THH |
 | 专长12 | 未整理 → 位面行者手册PHH → 专长 | Planar Handbook | PHH |

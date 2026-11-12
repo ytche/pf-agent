@@ -269,3 +269,61 @@ class LinkMythicBaseSpells:
             f.write("\n".join(lines) + "\n")
 
         return stats
+
+
+class SupplementSpellAliases:
+    """KN233：条目 aliases 补录（社区通用译名/异译，源 md 不改）。
+
+    法术 chunk 的 aliases 本只来自条目页的英文名（processors/spell.py
+    build_chunk）。职业法术列表页与正文戏言句中出现的社区通用译名（如
+    「不屈之心」）因此不在 aliases 里，向量召回与 spell_lists 交叉都会漏。
+    本步骤按 curated 表给指定 chunk 追加中文别名，幂等（已存在则跳过）。
+
+    只增 aliases 字段，不改 title/text，不增删行；依据逐条见
+    docs/已知问题记录.md KN233 审批单（源 md 回写为另一待审批分支，两者
+    不冲突：aliases 服务召回，源回写服务展示一致性）。
+    """
+
+    DEFAULT_REPORT_DIR = Path("docs/法术")
+
+    # chunk_id → 追加的中文别名列表（依据 = KN233 考据，见登记节）
+    SUPPLEMENTS = {
+        'spell_Spell APG_0245': ['幻灵重塑术'],      # 掉链子召唤师列表页/职业特性原文用名
+        'spell_Spell APG_0159': ['月狂病'],          # 女巫/奥能师/血脉狂怒者列表页用名
+        'spell_page_1168_0013': ['连接遗赠'],        # 萨满列表页 page_114 用名
+        'spell_page_1365_0368': ['连接遗赠'],
+        'spell_Spell OA_0018': ['乙太凝聚场'],       # 唤魂师列表页 page_1037 笔误形
+        'spell_Spell ISWG_0011': ['不屈之心'],       # 条目正文（Spell ISWG.md:643）戏言句定名
+    }
+
+    def supplement(self, chunks: List[dict]) -> Dict[str, Any]:
+        """对 chunk 列表原位补别名，返回统计（纯逻辑无 I/O）。"""
+        added, skipped = 0, 0
+        for c in chunks:
+            wanted = self.SUPPLEMENTS.get(c.get("chunk_id"))
+            if not wanted:
+                continue
+            aliases = c.setdefault("aliases", [])
+            for a in wanted:
+                if a in aliases:
+                    skipped += 1
+                    continue
+                aliases.append(a)
+                added += 1
+        return {"added": added, "already_present": skipped}
+
+    def run(self, output_dir: Path,
+            report_dir: Optional[Path] = None) -> Dict[str, Any]:
+        chunks_path = output_dir / "chunks.jsonl"
+        with open(chunks_path, encoding="utf-8") as f:
+            chunks = [json.loads(line) for line in f if line.strip()]
+
+        stats = self.supplement(chunks)
+
+        with open(chunks_path, "w", encoding="utf-8") as f:
+            for c in chunks:
+                f.write(json.dumps(c, ensure_ascii=False) + "\n")
+
+        log.info("KN233 alias supplements: added=%d already_present=%d",
+                 stats["added"], stats["already_present"])
+        return stats

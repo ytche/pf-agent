@@ -36,7 +36,7 @@
 | ACG | 护卫宠伴（Shield Companion） |  |
 |  |
 | 4环法术 | CRB | 黑触手（Black Tentacles）       魅惑怪物（Charm Monster）       任意门（Dimension Door）       次元锚（Dimensional Anchor）       群体变巨术（Enlarge Person, Mass）       火焰护盾（Fire Shield）       高等隐形术（Invisibility, Greater）       生物定位术（Locate Creature） | 强效造物术（Major Creation）       群体缩小术（Reduce Person, Mass）       重雾术（Solid Fog）       石肤术（Stoneskin）       召唤怪物 V（Summon Monster V）       火墙术（Wall of Fire）       冰墙术（Wall of Ice） |
-| APG | 酸池坑（Acid Pit）       高等激励进化（Evolution Surge, Greater） | 纯化唤回（Purified Calling）       幻灵重塑术（Transmogrify） |
+| APG | 酸池坑（Acid Pit）       高等激励进化（Evolution Surge, Greater） | 纯化唤回（Purified Calling）       向导重塑术（Transmogrify） |
 | UM | 压榨劳工 (Agonize)       群体晕眩术（Daze, Mass） | 硫酸之雾（Vitriolic Mist） |
 | UC | 黑曜之流UC（Obsidian Flow）       共用防护能量伤害（Protection from Energy, Communal） | 灵魂连接（Summoner Conduit）       共用巧言术（Tongues, Communal） |
 | ACG | 可调变身术（Adjustable Polymorph） | 蠕行冰川（Creeping Ice） |

@@ -27,7 +27,8 @@ from typing import Dict, List, Optional
 from vectorizer.formats.base import BaseFormat
 from vectorizer.formats.normalize_common import (
     _RE_STRIKE_SHELL, _merge_cross_line_en)
-from vectorizer.registry_rule import RULE_FIELD_LABELS, RULE_FIELD_LABELS_S6
+from vectorizer.registry_rule import (
+    RULE_FIELD_LABELS, RULE_FIELD_LABELS_M5, RULE_FIELD_LABELS_S6)
 
 # ---- 行锚与剥除（须在 CR 归一后运行，行锚依赖换行结构）----
 
@@ -116,7 +117,15 @@ _RE_LATIN = re.compile(r"[A-Za-z]")
 # 纯中文短行（≤30 字符、无标点；废土跨行标题上行拼接候选）
 _RE_CN_SHORT = re.compile(r"^[一-鿿/·]{1,30}[ \t]*$")
 
-_FIELD_LABELS: frozenset = frozenset(RULE_FIELD_LABELS + RULE_FIELD_LABELS_S6)
+_FIELD_LABELS: frozenset = frozenset(
+    RULE_FIELD_LABELS + RULE_FIELD_LABELS_S6 + RULE_FIELD_LABELS_M5)
+# 怪物数据块头部汇总行（KN100 rule 家族）：`**XP 135**` / `**XP
+# 100****绝对中立 超小型 动物 先攻** +2；…`（魔宠手记FF 整行汇总）/
+# `**CR` 开壳（page_539 改装块）——并入所属怪物条目，不独立成节
+_RE_STAT_SUMMARY_ROW = re.compile(r"^[ \t]*\*\*(?:XP|CR)[ \t]")
+# 骰表行（构装体手册CH_模板 d10/d6 功能失调·故障表）：`**1**、没有额外
+# 影响。`——并入表标题节（`d10 功能失调`），不独立成节
+_RE_DICE_NUM_ROW = re.compile(r"^[ \t]*\*\*\d{1,2}\*\*[ \t]*[、，．.]")
 
 
 def _extract_title(line: str) -> str:
@@ -173,11 +182,22 @@ def _is_field_line(line: str) -> bool:
     行尾无闭壳，_RE_FIELD_LINE 匹配不了（词表有词仍漏判 → 独立成泛词
     chunk）。判定层兼容只查词表不改写文本——全局补闭壳会破坏跨行名字行
     拼接（`**洛肯 \nLorcan**`）与跨行表格行（`**d%  `）的原文行形态
-    （KN210/KN214 既有修复依赖）"""
+    （KN210/KN214 既有修复依赖）。
+    M5 专项（KN100 rule 家族）三种附加形态：① 3 星斜粗壳字段行
+    （page_1125 `***特殊*** ***(Special)：***…`——前缀多 1 星使
+    _RE_FIELD_LINE 失配，剥 1 前缀星重试）；② 怪物头部汇总行
+    `_RE_STAT_SUMMARY_ROW`；③ 骰表行 `_RE_DICE_NUM_ROW`。"""
+    if _RE_STAT_SUMMARY_ROW.match(line) or _RE_DICE_NUM_ROW.match(line):
+        return True
     m = _RE_FIELD_LINE.match(line)
     if not m:
         # 开壳不闭变体：行首 `**` + 标签 + 空白到行尾（行内无闭壳/其他星）
         m = _RE_FIELD_LINE_OPEN.match(line)
+    if not m and line.startswith("***"):
+        # 3 星斜粗壳字段行（KN100 rule 家族）：剥 1 前缀星重试匹配
+        m = _RE_FIELD_LINE.match(line[1:].lstrip())
+        if not m:
+            m = _RE_FIELD_LINE_OPEN.match(line[1:].lstrip())
     if not m:
         return False
     label = m.group(1).strip().rstrip("：:")

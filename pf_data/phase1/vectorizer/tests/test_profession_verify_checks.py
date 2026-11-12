@@ -236,6 +236,195 @@ class TestVenomSiphoner:
 
 
 # ============================================================
+#  check_kn108_root_pages / check_rule_version（KN108 Task 3）
+# ============================================================
+
+KN108_ANCHORS = {
+    "职业概述/page_30.md": ["职业概述", "术语定义", "施法者等级"],
+    "核心职业/武僧/武僧清规/page_53.md": [
+        "武僧清规", "不邪淫戒", "囚执戒", "清净戒", "持斋戒",
+        "不杀生戒", "安贫戒", "不语戒", "不妄语戒",
+    ],
+    "进阶职业/page_128.md": ["进阶职业", "全进阶职业一览"],
+    "进阶职业/CRB进阶职业/龙脉术士/page_134.md": ["龙徒", "进阶要求", "角色定位"],
+    "掉链子（Unchained）/page_244.md": ["对PFS官方游戏的影响"],
+    "基础职业/召唤师/幻灵/page_411.md": ["幻灵", "生命骰", "基本攻击加值", "技能", "专长"],
+    "神话冒险/page_609.md": ["大法师", "斗士", "守护者", "圣者", "统帅", "诡术大师"],
+}
+
+
+def _kn108_root_chunks():
+    chunks = []
+    for doc_id, anchors in KN108_ANCHORS.items():
+        meta = {"class_name": "未知职业", "source_paths": [doc_id]}
+        if doc_id == "掉链子（Unchained）/page_244.md":
+            meta = {
+                "class_name": "",
+                "source_paths": [doc_id],
+                "rule_version": "unchained",
+            }
+        chunks.append({
+            "title": doc_id,
+            "text": "\n".join(anchors),
+            "component_type": "class_overview",
+            "book_abbreviation": "PFS" if "page_244" in doc_id else "CRB",
+            "doc_id": doc_id,
+            "metadata": meta,
+        })
+    return chunks
+
+
+class TestKn108RootPages:
+    def test_all_seven_pages_pass(self):
+        ok, issues = vp.check_kn108_root_pages(_kn108_root_chunks(), {})
+        assert ok, issues
+
+    def test_missing_page_fails(self):
+        chunks = [c for c in _kn108_root_chunks()
+                  if c["doc_id"] != "神话冒险/page_609.md"]
+        ok, issues = vp.check_kn108_root_pages(chunks, {})
+        assert not ok
+        assert any("page_609" in i for i in issues)
+
+    def test_monk_missing_no_false_speech_vow_fails(self):
+        """武僧 8 戒中缺少「不妄语戒」→ FAIL 且问题含页名"""
+        chunks = _kn108_root_chunks()
+        for c in chunks:
+            if "武僧清规" in c["doc_id"]:
+                c["text"] = c["text"].replace("不妄语戒", "")
+        ok, issues = vp.check_kn108_root_pages(chunks, {})
+        assert not ok
+        assert any("page_53" in i and "不妄语戒" in i for i in issues)
+
+    def test_page_244_wrong_component_type_fails(self):
+        chunks = _kn108_root_chunks()
+        for c in chunks:
+            if "page_244" in c["doc_id"]:
+                c["component_type"] = "class_feature"
+        ok, issues = vp.check_kn108_root_pages(chunks, {})
+        assert not ok
+        assert any("page_244" in i for i in issues)
+
+    def test_page_244_wrong_class_name_fails(self):
+        chunks = _kn108_root_chunks()
+        for c in chunks:
+            if "page_244" in c["doc_id"]:
+                c["metadata"]["class_name"] = "盗贼"
+        ok, issues = vp.check_kn108_root_pages(chunks, {})
+        assert not ok
+        assert any("page_244" in i for i in issues)
+
+    def test_page_244_forged_source_paths_fails(self):
+        chunks = _kn108_root_chunks()
+        for c in chunks:
+            if "page_244" in c["doc_id"]:
+                c["metadata"]["source_paths"] = ["掉链子（Unchained）/page_244.md",
+                                                 "伪造/路径.md"]
+        ok, issues = vp.check_kn108_root_pages(chunks, {})
+        assert not ok
+        assert any("page_244" in i and "source_paths" in i for i in issues)
+
+    def test_page_244_missing_rule_version_fails(self):
+        chunks = _kn108_root_chunks()
+        for c in chunks:
+            if "page_244" in c["doc_id"]:
+                del c["metadata"]["rule_version"]
+        ok, issues = vp.check_kn108_root_pages(chunks, {})
+        assert not ok
+
+
+def _rv_chunk(doc_id, book, rv=..., chm_toc_path=""):
+    meta = {"class_name": "未知职业", "source_paths": [doc_id]}
+    if rv is not ...:
+        meta["rule_version"] = rv
+    return {
+        "title": doc_id,
+        "text": "正文",
+        "component_type": "class_overview",
+        "book_abbreviation": book,
+        "doc_id": doc_id,
+        "chm_toc_path": chm_toc_path,
+        "metadata": meta,
+    }
+
+
+def _rv_legal_chunks():
+    return [
+        # Unchained 逻辑路径：必须 unchained
+        _rv_chunk("掉链子（Unchained）/page_244.md", "PFS", rv="unchained"),
+        _rv_chunk("掉链子（Unchained）/盗贼/page_22.md", "PU", rv="unchained"),
+        # 核心职业/盗贼/野蛮人：不得 unchained
+        _rv_chunk("核心职业/盗贼/page_10.md", "CRB", rv="crb"),
+        _rv_chunk("核心职业/野蛮人/page_35.md", "CRB", rv="crb"),
+        # 其他有效 book：等于小写
+        _rv_chunk("核心职业/武僧/page_55.md", "APG", rv="apg"),
+        # 空 / ? 来源：无键
+        _rv_chunk("基础职业/女巫/page_1.md", "", rv=...),
+        _rv_chunk("基础职业/女巫/page_2.md", "?", rv=...),
+    ]
+
+
+class TestRuleVersion:
+    def test_legal_sample_pass(self, capsys):
+        ok, issues = vp.check_rule_version(_rv_legal_chunks(), {})
+        assert ok, issues
+        out = capsys.readouterr().out
+        assert "⚠️ rule_version 省略（book 空或 ?）：2" in out
+
+    def test_toc_unchained_but_doc_not_ignored(self):
+        """toc 含 Unchained 但 doc_id 不在 Unchained 路径 → 按 doc 归属检查（看 doc_id 不看 toc）"""
+        chunks = _rv_legal_chunks()
+        # toc 带 Unchained 字样但 doc 是 CRB 页且正确标 crb → 不误报
+        chunks.append(_rv_chunk("核心职业/武僧/page_56.md", "CRB", rv="crb",
+                                chm_toc_path="掉链子（Unchained）/某页"))
+        ok, issues = vp.check_rule_version(chunks, {})
+        assert ok, issues
+        # 同样 chunk 若误标 unchained（依据 toc 猜测）→ FAIL
+        chunks.append(_rv_chunk("核心职业/武僧/page_57.md", "CRB", rv="unchained",
+                                chm_toc_path="掉链子（Unchained）/某页"))
+        ok, issues = vp.check_rule_version(chunks, {})
+        assert not ok
+
+    def test_valid_book_unmarked_fails(self):
+        chunks = _rv_legal_chunks()
+        chunks.append(_rv_chunk("核心职业/武僧/page_58.md", "APG", rv=...))
+        ok, issues = vp.check_rule_version(chunks, {})
+        assert not ok
+        assert any("page_58" in i for i in issues)
+
+    def test_placeholder_book_marked_fails(self):
+        chunks = _rv_legal_chunks()
+        chunks.append(_rv_chunk("基础职业/女巫/page_3.md", "?", rv="crb"))
+        ok, issues = vp.check_rule_version(chunks, {})
+        assert not ok
+
+    def test_page_244_marked_pfs_fails(self):
+        chunks = _rv_legal_chunks()
+        chunks.append(_rv_chunk("掉链子（Unchained）/page_244.md", "PFS", rv="pfs"))
+        ok, issues = vp.check_rule_version(chunks, {})
+        assert not ok
+
+    def test_core_rogue_barbarian_unchained_fails(self):
+        for doc_id in ("核心职业/盗贼/page_11.md", "核心职业/野蛮人/page_36.md"):
+            chunks = _rv_legal_chunks()
+            chunks.append(_rv_chunk(doc_id, "CRB", rv="unchained"))
+            ok, issues = vp.check_rule_version(chunks, {})
+            assert not ok
+            assert any(doc_id in i for i in issues)
+
+    def test_unchained_doc_not_marked_fails(self):
+        chunks = _rv_legal_chunks()
+        chunks.append(_rv_chunk("掉链子（Unchained）/野蛮人/page_40.md", "PU", rv=...))
+        ok, issues = vp.check_rule_version(chunks, {})
+        assert not ok
+
+    def test_checks_registered(self):
+        names = [title for title, _, _ in vp.ProfessionVerify.checks]
+        assert "KN108 根页面锚点" in names
+        assert "rule_version 全库" in names
+
+
+# ============================================================
 #  check_subtype_coverage
 # ============================================================
 

@@ -56,7 +56,7 @@ class TestAbbrCandidates:
             assert entry["en"].strip(), f"{key} en 为空"
 
     @pytest.mark.parametrize("key,abbr", [
-        ("秽邪勇士", "CoC"), ("平衡勇士", "CoB"), ("纯洁勇士", "CoP"),
+        ("秽邪勇士", "CoCorr"), ("平衡勇士", "CoBal"), ("纯洁勇士", "CoPur"),
         ("武器大师手册", "WEAPON"), ("护甲大师手册", "ARMOR"),
         ("亡灵杀手手册", "UNDEAD"), ("巨人猎手手册", "GIANT"),
         ("任务与战役", "QaC"), ("冒险者的军械库", "AA"),
@@ -79,7 +79,8 @@ class TestChannel1Resolution:
     def test_no_ascii_tail_looked_up(self):
         content = "> 来源：秽邪勇士（Champions of Corruption），页码见原书，未整理 → 秽邪勇士 → 专长"
         abbr, cn, en = _feat_source_from_content(content)
-        assert abbr == "CoC"
+        # KN230：秽邪勇士 CoC → CoCorr（CoC 为登记脏值）
+        assert abbr == "CoCorr"
         assert cn == "秽邪勇士"
         assert en == "Champions of Corruption"
 

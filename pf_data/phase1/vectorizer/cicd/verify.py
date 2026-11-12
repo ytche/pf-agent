@@ -29,11 +29,13 @@ CATEGORIES = {
         "verify_module": "vectorizer.verify.verify_feats",
         "invariants": [
             "verify_data_invariants.py",
-            # D1（2026-09-18）：book '?' 100 → 92 顶格。造物专长一览 8 条
-            # 经 ApplyFeatCreationSourcePromote 补源修复（CRB）；page_1367
-            # 超魔专长一览 92 条混排无法单一归书，KN228 设计保留同 KN106
-            # 口径——上限棘轮只降不升（原默认 100）
-            "--max-book-unknown", "92",
+            # KN228（2026-10-28）：book '?' 92 → 27 顶格。page_1367 超魔专长一览
+            # 65 条经 ApplyFeatMetamagicIndexJoin 库内同名唯一书 join 回填
+            # （64 白名单 + 水生法术→UW 拍板裁决，confidence 55 +
+            # metadata.source_backfill 证据块）；剩余 27 条库内无命中，不做
+            # 外部考据（17 独立专长原书不在 CHM 收录 + 10 无英文名速查表行，
+            # 见 已知问题记录.md KN228）——上限棘轮只降不升（原 100 → 92 → 27）
+            "--max-book-unknown", "27",
         ],
         "tests": [
             "test_category_*",                    # A~G 通用（所有类目验收面共用）
@@ -43,6 +45,7 @@ CATEGORIES = {
             "test_fc_match.py",                   # feat 判别器
             "test_per_file_chunk_counts.py",      # feat prepare 普查
             "test_postprocess.py",                # feat finalize 链
+            "test_list_exports.py",               # D2 权威清单导出（feat/race/equipment 共用）
         ],
     },
     "race": {
@@ -65,6 +68,7 @@ CATEGORIES = {
             "test_verify_base.py",                # verify 公共框架
             "test_cicd.py",                       # 编排自身
             "test_race_*",                        # race 专属格式/处理器/finalize 链
+            "test_list_exports.py",               # D2 权威清单导出（feat/race/equipment 共用）
         ],
     },
     "trait": {
@@ -80,12 +84,11 @@ CATEGORIES = {
             "--main-component", "trait",
             "--min-main-count", "990",  # 6eeb48b 守卫剔除 13 个「出自…」伪条目后真值 996
                                         #（伪条目原计入 1009），门随真值收敛
-            "--max-book-unknown", "205",  # 基础页 page_150~158 无来源条目 181 + page_1579
-                                          # 编注形态 15 + 典范背景 6（「出自」行内形态，书
-                                          # Chronicle of Legends 不在 50 书权威表）+ 坐骑
-                                          # 背景 1（动物坐骑无来源行）——'?' 设计保留同
-                                          # KN106 口径（2026-08-06 参数审议：203 实测 + 2
-                                          # 余量，KN137 家族增量；见 已知问题记录.md KN137）
+            "--max-book-unknown", "5",   # KN137+KN241 修复后实测（2026-10-28）：5 = 各页
+                                          # 介绍段 trait_intro（page_150~153/155），非 intro
+                                          # '?' 已清零（护枪匠→UCa / 诡器使→UCa / 切利亚斯
+                                          # 支持者→SH）；205 → 8 → 5 棘轮收紧
+                                          #（见 已知问题记录.md KN137/KN241）
             "--max-toc-empty", "0",
         ],
         "tests": [
@@ -119,6 +122,7 @@ CATEGORIES = {
             "test_verify_base.py",                # verify 公共框架
             "test_cicd.py",                       # 编排自身
             "test_equipment_*",                   # equipment 专属格式/处理器
+            "test_list_exports.py",               # D2 权威清单导出（feat/race/equipment 共用）
         ],
     },
     "rule": {
@@ -177,16 +181,30 @@ CATEGORIES = {
             "--min-main-count", "3750",  # spell 主检索条目现量 4171，-10% 余量
             "--max-book-unknown", "3",   # Pathfinder_Comics:10 3 条（召唤犬魔 I/II、
                                          # 恶魔梦境）非 50 书权威表来源，KN106 口径设计保留
-            "--max-toc-empty", "2124",   # SpellIndexProvider 生成列表索引 chunk
-                                         # （Spell CRB/APG/UM…37 doc）无源页面 toc，
-                                         # spell 模块早于 toc 回填框架构建的历史设计态，
-                                         # 非回归——闸口只拦新增（棘轮口径）
+            "--max-toc-empty", "2125",   # SpellIndexProvider 生成列表索引 chunk
+                                         # （Spell CRB/APG/UM…37 doc）无源页面 toc；
+                                         # KN244/246 新增 Spell FoP_0021 同属该历史口径，
+                                         # 参数审议 2124→2125，其余不得新增
+            # KN244/246（2026-10-29）：标题、切分与环级续行恢复后，空值由 422 收紧至 381。
+            # KN245 裁定（2026-10-30）：18 条全部闭环——14 条回填（含 黑暗卫士(Blk)
+            # →反圣武士 别名）、3 条经 SMF010 标签容错回填、阿底顿 2 条标
+            # not_applicable 不计；同批 SMF010 还救回 15 条同族空条目，空值 381 → 346
+            # （口径=metadata 含 spell_level 键且值为空且 field_status != not_applicable；
+            # 1 个 SpellIndex 索引 chunk 无键不计）。
+            # KN248（2026-10-30）：守卫拒填 29 条「章节导语/表头碎片/空壳/毒品条目」
+            # 窃取的假环级（union 随之少 147 条假派生），空值 346 → 375。
+            # 棘轮例外登记：本次为「宁空勿错」清假值，分子上升非质量退化；
+            # 与 KN242 修订 1 的 420→422 同类，理由与实测见 KN248 记录。
+            # 2026-11-02 SMF011 迁出：仙人掌粹 2 条（本身为空）移出法术目录，
+            # 375 → 373（分母 4203 → 4201）。
+            "--max-spell-level-empty", "373",
         ],
         "tests": [
             "test_category_*",            # A~G 通用（所有类目验收面共用）
             "test_verify_base.py",        # verify 公共框架
             "test_cicd.py",               # 编排自身
             "test_spell_metadata_v0_3.py",  # spell 专属格式/处理器/基线（KN019/KN136）
+            "test_spell_title_cluster.py",  # KN244/246 标题归一与条目边界
         ],
     },
     "profession": {
@@ -217,6 +235,38 @@ CATEGORIES = {
             "test_verify_base.py",        # verify 公共框架
             "test_cicd.py",               # 编排自身
             "test_profession_*",          # profession 专属格式/处理器/校验
+            "test_class_table_export.py", # D3 成长表导出（方案 20260917 §D3，export_script 配套）
+        ],
+    },
+    "skill": {
+        # KN227（2026-09-21 批 2 接入）：skill 收口时漏登 CATEGORIES，manifest
+        # 只能以 via=direct 裸跑；接入后四步链保护，manifest 改 via=cicd。
+        # input 用根目录全树遍历（同 feat）：技能源散布根级 page_1038/161/162/
+        # 182、工具和技能工具包.md 及 规则/Unchained规则、科技指南 子目录。
+        "output_dir": "vectorizer/output/技能",
+        "verify_module": "vectorizer.verify.verify_skills",
+        "invariants": [
+            "verify_data_invariants.py",
+            "--chunks", "vectorizer/output/技能/chunks.jsonl",
+            "--max-empty", "7",        # 实测 7：skill_index 语言条目源数据无描述
+                                       #（狩狼人/天狗语/沼蜍人语/卡萨达/特里亚克萨斯，
+                                       # EMPTY_TEXT_EXEMPT 豁免口径）+ FAQ 节标题 intro
+            "--oversize-limit", "5000",
+            "--max-oversize", "1",     # 实测 1：技能详述 5295（全定性登记，KN 口径
+                                       # 同 rule KN203——单页权威技能合并主条目）
+            "--min-total", "500",      # 现量 556，-10% 余量（rule/trait 收敛口径）
+            "--main-component", "skill",
+            "--min-main-count", "23",  # skill 主条目现量 26（26 名单基线），-10% 余量
+            "--max-book-unknown", "0", # 实测 book '?' 0（B2 专属表 12 doc 全覆盖，
+                                       # verify_skills 检查 7 来源书一致性同断言）——
+                                       # 顶格不预放（棘轮设计）
+            "--max-toc-empty", "0",    # 实测 chm_toc_path 空 0
+        ],
+        "tests": [
+            "test_category_*",            # A~G 通用（所有类目验收面共用）
+            "test_verify_base.py",        # verify 公共框架
+            "test_cicd.py",               # 编排自身
+            "test_skill_*",               # skill 专属格式/处理器
         ],
     },
 }

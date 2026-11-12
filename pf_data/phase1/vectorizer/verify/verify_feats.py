@@ -1,7 +1,7 @@
 """
 verify_feats.py — 专长集成验收（统一验收入口，R7；v2.2 决策 E 迁移进 VerifyBase 框架）
 
-在 pipeline 全量运行后执行，七检查（对齐返工 R7 验收 + R5 probe + D1 book 断言）：
+在 pipeline 全量运行后执行，八检查（对齐返工 R7 验收 + R5 probe + D1 book 断言 + KN230 ASCII 总断言）：
   1. 判别器回归：fc_deviation_matrix.json 189 rel 的 est↔got 对账（含豁免）
   2. 召回：audit_baseline.jsonl 基线（1226 行 / name_zh+en 联合去重 1072）↔ chunk title+aliases
   3. title 合法性：无空 title / 无 URL / 无译者标记
@@ -10,6 +10,8 @@ verify_feats.py — 专长集成验收（统一验收入口，R7；v2.2 决策 E
      基线 3756 快照有 46 个，R5 守卫后清至 0）
   6. D1 book 中文黑名单：book_abbreviation 中文书名 0 残留（全量枚举防回退）
   7. D1 negative test：修复前中文 book 的硬编码样例 chunk_id 均已归一
+  8. KN230 全 ASCII 总断言：book_abbreviation 均 ^[A-Za-z0-9&/]{2,10}$
+     （'?' 未知 sentinel 豁免；收编自 test_d1_kn226_boundary.py 产物级断言）
 
 豁免程序：docs/state/feat_exemptions_<日期>.md 登记无法产出或亚产出的 rel，
 verify 读其 YAML 式清单（`rel: <矩阵rel>` 列表），对豁免 rel 不要求 est↔got 全匹配。
@@ -23,6 +25,7 @@ from pathlib import Path
 from typing import Dict, List, Set, Tuple
 
 from vectorizer.verify.base import VerifyBase
+from vectorizer.list_export import make_list_soft_check
 
 DEFAULT_CHUNKS = Path("vectorizer/output/专长/chunks.jsonl")
 DEFAULT_MATRIX = Path("vectorizer/exploration/专长/fc_deviation_matrix.json")
@@ -337,6 +340,37 @@ def check_d1_negative_samples(chunks: List[dict], ctx: dict) -> Tuple[bool, List
 
 
 # ============================================================
+#  检查 8：KN230 book_abbreviation 全 ASCII 总断言（tester 产物级断言收编）
+# ============================================================
+
+# KN230（2026-09-21）：收编 test_d1_kn226_boundary.py 产物级全 ASCII 总断言。
+# 口径：除空值与 '?'（未知来源占位 sentinel，page_1367 跨书索引等设计保留，
+# 与 test_abbr_maps_to_single_en_name 同口径跳过）外，book_abbreviation 必须
+# 为 ^[A-Za-z0-9&/]{2,10}$。长度上限 {2,10} 在 KN230 归并后可 enforcing：
+# 历史上唯一超限值 'Dragonslayer'（11，KN230 前人工核定先例）与字符集外的
+# 'ArcaneAnthology'（13）均已在本批归并消失（→ DSH / ArAn）；'?' 单字符由
+# sentinel 豁免而非长度断言豁免。
+_RE_BOOK_ABBR_ASCII = re.compile(r"^[A-Za-z0-9&/]{2,10}$")
+
+
+def check_book_abbreviation_ascii(chunks: List[dict], ctx: dict) -> Tuple[bool, List[str]]:
+    """KN230：book_abbreviation 全 ASCII 总断言（字符集 ^[A-Za-z0-9&/]{2,10}$）。"""
+    bad = [
+        (c["chunk_id"], c.get("book_abbreviation", ""))
+        for c in chunks
+        if c.get("book_abbreviation")
+        and c.get("book_abbreviation") != "?"
+        and not _RE_BOOK_ABBR_ASCII.match(str(c.get("book_abbreviation", "")))
+    ]
+    print(f"  — 非规范 ASCII book_abbreviation: {len(bad)}（'?' 未知 sentinel 豁免）")
+    if bad:
+        by = Counter(a for _, a in bad)
+        samples = ", ".join(cid for cid, _ in bad[:5])
+        return False, [f"❌ {len(bad)} 条 chunk book_abbreviation 非规范 ASCII（KN230 回退）: {dict(by)}（示例: {samples}）"]
+    return True, []
+
+
+# ============================================================
 #  类目装配（VerifyBase 模板）
 # ============================================================
 
@@ -354,6 +388,10 @@ class FeatVerify(VerifyBase):
         ("R5 probe（elided 标题无正文句段碎片）", check_no_fragment_titles, "全库 elided 标题无一为正文句段碎片"),
         ("D1 book 中文黑名单", check_book_abbreviation, "中文 book_abbreviation 0 残留"),
         ("D1 negative test（修复样例 chunk_id）", check_d1_negative_samples, "样例 chunk book 均已归一"),
+        ("KN230 book_abbreviation 全 ASCII 总断言", check_book_abbreviation_ascii, "全库 abbr 均 ^[A-Za-z0-9&/]{2,10}$"),
+        # D2（方案_数据侧产物增强_20260917 §D2）：权威清单产物软检查——
+        # 缺失/version 不符/条目数低于下界只 WARN 不阻断（导出脚本独立运行）
+        make_list_soft_check("D2 feat_lists 产物", "vectorizer/output/专长/feat_lists.json", 3600),
     ]
 
     def add_args(self, parser):

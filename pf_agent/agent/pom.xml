@@ -14,7 +14,7 @@
 
     <groupId>com.pfagent</groupId>
     <artifactId>pf-agent</artifactId>
-    <version>0.2.0</version>
+    <version>0.3.0</version>
     <name>PF Agent</name>
     <description>PathFinder 1e 规则问答 Agent</description>
 
@@ -97,6 +97,17 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <!-- F-020：V5→V6→V7 迁移、JSONB、外键与删号 SET NULL 用真实 PostgreSQL 16 验证，不用 H2 代替 -->
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>
@@ -116,6 +127,18 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <!-- F-020 Testcontainers：Docker Engine 29 起最低 API 1.40，而 Testcontainers 1.20
+                 内置的 docker-java 默认仍按 1.32 访问 /info 会得到 400。显式声明远端 API 版本，
+                 让 PG16 迁移测试在新旧 Docker 上都能启动容器。 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <systemPropertyVariables>
+                        <api.version>1.44</api.version>
+                    </systemPropertyVariables>
+                </configuration>
             </plugin>
         </plugins>
     </build>

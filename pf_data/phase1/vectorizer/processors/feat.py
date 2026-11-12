@@ -21,6 +21,7 @@ from vectorizer.formats.feat import FeatFormat
 from vectorizer.postprocess.feat_chain import (
     ApplyChmTocMapping,
     ApplyFeatCreationSourcePromote,
+    ApplyFeatMetamagicIndexJoin,
     BackfillChmTocPath,
     BackfillFeatSource,
 )
@@ -264,11 +265,14 @@ class FeatProcessor(FileProcessor):
 
     # v2.2 决策 A：finalize 后处理链（顺序不可变，教训 B1——重排即 book/toc/source
     # 回归）。apply_chm_toc_mapping 先铺大部分 doc 的 book，造物专长一览保持 '?'
-    # 由 apply_feat_creation_source_promote 专处理；backfill 两脚本只填缺失字段，
+    # 由 apply_feat_creation_source_promote 专处理；page_1367 超魔专长一览由
+    # apply_feat_metamagic_index_join 库内同名 join 回填（KN228，第 3 位插入，新增不重排）；
+    # backfill 两脚本只填缺失字段，
     # 与 book 无耦合但保持声明顺序。pipeline 在 chunks.jsonl 落盘后逐个执行。
     POSTPROCESSORS = [
         ApplyChmTocMapping,
         ApplyFeatCreationSourcePromote,
+        ApplyFeatMetamagicIndexJoin,
         BackfillChmTocPath,
         BackfillFeatSource,
     ]

@@ -621,7 +621,7 @@ Lock****）**：以魔法将门或箱子锁住。
 | 2级 | 黑暗术（darkness） | 12级 | 操控水位（control        water） |
 | 4级 | 黑暗视觉（darkvision） | 14级 | 月光面纱（lunar veil,        UM） |
 | 6级 | 枭之睿智（owl's        wisdom） | 16级 | 凋死术（horrid        wilting） |
-| 8级 | 月狂病（moonstruck,        APG） | 18级 | 流星爆（meteor        swarm） |
+| 8级 | 精神错乱（moonstruck,        APG） | 18级 | 流星爆（meteor        swarm） |
 | 10级 | 狼之型（aspect of the wolf,        APG） |  |  |
 | 玄秘庇护主奖励法术 |
 | 2级 | 侦测死灵（detect        undead） | 12级 | 唤起死灵（create        undead） |

@@ -1,5 +1,6 @@
 package com.pfagent.agent.rag;
 
+import com.pfagent.agent.telemetry.QueryGateEventService.Reason;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.ai.tool.annotation.ToolParam;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * LLM 工具面：三个底层检索方法（设计 §3）
@@ -39,6 +41,19 @@ public class RetrievalTools {
     private FilterTranslator filterTranslator;
     @Autowired
     private SpellListService spellListService;
+    @Autowired
+    private ClassTableService classTableService;
+    @Autowired
+    private ListExportService listExportService;
+    /** F-026：工具护栏事件写入（尽力写入，未装配/无上下文/写失败均不影响主流程） */
+    @Autowired(required = false)
+    private QueryGateEventRecorder queryGateEventRecorder;
+    /** AKN-024：当前请求会话上下文（ThreadLocal，由 ChatService.begin 注入，不引入全局状态） */
+    @Autowired(required = false)
+    private ToolCallTracker toolCallTracker;
+    /** AKN-024：会话级宽查询放行指纹（内存、重启失效） */
+    @Autowired(required = false)
+    private BroadQueryAllowanceRegistry broadQueryAllowanceRegistry;
     @Value("${pf.search.vector-result-chars:1500}")
     private int vectorResultChars;
     @Value("${pf.search.metadata-result-chars:4000}")
@@ -57,6 +72,12 @@ public class RetrievalTools {
     /** J6：getEntryLinks 每层链接的展示条数上限（防职业被法术反向引用刷屏） */
     @Value("${pf.search.entry-links-max-per-section:20}")
     private int entryLinksMaxPerSection;
+    /** B4：listEntries 默认返回条数 */
+    @Value("${pf.list-exports.default-limit:50}")
+    private int listExportsDefaultLimit;
+    /** B4：listEntries 单次硬上限 */
+    @Value("${pf.list-exports.max-limit:200}")
+    private int listExportsMaxLimit;
 
     private static final List<String> SORT_FIELDS = List.of("title", "level", "book");
     private static final List<String> SORT_ORDERS = List.of("asc", "desc");
@@ -83,6 +104,18 @@ public class RetrievalTools {
                 （如 spell 的 {level:"3"} 表 ≥3 环）
               - sortBy: "title"|"level"|"book"，可空=默认序；sortOrder: "asc"|"desc"，默认 asc
               - limit: 返回条数（默认 50）；offset: 跳过条数（默认 0）
+              - allowBroadQuery: 布尔，默认 false。仅当用户已明确确认「仍按原范围查询」时设 true；
+                无业务条件或仅 book 条件未放行会返回收窄建议而不执行检索，同一逻辑查询每页都需携带；
+                服务端按会话记录 module+book 放行指纹，换模块或换书后需重新向用户确认；
+                同一轮内或重新生成时重试不会自动放行，需等用户下一轮明确确认
+            宽查询纪律:
+              - 用户问「所有/全部/各类」等可能覆盖大量条目的问题时，先以 allowBroadQuery=false
+                （缺省）调用本工具登记真实 module+book：query 只带用户提到的书条件，未提书就留空；
+                工具会返回收窄建议，再据其向用户说明范围可能很大，给出 2~4 个有效收窄示例
+                （不能只是把宽词换个说法）、概览选项和「仍按原范围查询」选项
+              - 同一轮内不要改用 allowBroadQuery=true 重试（同轮不能确认自己刚登记的范围），
+                必须等用户下一轮明确确认；工具返回的收窄建议不是「查询无结果」或「数据缺失」
+              - 具体主题/职业/环级/具体条目/书+主题等小范围问题正常调用，不触发门禁
             法术模块可用字段:
               title / school / subschool / className / level(须配合 className) / book
             职业模块可用字段: className / archetypeName / featureSubtype / componentType / book / title
@@ -99,42 +132,58 @@ public class RetrievalTools {
             """)
     public String searchByMetadata(
             @ToolParam(description = "数据模块: spell/class/feat/race/trait/equipment/skill/rule，或 all 跨模块") String module,
-            @ToolParam(description = "过滤参数对象: filters(AND)/orFilters(OR)/gte/lte(范围)/sortBy/sortOrder/limit/offset") MetadataSearchQuery query) {
+            @ToolParam(description = "过滤参数对象: filters(AND)/orFilters(OR)/gte/lte(范围)/sortBy/sortOrder/limit/offset/allowBroadQuery") MetadataSearchQuery query) {
         if (module == null || (!"all".equals(module) && !VALID_MODULES.contains(module))) {
             return "未知模块: " + module + "，可用模块: spell(法术)/class(职业特性)/feat(专长)/race(种族)/trait(背景特性)/equipment(装备)/skill(技能)/rule(规则)/all(全部)";
         }
-        if (query == null || !query.hasAnyCondition()) {
-            return "请提供至少一个过滤条件（query 的 filters/orFilters/gte/lte 至少一个非空），不允许多条件为空的全库查询";
-        }
         List<String> available = availableFields(module);
-        List<String> unknown = new ArrayList<>();
-        if (query.getFilters() != null) {
-            query.getFilters().keySet().stream().filter(f -> !available.contains(f)).forEach(unknown::add);
+        // F-026：参数校验先于门禁判定——非法字段/非法排序/非法 level 组合在门禁前返回，
+        // 不产生 BLOCKED/ALLOWED 事件；放行字段不能修正非法输入。
+        if (query != null) {
+            List<String> unknown = new ArrayList<>();
+            if (query.getFilters() != null) {
+                query.getFilters().keySet().stream().filter(f -> !available.contains(f)).forEach(unknown::add);
+            }
+            if (query.getOrFilters() != null) {
+                query.getOrFilters().keySet().stream().filter(f -> !available.contains(f)).forEach(unknown::add);
+            }
+            if (query.getGte() != null) {
+                query.getGte().keySet().stream().filter(f -> !available.contains(f)).forEach(unknown::add);
+            }
+            if (query.getLte() != null) {
+                query.getLte().keySet().stream().filter(f -> !available.contains(f)).forEach(unknown::add);
+            }
+            if (!unknown.isEmpty()) {
+                return "未知过滤字段: " + unknown.stream().distinct().toList() + "，可用字段: " + available;
+            }
+            if ("spell".equals(module) && queryHasLevelCondition(query)
+                    && (query.getFilters() == null || query.getFilters().get("className") == null
+                            || query.getFilters().get("className").isBlank())) {
+                return "level 比较（gte/lte/orFilters）必须配合 filters.className 指定职业，"
+                        + "如 query={filters:{className:\"女巫\"}, gte:{level:\"3\"}}";
+            }
+            if (query.getSortBy() != null && !query.getSortBy().isBlank() && !SORT_FIELDS.contains(query.getSortBy())) {
+                return "未知排序字段: " + query.getSortBy() + "，可用值: " + SORT_FIELDS;
+            }
+            if (query.getSortOrder() != null && !query.getSortOrder().isBlank()
+                    && !SORT_ORDERS.contains(query.getSortOrder())) {
+                return "未知排序方向: " + query.getSortOrder() + "，可用值: " + SORT_ORDERS;
+            }
         }
-        if (query.getOrFilters() != null) {
-            query.getOrFilters().keySet().stream().filter(f -> !available.contains(f)).forEach(unknown::add);
-        }
-        if (query.getGte() != null) {
-            query.getGte().keySet().stream().filter(f -> !available.contains(f)).forEach(unknown::add);
-        }
-        if (query.getLte() != null) {
-            query.getLte().keySet().stream().filter(f -> !available.contains(f)).forEach(unknown::add);
-        }
-        if (!unknown.isEmpty()) {
-            return "未知过滤字段: " + unknown.stream().distinct().toList() + "，可用字段: " + available;
-        }
-        if ("spell".equals(module) && queryHasLevelCondition(query)
-                && (query.getFilters() == null || query.getFilters().get("className") == null
-                        || query.getFilters().get("className").isBlank())) {
-            return "level 比较（gte/lte/orFilters）必须配合 filters.className 指定职业，"
-                    + "如 query={filters:{className:\"女巫\"}, gte:{level:\"3\"}}";
-        }
-        if (query.getSortBy() != null && !query.getSortBy().isBlank() && !SORT_FIELDS.contains(query.getSortBy())) {
-            return "未知排序字段: " + query.getSortBy() + "，可用值: " + SORT_FIELDS;
-        }
-        if (query.getSortOrder() != null && !query.getSortOrder().isBlank()
-                && !SORT_ORDERS.contains(query.getSortOrder())) {
-            return "未知排序方向: " + query.getSortOrder() + "，可用值: " + SORT_ORDERS;
+        // F-026 工具护栏：无业务条件或仅来源书时，未放行不执行条目检索（返回收窄建议），
+        // 放行后执行（含无条件分页）。每次判定各记一行 BLOCKED / ALLOWED 事件。
+        Reason gateReason = BroadQueryGuard.metadataReason(query);
+        if (gateReason != null) {
+            AllowanceDecision decision = resolveBroadQueryAllowance(module,
+                    query != null && query.isBroadQueryAllowed(),
+                    query == null ? null : query.getFilters(),
+                    query == null ? null : query.getOrFilters());
+            if (!decision.allowed()) {
+                recordGateBlocked("searchByMetadata", module,
+                        decision.fingerprintMismatch() ? Reason.FINGERPRINT_MISMATCH : gateReason, query);
+                return BroadQueryGuard.blockedMessage("searchByMetadata", module, gateReason, available);
+            }
+            recordGateAllowed("searchByMetadata", module, gateReason, query);
         }
         if (query.getLimit() == null) {
             query.setLimit(metadataDefaultLimit);
@@ -142,18 +191,31 @@ public class RetrievalTools {
         if (query.getOffset() == null) {
             query.setOffset(0);
         }
-        List<Document> docs;
+        SearchService.PagedResult paged;
         try {
-            docs = searchService.searchByMetadata(module, query);
+            paged = searchService.searchByMetadataPaged(module, query);
         } catch (IllegalArgumentException e) {
             // 防御：SearchService 对非法模块的兜底，正常路径（已校验）不会到这
             return e.getMessage();
         }
+        List<Document> docs = paged.page();
         if (docs.isEmpty()) {
+            if (paged.offset() > 0 && paged.totalCount() > 0) {
+                if (paged.capped()) {
+                    if ("all".equals(module)) {
+                        return "已翻完当前跨模块合并结果（本次可返回 " + paged.totalCount()
+                                + " 条；至少一个模块已达单库检索上限 " + paged.cap()
+                                + " 条，实际命中可能更多），请收窄过滤条件（如 book/level/title）后继续";
+                    }
+                    return "已翻完工具可返回的前 " + paged.totalCount()
+                            + " 条（已达检索上限，实际命中可能更多），请收窄过滤条件（如 book/level/title）后继续";
+                }
+                return "已翻完全部结果（共 " + paged.totalCount() + " 条）";
+            }
             return "无命中。建议：减少一个过滤条件（如去掉 book）或改用 vectorSearch；确认数据缺失再 reportDataGap";
         }
         List<Integer> ids = collector.add(docs);
-        return formatCompact(docs, ids, "all".equals(module));
+        return formatCompact(docs, ids, "all".equals(module), paged, module);
     }
 
     /**
@@ -182,7 +244,8 @@ public class RetrievalTools {
             return "[]";
         }
         List<Integer> ids = collector.add(docs);
-        return formatCompact(docs, ids, false);
+        return formatCompact(docs, ids, false,
+                new SearchService.PagedResult(docs, docs.size(), 0, docs.size()), module);
     }
 
     /**
@@ -359,7 +422,8 @@ public class RetrievalTools {
     /**
      * 列出已报告的数据缺口（SP8a J3，只读）：调用 reportDataGap 前查重，避免重复上报。
      * 最新在前，limit 默认 pf.gaps.list-default-limit（20）、上限 100；keyword 对
-     * question/reason 子串匹配（可空）；单行损坏自动跳过。
+     * question/reason 子串匹配（可空）。F-021 起读 data_gap 表；库不可用与「无记录」分别回话
+     * （不把库故障说成「暂无记录」，否则 LLM 会据此判定没有重复缺口）。
      */
     @Tool(description = """
             列出已报告的数据缺口记录（只读）。调用 reportDataGap 之前先用我查重，
@@ -371,7 +435,11 @@ public class RetrievalTools {
             @ToolParam(required = false, description = "返回条数，默认 20，上限 100") Integer limit,
             @ToolParam(required = false, description = "按 question/reason 子串过滤，可空") String keyword) {
         int effective = limit == null ? gapsListDefaultLimit : Math.min(Math.max(limit, 1), 100);
-        List<DataGapRecorder.GapEntry> gaps = recorder.listGaps(effective, keyword);
+        DataGapRecorder.GapQueryResult result = recorder.listGaps(effective, keyword);
+        if (!result.available()) {
+            return "数据缺口库不可用（持久化未装配或读取失败），无法查重。";
+        }
+        List<DataGapRecorder.GapEntry> gaps = result.gaps();
         if (gaps.isEmpty()) {
             return keyword == null || keyword.isBlank()
                     ? "暂无数据缺口记录"
@@ -419,6 +487,9 @@ public class RetrievalTools {
 
     /**
      * 数据缺口报告：全部检索手段都无法回答时记录，供后续优化。
+     *
+     * F-021：record 返回 false（DB 不可用/写入失败）时不算已记录——不置 gapReported、
+     * 回话如实说明未记录，避免把「没落库」谎报成「已记录待优化」。
      */
     @Tool(description = """
             数据缺口报告：当 searchByMetadata / vectorSearch 都无法找到回答
@@ -431,7 +502,10 @@ public class RetrievalTools {
             @ToolParam(description = "用户原始问题") String question,
             @ToolParam(description = "已尝试的过滤条件，JSON 字符串，可空") String attemptedFilters,
             @ToolParam(description = "缺什么数据") String reason) {
-        recorder.record(question, attemptedFilters, reason);
+        boolean persisted = recorder.record(question, attemptedFilters, reason);
+        if (!persisted) {
+            return "数据缺口未能记录（持久化不可用）。请如实告知用户缺少相关知识。";
+        }
         collector.markGapReported();
         return "已记录数据缺口：question=" + question + "，attemptedFilters=" + attemptedFilters
                 + "，reason=" + reason + "。请如实告知用户缺少相关知识。";
@@ -450,10 +524,24 @@ public class RetrievalTools {
             className: 职业中文名，支持别名（诗人/游吟诗人→吟游诗人、圣武士→圣骑士等）；
             level: 环级 0~9，可省略（省略时返回该职业各环级条目数概览，不会一次塞全表）。
             未知职业返回可用职业清单。已知职业返回「序号. 中文名（English） [书]」紧凑清单。
+            结果过多自动截断并给真实总数/返回区间/has_more/续取 offset（与 searchByMetadata
+            翻页同构）；也可用 offset/limit 主动翻页，翻到末页提示「已翻完全部结果」。
+            覆盖口径（B1，2026-10-29 拍板）：五书线 20 职业返回 清单页五书（CRB/APG/UM/UC/ACG）
+            ∪ 库侧 spell_level 派生条目（全库书范围，含〔派生〕标注——派生覆盖受 spell_level
+            空率 10.1% 残留限制，非全库完整枚举）；唤魂师/秘学士/通灵者/异能者/催眠师五职业
+            仅官方清单（OA 清单页跨 20+ 书，不派生）。条目数不等于全库法术总数，
+            需要穷尽时请说明口径并用 searchByMetadata 补查。
+            去重口径（F-025）：union 1.1 产物内同一职业同一环级每个法术只出现一次，
+            同一法术的全部来源书以缩写并列展示（如 [PSP/COMP]）；仅主来源为派生的条目
+            带〔派生〕标注，官方主条目合并派生来源后不标注；「共 N 条」= 折叠后的
+            不同法术数，概览/清单/分页 footer 同口径。
             """)
     public String getSpellList(
             @ToolParam(description = "职业中文名，如 法师/吟游诗人，支持常见别名") String className,
-            @ToolParam(description = "法术环级 0~9；省略则返回该职业各环级条目数概览") Integer level) {
+            @ToolParam(description = "法术环级 0~9；省略则返回该职业各环级条目数概览") Integer level,
+            @ToolParam(description = "跳过的条目数（默认 0，可翻页；与 J2 searchByMetadata 同构。"
+                    + "结果被截断时按提示续取：保持其他参数不变，offset=提示值）") Integer offset,
+            @ToolParam(description = "返回条数上限（默认单次展示上限内全量；配合 offset 翻页）") Integer limit) {
         if (!spellListService.isAvailable()) {
             return "职业法术列表清单暂不可用（spell_lists.json 未加载），请改用 searchByMetadata 查询。";
         }
@@ -476,7 +564,370 @@ public class RetrievalTools {
         if (level < 0 || level > 9) {
             return "环级须在 0~9 之间（0 为戏法/祷念）。" + spellListService.levelOverview(canonical) + sourceLine;
         }
-        return spellListService.formatLevel(canonical, level, metadataResultChars) + sourceLine;
+        return spellListService.formatLevel(canonical, level, metadataResultChars, offset, limit)
+                + sourceLine;
+    }
+
+    /**
+     * 职业成长表查表（J5，F-019）：输入职业+等级，直接返回 BAB/强韧/反射/意志豁免/
+     * 特殊能力/每日法术位——派生数值的唯一权威入口，LLM 禁止按公式自行计算。
+     * 直查数据侧 class_tables.json，优于让 LLM 回忆或推算成长数值。
+     * className: 职业名（中文/英文/俗称，支持别名，如 诗人→吟游诗人）；
+     * level: 等级 1~20，可省略（省略=返回该职业 1~max_level 全表）。
+     * 何时不用：法术清单枚举走 getSpellList；机制解释（"为什么法师 BAB 低"）与
+     * 兼职 BAB 合成规则走 vectorSearch；职业特性正文走 searchByMetadata/getEntryById。
+     * 未覆盖职业如实告知并引导 vectorSearch，绝不编造数值。
+     */
+    @Tool(description = """
+            查职业成长表：当用户问「XX职业N级的 BAB/基本攻击加值、强韧/反射/意志豁免、
+            每日法术位、特殊能力」这类按等级的派生数值时必须用我查表，禁止按公式自行计算。
+            直查数据侧预整理的成长表（官方「表：XX」逐行），比 LLM 推算可靠。
+            className: 职业名，支持别名（中文/英文/俗称，如 诗人→吟游诗人、圣武士→圣骑士）；
+            level: 等级，可省略（省略=返回该职业 1~20 全表，每行含 BAB/三项豁免/特殊/每日法术位）。
+            何时不用：法术清单枚举走 getSpellList；机制解释（"为什么法师 BAB 低""兼职怎么合成"）
+            与兼职规则走 vectorSearch；职业特性/变体正文走 searchByMetadata/getEntryById。
+            未知职业返回可用职业清单；数据侧未覆盖的职业如实告知并建议 vectorSearch，绝不编造数值。
+            """)
+    public String getClassTable(
+            @ToolParam(description = "职业名，如 法师/战士/吟游诗人，支持常见别名") String className,
+            @ToolParam(required = false, description = "等级 1~20；省略则返回该职业全表") Integer level) {
+        if (!classTableService.isAvailable()) {
+            return "职业成长表暂不可用（class_tables.json 未加载），请改用 vectorSearch 检索职业成长规则。";
+        }
+        if (className == null || className.isBlank()) {
+            return "请提供职业名（className），如 getClassTable(className=\"法师\")。可用职业: "
+                    + String.join("、", classTableService.knownClasses());
+        }
+        String canonical = classTableService.resolve(className);
+        if (canonical == null) {
+            if (classTableService.missingClasses().contains(className.trim())) {
+                return "「" + className.trim() + "」的成长表数据侧尚未整理（已登记缺失清单），"
+                        + "可改用 vectorSearch 检索该职业成长规则原文，或确认后 reportDataGap。"
+                        + "已收录职业: " + String.join("、", classTableService.knownClasses());
+            }
+            return "未知职业: " + className + "，可用职业: " + String.join("、", classTableService.knownClasses())
+                    + "（支持常见别名，如 诗人→吟游诗人、圣武士→圣骑士）";
+        }
+        // 命中职业：成长表行统一挂真实 chunk 溯源（点查未命中时服务内降级合成，[#N] 不缺席）
+        List<Integer> ids = collector.add(List.of(classTableService.provenanceDocument(canonical)));
+        String sourceLine = ids.isEmpty() ? "" : "\n\n来源编号 [#" + ids.get(0) + "]";
+        int maxLevel = classTableService.maxLevel(canonical);
+        if (level == null) {
+            return classTableService.formatTable(canonical) + sourceLine;
+        }
+        if (level < 1 || level > maxLevel) {
+            return "「" + canonical + "」成长表覆盖等级 1~" + maxLevel + "，level=" + level + " 越界。"
+                    + classTableService.formatTable(canonical) + sourceLine;
+        }
+        return classTableService.formatRow(canonical, level) + sourceLine;
+    }
+
+    /**
+     * 专长/种族/装备权威清单枚举（B4，D2）：直查数据侧预整理的完整清单 JSON，
+     * 不受向量库元数据缺失影响（对齐 getSpellList 的 spell_level 35% 缺失先例）。
+     * 无条件查询返回统计概览（防 4080 条全量刷屏）；有条件逐行返回并挂 [#N] 溯源。
+     */
+    @Tool(description = """
+            枚举专长/种族/装备的权威完整清单。当用户问「XX有哪些/全部/清单」这类
+            权威枚举式问题、或按来源书/类别/关键词数清单时必须用我，直查数据侧预整理的
+            完整清单（不受向量库元数据缺失影响，比 searchByMetadata 拼结果更全更准）。
+            module: "feat"(专长) / "race"(种族) / "equipment"(装备)。
+            query（参数对象，全字段可空）:
+              - keyword: 名称/英文名/别名子串（大小写不敏感、全半角容错）
+              - filters: 字段→值 AND 精确匹配；orFilters: 组内 OR（如 book:["CRB","APG"]）
+              - limit: 返回条数（默认 50，上限 200）；offset: 跳过条数（默认 0，可翻页）
+              - sortBy: "name"(默认) | "book" | "price"(仅 equipment，按 price_gp 排序)
+              - sortOrder: "asc"(默认) | "desc"；price 降序可直接回答「最贵」类问题
+              - allowBroadQuery: 布尔，默认 false。仅当用户已明确确认「仍按原范围查询」时设 true；
+                仅 book 条件未放行会返回收窄建议而不检索，同一逻辑查询每页都需携带；
+                服务端按会话记录 module+book 放行指纹，换模块或换书后需重新向用户确认；
+                同一轮内或重新生成时重试不会自动放行，需等用户下一轮明确确认
+            价格口径（仅 equipment）:
+              - price 原文单位 gp；排序/区间过滤使用数值 price_gp（整数 gp）
+              - 仅统计有明确标价的条目（price_gp 非空）；无标价条目保留但排序时始终排最后，
+                不参与「最高价/最低价」结论；旧版清单无 price_gp 时 price 排序会被拒绝并提示
+            宽查询纪律:
+              - 用户问「某书所有/全部专长/种族/装备」等宽问题，先以 allowBroadQuery=false
+                （缺省）调用本工具登记真实 module+book（query 只带用户提到的书条件；
+                filters:{book:"…"}，未提书就留空），再据返回的收窄建议向用户说明范围、
+                给出 2~4 个有效收窄示例（如书+类别/部位/关键词）、概览选项和原范围继续选项
+              - 同一轮内不要改用 allowBroadQuery=true 重试（同轮不能确认自己刚登记的范围），
+                必须等用户下一轮明确确认；工具返回的收窄建议不是「查询无结果」或「数据缺失」
+              - 小范围问题（具体类别/部位/关键词/具体条目）正常调用，不触发门禁
+            各模块可用 filters 字段:
+              - feat: featType（专长类别，如 战斗/团队）、book、hasPrerequisites("true"/"false")
+              - race: raceGroup（种族分组）、size（体型，如 中型）、bioType、book
+              - equipment: componentType、slot、book、price_min/price_max（整数 gp 区间，
+                仅命中 price_gp 非空的条目，如 {price_min:"1000", price_max:"235000"}）
+            无条件（query 空或全 null）返回该模块统计概览 + 收窄引导，不会一次塞全表。
+            过滤值须为非空字符串；hasPrerequisites 只接受 "true"/"false"。
+            字段名错误时返回该模块可用字段清单。结果过长自动截断并提示用 offset 翻页。
+            何时不用：单个条目的效果/规则细节走 vectorSearch/getEntryById；
+            法术清单枚举走 getSpellList；职业成长数值走 getClassTable；
+            元数据关系反查走 searchByMetadata/getEntryLinks。
+            """)
+    public String listEntries(
+            @ToolParam(description = "清单模块: feat(专长) / race(种族) / equipment(装备)") String module,
+            @ToolParam(required = false,
+                    description = "过滤/分页参数对象，全字段可空。无条件时返回该模块统计概览；allowBroadQuery=true 表示用户已确认按原范围查询") ListEntriesQuery query) {
+        if (module == null || !ListExportService.MODULES.contains(module)) {
+            return "未知模块: " + module + "，可用模块: feat(专长)/race(种族)/equipment(装备)";
+        }
+        if (!listExportService.isAvailable(module)) {
+            return "「" + module + "」清单暂不可用（" + module + "_lists.json 未加载），请改用 searchByMetadata 查询。";
+        }
+        if (query == null) {
+            // AKN-024：query==null 与全空对象同为 NO_CONDITIONS，首次概览也要记录空书指纹，
+            // 否则后续空条件 allow=true 会因无记录被多驳回一次；概览本身仍不写门禁事件。
+            resolveBroadQueryAllowance(module, false, null, null);
+            return listExportService.overview(module);
+        }
+        // F-026：参数校验先于门禁判定——非法字段/空值/非法布尔值/非法排序在门禁前返回，
+        // 不产生 BLOCKED/ALLOWED 事件；放行字段不能修正非法输入。
+        java.util.Set<String> unknown = listExportService.unknownFilterFields(module, query);
+        if (!unknown.isEmpty()) {
+            return "未知过滤字段: " + unknown + "，可用字段: " + listExportService.availableFilterFields(module);
+        }
+        // B4-QA-2：空串过滤值视为无效条件（静默匹配空字段会产生假命中），自纠提示
+        List<String> blankFields = new ArrayList<>();
+        if (query.filters() != null) {
+            query.filters().forEach((k, v) -> {
+                if (v == null || v.isBlank()) {
+                    blankFields.add(k);
+                }
+            });
+        }
+        if (query.orFilters() != null) {
+            query.orFilters().forEach((k, vs) -> {
+                if (vs != null && vs.stream().anyMatch(v -> v == null || v.isBlank())) {
+                    blankFields.add(k);
+                }
+            });
+        }
+        if (!blankFields.isEmpty()) {
+            return "过滤值为空: " + blankFields.stream().distinct().toList()
+                    + "，请提供非空过滤值或去掉该条件";
+        }
+        // B4-QA-1：hasPrerequisites 只接受 "true"/"false"（对齐 sortBy 校验先例），
+        // 非法值不再静默落入 false 分支
+        List<String> boolValues = new ArrayList<>();
+        if (query.filters() != null && query.filters().containsKey("hasPrerequisites")) {
+            boolValues.add(query.filters().get("hasPrerequisites"));
+        }
+        if (query.orFilters() != null && query.orFilters().containsKey("hasPrerequisites")) {
+            List<String> vs = query.orFilters().get("hasPrerequisites");
+            if (vs != null) {
+                boolValues.addAll(vs);
+            }
+        }
+        if (!boolValues.isEmpty() && boolValues.stream().anyMatch(v -> !isBooleanLiteral(v))) {
+            return "非法过滤值: hasPrerequisites=" + boolValues
+                    + "，可用值: [\"true\", \"false\"]（true=有前置条件，false=无前置条件）";
+        }
+        // AKN-025：price 排序仅装备模块开放（映射 price_gp）；其余模块保持 name/book
+        List<String> sortFields = "equipment".equals(module) ? List.of("name", "book", "price") : List.of("name", "book");
+        if (query.sortBy() != null && !query.sortBy().isBlank()
+                && !sortFields.contains(query.sortBy())) {
+            return "未知排序字段: " + query.sortBy() + "，可用值: " + sortFields;
+        }
+        if (query.sortOrder() != null && !query.sortOrder().isBlank()
+                && !SORT_ORDERS.contains(query.sortOrder())) {
+            return "未知排序方向: " + query.sortOrder() + "，可用值: " + SORT_ORDERS;
+        }
+        List<String> priceValues = priceFilterValues(query);
+        if (priceValues.stream().anyMatch(v -> !isIntegerLiteral(v))) {
+            return "非法过滤值: price_min/price_max=" + priceValues
+                    + "，须为整数 gp（如 price_min=\"1000\"，仅统计有明确标价的条目）";
+        }
+        boolean priceQuery = "price".equals(query.sortBy()) || hasPriceRange(query);
+        if (priceQuery && !listExportService.hasPriceData(module)) {
+            return "「" + module + "」清单为旧版（无 price_gp 字段），暂不支持 price 排序/价格区间过滤；"
+                    + "请改用 name/book 排序，或重新导出带 price_gp 的清单。";
+        }
+        // F-026 工具护栏：listEntries 无业务条件且未放行时保持现有统计概览（轻量概览不记
+        // 门禁事件）；仅书条件未放行返回护栏建议；放行后执行（含无条件分页）。
+        // AKN-024：放行声明还需通过会话级 module+book 指纹校验；不一致退回收窄建议。
+        Reason gateReason = BroadQueryGuard.listEntriesReason(query);
+        if (gateReason != null) {
+            AllowanceDecision decision = resolveBroadQueryAllowance(module, query.isBroadQueryAllowed(),
+                    query.filters(), query.orFilters());
+            if (!decision.allowed()) {
+                if (gateReason == Reason.NO_CONDITIONS) {
+                    // 普通未声明的概览保持轻量不写事件；但明确的指纹不匹配驳回必须留痕。
+                    if (decision.fingerprintMismatch()) {
+                        recordGateBlocked("listEntries", module, Reason.FINGERPRINT_MISMATCH, query);
+                    }
+                    return listExportService.overview(module);
+                }
+                recordGateBlocked("listEntries", module,
+                        decision.fingerprintMismatch() ? Reason.FINGERPRINT_MISMATCH : gateReason, query);
+                return BroadQueryGuard.blockedMessage("listEntries", module, gateReason,
+                        listExportService.availableFilterFields(module));
+            }
+            recordGateAllowed("listEntries", module, gateReason, query);
+        }
+        int limit = query.limit() == null ? listExportsDefaultLimit : query.limit();
+        String clampNote = "";
+        if (limit > listExportsMaxLimit) {
+            limit = listExportsMaxLimit;
+            clampNote = "（limit 超出上限，已钳制为 " + listExportsMaxLimit + "）\n";
+        } else if (limit < 1) {
+            limit = 1;
+            clampNote = "（limit 小于 1，已钳制为 1）\n";
+        }
+        // B4-QA-3：offset 为负钳制为 0 并注明（与 limit 钳制注记风格一致）
+        int offset = query.offset() == null ? 0 : query.offset();
+        if (offset < 0) {
+            offset = 0;
+            clampNote += "（offset 为负，已钳制为 0）\n";
+        }
+        ListExportService.EntryPage page = listExportService.search(module, query, limit, offset);
+        if (page.entries().isEmpty()) {
+            if (page.total() > 0) {
+                return "无命中：共 " + page.total() + " 条命中，但 offset=" + offset
+                        + " 越界（limit=" + limit + "），请减小 offset 翻页。";
+            }
+            return "无命中。建议：放宽过滤条件（如去掉 book）或改用 vectorSearch；确认数据缺失再 reportDataGap";
+        }
+        return clampNote + formatEntryList(module, page, offset, limit);
+    }
+
+    /** hasPrerequisites 合法值："true"/"false"（大小写不敏感）；其余值（"yes"/"1"/"是" 等）非法 */
+    private static boolean isBooleanLiteral(String value) {
+        return "true".equalsIgnoreCase(value) || "false".equalsIgnoreCase(value);
+    }
+
+    /** 价格区间过滤值（filters/orFilters 中的 price_min/price_max），工具层先行校验为整数 gp */
+    private static List<String> priceFilterValues(ListEntriesQuery query) {
+        List<String> values = new ArrayList<>();
+        if (query.filters() != null) {
+            for (String field : List.of("price_min", "price_max")) {
+                String value = query.filters().get(field);
+                if (value != null) {
+                    values.add(value);
+                }
+            }
+        }
+        if (query.orFilters() != null) {
+            for (String field : List.of("price_min", "price_max")) {
+                List<String> group = query.orFilters().get(field);
+                if (group != null) {
+                    values.addAll(group);
+                }
+            }
+        }
+        return values;
+    }
+
+    private static boolean hasPriceRange(ListEntriesQuery query) {
+        return query.filters() != null && (query.filters().containsKey("price_min")
+                || query.filters().containsKey("price_max"))
+                || query.orFilters() != null && (query.orFilters().containsKey("price_min")
+                || query.orFilters().containsKey("price_max"));
+    }
+
+    private static boolean isIntegerLiteral(String value) {
+        if (value == null || value.isBlank()) {
+            return false;
+        }
+        try {
+            Long.parseLong(value.trim());
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    /**
+     * AKN-024 宽查询放行判定：声明放行后还需通过会话级 module+book 指纹校验。
+     *
+     * 无请求上下文或指纹机制未装配（单测/管理直调）时沿用 F-026 的声明式行为；
+     * 有会话上下文时由 {@link BroadQueryAllowanceRegistry#authorize} 在会话 key 上
+     * 原子完成「校验 + 确认/记录建议」：
+     *  - 已由真实用户轮次确认的指纹，任何请求（含 regenerate）都可沿用，且不会被
+     *    同轮/后续的换模块探测清掉（同条件翻页不受影响）；
+     *  - 各指纹的待确认建议分别保存，只接受后续用户轮次（普通 ask 且 requestId 不同）
+     *    确认，同轮内多次不同指纹试探不会互相覆盖；regenerate 不能把建议升级为放行；
+     *  - 旧请求（requestSequence 更小）的过期判定不会覆盖更新状态；
+     *  - 拒绝时记录/更新该指纹的待确认建议并退回收窄建议。
+     *
+     * 确认资格只来自工具层真实登记的指纹：PromptBuilder 要求首次宽查询以
+     * allowBroadQuery=false 调用对应工具登记 module+book；仅回答文本里的建议不产生
+     * 任何放行资格。
+     */
+    private AllowanceDecision resolveBroadQueryAllowance(String module, boolean declaredAllowed,
+            Map<String, String> filters, Map<String, List<String>> orFilters) {
+        BroadQueryAllowanceRegistry.Fingerprint fingerprint =
+                BroadQueryAllowanceRegistry.Fingerprint.of(module, filters, orFilters);
+        Optional<ToolCallTracker.RequestContext> context = toolCallTracker == null
+                ? Optional.empty()
+                : toolCallTracker.currentContext();
+        String conversationId = context.map(ToolCallTracker.RequestContext::conversationId).orElse(null);
+        String requestId = context.map(ToolCallTracker.RequestContext::requestId).orElse(null);
+        boolean confirmationEligible = context
+                .map(ToolCallTracker.RequestContext::confirmationEligible)
+                .orElse(false);
+        long requestSequence = context.map(ToolCallTracker.RequestContext::requestSequence).orElse(0L);
+        if (conversationId == null || broadQueryAllowanceRegistry == null) {
+            return new AllowanceDecision(declaredAllowed, false);
+        }
+        boolean allowed = broadQueryAllowanceRegistry.authorize(conversationId, fingerprint,
+                requestId, declaredAllowed, confirmationEligible, requestSequence);
+        return new AllowanceDecision(allowed, !allowed && declaredAllowed);
+    }
+
+    /**
+     * 放行判定结果：allowed=是否执行；fingerprintMismatch=声明放行但被驳回
+     * （指纹不一致、同轮重试，或 regenerate 试图确认待确认建议）。
+     */
+    private record AllowanceDecision(boolean allowed, boolean fingerprintMismatch) {
+    }
+
+    /** F-026：记录 BLOCKED 事件（尽力写入；recorder 未装配/无请求上下文/写失败均不影响结果） */
+    private void recordGateBlocked(String toolName, String module, Reason reason, Object query) {
+        if (queryGateEventRecorder != null) {
+            queryGateEventRecorder.recordBlocked(toolName, module, reason, query);
+        }
+    }
+
+    /** F-026：记录 ALLOWED 事件（同一逻辑查询的每页各记一行） */
+    private void recordGateAllowed(String toolName, String module, Reason reason, Object query) {
+        if (queryGateEventRecorder != null) {
+            queryGateEventRecorder.recordAllowed(toolName, module, reason, query);
+        }
+    }
+
+    /** listEntries 命中列表：逐行紧凑格式 + 截断护栏（截断行不挂 [#N]）+ 批量溯源点查 */    private String formatEntryList(String module, ListExportService.EntryPage page, int offset, int limit) {
+        boolean detailed = page.total() <= 20;
+        // 第一遍：按字符预算截断出实际展示的行（截断行不挂来源编号，对齐 formatCompact 惯例）
+        List<ListExportService.ListEntry> shown = new ArrayList<>();
+        int budget = metadataResultChars;
+        for (ListExportService.ListEntry entry : page.entries()) {
+            String line = listExportService.entryLine(module, offset + 1 + shown.size(), entry, detailed);
+            if (line.length() + 1 > budget) {
+                break;
+            }
+            budget -= line.length() + 1;
+            shown.add(entry);
+        }
+        // 第二遍：只对展示的条目批量点查溯源（未命中服务内降级合成，[#N] 不缺席）
+        List<Document> docs = listExportService.provenanceDocuments(module, shown);
+        List<Integer> ids = collector.add(docs);
+        StringBuilder sb = new StringBuilder();
+        for (int j = 0; j < shown.size(); j++) {
+            sb.append(listExportService.entryLine(module, offset + 1 + j, shown.get(j), detailed));
+            if (j < ids.size()) {
+                sb.append(" [#").append(ids.get(j)).append(']');
+            }
+            sb.append('\n');
+        }
+        if (shown.size() < page.total()) {
+            sb.append("…（结果过多，仅展示前 ").append(shown.size()).append(" 条 / 共 ")
+                    .append(page.total()).append(" 条命中，请用 offset 翻页（当前 offset=")
+                    .append(offset).append("，limit=").append(limit)
+                    .append("）或收窄过滤条件）");
+        }
+        return sb.toString();
     }
 
     /** J6/SP8d：EntryResolver 关闭时 resolveEntry/getEntryLinks/keywordSearch 的固定提示 */
@@ -654,13 +1105,21 @@ public class RetrievalTools {
     }
 
     /** 枚举式结果的紧凑摘要：标题 + 学派/子学派 + 来源 + 各职业环数 + chunk_id + 来源编号。
-     *  结果字符超 metadata-result-chars 时截断并提示收窄过滤，防海量结果淹没 LLM（F-002 复盘：
+     *  结果字符超 metadata-result-chars 时截断，并在"还有更多未展示结果"时附分页元数据提示
+     *  （真实总数 / has_more / 续取 offset），防海量结果淹没 LLM（F-002 复盘：
      *  {book:"CRB"} 宽过滤单次返回 26K 字符导致工具循环超限）。截断只影响喂给 LLM 的字符串，
      *  完整 Document 已在调用方交 SourceCollector，溯源不受影响。
      *  SP4 D2：每条紧凑行行尾标注来源编号 [#N]（编号 = collector.add 返回，按 doc 一一对应）；
      *  被截断未展示的条目不标注——文本只出现 ≤ sources 数的编号，天然不越界。
-     *  J1/J2：行内补 chunk_id 供 getEntryById 点查；crossModule 时行首补模块名。 */
-    private String formatCompact(List<Document> docs, List<Integer> ids, boolean crossModule) {
+     *  J1/J2：行内补 chunk_id 供 getEntryById 点查；crossModule 时行首补模块名。
+     *  AKN015-T1：检索上限（enumerationTopK）触达时不再输出假总数，改用诚实版提示；
+     *  上限内的翻页照常给 has_more/next_offset（next_offset 不会越过上限）。
+     *  AKN015-T2：shown==0（首条即超字符上限）时不给续取指引，改用 getEntryById 取完整原文；
+     *  AKN015-T9：capped 话术按"是否还有未展示条目"唯一决定——有则只续取，无则只劝收窄。 */
+    private String formatCompact(List<Document> docs, List<Integer> ids, boolean crossModule,
+            SearchService.PagedResult paged, String module) {
+        int totalCount = paged.totalCount();
+        int offset = paged.offset();
         StringBuilder sb = new StringBuilder();
         int i = 1;
         int shown = 0;
@@ -681,10 +1140,59 @@ public class RetrievalTools {
             shown++;
             i++;
         }
-        if (shown < docs.size()) {
-            sb.append("…（结果过多，仅展示前 ").append(shown).append(" 条 / 共 ")
-                    .append(docs.size()).append(" 条，请收窄过滤条件，如增加 title/level 等字段）");
+        boolean truncatedInPage = shown < docs.size();
+        boolean moreResults = paged.hasMore();
+        if (shown == 0) {
+            // 首条即超出字符预算：续取 offset 不会前进，绝不能给翻页指引（AKN015-T2）
+            Document first = docs.get(0);
+            String targetModule = "all".equals(module) ? value(first, "pf_module") : module;
+            String firstChunkId = value(first, "chunk_id");
+            sb.append("…（本页从第 ").append(offset + 1)
+                    .append(" 条起（offset=").append(offset).append("，limit=").append(paged.limit())
+                    .append("）的内容超出单次展示字符上限，本页无条目可展示；");
+            if (!firstChunkId.isBlank() && !targetModule.isBlank()) {
+                sb.append("请使用 getEntryById(module=\"").append(targetModule)
+                        .append("\", chunkId=\"").append(firstChunkId).append("\") 获取完整原文，");
+            } else {
+                sb.append("请使用 getEntryById 按条目 ID（chunk_id）获取完整原文，");
+            }
+            sb.append("或收窄过滤条件后重试；不要用相同 offset 重复翻页）");
+            return sb.toString();
         }
+        if (!truncatedInPage && !moreResults && !paged.capped()) {
+            return sb.toString();
+        }
+        if (paged.capped()) {
+            // totalCount 只是单库上限截断后的合并条数，绝不能当真实总数输出（AKN015-T1）
+            sb.append("…（");
+            if (crossModule) {
+                sb.append("至少一个模块已达单库检索上限 ");
+            } else {
+                sb.append("已达检索上限 ");
+            }
+            sb.append(paged.cap())
+                    .append(" 条（实际命中可能更多），本次返回第 ").append(offset + 1)
+                    .append("~").append(offset + shown).append(" 条");
+            // 话术按"是否还有未展示条目"唯一决定：有则只给续取，无则只给收窄（AKN015-T9）
+            if (truncatedInPage || moreResults) {
+                sb.append("，has_more=true；续取：保持其他参数不变，query.offset=")
+                        .append(offset + shown);
+            } else if (crossModule) {
+                sb.append("；当前跨模块合并结果已全部展示，请收窄过滤条件以获取触顶模块的后续结果");
+            } else {
+                sb.append("；本工具最多只能取前 ").append(paged.cap())
+                        .append(" 条，请收窄过滤条件（如 book/level/title）后继续");
+            }
+            sb.append("）");
+            return sb.toString();
+        }
+        // 截断提示必须带分页元数据（业界 MCP 分页惯例）：真实总数 + has_more + 续取 offset，
+        // 否则模型在"总数未知 + 无下一步指引"下会编造补齐（AKN-015）
+        sb.append("…（共 ").append(totalCount)
+                .append(" 条，本次返回第 ").append(offset + 1)
+                .append("~").append(offset + shown)
+                .append(" 条，has_more=true；续取：保持其他参数不变，query.offset=")
+                .append(offset + shown).append("）");
         return sb.toString();
     }
 

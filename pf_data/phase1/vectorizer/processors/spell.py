@@ -15,9 +15,14 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 from vectorizer.formats.spell import SpellFormat
-from vectorizer.postprocess.spell_chain import LinkMythicBaseSpells
+from vectorizer.postprocess.spell_chain import LinkMythicBaseSpells, SupplementSpellAliases
 from vectorizer.processors.base import Chunk, FileProcessor
 from vectorizer.processors import register
+from vectorizer.processors.spell_legacy_id_map import (
+    DERIVED_STATE_PATH,
+    load_legacy_id_map,
+    save_derived_legacy_id_map,
+)
 from vectorizer.registry import (
     CANONICAL_FIELDS,
     CANONICAL_SCHOOLS,
@@ -56,21 +61,748 @@ def _is_semantically_empty(val) -> bool:
     return False
 
 
-def _truncate_trailing_prose(level_str: str) -> str:
-    """截断环位字符串中的尾部散文。
+# ============================================================
+# spell_level 元数据清洗（2026-10-28 方案拍板）
+# ============================================================
 
-    "术士/法师 8\\n\\n该法术的功能如同..." → "术士/法师 8"
-    找到最后一个 "职业名 N" 模式的位置，截断其后内容。
+# R3 职业名归一表（CLASS_NAME_NORM）：仅含 2026-10-28 逐条获批的 20 组映射。
+# 巡林客/导师/红螳螂杀手/召唤施/快速医疗/法术 等"不动+登记"项不得入表
+# （拍板记录第 5 条红线）。归一只改 class 字符串，不动 level。
+# 召唤师（Unchained）形态归一保留 Unchained 语义（全角括号规范形）。
+_CLASS_NAME_NORM = {
+    "炼金术士": "炼金术师", "练金术师": "炼金术师", "鍊金术师": "炼金术师",
+    "炼金师": "炼金术师",
+    "诗人": "吟游诗人", "游吟诗人": "吟游诗人", "吟游吟游诗人": "吟游诗人",
+    "战斗祭祀": "战斗祭司", "战争祭司": "战斗祭司",
+    "血脉暴怒者": "血脉狂怒者",
+    "唤魂者": "唤魂师", "唤灵师": "唤魂师", "唤师师": "唤魂师",
+    "通灵师": "通灵者",
+    "异能师": "异能者", "异能师者": "异能者",
+    "召唤师（Unchained）": "召唤师（Unchained）",
+    "召唤师（unchained）": "召唤师（Unchained）",
+    "召唤师(Unchained)": "召唤师（Unchained）",
+    "反圣骑士": "反圣武士", "黑暗卫士": "反圣武士",
+    # KN245 裁定（2026-10-30）：源文件括号缩写形态，全库仅此 1 处
+    # （page_1363 食尸鬼的饥饿）；「黑暗卫士」本身已是上方获批别名。
+    "黑暗卫士(Blk)": "反圣武士",
+    "圣骑士": "圣武士",
+    "审判官": "审判者", "判官": "审判者",
+    "慛眠师": "催眠师",
+    "巫师": "法师",
+    # KN245 获批（2026-10-29 用户逐条批准，原文证据核实）：
+    "魔战": "魔战士", "密学士": "秘学士", "奥能者": "奥能师",
+}
+
+# R2 头残片机械回填白名单（KN228 模式护栏）：标题行后第一行残片形态
+# `N、职业/职业 \nM` / `N, 职业/职业 \nM`（表头值跨行、首段被标题归一吞吃
+# 后的残留——class 机械可证）且全链无值的条目。键=chunk_id，值=(职业串, 环级)。
+# ⚠️ 重建子集声明：M11 桶清单未落盘，拍板 A 桶 560 条（COMP 457/CAMPAIGN 102）
+# 无法从方案描述唯一重建（可重建机械集为 52 条本清单 / 1031 条等级行保留法
+# [伴随 33 条既有值变更不可接受]）；超出本清单的可回填条目按红线停下报告，
+# 差额挂 KN 待 M11 清单补登后另行批次（见 已知问题记录.md KN 登记）。
+# ============================================================
+# KN242 修订 1：A 桶白名单终值 556（52 已修 + 504 新回填）
+# ============================================================
+# 探针版 584（docs/spell/akn_a_bucket_whitelist.json）经 architect 裁定裁剪：
+# 裁 25（垃圾串 19 + 表外脏名 6，登记 KN 待批）+ M1 通道接管 3（标点黏连，
+# §M2 点名保留：Spell FoP_0005 / page_1365_0403 / page_1365_0404，值与
+# 白名单一致，由补救通道产出）。常量值 = 词表校验 + F3 拆分 + 标点剥离 +
+# CLASS_NAME_NORM 归一后的最终 items（实施时不再二次加工，物理保证
+# == 白名单）。白名单外可回填条目结构性跳过（停下报告护栏）。
+SPELL_LEVEL_A_BUCKET_WHITELIST = {
+    "spell_Spell AArch_0001": [{"class": '德鲁伊', "level": 3}, {"class": '游侠', "level": 3}, {"class": '猎人', "level": 3}, {"class": '术士', "level": 3}, {"class": '法师', "level": 3}, {"class": '奥能师', "level": 3}, {"class": '女巫', "level": 3}],
+    "spell_Spell AArch_0002": [{"class": '德鲁伊', "level": 5}, {"class": '猎人', "level": 5}, {"class": '术士', "level": 5}, {"class": '法师', "level": 5}, {"class": '奥能师', "level": 5}, {"class": '女巫', "level": 5}],
+    "spell_Spell AArch_0003": [{"class": '女巫', "level": 2}],
+    "spell_Spell AArch_0005": [{"class": '游侠', "level": 2}, {"class": '猎人', "level": 2}],
+    "spell_Spell AArch_0006": [{"class": '圣武士', "level": 4}, {"class": '游侠', "level": 4}, {"class": '猎人', "level": 4}],
+    "spell_Spell AArch_0007": [{"class": '圣武士', "level": 2}, {"class": '游侠', "level": 2}, {"class": '猎人', "level": 2}],
+    "spell_Spell AArch_0008": [{"class": '术士', "level": 4}, {"class": '法师', "level": 4}, {"class": '奥能师', "level": 4}, {"class": '女巫', "level": 4}],
+    "spell_Spell AArch_0009": [{"class": '德鲁伊', "level": 1}, {"class": '圣武士', "level": 1}, {"class": '游侠', "level": 1}, {"class": '猎人', "level": 1}, {"class": '术士', "level": 1}, {"class": '法师', "level": 1}, {"class": '奥能师', "level": 1}, {"class": '女巫', "level": 1}],
+    "spell_Spell FoP_0000": [{"class": '牧师', "level": 1}, {"class": '先知', "level": 1}, {"class": '战斗祭司', "level": 1}, {"class": '德鲁伊', "level": 1}, {"class": '审判者', "level": 1}, {"class": '游侠', "level": 1}, {"class": '猎人', "level": 1}],
+    "spell_Spell FoP_0001": [{"class": '牧师', "level": 1}, {"class": '先知', "level": 1}, {"class": '战斗祭司', "level": 1}, {"class": '圣武士', "level": 1}],
+    "spell_Spell FoP_0003": [{"class": '圣武士', "level": 1}, {"class": '游侠', "level": 1}, {"class": '猎人', "level": 1}],
+    "spell_Spell FoP_0004": [{"class": '先知', "level": 1}, {"class": '战斗祭司', "level": 1}, {"class": '牧师', "level": 1}],
+    "spell_Spell FoP_0006": [{"class": '审判者', "level": 1}, {"class": '圣武士', "level": 1}],
+    "spell_Spell MTT_0012": [{"class": '术士', "level": 5}, {"class": '法师', "level": 5}, {"class": '奥能师', "level": 5}, {"class": '召唤师', "level": 4}],
+    "spell_Spell OA_0071": [{"class": '秘学士', "level": 4}, {"class": '异能者', "level": 4}, {"class": '术士', "level": 5}, {"class": '法师', "level": 5}],
+    "spell_page_1007_0001": [{"class": '催眠师', "level": 4}, {"class": '秘学士', "level": 4}, {"class": '异能者', "level": 4}, {"class": '唤魂师', "level": 4}],
+    "spell_page_1007_0002": [{"class": '通灵者', "level": 3}, {"class": '催眠师', "level": 3}, {"class": '异能者', "level": 3}, {"class": '萨满', "level": 3}, {"class": '术士', "level": 3}, {"class": '法师', "level": 3}, {"class": '奥能师', "level": 3}, {"class": '女巫', "level": 3}],
+    "spell_page_1007_0003": [{"class": '吟游诗人', "level": 1}, {"class": '歌者', "level": 1}, {"class": '牧师', "level": 1}, {"class": '先知', "level": 1}, {"class": '战斗祭司', "level": 1}, {"class": '审判者', "level": 1}, {"class": '通灵者', "level": 1}, {"class": '催眠师', "level": 1}, {"class": '秘学士', "level": 1}, {"class": '异能者', "level": 1}, {"class": '术士', "level": 1}, {"class": '法师', "level": 1}, {"class": '奥能师', "level": 1}, {"class": '唤魂师', "level": 1}, {"class": '女巫', "level": 1}],
+    "spell_page_1008_0007": [{"class": '催眠师', "level": 3}, {"class": '异能者', "level": 3}, {"class": '术士', "level": 4}, {"class": '法师', "level": 4}, {"class": '奥能师', "level": 4}, {"class": '女巫', "level": 4}],
+    "spell_page_1008_0008": [{"class": '催眠师', "level": 5}, {"class": '异能者', "level": 6}, {"class": '术士', "level": 7}, {"class": '法师', "level": 7}, {"class": '奥能师', "level": 7}, {"class": '女巫', "level": 7}],
+    "spell_page_1008_0009": [{"class": '吟游诗人', "level": 3}, {"class": '歌者', "level": 3}, {"class": '审判者', "level": 3}, {"class": '催眠师', "level": 3}, {"class": '秘学士', "level": 3}, {"class": '术士', "level": 3}, {"class": '法师', "level": 3}, {"class": '奥能师', "level": 3}, {"class": '女巫', "level": 3}],
+    "spell_page_1008_0010": [{"class": '牧师', "level": 3}, {"class": '先知', "level": 3}, {"class": '战斗祭司', "level": 3}, {"class": '审判者', "level": 3}, {"class": '萨满', "level": 3}, {"class": '唤魂师', "level": 3}],
+    "spell_page_1008_0011": [{"class": '牧师', "level": 3}, {"class": '先知', "level": 3}, {"class": '战斗祭司', "level": 3}, {"class": '德鲁伊', "level": 3}, {"class": '猎人', "level": 3}, {"class": '审判者', "level": 3}, {"class": '魔战士', "level": 3}, {"class": '秘学士', "level": 3}, {"class": '圣武士', "level": 3}, {"class": '萨满', "level": 3}, {"class": '术士', "level": 3}, {"class": '法师', "level": 3}, {"class": '奥能师', "level": 3}, {"class": '女巫', "level": 3}],
+    "spell_page_1008_0012": [{"class": '牧师', "level": 1}, {"class": '先知', "level": 1}, {"class": '战斗祭司', "level": 1}, {"class": '术士', "level": 1}, {"class": '法师', "level": 1}, {"class": '奥能师', "level": 1}, {"class": '萨满', "level": 1}, {"class": '女巫', "level": 1}],
+    "spell_page_1008_0013": [{"class": '牧师', "level": 3}, {"class": '先知', "level": 3}, {"class": '战斗祭司', "level": 3}, {"class": '术士', "level": 3}, {"class": '法师', "level": 3}, {"class": '奥能师', "level": 3}, {"class": '审判者', "level": 3}, {"class": '魔战士', "level": 3}, {"class": '秘学士', "level": 3}, {"class": '萨满', "level": 3}],
+    "spell_page_1008_0018": [{"class": '吟游诗人', "level": 1}, {"class": '歌者', "level": 1}, {"class": '血脉狂怒者', "level": 1}, {"class": '牧师', "level": 1}, {"class": '先知', "level": 1}, {"class": '战斗祭司', "level": 1}, {"class": '催眠师', "level": 1}, {"class": '秘学士', "level": 1}, {"class": '异能者', "level": 1}, {"class": '萨满', "level": 1}, {"class": '术士', "level": 1}, {"class": '法师', "level": 1}, {"class": '奥能师', "level": 1}, {"class": '女巫', "level": 1}],
+    "spell_page_1009_0000": [{"class": '奥能师', "level": 6}, {"class": '术士', "level": 6}, {"class": '法师', "level": 6}],
+    "spell_page_1009_0001": [{"class": '奥能师', "level": 5}, {"class": '术士', "level": 5}, {"class": '法师', "level": 5}],
+    "spell_page_1009_0002": [{"class": '牧师', "level": 2}, {"class": '先知', "level": 2}, {"class": '战斗祭司', "level": 2}, {"class": '德鲁伊', "level": 2}, {"class": '猎人', "level": 2}, {"class": '术士', "level": 2}, {"class": '法师', "level": 2}, {"class": '奥能师', "level": 2}, {"class": '召唤师', "level": 2}, {"class": '女巫', "level": 2}],
+    "spell_page_1009_0003": [{"class": '牧师', "level": 4}, {"class": '先知', "level": 4}, {"class": '战斗祭司', "level": 4}, {"class": '术士', "level": 5}, {"class": '法师', "level": 5}, {"class": '奥能师', "level": 5}, {"class": '召唤师', "level": 5}],
+    "spell_page_1009_0004": [{"class": '术士', "level": 7}, {"class": '法师', "level": 7}, {"class": '奥能师', "level": 7}, {"class": '召唤师', "level": 6}],
+    "spell_page_1009_0005": [{"class": '术士', "level": 5}, {"class": '法师', "level": 5}, {"class": '奥能师', "level": 5}, {"class": '召唤师', "level": 4}, {"class": '女巫', "level": 5}],
+    "spell_page_1009_0006": [{"class": '术士', "level": 1}, {"class": '法师', "level": 1}, {"class": '奥能师', "level": 1}, {"class": '吟游诗人', "level": 1}, {"class": '歌者', "level": 1}, {"class": '牧师', "level": 1}, {"class": '先知', "level": 1}, {"class": '战斗祭司', "level": 1}, {"class": '德鲁伊', "level": 1}, {"class": '猎人', "level": 1}, {"class": '游侠', "level": 1}, {"class": '女巫', "level": 1}],
+    "spell_page_1010_0001": [{"class": '术士', "level": 1}, {"class": '法师', "level": 1}, {"class": '奥能师', "level": 1}, {"class": '吟游诗人', "level": 1}, {"class": '歌者', "level": 1}, {"class": '召唤师', "level": 1}],
+    "spell_page_1010_0002": [{"class": '德鲁伊', "level": 2}, {"class": '游侠', "level": 1}, {"class": '猎人', "level": 1}, {"class": '召唤师', "level": 1}],
+    "spell_page_1010_0003": [{"class": '牧师', "level": 7}, {"class": '先知', "level": 7}, {"class": '魔战士', "level": 6}, {"class": '术士', "level": 7}, {"class": '法师', "level": 7}, {"class": '奥能师', "level": 7}, {"class": '召唤师', "level": 6}, {"class": '女巫', "level": 7}],
+    "spell_page_1010_0005": [{"class": '德鲁伊', "level": 2}, {"class": '猎人', "level": 2}, {"class": '审判者', "level": 3}, {"class": '游侠', "level": 2}, {"class": '女巫', "level": 3}],
+    "spell_page_1010_0006": [{"class": '审判者', "level": 5}, {"class": '术士', "level": 6}, {"class": '法师', "level": 6}, {"class": '奥能师', "level": 6}, {"class": '女巫', "level": 6}],
+    "spell_page_1011_0002": [{"class": '审判者', "level": 6}],
+    "spell_page_1011_0003": [{"class": '审判者', "level": 4}],
+    "spell_page_1011_0005": [{"class": '德鲁伊', "level": 5}, {"class": '猎人', "level": 5}, {"class": '审判者', "level": 5}],
+    "spell_page_1011_0006": [{"class": '德鲁伊', "level": 2}, {"class": '猎人', "level": 2}],
+    "spell_page_1012_0000": [{"class": '魔战士', "level": 2}, {"class": '术士', "level": 2}, {"class": '法师', "level": 2}, {"class": '奥能师', "level": 2}],
+    "spell_page_1012_0001": [{"class": '术士', "level": 4}, {"class": '法师', "level": 4}, {"class": '奥能师', "level": 4}, {"class": '召唤师', "level": 3}, {"class": '女巫', "level": 4}],
+    "spell_page_1012_0002": [{"class": '术士', "level": 5}, {"class": '法师', "level": 5}, {"class": '奥能师', "level": 5}, {"class": '召唤师', "level": 4}, {"class": '女巫', "level": 5}],
+    "spell_page_1012_0003": [{"class": '术士', "level": 6}, {"class": '法师', "level": 6}, {"class": '奥能师', "level": 6}, {"class": '召唤师', "level": 5}, {"class": '女巫', "level": 6}],
+    "spell_page_1019_0001": [{"class": '术士', "level": 6}, {"class": '法师', "level": 6}],
+    "spell_page_1019_0003": [{"class": '牧师', "level": 3}, {"class": '法师', "level": 3}, {"class": '术士', "level": 3}, {"class": '吟游诗人', "level": 3}],
+    "spell_page_1106_0001": [{"class": '审判者', "level": 2}, {"class": '秘学士', "level": 2}, {"class": '萨满', "level": 2}, {"class": '术士', "level": 2}, {"class": '法师', "level": 2}, {"class": '奥能师', "level": 2}, {"class": '女巫', "level": 2}],
+    "spell_page_1106_0002": [{"class": '审判者', "level": 1}, {"class": '秘学士', "level": 1}, {"class": '术士', "level": 1}, {"class": '法师', "level": 1}, {"class": '奥能师', "level": 1}],
+    "spell_page_1106_0003": [{"class": '德鲁伊', "level": 2}, {"class": '猎人', "level": 2}, {"class": '秘学士', "level": 2}, {"class": '圣武士', "level": 2}, {"class": '游侠', "level": 2}, {"class": '萨满', "level": 2}],
+    "spell_page_1106_0004": [{"class": '秘学士', "level": 1}, {"class": '游侠', "level": 1}, {"class": '猎人', "level": 1}, {"class": '萨满', "level": 1}, {"class": '术士', "level": 1}, {"class": '法师', "level": 1}, {"class": '奥能师', "level": 1}, {"class": '女巫', "level": 1}],
+    "spell_page_1106_0005": [{"class": '秘学士', "level": 2}, {"class": '游侠', "level": 2}, {"class": '萨满', "level": 2}],
+    "spell_page_1107_0001": [{"class": '异能者', "level": 4}, {"class": '术士', "level": 4}, {"class": '法师', "level": 4}, {"class": '奥能师', "level": 4}],
+    "spell_page_1107_0002": [{"class": '异能者', "level": 3}],
+    "spell_page_1107_0004": [{"class": '吟游诗人', "level": 2}, {"class": '歌者', "level": 2}, {"class": '血脉狂怒者', "level": 2}, {"class": '催眠师', "level": 2}, {"class": '异能者', "level": 3}, {"class": '萨满', "level": 3}, {"class": '唤魂师', "level": 2}, {"class": '女巫', "level": 3}],
+    "spell_page_1107_0006": [{"class": '魔战士', "level": 3}, {"class": '通灵者', "level": 3}, {"class": '催眠师', "level": 2}, {"class": '异能者', "level": 2}, {"class": '术士', "level": 3}, {"class": '法师', "level": 3}, {"class": '奥能师', "level": 3}, {"class": '唤魂师', "level": 2}, {"class": '女巫', "level": 2}],
+    "spell_page_1107_0007": [{"class": '审判者', "level": 3}, {"class": '秘学士', "level": 3}, {"class": '异能者', "level": 3}, {"class": '萨满', "level": 3}, {"class": '术士', "level": 3}, {"class": '法师', "level": 3}, {"class": '奥能师', "level": 3}, {"class": '女巫', "level": 3}],
+    "spell_page_1107_0008": [{"class": '审判者', "level": 3}, {"class": '秘学士', "level": 3}, {"class": '唤魂师', "level": 3}, {"class": '女巫', "level": 4}],
+    "spell_page_1107_0011": [{"class": '异能者', "level": 8}],
+    "spell_page_1107_0013": [{"class": '唤魂师', "level": 5}],
+    "spell_page_1108_0001": [{"class": '牧师', "level": 4}, {"class": '先知', "level": 4}, {"class": '战斗祭司', "level": 4}, {"class": '魔战士', "level": 4}, {"class": '通灵者', "level": 4}, {"class": '秘学士', "level": 4}, {"class": '圣武士', "level": 3}, {"class": '萨满', "level": 3}, {"class": '术士', "level": 4}, {"class": '法师', "level": 4}, {"class": '奥能师', "level": 4}, {"class": '唤魂师', "level": 3}, {"class": '女巫', "level": 3}],
+    "spell_page_1108_0002": [{"class": '牧师', "level": 2}, {"class": '先知', "level": 2}, {"class": '战斗祭司', "level": 2}, {"class": '审判者', "level": 2}, {"class": '魔战士', "level": 2}, {"class": '通灵者', "level": 2}, {"class": '圣武士', "level": 1}, {"class": '萨满', "level": 2}],
+    "spell_page_1108_0003": [{"class": '牧师', "level": 2}, {"class": '先知', "level": 2}, {"class": '战斗祭司', "level": 2}, {"class": '审判者', "level": 2}, {"class": '圣武士', "level": 2}, {"class": '萨满', "level": 2}, {"class": '唤魂师', "level": 2}],
+    "spell_page_1142_0001": [{"class": '奥能师', "level": 9}, {"class": '术士', "level": 9}, {"class": '法师', "level": 9}],
+    "spell_page_1142_0004": [{"class": '奥能师', "level": 8}, {"class": '术士', "level": 8}, {"class": '法师', "level": 8}],
+    "spell_page_1149_0002": [{"class": '牧师', "level": 1}, {"class": '先知', "level": 1}, {"class": '战斗祭司', "level": 1}, {"class": '吟游诗人', "level": 1}, {"class": '歌者', "level": 1}, {"class": '魔战士', "level": 1}, {"class": '红螳螂杀手', "level": 1}],
+    "spell_page_1149_0003": [{"class": '魔战士', "level": 1}, {"class": '圣武士', "level": 1}, {"class": '红螳螂杀手', "level": 1}],
+    "spell_page_1149_0004": [{"class": '魔战士', "level": 1}, {"class": '圣武士', "level": 1}, {"class": '游侠', "level": 1}, {"class": '猎人', "level": 1}, {"class": '术士', "level": 1}, {"class": '法师', "level": 1}, {"class": '奥能师', "level": 1}],
+    "spell_page_1149_0005": [{"class": '术士', "level": 3}, {"class": '法师', "level": 3}, {"class": '奥能师', "level": 3}, {"class": '女巫', "level": 3}],
+    "spell_page_1149_0006": [{"class": '魔战士', "level": 1}, {"class": '圣武士', "level": 1}],
+    "spell_page_1149_0007": [{"class": '审判者', "level": 4}, {"class": '魔战士', "level": 4}, {"class": '术士', "level": 4}, {"class": '法师', "level": 4}, {"class": '奥能师', "level": 4}],
+    "spell_page_1150_0000": [{"class": '审判者', "level": 3}, {"class": '术士', "level": 3}, {"class": '法师', "level": 3}, {"class": '奥能师', "level": 3}, {"class": '女巫', "level": 3}],
+    "spell_page_1150_0001": [{"class": '术士', "level": 4}, {"class": '法师', "level": 4}, {"class": '奥能师', "level": 4}, {"class": '女巫', "level": 3}],
+    "spell_page_1150_0002": [{"class": '德鲁伊', "level": 3}, {"class": '猎人', "level": 3}, {"class": '术士', "level": 3}, {"class": '法师', "level": 3}, {"class": '奥能师', "level": 3}, {"class": '女巫', "level": 3}],
+    "spell_page_1150_0003": [{"class": '德鲁伊', "level": 5}, {"class": '猎人', "level": 5}, {"class": '术士', "level": 5}, {"class": '法师', "level": 5}, {"class": '奥能师', "level": 5}, {"class": '女巫', "level": 5}],
+    "spell_page_1150_0004": [{"class": '术士', "level": 2}, {"class": '法师', "level": 2}, {"class": '奥能师', "level": 2}, {"class": '女巫', "level": 2}],
+    "spell_page_1151_0001": [{"class": '奥能师', "level": 4}, {"class": '术士', "level": 4}, {"class": '法师', "level": 4}],
+    "spell_page_1151_0002": [{"class": '德鲁伊', "level": 2}, {"class": '猎人', "level": 2}, {"class": '术士', "level": 2}, {"class": '法师', "level": 2}, {"class": '奥能师', "level": 2}],
+    "spell_page_1151_0003": [{"class": '奥能师', "level": 3}, {"class": '术士', "level": 3}, {"class": '法师', "level": 3}],
+    "spell_page_1151_0004": [{"class": '女巫', "level": 3}],
+    "spell_page_1151_0005": [{"class": '女巫', "level": 7}],
+    "spell_page_1153_0000": [{"class": '审判者', "level": 4}, {"class": '魔战士', "level": 4}, {"class": '术士', "level": 5}, {"class": '法师', "level": 5}, {"class": '奥能师', "level": 5}, {"class": '女巫', "level": 5}],
+    "spell_page_1153_0001": [{"class": '炼金术师', "level": 1}, {"class": '调查员', "level": 1}, {"class": '德鲁伊', "level": 0}, {"class": '猎人', "level": 0}, {"class": '游侠', "level": 1}],
+    "spell_page_1153_0002": [{"class": '德鲁伊', "level": 3}, {"class": '猎人', "level": 3}, {"class": '术士', "level": 3}, {"class": '法师', "level": 3}, {"class": '奥能师', "level": 3}],
+    "spell_page_1153_0003": [{"class": '反圣武士', "level": 1}, {"class": '术士', "level": 1}, {"class": '法师', "level": 1}, {"class": '奥能师', "level": 1}, {"class": '德鲁伊', "level": 1}, {"class": '猎人', "level": 1}, {"class": '魔战士', "level": 1}, {"class": '红螳螂杀手', "level": 1}, {"class": '召唤师', "level": 1}, {"class": '女巫', "level": 1}],
+    "spell_page_1153_0004": [{"class": '德鲁伊', "level": 2}, {"class": '猎人', "level": 2}, {"class": '游侠', "level": 2}, {"class": '牧师', "level": 2}, {"class": '先知', "level": 2}, {"class": '战斗祭司', "level": 2}, {"class": '术士', "level": 2}, {"class": '法师', "level": 2}, {"class": '奥能师', "level": 2}, {"class": '女巫', "level": 2}],
+    "spell_page_1153_0005": [{"class": '奥能师', "level": 4}, {"class": '术士', "level": 4}, {"class": '法师', "level": 4}],
+    "spell_page_1153_0006": [{"class": '术士', "level": 5}, {"class": '法师', "level": 5}, {"class": '奥能师', "level": 5}, {"class": '女巫', "level": 5}],
+    "spell_page_1153_0007": [{"class": '召唤师', "level": 2}, {"class": '女巫', "level": 3}],
+    "spell_page_1154_0000": [{"class": '牧师', "level": 3}, {"class": '先知', "level": 3}, {"class": '战斗祭司', "level": 3}, {"class": '德鲁伊', "level": 2}, {"class": '猎人', "level": 2}, {"class": '术士', "level": 3}, {"class": '法师', "level": 3}, {"class": '奥能师', "level": 3}],
+    "spell_page_1154_0001": [{"class": '女巫', "level": 5}],
+    "spell_page_1154_0002": [{"class": '吟游诗人', "level": 2}, {"class": '歌者', "level": 2}, {"class": '术士', "level": 2}, {"class": '法师', "level": 2}, {"class": '奥能师', "level": 2}, {"class": '女巫', "level": 2}],
+    "spell_page_1154_0003": [{"class": '牧师', "level": 5}, {"class": '先知', "level": 5}, {"class": '战斗祭司', "level": 5}, {"class": '审判者', "level": 4}, {"class": '术士', "level": 5}, {"class": '法师', "level": 5}, {"class": '奥能师', "level": 5}],
+    "spell_page_1154_0004": [{"class": '术士', "level": 3}, {"class": '法师', "level": 3}, {"class": '奥能师', "level": 3}, {"class": '女巫', "level": 3}],
+    "spell_page_1154_0005": [{"class": '奥能师', "level": 5}, {"class": '术士', "level": 5}, {"class": '法师', "level": 5}],
+    "spell_page_1154_0006": [{"class": '德鲁伊', "level": 8}, {"class": '术士', "level": 8}, {"class": '法师', "level": 8}, {"class": '奥能师', "level": 8}, {"class": '女巫', "level": 8}],
+    "spell_page_1154_0007": [{"class": '奥能师', "level": 5}, {"class": '术士', "level": 5}, {"class": '法师', "level": 5}],
+    "spell_page_1155_0002": [{"class": '牧师', "level": 1}, {"class": '先知', "level": 1}, {"class": '战斗祭司', "level": 1}, {"class": '审判者', "level": 1}, {"class": '术士', "level": 1}, {"class": '法师', "level": 1}, {"class": '奥能师', "level": 1}, {"class": '女巫', "level": 1}],
+    "spell_page_1155_0004": [{"class": '审判者', "level": 2}, {"class": '游侠', "level": 2}, {"class": '猎人', "level": 2}],
+    "spell_page_1156_0002": [{"class": '女巫', "level": 4}],
+    "spell_page_1156_0003": [{"class": '游侠', "level": 4}, {"class": '猎人', "level": 4}],
+    "spell_page_1156_0004": [{"class": '吟游诗人', "level": 2}, {"class": '歌者', "level": 2}, {"class": '德鲁伊', "level": 2}, {"class": '猎人', "level": 2}, {"class": '游侠', "level": 2}, {"class": '女巫', "level": 2}],
+    "spell_page_1156_0005": [{"class": '德鲁伊', "level": 6}, {"class": '猎人', "level": 6}, {"class": '女巫', "level": 6}],
+    "spell_page_1160_0000": [{"class": '审判者', "level": 2}, {"class": '术士', "level": 2}, {"class": '法师', "level": 2}, {"class": '奥能师', "level": 2}, {"class": '女巫', "level": 2}],
+    "spell_page_1160_0001": [{"class": '女巫', "level": 5}],
+    "spell_page_1161_0001": [{"class": '血脉狂怒者', "level": 2}, {"class": '魔战士', "level": 2}, {"class": '术士', "level": 2}, {"class": '法师', "level": 2}, {"class": '奥能师', "level": 2}, {"class": '女巫', "level": 2}],
+    "spell_page_1161_0005": [{"class": '萨满', "level": 1}],
+    "spell_page_1162_0001": [{"class": '游侠', "level": 1}, {"class": '猎人', "level": 1}, {"class": '萨满', "level": 3}, {"class": '术士', "level": 3}, {"class": '法师', "level": 3}, {"class": '奥能师', "level": 3}, {"class": '女巫', "level": 3}],
+    "spell_page_1162_0002": [{"class": '魔战士', "level": 4}, {"class": '术士', "level": 5}, {"class": '法师', "level": 5}, {"class": '奥能师', "level": 5}, {"class": '女巫', "level": 6}],
+    "spell_page_1162_0003": [{"class": '魔战士', "level": 3}, {"class": '术士', "level": 3}, {"class": '法师', "level": 3}, {"class": '奥能师', "level": 3}, {"class": '召唤师', "level": 3}, {"class": '女巫', "level": 3}],
+    "spell_page_1162_0004": [{"class": '牧师', "level": 2}, {"class": '先知', "level": 2}, {"class": '战斗祭司', "level": 2}, {"class": '德鲁伊', "level": 2}, {"class": '魔战士', "level": 2}, {"class": '游侠', "level": 1}, {"class": '猎人', "level": 1}, {"class": '术士', "level": 2}, {"class": '法师', "level": 2}, {"class": '奥能师', "level": 2}],
+    "spell_page_1162_0005": [{"class": '德鲁伊', "level": 3}, {"class": '猎人', "level": 3}, {"class": '魔战士', "level": 3}, {"class": '术士', "level": 2}, {"class": '法师', "level": 2}, {"class": '奥能师', "level": 2}, {"class": '女巫', "level": 2}],
+    "spell_page_1162_0006": [{"class": '牧师', "level": 2}, {"class": '先知', "level": 2}, {"class": '战斗祭司', "level": 2}, {"class": '德鲁伊', "level": 1}, {"class": '猎人', "level": 1}, {"class": '萨满', "level": 1}, {"class": '术士', "level": 2}, {"class": '法师', "level": 2}, {"class": '奥能师', "level": 2}, {"class": '女巫', "level": 1}],
+    "spell_page_1163_0001": [{"class": '术士', "level": 5}, {"class": '法师', "level": 5}, {"class": '奥能师', "level": 5}, {"class": '女巫', "level": 5}],
+    "spell_page_1163_0002": [{"class": '吟游诗人', "level": 3}, {"class": '歌者', "level": 3}, {"class": '审判者', "level": 3}, {"class": '术士', "level": 2}, {"class": '法师', "level": 2}, {"class": '奥能师', "level": 2}, {"class": '女巫', "level": 2}],
+    "spell_page_1163_0003": [{"class": '术士', "level": 5}, {"class": '法师', "level": 5}, {"class": '奥能师', "level": 5}, {"class": '女巫', "level": 5}],
+    "spell_page_1163_0004": [{"class": '术士', "level": 5}, {"class": '法师', "level": 5}, {"class": '奥能师', "level": 5}, {"class": '女巫', "level": 5}],
+    "spell_page_1163_0005": [{"class": '术士', "level": 2}, {"class": '法师', "level": 2}, {"class": '奥能师', "level": 2}, {"class": '女巫', "level": 2}],
+    "spell_page_1163_0006": [{"class": '牧师', "level": 5}, {"class": '先知', "level": 5}, {"class": '战斗祭司', "level": 5}, {"class": '德鲁伊', "level": 5}, {"class": '猎人', "level": 5}, {"class": '审判者', "level": 5}, {"class": '魔战士', "level": 5}, {"class": '萨满', "level": 5}, {"class": '术士', "level": 5}, {"class": '法师', "level": 5}, {"class": '奥能师', "level": 5}, {"class": '女巫', "level": 5}],
+    "spell_page_1163_0007": [{"class": '女巫', "level": 6}],
+    "spell_page_1164_0001": [{"class": '游侠', "level": 2}, {"class": '猎人', "level": 2}, {"class": '萨满', "level": 3}, {"class": '女巫', "level": 3}],
+    "spell_page_1164_0002": [{"class": '德鲁伊', "level": 4}, {"class": '猎人', "level": 4}, {"class": '萨满', "level": 4}, {"class": '术士', "level": 5}, {"class": '法师', "level": 5}, {"class": '奥能师', "level": 5}, {"class": '女巫', "level": 4}],
+    "spell_page_1164_0003": [{"class": '德鲁伊', "level": 1}, {"class": '猎人', "level": 1}, {"class": '审判者', "level": 1}, {"class": '游侠', "level": 1}, {"class": '萨满', "level": 1}, {"class": '女巫', "level": 1}],
+    "spell_page_1164_0004": [{"class": '德鲁伊', "level": 5}, {"class": '猎人', "level": 5}, {"class": '术士', "level": 6}, {"class": '法师', "level": 6}, {"class": '奥能师', "level": 6}],
+    "spell_page_1164_0005": [{"class": '德鲁伊', "level": 7}, {"class": '术士', "level": 7}, {"class": '法师', "level": 7}, {"class": '奥能师', "level": 7}, {"class": '萨满', "level": 7}, {"class": '召唤师', "level": 6}, {"class": '女巫', "level": 7}],
+    "spell_page_1164_0006": [{"class": '德鲁伊', "level": 3}, {"class": '审判者', "level": 3}, {"class": '魔战士', "level": 2}, {"class": '游侠', "level": 2}, {"class": '猎人', "level": 2}, {"class": '萨满', "level": 2}, {"class": '术士', "level": 2}, {"class": '法师', "level": 2}, {"class": '奥能师', "level": 2}, {"class": '女巫', "level": 2}],
+    "spell_page_1164_0007": [{"class": '德鲁伊', "level": 2}, {"class": '猎人', "level": 2}, {"class": '游侠', "level": 2}, {"class": '萨满', "level": 2}],
+    "spell_page_1165_0002": [{"class": '游侠', "level": 3}, {"class": '萨满', "level": 2}, {"class": '女巫', "level": 2}],
+    "spell_page_1166_0001": [{"class": '萨满', "level": 2}],
+    "spell_page_1166_0002": [{"class": '游侠', "level": 2}, {"class": '萨满', "level": 2}, {"class": '术士', "level": 2}, {"class": '法师', "level": 2}, {"class": '奥能师', "level": 2}, {"class": '女巫', "level": 2}],
+    "spell_page_1166_0003": [{"class": '萨满', "level": 2}],
+    "spell_page_1166_0004": [{"class": '奥能师', "level": 5}, {"class": '术士', "level": 5}, {"class": '法师', "level": 5}],
+    "spell_page_1170_0003": [{"class": '召唤师', "level": 1}],
+    "spell_page_1173_0001": [{"class": '奥能师', "level": 5}, {"class": '术士', "level": 5}, {"class": '法师', "level": 5}],
+    "spell_page_1173_0002": [{"class": '女巫', "level": 3}],
+    "spell_page_1173_0003": [{"class": '女巫', "level": 5}],
+    "spell_page_1173_0005": [{"class": '异能者', "level": 3}],
+    "spell_page_1173_0010": [{"class": '术士', "level": 2}, {"class": '法师', "level": 2}, {"class": '奥能师', "level": 2}, {"class": '女巫', "level": 2}],
+    "spell_page_1173_0011": [{"class": '异能者', "level": 2}, {"class": '术士', "level": 2}, {"class": '法师', "level": 2}, {"class": '奥能师', "level": 2}],
+    "spell_page_1174_0001": [{"class": '魔战士', "level": 3}, {"class": '术士', "level": 3}, {"class": '法师', "level": 3}, {"class": '奥能师', "level": 3}, {"class": '女巫', "level": 3}],
+    "spell_page_1174_0002": [{"class": '女巫', "level": 2}],
+    "spell_page_1176_0005": [{"class": '德鲁伊', "level": 1}, {"class": '猎人', "level": 1}, {"class": '魔战士', "level": 1}, {"class": '游侠', "level": 1}, {"class": '萨满', "level": 1}, {"class": '术士', "level": 1}, {"class": '法师', "level": 1}, {"class": '奥能师', "level": 1}, {"class": '女巫', "level": 1}],
+    "spell_page_1177_0002": [{"class": '牧师', "level": 3}, {"class": '先知', "level": 3}, {"class": '战斗祭司', "level": 3}, {"class": '萨满', "level": 3}, {"class": '术士', "level": 4}, {"class": '法师', "level": 4}, {"class": '奥能师', "level": 4}, {"class": '唤魂师', "level": 3}, {"class": '女巫', "level": 2}],
+    "spell_page_1177_0003": [{"class": '血脉狂怒者', "level": 2}, {"class": '德鲁伊', "level": 3}, {"class": '猎人', "level": 3}, {"class": '萨满', "level": 3}, {"class": '女巫', "level": 3}],
+    "spell_page_1177_0004": [{"class": '魔战士', "level": 2}, {"class": '萨满', "level": 3}, {"class": '术士', "level": 3}, {"class": '法师', "level": 3}, {"class": '奥能师', "level": 3}, {"class": '召唤师', "level": 3}, {"class": '女巫', "level": 2}],
+    "spell_page_1331_0002": [{"class": '审判者', "level": 3}, {"class": '术士', "level": 4}, {"class": '法师', "level": 4}, {"class": '奥能师', "level": 4}, {"class": '召唤师', "level": 3}, {"class": '女巫', "level": 4}],
+    "spell_page_1331_0003": [{"class": '审判者', "level": 6}, {"class": '术士', "level": 7}, {"class": '法师', "level": 7}, {"class": '奥能师', "level": 7}, {"class": '召唤师', "level": 6}, {"class": '女巫', "level": 7}],
+    "spell_page_1331_0004": [{"class": '女巫', "level": 2}],
+    "spell_page_1331_0005": [{"class": '奥能师', "level": 3}, {"class": '术士', "level": 3}, {"class": '法师', "level": 3}],
+    "spell_page_1331_0007": [{"class": '奥能师', "level": 5}, {"class": '术士', "level": 5}, {"class": '法师', "level": 5}],
+    "spell_page_1331_0008": [{"class": '女巫', "level": 3}],
+    "spell_page_1331_0009": [{"class": '牧师', "level": 2}, {"class": '先知', "level": 2}, {"class": '战斗祭司', "level": 2}, {"class": '审判者', "level": 1}, {"class": '圣武士', "level": 1}, {"class": '女巫', "level": 2}],
+    "spell_page_1331_0010": [{"class": '奥能师', "level": 3}, {"class": '术士', "level": 3}, {"class": '法师', "level": 3}],
+    "spell_page_1331_0011": [{"class": '魔战士', "level": 3}, {"class": '术士', "level": 3}, {"class": '法师', "level": 3}, {"class": '奥能师', "level": 3}, {"class": '女巫', "level": 3}],
+    "spell_page_1332_0000": [{"class": '术士', "level": 4}, {"class": '法师', "level": 4}, {"class": '奥能师', "level": 4}, {"class": '德鲁伊', "level": 4}, {"class": '猎人', "level": 4}],
+    "spell_page_1334_0000": [{"class": '先知', "level": 1}, {"class": '女巫', "level": 2}],
+    "spell_page_1363_0001": [{"class": '术士', "level": 3}, {"class": '法师', "level": 3}, {"class": '奥能师', "level": 3}],
+    "spell_page_1363_0017": [{"class": '德鲁伊', "level": 4}, {"class": '猎人', "level": 4}],
+    "spell_page_1363_0018": [{"class": '德鲁伊', "level": 1}, {"class": '猎人', "level": 1}, {"class": '游侠', "level": 1}],
+    "spell_page_1363_0020": [{"class": '德鲁伊', "level": 2}, {"class": '猎人', "level": 2}],
+    "spell_page_1363_0024": [{"class": '牧师', "level": 3}, {"class": '先知', "level": 3}, {"class": '战斗祭司', "level": 3}, {"class": '德鲁伊', "level": 3}, {"class": '猎人', "level": 3}],
+    "spell_page_1363_0025": [{"class": '吟游诗人', "level": 1}, {"class": '歌者', "level": 1}, {"class": '牧师', "level": 1}, {"class": '先知', "level": 1}, {"class": '战斗祭司', "level": 1}],
+    "spell_page_1363_0026": [{"class": '魔战士', "level": 2}, {"class": '术士', "level": 2}, {"class": '法师', "level": 2}, {"class": '奥能师', "level": 2}],
+    "spell_page_1363_0027": [{"class": '牧师', "level": 2}, {"class": '先知', "level": 2}, {"class": '战斗祭司', "level": 2}, {"class": '术士', "level": 2}, {"class": '法师', "level": 2}, {"class": '奥能师', "level": 2}],
+    "spell_page_1363_0028": [{"class": '牧师', "level": 1}, {"class": '先知', "level": 1}, {"class": '战斗祭司', "level": 1}, {"class": '圣武士', "level": 1}],
+    "spell_page_1363_0029": [{"class": '圣武士', "level": 1}],
+    "spell_page_1363_0031": [{"class": '德鲁伊', "level": 2}, {"class": '猎人', "level": 2}],
+    "spell_page_1363_0041": [{"class": '牧师', "level": 2}, {"class": '先知', "level": 2}, {"class": '战斗祭司', "level": 2}, {"class": '术士', "level": 2}, {"class": '法师', "level": 2}, {"class": '奥能师', "level": 2}],
+    "spell_page_1363_0042": [{"class": '术士', "level": 4}, {"class": '法师', "level": 4}, {"class": '奥能师', "level": 4}],
+    "spell_page_1363_0043": [{"class": '牧师', "level": 3}, {"class": '先知', "level": 3}, {"class": '战斗祭司', "level": 3}, {"class": '术士', "level": 3}, {"class": '法师', "level": 3}, {"class": '奥能师', "level": 3}],
+    "spell_page_1363_0044": [{"class": '牧师', "level": 0}, {"class": '先知', "level": 0}, {"class": '战斗祭司', "level": 0}, {"class": '术士', "level": 0}, {"class": '法师', "level": 0}, {"class": '奥能师', "level": 0}],
+    "spell_page_1363_0047": [{"class": '术士', "level": 4}, {"class": '法师', "level": 4}, {"class": '召唤师', "level": 3}],
+    "spell_page_1363_0048": [{"class": '术士', "level": 6}, {"class": '法师', "level": 6}],
+    "spell_page_1363_0050": [{"class": '牧师', "level": 3}, {"class": '法师', "level": 3}, {"class": '术士', "level": 3}, {"class": '吟游诗人', "level": 3}],
+    "spell_page_1363_0052": [{"class": '牧师', "level": 3}, {"class": '先知', "level": 3}, {"class": '战斗祭司', "level": 3}, {"class": '德鲁伊', "level": 3}, {"class": '猎人', "level": 3}],
+    "spell_page_1363_0053": [{"class": '术士', "level": 2}, {"class": '法师', "level": 2}, {"class": '奥能师', "level": 2}],
+    "spell_page_1363_0056": [{"class": '术士', "level": 9}, {"class": '法师', "level": 9}, {"class": '奥能师', "level": 9}],
+    "spell_page_1363_0057": [{"class": '吟游诗人', "level": 1}, {"class": '歌者', "level": 1}, {"class": '红螳螂杀手', "level": 1}],
+    "spell_page_1363_0060": [{"class": '术士', "level": 2}, {"class": '法师', "level": 2}, {"class": '奥能师', "level": 2}],
+    "spell_page_1363_0061": [{"class": '吟游诗人', "level": 1}, {"class": '歌者', "level": 1}, {"class": '牧师', "level": 0}, {"class": '先知', "level": 0}, {"class": '战斗祭司', "level": 0}],
+    "spell_page_1363_0062": [{"class": '术士', "level": 8}, {"class": '法师', "level": 8}, {"class": '奥能师', "level": 8}],
+    "spell_page_1363_0063": [{"class": '吟游诗人', "level": 1}, {"class": '歌者', "level": 1}, {"class": '德鲁伊', "level": 1}, {"class": '猎人', "level": 1}],
+    "spell_page_1363_0068": [{"class": '术士', "level": 1}, {"class": '法师', "level": 1}, {"class": '奥能师', "level": 1}],
+    "spell_page_1363_0071": [{"class": '游侠', "level": 2}, {"class": '红螳螂杀手', "level": 2}],
+    "spell_page_1363_0072": [{"class": '术士', "level": 3}, {"class": '法师', "level": 3}, {"class": '奥能师', "level": 3}],
+    "spell_page_1363_0073": [{"class": '红螳螂杀手', "level": 2}, {"class": '术士', "level": 2}, {"class": '法师', "level": 2}, {"class": '奥能师', "level": 2}],
+    "spell_page_1363_0074": [{"class": '牧师', "level": 4}, {"class": '先知', "level": 4}, {"class": '战斗祭司', "level": 4}, {"class": '术士', "level": 4}, {"class": '法师', "level": 4}, {"class": '奥能师', "level": 4}],
+    "spell_page_1363_0075": [{"class": '牧师', "level": 5}, {"class": '先知', "level": 5}, {"class": '战斗祭司', "level": 5}, {"class": '术士', "level": 5}, {"class": '法师', "level": 5}, {"class": '奥能师', "level": 5}],
+    "spell_page_1363_0077": [{"class": '术士', "level": 6}, {"class": '法师', "level": 6}, {"class": '奥能师', "level": 6}, {"class": '审判者', "level": 4}],
+    "spell_page_1363_0078": [{"class": '吟游诗人', "level": 2}, {"class": '调查员', "level": 2}, {"class": '术士', "level": 2}, {"class": '法师', "level": 2}, {"class": '奥能师', "level": 2}],
+    "spell_page_1363_0080": [{"class": '审判者', "level": 3}, {"class": '术士', "level": 4}, {"class": '法师', "level": 4}, {"class": '奥能师', "level": 4}],
+    "spell_page_1363_0081": [{"class": '审判者', "level": 6}, {"class": '术士', "level": 7}, {"class": '法师', "level": 7}, {"class": '奥能师', "level": 7}],
+    "spell_page_1363_0082": [{"class": '女巫', "level": 2}],
+    "spell_page_1363_0083": [{"class": '术士', "level": 3}, {"class": '法师', "level": 3}, {"class": '奥能师', "level": 3}],
+    "spell_page_1363_0085": [{"class": '术士', "level": 5}, {"class": '法师', "level": 5}, {"class": '奥能师', "level": 5}],
+    "spell_page_1363_0086": [{"class": '女巫', "level": 3}],
+    "spell_page_1363_0087": [{"class": '牧师', "level": 2}, {"class": '先知', "level": 2}, {"class": '战斗祭司', "level": 2}, {"class": '审判者', "level": 1}],
+    "spell_page_1363_0088": [{"class": '术士', "level": 3}, {"class": '法师', "level": 3}, {"class": '奥能师', "level": 3}],
+    "spell_page_1363_0089": [{"class": '魔战士', "level": 3}, {"class": '术士', "level": 3}, {"class": '法师', "level": 3}, {"class": '奥能师', "level": 3}],
+    "spell_page_1363_0090": [{"class": '术士', "level": 4}, {"class": '法师', "level": 4}, {"class": '奥能师', "level": 4}, {"class": '德鲁伊', "level": 4}, {"class": '猎人', "level": 4}],
+    "spell_page_1363_0091": [{"class": '审判者', "level": 4}, {"class": '术士', "level": 5}, {"class": '法师', "level": 5}, {"class": '奥能师', "level": 5}],
+    "spell_page_1363_0092": [{"class": '审判者', "level": 4}, {"class": '术士', "level": 4}, {"class": '法师', "level": 4}, {"class": '奥能师', "level": 4}],
+    "spell_page_1363_0093": [{"class": '术士', "level": 3}, {"class": '法师', "level": 3}, {"class": '奥能师', "level": 3}, {"class": '女巫', "level": 3}],
+    "spell_page_1363_0094": [{"class": '德鲁伊', "level": 5}, {"class": '猎人', "level": 5}, {"class": '圣武士', "level": 4}],
+    "spell_page_1363_0095": [{"class": '审判者', "level": 6}, {"class": '术士', "level": 6}, {"class": '法师', "level": 6}, {"class": '奥能师', "level": 6}],
+    "spell_page_1363_0096": [{"class": '审判者', "level": 4}, {"class": '术士', "level": 4}, {"class": '法师', "level": 4}, {"class": '奥能师', "level": 4}],
+    "spell_page_1363_0097": [{"class": '魔战士', "level": 5}, {"class": '术士', "level": 6}, {"class": '法师', "level": 6}, {"class": '奥能师', "level": 6}],
+    "spell_page_1363_0098": [{"class": '术士', "level": 9}, {"class": '法师', "level": 9}, {"class": '奥能师', "level": 9}, {"class": '女巫', "level": 9}],
+    "spell_page_1363_0099": [{"class": '术士', "level": 9}, {"class": '法师', "level": 9}, {"class": '奥能师', "level": 9}],
+    "spell_page_1363_0100": [{"class": '术士', "level": 7}, {"class": '法师', "level": 7}, {"class": '奥能师', "level": 7}, {"class": '女巫', "level": 7}],
+    "spell_page_1363_0101": [{"class": '术士', "level": 2}, {"class": '法师', "level": 2}, {"class": '奥能师', "level": 2}, {"class": '召唤师', "level": 2}],
+    "spell_page_1363_0102": [{"class": '召唤师', "level": 3}, {"class": '女巫', "level": 4}],
+    "spell_page_1363_0103": [{"class": '召唤师', "level": 4}, {"class": '女巫', "level": 5}],
+    "spell_page_1363_0104": [{"class": '术士', "level": 9}, {"class": '法师', "level": 9}, {"class": '奥能师', "level": 9}, {"class": '女巫', "level": 9}],
+    "spell_page_1363_0105": [{"class": '术士', "level": 8}, {"class": '法师', "level": 8}, {"class": '奥能师', "level": 8}, {"class": '召唤师', "level": 6}],
+    "spell_page_1363_0106": [{"class": '术士', "level": 8}, {"class": '法师', "level": 8}, {"class": '奥能师', "level": 8}, {"class": '召唤师', "level": 6}],
+    "spell_page_1363_0107": [{"class": '术士', "level": 9}, {"class": '法师', "level": 9}, {"class": '奥能师', "level": 9}, {"class": '女巫', "level": 9}],
+    "spell_page_1363_0108": [{"class": '牧师', "level": 4}, {"class": '先知', "level": 4}, {"class": '战斗祭司', "level": 4}, {"class": '术士', "level": 5}, {"class": '法师', "level": 5}, {"class": '奥能师', "level": 5}],
+    "spell_page_1363_0109": [{"class": '术士', "level": 7}, {"class": '法师', "level": 7}, {"class": '奥能师', "level": 7}, {"class": '召唤师', "level": 6}],
+    "spell_page_1363_0110": [{"class": '先知', "level": 1}, {"class": '女巫', "level": 2}],
+    "spell_page_1363_0112": [{"class": '牧师', "level": 3}, {"class": '先知', "level": 3}, {"class": '战斗祭司', "level": 3}, {"class": '术士', "level": 3}, {"class": '法师', "level": 3}, {"class": '奥能师', "level": 3}],
+    "spell_page_1363_0113": [{"class": '术士', "level": 6}, {"class": '法师', "level": 6}, {"class": '奥能师', "level": 6}],
+    "spell_page_1363_0114": [{"class": '圣武士', "level": 3}],
+    "spell_page_1363_0115": [{"class": '德鲁伊', "level": 6}, {"class": '猎人', "level": 6}, {"class": '召唤师', "level": 4}],
+    "spell_page_1363_0116": [{"class": '德鲁伊', "level": 8}],
+    "spell_page_1363_0118": [{"class": '牧师', "level": 2}, {"class": '先知', "level": 2}, {"class": '战斗祭司', "level": 2}, {"class": '女巫', "level": 1}],
+    "spell_page_1363_0119": [{"class": '德鲁伊', "level": 2}, {"class": '游侠', "level": 1}, {"class": '猎人', "level": 1}],
+    "spell_page_1363_0120": [{"class": '牧师', "level": 3}, {"class": '先知', "level": 3}, {"class": '战斗祭司', "level": 3}, {"class": '萨满', "level": 3}],
+    "spell_page_1363_0121": [{"class": '术士', "level": 3}, {"class": '法师', "level": 3}, {"class": '奥能师', "level": 3}, {"class": '女巫', "level": 3}],
+    "spell_page_1363_0122": [{"class": '术士', "level": 3}, {"class": '法师', "level": 3}, {"class": '奥能师', "level": 3}],
+    "spell_page_1363_0123": [{"class": '术士', "level": 6}, {"class": '法师', "level": 6}, {"class": '奥能师', "level": 6}],
+    "spell_page_1363_0124": [{"class": '术士', "level": 6}, {"class": '法师', "level": 6}, {"class": '奥能师', "level": 6}, {"class": '通灵者', "level": 3}],
+    "spell_page_1363_0125": [{"class": '术士', "level": 1}, {"class": '法师', "level": 1}, {"class": '奥能师', "level": 1}],
+    "spell_page_1363_0126": [{"class": '德鲁伊', "level": 8}, {"class": '牧师', "level": 8}, {"class": '先知', "level": 8}],
+    "spell_page_1363_0127": [{"class": '牧师', "level": 2}, {"class": '先知', "level": 2}, {"class": '战斗祭司', "level": 2}, {"class": '审判者', "level": 2}],
+    "spell_page_1363_0128": [{"class": '游侠', "level": 2}, {"class": '猎人', "level": 2}, {"class": '牧师', "level": 3}, {"class": '先知', "level": 3}, {"class": '战斗祭司', "level": 3}],
+    "spell_page_1363_0129": [{"class": '游侠', "level": 1}, {"class": '猎人', "level": 1}, {"class": '德鲁伊', "level": 2}, {"class": '牧师', "level": 2}, {"class": '先知', "level": 2}, {"class": '战斗祭司', "level": 2}],
+    "spell_page_1363_0130": [{"class": '德鲁伊', "level": 1}, {"class": '游侠', "level": 1}, {"class": '猎人', "level": 1}, {"class": '牧师', "level": 1}, {"class": '先知', "level": 1}, {"class": '战斗祭司', "level": 1}],
+    "spell_page_1363_0131": [{"class": '圣武士', "level": 4}],
+    "spell_page_1363_0134": [{"class": '圣武士', "level": 3}, {"class": '游侠', "level": 3}, {"class": '萨满', "level": 3}],
+    "spell_page_1363_0135": [{"class": '吟游诗人', "level": 2}, {"class": '德鲁伊', "level": 2}, {"class": '通灵者', "level": 2}, {"class": '秘学士', "level": 2}, {"class": '异能者', "level": 2}, {"class": '游侠', "level": 2}, {"class": '萨满', "level": 2}],
+    "spell_page_1363_0136": [{"class": '血脉狂怒者', "level": 3}, {"class": '牧师', "level": 3}, {"class": '德鲁伊', "level": 3}, {"class": '圣武士', "level": 3}, {"class": '游侠', "level": 3}, {"class": '萨满', "level": 3}],
+    "spell_page_1363_0137": [{"class": '血脉狂怒者', "level": 3}, {"class": '牧师', "level": 3}, {"class": '德鲁伊', "level": 3}, {"class": '圣武士', "level": 3}, {"class": '游侠', "level": 3}, {"class": '萨满', "level": 3}],
+    "spell_page_1363_0139": [{"class": '德鲁伊', "level": 4}, {"class": '萨满', "level": 4}, {"class": '术士', "level": 4}, {"class": '法师', "level": 4}],
+    "spell_page_1365_0005": [{"class": '术士', "level": 4}, {"class": '法师', "level": 4}, {"class": '奥能师', "level": 4}],
+    "spell_page_1365_0009": [{"class": '术士', "level": 8}, {"class": '法师', "level": 8}, {"class": '奥能师', "level": 8}],
+    "spell_page_1365_0018": [{"class": '术士', "level": 4}, {"class": '法师', "level": 4}, {"class": '奥能师', "level": 4}],
+    "spell_page_1365_0019": [{"class": '德鲁伊', "level": 1}, {"class": '猎人', "level": 1}, {"class": '术士', "level": 1}, {"class": '法师', "level": 1}, {"class": '奥能师', "level": 1}],
+    "spell_page_1365_0023": [{"class": '术士', "level": 7}, {"class": '法师', "level": 7}, {"class": '奥能师', "level": 7}],
+    "spell_page_1365_0025": [{"class": '圣武士', "level": 4}, {"class": '游侠', "level": 4}, {"class": '猎人', "level": 4}],
+    "spell_page_1365_0026": [{"class": '圣武士', "level": 2}],
+    "spell_page_1365_0028": [{"class": '圣武士', "level": 4}],
+    "spell_page_1365_0029": [{"class": '圣武士', "level": 2}],
+    "spell_page_1365_0031": [{"class": '圣武士', "level": 3}, {"class": '游侠', "level": 4}, {"class": '猎人', "level": 4}],
+    "spell_page_1365_0032": [{"class": '圣武士', "level": 3}, {"class": '游侠', "level": 4}, {"class": '猎人', "level": 4}],
+    "spell_page_1365_0033": [{"class": '圣武士', "level": 1}],
+    "spell_page_1365_0034": [{"class": '牧师', "level": 2}, {"class": '先知', "level": 2}, {"class": '战斗祭司', "level": 2}],
+    "spell_page_1365_0035": [{"class": '牧师', "level": 4}, {"class": '先知', "level": 4}, {"class": '战斗祭司', "level": 4}],
+    "spell_page_1365_0036": [{"class": '牧师', "level": 3}, {"class": '先知', "level": 3}, {"class": '战斗祭司', "level": 3}],
+    "spell_page_1365_0037": [{"class": '游侠', "level": 3}, {"class": '猎人', "level": 3}],
+    "spell_page_1365_0042": [{"class": '牧师', "level": 1}, {"class": '先知', "level": 1}, {"class": '战斗祭司', "level": 1}, {"class": '圣武士', "level": 1}],
+    "spell_page_1365_0043": [{"class": '牧师', "level": 1}, {"class": '先知', "level": 1}, {"class": '战斗祭司', "level": 1}, {"class": '德鲁伊', "level": 1}],
+    "spell_page_1365_0044": [{"class": '牧师', "level": 2}, {"class": '先知', "level": 2}, {"class": '战斗祭司', "level": 2}, {"class": '圣武士', "level": 2}],
+    "spell_page_1365_0045": [{"class": '游侠', "level": 4}, {"class": '猎人', "level": 4}, {"class": '术士', "level": 6}, {"class": '法师', "level": 6}, {"class": '奥能师', "level": 6}],
+    "spell_page_1365_0055": [{"class": '牧师', "level": 1}, {"class": '先知', "level": 1}, {"class": '战斗祭司', "level": 1}, {"class": '德鲁伊', "level": 1}],
+    "spell_page_1365_0056": [{"class": '牧师', "level": 1}, {"class": '先知', "level": 1}, {"class": '战斗祭司', "level": 1}, {"class": '圣武士', "level": 1}],
+    "spell_page_1365_0059": [{"class": '牧师', "level": 1}, {"class": '先知', "level": 1}, {"class": '战斗祭司', "level": 1}],
+    "spell_page_1365_0060": [{"class": '审判者', "level": 1}, {"class": '圣武士', "level": 1}],
+    "spell_page_1365_0061": [{"class": '审判者', "level": 1}, {"class": '圣武士', "level": 1}],
+    "spell_page_1365_0066": [{"class": '审判者', "level": 2}, {"class": '圣武士', "level": 2}],
+    "spell_page_1365_0068": [{"class": '牧师', "level": 1}, {"class": '先知', "level": 1}, {"class": '战斗祭司', "level": 1}, {"class": '术士', "level": 1}, {"class": '法师', "level": 1}, {"class": '奥能师', "level": 1}, {"class": '召唤师', "level": 1}],
+    "spell_page_1365_0069": [{"class": '术士', "level": 5}, {"class": '法师', "level": 5}, {"class": '奥能师', "level": 5}, {"class": '召唤师', "level": 5}],
+    "spell_page_1365_0070": [{"class": '牧师', "level": 1}, {"class": '先知', "level": 1}, {"class": '战斗祭司', "level": 1}, {"class": '德鲁伊', "level": 1}],
+    "spell_page_1365_0071": [{"class": '德鲁伊', "level": 3}, {"class": '猎人', "level": 3}],
+    "spell_page_1365_0072": [{"class": '牧师', "level": 1}, {"class": '先知', "level": 1}, {"class": '战斗祭司', "level": 1}, {"class": '德鲁伊', "level": 1}, {"class": '猎人', "level": 1}],
+    "spell_page_1365_0073": [{"class": '牧师', "level": 2}, {"class": '先知', "level": 2}, {"class": '战斗祭司', "level": 2}, {"class": '审判者', "level": 2}],
+    "spell_page_1365_0074": [{"class": '审判者', "level": 2}],
+    "spell_page_1365_0078": [{"class": '术士', "level": 3}, {"class": '法师', "level": 3}, {"class": '奥能师', "level": 3}, {"class": '女巫', "level": 4}],
+    "spell_page_1365_0079": [{"class": '游侠', "level": 1}, {"class": '猎人', "level": 1}, {"class": '术士', "level": 1}, {"class": '法师', "level": 1}, {"class": '奥能师', "level": 1}],
+    "spell_page_1365_0080": [{"class": '审判者', "level": 3}, {"class": '游侠', "level": 4}, {"class": '猎人', "level": 4}],
+    "spell_page_1365_0082": [{"class": '牧师', "level": 2}, {"class": '先知', "level": 2}, {"class": '战斗祭司', "level": 2}, {"class": '德鲁伊', "level": 2}, {"class": '猎人', "level": 2}],
+    "spell_page_1365_0083": [{"class": '牧师', "level": 1}, {"class": '先知', "level": 1}, {"class": '战斗祭司', "level": 1}, {"class": '德鲁伊', "level": 1}, {"class": '猎人', "level": 1}],
+    "spell_page_1365_0085": [{"class": '术士', "level": 5}, {"class": '法师', "level": 5}, {"class": '奥能师', "level": 5}, {"class": '女巫', "level": 4}],
+    "spell_page_1365_0086": [{"class": '术士', "level": 2}, {"class": '法师', "level": 2}, {"class": '奥能师', "level": 2}],
+    "spell_page_1365_0087": [{"class": '术士', "level": 9}, {"class": '法师', "level": 9}, {"class": '奥能师', "level": 9}],
+    "spell_page_1365_0088": [{"class": '术士', "level": 4}, {"class": '法师', "level": 4}, {"class": '奥能师', "level": 4}, {"class": '召唤师', "level": 4}],
+    "spell_page_1365_0089": [{"class": '牧师', "level": 2}, {"class": '先知', "level": 2}, {"class": '战斗祭司', "level": 2}, {"class": '术士', "level": 2}, {"class": '法师', "level": 2}, {"class": '奥能师', "level": 2}],
+    "spell_page_1365_0090": [{"class": '术士', "level": 5}, {"class": '法师', "level": 5}, {"class": '奥能师', "level": 5}, {"class": '召唤师', "level": 5}],
+    "spell_page_1365_0110": [{"class": '德鲁伊', "level": 3}, {"class": '游侠', "level": 3}, {"class": '猎人', "level": 3}],
+    "spell_page_1365_0111": [{"class": '德鲁伊', "level": 5}, {"class": '猎人', "level": 5}, {"class": '术士', "level": 5}, {"class": '法师', "level": 5}, {"class": '奥能师', "level": 5}],
+    "spell_page_1365_0112": [{"class": '女巫', "level": 2}],
+    "spell_page_1365_0114": [{"class": '游侠', "level": 2}, {"class": '猎人', "level": 2}],
+    "spell_page_1365_0115": [{"class": '圣武士', "level": 4}, {"class": '游侠', "level": 4}, {"class": '猎人', "level": 4}],
+    "spell_page_1365_0116": [{"class": '圣武士', "level": 2}, {"class": '游侠', "level": 2}, {"class": '猎人', "level": 2}],
+    "spell_page_1365_0117": [{"class": '术士', "level": 4}, {"class": '法师', "level": 4}, {"class": '奥能师', "level": 4}, {"class": '女巫', "level": 4}],
+    "spell_page_1365_0118": [{"class": '德鲁伊', "level": 1}, {"class": '圣武士', "level": 1}],
+    "spell_page_1365_0120": [{"class": '术士', "level": 4}, {"class": '法师', "level": 4}, {"class": '奥能师', "level": 4}],
+    "spell_page_1365_0121": [{"class": '术士', "level": 4}, {"class": '法师', "level": 4}, {"class": '奥能师', "level": 4}],
+    "spell_page_1365_0122": [{"class": '德鲁伊', "level": 2}, {"class": '猎人', "level": 2}, {"class": '术士', "level": 2}, {"class": '法师', "level": 2}, {"class": '奥能师', "level": 2}],
+    "spell_page_1365_0123": [{"class": '术士', "level": 3}, {"class": '法师', "level": 3}, {"class": '奥能师', "level": 3}],
+    "spell_page_1365_0124": [{"class": '女巫', "level": 3}],
+    "spell_page_1365_0125": [{"class": '女巫', "level": 7}],
+    "spell_page_1365_0126": [{"class": '牧师', "level": 3}, {"class": '先知', "level": 3}, {"class": '战斗祭司', "level": 3}, {"class": '德鲁伊', "level": 3}, {"class": '猎人', "level": 3}],
+    "spell_page_1365_0127": [{"class": '圣武士', "level": 2}, {"class": '术士', "level": 2}, {"class": '法师', "level": 2}, {"class": '奥能师', "level": 2}],
+    "spell_page_1365_0128": [{"class": '圣武士', "level": 3}, {"class": '法师', "level": 5}, {"class": '术士', "level": 5}, {"class": '奥能师', "level": 5}],
+    "spell_page_1365_0129": [{"class": '圣武士', "level": 4}, {"class": '法师', "level": 8}, {"class": '术士', "level": 8}, {"class": '奥能师', "level": 8}],
+    "spell_page_1365_0130": [{"class": '牧师', "level": 7}, {"class": '先知', "level": 7}, {"class": '战斗祭司', "level": 7}, {"class": '圣武士', "level": 4}],
+    "spell_page_1365_0131": [{"class": '德鲁伊', "level": 2}, {"class": '猎人', "level": 2}, {"class": '法师', "level": 2}, {"class": '术士', "level": 2}, {"class": '奥能师', "level": 2}],
+    "spell_page_1365_0132": [{"class": '审判者', "level": 5}, {"class": '圣武士', "level": 4}],
+    "spell_page_1365_0133": [{"class": '吟游诗人', "level": 2}, {"class": '歌者', "level": 2}, {"class": '法师', "level": 2}, {"class": '术士', "level": 2}, {"class": '奥能师', "level": 2}],
+    "spell_page_1365_0134": [{"class": '吟游诗人', "level": 5}, {"class": '歌者', "level": 5}],
+    "spell_page_1365_0135": [{"class": '吟游诗人', "level": 6}, {"class": '歌者', "level": 6}],
+    "spell_page_1365_0136": [{"class": '审判者', "level": 4}, {"class": '魔战士', "level": 4}],
+    "spell_page_1365_0137": [{"class": '炼金术师', "level": 1}, {"class": '调查员', "level": 1}, {"class": '德鲁伊', "level": 0}, {"class": '猎人', "level": 0}],
+    "spell_page_1365_0138": [{"class": '德鲁伊', "level": 3}, {"class": '猎人', "level": 3}, {"class": '术士', "level": 3}, {"class": '法师', "level": 3}, {"class": '奥能师', "level": 3}],
+    "spell_page_1365_0139": [{"class": '反圣武士', "level": 1}, {"class": '术士', "level": 1}, {"class": '法师', "level": 1}, {"class": '奥能师', "level": 1}],
+    "spell_page_1365_0140": [{"class": '德鲁伊', "level": 2}, {"class": '猎人', "level": 2}, {"class": '游侠', "level": 2}],
+    "spell_page_1365_0141": [{"class": '术士', "level": 4}, {"class": '法师', "level": 4}, {"class": '奥能师', "level": 4}],
+    "spell_page_1365_0142": [{"class": '术士', "level": 5}, {"class": '法师', "level": 5}, {"class": '奥能师', "level": 5}, {"class": '女巫', "level": 5}],
+    "spell_page_1365_0153": [{"class": '牧师', "level": 3}, {"class": '先知', "level": 3}, {"class": '战斗祭司', "level": 3}, {"class": '德鲁伊', "level": 2}, {"class": '猎人', "level": 2}],
+    "spell_page_1365_0154": [{"class": '女巫', "level": 5}],
+    "spell_page_1365_0155": [{"class": '吟游诗人', "level": 2}, {"class": '歌者', "level": 2}, {"class": '术士', "level": 2}, {"class": '法师', "level": 2}, {"class": '奥能师', "level": 2}, {"class": '女巫', "level": 2}],
+    "spell_page_1365_0156": [{"class": '牧师', "level": 5}, {"class": '先知', "level": 5}, {"class": '战斗祭司', "level": 5}, {"class": '审判者', "level": 4}],
+    "spell_page_1365_0157": [{"class": '术士', "level": 3}, {"class": '法师', "level": 3}, {"class": '奥能师', "level": 3}, {"class": '女巫', "level": 3}],
+    "spell_page_1365_0158": [{"class": '术士', "level": 5}, {"class": '法师', "level": 5}, {"class": '奥能师', "level": 5}],
+    "spell_page_1365_0159": [{"class": '德鲁伊', "level": 8}, {"class": '术士', "level": 8}, {"class": '法师', "level": 8}, {"class": '奥能师', "level": 8}],
+    "spell_page_1365_0160": [{"class": '术士', "level": 5}, {"class": '法师', "level": 5}, {"class": '奥能师', "level": 5}],
+    "spell_page_1365_0161": [{"class": '牧师', "level": 1}, {"class": '先知', "level": 1}, {"class": '战斗祭司', "level": 1}, {"class": '魔战士', "level": 1}],
+    "spell_page_1365_0162": [{"class": '术士', "level": 2}, {"class": '法师', "level": 2}, {"class": '奥能师', "level": 2}],
+    "spell_page_1365_0164": [{"class": '牧师', "level": 1}, {"class": '先知', "level": 1}, {"class": '战斗祭司', "level": 1}, {"class": '审判者', "level": 1}],
+    "spell_page_1365_0165": [{"class": '魔战士', "level": 2}, {"class": '游侠', "level": 2}, {"class": '猎人', "level": 2}],
+    "spell_page_1365_0166": [{"class": '审判者', "level": 2}],
+    "spell_page_1365_0168": [{"class": '女巫', "level": 4}],
+    "spell_page_1365_0169": [{"class": '游侠', "level": 4}, {"class": '猎人', "level": 4}],
+    "spell_page_1365_0170": [{"class": '吟游诗人', "level": 2}, {"class": '歌者', "level": 2}, {"class": '德鲁伊', "level": 2}, {"class": '猎人', "level": 2}],
+    "spell_page_1365_0171": [{"class": '德鲁伊', "level": 6}, {"class": '猎人', "level": 6}, {"class": '女巫', "level": 6}],
+    "spell_page_1365_0173": [{"class": '审判者', "level": 3}, {"class": '术士', "level": 2}, {"class": '法师', "level": 2}, {"class": '奥能师', "level": 2}],
+    "spell_page_1365_0181": [{"class": '德鲁伊', "level": 4}, {"class": '猎人', "level": 4}, {"class": '游侠', "level": 4}],
+    "spell_page_1365_0182": [{"class": '牧师', "level": 3}, {"class": '先知', "level": 3}, {"class": '战斗祭司', "level": 3}, {"class": '德鲁伊', "level": 3}, {"class": '猎人', "level": 3}],
+    "spell_page_1365_0183": [{"class": '术士', "level": 5}, {"class": '法师', "level": 5}, {"class": '奥能师', "level": 5}, {"class": '女巫', "level": 5}],
+    "spell_page_1365_0184": [{"class": '术士', "level": 3}, {"class": '法师', "level": 3}, {"class": '奥能师', "level": 3}, {"class": '女巫', "level": 3}],
+    "spell_page_1365_0185": [{"class": '魔战士', "level": 2}, {"class": '术士', "level": 2}, {"class": '法师', "level": 2}, {"class": '奥能师', "level": 2}],
+    "spell_page_1365_0186": [{"class": '术士', "level": 4}, {"class": '法师', "level": 4}, {"class": '奥能师', "level": 4}, {"class": '召唤师', "level": 3}],
+    "spell_page_1365_0187": [{"class": '术士', "level": 5}, {"class": '法师', "level": 5}, {"class": '奥能师', "level": 5}, {"class": '召唤师', "level": 4}],
+    "spell_page_1365_0188": [{"class": '术士', "level": 6}, {"class": '法师', "level": 6}, {"class": '奥能师', "level": 6}, {"class": '召唤师', "level": 5}],
+    "spell_page_1365_0189": [{"class": '德鲁伊', "level": 2}, {"class": '审判者', "level": 2}, {"class": '圣武士', "level": 1}, {"class": '游侠', "level": 1}, {"class": '猎人', "level": 1}],
+    "spell_page_1365_0191": [{"class": '术士', "level": 4}, {"class": '法师', "level": 4}, {"class": '奥能师', "level": 4}, {"class": '女巫', "level": 4}],
+    "spell_page_1365_0192": [{"class": '审判者', "level": 6}],
+    "spell_page_1365_0193": [{"class": '审判者', "level": 4}],
+    "spell_page_1365_0195": [{"class": '德鲁伊', "level": 5}, {"class": '猎人', "level": 5}, {"class": '审判者', "level": 5}],
+    "spell_page_1365_0196": [{"class": '德鲁伊', "level": 2}, {"class": '猎人', "level": 2}],
+    "spell_page_1365_0204": [{"class": '术士', "level": 6}, {"class": '法师', "level": 6}, {"class": '奥能师', "level": 6}, {"class": '女巫', "level": 6}],
+    "spell_page_1365_0205": [{"class": '德鲁伊', "level": 4}, {"class": '猎人', "level": 4}, {"class": '术士', "level": 5}, {"class": '法师', "level": 5}, {"class": '奥能师', "level": 5}],
+    "spell_page_1365_0206": [{"class": '术士', "level": 1}, {"class": '法师', "level": 1}, {"class": '奥能师', "level": 1}, {"class": '吟游诗人', "level": 1}, {"class": '歌者', "level": 1}],
+    "spell_page_1365_0207": [{"class": '德鲁伊', "level": 2}, {"class": '游侠', "level": 1}, {"class": '猎人', "level": 1}],
+    "spell_page_1365_0208": [{"class": '牧师', "level": 7}, {"class": '先知', "level": 7}, {"class": '魔战士', "level": 6}],
+    "spell_page_1365_0210": [{"class": '德鲁伊', "level": 2}, {"class": '猎人', "level": 2}, {"class": '审判者', "level": 3}],
+    "spell_page_1365_0211": [{"class": '审判者', "level": 5}, {"class": '术士', "level": 6}, {"class": '法师', "level": 6}, {"class": '奥能师', "level": 6}],
+    "spell_page_1365_0212": [{"class": '术士', "level": 6}, {"class": '法师', "level": 6}, {"class": '奥能师', "level": 6}],
+    "spell_page_1365_0213": [{"class": '术士', "level": 5}, {"class": '法师', "level": 5}, {"class": '奥能师', "level": 5}],
+    "spell_page_1365_0214": [{"class": '牧师', "level": 2}, {"class": '先知', "level": 2}, {"class": '战斗祭司', "level": 2}, {"class": '德鲁伊', "level": 2}, {"class": '猎人', "level": 2}],
+    "spell_page_1365_0215": [{"class": '牧师', "level": 4}, {"class": '先知', "level": 4}, {"class": '战斗祭司', "level": 4}, {"class": '术士', "level": 5}, {"class": '法师', "level": 5}, {"class": '奥能师', "level": 5}],
+    "spell_page_1365_0216": [{"class": '术士', "level": 7}, {"class": '法师', "level": 7}, {"class": '奥能师', "level": 7}, {"class": '召唤师', "level": 6}],
+    "spell_page_1365_0217": [{"class": '术士', "level": 5}, {"class": '法师', "level": 5}, {"class": '奥能师', "level": 5}, {"class": '召唤师', "level": 4}],
+    "spell_page_1365_0218": [{"class": '术士', "level": 1}, {"class": '法师', "level": 1}, {"class": '奥能师', "level": 1}, {"class": '吟游诗人', "level": 1}, {"class": '歌者', "level": 1}],
+    "spell_page_1365_0219": [{"class": '审判者', "level": 2}, {"class": '术士', "level": 2}, {"class": '法师', "level": 2}, {"class": '奥能师', "level": 2}],
+    "spell_page_1365_0220": [{"class": '女巫', "level": 5}],
+    "spell_page_1365_0235": [{"class": '萨满', "level": 2}, {"class": '术士', "level": 3}, {"class": '法师', "level": 3}, {"class": '奥能师', "level": 3}],
+    "spell_page_1365_0236": [{"class": '游侠', "level": 1}, {"class": '猎人', "level": 1}, {"class": '萨满', "level": 3}],
+    "spell_page_1365_0237": [{"class": '魔战士', "level": 4}, {"class": '术士', "level": 5}, {"class": '法师', "level": 5}, {"class": '奥能师', "level": 5}],
+    "spell_page_1365_0238": [{"class": '魔战士', "level": 3}, {"class": '术士', "level": 3}, {"class": '法师', "level": 3}, {"class": '奥能师', "level": 3}],
+    "spell_page_1365_0239": [{"class": '牧师', "level": 2}, {"class": '先知', "level": 2}, {"class": '战斗祭司', "level": 2}, {"class": '德鲁伊', "level": 2}],
+    "spell_page_1365_0240": [{"class": '德鲁伊', "level": 3}, {"class": '猎人', "level": 3}, {"class": '魔战士', "level": 3}],
+    "spell_page_1365_0241": [{"class": '牧师', "level": 2}, {"class": '先知', "level": 2}, {"class": '战斗祭司', "level": 2}, {"class": '德鲁伊', "level": 1}, {"class": '猎人', "level": 1}],
+    "spell_page_1365_0242": [{"class": '德鲁伊', "level": 2}, {"class": '猎人', "level": 2}, {"class": '术士', "level": 2}, {"class": '法师', "level": 2}, {"class": '奥能师', "level": 2}],
+    "spell_page_1365_0243": [{"class": '术士', "level": 5}, {"class": '法师', "level": 5}, {"class": '奥能师', "level": 5}, {"class": '女巫', "level": 5}],
+    "spell_page_1365_0244": [{"class": '吟游诗人', "level": 3}, {"class": '歌者', "level": 3}, {"class": '审判者', "level": 3}],
+    "spell_page_1365_0245": [{"class": '术士', "level": 5}, {"class": '法师', "level": 5}, {"class": '奥能师', "level": 5}, {"class": '女巫', "level": 5}],
+    "spell_page_1365_0246": [{"class": '术士', "level": 2}, {"class": '法师', "level": 2}, {"class": '奥能师', "level": 2}, {"class": '女巫', "level": 2}],
+    "spell_page_1365_0247": [{"class": '牧师', "level": 5}, {"class": '先知', "level": 5}, {"class": '战斗祭司', "level": 5}, {"class": '德鲁伊', "level": 5}, {"class": '猎人', "level": 5}, {"class": '审判者', "level": 5}],
+    "spell_page_1365_0248": [{"class": '女巫', "level": 6}],
+    "spell_page_1365_0260": [{"class": '德鲁伊', "level": 1}, {"class": '猎人', "level": 1}, {"class": '游侠', "level": 1}],
+    "spell_page_1365_0261": [{"class": '游侠', "level": 2}, {"class": '猎人', "level": 2}, {"class": '萨满', "level": 3}],
+    "spell_page_1365_0262": [{"class": '德鲁伊', "level": 4}, {"class": '猎人', "level": 4}, {"class": '萨满', "level": 4}],
+    "spell_page_1365_0263": [{"class": '德鲁伊', "level": 1}, {"class": '猎人', "level": 1}, {"class": '审判者', "level": 1}],
+    "spell_page_1365_0264": [{"class": '德鲁伊', "level": 5}, {"class": '猎人', "level": 5}, {"class": '术士', "level": 6}, {"class": '法师', "level": 6}, {"class": '奥能师', "level": 6}],
+    "spell_page_1365_0265": [{"class": '德鲁伊', "level": 7}, {"class": '术士', "level": 7}, {"class": '法师', "level": 7}, {"class": '奥能师', "level": 7}],
+    "spell_page_1365_0266": [{"class": '德鲁伊', "level": 3}, {"class": '审判者', "level": 3}],
+    "spell_page_1365_0267": [{"class": '德鲁伊', "level": 2}, {"class": '猎人', "level": 2}, {"class": '游侠', "level": 2}],
+    "spell_page_1365_0268": [{"class": '牧师', "level": 5}, {"class": '先知', "level": 5}, {"class": '战斗祭司', "level": 5}, {"class": '术士', "level": 5}, {"class": '法师', "level": 5}, {"class": '奥能师', "level": 5}],
+    "spell_page_1365_0269": [{"class": '德鲁伊', "level": 2}, {"class": '猎人', "level": 2}, {"class": '萨满', "level": 2}],
+    "spell_page_1365_0270": [{"class": '游侠', "level": 3}, {"class": '萨满', "level": 2}],
+    "spell_page_1365_0271": [{"class": '吟游诗人', "level": 2}, {"class": '歌者', "level": 2}, {"class": '牧师', "level": 2}, {"class": '先知', "level": 2}, {"class": '战斗祭司', "level": 2}],
+    "spell_page_1365_0273": [{"class": '德鲁伊', "level": 2}, {"class": '猎人', "level": 2}, {"class": '术士', "level": 2}, {"class": '法师', "level": 2}, {"class": '奥能师', "level": 2}],
+    "spell_page_1365_0274": [{"class": '萨满', "level": 4}, {"class": '召唤师', "level": 4}, {"class": '女巫', "level": 4}],
+    "spell_page_1365_0279": [{"class": '游侠', "level": 2}, {"class": '术士', "level": 2}, {"class": '法师', "level": 2}, {"class": '奥能师', "level": 2}],
+    "spell_page_1365_0283": [{"class": '德鲁伊', "level": 4}, {"class": '猎人', "level": 4}, {"class": '萨满', "level": 4}, {"class": '术士', "level": 4}, {"class": '法师', "level": 4}, {"class": '奥能师', "level": 4}, {"class": '召唤师', "level": 4}],
+    "spell_page_1365_0286": [{"class": '牧师', "level": 1}, {"class": '先知', "level": 1}, {"class": '战斗祭司', "level": 1}, {"class": '德鲁伊', "level": 1}, {"class": '猎人', "level": 1}],
+    "spell_page_1365_0287": [{"class": '血脉狂怒者', "level": 2}, {"class": '魔战士', "level": 2}],
+    "spell_page_1365_0290": [{"class": '术士', "level": 1}, {"class": '法师', "level": 1}, {"class": '奥能师', "level": 1}, {"class": '血脉狂怒者', "level": 1}],
+    "spell_page_1365_0292": [{"class": '吟游诗人', "level": 2}, {"class": '歌者', "level": 2}, {"class": '游侠', "level": 2}, {"class": '猎人', "level": 2}],
+    "spell_page_1365_0294": [{"class": '吟游诗人', "level": 2}, {"class": '歌者', "level": 2}, {"class": '牧师', "level": 2}, {"class": '先知', "level": 2}, {"class": '战斗祭司', "level": 2}],
+    "spell_page_1365_0295": [{"class": '萨满', "level": 2}],
+    "spell_page_1365_0296": [{"class": '游侠', "level": 2}, {"class": '萨满', "level": 2}],
+    "spell_page_1365_0297": [{"class": '萨满', "level": 2}],
+    "spell_page_1365_0298": [{"class": '术士', "level": 5}, {"class": '法师', "level": 5}, {"class": '奥能师', "level": 5}],
+    "spell_page_1365_0300": [{"class": '萨满', "level": 1}, {"class": '女巫', "level": 1}],
+    "spell_page_1365_0301": [{"class": '反圣武士', "level": 1}, {"class": '炼金术师', "level": 1}, {"class": '调查员', "level": 1}],
+    "spell_page_1365_0303": [{"class": '吟游诗人', "level": 1}, {"class": '歌者', "level": 1}, {"class": '牧师', "level": 1}, {"class": '先知', "level": 1}, {"class": '战斗祭司', "level": 1}],
+    "spell_page_1365_0304": [{"class": '催眠师', "level": 5}, {"class": '异能者', "level": 6}],
+    "spell_page_1365_0305": [{"class": '异能者', "level": 4}, {"class": '术士', "level": 4}, {"class": '法师', "level": 4}, {"class": '奥能师', "level": 4}],
+    "spell_page_1365_0306": [{"class": '异能者', "level": 3}],
+    "spell_page_1365_0307": [{"class": '吟游诗人', "level": 2}, {"class": '歌者', "level": 2}, {"class": '催眠师', "level": 2}],
+    "spell_page_1365_0308": [{"class": '吟游诗人', "level": 2}, {"class": '歌者', "level": 2}, {"class": '血脉狂怒者', "level": 2}],
+    "spell_page_1365_0309": [{"class": '血脉狂怒者', "level": 2}, {"class": '审判者', "level": 2}],
+    "spell_page_1365_0310": [{"class": '魔战士', "level": 3}, {"class": '通灵者', "level": 3}],
+    "spell_page_1365_0311": [{"class": '审判者', "level": 3}, {"class": '秘学士', "level": 3}],
+    "spell_page_1365_0312": [{"class": '审判者', "level": 3}, {"class": '秘学士', "level": 3}],
+    "spell_page_1365_0314": [{"class": '异能者', "level": 5}, {"class": '唤魂师', "level": 4}],
+    "spell_page_1365_0315": [{"class": '异能者', "level": 8}],
+    "spell_page_1365_0317": [{"class": '唤魂师', "level": 5}],
+    "spell_page_1365_0319": [{"class": '牧师', "level": 1}, {"class": '先知', "level": 1}, {"class": '战斗祭司', "level": 1}, {"class": '德鲁伊', "level": 1}],
+    "spell_page_1365_0320": [{"class": '吟游诗人', "level": 2}, {"class": '歌者', "level": 2}, {"class": '牧师', "level": 3}, {"class": '先知', "level": 3}, {"class": '战斗祭司', "level": 3}, {"class": '催眠师', "level": 3}],
+    "spell_page_1365_0321": [{"class": '催眠师', "level": 3}, {"class": '术士', "level": 3}, {"class": '法师', "level": 3}, {"class": '奥能师', "level": 3}],
+    "spell_page_1365_0323": [{"class": '吟游诗人', "level": 1}, {"class": '歌者', "level": 1}, {"class": '血脉狂怒者', "level": 1}],
+    "spell_page_1365_0324": [{"class": '反圣武士', "level": 1}, {"class": '血脉狂怒者', "level": 1}],
+    "spell_page_1365_0325": [{"class": '审判者', "level": 2}, {"class": '通灵者', "level": 2}],
+    "spell_page_1365_0326": [{"class": '牧师', "level": 2}, {"class": '先知', "level": 2}, {"class": '战斗祭司', "level": 2}, {"class": '德鲁伊', "level": 2}, {"class": '猎人', "level": 2}],
+    "spell_page_1365_0327": [{"class": '牧师', "level": 5}, {"class": '先知', "level": 5}, {"class": '战斗祭司', "level": 5}, {"class": '德鲁伊', "level": 5}, {"class": '猎人', "level": 5}],
+    "spell_page_1365_0328": [{"class": '催眠师', "level": 2}, {"class": '秘学士', "level": 3}],
+    "spell_page_1365_0329": [{"class": '催眠师', "level": 5}, {"class": '秘学士', "level": 6}],
+    "spell_page_1365_0330": [{"class": '审判者', "level": 1}, {"class": '萨满', "level": 1}],
+    "spell_page_1365_0331": [{"class": '吟游诗人', "level": 3}, {"class": '歌者', "level": 3}, {"class": '催眠师', "level": 3}],
+    "spell_page_1365_0333": [{"class": '术士', "level": 0}, {"class": '法师', "level": 0}, {"class": '奥能师', "level": 0}],
+    "spell_page_1365_0334": [{"class": '术士', "level": 3}, {"class": '法师', "level": 3}, {"class": '奥能师', "level": 3}],
+    "spell_page_1365_0335": [{"class": '牧师', "level": 1}, {"class": '先知', "level": 1}, {"class": '战斗祭司', "level": 1}, {"class": '审判者', "level": 1}],
+    "spell_page_1365_0336": [{"class": '催眠师', "level": 2}, {"class": '萨满', "level": 2}],
+    "spell_page_1365_0337": [{"class": '秘学士', "level": 3}, {"class": '术士', "level": 3}, {"class": '法师', "level": 3}, {"class": '奥能师', "level": 3}],
+    "spell_page_1365_0338": [{"class": '血脉狂怒者', "level": 2}, {"class": '魔战士', "level": 2}],
+    "spell_page_1365_0339": [{"class": '术士', "level": 1}, {"class": '法师', "level": 1}, {"class": '奥能师', "level": 1}],
+    "spell_page_1365_0340": [{"class": '吟游诗人', "level": 2}, {"class": '歌者', "level": 2}, {"class": '催眠师', "level": 2}],
+    "spell_page_1365_0341": [{"class": '术士', "level": 2}, {"class": '法师', "level": 2}, {"class": '奥能师', "level": 2}],
+    "spell_page_1365_0342": [{"class": '女巫', "level": 3}],
+    "spell_page_1365_0343": [{"class": '女巫', "level": 8}],
+    "spell_page_1365_0346": [{"class": '血脉狂怒者', "level": 1}, {"class": '魔战士', "level": 1}, {"class": '萨满', "level": 1}, {"class": '术士', "level": 1}, {"class": '法师', "level": 1}, {"class": '奥能师', "level": 1}, {"class": '唤魂师', "level": 1}, {"class": '召唤师', "level": 1}],
+    "spell_page_1365_0405": [{"class": '吟游诗人', "level": 3}, {"class": '歌者', "level": 3}, {"class": '审判者', "level": 3}],
+    "spell_page_1365_0406": [{"class": '牧师', "level": 3}, {"class": '先知', "level": 3}, {"class": '战斗祭司', "level": 3}, {"class": '审判者', "level": 3}],
+    "spell_page_1365_0407": [{"class": '牧师', "level": 3}, {"class": '先知', "level": 3}, {"class": '战斗祭司', "level": 3}, {"class": '德鲁伊', "level": 3}, {"class": '猎人', "level": 3}],
+    "spell_page_1365_0408": [{"class": '牧师', "level": 1}, {"class": '先知', "level": 1}, {"class": '战斗祭司', "level": 1}, {"class": '术士', "level": 1}, {"class": '法师', "level": 1}, {"class": '奥能师', "level": 1}],
+    "spell_page_1365_0409": [{"class": '牧师', "level": 3}, {"class": '先知', "level": 3}, {"class": '战斗祭司', "level": 3}, {"class": '术士', "level": 3}, {"class": '法师', "level": 3}, {"class": '奥能师', "level": 3}],
+    "spell_page_1365_0419": [{"class": '牧师', "level": 4}, {"class": '先知', "level": 4}, {"class": '战斗祭司', "level": 4}, {"class": '魔战士', "level": 4}],
+    "spell_page_1365_0420": [{"class": '牧师', "level": 2}, {"class": '先知', "level": 2}, {"class": '战斗祭司', "level": 2}, {"class": '审判者', "level": 2}],
+    "spell_page_1365_0421": [{"class": '牧师', "level": 2}, {"class": '先知', "level": 2}, {"class": '战斗祭司', "level": 2}, {"class": '审判者', "level": 2}],
+    "spell_page_1365_0484": [{"class": '秘学士', "level": 1}, {"class": '通灵者', "level": 1}],
+    "spell_page_1365_0500": [{"class": '召唤师', "level": 1}],
+    "spell_page_1365_0513": [{"class": '审判者', "level": 3}, {"class": '圣武士', "level": 3}],
+    "spell_page_1365_0522": [{"class": '催眠师', "level": 4}, {"class": '秘学士', "level": 4}],
+    "spell_page_1365_0523": [{"class": '通灵者', "level": 3}, {"class": '催眠师', "level": 3}],
+    "spell_page_1365_0524": [{"class": '吟游诗人', "level": 1}, {"class": '歌者', "level": 1}, {"class": '牧师', "level": 1}, {"class": '先知', "level": 1}, {"class": '战斗祭司', "level": 1}],
+    "spell_page_1365_0525": [{"class": '女巫', "level": 1}],
+    "spell_page_1365_0526": [{"class": '女巫', "level": 6}],
+    "spell_page_1365_0527": [{"class": '审判者', "level": 1}, {"class": '异能者', "level": 1}, {"class": '术士', "level": 1}, {"class": '法师', "level": 1}, {"class": '奥能师', "level": 1}, {"class": '女巫', "level": 1}],
+    "spell_page_1365_0528": [{"class": '术士', "level": 2}, {"class": '法师', "level": 2}, {"class": '奥能师', "level": 2}, {"class": '女巫', "level": 2}],
+    "spell_page_1365_0529": [{"class": '术士', "level": 5}, {"class": '法师', "level": 5}, {"class": '奥能师', "level": 5}],
+    "spell_page_1365_0530": [{"class": '女巫', "level": 3}],
+    "spell_page_1365_0531": [{"class": '女巫', "level": 5}],
+    "spell_page_1365_0533": [{"class": '异能者', "level": 3}],
+    "spell_page_1365_0538": [{"class": '术士', "level": 2}, {"class": '法师', "level": 2}, {"class": '奥能师', "level": 2}, {"class": '女巫', "level": 2}],
+    "spell_page_1365_0539": [{"class": '异能者', "level": 2}, {"class": '术士', "level": 2}, {"class": '法师', "level": 2}, {"class": '奥能师', "level": 2}],
+    "spell_page_1365_0544": [{"class": '牧师', "level": 2}, {"class": '先知', "level": 2}, {"class": '战斗祭司', "level": 2}, {"class": '审判者', "level": 2}],
+    "spell_page_1365_0545": [{"class": '吟游诗人', "level": 3}, {"class": '歌者', "level": 3}, {"class": '牧师', "level": 3}, {"class": '先知', "level": 3}, {"class": '战斗祭司', "level": 3}],
+    "spell_page_1365_0547": [{"class": '牧师', "level": 2}, {"class": '先知', "level": 2}, {"class": '战斗祭司', "level": 2}, {"class": '审判者', "level": 2}],
+    "spell_page_1365_0548": [{"class": '魔战士', "level": 2}, {"class": '术士', "level": 2}, {"class": '法师', "level": 2}, {"class": '奥能师', "level": 2}],
+    "spell_page_1365_0549": [{"class": '德鲁伊', "level": 2}, {"class": '猎人', "level": 2}, {"class": '萨满', "level": 2}],
+    "spell_page_1365_0550": [{"class": '催眠师', "level": 4}, {"class": '秘学士', "level": 4}],
+    "spell_page_1365_0551": [{"class": '异能者', "level": 3}],
+    "spell_page_1365_0552": [{"class": '异能者', "level": 5}],
+    "spell_page_1365_0553": [{"class": '萨满', "level": 8}, {"class": '术士', "level": 8}, {"class": '法师', "level": 8}, {"class": '奥能师', "level": 8}],
+    "spell_page_1365_0554": [{"class": '牧师', "level": 2}, {"class": '先知', "level": 2}, {"class": '战斗祭司', "level": 2}, {"class": '通灵者', "level": 2}],
+    "spell_page_1365_0555": [{"class": '秘学士', "level": 4}, {"class": '异能者', "level": 5}],
+    "spell_page_1365_0556": [{"class": '牧师', "level": 0}, {"class": '先知', "level": 0}, {"class": '战斗祭司', "level": 0}, {"class": '德鲁伊', "level": 0}, {"class": '猎人', "level": 0}],
+    "spell_page_1365_0557": [{"class": '萨满', "level": 2}, {"class": '术士', "level": 2}, {"class": '法师', "level": 2}, {"class": '奥能师', "level": 2}],
+    "spell_page_1365_0558": [{"class": '德鲁伊', "level": 2}, {"class": '魔战士', "level": 2}],
+    "spell_page_1365_0559": [{"class": '审判者', "level": 1}, {"class": '魔战士', "level": 1}],
+    "spell_page_1365_0560": [{"class": '牧师', "level": 3}, {"class": '先知', "level": 3}, {"class": '战斗祭司', "level": 3}, {"class": '术士', "level": 3}, {"class": '法师', "level": 3}, {"class": '奥能师', "level": 3}],
+    "spell_page_1365_0561": [{"class": '牧师', "level": 4}, {"class": '先知', "level": 4}, {"class": '战斗祭司', "level": 4}, {"class": '德鲁伊', "level": 4}, {"class": '猎人', "level": 4}],
+    "spell_page_1365_0562": [{"class": '德鲁伊', "level": 7}, {"class": '审判者', "level": 6}],
+    "spell_page_1365_0563": [{"class": '萨满', "level": 2}],
+    "spell_page_1365_0564": [{"class": '牧师', "level": 2}, {"class": '先知', "level": 2}, {"class": '战斗祭司', "level": 2}, {"class": '德鲁伊', "level": 2}],
+    "spell_page_1365_0565": [{"class": '秘学士', "level": 5}, {"class": '游侠', "level": 3}, {"class": '猎人', "level": 3}, {"class": '萨满', "level": 5}, {"class": '术士', "level": 5}, {"class": '法师', "level": 5}, {"class": '奥能师', "level": 5}],
+    "spell_page_1365_0566": [{"class": '魔战士', "level": 3}, {"class": '术士', "level": 3}, {"class": '法师', "level": 3}, {"class": '奥能师', "level": 3}, {"class": '女巫', "level": 3}],
+    "spell_page_1365_0567": [{"class": '女巫', "level": 2}],
+    "spell_page_1365_0568": [{"class": '萨满', "level": 2}, {"class": '女巫', "level": 2}],
+    "spell_page_1365_0571": [{"class": '女巫', "level": 3}],
+    "spell_page_1365_0572": [{"class": '异能者', "level": 9}, {"class": '女巫', "level": 9}],
+    "spell_page_1365_0573": [{"class": '通灵者', "level": 3}, {"class": '秘学士', "level": 3}, {"class": '异能者', "level": 3}, {"class": '术士', "level": 3}, {"class": '法师', "level": 3}, {"class": '奥能师', "level": 3}, {"class": '女巫', "level": 3}],
+    "spell_page_1365_0574": [{"class": '审判者', "level": 2}, {"class": '通灵者', "level": 1}, {"class": '异能者', "level": 2}],
+    "spell_page_1365_0575": [{"class": '审判者', "level": 4}, {"class": '通灵者', "level": 3}, {"class": '异能者', "level": 5}, {"class": '游侠', "level": 3}, {"class": '猎人', "level": 3}],
+    "spell_page_1365_0576": [{"class": '女巫', "level": 7}],
+    "spell_page_1365_0577": [{"class": '女巫', "level": 8}],
+    "spell_page_1365_0578": [{"class": '血脉狂怒者', "level": 3}, {"class": '魔战士', "level": 3}],
+    "spell_page_1365_0579": [{"class": '审判者', "level": 2}, {"class": '秘学士', "level": 2}],
+    "spell_page_1365_0580": [{"class": '审判者', "level": 1}, {"class": '秘学士', "level": 1}],
+    "spell_page_1365_0581": [{"class": '德鲁伊', "level": 2}, {"class": '猎人', "level": 2}, {"class": '秘学士', "level": 2}],
+    "spell_page_1365_0582": [{"class": '秘学士', "level": 1}, {"class": '游侠', "level": 1}, {"class": '猎人', "level": 1}],
+    "spell_page_1365_0583": [{"class": '秘学士', "level": 2}, {"class": '游侠', "level": 2}],
+    "spell_page_1365_0593": [{"class": '德鲁伊', "level": 1}, {"class": '猎人', "level": 1}, {"class": '魔战士', "level": 1}, {"class": '游侠', "level": 1}, {"class": '萨满', "level": 1}, {"class": '术士', "level": 1}, {"class": '法师', "level": 1}, {"class": '奥能师', "level": 1}, {"class": '女巫', "level": 1}],
+    "spell_page_1365_0599": [{"class": '魔战士', "level": 3}, {"class": '萨满', "level": 4}],
+    "spell_page_1365_0600": [{"class": '牧师', "level": 3}, {"class": '先知', "level": 3}, {"class": '战斗祭司', "level": 3}, {"class": '萨满', "level": 3}],
+    "spell_page_1365_0601": [{"class": '血脉狂怒者', "level": 2}, {"class": '德鲁伊', "level": 3}, {"class": '猎人', "level": 3}],
+    "spell_page_1365_0602": [{"class": '魔战士', "level": 2}, {"class": '萨满', "level": 3}],
+    "spell_page_669_0000": [{"class": '吟游诗人', "level": 2}, {"class": '歌者', "level": 2}, {"class": '牧师', "level": 3}, {"class": '先知', "level": 3}, {"class": '战斗祭司', "level": 3}, {"class": '催眠师', "level": 3}, {"class": '萨满', "level": 3}],
+    "spell_page_669_0001": [{"class": '催眠师', "level": 3}, {"class": '术士', "level": 3}, {"class": '法师', "level": 3}, {"class": '奥能师', "level": 3}, {"class": '女巫', "level": 3}],
+    "spell_page_669_0003": [{"class": '吟游诗人', "level": 1}, {"class": '歌者', "level": 1}, {"class": '血脉狂怒者', "level": 1}, {"class": '牧师', "level": 2}, {"class": '先知', "level": 2}, {"class": '战斗祭司', "level": 2}, {"class": '催眠师', "level": 1}, {"class": '异能者', "level": 1}, {"class": '萨满', "level": 2}, {"class": '术士', "level": 1}, {"class": '法师', "level": 1}, {"class": '奥能师', "level": 1}, {"class": '唤魂师', "level": 2}, {"class": '女巫', "level": 1}],
+    "spell_page_669_0004": [{"class": '反圣武士', "level": 1}, {"class": '血脉狂怒者', "level": 1}, {"class": '牧师', "level": 1}, {"class": '先知', "level": 1}, {"class": '战斗祭司', "level": 1}, {"class": '德鲁伊', "level": 1}, {"class": '猎人', "level": 1}, {"class": '魔战士', "level": 1}, {"class": '异能者', "level": 1}, {"class": '萨满', "level": 1}, {"class": '术士', "level": 1}, {"class": '法师', "level": 1}, {"class": '奥能师', "level": 1}, {"class": '召唤师', "level": 1}],
+    "spell_page_669_0006": [{"class": '牧师', "level": 2}, {"class": '先知', "level": 2}, {"class": '战斗祭司', "level": 2}, {"class": '德鲁伊', "level": 2}, {"class": '猎人', "level": 2}, {"class": '通灵者', "level": 2}, {"class": '催眠师', "level": 2}, {"class": '术士', "level": 2}, {"class": '法师', "level": 2}, {"class": '奥能师', "level": 2}, {"class": '女巫', "level": 2}],
+    "spell_page_669_0007": [{"class": '牧师', "level": 5}, {"class": '先知', "level": 5}, {"class": '战斗祭司', "level": 5}, {"class": '德鲁伊', "level": 5}, {"class": '猎人', "level": 5}, {"class": '通灵者', "level": 4}, {"class": '催眠师', "level": 4}, {"class": '术士', "level": 5}, {"class": '法师', "level": 5}, {"class": '奥能师', "level": 5}, {"class": '女巫', "level": 5}],
+    "spell_page_669_0010": [{"class": '审判者', "level": 1}, {"class": '萨满', "level": 1}, {"class": '术士', "level": 2}, {"class": '法师', "level": 2}, {"class": '奥能师', "level": 2}, {"class": '女巫', "level": 2}],
+    "spell_page_669_0011": [{"class": '吟游诗人', "level": 3}, {"class": '歌者', "level": 3}, {"class": '催眠师', "level": 3}, {"class": '萨满', "level": 3}, {"class": '女巫', "level": 3}],
+    "spell_page_669_0013": [{"class": '奥能师', "level": 0}, {"class": '术士', "level": 0}, {"class": '法师', "level": 0}],
+    "spell_page_669_0015": [{"class": '牧师', "level": 1}, {"class": '先知', "level": 1}, {"class": '战斗祭司', "level": 1}, {"class": '审判者', "level": 1}, {"class": '秘学士', "level": 1}, {"class": '术士', "level": 1}, {"class": '法师', "level": 1}, {"class": '奥能师', "level": 1}],
+    "spell_page_669_0016": [{"class": '催眠师', "level": 2}, {"class": '萨满', "level": 2}, {"class": '女巫', "level": 2}],
+    "spell_page_669_0017": [{"class": '秘学士', "level": 3}, {"class": '术士', "level": 3}, {"class": '法师', "level": 3}, {"class": '奥能师', "level": 3}, {"class": '召唤师', "level": 2}, {"class": '女巫', "level": 3}],
+    "spell_page_669_0018": [{"class": '血脉狂怒者', "level": 2}, {"class": '魔战士', "level": 2}, {"class": '术士', "level": 2}, {"class": '法师', "level": 2}, {"class": '奥能师', "level": 2}],
+    "spell_page_669_0019": [{"class": '奥能师', "level": 1}, {"class": '术士', "level": 1}, {"class": '法师', "level": 1}],
+    "spell_page_669_0020": [{"class": '吟游诗人', "level": 2}, {"class": '歌者', "level": 2}, {"class": '催眠师', "level": 2}, {"class": '异能者', "level": 2}, {"class": '术士', "level": 2}, {"class": '法师', "level": 2}, {"class": '奥能师', "level": 2}],
+    "spell_page_669_0021": [{"class": '奥能师', "level": 2}, {"class": '术士', "level": 2}, {"class": '法师', "level": 2}],
+    "spell_page_669_0022": [{"class": '女巫', "level": 3}],
+    "spell_page_669_0023": [{"class": '女巫', "level": 8}],
+    "spell_page_693_0002": [{"class": '德鲁伊', "level": 2}, {"class": '猎人', "level": 2}, {"class": '术士', "level": 2}, {"class": '法师', "level": 2}, {"class": '奥能师', "level": 2}, {"class": '召唤师', "level": 2}, {"class": '女巫', "level": 2}],
+    "spell_page_693_0003": [{"class": '萨满', "level": 4}, {"class": '召唤师', "level": 4}, {"class": '女巫', "level": 4}],
+    "spell_page_717_0000": [{"class": '圣武士', "level": 4}, {"class": '游侠', "level": 4}, {"class": '猎人', "level": 4}],
+    "spell_page_717_0001": [{"class": '圣武士', "level": 2}],
+    "spell_page_717_0003": [{"class": '圣武士', "level": 4}],
+    "spell_page_717_0004": [{"class": '圣武士', "level": 2}],
+    "spell_page_717_0006": [{"class": '圣武士', "level": 3}, {"class": '游侠', "level": 4}, {"class": '猎人', "level": 4}],
+    "spell_page_717_0007": [{"class": '圣武士', "level": 3}, {"class": '游侠', "level": 4}, {"class": '猎人', "level": 4}],
+    "spell_page_717_0008": [{"class": '圣武士', "level": 1}],
+    "spell_page_717_0009": [{"class": '先知', "level": 2}, {"class": '战斗祭司', "level": 2}, {"class": '牧师', "level": 2}],
+    "spell_page_717_0010": [{"class": '先知', "level": 4}, {"class": '战斗祭司', "level": 4}, {"class": '牧师', "level": 4}],
+    "spell_page_717_0011": [{"class": '先知', "level": 3}, {"class": '战斗祭司', "level": 3}, {"class": '牧师', "level": 3}],
+    "spell_page_718_0001": [{"class": '奥能师', "level": 2}, {"class": '术士', "level": 2}, {"class": '法师', "level": 2}],
+    "spell_page_718_0002": [{"class": '奥能师', "level": 9}, {"class": '术士', "level": 9}, {"class": '法师', "level": 9}],
+    "spell_page_718_0003": [{"class": '术士', "level": 4}, {"class": '法师', "level": 4}, {"class": '奥能师', "level": 4}, {"class": '召唤师', "level": 4}, {"class": '女巫', "level": 4}],
+    "spell_page_718_0004": [{"class": '牧师', "level": 2}, {"class": '先知', "level": 2}, {"class": '战斗祭司', "level": 2}, {"class": '术士', "level": 2}, {"class": '法师', "level": 2}, {"class": '奥能师', "level": 2}],
+    "spell_page_718_0005": [{"class": '术士', "level": 5}, {"class": '法师', "level": 5}, {"class": '奥能师', "level": 5}, {"class": '召唤师', "level": 5}, {"class": '女巫', "level": 5}],
+    "spell_page_719_0001": [{"class": '德鲁伊', "level": 1}, {"class": '猎人', "level": 1}, {"class": '术士', "level": 1}, {"class": '法师', "level": 1}, {"class": '奥能师', "level": 1}],
+    "spell_page_719_0005": [{"class": '奥能师', "level": 7}, {"class": '术士', "level": 7}, {"class": '法师', "level": 7}],
+    "spell_page_720_0001": [{"class": '牧师', "level": 1}, {"class": '先知', "level": 1}, {"class": '战斗祭司', "level": 1}, {"class": '德鲁伊', "level": 1}, {"class": '圣武士', "level": 1}, {"class": '游侠', "level": 1}, {"class": '猎人', "level": 1}, {"class": '术士', "level": 1}, {"class": '法师', "level": 1}, {"class": '奥能师', "level": 1}],
+    "spell_page_720_0002": [{"class": '牧师', "level": 2}, {"class": '先知', "level": 2}, {"class": '战斗祭司', "level": 2}, {"class": '圣武士', "level": 2}, {"class": '术士', "level": 2}, {"class": '法师', "level": 2}, {"class": '奥能师', "level": 2}],
+    "spell_page_720_0003": [{"class": '游侠', "level": 4}, {"class": '猎人', "level": 4}, {"class": '术士', "level": 6}, {"class": '法师', "level": 6}, {"class": '奥能师', "level": 6}],
+    "spell_page_805_0001": [{"class": '游侠', "level": 2}, {"class": '术士', "level": 2}, {"class": '法师', "level": 2}, {"class": '奥能师', "level": 2}, {"class": '召唤师', "level": 2}, {"class": '女巫', "level": 2}],
+    "spell_page_805_0005": [{"class": '德鲁伊', "level": 4}, {"class": '猎人', "level": 4}, {"class": '萨满', "level": 4}, {"class": '术士', "level": 4}, {"class": '法师', "level": 4}, {"class": '奥能师', "level": 4}, {"class": '召唤师', "level": 4}],
+    "spell_page_852_0001": [{"class": '德鲁伊', "level": 7}, {"class": '猎人', "level": 7}, {"class": '术士', "level": 7}, {"class": '法师', "level": 7}, {"class": '奥能师', "level": 7}, {"class": '召唤师', "level": 6}],
+    "spell_page_883_0006": [{"class": '秘学士', "level": 1}, {"class": '通灵者', "level": 1}, {"class": '萨满', "level": 1}, {"class": '术士', "level": 1}, {"class": '法师', "level": 1}, {"class": '奥能师', "level": 1}, {"class": '女巫', "level": 1}],
+}
+
+# KN244/246 标题正名后，白名单旧 ID 对应的原始标题。
+# 仅登记新旧标题不一致项，回退时必须再次核对，防止值错挂到正名后的条目。
+_SPELL_LEVEL_A_BUCKET_TITLE_OVERRIDES = {
+    "spell_page_1107_0013": "幻肢",
+    "spell_page_1331_0007": "隔绝思维",
+    "spell_page_1363_0085": "隔绝思维",
+    "spell_page_1365_0342": "秘藏柜",
+    "spell_page_1365_0599": "蜻蜓诅咒",
+    "spell_page_1365_0304": "死亡契约",
+    "spell_page_1365_0305": "欺敌传送",
+    "spell_page_1365_0324": "仙人掌粹的活力",
+    "spell_page_1365_0556": "绝处逢生",
+    "spell_page_1365_0557": "法师的徐行空间",
+}
+
+
+# KN245 裁除集（2026-10-30 已清零）：18 条全部裁定——14 条回填、3 条经 SMF010
+# 标签容错回填、阿底顿 2 条转 _NON_SPELL_ENTRIES。机制保留为空集：未来出现
+# 「源行不可证但又非空不可」的条目时在此登记，任何通道（白名单/补救）均不回填。
+_SPELL_LEVEL_CUT_EXCLUSIONS = frozenset()
+_SPELL_LEVEL_CUT_EXCLUSION_TITLES = {}
+
+# 非法术条目（KN245 2026-10-30 裁定）：源页把毒品/物品条目排进法术目录，
+# 字段为 类型/成瘾性/价格/伤害，没有学派与环级。保留在 chunks 内不迁移分类，
+# 仅把 spell_level 标为 not_applicable，使其不参与空率门与清单派生。
+_NON_SPELL_ENTRIES = frozenset({
+    ("page_1494", "阿底顿"),
+})
+
+
+def _legacy_spell_chunk_id(chunk_id: str, legacy_id_map=None) -> Optional[str]:
+    """查派生映射；显式无锚的新条目返回 None，避免同号误挂白名单。"""
+    if legacy_id_map is None:
+        legacy_id_map = load_legacy_id_map(str(DERIVED_STATE_PATH))
+    if chunk_id in legacy_id_map:
+        return legacy_id_map[chunk_id]
+    return chunk_id
+
+
+def _is_cut_exclusion(chunk_id: str, title: str, legacy_id_map=None) -> bool:
+    """按旧 ID 与条目标题双键判定裁除，避免顺移后的同号误伤。"""
+    legacy_id = _legacy_spell_chunk_id(chunk_id, legacy_id_map)
+    return legacy_id is not None and _SPELL_LEVEL_CUT_EXCLUSION_TITLES.get(legacy_id) == title
+
+
+# C 桶补救通道职业词表（修订 1 M2 词表校验同口径）：规范 26 职业 + 已批
+# 不动/合法项（红螳螂杀手/召唤师（Unchained）/诡术师/巡林客/导师）。
+# 词表外 token（正文残句/垃圾串/表外脏名）→ 该条补救结果整体丢弃——
+# 结构性拦住裁除项（KN245 终态 3 条）经补救通道复活。
+_SPELL_LEVEL_RESCUE_LEGAL_CLASSES = frozenset([
+    "术士", "法师", "女巫", "牧师", "吟游诗人", "德鲁伊", "先知", "审判者",
+    "魔战士", "奥能师", "异能者", "召唤师", "游侠", "圣武士", "炼金术师",
+    "萨满", "反圣武士", "战斗祭司", "催眠师", "秘学士", "歌者", "通灵者",
+    "猎人", "唤魂师", "血脉狂怒者", "调查员",
+    "红螳螂杀手", "召唤师（Unchained）", "诡术师", "巡林客", "导师",
+])
+
+
+# 复合职业漏 `/` 分隔的特批拆条（审批表第 20 组：术士法师 → 术士+法师，
+# 走 F3 同序）；仅含该一组获批项。
+_CLASS_COMPOUND_SPLIT = {"术士法师": ("术士", "法师")}
+
+
+_RE_REPEATED_WORD = re.compile(r"^(.{2,6}?)\1(诗人|歌者|术士|法师|术师|祭司|战士|师)$")
+
+
+def _repair_repeated_word(cls: str) -> str:
+    """KN245 获批通用规则：「XXYY→XY」型重复词修复（吟游吟游诗人→吟游诗人）。
+
+    保守形态：仅前段严格重复 + 白名单职业后缀命中时修复；无命中原样返回。
     """
+    m = _RE_REPEATED_WORD.match(cls)
+    if m:
+        return m.group(1) + m.group(2)
+    return cls
+
+
+def _normalize_spell_level_items(items: list) -> list:
+    """R3：spell_level 条目归一（幂等，覆盖所有产出路径）。
+
+    class=None（裸环级 R4）保持原样；复合拆条展开为多条（level 复制）；
+    KN245 通用规则：重复词修复 + 复合组内 (class, level) 去重（保首）。
+    """
+    out = []
+    for it in items:
+        cls = it.get("class")
+        if cls is None:
+            out.append(it)
+            continue
+        if cls in _CLASS_COMPOUND_SPLIT:
+            for sub in _CLASS_COMPOUND_SPLIT[cls]:
+                out.append({"class": sub, "level": it["level"]})
+            continue
+        cls = _repair_repeated_word(cls)
+        norm = _normalize_class_name(cls)
+        # 修复/归一任一命中即用新值（repair 改了但 NORM 未改时也不能回落原值）
+        item = it if (norm == cls == it["class"]) else {"class": norm, "level": it["level"]}
+        # 复合组内重复 token 去重（KN245：牧师/先知/奥能师/先知 → 先知 保首一次）
+        if any(o.get("class") == item["class"] and o.get("level") == item["level"]
+               for o in out):
+            continue
+        out.append(item)
+    return out
+
+
+def _normalize_class_name(cls: str) -> str:
+    """R3：职业名归一（仅获批 20 组映射，映射表外保持原样）。"""
+    return _CLASS_NAME_NORM.get(cls, cls)
+
+
+def _truncate_trailing_prose(level_str: str) -> str:
+    """环位取值预处理与尾部散文截断（两产出路径 _extract/rescue 共用）。
+
+    1. 分号当组分隔符（KN245）：召唤师 4；女巫 3 → 两组，归一为顿号后走标准解析。
+    2. SMF010：值后紧贴下一字段标签（…术士/法师3施法时间 标准动作）时先切断，
+       否则末尾职业组会被尾部散文一起丢弃；只切断取值，不新增字段。
+    3. 截断尾部散文：找到最后一个 "职业名 N"（行尾）的位置，丢弃其后内容。
+       例："术士/法师 8\\n\\n该法术的功能如同..." → "术士/法师 8"
+    """
+    level_str = (level_str or "").replace("；", "、").replace(";", "、")
+    level_str = re.split(
+        r'(?<=\d)(?:施法时间|施放时间|法术成分|成分|范围|目标|持续时间|豁免|法术抗力)',
+        level_str, maxsplit=1,
+    )[0]
     if not level_str:
         return level_str
 
     # 找到最后一个 "词 数字" 的位置（数字不限在末尾）
     # 匹配模式：中文字符或字母 + 空格 + 数字
-    m = re.search(r'([^\s,，]+)\s+(\d+)\s*$', level_str, re.MULTILINE)
+    matches = list(re.finditer(r'([^\s,，]+)\s+(\d+)\s*$', level_str, re.MULTILINE))
+    m = matches[-1] if matches else None
     if not m:
         # fallback: 找纯数字在行尾
-        m = re.search(r'(?:^|\s)(\d+)\s*$', level_str, re.MULTILINE)
+        matches = list(re.finditer(r'(?:^|\s)(\d+)\s*$', level_str, re.MULTILINE))
+        m = matches[-1] if matches else None
 
     if m:
         # 截断到该匹配之后（保留到该数字为止）
@@ -88,6 +820,63 @@ def _truncate_trailing_prose(level_str: str) -> str:
 
 _CONTINUATION_PREFIXES = ("+", "(", "（", "和", "或", "，", "、", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "/", "*")
 _DURATION_TERMINATORS = ("(D)", "（可消解）", "（解消）", "(见后文)", "（见后文）")
+
+
+# KN013 M1：字段值内联 `**` 残留剥除（值边界不完整把下一字段标签/正文吞进值内）。
+# 残留形态实测（2026-09-23 全量扫描 119 处 `**` / 95 chunks，新基线 4172）：
+#   a. `120尺**区域：** 120尺长...`   —— 行内吞下一字段标签+值 → 从 `**` 处截断
+#   b. `个人**法术` / `1轮/等级**科莱什人...` —— 行内吞标签/正文 → 从 `**` 处截断
+#   c. `专注，最高10分钟/等级 **\n(可解消)` —— 行尾悬挂 `**`（加粗跨行残留），
+#      后续行是合法续行 → 只摘 `**`，保留续行
+#   d. `两个生物\n**` / `...\n**意志，通过则部分...` —— `**` 在行首（下一字段块起点）
+#      → 从 `**` 处截断
+#   e. `**1轮/级`（值首悬挂）→ 剥前导星
+
+def _strip_inline_label_residue(value: str) -> str:
+    """剥除字段值内混入的内联 `**` 标签/正文残留（KN013 M1）。"""
+    if not value or "**" not in value:
+        return value
+    from vectorizer.registry import ALL_FIELD_LABELS
+
+    label_pat = re.compile(
+        r'^(?:' + "|".join(re.escape(l) for l in ALL_FIELD_LABELS) + r')(?=[：:*\s]|$)'
+    )
+
+    v = value.lstrip("*").lstrip()
+    modified = False
+    while "**" in v:
+        idx = v.find("**")
+        before, after = v[:idx], v[idx + 2:]
+        # 规则 d：`**` 在行首（含值首，前导已剥）→ 字段边界，截断
+        if before == "" or before.endswith("\n"):
+            v = before.rstrip(" \t，,；;")
+            modified = True
+            break
+        # 规则 a：`**` 后为已知字段标签 → 字段边界，截断
+        if label_pat.match(after.lstrip()):
+            v = before.rstrip(" \t，,；;")
+            modified = True
+            break
+        # 规则 c：`**` 行尾悬挂（同行其后无实质内容），后续行是合法续行
+        # → 只摘 `**` 及同行残余
+        rest_of_line = after.split("\n", 1)[0]
+        if rest_of_line.strip(" \t，,；;。") == "":
+            v = before + after[len(rest_of_line):]
+            modified = True
+            continue
+        # 规则 b：行内吞正文/非标标签 → 从 `**` 处截断
+        v = before.rstrip(" \t，,；;")
+        modified = True
+        break
+    if modified:
+        # `值 或 **` 类形态摘星后会留下悬空连接词（或/和），一并摘除
+        v = re.sub(r'[ \t]*[或和]\s*$', '', v).rstrip(" \t，,；;")
+    return v.strip()
+
+
+def _parse_field_value(value: str, *, field: str = "") -> str:
+    """KN013 方案 A：字符串字段值清洗层 = M1 内联残留剥除 + M2 尾部散文截断。"""
+    return _truncate_value_prose(_strip_inline_label_residue(value), field=field)
 
 # R5: 字段值末尾粘附的散文起始信号（如 Spell UI 格式中 duration 直接粘 "该法术的功能如同..."）
 # 当值中出现这些模式时，从模式起始处截断。
@@ -229,6 +1018,19 @@ def parse_fields(text: str) -> dict:
     _extract(field_re)
     _extract(field_re_v2)
 
+    # KN242 修订 1 M3：环位值学派检测守卫（first-wins 局部修复，方案选型 B）。
+    # 缺陷形态：`**环位：**塑能系` 先行占位 → first-wins 丢弃后续 `**等级：**职业N…`
+    # 正确行（约 10 条）。守卫仅对 spell_level 键生效：首值为纯学派名（复用
+    # _extract_school 9 学派白名单口径，含别名）时，取后续 **等级：** 行值；
+    # 其他字段行为零变化，非学派首值零变化。
+    _sl_first = (result.get("spell_level") or "").lstrip("*").strip()
+    if _sl_first and re.match(
+        r"^(防护|咒法|预言|惑控|塑能|幻术|死灵|变化|通用|附魔)(系)?\s*$", _sl_first
+    ):
+        m_lv = re.search(r"\*\*等级[：:]\*\*\s*([^\n]{1,200})", text)
+        if m_lv:
+            result["spell_level"] = m_lv.group(1).strip()
+
     return result
 
 
@@ -238,7 +1040,11 @@ class SpellProcessor(FileProcessor):
     # 阶段二（2026-09-01，k3 裁定 3 方案 A）：KN011 link 内建为 finalize 组件，
     # 对齐 feat 决策 A——pipeline 单命令产出含 link 的最终态。link 不删行，
     # index.json 与 chunks 行数天然一致（pipeline _write_index 先于 _finalize）。
-    POSTPROCESSORS = [LinkMythicBaseSpells]
+    # 2026-09-21（KN233）：追加 SupplementSpellAliases——curated 中文别名补录
+    # （社区通用译名，源 md 不改），置于 link 之后（link 只读 aliases 建索引，
+    # 补充别名不影响 KN011 命中语义）。
+    POSTPROCESSORS = [LinkMythicBaseSpells, SupplementSpellAliases]
+    _legacy_id_map = None
 
     @property
     def category(self) -> str:
@@ -247,6 +1053,7 @@ class SpellProcessor(FileProcessor):
     def __init__(self, source_resolver: SourceResolver):
         super().__init__(source_resolver=source_resolver, format_handler=SpellFormat())
         self.spell_index_provider: Optional[SpellIndexProvider] = None
+        self._legacy_id_map = None
 
     def build_chunk(self, template: Chunk, item: dict) -> Chunk:
         """设置法术标题、正文和英文别名"""
@@ -285,10 +1092,40 @@ class SpellProcessor(FileProcessor):
         # 描述符：委托 SpellFormat.parse_descriptors（不改现有逻辑）
         metadata["descriptor"] = self._extract_descriptor(text)
 
-        # 环位：parse_fields 优先，fallback _infer_level
+        # 环位：parse_fields 优先，fallback _infer_level，再 fallback 头残片白名单
         spell_level = self._extract_spell_level(raw)
         if not spell_level:
             spell_level = self._infer_level(item)
+        if not spell_level:
+            # M1 C 桶窄路（修订 1 返工 F1：rescue 优先于白名单）——rescue 从
+            # _pre_unify 源行重算，值更完整（白名单 evidence 为头残片，缺被
+            # 吞吃首组职业）；两级 fallback 均空才触发；MA/裸数字/词表外丢弃
+            spell_level = self._rescue_inline_level(item, chunk, self._legacy_id_map)
+        if not spell_level:
+            spell_level = self._a_bucket_whitelist_level(item, chunk, self._legacy_id_map)
+        else:
+            legacy_id = _legacy_spell_chunk_id(chunk.chunk_id, self._legacy_id_map)
+            expected_title = _SPELL_LEVEL_A_BUCKET_TITLE_OVERRIDES.get(legacy_id)
+            current_title = (item.get("name") or "").strip()
+            if not expected_title or current_title == expected_title:
+                # 白名单校验锚（F1）：旧 ID + 标题双键，rescue 已产出时只校验不覆盖。
+                expected = SPELL_LEVEL_A_BUCKET_WHITELIST.get(legacy_id, [])
+                got = {(it["class"], it["level"]) for it in _normalize_spell_level_items(spell_level)}
+                missing = [it for it in expected if (it["class"], it["level"]) not in got]
+                if missing:
+                    print(f"⚠️ KN242-F1 对账异常 {chunk.chunk_id}: "
+                          f"rescue 结果缺白名单项 {missing}（rescue={spell_level}）")
+        # 裁除红线覆盖所有解析路径：主解析/rescue/白名单均不得回填。
+        if _is_cut_exclusion(
+            chunk.chunk_id, (item.get("name") or "").strip(), self._legacy_id_map
+        ):
+            spell_level = []
+        # R3 归一（覆盖全部路径：主路径 _extract_spell_level / _infer_level /
+        # 头残片 fallback 的 class 值统一在此处理，幂等）：
+        #   ① CLASS_NAME_NORM 逐条获批映射（20 组）；② 复合职业漏分隔特批拆条
+        #   （术士法师 → 术士 + 法师，审批表第 20 组）；不动项（巡林客/导师/
+        #   红螳螂杀手/召唤施等）不在表内自然保持原样。
+        spell_level = _normalize_spell_level_items(spell_level)
         metadata["spell_level"] = spell_level
 
         # 领域/子域：从 spell_level 原始值剥离
@@ -296,7 +1133,7 @@ class SpellProcessor(FileProcessor):
         metadata["subdomains"] = self._extract_subdomains_from_level(raw)
 
         # 施法时间
-        metadata["casting_time"] = _truncate_value_prose(
+        metadata["casting_time"] = _parse_field_value(
             raw.get("casting_time", "") or raw.get("施法时间", "") or raw.get("施放时间", ""),
             field="casting_time",
         )
@@ -305,21 +1142,22 @@ class SpellProcessor(FileProcessor):
         metadata["components"] = self._parse_components(raw.get("components", "") or raw.get("成分", "") or raw.get("法术成分", ""))
 
         # 射程
-        metadata["range"] = _truncate_value_prose(self._extract_range(raw), field="range")
+        metadata["range"] = _parse_field_value(self._extract_range(raw), field="range")
 
         # 目标/区域/效果
-        metadata["target"] = _truncate_value_prose(
+        metadata["target"] = _parse_field_value(
             raw.get("target", "") or raw.get("目标", ""),
             field="target",
         )
-        metadata["area"] = self._extract_area(raw)
-        metadata["effect"] = _truncate_value_prose(
+        area_val = self._extract_area(raw)
+        metadata["area"] = _strip_inline_label_residue(area_val) if area_val else area_val
+        metadata["effect"] = _parse_field_value(
             raw.get("effect", "") or raw.get("效果", ""),
             field="effect",
         )
 
         # 持续时间
-        metadata["duration"] = _truncate_value_prose(
+        metadata["duration"] = _parse_field_value(
             raw.get("duration", "") or raw.get("持续时间", "") or raw.get("持续", ""),
             field="duration",
         )
@@ -334,6 +1172,11 @@ class SpellProcessor(FileProcessor):
 
         # field_status
         metadata["field_status"] = self._compute_field_status(metadata)
+
+        # 非法术条目（KN245）：源页把毒品/物品条目排进法术目录，环级不适用。
+        if (chunk.doc_id or "", (item.get("name") or "").strip()) in _NON_SPELL_ENTRIES:
+            metadata["spell_level"] = []
+            metadata["field_status"]["spell_level"] = "not_applicable"
 
         # 保留现有 subschool_variants 逻辑（ceremony 等多形态子条目）
         variants = self._infer_subschool_variants(item)
@@ -589,6 +1432,125 @@ class SpellProcessor(FileProcessor):
             else:
                 expanded.append(item)
         return expanded
+
+    @staticmethod
+    def _a_bucket_whitelist_level(item: dict, chunk: Chunk, legacy_id_map=None) -> list:
+        """R2 A 桶白名单回填（KN228 模式护栏，修订 1 终值 556）。
+
+        常量 SPELL_LEVEL_A_BUCKET_WHITELIST = 词表校验 + F3 拆分 + 标点剥离
+        + CLASS_NAME_NORM 归一后的最终 items（生成时一次性加工，此处原样
+        返回）——白名单外同形态条目结构性跳过（停下报告护栏）。
+        裸数字（B 桶 91）/ 无残片（D 桶 764）/ MA 文档均不触发。
+        """
+        legacy_id = _legacy_spell_chunk_id(chunk.chunk_id, legacy_id_map)
+        expected_title = _SPELL_LEVEL_A_BUCKET_TITLE_OVERRIDES.get(legacy_id)
+        if expected_title and (item.get("name") or "").strip() != expected_title:
+            return []
+        return [dict(it) for it in SPELL_LEVEL_A_BUCKET_WHITELIST.get(legacy_id, [])]
+
+    # MA 神话文档排除（修订 1 M1 红线：doc_id/文件名含神话或 MA 前缀；
+    # page_625 = MA 神话扫描清单文档（book=MA），doc_id 无 MA 字样，按清单登记）
+    _RE_MA_DOC = re.compile(r"神话|(?:^|[-_])MA(?:[-_－— ]|$)|^MA")
+    _MA_DOCS = frozenset({"page_625"})
+
+    @classmethod
+    def _rescue_inline_level(cls, item: dict, chunk: Chunk, legacy_id_map=None) -> list:
+        """M1 C 桶窄路补救通道（修订 1）：全局正则不动的空值补救。
+
+        触发条件（入口处保证）：_extract_spell_level 与 _infer_level 均空。
+        数据源 = formats split 入口快照 item["_pre_unify_text"]（
+        _unify_school_bracket_titles 调用前的原文；键缺失则跳过，向后兼容）。
+        单行正则抽标题行内黏连的等级段（两种形态：
+        `【学派】…(EN)**等级：**…` 与 `【学派】…(EN) 等级：…`），走既有管线
+        （截断散文 → parse_spell_level → F3 → 归一）。
+        全部 class=None（裸数字）→ 丢弃维持空（B 桶拍板）；MA 文档排除。
+        """
+        if cls._RE_MA_DOC.search(chunk.doc_id or "") or (chunk.doc_id in cls._MA_DOCS):
+            return []
+        if _is_cut_exclusion(
+            chunk.chunk_id, (item.get("name") or "").strip(), legacy_id_map
+        ):
+            return []  # KN245 保留裁除项：任何通道不回填
+        # KN248 入口守卫：rescue 的定位是「标签在、值没解析出来」。条目自身没有
+        # 等级标签（章节导语 / 表头碎片 / 空壳条目 / 毒品条目）不属于该形态——
+        # 快照是「标题起 400 字符」窗口，会越过下一条目标题取到它的等级行，
+        # 造成环级窃取（实测 29 条 / union 147 条假派生）。标签缺失一律拒填。
+        # 判定用「** 开头 / 行首 / 】之后」三形态，覆盖全部合法写法（含 SMF010
+        # 归一后的 `**等级：**`、紧凑标题 `【学派】名(EN) 等级：`）而不命中正文里
+        # 的「施法者等级」「1轮/等级」「等级相等」；实测在有值的 3857 条上零误伤。
+        if not re.search(r"(?:\*\*|^|】)\s*(?:等级|环位)", item.get("text") or "", re.M):
+            return []
+        pre = (item.get("_pre_unify_text") or "").strip()
+        if not pre:
+            return []
+        name = (item.get("name") or "").strip()
+        if not name:
+            return []
+        # 锚定守卫（QA-K1 返工，宁空勿错）：
+        # ① KN244 污染标题（截成 I/II 等罗马数字碎片）——首现锚定会抓到文档中
+        #   首个同名碎片（可能是无关条目的 等级行/形态后缀），直接拒填，等标题簇
+        #   批次修复后回填（转 KN244/246 族登记）；
+        # ② 锚位边界校验——名称在快照中须位于行首或【】之后（标题位）；
+        #   仅完整罗马后缀标题额外允许句号/右括号边界，普通散文锚定仍拒填。
+        # KN245 保留裁除项在最终 metadata 写入前统一生效，覆盖所有解析路径。
+        if re.fullmatch(r"[IVX]{1,6}", name):
+            return []
+        roman_suffix = bool(re.search(r"\s[IVX]{1,6}$", name))
+        idx = -1
+        for m in re.finditer(re.escape(name), pre):
+            pos0 = m.start()
+            prev = pre[pos0 - 1] if pos0 > 0 else "\n"
+            if prev in ("\n", "】") or (roman_suffix and prev in "。！？）)"):
+                idx = pos0
+                break
+        if idx == -1:
+            return []
+        seg = pre[idx:idx + 400]
+        # 值跨行形态：捕获至下一字段、正文起点或空行；禁止越过当前法术
+        # 读到后续条目的等级行（上限 300 字符），散文截断由 _truncate_trailing_prose 负责。
+        m = re.search(
+            r"(?:\*\*等级\*\*[：:]|\*\*等级[：:]\*\*|(?<![一-鿿])等级[：:]|"
+            r"(?<=系)等级[：:]|\*\*等级\*\*[ \t]*\r?\n[ \t]*)"
+            r"[：:]?[ \t]*([\s\S]{1,300}?)(?=\*\*|\n[ \t]*\*\*|"
+            r"(?:施法时间|施放时间|成分|范围|距离|目标|效果|持续时间|持续|豁免|法术抗力)[：:]|"
+            r"该法术|这法术|此法术|\n[ \t]*[一-鿿]{1,8}[：:]|\n\n|\Z)",
+            seg,
+        )
+        if not m:
+            return []
+        raw_val = m.group(1).strip().lstrip("：:，,、；;* ").rstrip("*,；;。").strip()
+        if not raw_val:
+            return []
+        cleaned = _truncate_trailing_prose(raw_val)
+        parsed = SpellFormat.parse_spell_level(cleaned)
+        expanded = []
+        for it in parsed:
+            c = it.get("class")
+            if c:
+                # M2 词表校验规则：token 前导黏连标点剥离（；;：:，、）
+                c = c.lstrip("；;:：，、* ").strip() or None
+            if c and "/" in c:
+                for sub in sorted(x.strip() for x in c.split("/") if x.strip()):
+                    expanded.append({"class": sub, "level": it["level"]})
+            elif c is None:
+                expanded.append(it)
+            else:
+                expanded.append({"class": c, "level": it["level"]})
+        if not any(it.get("class") for it in expanded):
+            return []  # 裸数字 → 不回填（B 桶拍板不动）
+        normalized = _normalize_spell_level_items(expanded)
+        # M2 词表校验：任一 token 不在职业词表 → 整体丢弃（裁除项
+        # 垃圾/表外脏名结构性拦截，不经条目名特判）
+        if any(it["class"] not in _SPELL_LEVEL_RESCUE_LEGAL_CLASSES for it in normalized):
+            return []
+        seen = set()
+        deduped = []
+        for it in normalized:
+            k = (it["class"], it["level"])
+            if k not in seen:
+                seen.add(k)
+                deduped.append(it)
+        return deduped
 
     @staticmethod
     def _extract_domains_from_level(raw: dict) -> list:
@@ -869,22 +1831,63 @@ class SpellProcessor(FileProcessor):
 
     # ---- 生命周期钩子覆写 ----
 
+    def _collect_legacy_id_current_entries(self, input_dir: Path) -> list:
+        class SplitDropLogFilter(logging.Filter):
+            def filter(self, record):
+                return "[split_drop]" not in record.getMessage()
+
+        entries = []
+        format_logger = logging.getLogger("vectorizer.formats.spell")
+        log_filter = SplitDropLogFilter()
+        format_logger.addFilter(log_filter)
+        try:
+            for file_path in sorted(input_dir.rglob("*.md")):
+                if not _spell_file_condition(file_path):
+                    continue
+                text = file_path.read_text(encoding="utf-8")
+                text = self.pre_normalize(file_path, text)
+                text = self.format.normalize(text)
+                text = self.format.promote(text)
+                items = self.format.split_into_items(text, source_name=file_path.name)
+                for index, item in enumerate(items):
+                    entries.append({
+                        "chunk_id": f"spell_{file_path.stem}_{index:04d}",
+                        "doc_id": file_path.stem,
+                        "title": item.get("name", ""),
+                    })
+        finally:
+            format_logger.removeFilter(log_filter)
+        if self.spell_index_provider:
+            index_chunk = self._build_spell_index_chunk()
+            if index_chunk:
+                entries.append({
+                    "chunk_id": index_chunk.chunk_id,
+                    "doc_id": index_chunk.doc_id,
+                    "title": index_chunk.title,
+                })
+        return entries
+
     def load_resources(self, input_dir: Path) -> None:
-        """加载 Spell index 作为来源书判定资源"""
+        """加载来源索引，并按当前 split 序列派生白名单 legacy-id 映射。"""
         index_path = input_dir / "Spell index.md"
-        if not index_path.exists():
+        if index_path.exists():
+            provider = SpellIndexProvider(index_path=index_path)
+            provider.load()
+            self.spell_index_provider = provider
+            # 更新 SourceResolver 中已有的 SpellIndexProvider 引用
+            for p in self.source_resolver.providers:
+                if isinstance(p, SpellIndexProvider):
+                    p._index = provider._index
+                    p._loaded = provider._loaded
+                    break
+            logger.info("SpellIndexProvider 已加载: %d 条目", len(provider._index))
+        else:
             logger.info("Spell index 未找到，跳过加载: %s", index_path)
-            return
-        provider = SpellIndexProvider(index_path=index_path)
-        provider.load()
-        self.spell_index_provider = provider
-        # 更新 SourceResolver 中已有的 SpellIndexProvider 引用
-        for p in self.source_resolver.providers:
-            if isinstance(p, SpellIndexProvider):
-                p._index = provider._index
-                p._loaded = provider._loaded
-                break
-        logger.info("SpellIndexProvider 已加载: %d 条目", len(provider._index))
+
+        current_entries = self._collect_legacy_id_current_entries(input_dir)
+        self._legacy_id_map = save_derived_legacy_id_map(current_entries)
+        load_legacy_id_map.cache_clear()
+        logger.info("KN249 legacy-id 映射已派生: %d 当前条目", len(self._legacy_id_map))
 
     def post_process(self, chunks: List[Chunk]) -> List[Chunk]:
         """追加法术索引 chunk"""

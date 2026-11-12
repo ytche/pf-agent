@@ -69,7 +69,8 @@ class TestArrowSegmentBoundary:
     def test_crlf_content_resolves(self):
         r = _feat_source_from_content(
             "> 来源：秽邪勇士（Champions of Corruption），未整理 → 秽邪勇士 → 专长\r\n正文")
-        assert r == ("CoC", "秽邪勇士", "Champions of Corruption")
+        # KN230：秽邪勇士 CoC → CoCorr（CoC 为登记脏值）
+        assert r == ("CoCorr", "秽邪勇士", "Champions of Corruption")
 
     def test_ascii_tail_trusted_over_canonical(self):
         # 有 ASCII 尾部即信任原文尾部（既有契约：不回写规范缩写）
@@ -80,7 +81,7 @@ class TestArrowSegmentBoundary:
     def test_no_paren_still_resolves(self):
         # 无（en）括注时 cn/en 取映射表规范值
         r = _feat_source_from_content("> 来源：秽邪勇士，未整理 → 秽邪勇士 → 专长")
-        assert r == ("CoC", "秽邪勇士", "Champions of Corruption")
+        assert r == ("CoCorr", "秽邪勇士", "Champions of Corruption")
 
 
 # ============================================================

@@ -1043,7 +1043,7 @@ class TestPipelineInvariants:
                 )
 
     def test_chunk_count(self):
-        """chunk 总数不变量：4172（KN019 D 类守卫修复后基线，2026-08-04）
+        """chunk 总数不变量：4206（KN244/246 标题簇修复后基线，2026-10-29）
 
         4221 → 4175：KN019 D 类续段散文伪标题守卫（_wrap_bare_spell_titles
         正文段守卫）消除 46 个伪标题 chunk（D 类第一类 20 + B 类 3 +
@@ -1051,10 +1051,9 @@ class TestPipelineInvariants:
         4175 → 4172：KN019 第二类 3 条跨行 HTML 残留伪标题消除（page_1177_0000
         + page_1365 ×2，-3）+ 手舞足蹈（Calamitous Flailing）源数据补中文名
         恢复独立 chunk（+1），净 -2。
-        （阶段二，2026-09-01）KN136 修复后真重跑实测仍 4172：方案「预期 4171」
-        k3 裁定不成立（冻结旧基线本就不含伪 item，修复目标是「重跑恢复 4172」，
-        KN136 原文档同口径）。数字不变，补 page_1363 针对性断言
-        （140 chunk / 无 [PZO 开头 title / id 连续）——不只裸数字。
+        （阶段二，2026-09-01）KN136 修复后真重跑实测仍 4172。
+        （2026-10-29）KN244/246 恢复被吞条目与标题边界：4172→4206（+32）；
+        page_1363 为 141 chunk，保留无 [PZO 开头 title 和 id 连续断言。
         """
         output_dir = Path(__file__).parent.parent / "output" / "法术"
         chunks_file = output_dir / "chunks.jsonl"
@@ -1072,16 +1071,17 @@ class TestPipelineInvariants:
                     page_1363.append(chunk)
                 if chunk.get("title", "").startswith("[PZO"):
                     pzo_titles.append(chunk.get("title"))
-        assert count == 4172, f"chunk 数变了：{count} ≠ 4172"
-        # KN136 修复目标断言：page_1363 无 [PZO 伪标题、140 chunk、id 连续
+        # 4202 = 4206 − 阿底顿 2（2026-10-30）− 仙人掌粹毒品块 2（2026-11-02，DVG-012/SMF011）
+        assert count == 4202, f"chunk 数变了：{count} ≠ 4202"
+        # KN136 伪标题守卫 + KN244/246 条目恢复：page_1363 共 141 chunk、id 连续
         assert not pzo_titles, f"[PZO 伪标题仍在产物中：{pzo_titles[:5]}"
-        assert len(page_1363) == 140, (
-            f"page_1363 chunk 数变了：{len(page_1363)} ≠ 140"
+        assert len(page_1363) == 141, (
+            f"page_1363 chunk 数变了：{len(page_1363)} ≠ 141"
         )
         page_1363_ids = sorted(
             int(c["chunk_id"].rsplit("_", 1)[-1]) for c in page_1363
         )
-        assert page_1363_ids == list(range(140)), (
+        assert page_1363_ids == list(range(141)), (
             f"page_1363 chunk id 不连续：{page_1363_ids[0]}..{page_1363_ids[-1]}"
         )
 

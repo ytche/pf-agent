@@ -36,7 +36,17 @@ target/
 *.jar
 *.war
 
+# 前端（F-020）：依赖、构建产物与测试输出不入库
+pf_agent/agent/frontend/node_modules/
+pf_agent/agent/frontend/dist/
+pf_agent/agent/frontend/test-results/
+pf_agent/agent/frontend/playwright-report/
+pf_agent/agent/frontend/coverage/
+pf_agent/agent/frontend/.e2e-fullstack-tmp/
+pf_agent/agent/src/main/resources/static/dist/
+
 # Temporary files
+.worktrees/
 *.tmp
 *.bak
 # 评测集导出文档（供人工确认的临时 docx/pdf 产物）

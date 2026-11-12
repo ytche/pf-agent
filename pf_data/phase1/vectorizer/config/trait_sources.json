@@ -226,12 +226,12 @@
       "en": "People of the Stars"
     },
     "星辰之民": {
-      "abbr": "繁星子民",
+      "abbr": "PoS",
       "cn": "星辰之民",
       "en": "People of the Stars"
     },
     "People of the Stars": {
-      "abbr": "繁星子民",
+      "abbr": "PoS",
       "cn": "星辰之民",
       "en": "People of the Stars"
     },
@@ -291,17 +291,17 @@
       "en": "Divine Anthology"
     },
     "秘术选集": {
-      "abbr": "AA",
+      "abbr": "ArAn",
       "cn": "秘术选集",
       "en": "Arcane Anthology"
     },
     "AA": {
-      "abbr": "AA",
+      "abbr": "ArAn",
       "cn": "秘术选集",
       "en": "Arcane Anthology"
     },
     "Arcane Anthology": {
-      "abbr": "AA",
+      "abbr": "ArAn",
       "cn": "秘术选集",
       "en": "Arcane Anthology"
     },
@@ -461,9 +461,9 @@
       "en": "Quests & Campaigns"
     },
     "Quests and Campaigns": {
-      "abbr": "任务与战役",
+      "abbr": "Q&C",
       "cn": "任务与战役",
-      "en": "Quests and Campaigns"
+      "en": "Quests & Campaigns"
     },
     "切利亚斯": {
       "abbr": "EOD",
@@ -506,6 +506,11 @@
       "en": "Blood of the Elements"
     },
     "BotE": {
+      "abbr": "BotE",
+      "cn": "元素血脉",
+      "en": "Blood of the Elements"
+    },
+    "BoE": {
       "abbr": "BotE",
       "cn": "元素血脉",
       "en": "Blood of the Elements"
@@ -623,17 +628,17 @@
     "均衡信念": {
       "abbr": "FoB",
       "cn": "均衡信念",
-      "en": "Champions of Balance"
+      "en": "Faiths of Balance"
     },
     "FoB": {
       "abbr": "FoB",
       "cn": "均衡信念",
-      "en": "Champions of Balance"
+      "en": "Faiths of Balance"
     },
-    "Champions of Balance": {
+    "Faiths of Balance": {
       "abbr": "FoB",
       "cn": "均衡信念",
-      "en": "Champions of Balance"
+      "en": "Faiths of Balance"
     },
     "格拉里昂的人类": {
       "abbr": "HoG",
@@ -686,52 +691,52 @@
       "en": "Champions of Balance"
     },
     "格拉里昂的混种": {
-      "abbr": "格拉里昂的混种",
+      "abbr": "BaG",
       "cn": "格拉里昂的混种",
       "en": "Bastards of Golarion"
     },
     "Bastards of Golarion": {
-      "abbr": "格拉里昂的混种",
+      "abbr": "BaG",
       "cn": "格拉里昂的混种",
       "en": "Bastards of Golarion"
     },
     "格拉里昂的狗头人": {
-      "abbr": "格拉里昂的狗头人",
+      "abbr": "KobG",
       "cn": "格拉里昂的狗头人",
       "en": "Kobolds of Golarion"
     },
     "Kobolds of Golarion": {
-      "abbr": "格拉里昂的狗头人",
+      "abbr": "KobG",
       "cn": "格拉里昂的狗头人",
       "en": "Kobolds of Golarion"
     },
     "格拉里昂的矮人": {
-      "abbr": "格拉里昂的矮人",
+      "abbr": "DwaG",
       "cn": "格拉里昂的矮人",
       "en": "Dwarves of Golarion"
     },
     "Dwarves of Golarion": {
-      "abbr": "格拉里昂的矮人",
+      "abbr": "DwaG",
       "cn": "格拉里昂的矮人",
       "en": "Dwarves of Golarion"
     },
     "格拉里昂的精灵": {
-      "abbr": "格拉里昂的精灵",
+      "abbr": "EoG",
       "cn": "格拉里昂的精灵",
       "en": "Elves of Golarion"
     },
     "Elves of Golarion": {
-      "abbr": "格拉里昂的精灵",
+      "abbr": "EoG",
       "cn": "格拉里昂的精灵",
       "en": "Elves of Golarion"
     },
     "格拉里昂的秽邪勇士": {
-      "abbr": "秽邪勇士",
+      "abbr": "CoCorr",
       "cn": "秽邪勇士",
       "en": "Champions of Corruption"
     },
     "秽邪勇士": {
-      "abbr": "秽邪勇士",
+      "abbr": "CoCorr",
       "cn": "秽邪勇士",
       "en": "Champions of Corruption"
     },
@@ -776,7 +781,7 @@
       "en": "Ultimate Campaign"
     },
     "基础页AA": {
-      "abbr": "AA",
+      "abbr": "ArAn",
       "cn": "秘术选集",
       "en": "Arcane Anthology"
     },
@@ -784,6 +789,26 @@
       "abbr": "WMH",
       "cn": "武器大师手册",
       "en": "Weapon Master's Handbook"
+    },
+    "基础页HoG": {
+      "abbr": "HaG",
+      "cn": "格拉里昂的半身人",
+      "en": "Halflings of Golarion"
+    },
+    "USH": {
+      "abbr": "USH",
+      "cn": "不死猎手手册",
+      "en": "Undead Slayer's Handbook"
+    },
+    "PFS Guide": {
+      "abbr": "PSFG",
+      "cn": "探索者协会战地指南",
+      "en": "Pathfinder Society Field Guide"
+    },
+    "CoL": {
+      "abbr": "CoL",
+      "cn": "传奇编年史",
+      "en": "Chronicle of Legends"
     },
     "WMH": {
       "abbr": "WMH",

@@ -43,17 +43,20 @@ PF Agent 是把 **Pathfinder 1e 中文规则书**结构化、向量化后，架�
 
 ## 功能特性
 
-- **上标溯源**：回答正文内联 `[#1] [#2]` 上标，对应来源列表（书、章节路径、原文摘录），可点击/对照追溯。
+- **上标溯源**：回答正文内联 `[#1] [#2]` 上标，对应来源列表（书、章节路径、原文摘录），可点击/对照追溯；来源卡片默认展示 3 张，可展开全部并按上标定位。
 - **8 模块独立向量库** + 元数据过滤 + 语义检索 + 重排（title/aliases 加权、低信息 chunk 降权）。
-- **法术清单直查工具**：26 职业环级清单，别名归一（如 诗人 → 吟游诗人），自带来源路径。
+- **法术清单直查工具**：26 职业环级清单，别名归一（如 诗人 → 吟游诗人），自带来源路径；union 1.1 同职业同环级折叠重复法术（女巫 1 环 205→**165** 个不同法术，保留全部来源书）。
+- **大范围查询前置收敛（F-026）**：跨模块/单模块宽枚举先给出 2~4 个可执行的收窄建议与“仍按原范围查询”选项；确认后按原范围分页执行，单库 500 上限与 capped 诚实话术不变。
 - **诚实缺省**：检索不到/数据缺口时工具引导报告缺口，不硬凑答案。
 - **双通道 embedding（SP5）**：默认本地 Ollama `bge-m3`（开源自部署零配置）；可选托管云通道做主备降级。
 - **会话持久化（SP7 起默认）**：对话历史默认落 PostgreSQL（Docker Compose 一键自带 PG）；
   显式 `pf.chat.memory=memory` 可回退纯内存。
+- **多会话前端（F-020）**：Vue 3 + TypeScript + Vite + Pinia 单页应用，支持本机匿名历史、
+  登录认领、跨设备恢复、后台请求、20 轮历史与完整引用快照（V7 起落库）。
 - **用户注册/登录 + JWT 鉴权（SP7，可选）**：`pf.auth.enabled` 默认关（零摩擦自部署），
-  开启后 `/api/chat` 需 Bearer token，前端自带登录/注册入口。
+  开启后 `/api/chat` 需 Bearer token，前端自带登录/注册入口；无 token 可匿名使用，
+  非法 token 返回 401。
 - **按 IP 限频 + 匿名会话轮次配额**：默认关闭，部署公开服务时按需开启。
-- **前端**：内置单页聊天 UI（`static/index.html`），浏览器直达。
 
 ## 架构
 
@@ -62,13 +65,14 @@ PF Agent 是把 **Pathfinder 1e 中文规则书**结构化、向量化后，架�
 ```
 浏览器/API  ──POST /api/chat──►  ChatController
                                    │
-                          ChatService（记忆/限频/配额）
+                  ChatService（ConversationStore / 限频 / 配额）
                                    │  编排
                                    ▼
-                 ┌────────  DeepSeek LLM（deepseek-chat）────────┐
+                 ┌────────  DeepSeek LLM（deepseek-flash）────────┐
                  │           function-calling 工具循环             │
                  │  @Tool：vectorSearch / searchByMetadata        │
-                 │         getSpellList / reportDataGap           │
+                 │         listEntries / getSpellList / getEntryById
+                 │         宽查询收窄门禁（F-026）+ reportDataGap  │
                  └───────────────┬───────────────────────────────┘
                                  │
                  SearchService 跨 8 模块向量库检索 + 重排（SimpleVectorStore, JSON 持久化）
@@ -165,15 +169,20 @@ docker compose up -d
 ```bash
 cd pf_agent/agent
 
+# 前端先构建（dist 不入库；Spring 从 static/dist 提供 SPA）
+cd frontend && npm ci && npm run build && cd ..
+
 # 配置（env 或 export，见配置说明）
 export DEEPSEEK_PF_API=sk-xxxx          # DeepSeek Chat key
 # PG 默认连 jdbc:postgresql://localhost:5432/pf_agent（用户/密码 pf_agent/pf_agent，
-# 可用 SPRING_DATASOURCE_URL/USERNAME/PASSWORD 覆盖；Flyway 自动建表）
+# 可用 SPRING_DATASOURCE_URL/USERNAME/PASSWORD 覆盖；Flyway 自动建表并执行 V1~V7）
 
 # 启动（默认连 http://localhost:11434 的 Ollama bge-m3）
 mvn spring-boot:run
 ```
 
+> 前端工程位于 `pf_agent/agent/frontend/`（Node ≥20.19）。只做纯后端调试时，若
+> `static/dist/` 不存在，根路径会 404，但不影响 `/api/**`。
 > 首启无向量库时会从 `chunks.jsonl` 自动构建（需 Ollama 可用；数百 MB、耗时较长）。
 > 复用 `~/.pf_agent` 预构建数据可跳过。
 
@@ -225,16 +234,26 @@ relaxed binding 覆盖，如 `pf.rate-limit.enabled` ↔ `PF_RATE_LIMIT_ENABLED`
 
 一期以「可溯源、诚实、结构清晰」为质量口径，用真实规则问题做端到端评测（`qa/`）：
 
-- **评测集**：59 题规则问答（53 题活跃计入，6 题人工排除）；维度覆盖事实点查 / 全量枚举 /
+- **评测集**：62 题规则问答（56 题活跃计入，6 题人工排除）；维度覆盖事实点查 / 全量枚举 /
   应用计算 / 交叉判定 / 比较对比 / 数值最优解。
 - **运行**：`cd pf_agent/agent/qa && python3 evaluate.py`（对运行中的应用做 HTTP 评测，
   可选 `--judge` 用 LLM 判定开放性维度）。
-- **发布基线**：溯源命中 ≥52/53、诚实 ≥50/53、结构分 ≥2.89（kimi-k3 验收口径，见
-  `docs/handover/`）。
+- **历史发布基线**：溯源命中 ≥52/53、诚实 ≥50/53、结构分 ≥2.89（kimi-k3 验收口径，见
+  `docs/handover/`；题数口径已随新增题调整，以实际题数报告）。
+- **2026-11-12 最终代码复跑**（56 题，临时实例，仓库原样脚本，M38 门禁守卫合并前
+  `1acfd3e`）：溯源 **54/56**、诚实 **55/56**、结构 **166/56（2.96）**；
+  0 error / 0 404 / 56 题均有回答。M38 `0096cfa` / M39 `59d6b06` 仅改宽查询门禁守卫，
+  按塔要求不重跑全量评测，以定向门禁复验覆盖：
+  - **M38**：同会话换模块 3/3 重新建议；待确认阶段 regenerate 不得确认。
+  - **M39（AKN-027 闭环）**：首轮宽查询登记建议后，用户下一轮「仍按原范围查询」**3/3
+    真正 ALLOWED 执行**（来源 16/175/214 条）；AKN-024 原三问 3/3 换模块重新建议；
+    regenerate 被拒后用户确认仍可执行。定向单测 102 项全绿。
 
-质量闸口（CI）：Java 侧 `mvn test`（287 项单测全绿）；数据侧有独立的规则数据质量闸口
-（见 `.github/workflows/ci.yml`）。评测题与检索/prompt 改动共版本演进——每次影响回答行为的
-改动需全量重跑评测且不回退。
+质量闸口（CI）：Java 侧 `mvn test`（**816** 项，含 16 项按环境跳过的真实数据黑盒）；
+前端 `npm test`（Vitest **43**）、`npm run build` 与 Playwright（桌面/手机 **12**，全栈
+真实 PG + 打桩 ChatModel **4**，后两项为 2026-11-11 批次结果，本批仅跑 Vitest 与构建）；
+数据侧 pytest **1914** 与 `build check` 14 artifact（见 `.github/workflows/`）。评测题与
+检索/prompt 改动共版本演进——每次影响回答行为的改动需全量重跑评测且不回退。
 
 ## 贡献指引
 

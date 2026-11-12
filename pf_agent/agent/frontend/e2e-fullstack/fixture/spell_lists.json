@@ -1,0 +1,28 @@
+{
+  "version": "1.0",
+  "generated_from": "full-stack e2e fixture（最小合法职业法术清单，供打桩 ChatModel 的 getSpellList 命中）",
+  "classes": {
+    "法师": {
+      "aliases": [],
+      "source_page": "核心职业/法师/page_65.md",
+      "source_toc_path": "职业 → 核心职业 → 法师 → 法术列表",
+      "source_excerpt": "法师法术列表；本职业收录 0~9 环法术共 2 条",
+      "list_chunk_id": "spell_page_65_0001",
+      "levels": {
+        "0": [],
+        "1": [
+          {"cn": "燃烧之手", "en": "Burning Hands", "book": "CRB", "chunk_id": "spell_Spell CRB_0007"},
+          {"cn": "魔法警报", "en": "Alarm", "book": "CRB", "chunk_id": "spell_Spell CRB_0005"}
+        ],
+        "2": [],
+        "3": [],
+        "4": [],
+        "5": [],
+        "6": [],
+        "7": [],
+        "8": [],
+        "9": []
+      }
+    }
+  }
+}

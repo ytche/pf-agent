@@ -7,6 +7,16 @@ docs/
 # 评测集与评测输出（qa/evaluate.py 产物不进镜像）
 qa/
 *.md
+# 前端（F-020）：宿主 node_modules 与测试/构建产物不进构建上下文，
+# 镜像内由 Node 阶段重新 npm ci 生成 linux 依赖，避免宿主原生包覆盖。
+frontend/node_modules/
+frontend/dist/
+frontend/test-results/
+frontend/playwright-report/
+frontend/coverage/
+frontend/e2e/
+frontend/e2e-fullstack/
+src/main/resources/static/dist/
 # IDE / OS
 .idea/
 .vscode/

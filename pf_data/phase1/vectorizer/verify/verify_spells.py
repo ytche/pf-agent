@@ -6,12 +6,13 @@ verify_spells.py — 法术集成验收（v0.3 适配）
   2. 8 大学派全覆盖
   3. 主要来源书全覆盖（CRB, APG, UM, UC, ACG）
   4. 字段完整性（无空标题/空正文/未知来源书 + v0.3 字段覆盖率）
-  5. 无格式污染（标题无 URL/译者）
+  5. 无格式污染（标题无 URL/译者/罗马碎片）且关键条目存在
   6. 无重复 chunk_id
   7. metadata v0.3 字段覆盖率统计（非阻断）
 """
 
 import json
+import re
 import sys
 from collections import Counter
 from pathlib import Path
@@ -88,7 +89,74 @@ def verify_spells(chunks_path: Path) -> bool:
     if translator_in_title > 0:
         print(f"❌ {translator_in_title} 个 chunk 标题含译者")
         ok = False
-    print(f"✅ 格式无污染: URL ✓ 译者 ✓")
+    roman_titles = [
+        c.get("chunk_id", "?") for c in chunks
+        if re.fullmatch(r"[IVX]{1,6}", c.get("title", "").strip())
+    ]
+    if roman_titles:
+        print(f"❌ KN244 罗马碎片标题: {roman_titles}")
+        ok = False
+    required_entries = {
+        ("page_1166", "藏密箱"),
+        ("page_1146", "弧焰击"),
+        ("page_805", "隐藏武器"),
+        ("page_1008", "起舞于黯"),
+    }
+    entries = {(c.get("doc_id"), c.get("title", "")) for c in chunks}
+    missing_entries = sorted(required_entries - entries)
+    if missing_entries:
+        print(f"❌ KN246 关键条目未恢复: {missing_entries}")
+        ok = False
+    if ("page_1008", "半影法术") in entries:
+        print("❌ 章节名半影法术被误产为法术 chunk")
+        ok = False
+    print(f"✅ 格式无污染: URL ✓ 译者 ✓ 罗马碎片 ✓ 关键条目 ✓ 章节负例 ✓")
+
+    # 5b. KN245 终态（2026-10-30 用户拍板，2026-10-30 标签容错后清零）：
+    #     17 条必须回填；阿底顿 2 条为非法术条目标 not_applicable。
+    by_pair = {}
+    for c in chunks:
+        by_pair.setdefault((c.get("doc_id"), c.get("title", "").strip()), []).append(c)
+    kn245_backfilled = [
+        ("Spell FoP", "轻量化"),
+        ("page_1008", "受虐之影"),
+        ("page_1034", "异龙形态 I"), ("page_1034", "奇龙形态 I"),
+        ("page_1048", "踏焰行者"),
+        ("page_1168", "高等天界治疗"), ("page_1168", "液化术"),
+        ("page_1363", "食尸鬼的饥饿"),
+        ("page_1365", "汲取毒素"), ("page_1365", "高等天界治疗"),
+        ("page_1365", "液化术"), ("page_1365", "受虐之影"),
+        ("page_1365", "奇龙形态 I"), ("page_1365", "踏焰行者"),
+        ("任务与战役_法术", "典礼"),
+        ("月之血脉BotM_法术", "诅咒瞪视"), ("月之血脉BotM_法术", "分享皮肤"),
+    ]
+    kn245_kept_empty = []
+    # 阿底顿已于 2026-10-30 迁出法术目录（SMF011），故改为负向断言
+    kn245_removed = [("page_1494", "阿底顿")]
+    bad = []
+    for pair in kn245_backfilled:
+        hits = by_pair.get(pair) or []
+        if not hits:
+            bad.append(f"{pair} 条目缺失")
+        elif any(not (h.get("metadata", {}).get("spell_level") or []) for h in hits):
+            bad.append(f"{pair} 未回填")
+    for pair in kn245_kept_empty:
+        hits = by_pair.get(pair) or []
+        if not hits:
+            bad.append(f"{pair} 条目缺失")
+        elif any(h.get("metadata", {}).get("spell_level") for h in hits):
+            bad.append(f"{pair} 违反裁除红线")
+    for pair in kn245_removed:
+        if pair in by_pair:
+            bad.append(f"{pair} 仍留在法术产物（应已迁出到物品目录）")
+    if bad:
+        print(f"❌ KN245 裁除终态不符合裁定: {bad}")
+        ok = False
+    else:
+        kept = f" 零回填 {len(kn245_kept_empty)} 条" if kn245_kept_empty else ""
+        print(f"✅ KN245 终态: 回填 {len(kn245_backfilled)} 条{kept}"
+              f" 已迁出 {len(kn245_removed)} 条")
+
 
     # 6. 无重复 chunk_id
     ids = [c.get("chunk_id", "") for c in chunks]

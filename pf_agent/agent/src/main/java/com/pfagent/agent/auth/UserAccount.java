@@ -10,14 +10,20 @@ import jakarta.persistence.Table;
 import java.time.Instant;
 
 /**
- * 用户实体（user_account 表，SP7 T2 / Flyway V3）
+ * 用户实体（user_account 表，SP7 T2 / Flyway V3；F-023 增加 role 列，Flyway V5）
  *
  * 最小用户域：登录名归一后入库（应用层去首尾空白 + 小写，PG UNIQUE 本身大小写敏感），
  * 密码只存 BCrypt 哈希；nickname 可空，展示层缺省兜底为 username。
+ * role 区分普通用户（user，默认）与管理员（admin），由 F-023 admin 后台消费。
  */
 @Entity
 @Table(name = "user_account")
 public class UserAccount {
+
+    /** 普通用户角色（默认） */
+    public static final String ROLE_USER = "user";
+    /** 管理员角色 */
+    public static final String ROLE_ADMIN = "admin";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,6 +38,9 @@ public class UserAccount {
     @Column(name = "nickname", length = 64)
     private String nickname;
 
+    @Column(name = "role", nullable = false, length = 16)
+    private String role = ROLE_USER;
+
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;
 
@@ -43,9 +52,14 @@ public class UserAccount {
     }
 
     public UserAccount(String username, String passwordHash, Instant createdAt) {
+        this(username, passwordHash, createdAt, ROLE_USER);
+    }
+
+    public UserAccount(String username, String passwordHash, Instant createdAt, String role) {
         this.username = username;
         this.passwordHash = passwordHash;
         this.createdAt = createdAt;
+        this.role = role == null ? ROLE_USER : role;
     }
 
     public Long getId() {
@@ -78,6 +92,14 @@ public class UserAccount {
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role == null ? ROLE_USER : role;
     }
 
     public Instant getCreatedAt() {

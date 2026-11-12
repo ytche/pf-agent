@@ -173,6 +173,166 @@ CLASS_CONTAINERS = {
 CONTAINER_SELF_ATTRIBUTION = {"神话冒险"}
 
 # ---------------------------------------------------------------------------
+# KN108：整理目录根层职业页显式清单
+# ---------------------------------------------------------------------------
+# pf_rules_md_organized 根层有 7 个职业页面（职业流水线此前只扫描 职业/ 子目录）。
+# 这里登记精确源路径 → 逻辑路径映射；文件选择、canonical 去重后的变体预扫描、
+# process() 共用同一映射（_profession_rel_path / _root_page_spec_for_path）。
+# 读取仍用真实 abs_path，rel_path 只换成逻辑路径，不创建逻辑目录。
+@dataclass(frozen=True)
+class RootPageSpec:
+    logical_rel: str
+    rule_version: Optional[str] = None
+    component_type: Optional[str] = None
+    book_override: Optional[dict] = None
+    class_name: Optional[str] = None
+    processor: Optional[str] = None
+
+
+ROOT_PAGE_MANIFEST: Dict[str, RootPageSpec] = {
+    "page_30.md": RootPageSpec(
+        logical_rel="职业概述/page_30.md",
+        book_override={
+            "book_name_cn": "核心规则书",
+            "book_name_en": "Core Rulebook",
+            "book_abbreviation": "CRB",
+        },
+    ),
+    "page_53.md": RootPageSpec(logical_rel="核心职业/武僧/武僧清规/page_53.md"),
+    "page_128.md": RootPageSpec(
+        logical_rel="进阶职业/page_128.md",
+        book_override={
+            "book_name_cn": "核心规则书",
+            "book_name_en": "Core Rulebook",
+            "book_abbreviation": "CRB",
+        },
+    ),
+    "page_134.md": RootPageSpec(logical_rel="进阶职业/CRB进阶职业/龙脉术士/page_134.md"),
+    "page_244.md": RootPageSpec(
+        logical_rel="掉链子（Unchained）/page_244.md",
+        rule_version="unchained",
+        component_type="class_overview",
+        book_override={
+            "book_name_cn": "探索者协会",
+            "book_name_en": "Pathfinder Society",
+            "book_abbreviation": "PFS",
+        },
+        class_name="",
+    ),
+    "page_411.md": RootPageSpec(logical_rel="基础职业/召唤师/幻灵/page_411.md"),
+    "page_609.md": RootPageSpec(logical_rel="神话冒险/page_609.md"),
+}
+
+# 逻辑 doc_id（完整路径）→ RootPageSpec，供 _to_standard 产物侧查询
+_ROOT_PAGE_SPEC_BY_DOC: Dict[str, RootPageSpec] = {
+    spec.logical_rel: spec for spec in ROOT_PAGE_MANIFEST.values()
+}
+
+# Unchained 逻辑 doc_id 前缀（按逻辑路径，不看 toc/PU 特判）
+_UNCHAINED_DOC_PREFIX = "掉链子（Unchained）/"
+
+
+def _root_page_spec_for_doc(doc_id: str) -> Optional[RootPageSpec]:
+    """按完整逻辑 doc_id 查根页面清单；同名但不同路径的文件不会误命中。"""
+    return _ROOT_PAGE_SPEC_BY_DOC.get(doc_id)
+
+
+def _resolve_rule_version(doc_id: str, book_abbreviation: Optional[str]) -> Optional[str]:
+    """标注职业规则版本：清单覆盖 → Unchained 逻辑前缀 → book 小写。
+
+    空或 ? 来源返回 None（不写 rule_version）。
+    """
+    spec = _root_page_spec_for_doc(doc_id)
+    if spec is not None and spec.rule_version is not None:
+        return spec.rule_version
+    if doc_id.startswith(_UNCHAINED_DOC_PREFIX):
+        return "unchained"
+    book = (book_abbreviation or "").strip()
+    if not book or book == "?":
+        return None
+    return book.lower()
+
+
+def _root_page_spec_for_path(abs_path: Path) -> Optional[RootPageSpec]:
+    """只匹配整理目录根层清单文件（更深同名路径不命中）。"""
+    try:
+        rel = abs_path.resolve().relative_to(INPUT_DIR.parent)
+    except ValueError:
+        return None
+    if len(rel.parts) == 1:
+        return ROOT_PAGE_MANIFEST.get(rel.as_posix())
+    return None
+
+
+def _profession_rel_path(abs_path: Path) -> Path:
+    """职业流水线统一相对路径：根层清单页映射到逻辑路径，其余相对 职业/。"""
+    spec = _root_page_spec_for_path(abs_path)
+    if spec is not None:
+        return Path(spec.logical_rel)
+    return abs_path.resolve().relative_to(INPUT_DIR)
+
+
+_ROOT_HEADING_RE = re.compile(r"^(#{1,6})\s+(.*)$")
+
+
+def _root_page_heading_texts(lines: List[str]) -> Set[str]:
+    """收集行流中非空 Markdown 标题的纯文本（与 _preserve_root_heading_text
+    插入的内容一致），供 keep() 识别携带标题锚点副本的块。"""
+    titles: Set[str] = set()
+    for line in lines:
+        m = _ROOT_HEADING_RE.match(line or "")
+        if m:
+            title = m.group(2).strip()
+            if title:
+                titles.add(title)
+    return titles
+
+
+def _preserve_root_heading_text(lines: List[str]) -> List[str]:
+    """KN108 根页面专用：每条非空 Markdown 标题保留原行，并在下一行插入
+    一份去掉 # 与首尾空白的纯文本标题，使锚点词进入分块后的 chunk text。
+    仅由 FileProcessor.clean() 对 ROOT_PAGE_MANIFEST 的 7 个逻辑 doc_id 调用；
+    既有职业页、其他模块与源文件均不经过此分支，内容零变化。"""
+    out: List[str] = []
+    for line in lines:
+        out.append(line)
+        m = _ROOT_HEADING_RE.match(line or "")
+        if m:
+            title = m.group(2).strip()
+            if title:
+                out.append(title)
+    return out
+
+
+class _RootPageReadPath:
+    """根层清单页的真实读取路径包装（duck-typed Path）。
+
+    块层 clean_file(formats/profession.py) 内部对 file_path 做
+    relative_to(INPUT_DIR)；根层文件不在 职业/ 子树下会抛 ValueError。
+    本包装在越界时退化为文件名（与原逻辑对职业子树内文件行为完全一致），
+    读取等其余行为原样委托，块层代码零改动。
+    """
+
+    def __init__(self, path: Path) -> None:
+        self._path = path
+
+    def read_text(self, *args, **kwargs):
+        return self._path.read_text(*args, **kwargs)
+
+    def relative_to(self, other, *args, **kwargs):
+        try:
+            return self._path.relative_to(other, *args, **kwargs)
+        except ValueError:
+            return Path(self._path.name)
+
+
+def _read_path_for(abs_path: Path) -> Path:
+    """根层清单页返回 _RootPageReadPath 包装，其余原样返回。"""
+    if _root_page_spec_for_path(abs_path) is None:
+        return abs_path
+    return _RootPageReadPath(abs_path)  # type: ignore[return-value]
+
+# ---------------------------------------------------------------------------
 # 数据类
 # ---------------------------------------------------------------------------
 @dataclass
@@ -2228,7 +2388,13 @@ class FileProcessor:
     # ---------------------------------------------------------------------
     def clean(self, lines: List[str]) -> Tuple[List[str], Set[str]]:
         """清洗文件，返回干净的行列表和删除线标题集合。"""
-        return clean_file(self.file_path, self.ctx["md_mapping"])
+        cleaned, deprecated_titles = clean_file(
+            _read_path_for(self.file_path), self.ctx["md_mapping"]
+        )
+        if _root_page_spec_for_doc(self.doc_id) is not None:
+            self._root_heading_texts = _root_page_heading_texts(cleaned)
+            cleaned = _preserve_root_heading_text(cleaned)
+        return cleaned, deprecated_titles
 
     def split(self, lines: List[str]) -> List[Dict[str, Any]]:
         """把清洗后的行拆成 block。"""
@@ -2575,6 +2741,15 @@ class FileProcessor:
 
     def keep(self, chunk: Chunk) -> bool:
         """过滤短小/纯导航 chunk；保留具体能力、变体和规则型表格。"""
+        # KN108 根页面：携带标题锚点纯文本副本的块必须保留，
+        # 否则 clean() 注入的锚点副本随纯表格/短小过滤器一并丢失。
+        # 超大块（verify_data_invariants --oversize-limit 5000）不救，
+        # 维持 oversize 棘轮登记口径；锚点所需块均在 5000 字符内。
+        if _root_page_spec_for_doc(self.doc_id) is not None:
+            preserved = getattr(self, "_root_heading_texts", None)
+            if preserved and len(chunk.text) <= 5000 \
+                    and set(chunk.text.splitlines()) & preserved:
+                return True
         is_short = chunk.char_count < MIN_CHUNK_CHARS
         is_concrete_ability = (
             chunk.component_type == "class_feature"
@@ -3275,9 +3450,11 @@ def _profession_file_condition(file_path: Path) -> bool:
     """
     try:
         file_path.resolve().relative_to(INPUT_DIR)
+        return True
     except ValueError:
-        return False
-    return True
+        pass
+    # KN108：整理目录根层的 7 个职业清单页同样属于职业流水线
+    return _root_page_spec_for_path(file_path) is not None
 
 
 class ProfessionProcessor(FrameworkFileProcessor):
@@ -3322,9 +3499,11 @@ class ProfessionProcessor(FrameworkFileProcessor):
         md_mapping = load_md_mapping(MD_MAPPING_JSON)
         known_classes = discover_known_classes(INPUT_DIR)
 
-        # 去重：相同内容只保留一份规范副本（字节级哈希，与老脚本同口径）
+        # 去重：相同内容只保留一份规范副本（字节级哈希，与老脚本同口径）。
+        # 扫描职业子目录 + 根层 7 个清单页（KN108，显式精确清单，不用通配符扩大范围）。
+        root_pages = [INPUT_DIR.parent / name for name in ROOT_PAGE_MANIFEST]
         hash_to_path: Dict[str, Path] = {}
-        for file_path in sorted(INPUT_DIR.rglob("*.md")):
+        for file_path in sorted(list(INPUT_DIR.rglob("*.md")) + root_pages):
             try:
                 h = hashlib.sha256(file_path.read_bytes()).hexdigest()
                 if h not in hash_to_path:
@@ -3346,9 +3525,9 @@ class ProfessionProcessor(FrameworkFileProcessor):
         # 预扫描：识别职业变体基础页并解析变体主表（优先 CHM TOC，回退目录启发式）
         archetype_masters: Dict[str, Dict[str, Dict[str, Any]]] = {}
         for file_path in canonical_files:
-            rel_path = file_path.relative_to(INPUT_DIR)
+            rel_path = _profession_rel_path(file_path)
             try:
-                cleaned_lines, _ = clean_file(file_path, md_mapping)
+                cleaned_lines, _ = clean_file(_read_path_for(file_path), md_mapping)
             except Exception:
                 continue
             if not _is_archetype_base_page(rel_path, md_mapping, cleaned_lines):
@@ -3395,7 +3574,7 @@ class ProfessionProcessor(FrameworkFileProcessor):
         abs_path = file_path.resolve()
         if abs_path not in self._canonical_paths:
             return []
-        rel_path = abs_path.relative_to(INPUT_DIR)
+        rel_path = _profession_rel_path(abs_path)
         processor = create_processor(abs_path, rel_path, self._ctx)
         return [self._to_standard(c) for c in processor.run()]
 
@@ -3406,31 +3585,53 @@ class ProfessionProcessor(FrameworkFileProcessor):
         chm_toc_path/aliases/book_abbreviation；book_source→book_name_cn、
         book_source_english→book_name_en；其余业务字段平铺进 metadata；
         新增顶层 source_confidence（Provider 链最佳置信度）。
+        KN108：根页面清单按完整逻辑 doc_id 覆盖 component_type/class_name/
+        book 三字段（class_name="" 也真正写入）；rule_version 由
+        _resolve_rule_version 计算，非 None 才追加进 metadata。
         """
+        spec = _root_page_spec_for_doc(c.doc_id)
+        component_type = c.component_type
+        class_name = c.class_name
+        book_source = c.book_source
+        book_source_english = c.book_source_english
+        book_abbreviation = c.book_abbreviation
+        if spec is not None:
+            if spec.component_type is not None:
+                component_type = spec.component_type
+            if spec.class_name is not None:
+                class_name = spec.class_name
+            if spec.book_override is not None:
+                book_source = spec.book_override.get("book_name_cn", book_source)
+                book_source_english = spec.book_override.get("book_name_en", book_source_english)
+                book_abbreviation = spec.book_override.get("book_abbreviation", book_abbreviation)
+        metadata = {
+            "class_name": class_name,
+            "archetype_name": c.archetype_name,
+            "feature_subtype": c.feature_subtype,
+            "source_paths": list(c.source_paths),
+            "heading_breadcrumbs": list(c.heading_breadcrumbs),
+            "source_markers": list(c.source_markers),
+            "terms": list(c.terms),
+            "is_deprecated": c.is_deprecated,
+            "char_count": c.char_count,
+        }
+        rule_version = _resolve_rule_version(c.doc_id, book_abbreviation)
+        if rule_version is not None:
+            metadata["rule_version"] = rule_version
         return StandardChunk(
             chunk_id=c.chunk_id,
             doc_id=c.doc_id,
             category=c.category,
-            component_type=c.component_type,
+            component_type=component_type,
             title=c.title,
             text=c.text,
-            book_abbreviation=c.book_abbreviation,
-            book_name_cn=c.book_source,
-            book_name_en=c.book_source_english,
+            book_abbreviation=book_abbreviation,
+            book_name_cn=book_source,
+            book_name_en=book_source_english,
             source_confidence=c.source_confidence,
             chm_toc_path=c.chm_toc_path,
             aliases=list(c.aliases),
-            metadata={
-                "class_name": c.class_name,
-                "archetype_name": c.archetype_name,
-                "feature_subtype": c.feature_subtype,
-                "source_paths": list(c.source_paths),
-                "heading_breadcrumbs": list(c.heading_breadcrumbs),
-                "source_markers": list(c.source_markers),
-                "terms": list(c.terms),
-                "is_deprecated": c.is_deprecated,
-                "char_count": c.char_count,
-            },
+            metadata=metadata,
             extra={},
         )
 

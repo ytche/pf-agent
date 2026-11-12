@@ -1,17 +1,74 @@
 {
   "build_version": "1.0",
-  "updated": "2026-09-18",
+  "updated": "2026-09-22",
   "changelog": [
-    {"date": "2026-09-18", "change": "初始版：登记 7 个 cicd 类目 chunks 步 + skill chunks 步（direct）+ lists.spell 导出步", "artifacts": ["chunks.feat", "chunks.race", "chunks.trait", "chunks.equipment", "chunks.rule", "chunks.spell", "chunks.profession", "chunks.skill", "lists.spell"]}
+    {
+      "date": "2026-09-18",
+      "change": "初始版：登记 7 个 cicd 类目 chunks 步 + skill chunks 步（direct）+ lists.spell 导出步",
+      "artifacts": [
+        "chunks.feat",
+        "chunks.race",
+        "chunks.trait",
+        "chunks.equipment",
+        "chunks.rule",
+        "chunks.spell",
+        "chunks.profession",
+        "chunks.skill",
+        "lists.spell"
+      ]
+    },
+    {
+      "date": "2026-09-21",
+      "change": "KN227（批 2）：skill 接入 cicd CATEGORIES 四步链，chunks.skill via direct→cicd（命令收敛为 cicd verify --category skill）",
+      "artifacts": [
+        "chunks.skill"
+      ]
+    },
+    {
+      "date": "2026-09-22",
+      "change": "D3（批 3）：职业成长表结构化导出（方案_数据侧产物增强_20260917 §D3），lists.profession via=direct export_script，与 lists.spell 同待遇",
+      "artifacts": [
+        "lists.profession"
+      ]
+    },
+    {
+      "date": "2026-09-22",
+      "change": "D2（批 2）：feat/race/equipment 权威清单导出（方案_数据侧产物增强_20260917 §D2），lists.* via=direct export_script 同 lists.spell 先例；equipment 含 KN235-① 表格碎片 sink 清洗（导出层，chunks.jsonl 不动）",
+      "artifacts": [
+        "lists.feat",
+        "lists.race",
+        "lists.equipment"
+      ]
+    },
+    {
+      "date": "2026-10-29",
+      "change": "B1 法术派生补充清单（方案_B1法术派生补充清单_20261029 拍板）：lists.spell_union via=direct export_script，inputs=spell_lists.json+chunks.jsonl（A 阶段清洗后），与 lists.spell 相互独立（spell_lists.json 字节级不动红线）；diff_unclassified==0 硬断言内建于脚本",
+      "artifacts": [
+        "lists.spell_union"
+      ]
+    },
+    {
+      "date": "2026-11-11",
+      "change": "F-025：lists.spell_union 产物 schema 升级 1.1（同职业同环级保守中英文键传递折叠去重，条目含完整 sources 与逐来源 matched_by；spec docs/superpowers/specs/2026-11-10-f025-spell-list-deduplication-design.md），expected 1.0 → 1.1",
+      "artifacts": [
+        "lists.spell_union"
+      ]
+    }
   ],
-  "defaults": {"cwd": "pf_data/phase1", "python": "python3"},
+  "defaults": {
+    "cwd": "pf_data/phase1",
+    "python": "python3"
+  },
   "artifacts": [
     {
       "name": "chunks.feat",
       "kind": "category_pipeline",
       "category": "feat",
       "via": "cicd",
-      "outputs": ["vectorizer/output/专长/chunks.jsonl", "vectorizer/output/专长/index.json"],
+      "outputs": [
+        "vectorizer/output/专长/chunks.jsonl",
+        "vectorizer/output/专长/index.json"
+      ],
       "inputs": [
         "pf_rules_md_organized/专长/**",
         "pf_rules_md_organized/专长*.md",
@@ -31,30 +88,47 @@
         "vectorizer/config/feat_types.json",
         "../md_mapping.json"
       ],
-      "schema": {"file": "vectorizer/output/专长/chunks.jsonl", "version_field": null}
+      "schema": {
+        "file": "vectorizer/output/专长/chunks.jsonl",
+        "version_field": null
+      }
     },
     {
       "name": "chunks.race",
       "kind": "category_pipeline",
       "category": "race",
       "via": "cicd",
-      "outputs": ["vectorizer/output/种族/chunks.jsonl", "vectorizer/output/种族/index.json"],
-      "inputs": ["pf_rules_md_organized/种族/**"],
+      "outputs": [
+        "vectorizer/output/种族/chunks.jsonl",
+        "vectorizer/output/种族/index.json"
+      ],
+      "inputs": [
+        "pf_rules_md_organized/种族/**"
+      ],
       "config_deps": [
         "vectorizer/pipeline.py",
         "vectorizer/processors/race.py",
         "vectorizer/formats/race.py",
         "../md_mapping.json"
       ],
-      "schema": {"file": "vectorizer/output/种族/chunks.jsonl", "version_field": null}
+      "schema": {
+        "file": "vectorizer/output/种族/chunks.jsonl",
+        "version_field": null
+      }
     },
     {
       "name": "chunks.trait",
       "kind": "category_pipeline",
       "category": "trait",
       "via": "cicd",
-      "outputs": ["vectorizer/output/背景特性/chunks.jsonl", "vectorizer/output/背景特性/index.json"],
-      "inputs": ["pf_rules_md_organized/背景特性/**", "pf_rules_md_organized/背景/**"],
+      "outputs": [
+        "vectorizer/output/背景特性/chunks.jsonl",
+        "vectorizer/output/背景特性/index.json"
+      ],
+      "inputs": [
+        "pf_rules_md_organized/背景特性/**",
+        "pf_rules_md_organized/背景/**"
+      ],
       "config_deps": [
         "vectorizer/pipeline.py",
         "vectorizer/processors/trait.py",
@@ -62,14 +136,20 @@
         "vectorizer/config/trait_sources.json",
         "../md_mapping.json"
       ],
-      "schema": {"file": "vectorizer/output/背景特性/chunks.jsonl", "version_field": null}
+      "schema": {
+        "file": "vectorizer/output/背景特性/chunks.jsonl",
+        "version_field": null
+      }
     },
     {
       "name": "chunks.equipment",
       "kind": "category_pipeline",
       "category": "equipment",
       "via": "cicd",
-      "outputs": ["vectorizer/output/装备/chunks.jsonl", "vectorizer/output/装备/index.json"],
+      "outputs": [
+        "vectorizer/output/装备/chunks.jsonl",
+        "vectorizer/output/装备/index.json"
+      ],
       "inputs": [
         "pf_rules_md_organized/装备_魔法物品/**",
         "pf_rules_md_organized/page_234.md",
@@ -81,14 +161,20 @@
         "vectorizer/formats/equipment.py",
         "../md_mapping.json"
       ],
-      "schema": {"file": "vectorizer/output/装备/chunks.jsonl", "version_field": null}
+      "schema": {
+        "file": "vectorizer/output/装备/chunks.jsonl",
+        "version_field": null
+      }
     },
     {
       "name": "chunks.rule",
       "kind": "category_pipeline",
       "category": "rule",
       "via": "cicd",
-      "outputs": ["vectorizer/output/规则/chunks.jsonl", "vectorizer/output/规则/index.json"],
+      "outputs": [
+        "vectorizer/output/规则/chunks.jsonl",
+        "vectorizer/output/规则/index.json"
+      ],
       "inputs": [
         "pf_rules_md_organized/规则/**",
         "pf_rules_md_organized/常用速查/**",
@@ -107,15 +193,23 @@
         "vectorizer/formats/rule.py",
         "../md_mapping.json"
       ],
-      "schema": {"file": "vectorizer/output/规则/chunks.jsonl", "version_field": null}
+      "schema": {
+        "file": "vectorizer/output/规则/chunks.jsonl",
+        "version_field": null
+      }
     },
     {
       "name": "chunks.spell",
       "kind": "category_pipeline",
       "category": "spell",
       "via": "cicd",
-      "outputs": ["vectorizer/output/法术/chunks.jsonl", "vectorizer/output/法术/index.json"],
-      "inputs": ["pf_rules_md_organized/法术/**"],
+      "outputs": [
+        "vectorizer/output/法术/chunks.jsonl",
+        "vectorizer/output/法术/index.json"
+      ],
+      "inputs": [
+        "pf_rules_md_organized/法术/**"
+      ],
       "config_deps": [
         "vectorizer/pipeline.py",
         "vectorizer/processors/spell.py",
@@ -125,15 +219,30 @@
         "vectorizer/config/spell_subschools.json",
         "../md_mapping.json"
       ],
-      "schema": {"file": "vectorizer/output/法术/chunks.jsonl", "version_field": null}
+      "schema": {
+        "file": "vectorizer/output/法术/chunks.jsonl",
+        "version_field": null
+      }
     },
     {
       "name": "chunks.profession",
       "kind": "category_pipeline",
       "category": "profession",
       "via": "cicd",
-      "outputs": ["vectorizer/output/职业/chunks.jsonl", "vectorizer/output/职业/index.json"],
-      "inputs": ["pf_rules_md_organized/职业/**"],
+      "outputs": [
+        "vectorizer/output/职业/chunks.jsonl",
+        "vectorizer/output/职业/index.json"
+      ],
+      "inputs": [
+        "pf_rules_md_organized/职业/**",
+        "pf_rules_md_organized/page_30.md",
+        "pf_rules_md_organized/page_53.md",
+        "pf_rules_md_organized/page_128.md",
+        "pf_rules_md_organized/page_134.md",
+        "pf_rules_md_organized/page_244.md",
+        "pf_rules_md_organized/page_411.md",
+        "pf_rules_md_organized/page_609.md"
+      ],
       "config_deps": [
         "vectorizer/pipeline.py",
         "vectorizer/processors/profession.py",
@@ -141,16 +250,20 @@
         "vectorizer/postprocess/profession_index.py",
         "../md_mapping.json"
       ],
-      "schema": {"file": "vectorizer/output/职业/chunks.jsonl", "version_field": null}
+      "schema": {
+        "file": "vectorizer/output/职业/chunks.jsonl",
+        "version_field": null
+      }
     },
     {
       "name": "chunks.skill",
       "kind": "category_pipeline",
       "category": "skill",
-      "via": "direct",
-      "command": ["python3", "-m", "vectorizer.pipeline", "--category", "skill", "--input", "pf_rules_md_organized", "--output", "vectorizer/output/技能"],
-      "note": "skill 未接入 cicd verify 装配表（CATEGORIES 无此类目），一期以 pipeline 直跑登记；接入 cicd 后改 via=cicd 并收敛命令",
-      "outputs": ["vectorizer/output/技能/chunks.jsonl", "vectorizer/output/技能/index.json"],
+      "via": "cicd",
+      "outputs": [
+        "vectorizer/output/技能/chunks.jsonl",
+        "vectorizer/output/技能/index.json"
+      ],
       "inputs": [
         "pf_rules_md_organized/技能/**",
         "pf_rules_md_organized/官方FAQ/page_836.md",
@@ -169,27 +282,168 @@
         "vectorizer/formats/skill.py",
         "../md_mapping.json"
       ],
-      "schema": {"file": "vectorizer/output/技能/chunks.jsonl", "version_field": null}
+      "schema": {
+        "file": "vectorizer/output/技能/chunks.jsonl",
+        "version_field": null
+      }
     },
     {
       "name": "lists.spell",
       "kind": "export_script",
       "script": "spell_list_export.py",
       "via": "direct",
-      "command": ["python3", "spell_list_export.py"],
-      "outputs": ["vectorizer/output/法术/spell_lists.json", "vectorizer/output/法术/spell_list_export_report.json"],
+      "command": [
+        "python3",
+        "spell_list_export.py"
+      ],
+      "outputs": [
+        "vectorizer/output/法术/spell_lists.json",
+        "vectorizer/output/法术/spell_list_export_report.json"
+      ],
       "inputs": [
         "pf_rules_md_organized/职业/**",
         "vectorizer/output/法术/chunks.jsonl",
         "vectorizer/output/职业/chunks.jsonl"
       ],
       "config_deps": [],
-      "schema": {"file": "vectorizer/output/法术/spell_lists.json", "version_field": "version", "expected": "1.0"}
+      "schema": {
+        "file": "vectorizer/output/法术/spell_lists.json",
+        "version_field": "version",
+        "expected": "1.0"
+      }
+    },
+    {
+      "name": "lists.spell_union",
+      "kind": "export_script",
+      "script": "spell_list_union_export.py",
+      "via": "direct",
+      "command": [
+        "python3",
+        "spell_list_union_export.py"
+      ],
+      "outputs": [
+        "vectorizer/output/法术/spell_lists_union.json",
+        "vectorizer/output/法术/spell_list_union_report.json"
+      ],
+      "inputs": [
+        "vectorizer/output/法术/spell_lists.json",
+        "vectorizer/output/法术/chunks.jsonl"
+      ],
+      "config_deps": [
+        "spell_list_export.py"
+      ],
+      "schema": {
+        "file": "vectorizer/output/法术/spell_lists_union.json",
+        "version_field": "version",
+        "expected": "1.1"
+      }
+    },
+    {
+      "name": "lists.profession",
+      "kind": "export_script",
+      "script": "class_table_export.py",
+      "via": "direct",
+      "command": [
+        "python3",
+        "class_table_export.py"
+      ],
+      "outputs": [
+        "vectorizer/output/职业/class_tables.json",
+        "vectorizer/output/职业/class_table_export_report.json"
+      ],
+      "inputs": [
+        "vectorizer/output/职业/chunks.jsonl"
+      ],
+      "config_deps": [
+        "spell_list_export.py"
+      ],
+      "schema": {
+        "file": "vectorizer/output/职业/class_tables.json",
+        "version_field": "version",
+        "expected": "1.0"
+      }
+    },
+    {
+      "name": "lists.feat",
+      "kind": "export_script",
+      "script": "feat_list_export.py",
+      "via": "direct",
+      "command": [
+        "python3",
+        "feat_list_export.py"
+      ],
+      "outputs": [
+        "vectorizer/output/专长/feat_lists.json",
+        "vectorizer/output/专长/feat_list_export_report.json"
+      ],
+      "inputs": [
+        "vectorizer/output/专长/chunks.jsonl",
+        "vectorizer/list_export.py"
+      ],
+      "config_deps": [],
+      "schema": {
+        "file": "vectorizer/output/专长/feat_lists.json",
+        "version_field": "version",
+        "expected": "1.0"
+      }
+    },
+    {
+      "name": "lists.race",
+      "kind": "export_script",
+      "script": "race_list_export.py",
+      "via": "direct",
+      "command": [
+        "python3",
+        "race_list_export.py"
+      ],
+      "outputs": [
+        "vectorizer/output/种族/race_lists.json",
+        "vectorizer/output/种族/race_list_export_report.json"
+      ],
+      "inputs": [
+        "vectorizer/output/种族/chunks.jsonl",
+        "vectorizer/list_export.py"
+      ],
+      "config_deps": [],
+      "schema": {
+        "file": "vectorizer/output/种族/race_lists.json",
+        "version_field": "version",
+        "expected": "1.0"
+      }
+    },
+    {
+      "name": "lists.equipment",
+      "kind": "export_script",
+      "script": "equipment_list_export.py",
+      "via": "direct",
+      "command": [
+        "python3",
+        "equipment_list_export.py"
+      ],
+      "outputs": [
+        "vectorizer/output/装备/equipment_lists.json",
+        "vectorizer/output/装备/equipment_list_export_report.json"
+      ],
+      "inputs": [
+        "vectorizer/output/装备/chunks.jsonl",
+        "vectorizer/list_export.py"
+      ],
+      "config_deps": [],
+      "schema": {
+        "file": "vectorizer/output/装备/equipment_lists.json",
+        "version_field": "version",
+        "expected": "1.0"
+      }
     }
   ],
   "consumers": [
-    {"name": "java_vector_store", "type": "external_process",
-     "inputs": ["vectorizer/output/*/chunks.jsonl"],
-     "note": "Java 启动时按 build_state.json 的 build_id 比对决定是否重灌（Java 侧实现归 Java 方案）"}
+    {
+      "name": "java_vector_store",
+      "type": "external_process",
+      "inputs": [
+        "vectorizer/output/*/chunks.jsonl"
+      ],
+      "note": "Java 启动时按 build_state.json 的 build_id 比对决定是否重灌（Java 侧实现归 Java 方案）"
+    }
   ]
 }

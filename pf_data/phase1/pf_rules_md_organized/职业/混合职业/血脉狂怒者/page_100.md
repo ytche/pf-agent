@@ -35,7 +35,7 @@ Spells****）******
 | ACG | 气泉喷升（air        geyser）       银镖闪（silver        darts） | 高等雷霆重踏（thunderstomp,        greater） |
 |  |
 | 4级法术 | CRB | 野兽形态        II（beast        shape II）       降咒（bestow        curse）       黑触手（black        tentacles）       困惑术（confusion）       疫病术（contagion）       极度绝望（crushing        despair）       元素形态        I（elemental        body I）       弱能术（enervation）       群体变巨术（enlarge        person, mass） | 恐惧术（fear）       火焰护盾（fire        shield）       冰风暴（ice        storm）       魅影杀手（phantasmal        killer）       群体缩小术（reduce        person, mass）       咆哮术（shout）       石肤术（stoneskin）       火墙术（wall        of fire）       冰墙术（wall        of ice） |
-| APG | 球形闪电（ball        lightning）       石化之触（calcific        touch）       自爆术（detonate）       龙息术（dragon’s        breath） | 火焰之雨（firefall）       类人形态        II（monstrous        physique II）       精神错乱月狂病（moonstruck）       风之河（river        of wind） |
+| APG | 球形闪电（ball        lightning）       石化之触（calcific        touch）       自爆术（detonate）       龙息术（dragon’s        breath） | 火焰之雨（firefall）       类人形态        II（monstrous        physique II）       精神错乱（moonstruck）       风之河（river        of wind） |
 | UM | 高等虚假生命（false        life, greater）       驭波术（ride        the waves）       软泥之触（touch        of slime）       虫类形态        I（vermin        shape I） | 硫酸之雾（vitriolic        mist）       火山暴（volcanic        storm）       音墙术（wall        of sound）， |
 | UC | 散弹爆发（pellet        blast）       幻影爆碎（shocking        image） | 念动冲锋（telekinetic        charge）       剑刃花环（wreath        of blades） |
 | ACG | 高等炽焰法球（flaming        sphere, greater） |  |

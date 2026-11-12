@@ -886,6 +886,151 @@ def check_class_attribution(chunks: List[dict], ctx: dict) -> Tuple[bool, List[s
 # ============================================================
 
 
+# ============================================================
+#  检查 9：KN108 根页面锚点（7 页清单）
+# ============================================================
+
+KN108_ROOT_PAGE_ANCHORS = {
+    "职业概述/page_30.md": ["职业概述", "术语定义", "施法者等级"],
+    "核心职业/武僧/武僧清规/page_53.md": [
+        "武僧清规", "不邪淫戒", "囚执戒", "清净戒", "持斋戒",
+        "不杀生戒", "安贫戒", "不语戒", "不妄语戒",
+    ],
+    "进阶职业/page_128.md": ["进阶职业", "全进阶职业一览"],
+    "进阶职业/CRB进阶职业/龙脉术士/page_134.md": ["龙徒", "进阶要求", "角色定位"],
+    "掉链子（Unchained）/page_244.md": ["对PFS官方游戏的影响"],
+    "基础职业/召唤师/幻灵/page_411.md": ["幻灵", "生命骰", "基本攻击加值", "技能", "专长"],
+    "神话冒险/page_609.md": ["大法师", "斗士", "守护者", "圣者", "统帅", "诡术大师"],
+}
+
+KN108_PAGE_244_DOC = "掉链子（Unchained）/page_244.md"
+
+
+def check_kn108_root_pages(chunks: List[dict], ctx: dict) -> Tuple[bool, List[str]]:
+    """KN108：7 个根页面每页至少 1 块且关键锚点齐全；
+    page_244 精确检查（PFS/class_overview/class_name 空/rule_version=unchained/
+    source_paths=[doc_id]）"""
+    ok = True
+    issues: List[str] = []
+    by_doc: dict = defaultdict(list)
+    for c in chunks:
+        by_doc[c.get("doc_id", "")].append(c)
+    for doc_id, anchors in KN108_ROOT_PAGE_ANCHORS.items():
+        page_chunks = by_doc.get(doc_id, [])
+        if not page_chunks:
+            ok = False
+            issues.append(f"❌ {doc_id} 无任何 chunk")
+            continue
+        text = "\n".join(c.get("text", "") for c in page_chunks)
+        missing = [a for a in anchors if a not in text]
+        if missing:
+            ok = False
+            issues.append(f"❌ {doc_id} 缺失锚点：{missing}")
+    for c in by_doc.get(KN108_PAGE_244_DOC, []):
+        if c.get("component_type") != "class_overview":
+            ok = False
+            issues.append(f"❌ {KN108_PAGE_244_DOC} component_type 应为 class_overview，"
+                          f"实际 {c.get('component_type')!r}")
+        if _m(c, "class_name") != "":
+            ok = False
+            issues.append(f"❌ {KN108_PAGE_244_DOC} class_name 应为空串，"
+                          f"实际 {_m(c, 'class_name')!r}")
+        if _m(c, "rule_version") != "unchained":
+            ok = False
+            issues.append(f"❌ {KN108_PAGE_244_DOC} rule_version 应为 unchained，"
+                          f"实际 {_m(c, 'rule_version')!r}")
+        if (_m(c, "source_paths") or []) != [KN108_PAGE_244_DOC]:
+            ok = False
+            issues.append(f"❌ {KN108_PAGE_244_DOC} source_paths 应为 [{KN108_PAGE_244_DOC}]，"
+                          f"实际 {_m(c, 'source_paths')!r}")
+    if ok:
+        print(f"  — {len(KN108_ROOT_PAGE_ANCHORS)} 个根页面锚点齐全，page_244 字段精确匹配")
+    return ok, issues
+
+
+# ============================================================
+#  检查 10：rule_version 全库规则
+# ============================================================
+
+_UNCHAINED_DOC_PREFIX = "掉链子（Unchained）/"
+_CORE_NEVER_UNCHAINED_PREFIXES = ("核心职业/盗贼/", "核心职业/野蛮人/")
+
+
+def check_rule_version(chunks: List[dict], ctx: dict) -> Tuple[bool, List[str]]:
+    """KN108：Unchained 逻辑 doc_id 路径必须 unchained（只看 doc_id 不看 toc）；
+    核心职业/盗贼/野蛮人不得 unchained；其他有效 book 必须等于小写；
+    空或 ? 来源不写 rule_version（仅报告数量，不失败）"""
+    ok = True
+    issues: List[str] = []
+    omitted = 0
+    for c in chunks:
+        doc_id = c.get("doc_id", "")
+        rv = _m(c, "rule_version")
+        book = (c.get("book_abbreviation") or "").strip()
+        if doc_id.startswith(_UNCHAINED_DOC_PREFIX):
+            if rv != "unchained":
+                ok = False
+                issues.append(f"❌ {doc_id} rule_version 应为 unchained，实际 {rv!r}")
+        elif doc_id.startswith(_CORE_NEVER_UNCHAINED_PREFIXES):
+            if rv == "unchained":
+                ok = False
+                issues.append(f"❌ {doc_id} 核心职业不得标 unchained")
+        elif book and book != "?":
+            if rv is None:
+                ok = False
+                issues.append(f"❌ {doc_id} 有效来源 {book} 未标 rule_version")
+            elif rv != book.lower():
+                ok = False
+                issues.append(f"❌ {doc_id} rule_version 应为 {book.lower()}，实际 {rv!r}")
+        else:
+            omitted += 1
+            if rv is not None:
+                ok = False
+                issues.append(f"❌ {doc_id} 来源为空/? 不应有 rule_version，实际 {rv!r}")
+    print(f"  — rule_version 标注 {len(chunks) - omitted}/{len(chunks)}；"
+          f"⚠️ rule_version 省略（book 空或 ?）：{omitted}")
+    return ok, issues
+
+
+# ============================================================
+#  D3 软检查：class_tables.json 产物存在性与结构（WARN 不阻断）
+#  （方案：数据侧产物增强 20260917 §D3.7——独立脚本不挂 pipeline，
+#    verify 只作软检查：产物缺失/版本不符/结构异常仅 WARN，不影响 exit code）
+# ============================================================
+
+CLASS_TABLES_PATH = PHASE1 / "vectorizer" / "output" / "职业" / "class_tables.json"
+
+
+def check_class_tables_soft(chunks: List[dict], ctx: dict):
+    if not CLASS_TABLES_PATH.exists():
+        print("  ⚠️  WARN: class_tables.json 不存在（D3 导出脚本未跑：python3 class_table_export.py），软检查跳过")
+        return True, []
+    try:
+        data = json.loads(CLASS_TABLES_PATH.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as e:
+        print(f"  ⚠️  WARN: class_tables.json 非合法 JSON（{e}），软检查跳过")
+        return True, []
+    warns = []
+    if data.get("version") != "1.0":
+        warns.append(f"version={data.get('version')!r} 期望 '1.0'")
+    classes = data.get("classes") or {}
+    parsed = (data.get("coverage") or {}).get("parsed") or []
+    if len(classes) < 15:
+        warns.append(f"解析职业数 {len(classes)} < 15（下界）")
+    for key, rec in classes.items():
+        levels = rec.get("levels") or {}
+        seq = sorted(int(lv) for lv in levels)
+        if seq != list(range(1, rec.get("max_level", 0) + 1)):
+            warns.append(f"{key}: levels 不连续")
+        if key not in parsed:
+            warns.append(f"{key}: 不在 coverage.parsed 中")
+    print(f"  — D3 产物：version={data.get('version')} 解析职业 {len(classes)} "
+          f"未覆盖 {len((data.get('coverage') or {}).get('missing') or [])}")
+    for w in warns:
+        print(f"  ⚠️  WARN: {w}")
+    return True, []  # 软检查：任何异常只 WARN，不阻断（ok 恒 True）
+
+
 class ProfessionVerify(VerifyBase):
     name = "职业集成验收"
     description = "职业模块集成验收（统一验收入口）"
@@ -900,6 +1045,9 @@ class ProfessionVerify(VerifyBase):
         ("V004 传世名作", check_bardic_masterpieces, "68 首传世名作全部就位"),
         ("圣骑士变体回归", check_paladin_archetypes, "子誓约/43 变体/女巫吟游回归/去重全过"),
         ("归属不变量", check_class_attribution, "未知职业/spot check/negative/逃生舱全过"),
+        ("D3 成长表产物", check_class_tables_soft, "class_tables.json 存在（软检查，WARN 不阻断）"),
+        ("KN108 根页面锚点", check_kn108_root_pages, "7 个根页面锚点齐全，page_244 字段精确匹配"),
+        ("rule_version 全库", check_rule_version, "Unchained/核心职业/有效 book/占位来源规则全过"),
     ]
 
 

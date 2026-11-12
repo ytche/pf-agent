@@ -62,7 +62,7 @@
 |  | OA | 讯息传递 (Mindlink) |  |
 |  | DA | 净身仪节 (Rite of Bodily Purity) | 内在仪节 (Rite of Centered Mind) |
 |  | MaTT | 痕痒诅咒 (Itching Curse) |  |
-|  | AA | 连接遗赠 (Linked Legacy) | 化泪为酒 (Tears to Wine) |
+|  | AA | 链接学识 (Linked Legacy) | 化泪为酒 (Tears to Wine) |
 |  | ACO | 魂灵呼唤 (Spirit Call) |  |
 |  | GHH | 扭曲未来 (Twisted Futures) |  |
 |  | AE | 懦夫的蒙头斗篷 (COWARD’S COWL) | 惩戒装甲 (Punishing Armor) |

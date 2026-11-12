@@ -60,6 +60,7 @@ class AuthServiceTest {
         UserAccount saved = userAccountRepository.findByUsername("alice_一号").orElseThrow();
         assertThat(saved.getId()).isEqualTo(result.uid());
         assertThat(saved.getPasswordHash()).startsWith("$2").isNotEqualTo("password123");
+        assertThat(saved.getRole()).isEqualTo(UserAccount.ROLE_USER);
         assertThat(saved.getCreatedAt()).isNotNull();
         assertThat(saved.getLastLoginAt()).isNull();
     }

@@ -565,7 +565,9 @@ pf:
   memory:
     history-size: 20         # 新增：会话历史注入条数上限
   stores:
-    metadata-replay: false   # v1.6：spell 库 metadata 重放开关（置 true 启动执行一次，幂等，完成后改回 false）
+    # DVG-001（2026-11-11）：pf.stores.metadata-replay 与 SpellMetadataReplayTool 已彻底删除，
+    # 误置 true 由 DeprecatedMetadataReplayGuard fail-fast；向量库唯一写路径为全量重灌
+    # （docs/DEPLOYMENT.md §六）。本 yml 段不再列该键。
 spring:
   ai:
     retry:
@@ -584,7 +586,8 @@ spring:
 | `rag/FilterTranslator.java` | 逻辑字段 → 扁平键翻译 |
 | `rag/SourceCollector.java` | 请求级来源收集 + gap 标记 |
 | `rag/DataGapRecorder.java` | 缺口 JSONL 追加 |
-| `rag/SpellMetadataReplayTool.java` | **v1.6 新增**：一次性 metadata 重放工具（`@ConditionalOnProperty(pf.stores.metadata-replay)` 门控 CommandLineRunner），load 现有 spell 库 → 用新 mapper 重映射 metadata → 按 `chunk_id` join → 保留原 text+embedding 替换 metadata → save；缺键检测幂等（重放后启动自动跳过） |
+| `rag/SpellMetadataReplayTool.java` | **v1.6 新增**；**DVG-001（2026-11-11）已彻底删除**：一次性 metadata 重放工具（`@ConditionalOnProperty(pf.stores.metadata-replay)` 门控 CommandLineRunner），load 现有 spell 库 → 用新 mapper 重映射 metadata → 按 `chunk_id` join → 保留原 text+embedding 替换 metadata → save；缺键检测幂等（重放后启动自动跳过）。删除后由只读防误用闸口 `rag/DeprecatedMetadataReplayGuard`（最高优先级，旧配置 true 时 fail-fast）接替其"防止误用"职责；现役写路径只有全量重灌（DEPLOYMENT §六） |
+| `rag/DeprecatedMetadataReplayGuard.java` | **DVG-001（2026-11-11）新增**：退役配置防误用闸口，`pf.stores.metadata-replay=true` 时装配并 fail-fast，只读不写库 |
 | `rag/StandardChunk.java` | **v1.7 新增**：6 个标准模块（feat/race/trait/equipment/skill/rule）统一行模型 record，14 字段匹配 JSONL 顶部键 |
 | `rag/StandardChunkMapper.java` | **v1.7 新增**：统一映射（顶部字段 1:1 → metadata，tocPath=chm_toc_path，aliases 逗号合并，null 安全） |
 | `rag/FeatDataLoader.java` 等 6 个 | **v1.7 新增**：每模块 ~20 行 DataLoader 薄壳，共享 ChunkImporter + StandardChunkMapper |
@@ -622,7 +625,7 @@ spring:
 | `PromptBuilderTest` | 重写：输出约束、工具引导、gap 指引 |
 | `ChatServiceTest` | 重写：手动工具循环（hasToolCalls 迭代、工具执行、ToolResponseMessage 拼装）、**maxRounds 超限抛异常**、callbacksByName 注册表、手动 ChatMemory 注入/回存、sources 汇总、gapReported、conversationId（空→生成、传入→透传）、LLM null 兜底 |
 | `ChatControllerTest` | **v1.5（B6）**：`POST /api/chat` 请求→响应 JSON 结构；conversationId 透传（请求带→响应回带；请求缺→自动生成）；`gapReported`/`sources` 字段序列化；500 场景（mock ChatService 抛异常）返回错误结构 |
-| `SpellMetadataReplayToolTest` | **v1.6**：用临时 store 文件模拟旧库（metadata 无扁平键）+ 样例 chunks.jsonl → 重放后 metadata 含扁平键、text/embedding 原样保留、按 `chunk_id` join 正确；漂移告警（store 有而 jsonl 无的 chunk_id 计数）；幂等（重放后再跑跳过） |
+| `SpellMetadataReplayToolTest` | **v1.6**（**DVG-001 已随工具删除**）：曾验证旧库重放后含扁平键、text/embedding 保留、chunk_id join、漂移计数与幂等；防误用职责由 `DeprecatedMetadataReplayGuardTest` 接替（退役异常信息、门控接线、最高优先级、true fail-fast 且后续 runner 不执行、缺失/false 不装配） |
 | `StandardChunkMapperTest` | **v1.7**：统一字段 1:1 映射、chm_toc_path 缺失回退 doc_id+title、null 安全兜底、aliases 合并 |
 | `SearchServiceTest` / `FilterTranslatorTest` / `RetrievalToolsTest` | **v1.7 更新**：新增 6 标准模块用例（路由、字段翻译、工具描述行为） |
 | `PromptBuilderTest` / `SearchServiceTest` | **v1.8（AKN-003）**：新增"断言必须有检索依据 + 职业核心机制以基础页为准"prompt 约束断言；class 基础页加分重排（略低相似度基础页胜出 / 问变体不误伤 / 非 class 不加分 / 扩容 topK 透传） |
@@ -645,7 +648,7 @@ spring:
 > - 问法「女巫是准备施法者还是自发施法者」：有依据明确回答"准备施法者"（引用 APG 职业特性原文，B 方案加分让基础页 chunk 稳居检索）；如实区分灵脉守卫变体为自发施法（A 规则②）
 > - 检索层：真实 bge-m3 复现三类基础问法，top5 基础页 1~3 → 3~4 个
 
-1. **法术向量库 metadata 重放（方案 B，秒级）**：`application.yml` 置 `pf.stores.metadata-replay: true` → 启动 → `SpellMetadataReplayTool` load 现有库（4200 docs）→ 新 mapper 重映射 metadata → 按 `chunk_id` join → 保留 text/embedding 替换 metadata → save → 日志确认 `已重放 N 条` 与扁平键存在 → 改回 `false` 并重启验证幂等跳过（不再全量重建，仅当更换 embedding 模型或修改 chunk 正文时才需 30 分钟全量重建）
+1. **法术向量库全量重灌（DVG-001 现役唯一路径）**：向量库 metadata/内容随 chunks 变化时的更新一律走 `docs/DEPLOYMENT.md` §六 手册：备份旧库（时间戳路径）→ 同 `user.home`/同 store 路径起临时实例（`PF_CHAT_MEMORY=memory` + 随机端口）从最新 chunks.jsonl 全量导入 → 产物对账（条数/chunk_id/text/字段）→ 失败回滚备份、对账通过重启正式实例 → 真实检索问答验证并记录。旧方案 B metadata 重放（`SpellMetadataReplayTool`）已于 2026-11-11 彻底删除，`pf.stores.metadata-replay=true` 会被启动闸口 fail-fast，现役文档不得再引用
 2. 问题集逐条验证（curl + 前端）：
 
 | 问题 | 期望 |
@@ -677,7 +680,7 @@ spring:
 | DeepSeek 函数调用兼容性 | OpenAI 兼容 API 原生支持 `tools`；若异常，工具调用报错即 500（可发现） |
 | `Map<String,String>` 参数 schema | 已验证 `JsonSchemaGenerator` 生成 `additionalProperties` 对象 schema；若运行时不可用，回退为单个 JSON 字符串参数 |
 | 纯"1环法术有哪些"（无职业） | v1 不支持精确枚举，提示需职业名，LLM 转 `vectorSearch`；后续可加通用 level 索引 |
-| 法术库重建耗时 | **v1.6（方案 B）**：metadata 重放秒级完成（不重算向量，text 不变→embedding 不变，已确认现有库为 BGE-M3 1024 维）；仅更换 embedding 模型或修改 chunk 正文时才需 30 分钟全量重建 |
+| 法术库重建耗时 | **DVG-001（2026-11-11 起）**：metadata 或内容变化走全量重灌（DEPLOYMENT §六：备份 → 同路径临时实例重灌 → 对账 → 切正式实例 → 真实验证），法术库约 4200 条、分钟级~30 分钟（Ollama embedding）；旧 metadata 重放工具已删除，不可再作为捷径 |
 | 工具返回列表超长 | 工具紧凑摘要输出 + LLM 自然截断；必要时加输出长度上限 |
 | 函数调用模式历史不含工具消息 | LLM 依赖 assistant 摘要或重查工具；q3 类多轮问题在 §15 专项验证 |
 | InMemoryChatMemory 重启丢失 | 一期可接受；`ChatMemory` 接口预留文件持久化实现 |

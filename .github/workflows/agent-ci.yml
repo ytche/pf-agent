@@ -1,10 +1,12 @@
-# CI — Java Agent 构建与测试（SP6 D6）
+# CI — Java Agent 构建与测试（SP6 D6 / F-020 前端接入）
 #
 # ⚠️ 与数据侧 ci.yml（向量化数据质量闸口）并存：那个跑 Python vectorizer、
-# 收窄到 vectorizer/** 路径；本 workflow 专跑 Java 模块（pf_agent/agent）。
-# 两个文件各自 paths 收窄，文档/数据提交不会互相触发空跑。
+# 收窄到 vectorizer/** 路径；本 workflow 专跑 Java 模块（pf_agent/agent）与其
+# 前端工程（pf_agent/agent/frontend）。两个文件各自 paths 收窄，文档/数据提交
+# 不会互相触发空跑。
 #
-# 基线：mvn test 247 全绿（SP5 修复验收口径）；Java 17（pom java.version）。
+# 构建顺序（实施 spec §4.3）：npm ci → Vitest/前端构建 → Playwright → Maven test。
+# Playwright 使用 Node 打桩 API（打桩 ChatModel 语义），不在 PR 调用真实模型。
 name: agent-ci
 
 on:
@@ -19,7 +21,51 @@ on:
       - '.github/workflows/agent-ci.yml'
 
 jobs:
-  test:
+  frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: pf_agent/agent/frontend
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: pf_agent/agent/frontend/package-lock.json
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+          cache: maven
+
+      - name: 安装依赖（lockfile）
+        run: npm ci
+
+      - name: Vitest 单元测试
+        run: npm run test:unit
+
+      - name: 前端类型检查与构建
+        run: npm run build
+
+      - name: 安装 Playwright 浏览器
+        run: npx playwright install --with-deps chromium
+
+      - name: Playwright 桌面与手机场景（Node 打桩 API）
+        run: npm run test:e2e
+
+      # 真实 Spring Boot + PostgreSQL（Docker 启动的一次性 PG16）+ 打桩 ChatModel；
+      # pretest 脚本先 npm build 再 mvn package，确保 jar 内含前端 dist。
+      - name: 全栈 Playwright（真实后端 + PG + 打桩模型）
+        run: npm run test:e2e:fullstack
+        env:
+          CI: "true"
+
+  java:
+    # 前端构建/测试通过后才跑 Maven，保持 npm → Maven 的交付顺序
+    needs: frontend
     runs-on: ubuntu-latest
     defaults:
       run:

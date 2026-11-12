@@ -173,6 +173,21 @@ _PAGE_TYPE_DEFAULT = {
     "page_1579": "装备", "背景特性17": "宇宙", "坐骑背景": "坐骑",
 }
 
+# ---- 页面级默认来源（KN137 方案 R4/R5，2026-10-28）----
+# 同构 _PAGE_TYPE_DEFAULT：仅 page_154（全页 PFS Guide，含势力介绍段
+# trait_intro——介绍段不豁免）与典范背景（整页 CoL）两页已实锤同页单书；
+# 只在 resolve_source 全链走完仍 book=="?" 时兜底（confidence 50，
+# TraitPageDefaultProvider），不覆盖已解析值。混合来源页一律不加。
+_PAGE_SOURCE_DEFAULT = {
+    "page_154": "PFS Guide",
+    "典范背景": "CoL",
+}
+
+# ---- 基础页前缀键查表语境（KN137 R1，2026-10-28 拍板收窄）----
+# 仅 page_155~157（拍板口径：【HoG】→HaG 半身人书语境）；其他基础页
+# 裸缩写不落前缀键（page_150 的【UCa】等走直达键，无前缀键需求）。
+_BASIC_PAGE_PREFIX_DOCS = ("page_155", "page_156", "page_157")
+
 # 宗教主题（deity 字段族适用判定，设计 §3.3）
 _RELIGIOUS_TRAIT_TYPES = {"宗教", "信念"}
 
@@ -273,11 +288,30 @@ class TraitProcessor(FileProcessor):
                 e = TRAIT_SOURCES.get(cand)
                 if e is None and _RE_ITEM_SOURCE_ABBR.match(cand):
                     e = TRAIT_SOURCES.get(cand)
+                if e is None and chunk.doc_id in _BASIC_PAGE_PREFIX_DOCS:
+                    # 基础页前缀键二次查表（KN137 方案 R1，2026-10-28 拍板
+                    # 收窄）：仅 page_155~157 语境内裸缩写先查专属「基础页X」
+                    # 键（【HoG】→基础页HoG→HaG 半身人书；其余语境 HoG 仍经
+                    # cn/en 键指人类书）。键值权威在 trait_sources.json，此处
+                    # 无书名硬编码；无前缀键即自然落空。
+                    e = TRAIT_SOURCES.get(f"基础页{cand}")
                 if e:
                     result = SourceResult(
                         e["abbr"], e["cn"], e["en"], 60, "TraitItemSourceProvider"
                     )
                     break
+
+        if result.book_abbreviation == "?":
+            # 页面级默认来源兜底（KN137 方案 R4/R5）：仅全链走完仍未知时
+            # 应用，不覆盖已解析值；trait_intro 不豁免（page_154 势力介绍段
+            # 正是 intro 类条目）
+            default_key = _PAGE_SOURCE_DEFAULT.get(chunk.doc_id)
+            entry = TRAIT_SOURCES.get(default_key) if default_key else None
+            if entry:
+                result = SourceResult(
+                    entry["abbr"], entry["cn"], entry["en"], 50,
+                    "TraitPageDefaultProvider",
+                )
 
         chunk.book_abbreviation = result.book_abbreviation
         chunk.book_name_cn = result.book_name_cn

@@ -1685,12 +1685,8 @@ class TestBareTitleProseGuard:
             f"页引言被误包星: {normalized!r}"
         )
 
-    def test_page1177_calamitous_flailing_no_cn_name_not_wrapped(self, spell_format):
-        """跨行英文名 + 无中文名：不产生伪标题（守卫对跨行形态同样生效）
-
-        修复前源形态（无中文名）：【死灵】(Calamitous ⏎Flailing) 无中文名无法
-        归一化 → 不包星成伪标题，也不产生半截「**手舞足蹈」标题。
-        """
+    def test_page1177_calamitous_flailing_restores_approved_cn_name(self, spell_format):
+        """跨行英文名 + 编译页缺中文名：恢复 KN019 已批准译名，不产伪标题。"""
         text = (
             "**诅咒法术\n"
             "施法者们在烦扰别人上创意无限。**【死灵】(Calamitous \n"
@@ -1698,8 +1694,8 @@ class TestBareTitleProseGuard:
             "| 环位 | 诅咒 1 |\n"
         )
         normalized = spell_format.normalize(text)
-        assert not any(l.startswith("**手舞足蹈") for l in normalized.split("\n")), (
-            f"无中文名不应产出半截标题: {normalized!r}"
+        assert "**手舞足蹈 (Calamitous Flailing)**" in normalized, (
+            f"未恢复已批准中文名: {normalized!r}"
         )
         assert "**施法者们在烦扰别人上创意无限" not in normalized, (
             f"页引言被误包星: {normalized!r}"

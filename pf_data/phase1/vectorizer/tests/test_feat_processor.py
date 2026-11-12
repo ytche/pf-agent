@@ -446,7 +446,7 @@ class TestResolveSource:
     def test_source_line_extraction(self):
         """引用块提取：> 来源：中文（English）→ 缩写 → 全通道（中文注释文件的主通道）
 
-        D1：箭头段无 ASCII 缩写时查 abbr_candidates 归一（秽邪勇士 → CoC）。"""
+        D1：箭头段无 ASCII 缩写时查 abbr_candidates 归一（秽邪勇士 → CoC）；KN230：CoC → CoCorr。"""
         proc = make_processor()
         chunk = self._resolve(
             proc,
@@ -454,7 +454,7 @@ class TestResolveSource:
             "# 格拉里昂的秽邪勇士 专长\n<!-- 秽邪勇士-source:专长.md -->\n"
             "> 来源：秽邪勇士（Champions of Corruption），页码见原书，未整理 → 秽邪勇士 → 专长\n",
         )
-        assert chunk.book_abbreviation == "CoC"
+        assert chunk.book_abbreviation == "CoCorr"  # KN230：CoC → CoCorr
         assert chunk.book_name_cn == "秽邪勇士"
         assert chunk.book_name_en == "Champions of Corruption"
         assert chunk.source_confidence > 0

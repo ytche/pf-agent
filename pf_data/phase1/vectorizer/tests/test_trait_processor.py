@@ -364,6 +364,78 @@ class TestResolveSource:
         )
         assert chunk.book_abbreviation == "?"
 
+    def test_basic_page_hog_prefix_key(self):
+        """基础页语境内裸【HoG】→ 基础页HoG 前缀键 → HaG（KN137 R1）；
+        不落入人类书（裸 HoG 无表键，经前缀键限定页上下文）"""
+        proc = make_processor()
+        chunk = self._resolve(
+            proc,
+            Path("pf_rules_md_organized/背景特性/page_155.md"),
+            "# page_155\n",
+            {"source": "HoG"},
+        )
+        assert chunk.book_abbreviation == "HaG"
+        assert chunk.book_name_cn == "格拉里昂的半身人"
+        assert chunk.book_name_en == "Halflings of Golarion"
+        assert chunk.source_confidence == 60
+
+    def test_non_basic_page_no_prefix_key(self):
+        """非基础页裸 HoG 无前缀键兜底 → 保持 '?'（页上下文限定防误归）"""
+        proc = make_processor()
+        chunk = self._resolve(
+            proc,
+            Path("pf_rules_md_organized/背景特性/未知书X_背景特性.md"),
+            "# 未知 背景特性\n",
+            {"source": "HoG"},
+        )
+        assert chunk.book_abbreviation == "?"
+
+    def test_page_source_default_psfg(self):
+        """page_154 全链走完仍 '?' → 页面级默认 PSFG（KN137 R4，50 档）"""
+        proc = make_processor()
+        chunk = self._resolve(
+            proc,
+            Path("pf_rules_md_organized/背景特性/page_154.md"),
+            "# page_154\n",
+        )
+        assert chunk.book_abbreviation == "PSFG"
+        assert chunk.book_name_cn == "探索者协会战地指南"
+        assert chunk.source_confidence == 50
+
+    def test_page_source_default_col(self):
+        """典范背景全链走完仍 '?' → 页面级默认 CoL（KN137 R5，50 档）"""
+        proc = make_processor()
+        chunk = self._resolve(
+            proc,
+            Path("pf_rules_md_organized/背景特性/典范背景.md"),
+            "# 典范背景\n",
+        )
+        assert chunk.book_abbreviation == "CoL"
+        assert chunk.book_name_cn == "传奇编年史"
+        assert chunk.source_confidence == 50
+
+    def test_page_source_default_not_override(self):
+        """已解析值不被页面级默认覆盖（KN137 边界：只在 '?' 时兜底）"""
+        proc = make_processor()
+        chunk = self._resolve(
+            proc,
+            Path("pf_rules_md_organized/背景特性/page_154.md"),
+            "# page_154\n",
+            {"source": "APG"},
+        )
+        assert chunk.book_abbreviation == "APG"
+        assert chunk.source_confidence == 60
+
+    def test_non_default_page_stays_unknown(self):
+        """非页面级默认页（page_150）无来源线索 → 保持 '?'"""
+        proc = make_processor()
+        chunk = self._resolve(
+            proc,
+            Path("pf_rules_md_organized/背景特性/page_150.md"),
+            "# page_150\n",
+        )
+        assert chunk.book_abbreviation == "?"
+
 
 class TestTraitFileCondition:
     """输入范围：condition = 格式簇分配表 rel 查表（63 文件）"""

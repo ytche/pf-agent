@@ -45,6 +45,8 @@ _RE_URL_LINE = re.compile(r"^\[https?://[^\]]*\]\(https?://[^)]*\)[^\n]*$", re.M
 _RE_TRANSLATOR_LINE = re.compile(r"^\*\*译者[:：][^\n]*$", re.M)
 _RE_EDITOR_NOTE = re.compile(r"【编注[:：][^】]*】[ \t]*\*{0,4}")
 _RE_INLINE_LINK = re.compile(r"\[[^\]]*\]\(https?://[^)]*\)")
+_RE_LINKED_STAR_TITLE = re.compile(
+    r"\[(\*\*[^*\n]+[（(][^）)\n]+[）)]\*\*)\]\(https?://[^)]*\)")
 def _strip_orphan_italic(text: str) -> str:
     """剥无配对斜体残迹星壳（KN160 家族）——行首/行尾单星。
 
@@ -480,6 +482,37 @@ _CHM_LEGENDARY_SECTIONS = {
 # 标题）」明确不计章节头；章节级通用名（神器/次级神器）不可能是
 # 具体条目名，跨页通用（860 等神器页同理），故立跨页名单
 _CHM_ARTIFACT_SECTIONS = {"神器", "次级神器"}
+# KN235：UE 货品服务章（page_210~212）价目表章节标题 + 服务价目条目——
+# 章节级通用名/服务名，非确切条目名，被切为独立 gear 条目会污染检索
+# （DVG-003 定性）。星壳/裸标题命中 → sink 保真（不条目化、不标 gear），
+# 同 633 传说物品章节头名单（_CHM_LEGENDARY_SECTIONS）先例；跨页通用名
+# 名单，无文件名特判。服务价目条目（沐浴/特殊服务/医生/侍者）同口径降级
+# ——服务非物品，其描述文本并入所属价目表章节保真。
+# 注意：仅 _split_chm_page（C 形态 CHM 大页）判定；书聚合（_split_book/
+# B1）同名章节（如 AA2 服饰导言）走 category 通道，不受影响。
+_CHM_GOODS_SECTION_TITLES = {
+    # 页题（H1 级星壳标题）
+    "衣食住行和服务", "道具，工具和坐骑", "炼金物质和毒药",
+    # 价目表章节标题
+    "交通工具", "冒险装备", "工具包", "动物，坐骑和相关装备",
+    "服饰", "休闲道具", "贸易货物", "住宿与服务",
+    "炼金工具", "炼金武器", "毒药", "炼金物品", "烟花", "毒药与毒品",
+    # 服务价目条目（KN235 登记：医生标题泛化定性）
+    "沐浴", "特殊服务", "医生", "侍者",
+    # 规则说明段（KN235 遗留③，2026-09-22 拍板修复）：货品服务章内
+    # 规则小节标题（使用/制作规则，非物品）——gear 化会污染检索，与
+    # 价目表章节同款降级 equipment_intro。全库核验仅 page_212 出现，
+    # 无条目撞名
+    "使用毒药", "制作毒药", "使用烟花", "进阶烟花工艺",
+}
+# KN235 遗留⑤（2026-09-22 拍板修复）：物品条目内的配方类星壳小节
+# 标签（`**炼金配方**` + 配方行：材料/工艺DC/时间/工具）——配方是所属
+# 条目的属性而非独立条目，且小节标题全库同名（page_212 36 处 + AM
+# 物品页同形态），独立成 chunk 无法回溯所属条目（检索「AMP 怎么做」
+# 命中孤立配方段）→ sink 并入当前条目（父条目）text，同 material_
+# variants 并入思路，结构特征驱动无文件名特判。全库核验「炼金配方」
+# 仅作小节标签出现，无条目撞名
+_CHM_SUBSECTION_SINK_TITLES = {"炼金配方"}
 # 装备位词表（边栏/列表项标题形态 `**腰部（Belt）**：基于力量…`）：
 # 装备位裸名不是条目（具体物品名才有条目），列表项 sink 进所在章节——
 # 633 边栏 15 位置实证（护甲/武器 由 `  - ` 前缀与复数词表先行接住）
@@ -570,6 +603,9 @@ _RE_CHM_FIELD_STAR = re.compile(r"^\*\*([一-鿿]{1,8})(?:\*\*)?[：:]")
 # 防 `**某段强调**` 正文段
 _RE_CHM_INLINE_STAR = re.compile(
     r"\*\*([一-鿿]{2,12})\s+([A-Za-z][A-Za-z0-9 '’`\-,]*?)\*\*(?!\s*[一-鿿]{1,8}[：:])")
+# 多个标题或标题前粘有上一条字段时允许字段尾锚拆行（KN187）；单条行首仍走上式。
+_RE_CHM_INLINE_STAR_ANY = re.compile(
+    r"\*\*([一-鿿]{2,12})\s+([A-Za-z][A-Za-z0-9 '’`\-,]*?)\*\*")
 # ② 裸链头：`…正常物品：+3全身甲暴怒护甲Armor of rage灵光：…`（947）
 # `阴影之主护甲ARMOR OF THE SHADOW LORD灵光：…`（948 无空格紧邻）——
 # 中文名 + 可选空格 + 英文 + 字段词前瞻；`[A-Za-z0-9\-–]` 容忍 `-2诅咒
@@ -796,6 +832,11 @@ class EquipmentFormat(BaseFormat):
     @property
     def category(self) -> str:
         return "equipment"
+
+    def _strip_url_lines(self, text: str) -> str:
+        # 基类会删除整行 Markdown 链接；先取出链接内的粗体标题交还现有标题链。
+        text = _RE_LINKED_STAR_TITLE.sub(r"\1", text)
+        return super()._strip_url_lines(text)
 
     # ---- Phase 1：纯去噪 ----
 
@@ -1688,10 +1729,10 @@ class EquipmentFormat(BaseFormat):
             # ① 星壳内联链拆行
             segs = []
             pos = 0
-            while True:
-                m = _RE_CHM_INLINE_STAR.search(ln, pos)
-                if not m:
-                    break
+            heads = list(_RE_CHM_INLINE_STAR_ANY.finditer(ln))
+            if len(heads) < 2 and (not heads or heads[0].start() == 0):
+                heads = list(_RE_CHM_INLINE_STAR.finditer(ln))
+            for m in heads:
                 if m.start() > pos:
                     segs.append(ln[pos:m.start()])
                 segs.append(ln[m.start():m.end()])
@@ -1778,6 +1819,19 @@ class EquipmentFormat(BaseFormat):
             if c and not re.fullmatch(r"\d+-\d+", c) and c != "GM自选"
         }
         lines = self._chm_inline_preprocess(lines, table_names)
+        # KN235：特殊材料变体注记——表格首列「父名（中文变体名）」登记
+        # 变体（page_209 `| 火纹钢 (冰纹钢) |`，全库唯一 1 行）：变体的
+        # 星壳详述标题（`**冰纹钢 (Frost-Forged Steel)**`）是父条目的变体
+        # 注记而非独立条目 → 并入当前条目（即父条目，源序紧接）text，不
+        # 产独立 gear chunk。数据驱动（表格行），无文件名特判
+        material_variants: dict = {}
+        for l in lines:
+            if l.startswith("|"):
+                c0 = l.strip("|").split("|")[0].strip()
+                mv = re.match(r"^([一-鿿·\-]{2,12})\s*[（(]([一-鿿]{2,12})[）)]$",
+                              c0)
+                if mv:
+                    material_variants[mv.group(2)] = mv.group(1)
         # 规则页整页降级（est=0 勘探定死名单）：全部行 sink 保真，
         # processor 层判定 equipment_rule
         rule_page = os.path.basename(source_name) in _CHM_RULE_PAGES
@@ -1818,6 +1872,16 @@ class EquipmentFormat(BaseFormat):
             """标题闭壳后同行内容（字段链/正文）挂当前条目"""
             if tail:
                 self._chm_attach_tail(cur, tail)
+
+        def open_section(cn: str, en: str = "", body: str = ""):
+            """KN235：货品服务章节头/服务价目条目降级为 category 条目
+            （processor 层 → equipment_intro）——不标 gear/weapon/armor，
+            保留章节标题、正文保真，同 _split_book 类别标题通道口径；
+            后续表格行/正文照常 sink 入该 category 条目"""
+            nonlocal cur
+            self._make_item(items, cur, cn, en, body, pending_source,
+                            typ="category")
+            cur = items[-1]
 
         while i < n:
             l = lines[i]
@@ -1943,6 +2007,13 @@ class EquipmentFormat(BaseFormat):
                     # A/C 型：英文 + 半角括号型号（g4 尾空格残迹
                     # `Stone ` → rstrip 防双空格粘连）
                     en = g4.rstrip() + (f" ({g5})" if g5 else "")
+                # KN235：货品服务服务价目条目（`**沐浴BATH**`/
+                # `**医生DOCTOR**` 型，无括号中文+英文紧邻恰落 IOUN 形态）
+                # → 降级 category（equipment_intro），不产 gear 条目
+                if cn in _CHM_GOODS_SECTION_TITLES:
+                    open_section(cn, self._clean_en(en))
+                    i += 1
+                    continue
                 if cur is not None and cur["title"] == cn:
                     if not cur["title_en"]:
                         cur["title_en"] = self._clean_en(en)
@@ -1972,6 +2043,17 @@ class EquipmentFormat(BaseFormat):
                                 or _cn_st in _CHM_LEGENDARY_SECTIONS
                                 or _cn_st in _CHM_ARTIFACT_SECTIONS
                                 or _cn_st in _CHM_SLOT_TITLE_LABELS):
+                            sink(_joined_st)
+                            i += _used_st
+                            continue
+                        # KN235：货品服务章节头 → 降级 category；材料变体
+                        # （表格「父名（变体名）」登记）→ sink 并入父条目
+                        if _cn_st in _CHM_GOODS_SECTION_TITLES:
+                            open_section(_cn_st, self._clean_en(_en_st),
+                                         body=_m_st.group(3))
+                            i += _used_st
+                            continue
+                        if _cn_st in material_variants:
                             sink(_joined_st)
                             i += _used_st
                             continue
@@ -2012,6 +2094,17 @@ class EquipmentFormat(BaseFormat):
                 if (cn in _CHM_LEGENDARY_SECTIONS
                         or cn in _CHM_ARTIFACT_SECTIONS
                         or cn in _CHM_SLOT_TITLE_LABELS):
+                    sink(l)
+                    i += 1
+                    continue
+                # KN235：货品服务章节头/服务价目条目 → 降级 category
+                # （equipment_intro，不标 gear）；材料变体（冰纹钢——表格
+                # 「火纹钢 (冰纹钢)」登记）→ sink 并入当前条目（父条目）
+                if cn in _CHM_GOODS_SECTION_TITLES:
+                    open_section(cn, self._clean_en(en), body=tail)
+                    i += 1
+                    continue
+                if cn in material_variants:
                     sink(l)
                     i += 1
                     continue
@@ -2060,6 +2153,13 @@ class EquipmentFormat(BaseFormat):
                 # …）` 带括号——括号是形态壳非英文名一部分）
                 en_joined = re.sub(r"^[（(]|[）)]$", "",
                                    re.sub(r"\*+", "", " ".join(en_parts)).strip())
+                # KN235：货品服务章节头/服务价目条目（`**住宿与服务
+                # LODGING AND SERVICES**`、`**医生DOCTOR**` 型）→ 降级
+                # category（equipment_intro），不产 gear 条目
+                if cn in _CHM_GOODS_SECTION_TITLES:
+                    open_section(cn, self._clean_en(en_joined), body=tail)
+                    i = j
+                    continue
                 if closed or self._chm_field_follows(lines, j):
                     if cur is not None and cur["title"] == cn:
                         if not cur["title_en"]:
@@ -2103,6 +2203,18 @@ class EquipmentFormat(BaseFormat):
                     and m_bs.group(1) not in ALL_EQUIP_FIELD_LABELS):
                 cn = m_bs.group(1)
                 tail = l[m_bs.end():]
+                # KN235：货品服务裸星壳章节头（`**毒药与毒品**`/
+                # `**炼金物品**` 型）→ 降级 category（equipment_intro）
+                if cn in _CHM_GOODS_SECTION_TITLES:
+                    open_section(cn, "", body=tail)
+                    i += 1
+                    continue
+                # KN235 遗留⑤：配方类星壳小节标签（`**炼金配方**`，tail
+                # 恒空）→ sink 并入当前条目（父条目）保真，不开独立条目
+                if cn in _CHM_SUBSECTION_SINK_TITLES:
+                    sink(l)
+                    i += 1
+                    continue
                 # 字段行非条目标题 → sink：tail 以词表标签开头（851 配方行
                 # `**耐用**配方：(1 …`——配方/工具/效果 ∈ 词表）或星壳紧接
                 # （`**效果详述****流血**配方：`——`\*\*+` 贪婪吃双星壳开壳
@@ -2241,11 +2353,29 @@ class EquipmentFormat(BaseFormat):
                     # 695 括号中文注释（`（PFS禁用，官网拼写错误…）`）非
                     # 英文名——剥离，标题英文留空
                     en_tl = ""
+                # 已有制造条件且缺制造成本时，`名称（EN）制造成本：…` 是条件续行，
+                # 不是新装备（KN187 巨魔皮革止血带→尸体重构链）。
+                if (cur is not None and cur["fields"].get("craft_conditions")
+                        and not cur["fields"].get("craft_cost")
+                        and re.match(r"^制造成本[：:]", tail_s)):
+                    requirement = cn + (f"（{en_tl}）" if en_tl else "")
+                    cur["fields"]["craft_conditions"] += "，" + requirement
+                    attach_tail(tail)
+                    i += 1
+                    continue
                 if (self._chm_tail_has_field_chain(tail)
                         or tail_s.startswith(("/", "出自", "出处"))
                         or tail_s.startswith("**：")
                         or (not tail_s
                             and self._chm_field_follows(lines, i + 1))):
+                    # KN235：货品服务章节头（210 工具包家族——正文行
+                    # `工具包/箱：这部分包括…` 被 `/` 出处信号误开）→ 降级
+                    # category（equipment_intro）
+                    if cn in _CHM_GOODS_SECTION_TITLES:
+                        open_section(cn, self._clean_en(en_tl or ""),
+                                     body=tail)
+                        i += 1
+                        continue
                     if cur is not None and cur["title"] == cn:
                         if not cur["title_en"]:
                             cur["title_en"] = self._clean_en(en_tl or "")
@@ -2402,6 +2532,7 @@ class EquipmentFormat(BaseFormat):
                     # 艾恩石Azure…(Normal)`）两正则都不匹配，1254 详述区
                     # 标题会被当制造条件值续行吞掉（2026-08-09 实证 i 跳跃）
                     if (re.search(r"[A-Za-z、]$", l) and i + 1 < n
+                            and not lines[i + 1].startswith("<!--")
                             and not self._chm_field_follows(lines, i + 1)
                             and not _RE_CHM_TITLE.match(lines[i + 1])
                             and not _RE_BARE_TITLE_GLUE.match(lines[i + 1])
@@ -3625,12 +3756,13 @@ class EquipmentFormat(BaseFormat):
         return bool(m and m.group(1) in ALL_EQUIP_FIELD_LABELS)
 
     def _make_item(self, items: list, cur: dict, title_cn: str, title_en: str,
-                   body: str, pending_source: str):
+                   body: str, pending_source: str, typ: str = "item"):
         r"""星壳标题开条目；正文紧跟闭壳（组3）并入 text。
         组3 剥首尾星（M3 收尾 B）：呼吸水晶 `）*****出自《…》***` 5 星共壳
         （标题闭壳 `****` + 出处行开壳 `*`）——FULL 闭壳 `\*{2,4}` 吃 4 星，
-        组3 残留 `*出自《…》***`，剥星后出处行纯净落 text"""
-        item = self._open_item(items, "item", title=title_cn.strip(),
+        组3 残留 `*出自《…》***`，剥星后出处行纯净落 text。
+        typ（KN235）：默认 item；category = 章节头降级（equipment_intro）"""
+        item = self._open_item(items, typ, title=title_cn.strip(),
                                title_en=self._clean_en(title_en))
         item["source"] = pending_source
         body = re.sub(r"^\*+|\*+$", "", body or "").strip()

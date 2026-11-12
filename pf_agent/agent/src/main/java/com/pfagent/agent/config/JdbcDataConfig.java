@@ -18,7 +18,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * 事务管理器由 HibernateJpaAutoConfiguration 引入的 JPA 事务配置提供。
  *
  * 若 jdbc 模式配了但连接串错误/连不上 → DataSource/Hibernate/Flyway 启动即失败（fail-fast，
- * D6），不做静默降级。migration 类仓库只扫 memory 包（会话持久化相关）。
+ * D6），不做静默降级。migration 类仓库只扫 memory 包（会话持久化相关）；
+ * F-021 起追加 telemetry 包（error_annotation/data_gap 两表的实体与仓储）。
  */
 @Configuration
 @ConditionalOnProperty(name = "pf.chat.memory", havingValue = "jdbc")
@@ -27,7 +28,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
         HibernateJpaAutoConfiguration.class,
         FlywayAutoConfiguration.class
 })
-@EnableJpaRepositories(basePackages = {"com.pfagent.agent.memory", "com.pfagent.agent.auth"})
+@EnableJpaRepositories(basePackages = {
+        "com.pfagent.agent.memory",
+        "com.pfagent.agent.auth",
+        "com.pfagent.agent.telemetry"
+})
 @EnableTransactionManagement
 public class JdbcDataConfig {
 }

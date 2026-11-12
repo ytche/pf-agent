@@ -29,3 +29,6 @@ vectorization_prep_*/
 
 # 探查/分析中间产物
 vectorizer/exploration/ma_census.json
+
+# 对账报告再生物（构建链每次运行重跑覆盖，仅反映当次运行口径，不进 git；KN232 方向 B 2026-09-21）
+docs/装备/slot_backfill_report.md

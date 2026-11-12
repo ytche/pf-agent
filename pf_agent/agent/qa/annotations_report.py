@@ -1,17 +1,25 @@
 #!/usr/bin/env python3
-"""错误标注分析报告：读取 annotations.jsonl，按 errorType 聚类并输出优化建议。
+"""错误标注分析报告：读取 error_annotation 表，按 errorType 聚类并输出优化建议。
 
-错误标注闭环的分析端：前端「标错」→ /api/chat/feedback → annotations.jsonl → 本脚本
+错误标注闭环的分析端：前端「标错」→ /api/chat/feedback → error_annotation 表 → 本脚本
 聚类统计 + 典型错误示例 + 优化建议（指向 prompt/检索/数据三处优化点），
 把用户标注变成可执行的优化输入，驱动 Agent 准确率提升。
 
+F-021 起标注入库（不再落 annotations.jsonl），本脚本相应改为直连 PostgreSQL 读取；
+历史 JSONL 的一次性导入见 TelemetryImporter（PF_TELEMETRY_IMPORT_ENABLED=true 启动一次）。
+
 用法：
-    python3 annotations_report.py                                # 默认读 ~/.pf_agent/annotations.jsonl
-    python3 annotations_report.py --file /path/to/annotations.jsonl
-    python3 annotations_report.py --out ./out                    # 输出目录（默认当前目录）
+    python3 annotations_report.py                                  # 连默认本地 PG
+    python3 annotations_report.py --dsn postgresql://u:p@host:5432/pf_agent
+    python3 annotations_report.py --out ./out                       # 输出目录（默认当前目录）
+
+连接串优先级：--dsn > 环境变量 PF_ANNOTATIONS_DSN > SPRING_DATASOURCE_URL > 内置默认
+（内置默认与 application.yml 的开发默认一致：pf_agent/pf_agent@localhost:5432/pf_agent）。
+依赖 psycopg2（pip install psycopg2-binary）。
 """
 import argparse
 import json
+import os
 import sys
 from collections import Counter, defaultdict
 from datetime import datetime
@@ -30,24 +38,69 @@ TYPE_ADVICE = {
     "其他": "人工复核，判断归属。",
 }
 
-DEFAULT_FILE = Path.home() / ".pf_agent" / "annotations.jsonl"
+DEFAULT_DSN = "postgresql://pf_agent:pf_agent@localhost:5432/pf_agent"
+
+QUERY = """
+SELECT id, conversation_id, question, answer, sources, error_type,
+       correction, comment, resolution, created_at
+FROM error_annotation
+ORDER BY created_at ASC, id ASC
+"""
 
 
-def load_annotations(path: Path) -> list[dict]:
-    """读取 JSONL，容错跳过坏行/空行。"""
-    items = []
-    if not path.exists():
-        print(f"[错误] 标注文件不存在: {path}", file=sys.stderr)
-        return items
-    for line in path.read_text(encoding="utf-8").splitlines():
-        line = line.strip()
-        if not line:
-            continue
+def resolve_dsn(explicit: str | None) -> str:
+    """连接串优先级：--dsn > PF_ANNOTATIONS_DSN > SPRING_DATASOURCE_URL > 内置默认。"""
+    for candidate in (explicit, os.environ.get("PF_ANNOTATIONS_DSN"),
+                      os.environ.get("SPRING_DATASOURCE_URL")):
+        if candidate:
+            return candidate.removeprefix("jdbc:")  # Spring 的 jdbc: 前缀不是 libpq DSN 语法
+    return DEFAULT_DSN
+
+
+def load_annotations(dsn: str) -> list[dict]:
+    """读 error_annotation 表，映射为与原 JSONL 行同形的 dict（渲染口径不变）。"""
+    try:
+        import psycopg2  # 延迟导入：缺依赖时不影响本模块其余纯函数被复用/测试
+        from psycopg2.extras import RealDictCursor
+    except ImportError:
+        print("[错误] 缺少 psycopg2（pip install psycopg2-binary）", file=sys.stderr)
+        return []
+
+    try:
+        with psycopg2.connect(dsn, cursor_factory=RealDictCursor) as conn, conn.cursor() as cur:
+            cur.execute(QUERY)
+            rows = cur.fetchall()
+    except Exception as e:  # 连接失败/表不存在/权限不足：如实报错并给空报告
+        print(f"[错误] 读取 error_annotation 失败: {e}", file=sys.stderr)
+        return []
+
+    return [row_to_item(row) for row in rows]
+
+
+def row_to_item(row: dict) -> dict:
+    """表行 → 报告渲染用的 dict（字段名与键名对齐原 JSONL 行）。"""
+    sources = row.get("sources")
+    if isinstance(sources, (str, bytes)):  # 驱动未做 jsonb 适配时兜底解析
         try:
-            items.append(json.loads(line))
+            sources = json.loads(sources)
         except json.JSONDecodeError:
-            print(f"[警告] 跳过坏行: {line[:80]}", file=sys.stderr)
-    return items
+            print(f"[警告] sources 解析失败，按无来源处理: {str(sources)[:80]}", file=sys.stderr)
+            sources = []
+    created_at = row.get("created_at")
+    return {
+        "id": row.get("id") or "",
+        "conversationId": row.get("conversation_id"),
+        "question": row.get("question"),
+        "answer": row.get("answer"),
+        "sources": sources or [],
+        "errorType": row.get("error_type"),
+        "correction": row.get("correction"),
+        "comment": row.get("comment"),
+        "resolution": row.get("resolution"),
+        # 秒精度本地时间字符串，与旧 JSONL 的展示口径一致：db 会话时区可能是 UTC，
+        # 显式 astimezone() 归一到运行脚本机器的本地时区
+        "timestamp": created_at.astimezone().strftime("%Y-%m-%dT%H:%M:%S") if created_at else "",
+    }
 
 
 def truncate(s, n=120):
@@ -137,13 +190,13 @@ def build_report(items: list[dict]) -> str:
 
 
 def main():
-    parser = argparse.ArgumentParser(description="错误标注分析报告")
-    parser.add_argument("--file", type=Path, default=DEFAULT_FILE,
-                        help=f"annotations.jsonl 路径（默认 {DEFAULT_FILE}）")
+    parser = argparse.ArgumentParser(description="错误标注分析报告（读 error_annotation 表）")
+    parser.add_argument("--dsn", type=str, default=None,
+                        help="PostgreSQL 连接串；默认取 PF_ANNOTATIONS_DSN / SPRING_DATASOURCE_URL / 内置默认")
     parser.add_argument("--out", type=Path, default=Path("."), help="输出目录（默认当前目录）")
     args = parser.parse_args()
 
-    items = load_annotations(args.file)
+    items = load_annotations(resolve_dsn(args.dsn))
     report = build_report(items)
     out_file = args.out / "annotations_report.md"
     args.out.mkdir(parents=True, exist_ok=True)

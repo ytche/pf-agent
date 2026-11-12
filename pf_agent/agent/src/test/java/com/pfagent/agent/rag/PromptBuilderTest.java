@@ -62,10 +62,24 @@ class PromptBuilderTest {
         assertThat(prompt).contains("推断内容");
     }
 
+    /**
+     * AKN-027：首次宽查询必须先以 allowBroadQuery=false 调用 gated 工具登记真实
+     * module+book（工具层据此建立待确认建议），再向用户给收窄/原范围选项；同轮不得
+     * 改用 allowBroadQuery=true 自我确认。
+     */
+    @Test
+    void buildSystemPromptRequiresRegisteringBroadScopeBeforeAdvice() {
+        String prompt = promptBuilder.buildSystemPrompt();
+
+        assertThat(prompt).contains("allowBroadQuery=false");
+        assertThat(prompt).contains("登记真实的 module+book");
+        assertThat(prompt).contains("同一轮内不要改用 allowBroadQuery=true 重试");
+        assertThat(prompt).doesNotContain("不要先调用");
+    }
+
     /** 系统提示要求规则断言必须有检索依据 */
     @Test
-    void buildSystemPromptRequiresRetrievalBasisForAssertions() {
-        String prompt = promptBuilder.buildSystemPrompt();
+    void buildSystemPromptRequiresRetrievalBasisForAssertions() {        String prompt = promptBuilder.buildSystemPrompt();
 
         // AKN-003：回答中每条规则事实（施法方式/生命骰/豁免/法术位等）必须能在
         // 检索结果原文中找到依据；检索未提供的规则事实禁止凭记忆补全
@@ -119,5 +133,51 @@ class PromptBuilderTest {
         assertThat(prompt).contains("getEntryLinks");
         assertThat(prompt).contains("getEntryById");
         assertThat(prompt).contains("引用链");
+    }
+
+    /** B4：权威全清单枚举引导 listEntries，细节走 vectorSearch/getEntryById，法术走 getSpellList */
+    @Test
+    void buildSystemPromptIncludesListEntriesGuidance() {
+        String prompt = promptBuilder.buildSystemPrompt();
+
+        assertThat(prompt).contains("listEntries");
+        assertThat(prompt).contains("权威全清单枚举");
+        assertThat(prompt).contains("vectorSearch/getEntryById");
+        assertThat(prompt).contains("法术清单枚举走 getSpellList");
+    }
+
+    /** F-026：宽范围问题先给收窄建议（有效示例 + 概览 + 原范围继续），不先执行检索 */
+    @Test
+    void buildSystemPromptIncludesBroadQueryNarrowingGuidance() {
+        String prompt = promptBuilder.buildSystemPrompt();
+
+        assertThat(prompt).contains("宽范围枚举先收敛");
+        assertThat(prompt).contains("CRB 里所有类型的规则条目");
+        assertThat(prompt).contains("CRB 所有专长");
+        // 有效收窄示例：必须形成业务收窄，不能只是换一个宽词
+        assertThat(prompt).contains("CRB 的战斗专长");
+        assertThat(prompt).contains("CRB 的女巫 1 环法术");
+        assertThat(prompt).contains("不能只是把「所有类型」换成「所有专长」");
+        // 概览选项、原范围继续选项、放行字段
+        assertThat(prompt).contains("先看数量");
+        assertThat(prompt).contains("仍按原范围查询");
+        assertThat(prompt).contains("allowBroadQuery=true");
+        // 首次建议不产生缺口事件
+        assertThat(prompt).contains("首次收敛建议不调用 reportDataGap");
+    }
+
+    /** F-026：小集合问法不误拦；护栏建议不得被当成查询无结果/数据缺失 */
+    @Test
+    void buildSystemPromptDoesNotOverBlockNarrowQuestionsAndExplainsGuardResult() {
+        String prompt = promptBuilder.buildSystemPrompt();
+
+        assertThat(prompt).contains("小范围问题不要误拦");
+        assertThat(prompt).contains("武僧清规");
+        assertThat(prompt).contains("CRB 的火球术");
+        assertThat(prompt).contains("不是「查询无结果」或「数据缺失」");
+        // 放行后仍受 500 上限约束，capped 时不得宣称真实全量
+        assertThat(prompt).contains("500");
+        assertThat(prompt).contains("实际命中可能更多");
+        assertThat(prompt).contains("不得宣称已取得真实全量");
     }
 }

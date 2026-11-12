@@ -38,7 +38,7 @@ def coarse(html):
 # 条目清单： (中文名, 英文名)
 ENTRIES = {
     'page_547': [
-        ('改善日常工作', 'Impro Day Jos'),
+        ('改善日常工作', 'Improved Day Job'),
         ('蓄势待发（战斗）', 'PATIENT STRIKE (COMBAT)'),
         ('魔法回收', 'STEADFAST MIND'),
         ('快速准备', 'QUICK PREPARATION'),

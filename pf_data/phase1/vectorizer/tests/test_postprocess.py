@@ -13,6 +13,7 @@ import pytest
 from vectorizer.postprocess.feat_chain import (
     ApplyChmTocMapping,
     ApplyFeatCreationSourcePromote,
+    ApplyFeatMetamagicIndexJoin,
     BackfillChmTocPath,
     BackfillFeatSource,
 )
@@ -22,6 +23,7 @@ from vectorizer.processors.feat import FeatProcessor
 STEPS = [
     ApplyChmTocMapping,
     ApplyFeatCreationSourcePromote,
+    ApplyFeatMetamagicIndexJoin,
     BackfillChmTocPath,
     BackfillFeatSource,
 ]

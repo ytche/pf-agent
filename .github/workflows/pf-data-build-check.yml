@@ -1,0 +1,60 @@
+# CI — 数据产物构建链可复现性闸口（F-018，构建链二期挂 CI）
+#
+# 与数据侧 ci.yml（向量化数据质量闸口，类目 verify 四步链矩阵）并存：
+# 那个按类目矩阵跑验收；本 workflow 挂构建链编排器 build.py，验证
+# "manifest → 产物 → build_state.json"三方一致（方案
+# docs/design/方案_数据产物可复现构建链_20260918.md §4：二期在 CI 挂
+# build check，防"改了源 md/脚本却忘重跑产物"的漂移）。
+#
+# 口径说明（F-018 最小合理实现）：
+#   - chunks.jsonl 等产物 gitignored（pf_data/phase1/.gitignore output/），
+#     CI 裸 checkout 无产物，直接跑 check 必报 missing——所以先
+#     `build all` 现跑重建（增量：指纹未变的步 skip），再 `check` 对账
+#     （产物存在 + sha256 与 state 一致 + schema version 匹配）。
+#   - check 是只读对账，不重写产物/状态；状态更新只发生在 build 步。
+#   - 数据侧零外部依赖，仅需 pytest（via=cicd 步的四步链第 1 步是 pytest，
+#     同 ci.yml 教训 B5：runner 纯净 Python 不带 pytest，必须显式装）。
+name: CI — 数据构建链 check
+
+on:
+  push:
+    branches: ["main", "dev/pf-agent", "feat/**"]
+    paths:
+      - '.github/workflows/pf-data-build-check.yml'
+      - 'pf_data/phase1/vectorizer/**'
+      - 'pf_data/phase1/pf_rules_md_organized/**'
+      - 'pf_data/phase1/verify_data_invariants.py'
+      - 'pf_data/phase1/md_mapping.json'
+  pull_request:
+    paths:
+      - '.github/workflows/pf-data-build-check.yml'
+      - 'pf_data/phase1/vectorizer/**'
+      - 'pf_data/phase1/pf_rules_md_organized/**'
+      - 'pf_data/phase1/verify_data_invariants.py'
+      - 'pf_data/phase1/md_mapping.json'
+
+jobs:
+  build-check:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: pf_data/phase1
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # via=cicd 构建步唯一命令 = cicd verify 四步链，第 1 步是 pytest；
+      # 漏装即 No module named pytest（ci.yml 教训 B5 同因）
+      - name: 安装依赖
+        run: pip install pytest
+
+      # 产物 gitignored，CI 现跑重建（增量 skip），重建即验证四步链全绿
+      - name: 构建链重建（manifest 编排，含 skill cicd 步）
+        run: python3 -m vectorizer.build all
+
+      # 只读对账：产物存在 + 指纹与 build_state.json 一致 + schema version 匹配
+      - name: 构建链对账（build check，F-018）
+        run: python3 -m vectorizer.build check
