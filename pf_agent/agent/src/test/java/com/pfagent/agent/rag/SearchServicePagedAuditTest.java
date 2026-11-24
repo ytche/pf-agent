@@ -15,6 +15,7 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 /**
@@ -42,6 +43,47 @@ class SearchServicePagedAuditTest {
     private SimpleVectorStore skillStore;
     @Mock
     private SimpleVectorStore ruleStore;
+    @Mock
+    private DeepSeekListwiseReranker reranker;
+
+    @Test
+    @DisplayName("F-016：重排开启时枚举显式 title 排序与分页仍零变化，且不触发重排")
+    void pagedEnumerationUnaffectedByRerank() {
+        when(spellStore.similaritySearch(any(SearchRequest.class))).thenReturn(docs(5));
+
+        SearchService.PagedResult r = service().searchByMetadataPaged("spell", query(1, 2));
+
+        // docs(5) 的 title 为 C,A,B,D,E → title asc 后 A,B,C,D,E，offset 1 取 B,C
+        assertThat(r.totalCount()).isEqualTo(5);
+        assertThat(r.offset()).isEqualTo(1);
+        assertThat(r.limit()).isEqualTo(2);
+        assertThat(r.page()).extracting(this::title).containsExactly("B", "C");
+        verifyNoInteractions(reranker);
+    }
+
+    @Test
+    @DisplayName("F-016：重排开启时 level 数值排序与 totalCount 零变化")
+    void levelSortUnaffectedByRerank() {
+        when(spellStore.similaritySearch(any(SearchRequest.class))).thenReturn(List.of(
+                Document.builder().text("十环").score(0.9)
+                        .metadata(Map.of("title", "A", "chunk_id", "1", "spell_level_女巫", "10"))
+                        .build(),
+                Document.builder().text("二环").score(0.8)
+                        .metadata(Map.of("title", "B", "chunk_id", "2", "spell_level_女巫", "2"))
+                        .build(),
+                Document.builder().text("五环").score(0.7)
+                        .metadata(Map.of("title", "C", "chunk_id", "3", "spell_level_女巫", "5"))
+                        .build()));
+        MetadataSearchQuery q = query(0, 2);
+        q.setSortBy("level");
+        q.setSortOrder("asc");
+
+        SearchService.PagedResult r = service().searchByMetadataPaged("spell", q);
+
+        assertThat(r.totalCount()).isEqualTo(3);
+        assertThat(r.page()).extracting(this::title).containsExactly("B", "C");
+        verifyNoInteractions(reranker);
+    }
 
     @Test
     @DisplayName("offset 越界（==totalCount）：当页为空但 totalCount 保留，hasMore=false")
@@ -263,6 +305,11 @@ class SearchServicePagedAuditTest {
         ReflectionTestUtils.setField(s, "rerankExtraCandidates", 0);
         ReflectionTestUtils.setField(s, "titleMatchBoost", 0.0);
         ReflectionTestUtils.setField(s, "titleBoostStopwords", List.of());
+        // F-016：重排开启，枚举路径必须完全不触碰 reranker
+        ReflectionTestUtils.setField(s, "reranker", reranker);
+        ReflectionTestUtils.setField(s, "rerankEnabled", true);
+        ReflectionTestUtils.setField(s, "rerankCandidates", 50);
+        ReflectionTestUtils.setField(s, "rerankTopN", 15);
         s.initStores();
         return s;
     }

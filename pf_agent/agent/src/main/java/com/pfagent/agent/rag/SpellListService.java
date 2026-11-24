@@ -40,6 +40,11 @@ import java.util.Objects;
  * 溯源（用户 2026-09-06 拍板）：每职业 JSON 带 source_toc_path（列表页 CHM 目录
  * 路径）+ source_excerpt（列表页标题行 + 条目数概述），Java 运行时零额外 IO，
  * 直接由 listPageDocument 构造溯源 Document 交 SourceCollector。
+ *
+ * KN243（2026-11-12）：union 产物显式声明 official_list=false 的 union-only 职业
+ * （导师/红螳螂杀手——已确认合法职业但无官方清单页）在加载时补入可解析集合与
+ * 别名索引，使 getSpellList 可 resolve 并枚举；source_page/aliases 保持派生空态，
+ * 不伪造官方列表页（listPageDocument 返回无溯源空 Document）。
  */
 @Component
 public class SpellListService {
@@ -66,6 +71,12 @@ public class SpellListService {
     private Map<String, SpellList> classes = Map.of();
     /** 别名（含规范名自身）→ 规范职业名；未加载时为空 */
     private Map<String, String> aliasIndex = Map.of();
+    /**
+     * F-008：chunk_id → 官方清单条目 toc_path（数据侧按法术条目 chunk_id join
+     * chunks 的真实目录路径）。union 折叠条目自身不带 toc_path 时按 chunk_id
+     * 回连这里；列表页 source_toc_path 不参与。
+     */
+    private Map<String, String> officialTocByChunkId = Map.of();
     private boolean available;
     /**
      * 派生条目索引：职业 → 环级字符串 → derived 条目列表（union 1.0 兼容路径
@@ -225,8 +236,9 @@ public class SpellListService {
     public Document listPageDocument(String className) {
         SpellList list = classes.get(className);
         String title = className + "法术列表";
-        if (list == null) {
-            // 防御：仅理论路径（resolve 后方法间状态不变），不抛异常给工具层
+        if (list == null || list.sourcePage() == null) {
+            // 防御：未知职业仅为理论路径；source_page=null 为 KN243 union-only 职业
+            // （无官方清单页）——返回仅含 title 的空 Document，不伪造列表页溯源。
             return Document.builder().text("").metadata(Map.of("title", title)).build();
         }
         Map<String, Object> meta = new LinkedHashMap<>();
@@ -246,6 +258,7 @@ public class SpellListService {
     /** 加载 spell_lists.json 进内存；缺失/解析失败 → 降级 available=false，不炸启动 */
     @PostConstruct
     void load() {
+        officialTocByChunkId = Map.of();
         Path path = Path.of(filePath);
         if (!Files.exists(path)) {
             log.warn("spell_lists.json 不存在（{}），职业法术列表工具将降级不可用。", path.toAbsolutePath());
@@ -253,8 +266,11 @@ public class SpellListService {
         }
         try {
             SpellListFile file = objectMapper.readValue(path.toFile(), SpellListFile.class);
-            this.classes = file.classes();
-            this.aliasIndex = buildAliasIndex(file.classes());
+            Map<String, SpellList> loaded = file == null || file.classes() == null
+                    ? Map.of() : file.classes();
+            this.classes = loaded;
+            this.aliasIndex = buildAliasIndex(loaded);
+            this.officialTocByChunkId = buildOfficialTocIndex(loaded);
             this.available = true;
             log.info("spell_lists.json 加载完成：{} 职业、{} 条法术（{}）",
                     classes.size(), totalAll(), path.getFileName());
@@ -308,6 +324,7 @@ public class SpellListService {
                 this.unionFolded = Map.of();
                 this.unionAvailable = true;
                 this.unionFoldedPath = false;
+                registerUnionOnlyClasses(file.classes());
                 log.info("spell_lists_union.json 加载完成：{} 职业（derived 索引已建，1.0 兼容路径）",
                         unionDerived.size());
                 return;
@@ -340,12 +357,45 @@ public class SpellListService {
             this.unionDerived = Map.of();
             this.unionAvailable = true;
             this.unionFoldedPath = true;
+            registerUnionOnlyClasses(file.classes());
             log.info("spell_lists_union.json 加载完成：{} 职业（1.1 折叠清单直读，{}）",
                     index.size(), path.getFileName());
         } catch (IOException | RuntimeException e) {
             log.warn("spell_lists_union.json 解析失败（{}），getSpellList 降级为仅官方清单。",
                     path.toAbsolutePath(), e);
         }
+    }
+
+    /**
+     * KN243 D6：union-only 职业注册（数据侧显式 {@code official_list=false} 的类键，
+     * 如导师/红螳螂杀手——已确认合法职业但无官方清单页）。
+     *
+     * 仅补 getSpellList 必需的可解析注册：规范名 + 别名进索引，清单由 union
+     * 折叠序列提供；source_page/aliases 原样带入派生空态（null/空），
+     * listPageDocument 据此返回无溯源空 Document，不伪造官方列表页。
+     * 未声明 official_list=false 的类键（旧产物/畸形产物）不注册。
+     */
+    private void registerUnionOnlyClasses(Map<String, UnionClass> unionClasses) {
+        if (unionClasses == null || unionClasses.isEmpty()) {
+            return;
+        }
+        Map<String, SpellList> merged = new LinkedHashMap<>(classes);
+        Map<String, String> aliases = new LinkedHashMap<>(aliasIndex);
+        unionClasses.forEach((name, ref) -> {
+            if (merged.containsKey(name) || !Boolean.FALSE.equals(ref.officialList())) {
+                return;
+            }
+            List<String> unionAliases = ref.aliases() == null ? List.of() : ref.aliases();
+            merged.put(name, new SpellList(unionAliases, ref.sourcePage(),
+                    null, null, null, Map.of()));
+            aliases.putIfAbsent(name, name);
+            unionAliases.stream()
+                    .filter(alias -> alias != null && !alias.isBlank())
+                    .forEach(alias -> aliases.putIfAbsent(alias, name));
+            log.info("union-only 职业注册：{}（无官方清单页，派生来源）", name);
+        });
+        this.classes = merged;
+        this.aliasIndex = aliases;
     }
 
     /** union 1.0 兼容索引：只收 derived 条目（official_list 条目不重复并入） */
@@ -520,13 +570,79 @@ public class SpellListService {
     /** 别名索引：规范名自身 + 每职业 aliases（变体）→ 规范名 */
     private Map<String, String> buildAliasIndex(Map<String, SpellList> data) {
         Map<String, String> index = new LinkedHashMap<>();
+        if (data == null) {
+            return index;
+        }
         data.forEach((canonical, list) -> {
+            if (canonical == null || list == null) {
+                return;
+            }
             index.put(canonical, canonical);
             if (list.aliases() != null) {
-                list.aliases().forEach(alias -> index.putIfAbsent(alias, canonical));
+                list.aliases().stream()
+                        .filter(alias -> alias != null && !alias.isBlank())
+                        .forEach(alias -> index.putIfAbsent(alias, canonical));
             }
         });
         return index;
+    }
+
+    /**
+     * F-008：官方清单条目 chunk_id → toc_path（空白路径不写入，空值按缺失处理）。
+     * 畸形产物（classes/levels/条目为 null）只跳过，任何 RuntimeException 不得
+     * 逃出 @PostConstruct——索引降级为空，法术清单本身仍可用。
+     */
+    private static Map<String, String> buildOfficialTocIndex(Map<String, SpellList> data) {
+        Map<String, String> index = new LinkedHashMap<>();
+        try {
+            if (data == null) {
+                return index;
+            }
+            data.values().forEach(list -> {
+                if (list == null || list.levels() == null) {
+                    return;
+                }
+                list.levels().values().forEach(entries -> {
+                    if (entries == null) {
+                        return;
+                    }
+                    entries.forEach(entry -> {
+                        if (entry != null && entry.chunkId() != null && !entry.chunkId().isBlank()
+                                && entry.tocPath() != null && !entry.tocPath().isBlank()) {
+                            index.putIfAbsent(entry.chunkId(), entry.tocPath());
+                        }
+                    });
+                });
+            });
+        } catch (RuntimeException e) {
+            log.warn("法术目录路径索引构建失败，spell 目录路径回连降级为空（法术清单仍可用）。", e);
+        }
+        return index;
+    }
+
+    /**
+     * F-008：目录查询门面用只读行（与 formatLevel 同一份解析后序列）。
+     * 路径只取条目自身 chunk join 的 toc_path，缺失/join 失败保留空串；
+     * 列表页 source_toc_path 不冒充条目路径。条目不去重（同一法术可能因
+     * 多职业清单重复出现），由门面按 (module, chunk_id) 口径处理。
+     */
+    public List<SpellTocRow> tocRows() {
+        List<SpellTocRow> rows = new ArrayList<>();
+        for (String className : classes.keySet()) {
+            for (int level = 0; level <= MAX_LEVEL; level++) {
+                for (DisplayEntry entry : levelEntries(className, level)) {
+                    rows.add(new SpellTocRow(className, level, entry.cn(),
+                            entry.books().isEmpty() ? null : entry.books().get(0),
+                            entry.chunkId(), entry.tocPath()));
+                }
+            }
+        }
+        return rows;
+    }
+
+    /** 目录查询行：职业 + 环级 + 条目字段；tocPath 为空表示 chunk 无目录路径或 join 失败 */
+    public record SpellTocRow(String className, int level, String name, String book,
+                              String chunkId, String tocPath) {
     }
 
     /**
@@ -539,24 +655,50 @@ public class SpellListService {
         List<DisplayEntry> result = new ArrayList<>();
         if (!unionFoldedPath) {
             SpellList list = classes.get(className);
-            if (list != null) {
-                for (SpellListEntry e : list.levels().getOrDefault(String.valueOf(level), List.of())) {
-                    result.add(new DisplayEntry(e.cn(), e.en(),
-                            e.book() == null || e.book().isBlank() ? List.of() : List.of(e.book()),
-                            false));
+            for (SpellListEntry e : officialLevelEntries(list, level)) {
+                if (e == null) {
+                    continue;
                 }
+                result.add(new DisplayEntry(e.cn(), e.en(),
+                        e.book() == null || e.book().isBlank() ? List.of() : List.of(e.book()),
+                        false, e.chunkId(), e.tocPath() == null ? "" : e.tocPath()));
             }
-            for (UnionEntry e : unionDerived.getOrDefault(className, Map.of())
-                    .getOrDefault(String.valueOf(level), List.of())) {
-                result.add(toDisplayEntry(e));
+            for (UnionEntry e : unionLevelEntries(unionDerived, className, level)) {
+                if (e != null) {
+                    result.add(toDisplayEntry(e));
+                }
             }
             return result;
         }
-        for (UnionEntry e : unionFolded.getOrDefault(className, Map.of())
-                .getOrDefault(String.valueOf(level), List.of())) {
-            result.add(toDisplayEntry(e));
+        for (UnionEntry e : unionLevelEntries(unionFolded, className, level)) {
+            if (e != null) {
+                result.add(toDisplayEntry(e));
+            }
         }
         return result;
+    }
+
+    /** 官方清单单环条目（缺职业/缺环键/值 null 一律空表，不抛） */
+    private static List<SpellListEntry> officialLevelEntries(SpellList list, int level) {
+        if (list == null || list.levels() == null) {
+            return List.of();
+        }
+        List<SpellListEntry> entries = list.levels().get(String.valueOf(level));
+        return entries == null ? List.of() : entries;
+    }
+
+    /** union 索引单环条目（缺职业/缺环键/值 null 一律空表，不抛） */
+    private static List<UnionEntry> unionLevelEntries(
+            Map<String, Map<String, List<UnionEntry>>> index, String className, int level) {
+        if (index == null) {
+            return List.of();
+        }
+        Map<String, List<UnionEntry>> byLevel = index.get(className);
+        if (byLevel == null) {
+            return List.of();
+        }
+        List<UnionEntry> entries = byLevel.get(String.valueOf(level));
+        return entries == null ? List.of() : entries;
     }
 
     /** union 条目 → 展示条目：书缩写取 sources 全部非空 book 的保序去重，派生标记随主来源 */
@@ -564,7 +706,7 @@ public class SpellListService {
         List<String> books = new ArrayList<>();
         if (e.sources() != null) {
             for (UnionSource s : e.sources()) {
-                if (s.book() != null && !s.book().isBlank() && !books.contains(s.book())) {
+                if (s != null && s.book() != null && !s.book().isBlank() && !books.contains(s.book())) {
                     books.add(s.book());
                 }
             }
@@ -572,7 +714,19 @@ public class SpellListService {
         if (books.isEmpty() && e.book() != null && !e.book().isBlank()) {
             books.add(e.book());
         }
-        return new DisplayEntry(e.cn(), e.en(), books, "derived".equals(e.source()));
+        return new DisplayEntry(e.cn(), e.en(), books, "derived".equals(e.source()),
+                e.chunkId(), resolveTocPath(e.chunkId(), e.tocPath()));
+    }
+
+    /** union 条目路径：优先条目自带 toc_path；缺字段时按 chunk_id 回连官方清单（官方条目本身直接取 toc_path） */
+    private String resolveTocPath(String chunkId, String tocPath) {
+        if (tocPath != null && !tocPath.isBlank()) {
+            return tocPath;
+        }
+        if (chunkId == null || chunkId.isBlank()) {
+            return "";
+        }
+        return officialTocByChunkId.getOrDefault(chunkId, "");
     }
 
     /** 单职业全环条目总数（union 感知口径，概览头用） */
@@ -596,8 +750,12 @@ public class SpellListService {
 
     /** 全职业全环条目总数（加载日志用；union 加载前调用，官方口径） */
     private long totalAll() {
-        return classes.values().stream().mapToLong(list -> list.levels().values().stream()
-                .mapToLong(List::size).sum()).sum();
+        return classes.values().stream()
+                .filter(list -> list != null && list.levels() != null)
+                .mapToLong(list -> list.levels().values().stream()
+                        .filter(entries -> entries != null)
+                        .mapToLong(List::size).sum())
+                .sum();
     }
 
     /** 单条目紧凑行：`序号. 中文名（English） [书1/书2]`，主来源 derived 时带〔派生〕 */
@@ -638,13 +796,14 @@ public class SpellListService {
         }
     }
 
-    /** 单法术条目：cn/en/book/chunk_id（chunk_id 为 chunks 交叉命中，可能为 null） */
+    /** 单法术条目：cn/en/book/chunk_id/toc_path（均为 chunks 交叉命中，可能为 null） */
     @JsonIgnoreProperties(ignoreUnknown = true)
     record SpellListEntry(
             String cn,
             String en,
             String book,
-            @JsonProperty("chunk_id") String chunkId) {
+            @JsonProperty("chunk_id") String chunkId,
+            @JsonProperty("toc_path") String tocPath) {
 
         SpellListEntry {
             cn = cn == null ? "" : cn;
@@ -664,9 +823,17 @@ public class SpellListService {
         }
     }
 
-    /** union 单职业：levels 结构与官方清单同键（"0"~"9"） */
+    /**
+     * union 单职业：levels 结构与官方清单同键（"0"~"9"）。
+     * KN243：source_page/aliases/official_list 供 union-only 职业注册使用——
+     * official_list=false 时 source_page 为 null、aliases 为空（显式派生空态）。
+     */
     @JsonIgnoreProperties(ignoreUnknown = true)
-    record UnionClass(@JsonProperty("levels") Map<String, List<UnionEntry>> levels) {
+    record UnionClass(
+            @JsonProperty("levels") Map<String, List<UnionEntry>> levels,
+            @JsonProperty("source_page") String sourcePage,
+            List<String> aliases,
+            @JsonProperty("official_list") Boolean officialList) {
 
         UnionClass {
             levels = levels == null ? Map.of() : levels;
@@ -687,7 +854,8 @@ public class SpellListService {
             String source,
             @JsonProperty("level_evidence") String levelEvidence,
             @JsonProperty("matched_by") String matchedBy,
-            List<UnionSource> sources) {
+            List<UnionSource> sources,
+            @JsonProperty("toc_path") String tocPath) {
 
         UnionEntry {
             cn = cn == null ? "" : cn;
@@ -704,7 +872,8 @@ public class SpellListService {
             @JsonProperty("matched_by") String matchedBy) {
     }
 
-    /** 展示层条目：清单行渲染的统一形态（书缩写已保序去重，派生标记随主来源） */
-    private record DisplayEntry(String cn, String en, List<String> books, boolean derived) {
+    /** 展示层条目：清单行渲染的统一形态（书缩写已保序去重，派生标记随主来源；F-008 带 chunk_id/tocPath） */
+    private record DisplayEntry(String cn, String en, List<String> books, boolean derived,
+                                String chunkId, String tocPath) {
     }
 }

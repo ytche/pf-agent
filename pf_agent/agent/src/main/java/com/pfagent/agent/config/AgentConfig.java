@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 
+import java.time.Clock;
 import java.time.Duration;
 
 /**
@@ -26,6 +27,12 @@ public class AgentConfig {
     @Bean
     public ChatClient chatClient(OpenAiChatModel chatModel) {
         return ChatClient.builder(chatModel).build();
+    }
+
+    /** 统一系统时钟（F-009 用量预测的日/月边界以此为基准，时区在 UsageService 内换算） */
+    @Bean
+    public Clock systemClock() {
+        return Clock.systemUTC();
     }
 
     /**

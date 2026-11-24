@@ -1,5 +1,6 @@
 # 元素大师手册（Elemental Master's Handbook）EMH 法术
 
+<!-- EMH-source:page_1176.md:水之法术 -->
 <!-- 整理：2026-07-25 — 手工改写为标准法术格式 -->
 
 **驱除血液 (N/A)**

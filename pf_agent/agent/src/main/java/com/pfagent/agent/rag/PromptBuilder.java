@@ -40,7 +40,9 @@ public class PromptBuilder {
               文本中的 [#N] 标记；多个依据连写 [#1][#2]；禁止编造编号；无检索依据的
               推断内容不标注；reportDataGap 路径回答无编号
             - 拿到检索命中但需要完整原文（全文条款、表格）时，用 getEntryById 按
-              返回结果中的 chunk_id 点查；超长条目会截断，需要子片段再用 vectorSearch
+              返回结果中的 chunk_id 取文：单条传 chunkId；同模块多条目用 chunkIds
+              一次批量取文，不要逐条串行点查；跨模块按模块分别批量。
+              超长条目会截断，需要子片段再用 vectorSearch
             - searchByMetadata 过滤条件从宽到窄、一次只加一个条件；多本书/多个候选值
               用 query.orFilters；范围比较用 query.gte/lte（level 比较必须配合
               filters.className）；无结果先放宽或转 vectorSearch，勿直接 reportDataGap
@@ -48,15 +50,35 @@ public class PromptBuilder {
               避免重复上报
             - 拿到条目名但不知道它在哪个模块、或需要引用链（基础/变体形态、前置专长、
               哪些条目引用了它、职业环级表）时，用 resolveEntry/getEntryLinks 按名字解析；
+              已知条目类型必须带 module（如专长用 module="feat"），跨模块同名先按模块消歧。
+              同名候选同时有索引摘要和规则正文时，规则细节优先选择非 _index 的正文块；
               resolveEntry 查无此名但确定条目存在、或 vectorSearch 漏召回精确术语时，
               用 keywordSearch 按 title/别名子串兜底；拿到 chunk_id 需要原文时用 getEntryById 点查
             - J5：涉及职业按等级的派生数值（BAB、强韧/反射/意志豁免、每日法术位、
               职业成长表任意一行）时必须用 getClassTable 查表，禁止按公式自行计算；
               机制解释（如"为什么法师 BAB 低""兼职怎么合成"）仍走 vectorSearch。
               变体职业成长与基础职业相同时可直接给基础职业表并注明
+            - KN221：规则原文里的内嵌表格（动物伙伴数据、状态/环境/装备数值表等）的
+              数值/等级类问题必须先 getRuleTable 按表名查表（可带 row 取指定行），
+              禁止自行推算或凭记忆复原表格；返回 layout=flattened 的表只按原文行引用，
+              不臆测列对应；表名多命中时按候选的 table_id/chunk_id 消歧，未收录则该
+              表格数值视为未检索到，按工具建议转 vectorSearch/getEntryById
             - B4：问"专长/种族/装备有哪些"这类权威全清单枚举时必须用 listEntries
               （直查数据侧完整清单，不受向量库元数据缺失影响）；问单个条目的效果/
               规则细节仍走 vectorSearch/getEntryById；法术清单枚举走 getSpellList
+            - AKN-028：按种族列举特性/替换特性时用 searchByMetadata(module="race")，
+              一次一个种族，必须带 raceName（或英文 raceNameEn），并按问题加 componentType
+              （普通特性 race_trait / 替换特性 alt_trait）；全种族特性先收窄，不得绕过宽查询门禁。
+              raceNameEn 只精确匹配已知英文原词，缺失、别名或拼写变体需改用中文 raceName
+              或补查，不得把部分命中当作全量；种族特性不是 listEntries 的种族清单，
+              后者只用于枚举种族本身。来源为未知来源（?）时如实说明，不得编造书名、缩写或页码
+            - F-008：用户按目录/章节/来源书定位条目（如"核心规则书 → 装备里有哪些武器"
+              "专长 → 战斗专长"），或不确定具体条目名、需要先看目录分支时，用 listByToc：
+              空前缀返回一级目录概览，非空前缀返回分页条目（含 chunk_id/total/
+              hasMore/capped=false）。listByToc 只做目录定位，不替代——已知条目名点查用
+              resolveEntry/keywordSearch；元数据过滤用 searchByMetadata；专长/种族/装备
+              全清单枚举用 listEntries；法术按职业环级枚举用 getSpellList；不要因
+              listByToc 没命中就判定数据缺失
             - 宽范围枚举先收敛（F-026 / AKN-027）：用户问「CRB 里所有类型的规则条目」「CRB 所有专长，
               完整列出」「某本书的装备全部列出来」这类可能覆盖大量条目的问题时，按以下顺序处理：
               ① 先以 allowBroadQuery=false（缺省，不要设 true）调用与问题对应的门禁工具，
@@ -83,6 +105,12 @@ public class PromptBuilder {
               不是「查询无结果」或「数据缺失」：不得据此调用 reportDataGap，也不得说数据缺失
             - 放行不等于无限量：单库检索上限 500 条不变；达到上限时按工具返回的 capped
               口径如实说明「实际命中可能更多」，不得宣称已取得真实全量
+            - 请求级来源护栏（F-016）：工具提示「请求级来源护栏…丢弃 N 条」时，被丢弃
+              条目不展示也没有 [#N]，说明本请求来源数量或正文字节已达上限；此时应按
+              提示收窄过滤条件/减少模块范围，或在新请求中继续，不得把截断说成数据缺失，
+              也不得编造被丢弃条目的内容或编号
+            - 语义检索已做二阶段重排：vectorSearch 返回的是重排后的相关片段顺序；
+              重排失败会按既有相关性顺序回退，模型无需感知，也不得据此声称数据不全
             """;
 
     /**

@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -48,6 +49,15 @@ class ListExportServiceTest {
         assertThat(service.total("feat")).isEqualTo(3);
         assertThat(service.total("race")).isEqualTo(2);
         assertThat(service.total("equipment")).isEqualTo(3);
+    }
+
+    @Test
+    void entriesAreReadOnlyView() throws Exception {
+        ListExportService service = loadedAll();
+
+        assertThat(service.entries("feat")).hasSize(3);
+        assertThatThrownBy(() -> service.entries("feat").clear())
+                .isInstanceOf(UnsupportedOperationException.class);
     }
 
     @Test

@@ -21,7 +21,7 @@ import static org.mockito.Mockito.verify;
  * coder 改动了 addInterceptors 的路径注册（鉴权只拦 /api/chat、/api/chat/feedback；
  * 限频扩到 /api/auth/**）但无测试锁定。注册分支是确定性逻辑（限频拦截器缺席则
  * 不注册），此处用真实 InterceptorRegistry 捕获注册结果，锁路径范围：
- * - 鉴权：/api/chat、/api/chat/feedback、/api/conversations/**（/api/auth/**、/api/health 不在内）
+ * - 鉴权：/api/chat、/api/chat/feedback、/api/conversations/**、/api/usage/**（/api/auth/**、/api/health 不在内）
  * - 限频：拦截器缺席（默认关）时不注册；存在时覆盖 /api/chat + /api/auth/** + /api/conversations/**
  */
 @SuppressWarnings("unchecked")
@@ -60,7 +60,8 @@ class WebConfigInterceptorRegistrationTest {
 
         MappedInterceptor mapped = findMapped(registry, authInterceptor);
         assertThat(mapped.getPathPatterns())
-                .containsExactlyInAnyOrder("/api/chat", "/api/chat/feedback", "/api/conversations/**");
+                .containsExactlyInAnyOrder("/api/chat", "/api/chat/feedback", "/api/conversations/**",
+                        "/api/usage/**");
         // 豁免路径（D5）：/api/auth/**、/api/health、静态资源不在鉴权范围
         assertThat(mapped.getPathPatterns()).noneMatch(p -> p.startsWith("/api/auth"));
     }

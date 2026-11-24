@@ -706,7 +706,11 @@ _RE_REPLACE_CLAUSE = re.compile(
     r"^(?:此|该|这(?:一|些)?)(?:种族|职业)?(?:特性|能力|动作)取代"
 )
 
-_RE_WS_TITLE = re.compile(r"^\*\*([^*\n]+)\*\*\s+[（(]([^）)〕]{1,60})[)）]\s*(.*)$", re.M)
+# KN096：`（PFS不可）` 是条目后置标注，不是类型括号——`**中文 English**
+# （PFS不可）` 不可并成 `**中文 English（PFS不可）**`（会把标注吞进标题）
+_RE_WS_TITLE = re.compile(
+    r"^\*\*([^*\n]+)\*\*\s+[（(](?!PFS)([^）)〕]{1,60})[)）]\s*(.*)$", re.M
+)
 
 _RE_FL_STAR_RIGHT = re.compile(r"(\*\*[^*\n]+?\*\*)([一-鿿]{2,8})[：:]\*\*")
 
@@ -774,7 +778,9 @@ _RE_BARE_LABEL_VAL = re.compile(r"(\*\*[一-鿿]{2,8}\*\*)(?:\n(?:>[^\n]*\n)?)([
 
 _RE_STAR_OUTSIDE_EN = re.compile(
     r"\*\*([一-鿿/]{2,})(?<![一-鿿·/\-]专长)\*\*\s*([A-Za-z][^*\n（(]*?)"
-    r"(?=\s+(?:Source|出自|第\d+页)|\s*$)",
+    # KN096：尾随 `（PFS不可）` 标注（专长53 `**吸血鬼化动物伙伴**Jackal
+    # Heritage（PFS不可）`）不阻断星外英文合并——标注留在标题星外
+    r"(?=\s+(?:Source|出自|第\d+页)|\s*[（(]PFS|\s*$)",
     re.MULTILINE,
 )
 

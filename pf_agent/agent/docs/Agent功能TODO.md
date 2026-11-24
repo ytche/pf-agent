@@ -42,9 +42,11 @@
 
 ### F-004 二期：车卡辅助 + Build 建议
 
-- 状态：💡 想法　优先级：P3
+- 状态：💡 想法（**二期延后，一期不修复**）　优先级：P3
 - 描述：二期规划——车卡（角色创建）辅助与 Build 建议，非一期范围，立项时单独设计。
 - 关联：CLAUDE.md 二期规划 / 设计文档 §17（二期展望）
+- 决策（2026-11-12）：用户拍板二期事项一期暂不修复、统一延后，本条不纳入一期当前批次，也不进入批次的验收口径；保留登记，二期立项时再评估。
+- 决策（2026-11-19）：用户再次确认一期除 KN-148 外不再安排修复，本条维持二期延后。
 
 ### F-005 会话历史后端保存轮数
 
@@ -70,12 +72,17 @@
 - 状态：💡 想法　优先级：P2
 - 描述：将 chunk 元数据（tocPath / 来源书 / 组件类型等）纳入目录索引体系，支持按目录层级定位、过滤与溯源 chunk。
 - 关联：—
+- 设计（2026-11-12，批 A；2026-11-13 审计修订）：设计 Spec 已确认/待实施——feat/race/equipment/spell 四模块清单补 toc_path（法术按 chunk_id 回连），新增 listByToc 统一门面与分页/目录概览，见 `docs/superpowers/specs/2026-11-12-f008-toc-path-in-list-index-design.md`。
+- 验收（2026-11-13）：四模块清单 schema 1.1 + `TocListService`/`listByToc` 上线；feat/race/equipment toc 100% 非空，spell 285/10068（上游缺口 KN250）；见 `docs/test-reports/测试报告_一期批A十项验收_20261113.md`。
+- 补记（2026-11-19）：KN250 闭环后 spell chunks 4202/4202、清单 10007/10068 非空（余 61 条既有 join_failed）；真实 `listByToc` 的 CRB 前缀命中 609 个唯一条目；见 `docs/test-reports/测试报告_KN250法术目录元数据_20261119.md`。
 
 ### F-009 Agent 单开 API Key 统计与计费预测
 
 - 状态：💡 想法　优先级：P2
 - 描述：为 Agent 使用独立 API key，统计每次问答的 token 消耗并预测计费，监控运行成本。
 - 关联：D03（`DEEPSEEK_PF_API`）
+- 设计（2026-11-12，批 A；2026-11-13 审计修订）：设计 Spec 已确认/待实施——每次 DeepSeek 调用一行（含重排/强制收敛/regenerate）+ 价目快照 + /api/usage/summary + 最小页面 + 近 7 天日均外推；全局仅管理员、个人仅自己，embedding 不在本轮，见 `docs/superpowers/specs/2026-11-12-f009-token-usage-cost-tracking-design.md`。
+- 验收（2026-11-13）：V8 逐调用用量、价目快照、权限/预测、最小用量页均通过；真实 PG16 与全栈 E2E 通过；见批 A 验收报告 §9。
 
 ### F-010 用户请求限频（rate limiting）
 
@@ -99,9 +106,11 @@
 
 ### F-013 主从库（读写分离 / 部署架构演进）
 
-- 状态：💡 想法　优先级：P2
+- 状态：💡 想法（**二期延后，一期不修复**）　优先级：P2
 - 描述：会话/用量等持久化数据演进到数据库时，考虑主从库读写分离（主写从读）支撑并发与可用性。当前一期内存存储（InMemoryChatMemory）无 DB，待 F-003 持久化落地后评估；部署环境资源受限（2 核 2G），需一并评估资源占用。
 - 关联：F-003 / 部署规划（embedding 云 API + 本地兜底方案）
+- 决策（2026-11-12）：用户拍板二期事项一期暂不修复、统一延后，本条不纳入一期当前批次；待 F-003 持久化落地后再评估是否进入后续批次。
+- 决策（2026-11-19）：用户再次确认一期除 KN-148 外不再安排修复，本条维持二期延后。
 
 ### F-014 回答正文论文式上标标注（来源编号对应）
 
@@ -129,6 +138,8 @@
 - 优先级：P2（2026-11-09 一期排期；追加护栏仍需另行决策，不默认并入前端改版）
 - 描述：SP4 验收观察项——宽过滤检索场景下 sources 达 **552 条、响应体 1.1MB**（v1.5 既有语义：宽过滤命中的 chunk 全量进 SourceCollector）。虽非缺陷，但响应体积与前端渲染存在隐患。建议给 `SourceCollector` 加上限护栏：数量上限（如 top N，对齐展示需求）或总字符截断，超限部分不进 sources；注意与 F-014 上标编号对齐逻辑联动（截断后编号仍须连续一致），改动需重跑评测确认溯源基线（≥52/53）不回退。
 - 关联：`docs/handover/KIMI_K3_SP4验收_20260907.md`（观察项）/ F-014 / `SourceCollector`（AKN-008 已修复的 drain 去重逻辑同处）
+- 设计（2026-11-12，批 A；2026-11-13 审计修订）：设计 Spec 已确认/待实施——语义检索候选 50 经 DeepSeek listwise 重排取 15、失败回退 rankedScore；枚举业务排序/分页不变；请求级 50 条 + 来源正文 2MB（UTF-8）硬阀同步裁剪工具输出与 sources，超限提示不置 gap，见 `docs/superpowers/specs/2026-11-12-f016-source-collector-topk-guard-design.md`。
+- 验收（2026-11-13）：top-K/护栏代码与单测通过；根因为 DeepSeek thinking 默认开启，HTTP 加 `thinking:{"type":"disabled"}` 后 50 候选重排约 3.36s，`rerank-enabled` 恢复 true；56 题重排开启溯源 55/56、诚实 56/56、结构 3.00。F-016 闭环。
 
 ### F-017 条目文本引用离线抽取入 metadata（J6 Layer 1）
 
@@ -136,6 +147,8 @@
 - 描述：规则原文中大量「（见 X）/详见《Y》」文本引用，J6 Layer 0（纯 metadata 解析，SP8c）覆盖不了。做法：数据侧离线抽取脚本 → 全库 title/alias 候选校验（仅保留精确命中）→ 写回 chunk `entry_links` 字段 → Java 侧 mapper 白名单 + metadata 重放，LLM 侧零改动（getEntryLinks 透明多一层文本引用）。估全库真引用 1000~1500 处。
 - 启动条件：J6 Layer 0 上线后，按 `listDataGaps` / `tool_calls.jsonl` 中引用类问题占比评估再启动。
 - 关联：`docs/design/方案_Agent检索工具增强_20260917.md` J6 节（Layer 1/2 设计）
+- 设计（2026-11-12，批 A；2026-11-13 审计修订）：设计 Spec 已确认/待实施——八模块离线抽取，所有精确命中引用逐条人工核对，区分出现次数与唯一边；本轮不写回 entry_links，见 `docs/superpowers/specs/2026-11-12-f017-entry-links-extraction-survey-design.md`。
+- 验收（2026-11-13）：全库出现 5718、exact 74 全量人工核对（正确 26 / 误报 42 / 目标错误 6，精确率 35.1%）；因精确率不足，不写回 `entry_links`；报告 `docs/test-reports/F017_文本引用抽取与核对_20261113.md`。
 
 ### F-019 职业成长表查表工具（J5 getClassTable）
 
@@ -182,9 +195,14 @@
 
 ### F-023 管理后台（注册开关 + 用户管理）
 
-- 状态：📋 已登记（2026-09-23 用户提出）　优先级：P2
+- 状态：✅ 已实现（2026-11-17 批 B）　优先级：P2
 - 描述：① 注册入口可通过配置开放/隐藏；② 简单 admin 界面，对用户增删改查。
-- admin 凭证方案（2026-09-23 主 Agent 建议，待拍板）：admin 初始密码走**环境变量**（不进 git 的配置文件），首次启动写入 DB 时 BCrypt 哈希存储；之后可在 admin 界面改密。比纯配置文件明文强：不入版本库、不明文落盘、可自助改密。注册开关放 admin 界面里做成可切换项（配置文件给默认值）。
+- 实施结果（2026-11-17）：
+  - 后端沿用既有 `AdminController`（用户 CRUD/角色/重置密码/注册开关），新增 `AdminPageController` 将 `/admin`、`/admin/` forward 到静态页 `/admin.html`；
+  - 前端复用旧工作树的 `admin.html`，token 键对齐当前 SPA 的 `pf.auth.token`，不做 Vue 重写；
+  - 真实联调（2026-11-17 批 B 后续）：临时 PostgreSQL 16 + `pf.auth.enabled=true` 的真实后端，Playwright `e2e-fullstack/admin.spec.ts` 走完全流程——`/admin`（无斜杠）登录后 `/admin/`（带斜杠）凭同一 token 直接进入控制台，双入口均可用；管理员登录、注册开关读取、新建用户、角色双向切换、重置密码并用新密码验证、关闭注册后主问答页入口隐藏且直接注册 API 返回 403 `registration_closed`、恢复开关、跨上下文持久化、删除用户、退出登录；所有页面监听并断言无未捕获 JS 错误、无非预期 404/500 响应。用例以 `try/finally` 经 API 清理临时用户与开关。`16026bf4` 补齐双入口与 404/500 断言后，`JAVA_TOOL_OPTIONS=-DsocksProxyHost= npm run test:e2e:fullstack` 真实重跑 **5 passed（37.1s）**（既有 4 + 新增 1）。证据：`docs/test-reports/测试报告_批B后续联调与耗时优化_20261117.md`；
+  - 测试：`AdminPageControllerTest` 断言两条路径 forward 且 classpath 静态页存在；前端新增 `auth-dialog.spec.ts`（注册入口显示/隐藏）通过；工作树全量 `mvn test` **1034 项 0 失败 0 错误、16 skipped**（真实数据黑盒因工作树缺少 `pf_data/phase1/vectorizer/output` 下的清单产物而由 `assumeTrue` 条件跳过，未执行），BUILD SUCCESS；前端 `npm test` 8 文件 51 用例通过。
+- admin 凭证方案（2026-09-23 主 Agent 建议，已沿用）：admin 初始密码走**环境变量**（不进 git 的配置文件），首次启动写入 DB 时 BCrypt 哈希存储；之后可在 admin 界面改密。比纯配置文件明文强：不入版本库、不明文落盘、可自助改密。注册开关放 admin 界面里做成可切换项（配置文件给默认值）。
 - 关联：SP7（单体鉴权，已有用户体系）/ F-021（入库共用持久化设施）
 
 ### F-024 清单枚举工具 listEntries（B4，J 系列"结构化枚举"需求）

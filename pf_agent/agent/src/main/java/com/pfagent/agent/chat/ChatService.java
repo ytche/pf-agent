@@ -14,6 +14,8 @@ import com.pfagent.agent.rag.TextSanitizer;
 import com.pfagent.agent.rag.ToolCallRecorder;
 import com.pfagent.agent.rag.ToolCallRecord;
 import com.pfagent.agent.rag.ToolCallTracker;
+import com.pfagent.agent.telemetry.UsageRecorder;
+import com.pfagent.agent.usage.UsageRequestContext;
 import com.pfagent.agent.util.MapUtil;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
@@ -33,7 +35,10 @@ import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.ResourceAccessException;
 
+import java.time.Clock;
+import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -61,7 +66,7 @@ import java.util.regex.Pattern;
  * 会话持久化（F-020 实施 Spec §5/§7）：模型历史读取与问答写入统一经
  * {@link ConversationStore}；ChatMemory 仅作兼容适配，不再有第二份写入逻辑。
  * 普通问答与重新生成都在调用模型前先过匿名配额并累计 generation_attempts
- * （失败也保留计数）；助手消息保存 cited-only 过滤与编号重映射后的来源快照。
+ * （失败也保留计数）；助手消息保存引用治理后的来源快照（正常 cited-only，异常时显式降级）。
  * 父会话删除后一律不自动重建：追加返回 PARENT_MISSING 时抛
  * {@link ConversationDeletedException}（410）。
  */
@@ -73,18 +78,28 @@ public class ChatService {
     /** LLM 空内容兜底（v1.5 C4） */
     private static final String EMPTY_ANSWER_FALLBACK = "（模型未返回回答内容，请重试）";
 
-    /** 上下文超限时的强制收敛指令：让 LLM 基于已有结果直接作答，不再调工具 */
+    /** 上下文或时间预算超限时的强制收敛指令：让 LLM 基于已有结果直接作答，不再调工具 */
     private static final String CONVERGE_HINT =
-            "检索上下文已达上限，请基于以上检索结果直接给出最终回答，不要再调用任何工具。"
+            "检索上下文或时间预算已达上限，请基于以上检索结果直接给出最终回答，不要再调用任何工具。"
             + "若数据不足以回答，请如实说明数据缺失。";
 
     /**
      * SP4 D5 + F-014：回答中的来源编号标记（group 1 为 # 后到闭合括号前的原始内容，用于判定合法性）。
-     * 接受半角 [#N] 与全角/混用形态：［＃N］、[＃N]、［#N］，编号数字可为全角；输出一律重写为半角 [#N]。
+     * 接受半角 [#N]、[citation:#N]、(#N) 与全角/混用形态，编号数字可为全角；
+     * 输出一律重写为半角 [#N]。
      * 只匹配闭合形态：越界/畸形判定见 filterCitedSources；未闭合的 "[#"/"［＃" 按普通文本保留（登记已知语义）。
      */
     private static final Pattern CITATION_MARK =
-            Pattern.compile("[\\[［][#＃]([^\\]］]*)[\\]］]");
+            Pattern.compile("[\\[［(（](?i:citation:)?[#＃]([^\\]］)）]*)[\\]］)）]");
+
+    private static final Pattern FREEFORM_CITATION_MARK = Pattern.compile(
+            "[\\[［][A-Za-z][A-Za-z0-9]*(?:_[A-Za-z0-9]+)+[\\]］]"
+                    + "(?!\\s*(?:\\(|\\[(?![#＃])|（|［(?![#＃])|【))");
+
+    private static final Pattern CODE_SEGMENT = Pattern.compile("(?s)(```.*?```|`[^`\\r\\n]*`)");
+
+    private static final String CITATION_DEGRADED_NOTICE =
+            "\n\n> 引用标记异常，以下来源为本次检索证据，未能逐句对应。";
 
     @Autowired
     private ChatClient chatClient;
@@ -102,16 +117,35 @@ public class ChatService {
     private ToolCallTracker toolCallTracker;
     @Autowired
     private ToolCallRecorder toolCallRecorder;
+    /** F-009 用量采集：memory 模式为 no-op 实现；单测直调可为 null */
+    @Autowired(required = false)
+    private UsageRecorder usageRecorder;
+    /** F-009 请求级用量上下文（request_id/call_seq/会话/所有者），出口 finally 清理 */
+    @Autowired(required = false)
+    private UsageRequestContext usageRequestContext;
     @Autowired
     private ObjectProvider<AnonymousQuotaService> quotaServiceProvider;
     @Value("${pf.search.max-tool-rounds:10}")
     private int maxToolRounds;
     @Value("${pf.search.max-history-chars:50000}")
     private int maxHistoryChars;
+    @Value("${pf.search.agent-time-budget:60s}")
+    private Duration agentTimeBudget = Duration.ofSeconds(60);
+    @Autowired
+    private Clock clock = Clock.systemUTC();
     @Value("${pf.memory.history-size:20}")
     private int historySize;
+    /** 响应元数据没有模型标识时的采集兜底（实际标识优先取 ChatResponse.metadata.model） */
+    @Value("${spring.ai.openai.chat.options.model:deepseek-chat}")
+    private String usageModel;
     private final ObjectMapper objectMapper = new ObjectMapper();
     private Map<String, ToolCallback> callbacksByName;
+    /**
+     * AKN-023：请求级工具结果缓存。同一请求内 LLM 重复发起完全相同的调用（工具名 + 完全相同的
+     * arguments）时复用首次成功结果，避免重复检索；失败结果不缓存，让 LLM 自纠后重试。
+     * 生命周期由 ask/regenerate 的 finally 清理，防线程复用串请求。
+     */
+    private final ThreadLocal<Map<String, String>> toolResultCache = new ThreadLocal<>();
 
     /** 规则问答（匿名，兼容旧入口） */
     public ChatResponse ask(String question, String conversationId) {
@@ -141,7 +175,11 @@ public class ChatService {
         }
 
         sourceCollector.begin();
+        toolResultCache.set(new HashMap<>());
         toolCallTracker.begin(cid, question);
+        if (usageRequestContext != null) {
+            usageRequestContext.begin(cid, ownerUserId);
+        }
         try {
             List<Message> history = buildInitialHistory(cid, question);
             AssistantMessage assistant = runAgent(history);
@@ -154,7 +192,8 @@ public class ChatService {
             } catch (RuntimeException e) {
                 // 对齐 SP1 D6：存储故障不打断问答主链路，本轮回答照常返回（不带消息定位）
                 log.warn("会话 {} 问答落库失败，本轮回答照常返回但未持久化: {}", cid, e.getMessage());
-                return new ChatResponse(result.answer(), result.sources(), result.gapReported(), cid);
+                return new ChatResponse(result.answer(), result.sources(), result.gapReported(), cid,
+                        null, null, null, result.citationDegraded());
             }
             if (append.status() == ConversationStore.AppendStatus.PARENT_MISSING) {
                 log.warn("会话 {} 在生成本轮回答期间被删除，晚到结果已丢弃", cid);
@@ -162,7 +201,8 @@ public class ChatService {
             }
             return new ChatResponse(
                     result.answer(), result.sources(), result.gapReported(), cid,
-                    append.assistant().id(), append.assistant().seq(), append.assistant().createdAt());
+                    append.assistant().id(), append.assistant().seq(), append.assistant().createdAt(),
+                    result.citationDegraded());
         } finally {
             // F-006：有工具调用则落盘（异常路径也落盘已产生的部分记录，不丢观测数据）
             // AKN-023：请求级摘要先取（drain 会清空状态）；无工具调用也写摘要，日志与 JSONL 同口径
@@ -176,6 +216,10 @@ public class ChatService {
                 logRequestTiming(requestSummary);
             }
             sourceCollector.clear(); // 异常路径兜底，防 ThreadLocal 残留
+            toolResultCache.remove();
+            if (usageRequestContext != null) {
+                usageRequestContext.clear();
+            }
         }
     }
 
@@ -201,8 +245,12 @@ public class ChatService {
         }
 
         sourceCollector.begin();
+        toolResultCache.set(new HashMap<>());
         // AKN-024：regenerate 没有新的用户轮次/范围确认，不能获得宽查询确认资格
         toolCallTracker.beginRegenerate(conversationId, lastRound.question());
+        if (usageRequestContext != null) {
+            usageRequestContext.begin(conversationId, ownerUserId);
+        }
         try {
             List<Message> history = buildRegenerateHistory(conversationId);
             AssistantMessage assistant = runAgent(history);
@@ -219,7 +267,7 @@ public class ChatService {
             }
             return new RegenerateResult(conversationId, replaced.assistant().id(),
                     replaced.assistant().seq(), result.answer(), result.sources(),
-                    result.gapReported(), replaced.assistant().createdAt());
+                    result.gapReported(), replaced.assistant().createdAt(), result.citationDegraded());
         } finally {
             // AKN-023：重新生成同样写请求级摘要并打日志（含网络），与 JSONL 同口径
             ToolCallTracker.RequestSummary requestSummary = toolCallTracker.summary().orElse(null);
@@ -232,13 +280,22 @@ public class ChatService {
                 logRequestTiming(requestSummary);
             }
             sourceCollector.clear();
+            toolResultCache.remove();
+            if (usageRequestContext != null) {
+                usageRequestContext.clear();
+            }
         }
     }
 
     /** 重新生成结果：messageId 与重新生成前保持一致 */
     public record RegenerateResult(String conversationId, long messageId, int messageSeq, String answer,
                                    List<ChatResponse.SourceRef> sources, boolean gapReported,
-                                   Instant completedAt) {
+                                   Instant completedAt, boolean citationDegraded) {
+        public RegenerateResult(String conversationId, long messageId, int messageSeq, String answer,
+                                List<ChatResponse.SourceRef> sources, boolean gapReported,
+                                Instant completedAt) {
+            this(conversationId, messageId, messageSeq, answer, sources, gapReported, completedAt, false);
+        }
     }
 
     /** 工具注册表：@Tool 方法 → name → ToolCallback（手动循环按名查找执行）。依赖注入完成后组装。 */
@@ -301,21 +358,34 @@ public class ChatService {
 
     /** 执行手动工具循环，返回最终 AssistantMessage（正常收敛或强制收敛） */
     private AssistantMessage runAgent(List<Message> history) {
+        Instant startedAt = clock.instant();
         for (int round = 0; round < maxToolRounds; round++) {
-            if (historyChars(history) > maxHistoryChars) {
-                // 上下文超限：不再允许工具调用，强制 LLM 基于已有检索结果收敛作答
-                return forceAnswer(history);
+            if (historyChars(history) > maxHistoryChars
+                    || Duration.between(startedAt, clock.instant()).compareTo(agentTimeBudget) >= 0) {
+                // 上下文或时间预算超限：不再开始新工具轮，基于已有证据收敛
+                return forceAnswerWithBlankRetry(history);
             }
             org.springframework.ai.chat.model.ChatResponse resp = callModel(history);
             AssistantMessage assistant = resp.getResult().getOutput();
             history.add(assistant); // 本轮 assistant（tool_call 或最终回答）
             if (!resp.hasToolCalls()) {
-                return assistant;
+                return assistant.getText() == null || assistant.getText().isBlank()
+                        ? forceAnswer(history) : assistant;
             }
             history.add(new ToolResponseMessage(executeTools(assistant, round)));
         }
         // 轮次超限：不再抛 500，而是强制收敛作答（与上下文超限对称，F-002 复盘）
-        return forceAnswer(history);
+        return forceAnswerWithBlankRetry(history);
+    }
+
+    /** 空回答只补一次无工具请求；第二次仍为空时由出口生成显式兜底。 */
+    private AssistantMessage forceAnswerWithBlankRetry(List<Message> history) {
+        AssistantMessage assistant = forceAnswer(history);
+        if (assistant.getText() == null || assistant.getText().isBlank()) {
+            log.warn("模型返回空回答，执行一次无工具重试");
+            return forceAnswer(history);
+        }
+        return assistant;
     }
 
     /**
@@ -329,18 +399,18 @@ public class ChatService {
      */
     private org.springframework.ai.chat.model.ChatResponse callModel(List<Message> history) {
         long start = System.nanoTime();
+        org.springframework.ai.chat.model.ChatResponse response = null;
         try {
-            return chatClient.prompt()
-                    .messages(List.copyOf(history))
-                    .tools(callbacksByName.values().toArray(new ToolCallback[0])) // 每轮注册工具 schema
-                    .options(DefaultToolCallingChatOptions.builder()
-                            .internalToolExecutionEnabled(false)
-                            .build())
-                    .call()
-                    .chatResponse();
+            response = callModelWithTransportRetry(history, true);
+            return response;
         } finally {
+            long durationMs = (System.nanoTime() - start) / 1_000_000;
             // AKN-023：LLM 调用端到端耗时（含网络），失败路径也计入
-            toolCallTracker.recordLlmCall((System.nanoTime() - start) / 1_000_000);
+            toolCallTracker.recordLlmCall(durationMs);
+            // F-009：每次成功返回的调用都采集（含工具轮），不只最终回答
+            if (response != null) {
+                recordUsage("agent", response, durationMs);
+            }
         }
     }
 
@@ -348,17 +418,57 @@ public class ChatService {
     private AssistantMessage forceAnswer(List<Message> history) {
         history.add(new SystemMessage(CONVERGE_HINT));
         long start = System.nanoTime();
+        org.springframework.ai.chat.model.ChatResponse response = null;
         try {
-            return chatClient.prompt()
-                    .messages(List.copyOf(history))
-                    .call()
-                    .chatResponse()
-                    .getResult()
-                    .getOutput();
+            response = callModelWithTransportRetry(history, false);
+            return response.getResult().getOutput();
         } finally {
+            long durationMs = (System.nanoTime() - start) / 1_000_000;
             // AKN-023：强制收敛作答也是一次 LLM 调用，计入次数与累计耗时
-            toolCallTracker.recordLlmCall((System.nanoTime() - start) / 1_000_000);
+            toolCallTracker.recordLlmCall(durationMs);
+            // F-009：强制收敛单独标记用途
+            if (response != null) {
+                recordUsage("force_answer", response, durationMs);
+            }
         }
+    }
+
+    /** 网络中断等传输错误只补一次调用；第二次失败保留原异常与堆栈，避免无限重试。 */
+    private org.springframework.ai.chat.model.ChatResponse callModelWithTransportRetry(
+            List<Message> history, boolean withTools) {
+        try {
+            return requestModel(history, withTools);
+        } catch (ResourceAccessException e) {
+            log.warn("模型调用网络失败，执行一次重试: {}", e.getMessage());
+            return requestModel(history, withTools);
+        }
+    }
+
+    private org.springframework.ai.chat.model.ChatResponse requestModel(List<Message> history, boolean withTools) {
+        ChatClient.ChatClientRequestSpec prompt = chatClient.prompt().messages(List.copyOf(history));
+        if (withTools) {
+            prompt.tools(callbacksByName.values().toArray(new ToolCallback[0]))
+                    .options(DefaultToolCallingChatOptions.builder()
+                            .internalToolExecutionEnabled(false)
+                            .build());
+        }
+        return prompt.call().chatResponse();
+    }
+
+    /** 提交一次成功调用给用量采集器（模型标识优先取响应元数据，缺失时用配置兜底） */
+    private void recordUsage(String purpose, org.springframework.ai.chat.model.ChatResponse response,
+                             long durationMs) {
+        if (usageRecorder == null) {
+            return;
+        }
+        String model = usageModel;
+        if (response.getMetadata() != null) {
+            String actual = response.getMetadata().getModel();
+            if (actual != null && !actual.isBlank()) {
+                model = actual;
+            }
+        }
+        usageRecorder.record(purpose, model, response, durationMs);
     }
 
     /**
@@ -374,16 +484,26 @@ public class ChatService {
                 throw new IllegalStateException("LLM 调用了未注册的工具: " + tc.name());
             }
             // F-006 工具调用计数：nanoTime 包住执行段，成功/失败都记录（耗时=失败前耗时）
+            // AKN-023：同名同参的重复调用优先复用本请求内首次成功结果
             long start = System.nanoTime();
+            String cacheKey = tc.name() + "\u0000" + (tc.arguments() == null ? "" : tc.arguments());
+            Map<String, String> cache = toolResultCache.get();
             String result;
             boolean success = true;
-            try {
-                result = callback.call(tc.arguments());
-            } catch (Exception e) {
-                success = false;
-                log.warn("工具 {} 执行失败: {}", tc.name(), e.getMessage());
-                result = "工具执行失败: " + e.getMessage()
-                        + "。请检查字段名与值格式后重试，可用字段见工具描述。";
+            if (cache != null && cache.containsKey(cacheKey)) {
+                result = cache.get(cacheKey);
+            } else {
+                try {
+                    result = callback.call(tc.arguments());
+                } catch (Exception e) {
+                    success = false;
+                    log.warn("工具 {} 执行失败: {}", tc.name(), e.getMessage());
+                    result = "工具执行失败: " + e.getMessage()
+                            + "。请检查字段名与值格式后重试，可用字段见工具描述。";
+                }
+                if (cache != null && success) {
+                    cache.put(cacheKey, result);
+                }
             }
             long durationMs = (System.nanoTime() - start) / 1_000_000;
             toolCallTracker.record(tc.name(), tc.arguments(), success, durationMs,
@@ -410,8 +530,9 @@ public class ChatService {
         return chars;
     }
 
-    /** 单轮回答结果：正文 + cited-only 来源 + gap 标记 */
-    private record AnswerResult(String answer, List<ChatResponse.SourceRef> sources, boolean gapReported) {
+    /** 单轮回答结果：正文 + 来源 + gap 标记 + 引用降级标记 */
+    private record AnswerResult(String answer, List<ChatResponse.SourceRef> sources, boolean gapReported,
+                                boolean citationDegraded) {
     }
 
     /** 组装回答：空内容兜底 → 先读 gap 标记再 drain（drain 会清空请求状态）→ 引用治理 */
@@ -422,7 +543,7 @@ public class ChatService {
                 .map(this::toSourceRef)
                 .toList();
         CitedResult cited = filterCitedSources(answer, allSources, question);
-        return new AnswerResult(cited.answer(), cited.sources(), gapReported);
+        return new AnswerResult(cited.answer(), cited.sources(), gapReported, cited.citationDegraded());
     }
 
     /** 引用快照序列化为 JSON 文本（空列表 = "[]"，序列化失败降级 null 并记 WARN） */
@@ -435,36 +556,33 @@ public class ChatService {
         }
     }
 
-    /** filterCitedSources 的产物：重映射后的正文 + 只含被引用条目的来源列表 */
-    private record CitedResult(String answer, List<ChatResponse.SourceRef> sources) {
+    /** filterCitedSources 的产物：重映射后的正文 + 来源列表 + 引用降级标记 */
+    private record CitedResult(String answer, List<ChatResponse.SourceRef> sources,
+                               boolean citationDegraded) {
+    }
+
+    private record FreeformCitationResult(String answer, List<String> stripped) {
     }
 
     /**
-     * 引用治理试点（2026-10-01 用户拍板）：sources 只保留正文引用标记实际引用的条目，
-     * 未引用条目删除不返回；正文中的标记按新下标重映射改写成半角 [#N]。
-     *
-     * 口径（维持 SP4 原定义，不扩到「参考了也算」）：
-     *  - 标记形态接受半角 [#N] 与全角/混用形态（［＃N］、[＃N]、［#N］，数字可为全角），
-     *    统一识别；输出一律半角 [#N]，不保留原始全角形态。
-     *  - 有效引用 = 正文里纯数字且 1<=N<=原 sources 数的标记；越界（含 0）/畸形（非纯数字）
-     *    标记从正文剥离、保留句子本身（SP4 D5 原行为，记 WARN）。
-     *  - 保留来源保持原相对顺序（即原编号升序），新下标 = 保留序位次（1-based）；
-     *    正文标记同步改写成新下标，编号 N ↔ sources 第 N 条的对齐不破坏。
-     *  - 无有效引用（含正文无任何标记）时 sources=[]，前端自然不显示来源区；ChatResponse 结构不变。
+     * 引用治理：正常路径只保留正文合法 [#N] 实际引用的条目，并按新下标重映射。
+     * 非法数字编号与方括号蛇形 ID 从正文剥离。存在非法标记但完全无合法引用时，
+     * 保留请求级检索证据并显式降级，避免把“引用解析失败”误报成“没有来源”；
+     * 正文完全无标记时仍维持 cited-only 空来源。
      *
      * 已知代价（用户知情）：评测 score_citation 判「期望 chunk 是否出现在 sources」，
      * 硬过滤会让未被正文引用的 anchor 掉分（离线快照 easy-22 anchor idx63、medium-17 idx704）。
      */
     private CitedResult filterCitedSources(String answer, List<ChatResponse.SourceRef> sources, String question) {
         if (answer == null) {
-            return new CitedResult(null, List.of());
+            return new CitedResult(null, List.of(), false);
         }
         int maxN = sources.size();
+        FreeformCitationResult freeform = stripFreeformCitationMarks(answer);
 
-        // 第一遍：判定每个 [#N] 合法性，收集被引用的合法编号（去重、保首次出现），越界/畸形标记记下供日志
         LinkedHashSet<Integer> cited = new LinkedHashSet<>();
         List<String> stripped = new ArrayList<>();
-        Matcher m = CITATION_MARK.matcher(answer);
+        Matcher m = CITATION_MARK.matcher(freeform.answer());
         while (m.find()) {
             Integer n = parseCitation(m.group(1), maxN);
             if (n == null) {
@@ -473,17 +591,20 @@ public class ChatService {
                 cited.add(n);
             }
         }
+        stripped.addAll(freeform.stripped());
         if (!stripped.isEmpty()) {
-            log.warn("剥离越界/畸形来源编号 {}（来源上限 {}）— 问题摘要: {}",
+            log.warn("剥离非法来源标记 {}（来源上限 {}）— 问题摘要: {}",
                     stripped, maxN, summarize(question));
         }
 
-        // 无有效引用：sources 置空，正文剥离全部 [#N] 标记（正文无标记时 replaceAll 为恒等）
         if (cited.isEmpty()) {
-            return new CitedResult(CITATION_MARK.matcher(answer).replaceAll(""), List.of());
+            String cleaned = rewriteCitationMarks(freeform.answer(), maxN, Map.of());
+            if (!stripped.isEmpty() && maxN > 0) {
+                return new CitedResult(cleaned + CITATION_DEGRADED_NOTICE, sources, true);
+            }
+            return new CitedResult(cleaned, List.of(), false);
         }
 
-        // 保留来源 + 旧编号 → 新下标 映射（原相对顺序 = 原编号升序）
         List<ChatResponse.SourceRef> kept = new ArrayList<>(cited.size());
         Map<Integer, Integer> remap = new HashMap<>();
         for (int old = 1; old <= maxN; old++) {
@@ -492,21 +613,46 @@ public class ChatService {
                 remap.put(old, kept.size());
             }
         }
+        return new CitedResult(
+                rewriteCitationMarks(freeform.answer(), maxN, remap), List.copyOf(kept), false);
+    }
 
-        // 第二遍：重写正文——合法标记换新下标，越界/畸形标记剥离
+    private String rewriteCitationMarks(String answer, int maxN, Map<Integer, Integer> remap) {
         StringBuilder sb = new StringBuilder(answer.length());
-        Matcher w = CITATION_MARK.matcher(answer);
+        Matcher matcher = CITATION_MARK.matcher(answer);
         int last = 0;
-        while (w.find()) {
-            sb.append(answer, last, w.start());
-            Integer n = parseCitation(w.group(1), maxN);
-            if (n != null) {
+        while (matcher.find()) {
+            sb.append(answer, last, matcher.start());
+            Integer n = parseCitation(matcher.group(1), maxN);
+            if (n != null && remap.containsKey(n)) {
                 sb.append("[#").append(remap.get(n)).append(']');
             }
-            last = w.end();
+            last = matcher.end();
         }
         sb.append(answer, last, answer.length());
-        return new CitedResult(sb.toString(), List.copyOf(kept));
+        return sb.toString();
+    }
+
+    private FreeformCitationResult stripFreeformCitationMarks(String answer) {
+        StringBuilder cleaned = new StringBuilder(answer.length());
+        List<String> stripped = new ArrayList<>();
+        Matcher code = CODE_SEGMENT.matcher(answer);
+        int last = 0;
+        while (code.find()) {
+            appendWithoutFreeformCitation(answer.substring(last, code.start()), cleaned, stripped);
+            cleaned.append(code.group());
+            last = code.end();
+        }
+        appendWithoutFreeformCitation(answer.substring(last), cleaned, stripped);
+        return new FreeformCitationResult(cleaned.toString(), List.copyOf(stripped));
+    }
+
+    private void appendWithoutFreeformCitation(String segment, StringBuilder cleaned, List<String> stripped) {
+        Matcher marks = FREEFORM_CITATION_MARK.matcher(segment);
+        while (marks.find()) {
+            stripped.add(marks.group());
+        }
+        cleaned.append(marks.replaceAll(""));
     }
 
     /**

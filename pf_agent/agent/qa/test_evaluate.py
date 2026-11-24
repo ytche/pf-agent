@@ -477,7 +477,11 @@ def test_main_writes_gap_reported_and_honesty_basis(monkeypatch, tmp_path):
     assert item["honesty_basis"]["path"] == "llm"
     assert item["honesty_basis"]["llmReason"] == "承认能力边界"
     assert item["scores"]["拒绝诚实性"] == 1
+    assert item["repetition"] == 1
+    assert item["citationDegraded"] is False
     assert data["summary"]["honesty_pending"]["count"] == 0
+    assert data["summary"]["repetitions"] == 1
+    assert data["summary"]["itemCount"] == 1
 
 
 # ---------------------------------------------------------------------------
@@ -505,3 +509,106 @@ def test_price_contract_items_are_complete_and_unique():
         assert it["golden_answer_points"]
         for kw in keywords:
             assert kw in it["question"], (item_id, kw)
+
+
+
+# ---------------------------------------------------------------------------
+# AKN-031 重复执行与引用降级统计
+# ---------------------------------------------------------------------------
+def test_main_repetitions_preserve_runs_and_aggregate_worst_results(monkeypatch, tmp_path):
+    items_path = tmp_path / "items.json"
+    items_path.write_text(json.dumps({"items": [{
+        "id": "easy-test", "tier": "easy", "dimension": "事实点查", "status": "D",
+        "question": "q", "module": "class", "expected_chunks": ["职业 → 角色升级"],
+        "golden_answer_points": [], "notes": "",
+    }]}, ensure_ascii=False), encoding="utf-8")
+    responses = iter([
+        {"answer": "正确[#1]", "sources": [{"tocPath": "职业 → 角色升级"}],
+         "gapReported": False, "citationDegraded": False},
+        {"answer": "错误[#1]", "sources": [{"tocPath": "职业 → 其他"}],
+         "gapReported": False, "citationDegraded": True},
+    ])
+    monkeypatch.setattr(evaluate, "ask_agent", lambda *a, **k: (next(responses), {}))
+    monkeypatch.setattr(sys, "argv", ["evaluate.py", "--items", str(items_path),
+        "--report-dir", str(tmp_path), "--repetitions", "2", "--delay", "0"])
+
+    assert evaluate.main() == 0
+    data = json.loads((tmp_path / "qa_report.json").read_text(encoding="utf-8"))
+
+    assert data["summary"]["repetitions"] == 2
+    assert data["summary"]["itemCount"] == 1
+    assert data["summary"]["total"] == 2
+    assert [it["repetition"] for it in data["items"]] == [1, 2]
+    assert [it["answer"] for it in data["items"]] == ["正确[#1]", "错误[#1]"]
+    stat = data["summary"]["itemStats"][0]
+    assert stat["passRates"]["溯源正确性"] == 0.5
+    assert stat["passRates"]["拒绝诚实性"] == 1.0
+    assert stat["worstScores"] == {"溯源正确性": 0, "拒绝诚实性": 1, "回答结构": 2}
+    assert stat["stable"] is False
+    assert stat["citationDegradedCount"] == 1
+    assert data["summary"]["citationDegraded"] == {"count": 1, "ids": ["easy-test"]}
+
+
+def test_repetition_stats_exclude_pending_honesty_from_pass_rate():
+    passed = _report_item("m1", 1, {"path": "phrase"})
+    pending = _report_item("m1", None, {"path": "pending", "pendingReason": "缺 key"})
+    passed["repetition"] = 1
+    pending["repetition"] = 2
+
+    stats = evaluate.summarize_repetitions([passed, pending])
+
+    assert stats[0]["passRates"]["拒绝诚实性"] == 1.0
+    assert stats[0]["worstScores"]["拒绝诚实性"] == 1
+    assert stats[0]["stable"] is False
+
+
+def test_main_rejects_zero_repetitions_before_request(monkeypatch, tmp_path, capsys):
+    monkeypatch.setattr(evaluate, "ask_agent", lambda *a, **k: (_ for _ in ()).throw(
+        AssertionError("非法次数不得发请求")))
+    monkeypatch.setattr(sys, "argv", ["evaluate.py", "--items", str(tmp_path / "unused.json"),
+        "--repetitions", "0"])
+    with pytest.raises(SystemExit) as exc:
+        evaluate.main()
+    assert exc.value.code == 2
+    assert "repetitions 必须 >= 1" in capsys.readouterr().err
+
+
+
+def test_repetition_stats_include_degradation_in_stability():
+    normal = _report_item("m1", 1, {"path": "rule"})
+    degraded = _report_item("m1", 1, {"path": "rule"})
+    normal["citationDegraded"] = False
+    degraded["citationDegraded"] = True
+
+    stats = evaluate.summarize_repetitions([normal, degraded])
+
+    assert stats[0]["stable"] is False
+
+
+def test_render_repetitions_shows_degraded_even_when_scores_stable():
+    first = _report_item("m1", 1, {"path": "rule"})
+    second = _report_item("m1", 1, {"path": "rule"})
+    first.update({"repetition": 1, "citationDegraded": True})
+    second.update({"repetition": 2, "citationDegraded": True})
+    items = [first, second]
+    report = evaluate.aggregate(items)
+    report.update({"total": 2, "itemCount": 1, "repetitions": 2,
+                   "itemStats": evaluate.summarize_repetitions(items)})
+
+    md = evaluate.render_markdown(report, items)
+
+    assert "| 降级 |" in md
+    assert "| 稳定 |" not in md
+
+
+
+def test_aggregate_pending_honesty_counts_unique_questions_across_repetitions():
+    first = _report_item("m1", None, {"path": "pending", "pendingReason": "缺 key"})
+    second = _report_item("m1", None, {"path": "pending", "pendingReason": "缺 key"})
+    first["repetition"] = 1
+    second["repetition"] = 2
+
+    report = evaluate.aggregate([first, second])
+
+    assert report["honesty_pending"]["count"] == 1
+    assert report["honesty_pending"]["ids"] == ["m1"]

@@ -12,6 +12,7 @@ Philosophies）》
 
 
 **信仰危机（Crisis of Faith）**：
+**类型**：信念
 
 
 信念背景

@@ -2,7 +2,7 @@
 verify_feats.py — 专长集成验收（统一验收入口，R7；v2.2 决策 E 迁移进 VerifyBase 框架）
 
 在 pipeline 全量运行后执行，八检查（对齐返工 R7 验收 + R5 probe + D1 book 断言 + KN230 ASCII 总断言）：
-  1. 判别器回归：fc_deviation_matrix.json 189 rel 的 est↔got 对账（含豁免）
+  1. 判别器回归：fc_deviation_matrix.json 192 rel（全部 专长/ 前缀）的 est↔got 对账（含豁免）
   2. 召回：audit_baseline.jsonl 基线（1226 行 / name_zh+en 联合去重 1072）↔ chunk title+aliases
   3. title 合法性：无空 title / 无 URL / 无译者标记
   4. 字段健康度：chunk_id 唯一、doc_id 非空、component_type 合法、format_cluster 合法

@@ -12,6 +12,7 @@ race_item / race_sidebar / race_overview / monster_block
 """
 
 import re
+from pathlib import Path
 
 import pytest
 
@@ -1255,8 +1256,8 @@ class TestClusterJ:
 #   K3 混排中文+英文标题 + 超长单行 8 亚种（page_806 兽态人，est=9）
 # 修复点：_RE_TITLE/_RE_BARE_CN_TITLE/_RE_INLINE_STAR_TITLE 组1 字符集扩展
 # （允许英文/数字/全角冒号/全角空格）。
-# 豁免登记（裸文本形态切条不可靠，KN 另记）：page_812 阿斯托莫伊人（est=1）、
-# 阴影血脉BoS 影生暗生特性（est=10）。
+# 豁免登记（裸文本形态切条不可靠，KN 另记）：阴影血脉BoS 影生暗生特性（est=10）。
+# （page_812 阿斯托莫伊人原 est=1 已由 KN120 源文规范化 + 8 特性拆分闭环，est 重定 10，不再豁免）
 
 CLUSTER_K1_SIDEBAR = (
     "**边栏：非人类魔裔（Blood of Fiends）**\n"
@@ -4272,3 +4273,153 @@ class TestClusterT_BareColonUpgradeInFcbEntry:
         by_kind = {it["name"]: it["kind"] for it in items}
         assert by_kind.get("野蛮人") == "fcb_entry", \
             f"裸职业行应保持 fcb_entry：{by_kind}"
+
+# ============ 簇 Z6：page_812 阿斯托莫伊人源文规范化 + 8 特性拆分（KN120） ============
+# 背景：page_812 原文把 8 个特性粘在两条超长散文行里（无独立标题），解析器
+# 只能产出 1 个 race_intro。KN120 的修法是把源文规范化为解析器已支持的
+# 标准标题结构，再走通用种族解析器拆分——不写页名/特性名特判。
+# 原始形态（规范化前）关键片段：
+#   …看起来就像什么都没穿一样阿斯托莫伊人角色阿斯托莫伊人并不具有种族HD…
+#   …持有以下种族特性-2体质，+2智力，+2感知：…感应视野Telepathic ⏎
+#   Senses（EX）阿斯托莫伊人无法说也无法看…
+
+_ASTOMOI_PAGE = (
+    Path(__file__).resolve().parents[2]
+    / "pf_rules_md_organized" / "种族" / "怪物种族" / "page_812.md"
+)
+
+_ASTOMOI_TRAIT_NAMES = {
+    "属性调整", "中等体型", "标准速度", "灵敏嗅觉",
+    "感应视野", "敏感呼吸", "无嘴", "起始语言",
+}
+
+# d437b12 旧源文正文（自 `git show d437b12:…/page_812.md` 取得；URL/译者行由
+# normalize 剥除不计，CRLF 归一为 \n，行末空格保留）。用于内容守恒对账。
+_ASTOMOI_LEGACY_BODY = (
+    "**阿斯托莫伊人（****Astomoi****）**\n"
+    "这些类人像是由黑暗构成的，且没有可辨识的眼耳口鼻。\n"
+    "\n"
+    "\n"
+    "这些神秘的类人生物不需要进食——他们甚至连嘴巴都没有——并且他们也没有眼睛来环顾所处的环境。取而代之的是，他们依靠自己强大的心灵来感知身边的世界，并依靠从空气中吸收养分维生。然而，这也导致阿斯托莫伊人会在浓烈的气味或是吸入性的毒素的折磨中痛不欲生。阿斯托莫伊人倾向于苦行主义，他们身上通常仅有一块遮羞的布片，看起来就像什么都没穿一样阿斯托莫伊人角色阿斯托莫伊人并不具有种族HD，它们的HD仅仅来源于拥有的职业等级。阿斯托莫伊人拥有以下种族特性-2体质，+2智力，+2感知：阿斯托莫伊人会通过克己忘我以寻求开悟，并让自己周边事物保持精神上的和谐。但他们那纤弱的身体更容易被世上的物质性危险所伤害。中等体型：阿斯托莫伊人是中等生物，不因体型获得任何加值或减值。标准速度：阿斯托莫伊人的基本陆地速度为30英尺。灵敏嗅觉：阿斯托莫伊人拥有灵敏嗅觉特殊能力。感应视野Telepathic \n"
+    "Senses（EX）阿斯托莫伊人无法说也无法看，但能用心灵感知到距离自身60尺以内的区域，如同黑暗视觉，也能通过心灵感应与他人交流。阿斯托莫伊人无法看到距离自身60尺以外的任何东西。阿斯托莫伊人必须为通常需要语言成分的法术提供思维成分。它能通过心灵感应能力来使用依赖语言的能力，但无法使用依赖声音成分运作的能力。敏感呼吸Sensitive \n"
+    "Breath（EX）阿斯托莫伊人在对抗疾病和吸入性毒素时受到-2减值。无嘴Mouthless（EX）阿斯托莫伊人不需要进食或饮水来生存。取而代之的是，他们吸收这些食物和饮品中的精华；这会消耗掉食物中的营养如同它被吃掉一般，使得这份食物对其他人毫无作用。阿斯托莫伊人用同样的方式来使用药水和其他摄入性物质。但由于他们从未真正摄入过任何东西，他们不会如常人一般遭受摄入性毒素的影响。起始语言：阿斯托莫伊人的起始语言为通用语，但因为没有嘴巴，他们不能说。他们拥有100尺心灵感应。拥有足够高智力的阿斯托莫伊人能选择以下额外语言：深渊语，邪灵语，天界语，精灵语，侏儒语，炼狱语和木族语。"
+)
+
+
+def _canon_conserved(s: str) -> str:
+    """内容守恒归一：去 Markdown 星标/全部空白 + 规范化新增的结构标点。
+
+    新增标点仅两类，均来自标题形态（源文标题为 `感应视野Telepathic Senses
+    （EX）`，规范化后 `感应视野（Telepathic Senses，EX）`）：
+    - 中文括号 `（）`：标准标题的英文名括号
+    - 全角逗号 `，`：标题内中英分隔
+    另去标题冒号 `：:`（`**X**：正文` 的字段分隔）。除此之外任何字符差异
+    都视为内容丢失/重复/改写，必须相等。
+
+    限制（保守口径）：本归一化同时剥掉正文中的括号/逗号/冒号，单看整段
+    等式无法发现这些标点在正文里的丢失。正文完整性由 `test_text_conserved`
+    的逐条原样子串匹配另行保证（未剥离任何标点，每个条目正文须在旧源文
+    出现且仅出现一次）；整段等式只用于对账顺序、重复与标题形态。
+    """
+    s = s.replace("**", "")
+    s = re.sub(r"\s+", "", s)
+    for ch in "（）,，:：":
+        s = s.replace(ch, "")
+    return s
+
+
+def run_file(path: Path) -> list:
+    """按 processor 同一读取口径（Universal Newlines）跑真实源文件"""
+    return run(path.read_text(encoding="utf-8"))
+
+
+class TestClusterZ6_Astomoi:
+    """簇 Z6：page_812 规范化后由通用解析器拆为 10 个条目"""
+
+    def test_traits_split_into_eight_items(self):
+        """8 个种族特性各自独立成 race_trait 条目（不再合并进 intro）"""
+        items = run_file(_ASTOMOI_PAGE)
+        traits = [it for it in items if it["kind"] == "race_trait"]
+        assert {it["name"] for it in traits} == _ASTOMOI_TRAIT_NAMES, \
+            f"race_trait 标题集合应为 8 特性：{[it['name'] for it in traits]}"
+        assert len(traits) == len(_ASTOMOI_TRAIT_NAMES), \
+            f"特性条目不应重复：{[it['name'] for it in traits]}"
+
+    def test_page_splits_into_ten_items(self):
+        """整页 10 个条目 = 8 特性 + 1 通用介绍 + 1 角色说明"""
+        items = run_file(_ASTOMOI_PAGE)
+        assert len(items) == 10, \
+            f"应拆为 10 个条目，实际 {len(items)}：{[(it['kind'], it['name']) for it in items]}"
+
+    def test_intro_and_character_note_are_independent(self):
+        """通用介绍与「阿斯托莫伊人角色」各自独立，互不并入首条特性"""
+        items = run_file(_ASTOMOI_PAGE)
+        intros = [it for it in items if it["kind"] == "race_intro"]
+        assert [it["name"] for it in intros] == ["阿斯托莫伊人"], \
+            f"通用介绍应唯一且为族名：{[(it['kind'], it['name']) for it in items]}"
+        intro_text = item_text(intros[0])
+        assert "可辨识的眼耳口鼻" in intro_text
+        assert "种族HD" not in intro_text, "角色说明不得并入通用介绍"
+
+        notes = [it for it in items if it["name"] == "阿斯托莫伊人角色"]
+        assert len(notes) == 1, f"角色说明应独立成条：{[it['name'] for it in items]}"
+        note = notes[0]
+        assert note["kind"] == "race_sidebar", \
+            f"角色说明应为 race_sidebar（race_intro 会覆盖族名）：{note['kind']}"
+        assert "种族HD" in item_text(note)
+        assert "可辨识的眼耳口鼻" not in item_text(note), "介绍段不得并入角色说明"
+
+        adj = next(it for it in items if it["name"] == "属性调整")
+        assert "种族HD" not in item_text(adj), "首条特性不得吞角色说明"
+
+    def test_text_conserved(self):
+        """内容守恒：8 特性 + 介绍 + 角色说明逐段/整段与 d437b12 旧源文一致
+
+        规则（与 `_canon_conserved` 注释同口径）：
+        - 旧源文 = `_ASTOMOI_LEGACY_BODY`（git show d437b12 正文）
+        - 新结构 = 10 条 item 的「标题名+英文名+正文」顺序拼接
+        - 排除项：新增章节标题 `**种族特性**`（不是 item，不参与拼接）、
+          Markdown 星标、断行/空白、标题新增括号与逗号
+        - 逐段：每个 item 正文在旧源文出现且仅出现一次（介绍两段分别计）
+        - 整段：归一化后新旧全串逐字符相等（丢字/重复/改写即失败）
+        """
+        items = run_file(_ASTOMOI_PAGE)
+        assert len(items) == 10, f"守恒对账要求 10 条，实际 {len(items)}"
+
+        for it in items:
+            if it["name"] == "阿斯托莫伊人":
+                assert it["text"].count("\n") == 1, f"介绍应为两段：{it['text']!r}"
+                for para in it["text"].split("\n"):
+                    assert para and _ASTOMOI_LEGACY_BODY.count(para) == 1, \
+                        f"介绍段丢失/重复：{para[:40]!r}"
+                continue
+            assert it["text"], f"{it['name']} 正文为空"
+            assert _ASTOMOI_LEGACY_BODY.count(it["text"]) == 1, \
+                f"{it['name']} 正文与旧源文不符或重复：{it['text'][:40]!r}"
+
+        rebuilt = []
+        for it in items:
+            # 属性调整正文自身含「-2体质，+2智力，+2感知：」值行（旧源文同位
+            # 置即此文本，无独立标题），故不拼标题名
+            if it["name"] == "属性调整":
+                rebuilt.append(it["text"])
+            else:
+                rebuilt.append(it["name"] + (it["name_en"] or "") + it["text"])
+        assert _canon_conserved("".join(rebuilt)) == \
+            _canon_conserved(_ASTOMOI_LEGACY_BODY), "整段归一化不相等（内容有丢字/重复/改写）"
+
+    def test_cross_line_en_name_kept(self):
+        """回归保护（非先红用例）：源文 `感应视野Telepathic ⏎Senses（EX）` 的
+        跨行断点——标题内英文名（CRLF 断行）应被 normalize 合并，特性能按
+        标准标题切出；该能力在规范化前后均存在，用于固定断行形态支持"""
+        raw = (
+            "**阿斯托莫伊人（Astomoi）**\r\n"
+            "这些类人像是由黑暗构成的。\r\n"
+            "**种族特性**\r\n"
+            "**感应视野（Telepathic \r\nSenses，EX）**：阿斯托莫伊人无法说也无法看。\r\n"
+        )
+        items = run(raw)
+        trait = next(it for it in items if it["kind"] == "race_trait")
+        assert trait["name"] == "感应视野"
+        assert trait["name_en"] == "Telepathic Senses EX"
+        assert "无法说也无法看" in item_text(trait)

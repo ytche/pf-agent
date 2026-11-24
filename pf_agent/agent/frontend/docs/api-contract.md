@@ -61,8 +61,9 @@ interface ConversationDetail extends ConversationSummary {
 ```ts
 interface ChatAnswer {
   answer: string
-  sources: Source[]        // cited-only 过滤与编号重映射后的快照
+  sources: Source[]        // 正常为 cited-only；citationDegraded=true 时为未逐句绑定的请求级证据
   gapReported: boolean
+  citationDegraded?: boolean
   conversationId: string
   messageId?: number | string  // 助手消息 ID（重新生成后保持不变）
   messageSeq?: number
@@ -77,8 +78,8 @@ interface ChatAnswer {
 | POST | `/api/chat` | `{ question: string, conversationId: string }` | 200 `ChatAnswer` |
 | POST | `/api/chat/feedback` | `{ conversationId, question, answer, sources, errorType, correction?, comment? }` | 200 `{ ok: true, id }`；400 `invalid_input`；503 `unavailable` |
 
-`/api/chat` 与 `/api/chat/feedback` 保持既有兼容字段；本批只在响应上追加可选
-`messageId` / `messageSeq` / `completedAt`，旧客户端不受影响。
+`/api/chat` 与 `/api/chat/feedback` 保持既有兼容字段；响应追加可选
+`messageId` / `messageSeq` / `completedAt` / `citationDegraded`，旧客户端可忽略。
 
 ## 4. 认证与管理员探测
 

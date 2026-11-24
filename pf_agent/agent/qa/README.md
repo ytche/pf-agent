@@ -78,14 +78,23 @@ DEEPSEEK_API_KEY=sk-xxx python3 evaluate.py --judge
 
 # 只测 gap 题（expected_chunks 为空、预期报缺口的题）
 python3 evaluate.py --gap-only
+
+# 每题独立运行 3 次；保留逐次回答并输出通过率、最差结果和波动
+python3 evaluate.py --repetitions 3 --report-dir ./out-repetitions
 ```
 
-参数：`--timeout`（单题 API 超时，默认 120s）、`--delay`（题间延迟，默认 1s，限流保护）。
+参数：`--timeout`（单题 API 超时，默认 120s）、`--delay`（题间延迟，默认 1s，限流保护）、
+`--repetitions`（每题独立会话重复次数，默认 1，必须 ≥1）。重复次数会同时放大 Agent、
+`--judge` 和诚实性 LLM 兜底调用量及费用，真实模型评测前先确认范围。
 
 ### 输出
 
-- `qa_report.json`——每题 5 维度得分 + 总分 + 明细
-- `qa_report.md`——汇总表（按维度/按模块聚合）+ 每题明细（问题/回答/来源/judge 理由）
+- `qa_report.json`——每题 5 维度得分 + 总分 + 明细；`items` 保留每次原始执行及 `repetition`、
+  `citationDegraded`，`summary.itemStats` 提供逐题通过率、最差分、稳定/波动和降级次数。
+- `qa_report.md`——汇总表（按维度/按模块聚合）+ 重复执行稳定性表（重复次数 >1 时）+ 每题明细。
+
+`citationDegraded=true` 表示回答没有合法逐句引用，后端保留请求级检索证据作为降级；这些来源未逐句
+绑定，不能仅凭 sources 非空视为正常引用。`summary.citationDegraded` 单独汇总降级次数和题目 ID。
 
 ## 判分规则（五维度，分两批）
 

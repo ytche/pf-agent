@@ -9,6 +9,8 @@ feat/race/equipment 三模块权威清单导出的单一事实源；三个根级
   - 自描述 header：version / generated_from / source_fingerprint（chunks.jsonl
     内容 sha256，代替时间戳——保幂等，重跑字节一致，验收 D2.7）/ category
   - 条目 = 主条目 component_type 全量（title/别名/book/chunk_id 等枚举字段）
+  - F-008：条目 toc_path 从 chunk 的 chm_toc_path 原样复制（不二次归一），
+    报告给出 total/nonempty/empty；空路径条目保留
   - KN235-① 清洗（仅 equipment）：table_candidates 净增补机制产生的
     表格碎片标题（page_210/page_211 共 33 条，登记 KN235 遗留观察①）
     在导出层 sink 回所属价目表章节/条目——不独立出现在清单 entries；
@@ -27,11 +29,17 @@ feat/race/equipment 三模块权威清单导出的单一事实源；三个根级
 import hashlib
 import json
 import re
-from collections import Counter
+from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Callable, Dict, List, Optional, Set, Tuple
 
-VERSION = "1.0"
+VERSION = "1.1"
+
+
+def _require(condition, message: str) -> None:
+    """显式自校验：python -O 下 assert 会被剥离，关键不变量用 RuntimeError 兜底。"""
+    if not condition:
+        raise RuntimeError(message)
 
 
 # ---------------------------------------------------------------- AKN-025
@@ -206,20 +214,20 @@ def parse_price_table_entries(chunk: dict) -> List[dict]:
                         source = fold_ws(cells[j])
                         break
                 book = source if _BOOK_ABBR.match(source) else chunk_book
-                rows.append({
+                entry = build_base_entry(chunk)
+                entry.update({
                     "name": name,
                     "name_en": name_en,
                     "book": book,
                     "book_name_cn": chunk_book_cn if book == chunk_book else "",
                     "component_type": category,
-                    "chunk_id": chunk.get("chunk_id") or "",
-                    "doc_id": chunk.get("doc_id") or "",
                     "aliases": [],
                     "price": price,
                     "price_gp": parse_price_gp(price, allow_bare=True),
                     "weight": "",
                     "slot": "",
                 })
+                rows.append(entry)
     return rows
 
 
@@ -311,15 +319,28 @@ def table_fragment_reason(chunk: dict) -> Optional[str]:
     return None
 
 
-def _find_sink_target(fragment: dict, by_doc: Dict[str, List[dict]],
-                      fragment_ids: Set[str]) -> Optional[dict]:
-    """碎片行归属：同 doc 内 text 含碎片整行的唯一非碎片 chunk（sink 保真目标）。"""
+def _build_row_owner_index(chunks: List[dict], fragment_ids: Set[str]
+                           ) -> Dict[Tuple[str, str], Set[str]]:
+    """(doc_id, 表格行原文) → 含该行的非碎片 chunk_id 集合（O(1) 归属查询）。"""
+    owners: Dict[Tuple[str, str], Set[str]] = defaultdict(set)
+    for c in chunks:
+        cid = c.get("chunk_id")
+        if cid in fragment_ids:
+            continue
+        doc = c.get("doc_id") or ""
+        for line in (c.get("text") or "").splitlines():
+            row = line.strip()
+            if row:
+                owners[(doc, row)].add(cid)
+    return owners
+
+
+def _find_sink_target(fragment: dict, owners: Dict[Tuple[str, str], Set[str]]
+                      ) -> Optional[str]:
+    """碎片行归属：同 doc 内 text 含碎片整行的唯一非碎片 chunk_id。"""
     row = (fragment.get("text") or "").strip()
-    cands = [
-        c for c in by_doc.get(fragment.get("doc_id") or "", [])
-        if c.get("chunk_id") not in fragment_ids and row and row in (c.get("text") or "")
-    ]
-    return cands[0] if len(cands) == 1 else None
+    cands = owners.get((fragment.get("doc_id") or "", row), set()) if row else set()
+    return next(iter(cands)) if len(cands) == 1 else None
 
 
 # ---------------------------------------------------------------- 条目构建
@@ -333,6 +354,7 @@ def build_base_entry(chunk: dict, name_en: str = "", extras: Optional[dict] = No
         "component_type": chunk.get("component_type") or "",
         "chunk_id": chunk.get("chunk_id") or "",
         "doc_id": chunk.get("doc_id") or "",
+        "toc_path": chunk.get("chm_toc_path") or "",
         "aliases": [str(a) for a in (chunk.get("aliases") or [])],
     }
     if extras:
@@ -354,7 +376,7 @@ def export_list(*, category: str, out_dir: str, main_types: Set[str],
                 include_price_tables: bool = False) -> dict:
     """从 chunks.jsonl 导出权威清单 JSON + 对账报告；返回对账摘要。
 
-    幂等：无时间戳，重跑字节一致。自校验断言：条目数 ≥ min_entries、
+    幂等：无时间戳，重跑字节一致。自校验（RuntimeError）：条目数 ≥ min_entries、
     无空 name、(chunk_id, name) 无重复、无 excluded component_type 混入、
     KN235-① 碎片全部 sink（clean_table_fragments 时，exact expected）。
 
@@ -371,9 +393,7 @@ def export_list(*, category: str, out_dir: str, main_types: Set[str],
                    if include_price_tables else set())
     present_types = {c.get("component_type") or "" for c in chunks}
     excluded = sorted(present_types - main_types - table_types)
-    by_doc: Dict[str, List[dict]] = {}
-    for c in chunks:
-        by_doc.setdefault(c.get("doc_id") or "", []).append(c)
+    by_id: Dict[str, dict] = {c.get("chunk_id"): c for c in chunks}
 
     fragments: List[dict] = []
     fragment_ids: Set[str] = set()
@@ -383,10 +403,11 @@ def export_list(*, category: str, out_dir: str, main_types: Set[str],
                      if c.get("component_type") in main_types
                      and table_fragment_reason(c)]
         fragment_ids = {c.get("chunk_id") for c in fragments}
+        owners = _build_row_owner_index(chunks, fragment_ids)
         for frag in fragments:
-            target = _find_sink_target(frag, by_doc, fragment_ids)
-            if target is not None:
-                sink_of[frag["chunk_id"]] = target["chunk_id"]
+            target_id = _find_sink_target(frag, owners)
+            if target_id is not None:
+                sink_of[frag["chunk_id"]] = target_id
 
     entries: List[dict] = []
     sections: List[dict] = []
@@ -433,8 +454,9 @@ def export_list(*, category: str, out_dir: str, main_types: Set[str],
         }
         host = entry_by_id.get(target_id)
         if host is None:
-            target = next(c for c in by_doc.get(frag.get("doc_id"), [])
-                          if c.get("chunk_id") == target_id)
+            target = by_id.get(target_id)
+            _require(target is not None,
+                     f"KN235-① sink 目标 chunk 不存在: {target_id}")
             host = section_by_id.get(target_id)
             if host is None:
                 host = build_base_entry(target)
@@ -443,6 +465,12 @@ def export_list(*, category: str, out_dir: str, main_types: Set[str],
         host.setdefault("sunk_table_fragments", []).append(frag_payload)
 
     by_book = Counter(e["book"] for e in entries)
+    toc_nonempty = sum(1 for e in entries if e["toc_path"])
+    toc_stats = {
+        "total": len(entries),
+        "nonempty": toc_nonempty,
+        "empty": len(entries) - toc_nonempty,
+    }
     stats = {
         "total": len(entries),
         "by_book": dict(sorted(by_book.items())),
@@ -453,6 +481,7 @@ def export_list(*, category: str, out_dir: str, main_types: Set[str],
     report: dict = {
         "category": category,
         "generated_from": str(chunks_path),
+        "toc_path": toc_stats,
         "issues": [],
         "fragments_sunk": len(sink_of),
         "fragments_unsunk": sorted(
@@ -520,21 +549,24 @@ def export_list(*, category: str, out_dir: str, main_types: Set[str],
     if sections:
         payload["sections"] = sections
 
-    # ---- 自校验断言 ----
-    assert len(entries) >= min_entries, (
-        f"{category} 清单条目数 {len(entries)} < 下界 {min_entries}")
-    assert all(e["name"] for e in entries), f"{category} 清单存在空 name"
-    keys = [(e["chunk_id"], e["name"], e.get("price", "")) for e in entries if e["chunk_id"]]
-    assert len(keys) == len(set(keys)), f"{category} 清单同 chunk 同名同价行重复"
-    assert all(e["component_type"] in main_types | table_types for e in entries), \
-        f"{category} 清单混入 excluded component_type"
+    # ---- 自校验（RuntimeError：python -O 下仍生效） ----
+    _require(len(entries) >= min_entries,
+             f"{category} 清单条目数 {len(entries)} < 下界 {min_entries}")
+    _require(all(e["name"] for e in entries), f"{category} 清单存在空 name")
+    keys = [(e["chunk_id"], e["name"], e.get("price", ""), e["book"])
+            for e in entries if e["chunk_id"]]
+    _require(len(keys) == len(set(keys)),
+             f"{category} 清单同 chunk 同名同价同书行重复")
+    _require(all(e["component_type"] in main_types | table_types for e in entries),
+             f"{category} 清单混入 excluded component_type")
     if clean_table_fragments:
-        assert not report["fragments_unsunk"], (
-            f"KN235-① 碎片未找到唯一 sink 目标: {report['fragments_unsunk']}")
+        _require(not report["fragments_unsunk"],
+                 f"KN235-① 碎片未找到唯一 sink 目标: {report['fragments_unsunk']}")
         if expected_fragments is not None:
-            assert len(fragments) == expected_fragments, (
-                f"KN235-① 碎片检出 {len(fragments)} 条 != 登记 {expected_fragments} 条"
-                "——table_candidates 形态漂移，需人工复核检测规则")
+            _require(len(fragments) == expected_fragments,
+                     f"KN235-① 碎片检出 {len(fragments)} 条 != 登记 {expected_fragments} 条"
+                     "——table_candidates 形态漂移，需人工复核检测规则")
+
 
     json_path = out / f"{category}_lists.json"
     report_path = out / f"{category}_list_export_report.json"
@@ -564,10 +596,15 @@ def make_list_soft_check(display: str, json_path: str, min_total: int):
         except json.JSONDecodeError as e:
             print(f"  ⚠️  WARN 不阻断: {json_path} 非合法 JSON: {e}")
             return True, []
+        if not isinstance(data, dict):
+            print(f"  ⚠️  WARN 不阻断: {json_path} 顶层非 JSON 对象"
+                  f"（{type(data).__name__}）")
+            return True, []
         warns = []
         if data.get("version") != VERSION:
             warns.append(f"version={data.get('version')!r} != {VERSION!r}")
-        total = (data.get("stats") or {}).get("total", 0)
+        stats = data.get("stats")
+        total = stats.get("total", 0) if isinstance(stats, dict) else None
         if not isinstance(total, int) or total < min_total:
             warns.append(f"stats.total={total} < 下界 {min_total}")
         for w in warns:

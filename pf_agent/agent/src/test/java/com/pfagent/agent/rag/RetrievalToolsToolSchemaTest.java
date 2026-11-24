@@ -77,6 +77,26 @@ class RetrievalToolsToolSchemaTest {
         assertThat(query.at("/properties/allowBroadQuery").get("type").asText()).isEqualTo("boolean");
     }
 
+    @Test
+    void getEntryByIdDescriptionDocumentsHeadingExpansion() throws Exception {
+        Method method = RetrievalTools.class.getMethod("getEntryById", String.class, String.class, List.class);
+
+        String description = method.getAnnotation(Tool.class).description();
+
+        assertThat(description).contains("正文只有标题", "doc_id + tocPath", "2~10 条",
+                "大章节或达到检索上限时不自动展开", "按提示继续分批或定向检索", "不递归展开");
+    }
+
+    @Test
+    void searchByMetadataDescriptionDocumentsRaceTraitFilters() throws Exception {
+        Method method = RetrievalTools.class.getMethod("searchByMetadata", String.class, MetadataSearchQuery.class);
+
+        String description = method.getAnnotation(Tool.class).description();
+
+        assertThat(description).contains("raceName", "raceNameEn", "componentType", "race_trait", "alt_trait",
+                "阿斯托莫伊人", "一次一个种族", "不得把部分命中当作全量");
+    }
+
     /** 收集 schema 中所有引用但无法在文档内解析的 $ref（JSON Pointer 解析）。 */
     private static List<String> danglingRefs(JsonNode schema) {
         List<String> dangling = new ArrayList<>();

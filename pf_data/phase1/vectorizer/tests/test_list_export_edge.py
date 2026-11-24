@@ -21,11 +21,12 @@ from vectorizer.list_export import (export_list, fold_ws, fold_lower,
                                     VERSION)
 
 
-def mk(cid, doc, title, text, ctype="gear", md=None, book="CORE"):
+def mk(cid, doc, title, text, ctype="gear", md=None, book="CORE", toc=None):
     return {"chunk_id": cid, "doc_id": doc, "title": title, "text": text,
             "component_type": ctype, "book_abbreviation": book,
             "book_name_cn": "核心规则书", "aliases": [],
-            "metadata": md or {}}
+            "metadata": md or {},
+            "chm_toc_path": toc if toc is not None else ""}
 
 
 FRAG = mk("equipment_page_1_0002", "page_1", "类型：普通",
@@ -65,11 +66,11 @@ class TestFragmentDetection:
 
 
 class TestSinkEdges:
-    def test_fragment_last_row_of_target(self):
+    def test_fragment_last_row_of_target(self, tmp_path):
         """碎片行恰好是 sink 目标 text 的最后一行。"""
         host = mk("equipment_page_1_0001", "page_1", "装备甲",
                   "| 装备甲 | 10 gp |\n" + FRAG["text"])
-        out = write_chunks(self._tmp(), [host, FRAG])
+        out = write_chunks(tmp_path, [host, FRAG])
         r = export_list(category="equipment", out_dir=str(out),
                         main_types={"gear"}, clean_table_fragments=True)
         assert r["entries"] == 1
@@ -77,60 +78,98 @@ class TestSinkEdges:
         assert data["entries"][0]["sunk_table_fragments"][0]["chunk_id"] == FRAG["chunk_id"]
         assert data["stats"]["fragments_sunk"] == 1
 
-    def test_ambiguous_target_unsunk_asserts(self):
+    def test_ambiguous_target_unsunk_asserts(self, tmp_path):
         """同 doc 两个 chunk 都含碎片整行 → 无唯一 sink 目标 → 导出断言失败。"""
         a = mk("equipment_page_1_0001", "page_1", "甲", "| 甲 |\n" + FRAG["text"])
         b = mk("equipment_page_1_0003", "page_1", "乙", "| 乙 |\n" + FRAG["text"])
-        out = write_chunks(self._tmp(), [a, b, FRAG])
-        with pytest.raises(AssertionError, match="未找到唯一 sink"):
+        out = write_chunks(tmp_path, [a, b, FRAG])
+        with pytest.raises(RuntimeError, match="未找到唯一 sink"):
             export_list(category="equipment", out_dir=str(out),
                         main_types={"gear"}, clean_table_fragments=True)
 
-    def test_no_sink_target_unsunk_asserts(self):
+    def test_no_sink_target_unsunk_asserts(self, tmp_path):
         """sink 目标不存在（孤儿碎片）→ 断言失败（兜底 = 显式失败，非静默丢失）。"""
-        out = write_chunks(self._tmp(), [FRAG])
-        with pytest.raises(AssertionError, match="未找到唯一 sink"):
+        out = write_chunks(tmp_path, [FRAG])
+        with pytest.raises(RuntimeError, match="未找到唯一 sink"):
             export_list(category="equipment", out_dir=str(out),
                         main_types={"gear"}, clean_table_fragments=True)
 
-    def test_same_name_cross_doc_no_conflict(self):
+    def test_same_name_cross_doc_no_conflict(self, tmp_path):
         """同名条目跨 doc：归属按 chunk_id + 同 doc 匹配，互不干扰。"""
         d1 = mk("equipment_page_1_0001", "page_1", "同名", "| 同名 | 1 gp |")
         d2 = mk("equipment_page_2_0001", "page_2", "同名", "| 同名 | 2 gp |")
-        out = write_chunks(self._tmp(), [d1, d2])
+        out = write_chunks(tmp_path, [d1, d2])
         r = export_list(category="equipment", out_dir=str(out),
                         main_types={"gear"})
         assert r["entries"] == 2
         data = json.loads((out / "equipment_lists.json").read_text(encoding="utf-8"))
         assert {e["doc_id"] for e in data["entries"]} == {"page_1", "page_2"}
 
-    def test_empty_chunks_below_min_asserts(self):
-        out = write_chunks(self._tmp(), [])
-        with pytest.raises(AssertionError, match="下界"):
+    def test_empty_chunks_below_min_asserts(self, tmp_path):
+        out = write_chunks(tmp_path, [])
+        with pytest.raises(RuntimeError, match="下界"):
             export_list(category="equipment", out_dir=str(out),
                         main_types={"gear"}, min_entries=1)
 
-    def test_missing_title_excluded_from_entries(self):
+    def test_missing_title_excluded_from_entries(self, tmp_path):
         """title 缺失的 chunk 不进 entries（空 name 断言会拦住——应失败而非脏数据）。"""
         c = mk("equipment_page_1_0001", "page_1", "", "| x | 1 gp |")
-        out = write_chunks(self._tmp(), [c])
-        with pytest.raises(AssertionError, match="空 name"):
+        out = write_chunks(tmp_path, [c])
+        with pytest.raises(RuntimeError, match="空 name"):
             export_list(category="equipment", out_dir=str(out),
                         main_types={"gear"})
 
-    def test_excluded_component_types_recorded(self):
+    def test_excluded_component_types_recorded(self, tmp_path):
         c = mk("equipment_page_1_0001", "page_1", "甲", "| 甲 |", ctype="equipment_intro")
         m = mk("equipment_page_1_0002", "page_1", "乙", "| 乙 |")
-        out = write_chunks(self._tmp(), [c, m])
+        out = write_chunks(tmp_path, [c, m])
         export_list(category="equipment", out_dir=str(out), main_types={"gear"})
         data = json.loads((out / "equipment_lists.json").read_text(encoding="utf-8"))
         assert data["excluded_component_types"] == ["equipment_intro"]
         assert [e["name"] for e in data["entries"]] == ["乙"]
 
-    @staticmethod
-    def _tmp(tmp_path_factory=None):
-        import tempfile
-        return Path(tempfile.mkdtemp())
+
+class TestTocPathEdges:
+    """F-008：toc_path 原样直通，空路径条目不丢弃，报告口径守恒。"""
+
+    def test_toc_path_copied_verbatim_no_trim(self, tmp_path):
+        """不做二次归一：首尾空白/分隔符形态与原 chunk 完全一致。"""
+        out = write_chunks(tmp_path, [
+            mk("equipment_page_1_0001", "page_1", "甲", "| 甲 |", toc="装备 → 武器 → 近战"),
+            mk("equipment_page_1_0002", "page_1", "乙", "| 乙 |",
+               toc="  装备 → 护甲 "),
+        ])
+        export_list(category="equipment", out_dir=str(out), main_types={"gear"})
+        data = json.loads((out / "equipment_lists.json").read_text(encoding="utf-8"))
+        by_name = {e["name"]: e for e in data["entries"]}
+        assert by_name["甲"]["toc_path"] == "装备 → 武器 → 近战"
+        assert by_name["乙"]["toc_path"] == "  装备 → 护甲 "
+
+    def test_empty_toc_path_entry_retained_and_reported(self, tmp_path):
+        out = write_chunks(tmp_path, [
+            mk("equipment_page_1_0001", "page_1", "甲", "| 甲 |", toc="装备 → 武器"),
+            mk("equipment_page_1_0002", "page_1", "乙", "| 乙 |", toc=""),
+        ])
+        export_list(category="equipment", out_dir=str(out), main_types={"gear"})
+        data = json.loads((out / "equipment_lists.json").read_text(encoding="utf-8"))
+        report = json.loads(
+            (out / "equipment_list_export_report.json").read_text(encoding="utf-8"))
+        assert [e["name"] for e in data["entries"]] == ["甲", "乙"]
+        assert data["entries"][1]["toc_path"] == ""
+        assert report["toc_path"] == {"total": 2, "nonempty": 1, "empty": 1}
+
+    def test_price_table_entries_carry_source_chunk_toc(self, tmp_path):
+        """AKN-025 价格表条目 chunk_id 指向来源表 chunk，toc_path 同样取自该 chunk。"""
+        table = mk("equipment_page_2_0000", "page_2", "法杖",
+                   "| 名称 | 价格 |\n| --- | --- |\n| 力量法杖 | 235,000 gp |",
+                   ctype="staff", toc="装备/魔法物品 → 魔法物品 → 法杖")
+        out = write_chunks(tmp_path, [table])
+        export_list(category="equipment", out_dir=str(out),
+                    main_types={"gear"}, include_price_tables=True)
+        data = json.loads((out / "equipment_lists.json").read_text(encoding="utf-8"))
+        rows = [e for e in data["entries"] if e["name"] == "力量法杖"]
+        assert len(rows) == 1
+        assert rows[0]["toc_path"] == "装备/魔法物品 → 魔法物品 → 法杖"
 
 
 class TestSoftCheckEdges:
@@ -141,22 +180,35 @@ class TestSoftCheckEdges:
                          else json.dumps(payload, ensure_ascii=False), encoding="utf-8")
         return make_list_soft_check("t", str(p), 10)
 
-    def test_version_mismatch_warns_pass(self, tmp_path):
+    def test_version_mismatch_warns_pass(self, tmp_path, capsys):
         check = self._make(tmp_path, {"version": "0.9", "stats": {"total": 99}})
         ok, issues = check[1]([], {})
         assert ok and issues == []
+        assert "WARN 不阻断" in capsys.readouterr().out
 
-    def test_bad_json_warns_pass(self, tmp_path):
+    def test_bad_json_warns_pass(self, tmp_path, capsys):
         check = self._make(tmp_path, "{oops")
         ok, issues = check[1]([], {})
         assert ok and issues == []
+        assert "非合法 JSON" in capsys.readouterr().out
 
-    def test_total_below_min_warns_pass(self, tmp_path):
+    @pytest.mark.parametrize("payload", ['[]', '"1.0"', '{"version": "1.1", "stats": []}',
+                                         '{"version": "0.9", "stats": {"total": 50},'
+                                         ' "entries": [1, 2]}'])
+    def test_non_dict_json_warns_pass(self, tmp_path, capsys, payload):
+        check = self._make(tmp_path, payload)
+        ok, issues = check[1]([], {})
+        assert ok and issues == []
+        assert "WARN 不阻断" in capsys.readouterr().out
+
+    def test_total_below_min_warns_pass(self, tmp_path, capsys):
         check = self._make(tmp_path, {"version": VERSION, "stats": {"total": 3}})
         ok, issues = check[1]([], {})
         assert ok and issues == []
+        assert "下界" in capsys.readouterr().out
 
-    def test_ok_no_warn(self, tmp_path):
+    def test_ok_no_warn(self, tmp_path, capsys):
         check = self._make(tmp_path, {"version": VERSION, "stats": {"total": 50}})
         ok, issues = check[1]([], {})
         assert ok and issues == []
+        assert "WARN" not in capsys.readouterr().out

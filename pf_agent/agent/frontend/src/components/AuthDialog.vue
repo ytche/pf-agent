@@ -98,7 +98,12 @@ async function submit(): Promise<void> {
           </div>
 
           <div class="modal-links">
-            <button class="link" type="button" @click="auth.switchMode()">
+            <button
+              v-if="auth.registrationEnabled || auth.mode === 'register'"
+              class="link"
+              type="button"
+              @click="auth.switchMode()"
+            >
               {{ auth.mode === 'login' ? '没有账号？注册' : '已有账号？登录' }}
             </button>
             <span class="form-hint">忘记密码请联系管理员重置</span>

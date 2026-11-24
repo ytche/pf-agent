@@ -2,6 +2,56 @@
 
 本项目遵循语义化版本。公开仓（github.com/ytche/pf-agent）为快照式发布，历史不连通，版本变更以本文件为准。
 
+## [0.4.0] - 2026-11-19
+
+**v1.0.0 前的最终候选版（release candidate）。** 自 0.3.1 以来完成一期批 A/批 B 收尾、数据冻结与发布链加固；本版不引入新功能，作为 v1.0.0 的冻结基线。除发布阻断问题外，后续只做版本号与发布说明变更。
+
+### 新增
+
+- **目录清单查询（F-008）**：新增四模块目录清单查询服务与 `listByToc` 工具，清单补 `toc_path` 与导出统计
+- **语义重排（F-016）**：向量召回后经 DeepSeek listwise 重排，50 候选取 15；关闭 thinking 后单次约 3.4 秒，超时/失败/非法输出回退既有排序；请求级来源数量与字节护栏
+- **用量与费用（F-009）**：逐次 LLM 调用用量落库、费用预测接口与前端用量页（按权限过滤）
+- **引用抽取（F-017）**：条目引用离线抽取器与人工核对明细，为后续引用链治理提供基线
+- **发布数据校验器**：新增 `scripts/validate_release_data.py`，打包前校验 8 个向量库与 chunks 产物条数/chunk_id 集合、1024 维 embedding、法术 `tocPath`、背景特性 `trait_type`、阿斯托莫伊人目标条目中英文字段，并核对 7 份清单
+- **发布脚本加固**：`scripts/release_public_snapshot.sh` 先校验再打包，失败即停止；校验与打包共用 `collect_release_files()` 的同一份文件清单，zip 先写临时文件再原子替换，失败不覆盖已有包；数据包固定为 8 个向量库 + 8 份 chunks + `output/<模块>/` 下 7 份清单（含 `rule_tables.json`→规则），输出 zip 文件数、大小与 SHA-256
+- **公开内容门禁与发布审计**：新增 `scripts/release_public_guard.py`，公开仓提交前硬校验实际 `.env`、`.kimi-code/`、过程文档、`.DS_Store`、构建垃圾、密钥文件与私钥/令牌内容；新增 `scripts/release_audit.py`，自动生成 `release-audit-v<版本>.json`（私有/公开 commit、逐文件 SHA-256、8 模块条数、7 清单统计、验收报告路径、外发状态），并把 zip/说明/审计转存到 `RELEASE_ARCHIVE_DIR`（默认 `~/.pf_agent_release/v<版本>`，0644），同版本不同 SHA 拒绝覆盖
+
+### 修复与数据
+
+- **KN-250 法术目录元数据**：补齐 17 个 Spell 聚合 doc 的 URL 解码映射与专用目录回填，法术 chunks 的 `chm_toc_path` 空值 2125→**0**/4202；`spell_lists.json` toc 非空 285→**10007**/10068（余 61 条既有 `join_failed`）；`SpellChunkMapper` 改为真实目录优先
+- **AKN-028 种族特性过滤**：`race_name/race_name_en` 扁平化入向量 metadata，`searchByMetadata` 支持 `raceName`/`raceNameEn` 过滤；默认书黑名单清空，未知来源继续保留；阿斯托莫伊人八项种族特性可按独立 chunk 枚举
+- **AKN-023 章节展开与耗时优化**：标题型父 chunk 按 `doc_id + tocPath` 展开 2~10 条小章节，大章节/capped 保守回退并明示未返回范围；`getEntryById` 支持同模块批量取文；真实三轮八项清规完整 3/3，端到端均值 33.03→25.96 秒
+- **KN-148 背景特性收尾**：扩展书补标 61 条 `trait_type`，剩余 154 条主条目空值按决策保留；空类型在普通查询不降权、类型提问降权 0.05；正式 trait 库由 `TraitDataLoader` 重灌 1222 条
+- **批 A/B 其余收口**：KN-096 专长亚产能归零（feat chunks 6011）、KN-097 Prepare 勘探基线 188 文件重建、KN-120 阿斯托莫伊人结构修正、KN-140 trait source 白名单 45 条、KN-201 跨模块可达性复核；AKN-021 提示文案、AKN-022 字段命名、F-023 管理后台入口与双入口 E2E
+- **预构建包完整安装**：8 份 `chunks.jsonl` 随包发布，修复干净环境条目名索引为空；Compose 挂载完整 `output/`，修复 6 个清单/表格直查服务因文件未挂载而降级
+- **引用异常防线**：非法自由 ID 不再导致检索证据被清空；无合法逐句引用时显式降级并返回 `citationDegraded`，保留链接与代码段；武僧清规显式批量取文复用小章节展开
+- **重复评测**：`qa/evaluate.py` 支持 `--repetitions N`，保留逐次结果并报告逐题通过率、最差分、波动与引用降级次数
+- **发布回归韧性（AKN-032/033）**：`[citation:#N]` 与 `(#N)` 统一为合法数字引用；空回答最多一次无工具重试，模型网络错误最多一次重试；新工具轮增加 60 秒时间预算；`resolveEntry` 支持模块消歧并在同名索引摘要与正文并存时优先正文，恢复药水/卷轴制作题稳定溯源
+
+### 发布说明
+
+- **数据包**：23 个文件 = 8 个 `vector_store_*.json`（classes 14060 / equipment 5342 / feats 6011 / races 3663 / rules 7499 / skills 556 / spells 4202 / traits 1222） + `output/<模块>/` 下 8 份 chunks 与 7 份清单（装备/专长/种族/职业表/法术清单/法术 union/规则表 612 张）
+- **前置条件**：DeepSeek Chat API key（`DEEPSEEK_PF_API`）；本机 Ollama `bge-m3`（1024 维，查询与建库必须同模型）；PostgreSQL 16（默认持久化，`PF_CHAT_MEMORY=memory` 可回退纯内存）
+- **升级重灌**：种族（AKN-028）、背景特性（KN-148）、法术（KN-250）三个向量库的消费字段/目录已变化，旧库不会被自动补写，升级后必须按 `docs/DEPLOYMENT.md` 第六节由对应 DataLoader 全量重灌；本版同时将 classes/feats 正式库对齐到当前 chunks
+- **版权与使用边界**：代码采用 Anti-996 License；Pathfinder 1e 规则文本按 Paizo 社区使用政策（CUP）非商业使用，含第三方社区中文翻译著作权层，仅供个人学习与社区非商业用途，本仓库不收取任何使用费用（详见 `NOTICE.md`）
+
+### 已知边界
+
+- `spell_lists.json` 仍有 **61 条**既有 `join_failed` 条目无目录（占比 61/10068），不影响法术正文检索与其余 10007 条目录命中
+- 背景特性 **215 条**空 `trait_type`（主条目 154、intro 61）为已拍板保留口径，不补标、不剔除；按类型精确枚举这些条目仍缺少结构化证据
+- 规则表清单以 **612 张**为冻结基线，低于基线会阻断发布打包
+- 职业 chunks 存在 **102 个历史重复 chunk_id（151 行重复，31 组书名归属冲突）**：会占用检索候选位，来源书名可能受召回顺序影响；该问题在 0.3.1 已存在，不是本次重灌回退，`SourceCollector` 按 chunk_id 去重后来源列表不重复，列入既有数据债，不阻断候选版
+- `easy-13` 黑莲汁提问可能引用同页语义等价的毒药行或通用规则而非评测指定 chunk；完整回归保留该题为溯源 0，不以内容判断替代来源锚点评分
+- macOS 若开启系统级 SOCKS 代理，JDK 会自动继承 `socksProxyHost`，可能使 JDBC 连接 `127.0.0.1` 失败；本地验证可在 JVM 增加 `-DsocksNonProxyHosts=*` 绕过，Linux/Docker 部署不受影响
+
+### 质量基线
+
+- 数据：`build all --force` 15/15，`build check` 15/15，pytest **2127 passed**
+- Java：`mvn -B test` **1081 项，0 失败 / 0 错误 / 0 skipped**
+- 前端：Vitest **51 passed**；生产构建通过；Playwright E2E **17 passed**；全栈 E2E **5 passed**
+- 发布门禁：真实数据校验 **23 文件**（8 store + 8 chunks + 7 清单）通过；classes/feats 真实 DeepSeek 检索 4 问全部命中正确来源、`gapReported=false`
+- 最终干净环境：本地与 Compose 均直接加载 8 库、8 chunks 与全部清单，`EntryResolver` 42404 条目；真实 56 题溯源 **55/56**、诚实 **56/56**、结构 **3.00**、0 error / 0 404、引用降级 **0**；唯一失败为 `easy-13` 的来源锚点选择
+
 ## [0.3.1] - 2026-11-12
 
 公开快照清理，无功能变更（运行代码与 0.3.0 相同）。

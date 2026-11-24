@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """D3 职业成长表结构化导出器（方案：数据侧产物增强 20260917 §D3）
 
-扫描职业库 chunks.jsonl 中 class_overview 的成长表 chunk（严格口径：表头行
-`等级 | 基本攻击加值 | 强韧` + 数据行），解析为结构化 class_tables.json，
-供 Java 侧 J5 查表工具消费。
+扫描职业库 chunks.jsonl 中 class_overview 的成长表 chunk（主通道严格口径：表头行
+`等级 | 基本攻击加值 | 强韧` + 数据行；BAB 简写与单行压缩表另见 KN237 段），
+解析为结构化 class_tables.json，供 Java 侧 J5 查表工具消费。
 
 数据源 = 职业库 chunks（权威产物），不回读 CHM 源 md（与 D2 同口径）。
 职业键归一复用 spell_list_export 的 CLASS_ALIASES/CANONICAL_CLASS（单一事实源）。
@@ -19,8 +19,20 @@
 
 覆盖率如实处理：解析不出的职业进 coverage.missing（含 doc_id 依据），不硬凑。
 
+KN237 补齐（spec docs/superpowers/specs/2026-11-12-kn237-class-table-parsing-design.md）：
+- 表头放宽：`BAB` 与 `基本攻击加值` 等价（吸血鬼猎人简写表头）；表头内嵌环号的
+  法术列（`每1级|日2级|法3级|术4级`，CHM 折行把「每日法术」拆进各环列）按环号取列。
+- 单行压缩表（催眠师/异能者）：表头一格串接全部列名 + 每行以 `N级` 起行、数值无
+  分隔符。由表头确定列序与环位数，行尾逆向取固定数量法术位，剩余部分为特殊能力。
+- 定向补扫：class_overview 主通道优先；只对当前 coverage.missing 的职业，从同一
+  doc 的其他组件补扫，且只取第一张通过完整校验的表（不放开全量扫描）。
+- 夹具 `vectorizer/config/class_table_overrides.json`：仅对登记的对应职业生效
+  （变形者源页转置压平不可逐级恢复），报告写独立 coverage.overrides，不复用
+  coverage.resolved_via（后者是 Java 的别名→规范职业映射）。
+
 自描述 header：version / generated_at / source_fingerprint（职业 chunks sha256）/
-coverage（parsed/missing）。产物只由本脚本生成，禁止手改；源 md 一律不改。
+coverage（parsed/missing/resolved_via/overrides）。产物只由本脚本生成，禁止手改；
+源 md 一律不改。
 """
 import hashlib
 import json
@@ -34,6 +46,10 @@ OUT_DIR = 'vectorizer/output/职业'
 CHUNKS_PATH = os.path.join(OUT_DIR, 'chunks.jsonl')
 JSON_PATH = os.path.join(OUT_DIR, 'class_tables.json')
 REPORT_PATH = os.path.join(OUT_DIR, 'class_table_export_report.json')
+
+# 夹具配置（相对脚本所在目录，裸 checkout/CI 不依赖 source_chm）
+CONFIG_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                           'vectorizer', 'config', 'class_table_overrides.json')
 
 # 职业键归一常量复用 spell_list_export（单一事实源，D3 方案拍板）
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -84,15 +100,32 @@ MAIN_DIRS = {
     '极限诡道', '其他职业',
 }
 
-# 严格表头行：等级|基本攻击加值|强韧（豁免可缺省），其后列不定
+# 表头行：等级 | 基本攻击加值（主通道严格口径）| 强韧（豁免可缺省），其后列不定
 RE_HEADER = re.compile(
     r'^\s*\|\s*等级\s*\|\s*基本攻击加值\s*\|\s*强韧(?:豁免)?\s*'
     r'\|\s*反射(?:豁免)?\s*\|\s*意志(?:豁免)?\s*\|(.*)$', re.M)
+# 放宽表头（KN237-D1）：BAB 与「基本攻击加值」等价。只用于对 missing 职业的定向补扫，
+# 不进入 class_overview 主通道——全量放宽会额外识别一批进阶职业表，破坏 64→68 验收口径。
+RE_HEADER_RELAXED = re.compile(
+    r'^\s*\|\s*等级\s*\|\s*(?:基本攻击加值|BAB)\s*\|\s*强韧(?:豁免)?\s*'
+    r'\|\s*反射(?:豁免)?\s*\|\s*意志(?:豁免)?\s*\|(.*)$', re.M)
+# 单行压缩表表头：一格串接「等级基本攻击加值强韧豁免反射豁免意志豁免特殊」+ 环号序列
+RE_COMPRESSED_HEADER = re.compile(
+    r'(?:^|\|)\s*等级\s*基本攻击加值\s*强韧(?:豁免)?\s*反射(?:豁免)?\s*意志(?:豁免)?'
+    r'\s*特殊\s*((?:\d+级)+)')
+# 单行压缩表数据行：以 `N级` 起行（物理折行由调用方先拼接）
+RE_COMPRESSED_ROW = re.compile(r'^\s*(\d+)级')
+# 表头内嵌环号的法术列（CHM 折行把「每日法术」拆进各环列：每1级/日2级/法3级/术4级）
+RE_SPELL_RING_CELL = re.compile(r'^[每日法术]+(\d+)级$')
 RE_SEPARATOR = re.compile(r'^\s*\|[\s:\-|]+\|\s*$')
+# 多行文本中的表格分隔行（压缩表 region 截断用；单行版 RE_SEPARATOR 无 re.M，
+# 对多行 chunk 的 `^...$` 只能匹配全文首尾，截断会静默失效）
+RE_SEPARATOR_LINE = re.compile(r'^\s*\|[\s:\-|]+\|\s*$', re.M)
 RE_CAPTION = re.compile(r'\|\s*表\d*\s*[：:]\s*([^|（(]+?)\s*(?:[（(][^|)]*[）)])?\s*\|')
 RE_BAB = re.compile(r'^[+-]\d+(?:\s*/\s*[+-]\d+)*$')
 RE_SAVE = re.compile(r'^[+-]\d+$')
 RE_LEVEL_EN = re.compile(r'^(\d+)(?:st|nd|rd|th)$', re.I)
+RE_LEVEL_CN = re.compile(r'^(\d+)\s*级$')
 RE_TABLE_LINE = re.compile(r'^\s*\|')
 
 SPECIAL_NAMES = ('特殊能力', '特殊', '职业能力')
@@ -146,11 +179,11 @@ def spell_value(cell):
 
 
 def parse_level(cell):
-    """等级格 → int：纯数字或英文序数（1st/2nd/3rd/4th…，进阶职业表常见）。"""
+    """等级格 → int：纯数字、`N级`（简写表头数据行）或英文序数（进阶职业表常见）。"""
     s = (cell or '').strip()
     if re.fullmatch(r'\d+', s):
         return int(s)
-    m = RE_LEVEL_EN.match(s)
+    m = RE_LEVEL_EN.match(s) or RE_LEVEL_CN.match(s)
     if m:
         return int(m.group(1))
     return None
@@ -238,17 +271,23 @@ def parse_table(lines, start_idx, chunk_id, doc_id):
             special_col = 0
             issues.append(f'{doc_id}: 特殊能力列表头未识别，按位置取第 6 列: {tail!r}')
     spell_col = next((i for i, c in enumerate(tail) if c in SPELL_NAMES), None)
+    # 表头内嵌环号的法术列（KN237-D1：BAB 简写表的「每日法术」被折行拆进各环列）
+    header_rings = [(i, int(m.group(1))) for i, c in enumerate(tail)
+                    if (m := RE_SPELL_RING_CELL.match(c))]
+    ring_cols = {i for i, _ in header_rings}
     extra_cols = [i for i, c in enumerate(tail)
-                  if i not in (special_col, spell_col)]
+                  if i not in (special_col, spell_col) and i not in ring_cols]
     total_cols = 5 + len(tail)
 
     # 折行归一后的逻辑行
     raw_rows, i, truncation = collect_rows(lines, start_idx, total_cols, doc_id)
 
-    # 环号子表头：首个「各格为数字或已知标签」的逻辑行
+    # 环号子表头：首个「各格为数字或已知标签」的逻辑行（表头无内嵌环号时）
     rings = None       # 环号 int 列表（顺序 = 数据行法术列自前向后）
     sub_labels = {}    # 附加列下标 → 子表头标签（如 神圣武器→伤害骰）
     rows = []
+    if header_rings:
+        rings = [r for _, r in header_rings]
     for cells in raw_rows:
         if RE_SEPARATOR.match('|' + '|'.join(cells) + '|'):
             continue
@@ -305,8 +344,11 @@ def parse_table(lines, start_idx, chunk_id, doc_id):
                 extras[tail[ci]] = v
         if extras:
             entry['extras'] = extras
-        # 每日法术
-        if rings is not None and spell_col is not None:
+        # 每日法术：表头内嵌环号（每1级/日2级/…）按列直取；否则按环号子表头顺序取尾部列
+        if header_rings:
+            entry['spells'] = {str(ring): spell_value(tail_cells(cells, ci))
+                               for ci, ring in header_rings}
+        elif rings is not None and spell_col is not None:
             spell_cells = cells[5 + spell_col:]
             spells = {}
             for k, ring in enumerate(rings):
@@ -348,7 +390,7 @@ def tail_cells(cells, tail_idx):
 
 
 def iter_hit_chunks(chunks):
-    """严格口径命中：class_overview 且含成长表表头行。"""
+    """命中口径（供测试/诊断）：class_overview 且含严格成长表表头行。"""
     for ch in chunks:
         if ch.get('component_type') != 'class_overview':
             continue
@@ -357,18 +399,314 @@ def iter_hit_chunks(chunks):
             yield ch, m
 
 
-def build(chunks):
-    """主解析：返回 (classes, coverage, report)。"""
+def take_tail_spells(text, count):
+    """单行压缩表行尾逆向取固定数量法术位（KN237-D4）。
+
+    返回 (tokens, rest)：tokens 与表头环号同序（None=空位），rest = 特殊能力原文。
+    只按 count 取值，防止「多重诡计（2）」「催眠注视（-3）」等特殊能力文本里的
+    数字被误当法术位；取不满 count 格返回 (None, 原文)。
+    """
+    s = (text or '').rstrip()
+    tokens = []
+    for _ in range(count):
+        s = s.rstrip()
+        if not s:
+            return None, text
+        if s[-1] in '—-－':
+            tokens.append(None)
+            s = s[:-1]
+            continue
+        m = re.search(r'(\d+\+\d+|\d)$', s)
+        if not m:
+            return None, text
+        tokens.append(spell_value(m.group(1)))
+        s = s[:m.start()]
+    tokens.reverse()
+    return tokens, s.strip()
+
+
+def parse_compressed_table(text, chunk_id, doc_id):
+    """解析单行压缩成长表（催眠师/异能者），返回 (record|None, issues)。
+
+    CHM→md 把整张表压成一行 pipe 单元：表头一格串接全部列名 + 环号序列，数据行以
+    `N级` 起行且 BAB/三豁免/特殊能力/法术位之间无分隔符；物理折行还会把行尾数字
+    挤到下一行（`…55543\\n1 | 17级…`），故先把表区折行拼平再按 `|` 切分。
+    列序与环位数由表头确定，行尾逆序取固定数量法术位，剩余部分为特殊能力。
+    """
+    m = RE_COMPRESSED_HEADER.search(text or '')
+    if not m:
+        return None, []
+    rings = [int(x) for x in re.findall(r'(\d+)级', m.group(1))]
+    region = (text or '')[m.start():]
+    sep = RE_SEPARATOR_LINE.search(region)
+    if sep:
+        region = region[:sep.start()]
+    cells = [re.sub(r'\s+', ' ', c).strip() for c in region.replace('\n', ' ').split('|')]
+    issues, levels = [], {}
+    for cell in cells:
+        lm = RE_COMPRESSED_ROW.match(cell)
+        if not lm:
+            continue
+        lv = int(lm.group(1))
+        rest = cell[lm.end():].strip()
+        bm = re.match(r'([+-]\d+(?:\s*/\s*[+-]\d+)*)', rest)
+        if not bm:
+            issues.append(f'{doc_id}: 等级 {lv} BAB 格无法解析: {rest[:30]!r}')
+            continue
+        bab = fold_bab(bm.group(1))
+        rest = rest[bm.end():]
+        saves = []
+        for _ in range(3):
+            sm = re.match(r'\s*([+-]\d+)', rest)
+            if not sm:
+                break
+            saves.append(sm.group(1))
+            rest = rest[sm.end():]
+        if len(saves) != 3 or not RE_BAB.match(bab) \
+                or not all(RE_SAVE.match(s) for s in saves):
+            issues.append(f'{doc_id}: 等级 {lv} BAB/豁免形态异常: {bab!r} {saves!r}')
+            continue
+        slots, special_text = take_tail_spells(rest, len(rings))
+        if slots is None:
+            issues.append(f'{doc_id}: 等级 {lv} 行尾法术位不足 {len(rings)} 位: {rest[-40:]!r}')
+            continue
+        entry = {
+            'bab': bab,
+            'bab_attacks': bab_attacks(bab),
+            'fort': saves[0],
+            'ref': saves[1],
+            'will': saves[2],
+            'spells': {str(r): v for r, v in zip(rings, slots)},
+        }
+        special = split_special(special_text)
+        if special:
+            entry['special'] = special
+        if lv in levels:
+            issues.append(f'{doc_id}: 等级 {lv} 重复行，后行覆盖')
+        levels[lv] = entry
+    if not levels:
+        return None, issues + [f'{doc_id}: 单行压缩表无可用数据行（chunk {chunk_id[:8]}）']
+    seq = sorted(levels)
+    if seq != list(range(1, len(seq) + 1)):
+        return None, issues + [f'{doc_id}: 单行压缩表等级不连续 {seq}（表被截断或解析错位）']
+    record = {
+        'source_chunk_id': chunk_id,
+        'source_doc_id': doc_id,
+        'max_level': seq[-1],
+        'has_spell_table': True,
+        'spell_levels': len(rings),
+        'levels': {str(lv): levels[lv] for lv in seq},
+        'spell_rings': rings,
+    }
+    return record, issues
+
+
+def validate_record(rec):
+    """成长表 record 完整性校验（解析通道与夹具共用）。通过返回 None，否则返回原因。"""
+    levels = rec.get('levels') or {}
+    if not levels:
+        return 'levels 为空'
+    try:
+        seq = sorted(int(lv) for lv in levels)
+    except (TypeError, ValueError):
+        return 'levels 键非等级数字'
+    max_level = int(rec.get('max_level') or 0)
+    if seq != list(range(1, max_level + 1)):
+        return f'等级不连续或与 max_level 不符 {seq} / {max_level}'
+    for lv in seq:
+        e = levels.get(str(lv))
+        if not isinstance(e, dict):
+            return f'等级 {lv} 条目缺失或非对象'
+        if not RE_BAB.match(e.get('bab') or ''):
+            return f'等级 {lv} BAB 形态异常: {e.get("bab")!r}'
+        for sk in ('fort', 'ref', 'will'):
+            if not RE_SAVE.match(e.get(sk) or ''):
+                return f'等级 {lv} {sk} 形态异常: {e.get(sk)!r}'
+        if not rec.get('has_spell_table') and 'spells' in e:
+            return f'等级 {lv} 非施法职业不应有 spells'
+    return None
+
+
+def load_overrides(path=None):
+    """加载夹具配置 → {规范职业名: 夹具条目}；文件缺失返回 {}（裸 checkout/CI 可跑）。"""
+    path = path or CONFIG_PATH
+    if not os.path.exists(path):
+        return {}
+    with open(path, encoding='utf-8') as f:
+        data = json.load(f)
+    out = {}
+    for item in data.get('overrides') or []:
+        raw = (item.get('class') or '').strip()
+        if not raw:
+            continue
+        key = CLASS_ALIASES.get(raw, raw)
+        out[CANONICAL_CLASS.get(key, key)] = item
+    return out
+
+
+def apply_overrides(classes, overrides, report):
+    """应用夹具（夹具对其登记的职业优先级最高），返回 (溯源记录, 失败原因)。
+
+    失败（等级不连续/BAB 或豁免形态非法）不改 classes，交回调用方进 coverage.missing。
+    """
+    provenance, failures = {}, {}
+    for key, item in overrides.items():
+        rec = {
+            'source_chunk_id': item.get('source_chunk_id'),
+            'source_doc_id': item.get('source_doc_id'),
+            'max_level': item.get('max_level'),
+            'has_spell_table': bool(item.get('has_spell_table')),
+            'spell_levels': int(item.get('spell_levels') or 0),
+            'levels': item.get('levels') or {},
+        }
+        reason = validate_record(rec)
+        if reason:
+            failures[key] = reason
+            report['issues'].append(f'夹具 {key}: {reason}')
+            continue
+        rec['class'] = key
+        if rec['has_spell_table']:
+            first = rec['levels'][str(min(int(lv) for lv in rec['levels']))]
+            rec['spell_rings'] = sorted(int(k) for k in (first.get('spells') or {}))
+        replaced = key in classes
+        if replaced:
+            # 夹具优先：原解析结果降级为 variant，保留溯源不丢数据
+            old = classes[key]
+            rec.setdefault('variants', []).extend(old.get('variants') or [])
+            rec['variants'].insert(0, {k: v for k, v in old.items() if k != 'variants'})
+        classes[key] = rec
+        report.setdefault('tables', {}).setdefault(key, {'sources': []})['sources'].append(
+            {'doc_id': rec['source_doc_id'], 'chunk_id': rec['source_chunk_id'],
+             'role': 'override'})
+        provenance[key] = {
+            'source_chunk_id': rec['source_chunk_id'],
+            'source_doc_id': rec['source_doc_id'],
+            'source_html': item.get('source_html'),
+            'extracted_at': item.get('extracted_at'),
+            'replaced_parsed': replaced,
+        }
+    return provenance, failures
+
+
+def scan_supplement(chunks, doc_id, report):
+    """定向补扫：同一 doc 的组件里取第一张通过完整校验的成长表。
+
+    只对 coverage.missing 的职业调用，且表头放宽为「基本攻击加值 | BAB」等价——
+    不放开全量扫描（KN237-D2）。`class_overview` 主通道已先跑过严格口径，这里
+    再扫一次同 doc 不会扩大范围（键已解析的职业不会进入补扫）。
+    """
+    for ch in chunks:
+        if (ch.get('doc_id') or '').strip() != doc_id:
+            continue
+        text = (ch.get('text') or '').replace('\r', '\n')
+        if not RE_HEADER_RELAXED.search(text):
+            continue
+        chunk_id = ch.get('chunk_id') or ''
+        lines = text.split('\n')
+        idx = 0
+        while idx < len(lines):
+            if not RE_HEADER_RELAXED.match(lines[idx]):
+                idx += 1
+                continue
+            record, issues, next_idx = parse_table(lines, idx, chunk_id, doc_id)
+            report['issues'].extend(issues)
+            if record is not None:
+                return record
+            idx = next_idx
+    return None
+
+
+def _insert_class(classes, report, key, record, doc_id, chunk_id, role):
+    """登记解析结果：首见为 primary，同键再次出现保留为 variants（多来源）。"""
+    if key in classes:
+        classes[key].setdefault('variants', []).append(record)
+        report.setdefault('tables', {}).setdefault(key, {'sources': []})['sources'].append(
+            {'doc_id': doc_id, 'chunk_id': chunk_id, 'role': 'variant'})
+        return False
+    record['class'] = key
+    classes[key] = record
+    report['tables'][key] = {'sources': [{'doc_id': doc_id, 'chunk_id': chunk_id, 'role': role}]}
+    return True
+
+
+def _coverage(classes, parse_failures, doc_first):
+    """计算 coverage：parsed / missing / resolved_via（overrides 由调用方并入）。"""
+    candidates = {CANONICAL_CLASS.get(k, k) for k in CLASS_LISTS}
+    candidates.update(CLASS_ALIASES.get(k, k) for k in doc_first)
+    missing, resolved_via = [], {}
+    for c in sorted(candidates):
+        canon = CLASS_ALIASES.get(c, c)
+        canon = CANONICAL_CLASS.get(canon, canon)
+        if canon in classes:
+            continue
+        # D2 口径：别名/去括号基名/目录归属已解析到别的键 → 记 resolved_via 不算 missing
+        base = re.sub(r'[（(].*?[）)]', '', c).strip()
+        base = CLASS_ALIASES.get(base, base)
+        base = CANONICAL_CLASS.get(base, base)
+        if base != c and base in classes:
+            resolved_via[c] = base
+            continue
+        # D2：表题归属目录后于别的键解析（page_73 表题「骑士」→ 目录归属「骑将」）
+        rv = RESOLVED_VIA_TABLE.get(c)
+        if rv and rv in classes:
+            resolved_via[c] = rv
+            continue
+        if c in parse_failures:
+            f = parse_failures[c]
+            missing.append({'class': c, 'reason': f'成长表解析失败（拒收）: {f["reason"]}',
+                            'doc_id': f['doc_id']})
+            continue
+        missing.append({'class': c, 'reason': 'class_overview 无成长表（未命中 等级|基本攻击加值|BAB|强韧 表头行）',
+                        'doc_id': doc_first.get(c)})
+    # 命中表但职业键不在候选集内的拒收（如进阶职业散页）也如实登记
+    for key, f in sorted(parse_failures.items()):
+        if key not in candidates:
+            missing.append({'class': key, 'reason': f'成长表解析失败（拒收）: {f["reason"]}',
+                            'doc_id': f['doc_id']})
+    return missing, resolved_via
+
+
+def build(chunks, overrides=None):
+    """主解析：返回 (classes, coverage, report)。
+
+    通道顺序：class_overview（标准表头 + 单行压缩表）→ 仅对 missing 职业的同 doc
+    其他组件定向补扫（BAB 表头放宽）→ 夹具覆盖。overrides 传 None 时从 config
+    加载（缺文件视为无夹具）。
+    """
+    if overrides is None:
+        overrides = load_overrides()
     classes = {}
-    report = {'tables': {}, 'issues': []}
+    report = {'tables': {}, 'issues': [], 'supplements': []}
     hit_docs = set()
     parse_failures = {}  # key|doc_id → reason（截断/不连续等拒收原因，进 coverage.missing）
+    doc_first = {}
 
-    for ch, _m in iter_hit_chunks(chunks):
+    # ---- 通道 1：class_overview（主通道）----
+    for ch in chunks:
+        if ch.get('component_type') != 'class_overview':
+            continue
         doc_id = (ch.get('doc_id') or '').strip()
         chunk_id = ch.get('chunk_id') or ''
-        hit_docs.add(doc_id)
         text = (ch.get('text') or '').replace('\r', '\n')
+        parts = doc_id.split('/')
+        if len(parts) >= 2 and parts[0] in MAIN_DIRS and not parts[1].endswith('.md'):
+            doc_first.setdefault(parts[1].strip(), doc_id)
+
+        # 单行压缩表（催眠师/异能者）：整块 chunk 一张表
+        if RE_COMPRESSED_HEADER.search(text):
+            record, issues = parse_compressed_table(text, chunk_id, doc_id)
+            report['issues'].extend(issues)
+            key = class_key_of(None, doc_id) or class_key_from_text(text)
+            if record is not None and key is not None:
+                _insert_class(classes, report, key, record, doc_id, chunk_id, 'primary')
+                hit_docs.add(doc_id)
+            elif record is None and key is not None:
+                reason = '；'.join(i for i in issues if doc_id in i) or '单行压缩表解析失败'
+                parse_failures.setdefault(key, {'class': key, 'reason': reason,
+                                                'doc_id': doc_id})
+            elif record is not None:
+                report['issues'].append(f'{doc_id}: 单行压缩表职业键无法归属')
+
         lines = text.split('\n')
         # 逐张表解析（一个 chunk 内可能有表标题 + 表头行；进阶职业合并页一张表一个 chunk）
         idx = 0
@@ -399,66 +737,49 @@ def build(chunks):
             if key is None:
                 report['issues'].append(f'{doc_id}: 职业键无法归属（无表标题且 doc_id 无目录前缀）')
                 continue
-            if key in classes:
-                # 键冲突（同职业多来源：核心 vs 掉链子/APG vs Unchained）——保留多个并记溯源
-                entry = classes[key]
-                entry.setdefault('variants', []).append(record)
-                report['tables'].setdefault(key, {'sources': []})['sources'].append(
-                    {'doc_id': doc_id, 'chunk_id': chunk_id, 'role': 'variant'})
-            else:
-                record['class'] = key
-                classes[key] = record
-                report['tables'][key] = {'sources': [{'doc_id': doc_id, 'chunk_id': chunk_id,
-                                                      'role': 'primary'}]}
+            _insert_class(classes, report, key, record, doc_id, chunk_id, 'primary')
+            hit_docs.add(doc_id)
 
-    # ---- coverage ----
-    candidates = {CANONICAL_CLASS.get(k, k) for k in CLASS_LISTS}
-    doc_first = {}
-    for ch in chunks:
-        if ch.get('component_type') != 'class_overview':
+    # ---- 通道 2：仅对当前 missing 职业的定向补扫 ----
+    missing, resolved_via = _coverage(classes, parse_failures, doc_first)
+    supplemented = set()
+    for item in list(missing):
+        key = item['class']
+        doc = doc_first.get(key)
+        if not doc or key in classes:
             continue
-        d = (ch.get('doc_id') or '').strip()
-        parts = d.split('/')
-        if len(parts) >= 2 and parts[0] in MAIN_DIRS and not parts[1].endswith('.md'):
-            sub = parts[1].strip()
-            candidates.add(CLASS_ALIASES.get(sub, sub))
-            doc_first.setdefault(sub, d)
+        record = scan_supplement(chunks, doc, report)
+        if record is None:
+            continue
+        _insert_class(classes, report, key, record, doc, record['source_chunk_id'], 'supplement')
+        hit_docs.add(doc)
+        supplemented.add(key)
+        report['supplements'].append({'class': key, 'doc_id': doc,
+                                      'chunk_id': record['source_chunk_id']})
+        parse_failures.pop(key, None)
+
+    # ---- 通道 3：夹具（优先级最高，仅对登记职业生效）----
+    override_provenance, override_failures = apply_overrides(classes, overrides, report)
+    for key, reason in override_failures.items():
+        parse_failures.setdefault(key, {'class': key, 'reason': f'夹具拒收: {reason}',
+                                        'doc_id': (overrides[key].get('source_doc_id'))})
+
+    # ---- coverage（补扫/夹具生效后重算）----
+    missing, resolved_via = _coverage(classes, parse_failures, doc_first)
     parsed = sorted(classes)
-    missing = []
-    resolved_via = {}
-    for c in sorted(candidates):
-        canon = CLASS_ALIASES.get(c, c)
-        canon = CANONICAL_CLASS.get(canon, canon)
-        if canon in classes:
-            continue
-        # D2 口径：别名/去括号基名/目录归属已解析到别的键 → 记 resolved_via 不算 missing
-        base = re.sub(r'[（(].*?[）)]', '', c).strip()
-        base = CLASS_ALIASES.get(base, base)
-        base = CANONICAL_CLASS.get(base, base)
-        if base != c and base in classes:
-            resolved_via[c] = base
-            continue
-        # D2：表题归属目录后于别的键解析（page_73 表题「骑士」→ 目录归属「骑将」）
-        rv = RESOLVED_VIA_TABLE.get(c)
-        if rv and rv in classes:
-            resolved_via[c] = rv
-            continue
-        if c in parse_failures:
-            f = parse_failures[c]
-            missing.append({'class': c, 'reason': f'成长表解析失败（拒收）: {f["reason"]}',
-                            'doc_id': f['doc_id']})
-            continue
-        missing.append({'class': c, 'reason': 'class_overview 无成长表（未命中 等级|基本攻击加值|强韧 表头行）',
-                        'doc_id': doc_first.get(c)})
-    # 命中表但职业键不在候选集内的拒收（如进阶职业散页）也如实登记
-    for key, f in sorted(parse_failures.items()):
-        if key not in candidates:
-            missing.append({'class': key, 'reason': f'成长表解析失败（拒收）: {f["reason"]}',
-                            'doc_id': f['doc_id']})
-    coverage = {'parsed': parsed, 'missing': missing, 'resolved_via': resolved_via,
-                'stats': {'parsed': len(parsed), 'missing': len(missing),
-                          'resolved_via': len(resolved_via),
-                          'table_chunks_hit': len(hit_docs)}}
+    # stats.table_chunks_hit = 真正产出成长表 record 的 doc 数（主通道 + 定向补扫；
+    # 夹具来源页不是可解析成长表，不计入）。注意它不是 class_overview 文档总数。
+    coverage = {
+        'parsed': parsed,
+        'missing': missing,
+        'resolved_via': resolved_via,
+        'overrides': override_provenance,
+        'stats': {'parsed': len(parsed), 'missing': len(missing),
+                  'resolved_via': len(resolved_via),
+                  'overrides': len(override_provenance),
+                  'supplemented': len(supplemented),
+                  'table_chunks_hit': len(hit_docs)},
+    }
     return classes, coverage, report
 
 
@@ -469,7 +790,8 @@ def main():
     fingerprint = hashlib.sha256(
         open(CHUNKS_PATH, 'rb').read()).hexdigest()
 
-    classes, coverage, report = build(chunks)
+    overrides = load_overrides()
+    classes, coverage, report = build(chunks, overrides=overrides)
 
     payload = {
         'version': VERSION,

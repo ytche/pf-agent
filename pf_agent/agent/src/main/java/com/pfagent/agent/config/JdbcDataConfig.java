@@ -31,7 +31,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableJpaRepositories(basePackages = {
         "com.pfagent.agent.memory",
         "com.pfagent.agent.auth",
-        "com.pfagent.agent.telemetry"
+        "com.pfagent.agent.telemetry",
+        "com.pfagent.agent.usage"
 })
 @EnableTransactionManagement
 public class JdbcDataConfig {

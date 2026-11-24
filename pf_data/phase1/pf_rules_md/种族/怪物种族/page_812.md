@@ -1,3 +1,4 @@
+<!-- 非 canonical 快照：canonical 源文 = pf_rules_md_organized/种族/怪物种族/page_812.md（KN120 已规范化并拆分）；本文件为未整理原始副本（混合行尾），勿据此回写、勿全量重写 -->
 [http://45.79.87.129/bbs/index.php?topic=89001.0](http://45.79.87.129/bbs/index.php?topic=89001.0)
 
 

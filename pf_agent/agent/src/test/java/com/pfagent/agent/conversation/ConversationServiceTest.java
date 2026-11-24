@@ -161,7 +161,7 @@ class ConversationServiceTest {
     void regenerateMapsChatServiceResultToChatAnswer() {
         when(chatService.regenerate("c1", 7L, 2)).thenReturn(new ChatService.RegenerateResult(
                 "c1", 9L, 2, "答", List.of(new ChatResponse.SourceRef("CRB", "p", "c", "x")),
-                true, Instant.EPOCH));
+                true, Instant.EPOCH, true));
 
         ChatResponse response = service.regenerate("c1", 7L, 2);
 
@@ -170,6 +170,7 @@ class ConversationServiceTest {
         assertThat(response.messageSeq()).isEqualTo(2);
         assertThat(response.completedAt()).isEqualTo(Instant.EPOCH);
         assertThat(response.gapReported()).isTrue();
+        assertThat(response.citationDegraded()).isTrue();
     }
 
     private static ConversationStore.ConversationView view(String id, Long owner) {

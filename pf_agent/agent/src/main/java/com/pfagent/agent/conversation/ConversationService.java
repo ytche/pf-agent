@@ -124,7 +124,8 @@ public class ConversationService {
         ChatService.RegenerateResult result =
                 chatService.regenerate(conversationId, userId, expectedLastSeq);
         return new ChatResponse(result.answer(), result.sources(), result.gapReported(),
-                result.conversationId(), result.messageId(), result.messageSeq(), result.completedAt());
+                result.conversationId(), result.messageId(), result.messageSeq(), result.completedAt(),
+                result.citationDegraded());
     }
 
     /** 消息行 → API DTO：解析引用快照 JSON（null 保持 null，损坏时降级 null 并记 WARN） */

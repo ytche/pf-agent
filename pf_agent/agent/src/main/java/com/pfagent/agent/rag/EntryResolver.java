@@ -96,7 +96,11 @@ public class EntryResolver {
 
     /** 条目引用：解析与链接输出的最小元数据 */
     public record EntryRef(String module, String chunkId, String title,
-                           String bookNameCn, String bookAbbreviation) {
+                           String bookNameCn, String bookAbbreviation, String componentType) {
+        public EntryRef(String module, String chunkId, String title,
+                        String bookNameCn, String bookAbbreviation) {
+            this(module, chunkId, title, bookNameCn, bookAbbreviation, null);
+        }
     }
 
     /** 条目链接：目标条目 + 关系说明（如 "前置专长"、"法师 1 环"） */
@@ -110,7 +114,7 @@ public class EntryResolver {
 
     /** jsonl 行的轻量中间模型：只留索引用字段，避免持有 42K 行完整 text */
     private record Row(String module, String chunkId, String title, String bookNameCn,
-                       String bookAbbreviation, List<String> names,
+                       String bookAbbreviation, String componentType, List<String> names,
                        String baseChunkId, String baseTitle, String baseBook,
                        List<Map<String, Object>> prereqItems,
                        List<String[]> spellLevels) {
@@ -134,7 +138,8 @@ public class EntryResolver {
     }
 
     /**
-     * 按名解析条目（可指定模块消歧/收窄）。
+     * 按名解析条目（可指定模块消歧/收窄）。同组存在非 `_index` 正文候选时过滤冗余索引摘要；
+     * 只有索引候选时保留，不同书、模块和正文候选不做合并。
      *
      * @param name   条目名或别名
      * @param module 目标模块（可空 = 全模块）；非空时只返回该模块候选
@@ -151,6 +156,7 @@ public class EntryResolver {
         if (module != null && !module.isBlank()) {
             refs.removeIf(ref -> !module.equals(ref.module()));
         }
+        refs.removeIf(ref -> isIndex(ref) && hasSubstantivePeer(ref, refs));
         return refs;
     }
 
@@ -276,7 +282,7 @@ public class EntryResolver {
     /** 注册条目：标题 + aliases 入名归一索引（同 chunk 多名字去重） */
     private void register(Row row) {
         EntryRef ref = new EntryRef(row.module(), row.chunkId(), row.title(),
-                row.bookNameCn(), row.bookAbbreviation());
+                row.bookNameCn(), row.bookAbbreviation(), row.componentType());
         String chunkKey = chunkKey(row.module(), row.chunkId());
         entriesByChunkKey.put(chunkKey, ref);
         for (String name : row.names()) {
@@ -429,6 +435,7 @@ public class EntryResolver {
                 str(raw.get("title")),
                 str(raw.get("book_name_cn")),
                 str(raw.get("book_abbreviation")),
+                str(raw.get("component_type")),
                 names(raw, metadata),
                 str(raw.get("base_spell_chunk_id")),
                 str(raw.get("base_spell_title")),
@@ -446,6 +453,7 @@ public class EntryResolver {
                 str(raw.get("title")),
                 str(raw.get("book_name_cn")),
                 str(raw.get("book_abbreviation")),
+                str(raw.get("component_type")),
                 names(raw, metadata),
                 null, null, null,
                 prereqItems(metadata.get("prerequisites")),
@@ -499,6 +507,16 @@ public class EntryResolver {
             }
         }
         return result;
+    }
+
+    private boolean isIndex(EntryRef ref) {
+        return ref.componentType() != null && ref.componentType().endsWith("_index");
+    }
+
+    private boolean hasSubstantivePeer(EntryRef ref, List<EntryRef> refs) {
+        return refs.stream().anyMatch(peer -> peer != ref && !isIndex(peer)
+                && ref.module().equals(peer.module())
+                && java.util.Objects.equals(ref.bookAbbreviation(), peer.bookAbbreviation()));
     }
 
     /** module|chunkId 组合键（与 SearchService 跨模块去重键风格一致） */

@@ -10,8 +10,8 @@ import java.util.Map;
 /**
  * 法术 chunk → Document 映射
  *
- * 从 SpellDataLoader 抽离，保持原 toDocument 逻辑不变。
- * tocPath 语义：doc_id > title（对齐向量化阶段）。
+ * 从 SpellDataLoader 抽离。
+ * tocPath 优先使用真实 CHM 目录，旧产物缺字段时回退为 doc_id > title。
  */
 @Component
 public class SpellChunkMapper implements ChunkMapper<SpellChunk> {
@@ -27,10 +27,9 @@ public class SpellChunkMapper implements ChunkMapper<SpellChunk> {
         meta.put("book_name_en", c.book_name_en());
         meta.put("aliases", c.aliases() == null ? "" : String.join(", ", c.aliases()));
 
-        // 来源追溯路径：doc_id > title（对齐向量化阶段 tocPath 语义）
-        String tocPath = (c.doc_id() == null ? "" : c.doc_id())
-                + " > "
-                + (c.title() == null ? "" : c.title());
+        String tocPath = c.chm_toc_path() == null || c.chm_toc_path().isBlank()
+                ? (c.doc_id() == null ? "" : c.doc_id()) + " > " + (c.title() == null ? "" : c.title())
+                : c.chm_toc_path();
         meta.put("tocPath", tocPath);
 
         // SP8c J6：神话变体法术的结构化"基础法术"指针透传（257 条链），

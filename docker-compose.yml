@@ -3,8 +3,8 @@
 #
 # 约定：
 # - .env（由 .env.example 复制）提供 DEEPSEEK_PF_API 等变量。
-# - 应用把向量库/JSONL 写到容器内 ~/.pf_agent/（= /home/appuser/.pf_agent/），
-#   由 ./data 卷映射持久化——把「预构建数据包」里的 vector_store_*.json 解压进 ./data 即可。
+# - 预构建数据包完整解压到 ./data/：向量库由 ./data 卷映射到 ~/.pf_agent/，
+#   chunks 与清单由 ./data/output 只读映射到应用默认数据目录，运行时记录仍写 ~/.pf_agent/。
 # - ollama 服务首启在后台 serve 并自动拉取 bge-m3 模型（模型存 named volume，二次启动即用）。
 # - pg 为默认服务（SP7 起会话持久化默认 jdbc）：app depends_on pg(service_healthy) 启动即就绪，
 #   会话历史/用户表（Flyway 自动迁移）都落 PG。纯内存模式：PF_CHAT_MEMORY=memory
@@ -47,8 +47,9 @@ services:
       PF_AUTH_JWT_SECRET: ${PF_AUTH_JWT_SECRET:-pf-agent-dev-jwt-secret-change-me}
       PF_AUTH_TOKEN_TTL_HOURS: ${PF_AUTH_TOKEN_TTL_HOURS:-72}
     volumes:
-      # 向量库/JSONL 持久化（预构建数据包放 ./data/）
+      # 预构建数据包完整解压到 ./data/：向量库在根目录，chunks 与清单在 output/<模块>/
       - ./data:/home/appuser/.pf_agent
+      - ./data/output:/pf_data/phase1/vectorizer/output:ro
     # 说明：未配 healthcheck——eclipse-temurin jre 镜像不含 curl，加了会误判 unhealthy。
     # 就绪判定以日志「Started AgentApplication」/ curl /api/health 为准（见 DEPLOYMENT）。
 

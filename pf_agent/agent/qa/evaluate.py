@@ -14,6 +14,9 @@
     # 指定 base-url / 输出目录
     python3 evaluate.py --base-url http://localhost:8080 --report-dir ./out
 
+    # 每题独立重复 3 次，保留逐次结果并统计通过率、最差分和波动
+    python3 evaluate.py --repetitions 3 --report-dir ./out-repetitions
+
     # 启用 B 批 LLM-as-judge（需 golden_answer_points 非空 + DeepSeek key）
     DEEPSEEK_API_KEY=sk-xxx python3 evaluate.py --judge
 
@@ -38,8 +41,9 @@ AKN-026 诚实性判分（A 批第 2 维，用户拍板「负例优先」）：
     - 每题保存 gapReported 原始值与判定依据（matchedPhrase / llmReason / pendingReason）。
 
 输出：
-    qa_report.json   每题 5 维度得分 + 总分 + 明细 + gapReported / honesty_basis
-    qa_report.md     汇总表（按维度 / 按模块聚合）+ 每题明细
+    qa_report.json   每次执行的 5 维度得分 + 明细 + gapReported / citationDegraded；
+                     summary.itemStats 提供逐题通过率、最差分、波动与降级次数
+    qa_report.md     汇总表（按维度 / 按模块聚合）+ 重复执行稳定性表 + 每题明细
 """
 import argparse
 import json
@@ -68,6 +72,13 @@ HONESTY_MODEL = "deepseek-flash"
 
 def build_url(base_url: str, path: str) -> str:
     return base_url.rstrip("/") + path
+
+
+def positive_int(value: str) -> int:
+    parsed = int(value)
+    if parsed < 1:
+        raise argparse.ArgumentTypeError("repetitions 必须 >= 1")
+    return parsed
 
 
 # ---------------------------------------------------------------------------
@@ -378,51 +389,107 @@ def aggregate(report_items: list) -> dict:
                                       + (it["scores"].get("拒绝诚实性") or 0))
         basis = it.get("honesty_basis") or {}
         if it["scores"].get("拒绝诚实性") is None and basis.get("path") == "pending":
-            honesty_pending["count"] += 1
             honesty_pending["ids"].append(it.get("id"))
             honesty_pending["reasons"][it.get("id")] = basis.get("pendingReason") or ""
+    honesty_pending["ids"] = list(dict.fromkeys(honesty_pending["ids"]))
+    honesty_pending["count"] = len(honesty_pending["ids"])
+    degraded_count = sum(bool(it.get("citationDegraded")) for it in report_items)
+    degraded_ids = list(dict.fromkeys(
+        it.get("id") for it in report_items if it.get("citationDegraded")))
     return {
         "by_dimension": {d: dict(v) for d, v in by_dim.items()},
         "by_module": {m: dict(v) for m, v in by_module.items()},
         "honesty_pending": honesty_pending,
+        "citationDegraded": {"count": degraded_count, "ids": degraded_ids},
     }
+
+
+def summarize_repetitions(report_items: list) -> list:
+    """按题汇总重复执行的通过率、最差分、波动与引用降级次数。"""
+    grouped = {}
+    for item in report_items:
+        grouped.setdefault(item["id"], []).append(item)
+    stats = []
+    for item_id, runs in grouped.items():
+        pass_rates = {}
+        worst = {}
+        for dim in ("溯源正确性", "拒绝诚实性", "回答结构"):
+            values = [it["scores"].get(dim) for it in runs]
+            present = [v for v in values if v is not None]
+            worst[dim] = min(present) if present else None
+            if dim != "回答结构":
+                pass_rates[dim] = (sum(v == 1 for v in present) / len(present)) if present else None
+        signatures = [(
+            it["scores"].get("溯源正确性"), it["scores"].get("拒绝诚实性"),
+            it["scores"].get("回答结构"), bool(it.get("error")),
+            bool(it.get("citationDegraded"))) for it in runs]
+        stats.append({
+            "id": item_id,
+            "runs": len(runs),
+            "passRates": pass_rates,
+            "worstScores": worst,
+            "errorCount": sum(bool(it.get("error")) for it in runs),
+            "citationDegradedCount": sum(bool(it.get("citationDegraded")) for it in runs),
+            "stable": len(set(signatures)) == 1,
+        })
+    return stats
 
 
 def render_markdown(report: dict, items: list) -> str:
     def fmt(score) -> str:
         return "待复核" if score is None else str(score)
 
+    def percent(value) -> str:
+        return "待复核" if value is None else f"{value:.0%}"
+
+    repetitions = report.get("repetitions", 1)
     lines = ["# PF 规则问答 Agent 评测报告", ""]
     lines.append(f"评测时间：{time.strftime('%Y-%m-%d %H:%M:%S')}")
-    lines.append(f"评测题数：{len(items)}")
+    lines.append(f"评测题数：{report.get('itemCount', len(items))}")
+    if repetitions > 1:
+        lines.append(f"每题重复：{repetitions} 次；执行记录：{report.get('total', len(items))} 条")
     pending = report.get("honesty_pending") or {"count": 0, "ids": []}
     lines.append(f"诚实性待复核：{pending['count']} 题"
                  + (f"（{', '.join(pending['ids'])}）" if pending["count"] else ""))
+    degraded = report.get("citationDegraded") or {"count": 0, "ids": []}
+    lines.append(f"引用降级：{degraded['count']} 次"
+                 + (f"（{', '.join(degraded['ids'])}）" if degraded["count"] else ""))
     lines.append("")
-    # 维度汇总
     lines.append("## 维度汇总")
-    lines.append("| 维度 | 得分 | 题数 | 均值 |")
+    lines.append("| 维度 | 得分 | 执行数 | 均值 |")
     lines.append("|---|---|---|---|")
     for dim, v in report["by_dimension"].items():
         avg = f"{v['total'] / v['count']:.2f}" if v["count"] else "-"
         lines.append(f"| {dim} | {v['total']} | {v['count']} | {avg} |")
     lines.append("")
-    # 模块汇总
     lines.append("## 模块汇总")
-    lines.append("| 模块 | 溯源+诚实得分 | 题数 |")
+    lines.append("| 模块 | 溯源+诚实得分 | 执行数 |")
     lines.append("|---|---|---|")
     for m, v in sorted(report["by_module"].items()):
         lines.append(f"| {m} | {v['total']} | {v['count']} |")
     lines.append("")
-    # 每题明细
+    if repetitions > 1:
+        lines.extend(["## 重复执行稳定性", "",
+                      "| 题号 | 溯源通过率 | 诚实通过率 | 最差结构 | error | 引用降级 | 结果 |",
+                      "|---|---:|---:|---:|---:|---:|---|"])
+        for stat in report.get("itemStats", []):
+            outcome = "降级" if stat["citationDegradedCount"] else ("稳定" if stat["stable"] else "波动")
+            lines.append(
+                f"| {stat['id']} | {percent(stat['passRates']['溯源正确性'])} "
+                f"| {percent(stat['passRates']['拒绝诚实性'])} "
+                f"| {stat['worstScores']['回答结构']} | {stat['errorCount']} "
+                f"| {stat['citationDegradedCount']} | {outcome} |")
+        lines.append("")
     lines.append("## 每题明细")
     for it in items:
         s = it["scores"]
-        lines.append(f"### {it['id']}（{it['dimension']} / {it['module']} / {it['status']}）")
+        run_suffix = f" / run {it.get('repetition', 1)}" if repetitions > 1 else ""
+        lines.append(f"### {it['id']}{run_suffix}（{it['dimension']} / {it['module']} / {it['status']}）")
         lines.append(f"**问题**：{it['question']}")
         lines.append(f"**得分**：溯源={s['溯源正确性']} 诚实={fmt(s['拒绝诚实性'])} 结构={s['回答结构']}"
                      + (f" 准确={s['事实准确性']} 完整={s['完整性']}" if s.get("事实准确性") is not None else "  [待 golden answer]"))
         lines.append(f"**gapReported**：{it.get('gapReported')}")
+        lines.append(f"**citationDegraded**：{it.get('citationDegraded', False)}")
         basis = it.get("honesty_basis") or {}
         if basis.get("path") == "phrase":
             lines.append(f"**诚实性依据**：词表命中「{basis.get('matchedPhrase')}」")
@@ -455,6 +522,8 @@ def main() -> int:
     ap.add_argument("--gap-only", action="store_true", help="只测 gap 题（无数据应报缺口的题）")
     ap.add_argument("--timeout", type=int, default=120, help="单题 API 超时秒数")
     ap.add_argument("--delay", type=float, default=1.0, help="题间延迟秒数（限流保护）")
+    ap.add_argument("--repetitions", type=positive_int, default=1,
+                    help="每题独立重复执行次数（默认 1；保留逐次报告并统计通过率）")
     ap.add_argument("--no-honesty-llm", action="store_true",
                     help="关闭诚实性 LLM 兜底（默认启用；关闭后无来源或未命中词表的 gap 题记待复核）")
     args = ap.parse_args()
@@ -478,49 +547,56 @@ def main() -> int:
     if args.sample:
         active = active[: args.sample]
 
-    print(f"评测 {len(active)} 题（来自 {items_path.name}）→ {args.base_url}/api/chat")
+    print(f"评测 {len(active)} 题 × {args.repetitions} 次（来自 {items_path.name}）"
+          f"→ {args.base_url}/api/chat")
     report_items = []
-    for i, it in enumerate(active, 1):
-        q = it.get("question", "")
-        print(f"[{i}/{len(active)}] {it['id']}: {q[:40]}...")
-        resp, err = ask_agent(args.base_url, q, timeout=args.timeout)
-        scores = {"溯源正确性": 0, "拒绝诚实性": 0, "回答结构": 0,
-                  "事实准确性": None, "完整性": None}
-        if err:
-            report_items.append({**it, "scores": scores, "answer": "", "sources": [],
-                                 "gapReported": None,
-                                 "honesty_basis": {"path": "request-error",
-                                                   "matchedPhrase": None,
-                                                   "llmReason": None,
-                                                   "pendingReason": err["error"],
-                                                   "sourceCount": 0},
-                                 "error": err["error"]})
-        else:
-            answer = resp.get("answer") or ""
-            sources = resp.get("sources") or []
-            is_gap_question = not it.get("expected_chunks") or it.get("notes", "").startswith("gap")
-            loose = it.get("citation_mode") == "loose"  # 聚合题（跨 chunk 综合）放宽为 page 级前缀匹配
-            scores["溯源正确性"] = score_citation(sources, it.get("expected_chunks") or [], loose=loose)
-            honesty = evaluate_honesty(resp, is_gap_question, question=q, llm_judge=honesty_judge)
-            scores["拒绝诚实性"] = honesty["score"]
-            scores["回答结构"] = score_structure(answer, it.get("dimension", ""), sources)
-            # B 批
-            golden = it.get("golden_answer_points") or []
-            if args.judge and golden:
-                j = judge_llm(q, golden, answer)
-                scores["事实准确性"] = j.get("accuracy")
-                scores["完整性"] = j.get("completeness")
-            report_items.append({**it, "scores": scores, "answer": answer,
-                                 "sources": sources,
-                                 "gapReported": resp.get("gapReported"),
-                                 "honesty_basis": honesty["basis"],
-                                 "error": ""})
-        time.sleep(args.delay)
+    for repetition in range(1, args.repetitions + 1):
+        for i, it in enumerate(active, 1):
+            q = it.get("question", "")
+            print(f"[run {repetition}/{args.repetitions}][{i}/{len(active)}] {it['id']}: {q[:40]}...")
+            resp, err = ask_agent(args.base_url, q, timeout=args.timeout)
+            scores = {"溯源正确性": 0, "拒绝诚实性": 0, "回答结构": 0,
+                      "事实准确性": None, "完整性": None}
+            if err:
+                report_items.append({**it, "scores": scores, "answer": "", "sources": [],
+                                     "gapReported": None, "repetition": repetition,
+                                     "citationDegraded": False,
+                                     "honesty_basis": {"path": "request-error",
+                                                       "matchedPhrase": None,
+                                                       "llmReason": None,
+                                                       "pendingReason": err["error"],
+                                                       "sourceCount": 0},
+                                     "error": err["error"]})
+            else:
+                answer = resp.get("answer") or ""
+                sources = resp.get("sources") or []
+                is_gap_question = not it.get("expected_chunks") or it.get("notes", "").startswith("gap")
+                loose = it.get("citation_mode") == "loose"
+                scores["溯源正确性"] = score_citation(
+                    sources, it.get("expected_chunks") or [], loose=loose)
+                honesty = evaluate_honesty(resp, is_gap_question, question=q, llm_judge=honesty_judge)
+                scores["拒绝诚实性"] = honesty["score"]
+                scores["回答结构"] = score_structure(answer, it.get("dimension", ""), sources)
+                golden = it.get("golden_answer_points") or []
+                if args.judge and golden:
+                    j = judge_llm(q, golden, answer)
+                    scores["事实准确性"] = j.get("accuracy")
+                    scores["完整性"] = j.get("completeness")
+                report_items.append({**it, "scores": scores, "answer": answer,
+                                     "sources": sources,
+                                     "gapReported": resp.get("gapReported"),
+                                     "repetition": repetition,
+                                     "citationDegraded": bool(resp.get("citationDegraded", False)),
+                                     "honesty_basis": honesty["basis"],
+                                     "error": ""})
+            time.sleep(args.delay)
 
     report = aggregate(report_items)
     report["total"] = len(report_items)
+    report["itemCount"] = len(active)
+    report["repetitions"] = args.repetitions
+    report["itemStats"] = summarize_repetitions(report_items)
 
-    # 输出
     report_dir = Path(args.report_dir)
     report_dir.mkdir(parents=True, exist_ok=True)
     (report_dir / "qa_report.json").write_text(
@@ -529,10 +605,20 @@ def main() -> int:
     (report_dir / "qa_report.md").write_text(
         render_markdown(report, report_items), encoding="utf-8")
 
-    print(f"\n完成：{report_dir}/qa_report.json + qa_report.md（{len(report_items)} 题）")
+    print(f"\n完成：{report_dir}/qa_report.json + qa_report.md（{len(report_items)} 条执行记录）")
     if report["honesty_pending"]["count"]:
         print(f"  诚实性待复核：{report['honesty_pending']['count']} 题"
               f"（{', '.join(report['honesty_pending']['ids'])}）")
+    print(f"  引用降级：{report['citationDegraded']['count']} 次")
+    if args.repetitions > 1:
+        for stat in report["itemStats"]:
+            citation_rate = stat["passRates"]["溯源正确性"]
+            honesty_rate = stat["passRates"]["拒绝诚实性"]
+            outcome = "降级" if stat["citationDegradedCount"] else ("稳定" if stat["stable"] else "波动")
+            print(f"  {stat['id']}: 溯源通过率={citation_rate:.0%} "
+                  f"诚实通过率={'待复核' if honesty_rate is None else f'{honesty_rate:.0%}'} "
+                  f"最差结构={stat['worstScores']['回答结构']} error={stat['errorCount']} "
+                  f"降级={stat['citationDegradedCount']} {outcome}")
     for dim, v in report["by_dimension"].items():
         avg = f"{v['total'] / v['count']:.2f}" if v["count"] else "-"
         print(f"  {dim}: {v['total']}/{v['count']} (均值 {avg})")

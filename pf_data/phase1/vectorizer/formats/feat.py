@@ -186,6 +186,42 @@ _RE_FIELD_LABEL_BARE = re.compile(r"^\*\*([一-鿿]{2,8})\*\*$")
 _RE_FIELD_LABEL_PREFIX = re.compile(r"^\*\*[一-鿿]{2,8}[：:]\*\*")
 _ALL_FIELD_LABELS: set[str] = set(FEAT_ALL_FIELD_LABELS) | set(FEAT_EXTRA_FORMAT_LABELS)
 
+# KN096（page_556）：星壳残缺的裸标题——整行只有「中文名 + Title Case 英文名」，
+# 行首可选单星、行尾可选 0~2 星（`*迅猛之毒 Powerful Poisoning*` /
+# `阴损之毒 Treacherous Poisoning**`）。源数据章节标题（`**施毒系专长`，未闭合）
+# 的 4 星粘连把后续条目星壳打残，`_RE_TITLE_CN_EN`（需行首 ** 行尾 **）不匹配
+# → 全部并入上一表格条目 text。英文名逐词 Title Case 且行内无中文尾缀是条目
+# 特征（正文强调行 `*依靠蛮力，你将…*` 含中文标点，天然不匹配）。
+_RE_TITLE_CN_EN_TAILSTAR = re.compile(
+    r"^\*?([一-鿿][一-鿿·/\-]{1,9})[ ]+"
+    r"([A-Z][A-Za-z'’.\-]*(?:[ ]+[A-Z][A-Za-z'’.\-]*)*)[ ]?\*{0,2}$"
+)
+_RE_ANY_FIELD_LABEL_LINE = re.compile(
+    r"^\*{0,2}(?:" + "|".join(
+        re.escape(x) for x in sorted(_ALL_FIELD_LABELS, key=lambda s: (-len(s), s))
+    ) + r")[：:]\*{0,2}"
+)
+
+
+# KN096：裸中文短标题（4~6 字，无星无英文名，非「专长」结尾）
+_RE_BARE_SHORT_TITLE = re.compile(r"^[一-鿿][一-鿿·/\-]{3,5}$")
+
+
+def _near_field_label(lines: list[str], idx: int, window: int) -> bool:
+    """前后 N 行内是否有字段标签行（含本行前后，不含本行）。"""
+    for k in range(max(0, idx - window), min(len(lines), idx + window + 1)):
+        if k != idx and _RE_ANY_FIELD_LABEL_LINE.match(lines[k].strip()):
+            return True
+    return False
+
+
+def _has_field_label_follow(lines: list[str], idx: int, window: int) -> bool:
+    """后 N 行内有字段标签行（判别器 FC-8c 佐证同口径）。"""
+    return any(
+        _RE_ANY_FIELD_LABEL_LINE.match(lines[k].strip())
+        for k in range(idx + 1, min(idx + 1 + window, len(lines)))
+    )
+
 # ---- KN109：描述格式模板节词表（title 命中即弹）----
 # page_622（MA 神话冒险引言）/ page_194（CRB）的「专长描述格式」模板节：字段
 # 标签词（先决条件/好处/正常/专长效果/通常状况/特殊/注意）+ 格式词（专长名称/
@@ -207,7 +243,9 @@ _FIELD_LABEL_ALT = "|".join(
 )
 _RE_FIELD_IN_TEXT = re.compile(
     rf"\*\*(?:{_FIELD_LABEL_ALT})\*\*[：:]|\*\*(?:{_FIELD_LABEL_ALT})[：:]\*\*|^(?:{_FIELD_LABEL_ALT})[：:]"
-    r"|\*\*(?:常见信徒|类法能力)\*\*",
+    r"|\*\*(?:常见信徒|类法能力)\*\*"
+    # KN096（BotA）：`**要求** 医疗5级`（无冒号、空格分隔）——该书字段形态
+    r"|\*\*要求\*\*(?:[ 　]|$)",
     re.MULTILINE,
 )
 
@@ -470,8 +508,44 @@ _FEAT_TYPE_GUARD = "|".join(
     re.escape(x)
     for x in sorted(set(FEAT_TYPE_NORMALIZE) | {"动物伙伴专长"}, key=lambda s: (-len(s), s))
 )
+# KN096：`**【PFS】中文名（English）**`——标题星包在 PFS 标记外，会阻断
+# `[[PFS]]` 标记消费与标题解析（其他专长1 精通异界传送）；标记挪到星外。
+_RE_PFS_BEFORE_TITLE = re.compile(r"^\*\*(【PFS[^】]*】)(.+)$", re.MULTILINE)
+# KN096（BotA）：`**【PFS不可】** **病理学家(Pathologist)**`——PFS 标注独占
+# 星包裹且后接完整标题，把标注挪到星外再消费标记
+_RE_PFS_MARK_STARRED = re.compile(r"^\*\*(【PFS[^】]*】)\*\*\s+(?=\*\*)", re.MULTILINE)
+# KN096（BotA）：未闭合的星外英文标题 `**包陇自我修行 Pao-Lung Self-Improvement`
+# （行尾无闭合星，下一行是斜体描述）→ 补括号与闭合星，走标准标题
+_RE_UNCLOSED_CN_EN_TITLE = re.compile(
+    r"^\*\*([一-鿿][一-鿿·/\-]{1,12}?)[ 　]+([A-Z][A-Za-z'’.\- ]*[A-Za-z'’.\-])$",
+    re.MULTILINE,
+)
 _RE_BARE_CN_TYPE_PAREN = re.compile(
     rf"^(\*{{0,2}})([一-鿿][^*\n]{{0,14}}?)(\*{{0,2}})[（(]({_FEAT_TYPE_GUARD})[)）]$",
+    re.MULTILINE,
+)
+# KN096（page_552）：`中文（类型）（English）*` 裸双括号标题。源数据
+# `集中泼溅（战斗）（****Concentrated\nSplash****）****` 经星号归一后残留为
+# 行首无星、尾部单星残壳——`_RE_TITLE_CN_TYPE_EN` 要求 `**…**` 包裹，
+# 15 个详述条目因此全部并入表格条目 text（无独立 chunk）。归一为标准标题后
+# 走 FC-1r（类型括号在前、英文在后）。守卫 = 专长类型词表（与判别器 FT 同源），
+# 正文括注天然不匹配。
+_FT_BASE = (
+    "战斗|团队|超魔|故事|流派|造物|勇毅|重击|演武|派头|注视|凝视|诅咒|背叛|"
+    "神话|物品制造|物品掌握|汲引|地方|伟业|血巫术|动物伙伴|魔宠|伙伴|掌握|"
+    "武器掌握|瞄准|诡计|盔甲掌握"
+)
+# KN096（BotA）：PFS 标注行经星号归一后的残壳
+# `[[PFSN]]**** **病理学家(Pathologist)*`（源 `**【PFS不可】** **标题**`）
+# → `[[PFSN]]**标题**`，交 split 消费标记后按标准标题解析
+_RE_PFS_STAR_SHELL = re.compile(
+    r"^(\[\[PFS[N]?\]\])\*{2,}[ 　]*\*\*([^*\n]+?)\*{1,3}\s*$", re.MULTILINE
+)
+
+_RE_BARE_TYPE_EN_DOUBLE = re.compile(
+    r"^([一-鿿][一-鿿·/\-]*)[（(]((?:" + _FT_BASE + r")(?:专长)?"
+    r"(?:[，、, ](?:" + _FT_BASE + r"))*)[）)]"
+    r"\s*[（(]([A-Za-z][^）)\n]*)[）)]\*?\s*$",
     re.MULTILINE,
 )
 
@@ -630,6 +704,21 @@ _RE_BARE_FIELD_LABEL_PERIOD = re.compile(
 
 
 
+def _is_hull_item(item: dict) -> bool:
+    """条目正文只有来源/出处行（无描述）——`## 中文（English）` 标题壳条目。
+
+    KN096：这类壳条目与紧随的同名正文重述行是同一条目，需合并。
+    """
+    text = item.get("text", "").strip()
+    if not text:
+        return True
+    return all(
+        ln.strip().startswith(("> 来源", "> 出自", "**出自", "出自"))
+        for ln in text.splitlines()
+        if ln.strip()
+    )
+
+
 def _is_magic_item(item: dict) -> bool:
     """价格+重量双字段 → 非专长（魔法物品），排除（seed 24）。
 
@@ -658,6 +747,11 @@ class FeatFormat(BaseFormat):
         text = _merge_table_continuation(text)
         # 顺序要点：_mark_pfs 先行消费 `![[图片]](http…)` 整体（PFS 图片 URL
         # 是 aonprd http 链接），_strip_http_links 后置即天然不会误剥 PFS 标记
+        # KN096：`**【PFS】中文名（English）**` 标题——`**` 在标记前会阻断
+        # PFS 标记与标题解析（其他专长1 精通异界传送），把标记挪到星外
+        text = _RE_PFS_BEFORE_TITLE.sub(r"\1**\2**", text)
+        text = _RE_PFS_MARK_STARRED.sub(r"\1", text)
+        text = _RE_UNCLOSED_CN_EN_TITLE.sub(r"**\1（\2）**", text)
         text = _mark_pfs(text)
         text = _strip_http_links(text)  # KN075：正文参考链接剥离（URL 剥除留锚文本）
         # elided 四星标题先于通用 4→2：`English****（类型）*****` 的星需整体消费
@@ -708,6 +802,10 @@ class FeatFormat(BaseFormat):
         # KN090：星壳残留收口须在全部标题/字段归一之后（独立纯星行删除 +
         # 行首脏星壳正文归一 `*正文*`），此前任何规则都不再产生新星壳
         text = _fix_star_shell_remnants(text)
+        # KN096（page_552）：裸双括号标题 `中文（类型）（English）*` → 标准标题。
+        # 残壳形态由星壳收口产出（`**…（EN）****` 剥壳后剩单星），故须在其后。
+        text = _RE_PFS_STAR_SHELL.sub(r"\1**\2**", text)
+        text = _RE_BARE_TYPE_EN_DOUBLE.sub(r"**\1（\2）（\3）**", text)
         return text
 
     def _make_item(self, m: re.Match) -> dict:
@@ -918,6 +1016,20 @@ class FeatFormat(BaseFormat):
                 )
                 cur = item
                 continue
+            # KN096（page_556）：章节标题粘连后断裂的裸标题
+            # `*迅猛之毒 Powerful Poisoning*` / `阴损之毒 Treacherous Poisoning**`
+            # ——星壳残缺（单星/尾三星），整行只有「中文名 + Title Case 英文名」，
+            # 后 6 行有字段标签佐证（同 FC-8c 判据）。无字段标签的正文强调行
+            # （`*依靠蛮力…*`）含中文标点/后续中文，天然不匹配。
+            m = _RE_TITLE_CN_EN_TAILSTAR.match(line)
+            if m and _has_field_label_follow(lines, idx, 6):
+                item = self._make_item_from_parts(m.group(1).strip(), m.group(2).strip(), [])
+                item["format_cluster"] = "elided"
+                pending_fc, pending_src, pending_pfs = self._open_item(
+                    items, item, pending_fc, pending_src, pending_pfs, inline_img
+                )
+                cur = item
+                continue
             # R2：字段标签独立行（先决条件：/专长效果：等）→ 并入当前条目 text，
             # 不产新条目（先于 section header 判定，避免被当分节标题跳过）
             m = _RE_FIELD_LABEL_COLON.match(line)
@@ -976,6 +1088,23 @@ class FeatFormat(BaseFormat):
                     )
                     cur = item
                     continue
+            # KN096（CaC 部属与伙伴）：裸中文短标题（4~6 字、无星无英文名、
+            # 不以「专长」结尾）+ 后 6 行字段标签佐证（判别器 FC-7d 同口径，
+            # `驯养植物` / `怪物伙伴` 型）。前后 2 行有字段标签行的是字段值/
+            # 续行，不产条目。
+            m = _RE_BARE_SHORT_TITLE.match(line)
+            if (
+                m
+                and not _near_field_label(lines, idx, 2)
+                and _has_field_label_follow(lines, idx, 6)
+            ):
+                item = self._make_item_from_parts(line, "", [])
+                item["format_cluster"] = "elided"
+                pending_fc, pending_src, pending_pfs = self._open_item(
+                    items, item, pending_fc, pending_src, pending_pfs, inline_img
+                )
+                cur = item
+                continue
             if _RE_SECTION_HEADER.match(line):
                 continue
             if line.startswith("|"):
@@ -989,6 +1118,35 @@ class FeatFormat(BaseFormat):
                 continue
             if cur is not None:
                 cur["text"] += line + "\n"
+        # KN096：`## 中文（English）` 标题条目（text 仅 `> 来源：` 行）与其后
+        # 同名正文加粗重述行是同一条目被拆成两个 chunk（间谍大师手册SH /
+        # 魔法战术工具箱MTT / 敌手指南RM 型：标题行 + `**中文 english**描述`）。
+        # 合并为一条：正文并入标题条目，name_en/类型/来源取并集——避免同一
+        # 专长出两个 chunk（标题壳 chunk 无正文，检索稀释）。
+        merged: list[dict] = []
+        for it in items:
+            prev = merged[-1] if merged else None
+            if (
+                prev is not None
+                and it.get("name")
+                and it["name"] == prev.get("name")
+                and _is_hull_item(prev)
+                and it.get("text", "").strip()
+            ):
+                prev["text"] += it.get("text", "")
+                if not prev.get("name_en"):
+                    prev["name_en"] = it.get("name_en", "")
+                for t in it.get("feat_type") or []:
+                    if t not in prev["feat_type"]:
+                        prev["feat_type"].append(t)
+                if not prev.get("source"):
+                    prev["source"] = it.get("source", "")
+                prev["pfs_eligible"] = bool(prev.get("pfs_eligible")) or bool(
+                    it.get("pfs_eligible")
+                )
+                continue
+            merged.append(it)
+        items = merged
         items = [it for it in items if not _is_magic_item(it)]
         for it in items:
             it.setdefault("format_cluster", "standard")

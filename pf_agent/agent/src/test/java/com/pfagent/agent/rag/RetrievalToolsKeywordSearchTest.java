@@ -64,7 +64,7 @@ class RetrievalToolsKeywordSearchTest {
         assertThat(result).contains("来源:CRB", "[#1]", "[#2]");
         assertThat(result.indexOf("spell_001")).isLessThan(result.indexOf("spell_002"));
         assertThat(result).contains("getEntryById");
-        verify(collector).add(any());
+        verify(collector).addWithLimit(any());
     }
 
     /** 存在精确同名条目：先行提示（resolveEntry 等价路径），与纯子串命中区分 */
@@ -164,7 +164,7 @@ class RetrievalToolsKeywordSearchTest {
         when(entryResolver.substringSearch("火球", null)).thenReturn(List.of(FIREBALL));
         when(entryResolver.resolve("火球", null)).thenReturn(List.of());
         when(searchService.getByChunkId("spell", "spell_001")).thenReturn(null);
-        when(collector.add(any())).thenReturn(List.of());
+        CollectorStubs.stubIds(collector, List.of());
 
         String result = tools().keywordSearch("火球", null);
 
@@ -186,14 +186,7 @@ class RetrievalToolsKeywordSearchTest {
     }
 
     private void stubAddSequential() {
-        when(collector.add(any())).thenAnswer(inv -> {
-            List<Document> docs = inv.getArgument(0);
-            List<Integer> sequential = new ArrayList<>(docs.size());
-            for (int n = 1; n <= docs.size(); n++) {
-                sequential.add(n);
-            }
-            return sequential;
-        });
+        CollectorStubs.stubAcceptAll(collector);
     }
 
     private RetrievalTools tools() {

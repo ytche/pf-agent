@@ -5,11 +5,14 @@ import AuthDialog from '@/components/AuthDialog.vue'
 import Composer from '@/components/Composer.vue'
 import ConversationView from '@/components/ConversationView.vue'
 import HistoryDrawer from '@/components/HistoryDrawer.vue'
+import UsageView from '@/components/UsageView.vue'
+import { useHashRoute } from '@/router'
 import { useAuthStore } from '@/stores/auth'
 import { useConversationsStore } from '@/stores/conversations'
 
 const auth = useAuthStore()
 const conversations = useConversationsStore()
+const { isUsage } = useHashRoute()
 const drawerOpen = ref(false)
 
 onMounted(async () => {
@@ -46,7 +49,9 @@ async function selectConversation(id: string): Promise<void> {
     </div>
 
     <main class="main">
+      <UsageView v-if="isUsage" />
       <ConversationView
+        v-else
         @ask="handleSend"
         @retry="conversations.retry()"
         @regenerate="conversations.regenerate()"
@@ -56,6 +61,7 @@ async function selectConversation(id: string): Promise<void> {
     </main>
 
     <Composer
+      v-if="!isUsage"
       :pending="Boolean(conversations.current?.pending)"
       :disabled="!conversations.current || conversations.restoring"
       :conversation-id="conversations.currentId"

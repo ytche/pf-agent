@@ -187,7 +187,7 @@ class RetrievalToolsCappedHintAuditTest {
         String result = tools(10).searchByMetadata("spell", query(0, 500));
 
         assertThat(result).contains("本页无条目可展示", "getEntryById(module=\"spell\"",
-                "不要用相同 offset 重复翻页");
+                "不要重复请求同一页", "已达单库上限 500 条（实际命中可能更多）");
         assertThat(result).doesNotContain("query.offset", "has_more", "本次返回");
         assertThat(TOTAL_CLAIM.matcher(result).find()).as("不得出现『共 N 条』").isFalse();
         assertThat(RANGE.matcher(result).find()).as("不得出现『第 X~Y 条』区间").isFalse();
@@ -203,7 +203,7 @@ class RetrievalToolsCappedHintAuditTest {
         }
         when(searchService.searchByMetadataPaged(eq("all"), any(MetadataSearchQuery.class)))
                 .thenReturn(new SearchService.PagedResult(page, 3, 40, 50));
-        lenient().when(collector.add(any())).thenReturn(List.of(1, 2, 3));
+        CollectorStubs.stubIds(collector, List.of(1, 2, 3));
 
         String result = tools(10).searchByMetadata("all", query(40, 50));
 
@@ -231,14 +231,7 @@ class RetrievalToolsCappedHintAuditTest {
     private void stubPaged(String module, SearchService.PagedResult paged) {
         when(searchService.searchByMetadataPaged(eq(module), any(MetadataSearchQuery.class)))
                 .thenReturn(paged);
-        lenient().when(collector.add(any())).thenAnswer(inv -> {
-            List<Document> arg = inv.getArgument(0);
-            List<Integer> seq = new ArrayList<>(arg.size());
-            for (int n = 1; n <= arg.size(); n++) {
-                seq.add(n);
-            }
-            return seq;
-        });
+        CollectorStubs.stubAcceptAll(collector);
     }
 
     private List<Document> docs(int n) {

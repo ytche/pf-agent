@@ -48,7 +48,7 @@ class RetrievalToolsClassTableBoundaryTest {
         when(classTableService.formatTable("法师")).thenReturn("「法师」成长表（1~20 级）");
         when(classTableService.provenanceDocument("法师"))
                 .thenReturn(Document.builder().text("t").metadata(Map.of("title", "表：法师")).build());
-        when(collector.add(any())).thenReturn(List.of(1));
+        CollectorStubs.stubIds(collector, List.of(1));
 
         String result = tools().getClassTable("法师", 0);
 
@@ -64,7 +64,7 @@ class RetrievalToolsClassTableBoundaryTest {
         when(classTableService.formatTable("法师")).thenReturn("「法师」成长表（1~20 级）");
         when(classTableService.provenanceDocument("法师"))
                 .thenReturn(Document.builder().text("t").metadata(Map.of("title", "表：法师")).build());
-        when(collector.add(any())).thenReturn(List.of(1));
+        CollectorStubs.stubIds(collector, List.of(1));
 
         String result = tools().getClassTable("法师", -3);
 
@@ -87,14 +87,14 @@ class RetrievalToolsClassTableBoundaryTest {
         when(classTableService.maxLevel("法师")).thenReturn(20);
         when(classTableService.formatRow("法师", 5)).thenReturn("「法师」等级 5：BAB +2");
         when(classTableService.provenanceDocument("法师")).thenReturn(synthetic);
-        when(collector.add(any())).thenReturn(List.of(7));
+        CollectorStubs.stubIds(collector, List.of(7));
 
         String result = tools().getClassTable("法师", 5);
 
         assertThat(result).contains("来源编号 [#7]");
         @SuppressWarnings("unchecked")
         ArgumentCaptor<List<Document>> captor = ArgumentCaptor.forClass(List.class);
-        verify(collector).add(captor.capture());
+        verify(collector).addWithLimit(captor.capture());
         assertThat(captor.getValue()).containsExactly(synthetic);
     }
 

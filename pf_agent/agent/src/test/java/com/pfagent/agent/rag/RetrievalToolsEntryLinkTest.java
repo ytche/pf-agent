@@ -49,6 +49,16 @@ class RetrievalToolsEntryLinkTest {
     private static final EntryResolver.EntryRef DODGE =
             new EntryResolver.EntryRef("feat", "feat_001", "闪避", "核心规则书", "CRB");
 
+    @Test
+    void resolveEntryExposesOptionalModuleParameter() {
+        assertThat(java.util.Arrays.stream(RetrievalTools.class.getDeclaredMethods())
+                .filter(method -> method.getName().equals("resolveEntry")))
+                .anySatisfy(method -> {
+                    assertThat(method.getParameterCount()).isEqualTo(2);
+                    assertThat(method.getParameterTypes()).containsExactly(String.class, String.class);
+                });
+    }
+
     /** resolveEntry 唯一命中：返回 module/title/书/chunk_id 并挂来源编号 */
     @Test
     void resolveEntrySingleHitReturnsDetailsAndCollects() {
@@ -61,7 +71,7 @@ class RetrievalToolsEntryLinkTest {
         String result = tools().resolveEntry("火球术");
 
         assertThat(result).contains("火球术", "spell", "核心规则书(CRB)", "spell_001", "[#1]");
-        verify(collector).add(any());
+        verify(collector).addWithLimit(any());
     }
 
     /** resolveEntry 多义：返回候选清单（含模块/书/chunk_id），不挂溯源 */
@@ -131,7 +141,7 @@ class RetrievalToolsEntryLinkTest {
         assertThat(result).contains("引用它的:", "闪避", "feat_001", "神话专长前置");
         assertThat(result).contains("它引用的:", "基础法术");
         assertThat(result).contains("[#1]", "[#3]", "[#4]");
-        verify(collector).add(any());
+        verify(collector).addWithLimit(any());
     }
 
     /** getEntryLinks 解析不到的边不出现：linksOf 只给已解析边，输出原样透传 */
@@ -267,14 +277,7 @@ class RetrievalToolsEntryLinkTest {
     }
 
     private void stubAddSequential() {
-        when(collector.add(any())).thenAnswer(inv -> {
-            List<Document> docs = inv.getArgument(0);
-            List<Integer> sequential = new ArrayList<>(docs.size());
-            for (int n = 1; n <= docs.size(); n++) {
-                sequential.add(n);
-            }
-            return sequential;
-        });
+        CollectorStubs.stubAcceptAll(collector);
     }
 
     private RetrievalTools tools() {

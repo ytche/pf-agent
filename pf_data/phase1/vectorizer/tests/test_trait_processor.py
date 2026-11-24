@@ -532,3 +532,54 @@ class TestR2PageDefault:
         """marker 兜底（既有机制）不因 R2 表受影响：TEoG 条目 marker → 地区"""
         md = self._run("塔尔多TEoG_背景特性", {"name": "骑士精神", "_trait_type_from_marker": "地区背景", "format_cluster": "standard", "text": "正文"})
         assert md["trait_type"] == ["地区"]
+
+
+class TestKN148TypeBackfillMetadata:
+    """KN148：源文补 `**类型**：X` 后 processor 元数据代表作回归。
+
+    全链跑 TraitFormat → processor，断言 metadata.trait_type 落在 13 类词表、
+    field_status.trait_type=parsed；非宗教条目的 deity 保持 not_applicable，
+    宗教主题条目按 processor §3.3 为 missing（deity 值为空）。
+    """
+
+    BASE = Path(__file__).parents[2] / "pf_rules_md_organized" / "背景特性"
+
+    CASES = [
+        ("沙之子民PotS_背景特性.md", "文物猎人", "种族"),
+        ("沙之子民PotS_背景特性.md", "尸油之子", "地区"),
+        ("第一世界的遗产LotFW_地区背景特性.md", "习惯诡计", "地区"),
+        ("黑市指南BM_背景特性.md", "黄昏市场的艺术", "社会"),
+        ("黑市指南BM_背景特性.md", "隐秘信徒", "信念"),
+        ("天界血脉BoA_背景特性.md", "漂泊", "种族"),
+        ("炼狱血脉BoF_背景特性.md", "预知邪恶", "种族"),
+        ("背景特性17.md", "血腥复仇", "信念"),
+        ("信仰与哲学F&P_背景特性.md", "信仰危机", "信念"),
+        ("内海海盗PIS_背景特性.md", "登船专家", "宗教"),
+        ("内海种族ISR_背景特性.md", "老赌鬼", "种族"),
+        ("初探内海ISP_背景特性.md", "不可思议王国之秘", "地区"),
+        ("格拉里昂的秽邪勇士_背景特性.md", "邪徒领袖", "社会"),
+    ]
+
+    def test_backfilled_metadata_representatives(self):
+        from vectorizer.formats.trait import TraitFormat
+
+        fmt = TraitFormat()
+        for fname, name, expected in self.CASES:
+            path = self.BASE / fname
+            items = fmt.split_into_items(
+                fmt.normalize(path.read_text(encoding="utf-8")), source_name=fname
+            )
+            hit = [it for it in items if it.get("name") == name]
+            assert hit, (fname, name)
+            md = run_item(hit[0], str(path))
+            assert md["trait_type"] == [expected], (fname, name, md["trait_type"])
+            assert md["field_status"]["trait_type"] == "parsed", (fname, name, md)
+            assert md["deity"] == "", (fname, name, md)
+            if expected in {"信念", "宗教"}:
+                assert md["field_status"]["deity"] == "missing", (fname, name, md)
+            else:
+                assert md["field_status"]["deity"] == "not_applicable", (
+                    fname,
+                    name,
+                    md,
+                )

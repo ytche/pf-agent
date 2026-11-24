@@ -18,7 +18,8 @@ import java.nio.file.Path;
  *
  * 与 ClassDataLoader 同构：首次启动时委托 ChunkImporter 导入规则 chunks
  * （rule_section / rule_table / rule_entry / rule_intro / rule_reference 等组件类型），
- * 持久化到独立 JSON。统一行模型 StandardChunk + StandardChunkMapper，六个模块共用。
+ * 持久化到独立 JSON。统一行模型 StandardChunk，由 RuleChunkMapper 在标准映射上
+ * 透传 KN221 的 4 个表格 metadata 键。
  */
 @Component
 public class RuleDataLoader implements CommandLineRunner {
@@ -28,7 +29,7 @@ public class RuleDataLoader implements CommandLineRunner {
     @Autowired
     private ChunkImporter chunkImporter;
     @Autowired
-    private StandardChunkMapper mapper;
+    private RuleChunkMapper mapper;
     @Autowired
     @Qualifier("ruleVectorStore")
     private VectorStore vectorStore;

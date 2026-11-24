@@ -133,6 +133,8 @@ class PromptBuilderTest {
         assertThat(prompt).contains("getEntryLinks");
         assertThat(prompt).contains("getEntryById");
         assertThat(prompt).contains("引用链");
+        assertThat(prompt).contains("module=\"feat\"");
+        assertThat(prompt).contains("正文块");
     }
 
     /** B4：权威全清单枚举引导 listEntries，细节走 vectorSearch/getEntryById，法术走 getSpellList */
@@ -179,5 +181,33 @@ class PromptBuilderTest {
         assertThat(prompt).contains("500");
         assertThat(prompt).contains("实际命中可能更多");
         assertThat(prompt).contains("不得宣称已取得真实全量");
+    }
+
+    @Test
+    void buildSystemPromptRoutesRaceTraitEnumerationToMetadataSearch() {
+        String prompt = promptBuilder.buildSystemPrompt();
+
+        assertThat(prompt).contains("按种族列举特性/替换特性");
+        assertThat(prompt).contains("searchByMetadata");
+        assertThat(prompt).contains("raceName");
+        assertThat(prompt).contains("raceNameEn");
+        assertThat(prompt).contains("种族特性不是 listEntries 的种族清单");
+        assertThat(prompt).contains("一次一个种族");
+        assertThat(prompt).contains("alt_trait");
+        assertThat(prompt).contains("raceNameEn 只精确匹配已知英文原词");
+        assertThat(prompt).contains("不得把部分命中当作全量");
+        assertThat(prompt).contains("未知来源");
+        assertThat(prompt).contains("不得编造书名、缩写或页码");
+    }
+
+    /** 同模块多条原文引导 chunkIds 一次批量取文，避免逐条串行点查 */
+    @Test
+    void buildSystemPromptGuidesBatchEntryRetrieval() {
+        String prompt = promptBuilder.buildSystemPrompt();
+
+        assertThat(prompt).contains("chunkIds");
+        assertThat(prompt).contains("同模块");
+        assertThat(prompt).contains("一次批量取文");
+        assertThat(prompt).contains("跨模块");
     }
 }

@@ -10,6 +10,7 @@ import java.util.List;
  * conversationId：前端未传时由后端生成，随响应返回供前端留存。
  * messageId / messageSeq / completedAt：F-020 起追加的助手消息定位字段（旧客户端可忽略），
  * 重新生成保持同一消息 ID。
+ * citationDegraded：无合法逐句引用时保留请求级检索证据，不表示数据缺口。
  */
 public record ChatResponse(
         String answer,
@@ -18,12 +19,19 @@ public record ChatResponse(
         String conversationId,
         Long messageId,
         Integer messageSeq,
-        Instant completedAt
+        Instant completedAt,
+        boolean citationDegraded
 ) {
+
+    /** 兼容构造：未引入引用降级标记的调用方 */
+    public ChatResponse(String answer, List<SourceRef> sources, boolean gapReported, String conversationId,
+                        Long messageId, Integer messageSeq, Instant completedAt) {
+        this(answer, sources, gapReported, conversationId, messageId, messageSeq, completedAt, false);
+    }
 
     /** 兼容构造：未落库或不关心消息定位时（单元测试、异常降级）使用 */
     public ChatResponse(String answer, List<SourceRef> sources, boolean gapReported, String conversationId) {
-        this(answer, sources, gapReported, conversationId, null, null, null);
+        this(answer, sources, gapReported, conversationId, null, null, null, false);
     }
 
     /**

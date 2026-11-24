@@ -33,6 +33,7 @@ from vectorizer.postprocess.feat_chain import BackfillChmTocPath
 from vectorizer.processors import register
 from vectorizer.processors.base import Chunk, FileProcessor
 from vectorizer.registry_rule import RULE_CANONICAL_FIELDS
+from vectorizer.rule_tables import table_metadata
 from vectorizer.sources.providers import SourceContext, SourceResolver
 
 logger = logging.getLogger(__name__)
@@ -408,11 +409,16 @@ class RuleProcessor(FileProcessor):
         return chunk
 
     def infer_metadata(self, chunk: Chunk, item: dict) -> Chunk:
-        """组装 metadata 5 规范键（章节型无字段体系，不设 field_status）。
+        """组装 metadata 5 规范键 + KN221 表格 4 键（章节型无字段体系，不设
+        field_status）。
 
         toc_group / format_cluster 均来自 manifest 显式注解（hint 是权威，
         覆盖 format 层首边界推导——KN192 精神）；source 原文引用块（M3 源
         数据无 `> 来源：` 块）为空串保留。
+
+        表格键（KN221 spec D6，键名/值形态固定）由 rule_tables.table_metadata
+        统一计算：has_table / table_ids / table_titles / table_row_counts。
+        正文与 chunk_id 不变，flattened 表只带聚合标记，不写列结构。
         """
         manifest = RULE_MANIFEST.get(getattr(self, "_current_rel", ""), {})
         chunk.metadata = {
@@ -422,6 +428,7 @@ class RuleProcessor(FileProcessor):
             "format_cluster": manifest.get(
                 "format_cluster", item.get("format_cluster", "")),
             "component_type": chunk.component_type,
+            **table_metadata(chunk.text, chunk.chunk_id),
         }
         return chunk
 

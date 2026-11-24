@@ -46,8 +46,13 @@ class BaseFormat(ABC):
         """剥离整行 URL 或 Markdown 链接"""
         # http:// 开头的裸 URL
         text = re.sub(r'^\s*https?://[^\s)]+\s*$', '', text, flags=re.MULTILINE)
-        # [text](url) 格式的 Markdown 链接行
-        text = re.sub(r'^\s*\[[^\]]*\]\(https?://[^)]+\)\s*$', '', text, flags=re.MULTILINE)
+        # [text](url) 格式的 Markdown 链接行——KN096 收窄：仅剥锚文本为空或
+        # 本身是 URL 的引用行；锚文本为条目名（`[**魂刃(Soulblade)** ](url)`，
+        # 闹鬼专长 L168）时保留锚文本，交 `_strip_http_links` 剥 URL
+        text = re.sub(
+            r'^\s*\[(?:\s*|https?://[^\]]*)\]\(https?://[^)]+\)\s*$',
+            '', text, flags=re.MULTILINE
+        )
         # ** [text](url) ** 格式的加粗链接行（仅剥页头论坛链接形态：锚文本也是
         # URL——全库 150 处论坛来源行 `**[http://45.79.87.129/…](http://…)**`）。
         # KN131（2026-08-04）：此前 `[^\]]*` 过宽，把锚文本为中文正文的链接章节

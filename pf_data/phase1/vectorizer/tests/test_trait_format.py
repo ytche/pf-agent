@@ -11,6 +11,8 @@ import json
 import re
 from pathlib import Path
 
+import pytest
+
 from vectorizer.formats.trait import TraitFormat
 
 SEEDS_PATH = Path(__file__).parent.parent / "exploration" / "trait" / "test_seeds.jsonl"
@@ -1106,3 +1108,155 @@ class TestTraitSeeds:
         assert p["source"] == "SH" and k["source"] == "SH", (p, k)
         assert "你可以用感知调整值" in item_text(p), p
         assert "You were raised" in item_text(k), k
+
+
+class TestKN140SourceBookmarkResidue:
+    """KN140：source 书名号残留/中英混排/括号残留归一（三类目标形态）。
+
+    验收口径：目标标准形「中文（English）」，页码保留；无英文合法来源保留
+    中文名；合法全角括号与页码不得被当作脏值删除；book/chunk 归属不变。
+    """
+
+    CASES = [
+        # (id, raw, 期望 source)
+        (
+            "closed_book_mark",
+            "**纵火狂（Firebug）**  \n"
+            " 出自《任务与战役》 Quests and \n"
+            "Campaigns\n"
+            "**类型：**战斗背景（Combat）\n"
+            "**效果：**你是一个军械师。\n",
+            "任务与战役（Quests and Campaigns）",
+        ),
+        (
+            "cn_en_no_paren",
+            "**印象深刻**(Memorable) 出自《任务与战役Quests and Campaigns》\n"
+            "**分类** \n社会\n"
+            "**效果** 正文。\n",
+            "任务与战役（Quests and Campaigns）",
+        ),
+        (
+            "half_paren_page",
+            "**自我实现**Self-Actualization \n"
+            "*出自信仰与哲学(Faiths and \nPhilosophies)第33页*\n"
+            "信念背景\n正文。\n",
+            "信仰与哲学（Faiths and Philosophies）第33页",
+        ),
+        (
+            "closed_plus_cn_page",
+            "**强大心灵（Sound of \nMind）**  出自《初探龙国》(Dragon Empire Primer）第21页\n"
+            "分类：地区\n需求：兹哈\n正文。\n",
+            "初探龙国（Dragon Empire Primer）第21页",
+        ),
+        (
+            "cn_en_no_paren_page",
+            "**烈阳之眼（Eyes of the \nSun）** 出自《沙之子民 People of \nthe Sands》\n"
+            "**分类** 种族\n**需求** 人类\n正文。\n",
+            "沙之子民（People of the Sands）",
+        ),
+        (
+            "standard_paren_keeps_page",
+            "**急躁（Impatient）**\n"
+            "出自《反英雄手册》（Antihero's Handbook） 第6页\n"
+            "**分类**：缺陷\n正文。\n",
+            "反英雄手册（Antihero's Handbook）第6页",
+        ),
+        (
+            "chinese_only_keeps_page",
+            "**安多安自由战士（Andoren Freedom  Fighter）**\n"
+            "出自《初探内海 pg. 4》\n"
+            "类型：地区\n需求：安多安\n正文。\n",
+            "初探内海 pg. 4",
+        ),
+        (
+            "contaminated_line_cut",
+            "**不可思议王国之秘**（Secret of the Impossible \nKingdom）\n"
+            "出自《初探内海》第9页（Inner Sea Primer） **类型：**地区背景 "
+            "**需求：**扎摩诔（Jalmeray）\n\n正文。\n",
+            "初探内海（Inner Sea Primer）第9页",
+        ),
+        (
+            "closed_book_mark_mixed_spaces",
+            "**灵性依恋（Spiritual Attachment）**\n"
+            "出自《驱灵英雄手册》(Haunted Heroes Handbook pg. \n18)灵性恋\n"
+            "分类：基本（魔法）\n正文。\n",
+            "驱灵英雄手册（Haunted Heroes Handbook）pg. 18",
+        ),
+    ]
+
+    @pytest.mark.parametrize("case_id,raw,expected", CASES, ids=[c[0] for c in CASES])
+    def test_source_normalized(self, case_id, raw, expected):
+        items = run(raw, source_name="page_158.md")
+        named = [it for it in items if it.get("name")]
+        assert len(named) == 1, (case_id, items)
+        assert named[0]["source"] == expected, (case_id, named[0]["source"])
+
+    def test_standard_source_untouched(self):
+        """合法 `中文（EN）`/纯书缩写 source 零变化（幂等守卫）。"""
+        items = run(
+            "**甲胄士（Armor Expert）**【APG】**：你的童年……\n",
+            source_name="page_150.md",
+        )
+        assert items[0]["source"] == "APG", items[0]
+
+    def test_source_field_path(self):
+        """出处字段路径：`**出处** 《书》（EN）` 走出处字段分支，同一正则收敛。"""
+        raw = (
+            "**老赌鬼（Practiced Gambler）**\n"
+            "**出处** 《内海种族》（Inner Sea Race）\n"
+            "**类型**：种族\n"
+            "**需求** 人类（瓦瑞西亚地区）\n"
+            "你跟斯克扎尼黑帮厮混的成长历程让你接触到了卡片和骰子游戏。\n"
+        )
+        items = run(raw, source_name="内海种族ISR_背景特性.md")
+        assert items[0]["source"] == "内海种族（Inner Sea Race）", items[0]
+
+    def test_half_shell_source_path(self):
+        """半星壳出处路径：`**A**(EN) 出自《中文EN》` 由同一渲染器收敛。"""
+        raw = "**速饮者**(Accelerated Drinker) 出自《速饮者手册Quick Drinker》\n"
+        items = run(raw, source_name="page_154.md")
+        assert items[0]["source"] == "速饮者手册（Quick Drinker）", items[0]
+
+    def test_dirty_source_idempotent(self):
+        """脏值连续归一两次：normalize 与 split 均幂等，不二次加括号。"""
+        raw = self.CASES[0][1]
+        fmt = TraitFormat()
+        once = fmt.normalize(raw)
+        twice = fmt.normalize(once)
+        assert once == twice, (once, twice)
+        first = fmt.split_into_items(once, source_name="page_158.md")
+        second = fmt.split_into_items(twice, source_name="page_158.md")
+        assert first[0]["source"] == second[0]["source"] == "任务与战役（Quests and Campaigns）"
+
+    def test_legit_chinese_paren_after_source(self):
+        """合法中文括注（非英文书名）：`内海诸神（神祇）第3页` 原样保留。"""
+        raw = (
+            "**机运使徒（Agent of Chance）**\n"
+            "出自《内海诸神（神祇）第3页》\n"
+            "**分类**：信念\n正文。\n"
+        )
+        items = run(raw, source_name="内海诸神ISG_背景特性.md")
+        assert items[0]["source"] == "内海诸神（神祇）第3页", items[0]
+
+    def test_parenthetical_note_after_page_not_reordered(self):
+        """页码后中文括注不得前移：`内海种族 pg. 194（重印）` 保持原序。"""
+        raw = (
+            "**老赌鬼（Practiced Gambler）**\n"
+            "**出处** 《内海种族 pg. 194（重印）》\n"
+            "**类型**：种族\n正文。\n"
+        )
+        items = run(raw, source_name="内海种族ISR_背景特性.md")
+        assert items[0]["source"] == "内海种族 pg. 194（重印）", items[0]
+
+    def test_only_source_field_changes(self):
+        """脏值 vs 标准值：除 source 外条目字段一致（title/text/name/cluster 零变化）。"""
+        body = "**类型：**战斗背景（Combat）\n**效果：**你是一个军械师。\n"
+        dirty = run("**纵火狂（Firebug）**\n出自《任务与战役》 Quests and Campaigns\n" + body)
+        clean = run("**纵火狂（Firebug）**\n出自《任务与战役》（Quests and Campaigns）\n" + body)
+        a, b = dirty[0], clean[0]
+        for key in a:
+            if key == "source":
+                continue
+            assert a[key] == b[key], (key, a[key], b[key])
+        assert a["source"] == b["source"] == "任务与战役（Quests and Campaigns）"
+

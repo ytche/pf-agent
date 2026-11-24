@@ -31,6 +31,7 @@ public record SpellChunk(
         Map<String, Object> extra,
         String base_spell_chunk_id,
         String base_spell_title,
-        String base_spell_book
+        String base_spell_book,
+        String chm_toc_path
 ) {
 }

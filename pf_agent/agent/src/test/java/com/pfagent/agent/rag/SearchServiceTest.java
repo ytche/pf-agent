@@ -10,12 +10,15 @@ import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.SimpleVectorStore;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
@@ -47,6 +50,8 @@ class SearchServiceTest {
     private SimpleVectorStore skillStore;
     @Mock
     private SimpleVectorStore ruleStore;
+    @Mock
+    private DeepSeekListwiseReranker reranker;
 
     /** 多库独立检索后按相似度降序合并取 topK */
     @Test
@@ -89,6 +94,54 @@ class SearchServiceTest {
         List<Document> result = service().search("q");
 
         assertThat(result).hasSize(2);
+    }
+
+    /** 询问背景特性类型时，空 trait_type 条目降到有类型条目之后 */
+    @Test
+    void traitTypeQuestionDownweightsEmptyTraitType() {
+        Document typed = Document.builder().text("魔法背景特性")
+                .metadata(Map.of("category", "trait", "component_type", "trait", "trait_type", "魔法"))
+                .score(0.8).build();
+        Document empty = Document.builder().text("类型未标注的背景特性")
+                .metadata(Map.of("category", "trait", "component_type", "trait", "trait_type", ""))
+                .score(0.8).build();
+        when(traitStore.similaritySearch(any(SearchRequest.class))).thenReturn(List.of(empty, typed));
+
+        List<Document> result = service().search("魔法背景特性有哪些？", "trait");
+
+        assertThat(result).containsExactly(typed, empty);
+    }
+
+    /** 「魔法背景有哪些」不带“特性”二字也识别为类型提问 */
+    @Test
+    void traitTypeQuestionRecognizesShortBackgroundWording() {
+        Document typed = Document.builder().text("魔法背景")
+                .metadata(Map.of("category", "trait", "component_type", "trait", "trait_type", "魔法"))
+                .score(0.8).build();
+        Document empty = Document.builder().text("未标类型的背景")
+                .metadata(Map.of("category", "trait", "component_type", "trait", "trait_type", ""))
+                .score(0.8).build();
+        when(traitStore.similaritySearch(any(SearchRequest.class))).thenReturn(List.of(empty, typed));
+
+        List<Document> result = service().search("魔法背景有哪些？", "trait");
+
+        assertThat(result).containsExactly(typed, empty);
+    }
+
+    /** 普通查询不对空 trait_type 降权 */
+    @Test
+    void normalQuestionDoesNotPenalizeEmptyTraitType() {
+        Document typed = Document.builder().text("魔法背景特性")
+                .metadata(Map.of("category", "trait", "component_type", "trait", "trait_type", "魔法"))
+                .score(0.8).build();
+        Document empty = Document.builder().text("类型未标注的背景特性")
+                .metadata(Map.of("category", "trait", "component_type", "trait", "trait_type", ""))
+                .score(0.8).build();
+        when(traitStore.similaritySearch(any(SearchRequest.class))).thenReturn(List.of(empty, typed));
+
+        List<Document> result = service().search("火球术射程", "trait");
+
+        assertThat(result).containsExactly(empty, typed);
     }
 
     /** 指定 spell 模块时只查 spell 库 */
@@ -547,6 +600,90 @@ class SearchServiceTest {
         verify(spellStore, org.mockito.Mockito.times(1)).similaritySearch(any(SearchRequest.class));
     }
 
+    @Test
+    void getByDocIdFiltersExactDocAndTocPath() {
+        Document first = Document.builder().text("父标题")
+                .metadata(Map.of("doc_id", "page-53", "chunk_id", "c1")).build();
+        Document second = Document.builder().text("子条目")
+                .metadata(Map.of("doc_id", "page-53", "chunk_id", "c2")).build();
+        when(classStore.similaritySearch(any(SearchRequest.class))).thenReturn(List.of(first, second));
+
+        SearchService.DocumentSection result = service().getByDocId(
+                "class", "核心职业/武僧/page_53.md", "职业 → 核心职业 → 武僧");
+
+        assertThat(result.documents()).containsExactly(first, second);
+        assertThat(result.capped()).isFalse();
+        ArgumentCaptor<SearchRequest> captor = ArgumentCaptor.forClass(SearchRequest.class);
+        verify(classStore).similaritySearch(captor.capture());
+        assertThat(captor.getValue().getQuery()).isEqualTo("class");
+        assertThat(captor.getValue().getTopK()).isEqualTo(501);
+        assertThat(captor.getValue().getFilterExpression()).isNotNull();
+        assertThat(captor.getValue().getFilterExpression().toString())
+                .contains("doc_id", "核心职业/武僧/page_53.md", "tocPath", "职业 → 核心职业 → 武僧");
+        verifyNoInteractions(spellStore);
+    }
+
+    @Test
+    void getByDocIdRejectsBlankOrUnknownModuleWithoutQuery() {
+        assertThat(service().getByDocId("class", " ", "toc").capped()).isFalse();
+        assertThat(service().getByDocId("class", "doc", " ").documents()).isEmpty();
+        assertThat(service().getByDocId("unknown", "doc", "toc").documents()).isEmpty();
+        assertThat(service().getByDocId(null, "doc", "toc").documents()).isEmpty();
+        verifyNoInteractions(classStore, spellStore);
+    }
+
+    @Test
+    void getByDocIdReportsRetrievalCapInsteadOfSilentlyTruncating() {
+        when(classStore.similaritySearch(any(SearchRequest.class))).thenReturn(hitDocs(501));
+
+        SearchService.DocumentSection result = service().getByDocId("class", "page-53", "toc");
+
+        assertThat(result.capped()).isTrue();
+        assertThat(result.documents()).hasSize(501);
+    }
+
+    @Test
+    void getByDocIdUsesRuntimeTocPathKeyFromStandardChunkMapper() {
+        StandardChunk chunk = new StandardChunk("c1", "doc", "class", "class_feature",
+                "父标题", "父标题", "CRB", "核心规则书", "Core", 30,
+                "职业 → 核心职业 → 武僧", List.of(), Map.of(), Map.of());
+        Document mapped = new StandardChunkMapper().toDocument(chunk);
+        String tocPath = mapped.getMetadata().get("tocPath").toString();
+        when(classStore.similaritySearch(any(SearchRequest.class))).thenReturn(List.of(mapped));
+
+        service().getByDocId("class", "doc", tocPath);
+
+        ArgumentCaptor<SearchRequest> captor = ArgumentCaptor.forClass(SearchRequest.class);
+        verify(classStore).similaritySearch(captor.capture());
+        assertThat(captor.getValue().getFilterExpression().toString())
+                .contains("tocPath", tocPath)
+                .doesNotContain("chm_toc_path");
+    }
+
+    @Test
+    void getByDocIdRejectsQuoteInTocPathWithoutQuery() {
+        SearchService.DocumentSection result = service().getByDocId("class", "doc", "Roslar's Coffer");
+
+        assertThat(result.documents()).isEmpty();
+        assertThat(result.capped()).isFalse();
+        verifyNoInteractions(classStore, spellStore);
+    }
+
+    @Test
+    void searchByMetadataRaceNameAndTraitTypeBuildsEqFilter() {
+        when(raceStore.similaritySearch(any(SearchRequest.class))).thenReturn(List.of());
+        MetadataSearchQuery query = new MetadataSearchQuery();
+        query.setFilters(Map.of("raceName", "阿斯托莫伊人", "componentType", "race_trait"));
+
+        service().searchByMetadata("race", query);
+
+        ArgumentCaptor<SearchRequest> captor = ArgumentCaptor.forClass(SearchRequest.class);
+        verify(raceStore).similaritySearch(captor.capture());
+        assertThat(captor.getValue().getFilterExpression().toString())
+                .contains("race_name", "阿斯托莫伊人", "component_type", "race_trait");
+        verifyNoInteractions(spellStore, classStore);
+    }
+
     // ---------- SP8a J2：增强版 searchByMetadata（参数对象） ----------
 
     /** orFilters 单字段多值：表达式组内 OR */
@@ -880,6 +1017,187 @@ class SearchServiceTest {
         assertThat(result.hasMore()).isTrue();
     }
 
+    // ---------- F-016 语义检索二阶段重排 ----------
+
+    /** 重排启用：候选交给 reranker，最终结果取 reranker 返回顺序 */
+    @Test
+    void searchPassesCandidatesToRerankerAndUsesItsOrder() {
+        Document a = doc("A", 0.9, Map.of("chunk_id", "a", "title", "甲"));
+        Document b = doc("B", 0.8, Map.of("chunk_id", "b", "title", "乙"));
+        Document c = doc("C", 0.7, Map.of("chunk_id", "c", "title", "丙"));
+        when(spellStore.similaritySearch(any(SearchRequest.class))).thenReturn(List.of(a, b, c));
+        when(reranker.rerank(org.mockito.ArgumentMatchers.eq("问题"), any(), org.mockito.ArgumentMatchers.eq(2)))
+                .thenReturn(List.of(c, a));
+
+        List<Document> result = rerankService(50, 2).search("问题", "spell");
+
+        assertThat(result).containsExactly(c, a);
+    }
+
+    /** 重排候选截断到 rerank-candidates（不在检索阶段直接截到最终 topN） */
+    @Test
+    @SuppressWarnings("unchecked")
+    void searchCapsRerankCandidatesAtConfiguredSize() {
+        Document d1 = doc("1", 0.9, Map.of("chunk_id", "c1", "title", "T1"));
+        Document d2 = doc("2", 0.8, Map.of("chunk_id", "c2", "title", "T2"));
+        Document d3 = doc("3", 0.7, Map.of("chunk_id", "c3", "title", "T3"));
+        Document d4 = doc("4", 0.6, Map.of("chunk_id", "c4", "title", "T4"));
+        when(spellStore.similaritySearch(any(SearchRequest.class))).thenReturn(List.of(d1, d2, d3, d4));
+        when(reranker.rerank(any(), any(), org.mockito.ArgumentMatchers.eq(1))).thenReturn(List.of(d1));
+
+        rerankService(3, 1).search("问题", "spell");
+
+        ArgumentCaptor<List<DeepSeekListwiseReranker.Candidate>> captor =
+                ArgumentCaptor.forClass((Class<List<DeepSeekListwiseReranker.Candidate>>) (Class<?>) List.class);
+        verify(reranker).rerank(org.mockito.ArgumentMatchers.eq("问题"), captor.capture(),
+                org.mockito.ArgumentMatchers.eq(1));
+        assertThat(captor.getValue()).hasSize(3)
+                .extracting(DeepSeekListwiseReranker.Candidate::id)
+                .containsExactly("c1", "c2", "c3");
+        assertThat(captor.getValue().get(0).module()).isEqualTo("spell");
+        assertThat(captor.getValue().get(0).book()).isEmpty();
+    }
+
+    /** 重排关闭：不调用 reranker，仍按 rankedScore 取 topK */
+    @Test
+    void searchWithRerankDisabledKeepsRankedScoreTopK() {
+        Document a = doc("A", 0.9, Map.of("chunk_id", "a"));
+        Document b = doc("B", 0.8, Map.of("chunk_id", "b"));
+        Document c = doc("C", 0.7, Map.of("chunk_id", "c"));
+        when(spellStore.similaritySearch(any(SearchRequest.class))).thenReturn(List.of(a, b, c));
+
+        SearchService s = service();
+        ReflectionTestUtils.setField(s, "reranker", reranker);
+        ReflectionTestUtils.setField(s, "rerankEnabled", false);
+        ReflectionTestUtils.setField(s, "rerankCandidates", 50);
+        ReflectionTestUtils.setField(s, "rerankTopN", 15);
+
+        assertThat(s.search("问题", "spell")).containsExactly(a, b);
+        verifyNoInteractions(reranker);
+    }
+
+    /** 枚举检索零变化：重排开启也不影响显式排序、分页与总数 */
+    @Test
+    void searchByMetadataPagedUnaffectedByRerank() {
+        when(spellStore.similaritySearch(any(SearchRequest.class))).thenReturn(List.of(
+                doc("a", 0.9, Map.of("title", "火球术", "chunk_id", "1", "book_abbreviation", "CRB")),
+                doc("b", 0.8, Map.of("title", "冰风暴", "chunk_id", "2", "book_abbreviation", "CRB")),
+                doc("c", 0.7, Map.of("title", "闪电束", "chunk_id", "3", "book_abbreviation", "CRB"))));
+        MetadataSearchQuery query = new MetadataSearchQuery();
+        query.setFilters(Map.of("book", "CRB"));
+        query.setSortBy("title");
+        query.setSortOrder("desc");
+        query.setLimit(1);
+        query.setOffset(1);
+
+        SearchService.PagedResult result = rerankService(50, 15).searchByMetadataPaged("spell", query);
+
+        assertThat(result.totalCount()).isEqualTo(3);
+        assertThat(result.page()).hasSize(1);
+        assertThat(result.page().get(0).getMetadata().get("title")).isEqualTo("火球术");
+        verifyNoInteractions(reranker);
+    }
+
+    /** 候选数不超过最终 topN 时跳过重排，避免无意义 LLM 调用 */
+    @Test
+    void searchSkipsRerankWhenCandidatesNotExceedingTopN() {
+        Document a = doc("A", 0.9, Map.of("chunk_id", "a"));
+        Document b = doc("B", 0.8, Map.of("chunk_id", "b"));
+        when(spellStore.similaritySearch(any(SearchRequest.class))).thenReturn(List.of(a, b));
+
+        List<Document> result = rerankService(50, 15).search("问题", "spell");
+
+        assertThat(result).containsExactly(a, b);
+        verifyNoInteractions(reranker);
+    }
+
+    /** rerank-enabled=true 但 reranker 未装配时必须快速失败，不得静默降级 */
+    @Test
+    void searchWithRerankEnabledButMissingRerankerFailsFast() {
+        SearchService s = service();
+        ReflectionTestUtils.setField(s, "rerankEnabled", true);
+        ReflectionTestUtils.setField(s, "reranker", null);
+
+        assertThatThrownBy(() -> s.search("问题", "spell"))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessageContaining("DeepSeekListwiseReranker 未装配");
+    }
+
+    /** 代码默认配置锁：enabled=true / candidates=50 / topN=15 */
+    @Test
+    void defaultRerankConfigIsEnabledFiftyAndFifteen() {
+        SearchService s = new SearchService();
+
+        assertThat(ReflectionTestUtils.getField(s, "rerankEnabled")).isEqualTo(true);
+        assertThat(ReflectionTestUtils.getField(s, "rerankCandidates")).isEqualTo(50);
+        assertThat(ReflectionTestUtils.getField(s, "rerankTopN")).isEqualTo(15);
+    }
+
+    /**
+     * P2 贯通：SearchService + 真实 DeepSeekListwiseReranker + mock 重排 HTTP 客户端。
+     * 覆盖重复 chunk_id 归一（dup / dup#2）、回传 id 解析与最终 15 条顺序。
+     */
+    @Test
+    void searchRerankIntegrationNormalizesDuplicateChunkIdsAndReturnsTop15() {
+        List<Document> docs = new ArrayList<>();
+        Document firstDup = doc("first-dup", 1.00, Map.of("chunk_id", "dup", "title", "D1"));
+        Document secondDup = doc("second-dup", 0.99, Map.of("chunk_id", "dup", "title", "D2"));
+        docs.add(firstDup);
+        docs.add(secondDup);
+        for (int i = 0; i < 18; i++) {
+            docs.add(doc("u" + i, 0.98 - i * 0.01, Map.of("chunk_id", "u" + i, "title", "U" + i)));
+        }
+        when(spellStore.similaritySearch(any(SearchRequest.class))).thenReturn(docs);
+
+        List<String> orderedIds = new ArrayList<>(List.of("dup#2", "dup"));
+        for (int i = 0; i < 13; i++) {
+            orderedIds.add("u" + i);
+        }
+        String json = orderedIds.stream()
+                .map(id -> "\"" + id + "\"")
+                .collect(Collectors.joining(",", "[", "]"));
+        DeepSeekRerankHttpClient rerankHttpClient = mock(DeepSeekRerankHttpClient.class);
+        when(rerankHttpClient.complete(any(), any())).thenReturn(
+                new DeepSeekRerankHttpClient.RerankResult(json, "deepseek-flash", 10, 5, 15, 12L));
+
+        DeepSeekListwiseReranker realReranker = new DeepSeekListwiseReranker();
+        ReflectionTestUtils.setField(realReranker, "httpClient", rerankHttpClient);
+        ReflectionTestUtils.setField(realReranker, "timeout", java.time.Duration.ofSeconds(2));
+        ReflectionTestUtils.setField(realReranker, "summaryChars", 300);
+        ReflectionTestUtils.setField(realReranker, "defaultModel", "deepseek-flash");
+        ReflectionTestUtils.setField(realReranker, "concurrency", 4);
+        ReflectionTestUtils.setField(realReranker, "queueCapacity", 16);
+
+        SearchService s = service();
+        ReflectionTestUtils.setField(s, "reranker", realReranker);
+        ReflectionTestUtils.setField(s, "rerankEnabled", true);
+        ReflectionTestUtils.setField(s, "rerankCandidates", 50);
+        ReflectionTestUtils.setField(s, "rerankTopN", 15);
+
+        List<Document> result = s.search("问题", "spell");
+
+        assertThat(result).hasSize(15);
+        assertThat(result.get(0)).isEqualTo(secondDup);
+        assertThat(result.get(1)).isEqualTo(firstDup);
+        for (int i = 0; i < 13; i++) {
+            assertThat(result.get(2 + i).getMetadata().get("chunk_id")).isEqualTo("u" + i);
+        }
+        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+        verify(rerankHttpClient).complete(any(), captor.capture());
+        String payload = captor.getValue();
+        assertThat(payload).contains("\"id\":\"dup\"").contains("\"id\":\"dup#2\"");
+    }
+
+    /** F-016 测试辅助：在默认 service 上开启重排并指定候选/最终条数 */
+    private SearchService rerankService(int candidates, int topN) {
+        SearchService s = service();
+        ReflectionTestUtils.setField(s, "reranker", reranker);
+        ReflectionTestUtils.setField(s, "rerankEnabled", true);
+        ReflectionTestUtils.setField(s, "rerankCandidates", candidates);
+        ReflectionTestUtils.setField(s, "rerankTopN", topN);
+        return s;
+    }
+
     private SearchService service() {
         return service(0.03, 0.03, 0.02, 5000, true, 0, 0.0, List.of());
     }
@@ -935,7 +1253,10 @@ class SearchServiceTest {
         ReflectionTestUtils.setField(s, "oversizeThreshold", oversizeThreshold);
         ReflectionTestUtils.setField(s, "rerankExtraCandidates", rerankExtraCandidates);
         ReflectionTestUtils.setField(s, "titleMatchBoost", titleMatchBoost);
+        ReflectionTestUtils.setField(s, "emptyTraitTypePenalty", 0.05);
         ReflectionTestUtils.setField(s, "titleBoostStopwords", titleBoostStopwords);
+        // F-016：既有用例默认走关闭路径；重排用例由 rerankService() 显式开启并注入 mock
+        ReflectionTestUtils.setField(s, "rerankEnabled", false);
         s.initStores();
         return s;
     }

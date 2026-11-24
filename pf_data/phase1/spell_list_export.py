@@ -8,7 +8,11 @@
 - D1 权威数据源 = 规则书官方列表页（不用 spell_level 元数据）。
 - D2 产物 gitignored，脚本入库（F-012：脚本与产物同版本提交）。
 - D3 schema：classes{职业:{aliases, source_page, source_toc_path, source_excerpt,
-  list_chunk_id, levels{0..9:[{cn,en,book,chunk_id}]}}}；chunk_id 对不上置 null 不阻塞。
+  list_chunk_id, levels{0..9:[{cn,en,book,chunk_id,toc_path}]}}}；chunk_id 对不上置 null 不阻塞。
+- F-008：条目 toc_path 按 chunk_id join 法术 chunks.jsonl 的 chm_toc_path；
+  source_toc_path 仍是列表页路径，不冒充条目路径。报告 toc_path 给出
+  total/nonempty/empty/join_failed，空路径条目不删除。header 增加
+  source_fingerprint（法术 chunks.jsonl 内容 sha256），与另三份清单同口径。
 
 幂等：产物不含时间戳，重跑字节一致（V1）。
 复用先例：LISTS/ENTRY ← verify_spell_list_recall.py；normalize/SOURCE_BOOKS/别名表 ←
@@ -17,7 +21,15 @@ docs/scan_spell_lists_20260729.py（60+ 译名变体归一）。
 import json, os, re
 from collections import Counter, defaultdict
 
-from vectorizer.list_export import fold_lower, fold_ws  # D2 收敛至共用模块
+from vectorizer.list_export import fold_lower, fold_ws, sha256_file  # D2 收敛至共用模块
+
+VERSION = '1.1'
+
+
+def _require(condition, message):
+    """显式自校验：python -O 下 assert 会被剥离，关键不变量用 RuntimeError 兜底。"""
+    if not condition:
+        raise RuntimeError(message)
 
 # 与 pf_data/phase1/vectorizer/output/法术/ 同目录，相对 pf_data/phase1 运行
 OUT_DIR = 'vectorizer/output/法术'
@@ -502,6 +514,34 @@ def parse_d(lines):
 
 
 # ------------------------------------------------------------------ chunk 交叉
+def build_toc_index(chunks):
+    """chunk_id → chm_toc_path 原值（F-008：条目路径的唯一来源）。"""
+    return {ch.get('chunk_id'): (ch.get('chm_toc_path') or '') for ch in chunks}
+
+
+def apply_toc_paths(classes, toc_by_id):
+    """F-008：按条目 chunk_id join 法术 chunk 的 chm_toc_path，写入 toc_path。
+
+    列表页 source_toc_path 保留原义，不参与条目路径。join 未命中（chunk_id
+    为空或不在索引）与 chunk 路径为空都写 ''，条目保留；join_failed 只计
+    前者（无法 join），空值口径包含两者。返回 {total,nonempty,empty,join_failed}。
+    """
+    stats = {'total': 0, 'nonempty': 0, 'empty': 0, 'join_failed': 0}
+    for body in classes.values():
+        for entries in body['levels'].values():
+            for e in entries:
+                stats['total'] += 1
+                cid = e.get('chunk_id')
+                if not cid or cid not in toc_by_id:
+                    path = ''
+                    stats['join_failed'] += 1
+                else:
+                    path = toc_by_id[cid]
+                e['toc_path'] = path
+                stats['nonempty' if path else 'empty'] += 1
+    return stats
+
+
 def dedupe(entries):
     """同环去重：以 (归一中文名, 小写英文名) 为键保序去重。"""
     seen, out = set(), []
@@ -590,7 +630,9 @@ def derive_excerpt(text, entry_cnt):
 # ------------------------------------------------------------------ 主流程
 def main():
     os.makedirs(OUT_DIR, exist_ok=True)
-    chunks = [json.loads(l) for l in open(CHUNKS_PATH, encoding='utf-8')]
+    with open(CHUNKS_PATH, encoding='utf-8') as f:
+        chunks = [json.loads(l) for l in f if l.strip()]
+    fingerprint = sha256_file(CHUNKS_PATH)
     by_title, by_alias = build_spell_index(chunks)
     print(f'法术库 chunks: {len(chunks)} | title 键 {len(by_title)} | alias 键 {len(by_alias)}')
     # 职业库 list_chunk_id 交叉（doc_id 即 rel；文件不存在/对不上 → 全 null 不阻塞）
@@ -607,7 +649,8 @@ def main():
     for cls, rel in CLASS_LISTS.items():
         path = os.path.join(ORGANIZED_ROOT, rel)
         try:
-            text = open(path, encoding='utf-8').read()
+            with open(path, encoding='utf-8') as f:
+                text = f.read()
         except OSError as e:
             report['issues'].append({'职业': cls, '问题': f'读取失败 {e}'})
             continue
@@ -661,13 +704,26 @@ def main():
             'list_chunk_id': class_doc.get(rel),
         }
 
+    toc_stats = apply_toc_paths(classes, build_toc_index(chunks))
+    report['toc_path'] = toc_stats
+
+    # ---- 自校验（写盘前；RuntimeError：python -O 下仍生效） ----
+    _require(len(classes) + len([1 for i in report['issues']
+                                 if i['职业'] in PAGE_NOTES]) >= 27,
+             f'解析失败职业数异常: {[i for i in report["issues"]]}')
+    for cls in classes:
+        _require(set(classes[cls]['levels']) == {str(i) for i in range(10)},
+                 cls + ' levels 键不全')
+
     payload = {
-        'version': '1.0',
+        'version': VERSION,
         'generated_from': '职业列表页 27 路径（脚本 CLASS_LISTS 注册表）',
+        'source_fingerprint': f'sha256:{fingerprint}',
         'classes': classes,
     }
     with open(JSON_PATH, 'w', encoding='utf-8') as f:
         json.dump(payload, f, ensure_ascii=False, indent=1)
+
     list_hit = sum(1 for p in report['pages'].values() if p.get('list_chunk_id'))
     report['summary'] = {
         '职业数': len(classes), '总条目': tot_entries,
@@ -694,12 +750,8 @@ def main():
     print(f'\n===== 汇总：职业 {s["职业数"]} / 条目 {s["总条目"]} / '
           f'chunk 命中 {s["chunk命中"]} / 缺失 {s["chunk缺失"]} / null率 {s["null率"]} / '
           f'list_chunk 命中 {s["list_chunk命中"]} =====')
-
-    # 自校验断言：27 职业全部成功解析（跳过页除外）；每条记录字段完整
-    assert len(classes) + len([1 for i in report['issues'] if i['职业'] in PAGE_NOTES]) >= 27, \
-        f'解析失败职业数异常: {[i for i in report["issues"]]}'
-    for cls in classes:
-        assert set(classes[cls]['levels']) == {str(i) for i in range(10)}, cls + ' levels 键不全'
+    print(f'toc_path：非空 {toc_stats["nonempty"]}/{toc_stats["total"]}，'
+          f'空 {toc_stats["empty"]}，join 失败 {toc_stats["join_failed"]}')
     print('自校验通过：levels 键 0~9 齐备，记录字段完整。产物 →', JSON_PATH)
 
 

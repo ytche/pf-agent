@@ -1,0 +1,407 @@
+[
+ {
+  "chunk_id": "trait_page_158_0002",
+  "component_type": "trait_flaw",
+  "doc_id": "page_158",
+  "title": "奥术恶性状态",
+  "old_source": "巫团血脉Blood of the Coven》第十页",
+  "new_source": "巫团血脉（Blood of the Coven）第十页",
+  "form_class": "A_书名号残留"
+ },
+ {
+  "chunk_id": "trait_page_158_0009",
+  "component_type": "trait_flaw",
+  "doc_id": "page_158",
+  "title": "怯懦",
+  "old_source": "反英雄手册Antihero's Handbook》第6页",
+  "new_source": "反英雄手册（Antihero's Handbook）第6页",
+  "form_class": "A_书名号残留"
+ },
+ {
+  "chunk_id": "trait_page_158_0025",
+  "component_type": "trait_flaw",
+  "doc_id": "page_158",
+  "title": "无助",
+  "old_source": "反英雄手册Antihero's Handbook》 第6页",
+  "new_source": "反英雄手册（Antihero's Handbook）第6页",
+  "form_class": "A_书名号残留"
+ },
+ {
+  "chunk_id": "trait_page_158_0026",
+  "component_type": "trait_flaw",
+  "doc_id": "page_158",
+  "title": "急躁",
+  "old_source": "反英雄手册Antihero's Handbook》 第6页",
+  "new_source": "反英雄手册（Antihero's Handbook）第6页",
+  "form_class": "A_书名号残留"
+ },
+ {
+  "chunk_id": "trait_page_158_0027",
+  "component_type": "trait_flaw",
+  "doc_id": "page_158",
+  "title": "名声狼藉",
+  "old_source": "间谍大师手册Spymaster's Handbook》 第7页",
+  "new_source": "间谍大师手册（Spymaster's Handbook）第7页",
+  "form_class": "A_书名号残留"
+ },
+ {
+  "chunk_id": "trait_page_158_0031",
+  "component_type": "trait_flaw",
+  "doc_id": "page_158",
+  "title": "寂寞",
+  "old_source": "间谍大师手册Spymaster's Handbook》 第7页",
+  "new_source": "间谍大师手册（Spymaster's Handbook）第7页",
+  "form_class": "A_书名号残留"
+ },
+ {
+  "chunk_id": "trait_page_158_0040",
+  "component_type": "trait_flaw",
+  "doc_id": "page_158",
+  "title": "神秘交易",
+  "old_source": "间谍大师手册Spymaster's Handbook》 第7页",
+  "new_source": "间谍大师手册（Spymaster's Handbook）第7页",
+  "form_class": "A_书名号残留"
+ },
+ {
+  "chunk_id": "trait_page_158_0049",
+  "component_type": "trait_flaw",
+  "doc_id": "page_158",
+  "title": "隐秘耻辱",
+  "old_source": "间谍大师手册Spymaster's Handbook》 第7页",
+  "new_source": "间谍大师手册（Spymaster's Handbook）第7页",
+  "form_class": "A_书名号残留"
+ },
+ {
+  "chunk_id": "trait_page_158_0050",
+  "component_type": "trait_flaw",
+  "doc_id": "page_158",
+  "title": "自我怀疑",
+  "old_source": "反英雄手册Antihero's Handbook》 第6页",
+  "new_source": "反英雄手册（Antihero's Handbook）第6页",
+  "form_class": "A_书名号残留"
+ },
+ {
+  "chunk_id": "trait_page_158_0059",
+  "component_type": "trait_flaw",
+  "doc_id": "page_158",
+  "title": "鬼话连篇",
+  "old_source": "间谍大师手册Spymaster's Handbook》 第7页",
+  "new_source": "间谍大师手册（Spymaster's Handbook）第7页",
+  "form_class": "A_书名号残留"
+ },
+ {
+  "chunk_id": "trait_任务与战役_背景特性_0001",
+  "component_type": "trait",
+  "doc_id": "任务与战役_背景特性",
+  "title": "印象深刻",
+  "old_source": "任务与战役Quests and Campaigns",
+  "new_source": "任务与战役（Quests and Campaigns）",
+  "form_class": "B_中英混排"
+ },
+ {
+  "chunk_id": "trait_任务与战役_背景特性_0002",
+  "component_type": "trait",
+  "doc_id": "任务与战役_背景特性",
+  "title": "哲学徒",
+  "old_source": "任务与战役Quests and Campaigns",
+  "new_source": "任务与战役（Quests and Campaigns）",
+  "form_class": "B_中英混排"
+ },
+ {
+  "chunk_id": "trait_任务与战役_背景特性_0003",
+  "component_type": "trait",
+  "doc_id": "任务与战役_背景特性",
+  "title": "报复心",
+  "old_source": "任务与战役Quests and Campaigns",
+  "new_source": "任务与战役（Quests and Campaigns）",
+  "form_class": "B_中英混排"
+ },
+ {
+  "chunk_id": "trait_任务与战役_背景特性_0004",
+  "component_type": "trait",
+  "doc_id": "任务与战役_背景特性",
+  "title": "纵火狂",
+  "old_source": "任务与战役》 Quests and Campaigns",
+  "new_source": "任务与战役（Quests and Campaigns）",
+  "form_class": "A_书名号残留"
+ },
+ {
+  "chunk_id": "trait_任务与战役_背景特性_0005",
+  "component_type": "trait",
+  "doc_id": "任务与战役_背景特性",
+  "title": "乐观心",
+  "old_source": "任务与战役》 Quests and Campaigns",
+  "new_source": "任务与战役（Quests and Campaigns）",
+  "form_class": "A_书名号残留"
+ },
+ {
+  "chunk_id": "trait_信仰与哲学F&P_背景特性_0005",
+  "component_type": "trait",
+  "doc_id": "信仰与哲学F&P_背景特性",
+  "title": "自我实现",
+  "old_source": "信仰与哲学(Faiths and Philosophies)第33页",
+  "new_source": "信仰与哲学（Faiths and Philosophies）第33页",
+  "form_class": "C_括号残留"
+ },
+ {
+  "chunk_id": "trait_典范背景_0001",
+  "component_type": "trait",
+  "doc_id": "典范背景",
+  "title": "千界旅行者",
+  "old_source": "传奇编年史》(Chronicle of Legends p.3)",
+  "new_source": "传奇编年史（Chronicle of Legends）p.3",
+  "form_class": "A_书名号残留"
+ },
+ {
+  "chunk_id": "trait_内海种族ISR_背景特性_0001",
+  "component_type": "trait",
+  "doc_id": "内海种族ISR_背景特性",
+  "title": "天眷冠军",
+  "old_source": "内海种族》(Inner Sea Races）",
+  "new_source": "内海种族（Inner Sea Races）",
+  "form_class": "A_书名号残留"
+ },
+ {
+  "chunk_id": "trait_内海种族ISR_背景特性_0005",
+  "component_type": "trait",
+  "doc_id": "内海种族ISR_背景特性",
+  "title": "老赌鬼",
+  "old_source": "《内海种族》（Inner Sea Race）",
+  "new_source": "内海种族（Inner Sea Race）",
+  "form_class": "A_书名号残留"
+ },
+ {
+  "chunk_id": "trait_初探内海ISP_背景特性_0001",
+  "component_type": "trait",
+  "doc_id": "初探内海ISP_背景特性",
+  "title": "萨迦瓦卫士",
+  "old_source": "初探内海》(Inner Sea Primer)",
+  "new_source": "初探内海（Inner Sea Primer）",
+  "form_class": "A_书名号残留"
+ },
+ {
+  "chunk_id": "trait_初探内海ISP_背景特性_0002",
+  "component_type": "trait",
+  "doc_id": "初探内海ISP_背景特性",
+  "title": "解放奴",
+  "old_source": "初探内海 Inner Sea Primer",
+  "new_source": "初探内海（Inner Sea Primer）",
+  "form_class": "B_中英混排"
+ },
+ {
+  "chunk_id": "trait_初探内海ISP_背景特性_0005",
+  "component_type": "trait",
+  "doc_id": "初探内海ISP_背景特性",
+  "title": "统治者",
+  "old_source": "初探内海》（Inner Sea Primer），《格拉里昂的兽人》（Orcs of Golarion）",
+  "new_source": "初探内海（Inner Sea Primer），格拉里昂的兽人（Orcs of Golarion）",
+  "form_class": "A_书名号残留"
+ },
+ {
+  "chunk_id": "trait_初探内海ISP_背景特性_0014",
+  "component_type": "trait",
+  "doc_id": "初探内海ISP_背景特性",
+  "title": "不可思议王国之秘",
+  "old_source": "初探内海》第9页（Inner Sea Primer） **类型**：地区背景 **需求：扎摩诔（Jalmeray）",
+  "new_source": "初探内海（Inner Sea Primer）第9页",
+  "form_class": "A_书名号残留"
+ },
+ {
+  "chunk_id": "trait_初探探索者协会_背景特性_0001",
+  "component_type": "trait",
+  "doc_id": "初探探索者协会_背景特性",
+  "title": "能言善辩",
+  "old_source": "初探探索者协会Pathfinder Society Primer",
+  "new_source": "初探探索者协会（Pathfinder Society Primer）",
+  "form_class": "B_中英混排"
+ },
+ {
+  "chunk_id": "trait_初探探索者协会_背景特性_0002",
+  "component_type": "trait",
+  "doc_id": "初探探索者协会_背景特性",
+  "title": "协会的肌肉训练",
+  "old_source": "初探探索者协会》Pathfinder Player Companion: Pathfinder Society Primer",
+  "new_source": "初探探索者协会（Pathfinder Player Companion: Pathfinder Society Primer）",
+  "form_class": "A_书名号残留"
+ },
+ {
+  "chunk_id": "trait_初探龙国DEP_背景特性_0001",
+  "component_type": "trait",
+  "doc_id": "初探龙国DEP_背景特性",
+  "title": "剪影魔猎",
+  "old_source": "初探龙国》(Dragon Empires Primer)",
+  "new_source": "初探龙国（Dragon Empires Primer）",
+  "form_class": "A_书名号残留"
+ },
+ {
+  "chunk_id": "trait_初探龙国DEP_背景特性_0005",
+  "component_type": "trait",
+  "doc_id": "初探龙国DEP_背景特性",
+  "title": "强大心灵",
+  "old_source": "初探龙国》(Dragon Empire Primer）第21页",
+  "new_source": "初探龙国（Dragon Empire Primer）第21页",
+  "form_class": "A_书名号残留"
+ },
+ {
+  "chunk_id": "trait_初探龙国DEP_背景特性_0006",
+  "component_type": "trait",
+  "doc_id": "初探龙国DEP_背景特性",
+  "title": "民兵",
+  "old_source": "初探龙国》(Dragon Empire Primer Pg.8）",
+  "new_source": "初探龙国（Dragon Empire Primer）Pg.8",
+  "form_class": "A_书名号残留"
+ },
+ {
+  "chunk_id": "trait_废土子民PotW_背景特性_0001",
+  "component_type": "trait",
+  "doc_id": "废土子民PotW_背景特性",
+  "title": "机械专业知识",
+  "old_source": "《废土子民》（People of the Wastes）第3页",
+  "new_source": "废土子民（People of the Wastes）第3页",
+  "form_class": "A_书名号残留"
+ },
+ {
+  "chunk_id": "trait_格拉里昂的人类_种族背景特性_0001",
+  "component_type": "trait",
+  "doc_id": "格拉里昂的人类_种族背景特性",
+  "title": "执盾卫",
+  "old_source": "格拉里昂的人类Humans of Golarion",
+  "new_source": "格拉里昂的人类（Humans of Golarion）",
+  "form_class": "B_中英混排"
+ },
+ {
+  "chunk_id": "trait_格拉里昂的人类_种族背景特性_0002",
+  "component_type": "trait",
+  "doc_id": "格拉里昂的人类_种族背景特性",
+  "title": "百地乡音",
+  "old_source": "格拉里昂的人类 Human of Golarion",
+  "new_source": "格拉里昂的人类（Human of Golarion）",
+  "form_class": "B_中英混排"
+ },
+ {
+  "chunk_id": "trait_格拉里昂的人类_种族背景特性_0004",
+  "component_type": "trait",
+  "doc_id": "格拉里昂的人类_种族背景特性",
+  "title": "为战而生",
+  "old_source": "格拉利昂的人类》(Humans of Golarion)30页",
+  "new_source": "格拉利昂的人类（Humans of Golarion）30页",
+  "form_class": "A_书名号残留"
+ },
+ {
+  "chunk_id": "trait_格拉里昂的兽人_种族背景特性_0001",
+  "component_type": "trait",
+  "doc_id": "格拉里昂的兽人_种族背景特性",
+  "title": "长獠牙",
+  "old_source": "格拉利昂的兽人（ Orcs of Golarion ）",
+  "new_source": "格拉利昂的兽人（Orcs of Golarion）",
+  "form_class": "C_括号残留"
+ },
+ {
+  "chunk_id": "trait_格拉里昂的混种_种族背景特性_0004",
+  "component_type": "trait",
+  "doc_id": "格拉里昂的混种_种族背景特性",
+  "title": "焰目光",
+  "old_source": "格拉利昂的混种》（Bastards of Golarion）",
+  "new_source": "格拉利昂的混种（Bastards of Golarion）",
+  "form_class": "A_书名号残留"
+ },
+ {
+  "chunk_id": "trait_沙之子民PotS_背景特性_0001",
+  "component_type": "trait",
+  "doc_id": "沙之子民PotS_背景特性",
+  "title": "烈阳之眼",
+  "old_source": "沙之子民》p21",
+  "new_source": "沙之子民 p21",
+  "form_class": "A_书名号残留"
+ },
+ {
+  "chunk_id": "trait_沙之子民PotS_背景特性_0002",
+  "component_type": "trait",
+  "doc_id": "沙之子民PotS_背景特性",
+  "title": "弹指成火",
+  "old_source": "《沙之子民》（People of the Sands）第15页",
+  "new_source": "沙之子民（People of the Sands）第15页",
+  "form_class": "A_书名号残留"
+ },
+ {
+  "chunk_id": "trait_瓦瑞西亚，传说诞生之地_背景特性_0001",
+  "component_type": "trait",
+  "doc_id": "瓦瑞西亚，传说诞生之地_背景特性",
+  "title": "桥下居民",
+  "old_source": "瓦瑞西亚，传说诞生之地》p21",
+  "new_source": "瓦瑞西亚，传说诞生之地 p21",
+  "form_class": "A_书名号残留"
+ },
+ {
+  "chunk_id": "trait_瓦瑞西亚，传说诞生之地_背景特性_0010",
+  "component_type": "trait",
+  "doc_id": "瓦瑞西亚，传说诞生之地_背景特性",
+  "title": "使者",
+  "old_source": "瓦瑞西亚，传说诞生之地》p25",
+  "new_source": "瓦瑞西亚，传说诞生之地 p25",
+  "form_class": "A_书名号残留"
+ },
+ {
+  "chunk_id": "trait_神术选集DA_背景特性_0006",
+  "component_type": "trait",
+  "doc_id": "神术选集DA_背景特性",
+  "title": "名门望族",
+  "old_source": "神术选集》（Divine Anthology）",
+  "new_source": "神术选集（Divine Anthology）",
+  "form_class": "A_书名号残留"
+ },
+ {
+  "chunk_id": "trait_繁星子民PotS_背景特性_0001",
+  "component_type": "trait",
+  "doc_id": "繁星子民PotS_背景特性",
+  "title": "外空龙血脉",
+  "old_source": "玩家伴侣：繁星子民》（Pathfinder Player Companion: People pf Stars）",
+  "new_source": "玩家伴侣：繁星子民（Pathfinder Player Companion: People pf Stars）",
+  "form_class": "A_书名号残留"
+ },
+ {
+  "chunk_id": "trait_繁星子民PotS_背景特性_0002",
+  "component_type": "trait",
+  "doc_id": "繁星子民PotS_背景特性",
+  "title": "太阳赐福",
+  "old_source": "繁星子民(People of the Stars)",
+  "new_source": "繁星子民（People of the Stars）",
+  "form_class": "C_括号残留"
+ },
+ {
+  "chunk_id": "trait_进化职业起源ACO_背景特性_0001",
+  "component_type": "trait",
+  "doc_id": "进化职业起源ACO_背景特性",
+  "title": "狮子的勇气",
+  "old_source": "进化职业起源  Advanced Class Origins",
+  "new_source": "进化职业起源（Advanced Class Origins）",
+  "form_class": "B_中英混排"
+ },
+ {
+  "chunk_id": "trait_进化职业起源ACO_背景特性_0006",
+  "component_type": "trait",
+  "doc_id": "进化职业起源ACO_背景特性",
+  "title": "惊啸跃击",
+  "old_source": "进化职业起源》（Advanced Class Origins pg. 13）",
+  "new_source": "进化职业起源（Advanced Class Origins）pg. 13",
+  "form_class": "A_书名号残留"
+ },
+ {
+  "chunk_id": "trait_遥远世界DS_背景特性_0004",
+  "component_type": "trait",
+  "doc_id": "遥远世界DS_背景特性",
+  "title": "均衡的教育",
+  "old_source": "遥远国度》（Distant Shores）",
+  "new_source": "遥远国度（Distant Shores）",
+  "form_class": "A_书名号残留"
+ },
+ {
+  "chunk_id": "trait_闹鬼英雄手册HHH_背景特性_0002",
+  "component_type": "trait",
+  "doc_id": "闹鬼英雄手册HHH_背景特性",
+  "title": "灵性依恋",
+  "old_source": "驱灵英雄手册》(Haunted Heroes Handbook pg. 18)灵性恋",
+  "new_source": "驱灵英雄手册（Haunted Heroes Handbook）pg. 18",
+  "form_class": "A_书名号残留"
+ }
+]

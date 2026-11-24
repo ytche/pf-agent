@@ -391,3 +391,62 @@ class TestKN133TextColonAndAliasStars:
         from vectorizer.processors.race import _clean_name_en
         en, _ = _clean_name_en("Catfolk")
         assert en == "Catfolk"
+
+# ============================================================
+#  KN120：page_812 阿斯托莫伊人源文规范化后的 chunk 产出
+#  （真实文件走完整 process()：entries → build_chunk → infer_metadata）
+# ============================================================
+
+
+class TestKN120AstomoiChunks:
+    """page_812：8 特性 + 通用介绍 + 角色说明 = 10 chunk"""
+
+    _PAGE = (
+        Path(__file__).resolve().parents[2]
+        / "pf_rules_md_organized" / "种族" / "怪物种族" / "page_812.md"
+    )
+
+    @classmethod
+    def setup_class(cls):
+        cls.chunks = make_processor().process(cls._PAGE)
+
+    def test_chunk_count(self):
+        assert len(self.chunks) == 10, \
+            f"应产出 10 chunk：{[(c.component_type, c.title) for c in self.chunks]}"
+
+    def test_component_type_counts(self):
+        from collections import Counter
+        counts = Counter(c.component_type for c in self.chunks)
+        assert counts == {"race_trait": 8, "race_intro": 1, "race_sidebar": 1}, \
+            f"类型计数不符（旧形态仅 1 个 race_intro）：{dict(counts)}"
+
+    def test_titles_and_ids(self):
+        """逐条标题、顺序与 chunk_id（0000 由旧合并块改为通用介绍条目）"""
+        expected = [
+            "阿斯托莫伊人", "阿斯托莫伊人角色", "属性调整", "中等体型",
+            "标准速度", "灵敏嗅觉", "感应视野", "敏感呼吸", "无嘴", "起始语言",
+        ]
+        assert [c.title for c in self.chunks] == expected, \
+            f"标题/顺序不符：{[c.title for c in self.chunks]}"
+        assert [c.chunk_id for c in self.chunks] == \
+            [f"race_page_812_{i:04d}" for i in range(10)]
+
+    def test_aliases(self):
+        """英文名别名：感应视野含 Telepathic Senses 且 EX 未丢；其余同源文"""
+        by_title = {c.title: c for c in self.chunks}
+        assert by_title["阿斯托莫伊人"].aliases == ["Astomoi"]
+        assert by_title["阿斯托莫伊人角色"].aliases == []
+        assert by_title["感应视野"].aliases == ["Telepathic Senses EX"]
+        assert by_title["敏感呼吸"].aliases == ["Sensitive Breath EX"]
+        assert by_title["无嘴"].aliases == ["Mouthless EX"]
+        for name in ("属性调整", "中等体型", "标准速度", "灵敏嗅觉", "起始语言"):
+            assert by_title[name].aliases == [], \
+                f"{name} 无英文名不应造别名：{by_title[name].aliases}"
+
+    def test_race_name_inherited(self):
+        """10 条全部继承文件族名（角色说明不污染登记）"""
+        for c in self.chunks:
+            assert c.metadata.get("race_name") == "阿斯托莫伊人", \
+                f"{c.chunk_id} race_name 错误：{c.metadata.get('race_name')!r}"
+            assert c.metadata.get("race_name_en") == "Astomoi", \
+                f"{c.chunk_id} race_name_en 错误：{c.metadata.get('race_name_en')!r}"

@@ -11,7 +11,7 @@ KN228 步骤 3 为「新增不重排」插入）：
      apply 保持 '?' 的跨书索引 doc）
   3. ApplyFeatMetamagicIndexJoin — page_1367 超魔专长一览 × 全库同名唯一书
      join 回填（KN228，2026-10-28 插入；只改 book=="?" 的 1367 chunk，幂等）
-  4. BackfillChmTocPath — chm_toc_path 空三级链路回填（只填缺失）
+  4. BackfillChmTocPath — chm_toc_path 空三级链路 + 可选②b回填（只填缺失）
   5. BackfillFeatSource — metadata.source 补齐（只填缺失）
 
 任何重排都会造成 book/toc/source 回归（B1 教训：pipeline 重跑重置后处理产物）。
@@ -636,9 +636,10 @@ class BackfillChmTocPath:
     organized 文件内两类来源信号（均验证 100% 覆盖）：
       注释：<!-- XX-source:源md路径:条目标题 --> → 源 md basename → md_map toc_path
       来源行：> 来源：…未整理 → X → Y → 直接提取路径
-    三级回填：
+    三级回填 + 可选②b：
       ① chunk title 命中条目级注释标题 → 注释对应 toc（章节级粒度，80/83 文件可查）
       ② 未命中 → 文件级 toc（来源行路径：46 文件唯一；37 条目级文件取公共前缀）
+      ②b 子类显式启用时，全部注释均可解析且目录一致也可作为文件级兜底（默认关闭）
       ③ 清洗：路径段含 .md 丢弃；源名含 + 的怪格式（DR 魔法技艺.md+专长9.md）跳过注释走 ②
 
     只改顶层 chm_toc_path，不动 text/title/metadata/chunk_id。幂等：空值填一次。
@@ -646,6 +647,7 @@ class BackfillChmTocPath:
 
     # 报告目录（类属性，子类覆写防跨类目覆盖）
     DEFAULT_REPORT_DIR = Path("docs/专长")
+    ANNOTATION_FILE_FALLBACK = False
 
     MD_MAP = "../md_mapping.json"          # 相对 phase1 cwd（pipeline 运行目录）
     ORGANIZED = "pf_rules_md_organized"
@@ -710,11 +712,14 @@ class BackfillChmTocPath:
         for doc_id in sorted({r["doc_id"] for r in empty}):
             path = self._resolve_doc_file(doc_files, doc_id)
             if not path:
-                doc_meta[doc_id] = {"title_toc": {}, "file_toc": ""}
+                doc_meta[doc_id] = {"title_toc": {}, "file_toc": "", "annotation_file_toc": ""}
                 continue
             text = open(path, encoding="utf-8").read()
             title_toc = {}
+            annotation_count = 0
+            resolved_tocs = []
             for prefix, src_raw, anno_title in self.RE_ANNO.findall(text):
+                annotation_count += 1
                 src = os.path.basename(src_raw)  # 去子目录前缀（专长/page_369.md → page_369.md）
                 if "+" in src or ".md" not in src:
                     continue  # DR 怪格式（魔法技艺.md+专长9.md）跳过注释，走文件级兜底
@@ -722,6 +727,7 @@ class BackfillChmTocPath:
                 if not entry or not entry.get("toc_path"):
                     continue
                 toc = self.clean_toc(entry["toc_path"])
+                resolved_tocs.append(toc)
                 title_toc.setdefault(self.norm_title(anno_title), toc)
             # 来源行路径（文件级 toc）
             src_paths = self.RE_SRC_PATH.findall(text)
@@ -734,13 +740,24 @@ class BackfillChmTocPath:
                     file_toc = self.longest_common_prefix_paths(paths)
             else:
                 file_toc = ""
-            doc_meta[doc_id] = {"title_toc": title_toc, "file_toc": file_toc}
+            annotation_file_toc = ""
+            annotation_paths = sorted(set(resolved_tocs))
+            if (self.ANNOTATION_FILE_FALLBACK and resolved_tocs
+                    and len(resolved_tocs) == annotation_count and len(annotation_paths) == 1):
+                annotation_file_toc = annotation_paths[0]
+            doc_meta[doc_id] = {
+                "title_toc": title_toc,
+                "file_toc": file_toc,
+                "annotation_file_toc": annotation_file_toc,
+            }
 
         # 回填
         stats = Counter()
         unfilled_docs = Counter()
         for r in empty:
-            meta = doc_meta.get(r["doc_id"], {"title_toc": {}, "file_toc": ""})
+            meta = doc_meta.get(
+                r["doc_id"], {"title_toc": {}, "file_toc": "", "annotation_file_toc": ""}
+            )
             toc = meta["title_toc"].get(self.norm_title(r["title"]))
             if toc:
                 r["chm_toc_path"] = toc
@@ -748,6 +765,9 @@ class BackfillChmTocPath:
             elif meta["file_toc"]:
                 r["chm_toc_path"] = meta["file_toc"]
                 stats["文件级（来源行）"] += 1
+            elif meta["annotation_file_toc"]:
+                r["chm_toc_path"] = meta["annotation_file_toc"]
+                stats["文件级（注释一致）"] += 1
             else:
                 unfilled_docs[r["doc_id"]] += 1
 
@@ -762,7 +782,7 @@ class BackfillChmTocPath:
             "# chm_toc_path 回填报告（finalize 步骤 4，2026-08-03 迁移）",
             "",
             f"> 回填 {sum(stats.values())} / {len(empty)}（doc {len(doc_meta)} 个）",
-            f"> 依据：来源书链路修复方案 §三 断点 B（三级链路）",
+            f"> 依据：来源书链路修复方案 §三 断点 B（三级链路 + 可选②b）",
             "",
             f"| 级别 | 数量 |",
             f"|---|---|",
@@ -771,6 +791,8 @@ class BackfillChmTocPath:
             f"| 未回填 | {sum(unfilled_docs.values())} |",
             "",
         ]
+        if self.ANNOTATION_FILE_FALLBACK:
+            lines.insert(-2, f"| ②b 文件级（注释一致源，子类显式启用） | {stats['文件级（注释一致）']} |")
         with open(report_dir / "chm_toc_backfill_report.md", "w", encoding="utf-8") as f:
             f.write("\n".join(lines) + "\n")
         return {"filled": sum(stats.values()), "total_empty": len(empty), "unfilled": sum(unfilled_docs.values())}

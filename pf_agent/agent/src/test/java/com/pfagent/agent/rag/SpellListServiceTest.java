@@ -715,6 +715,42 @@ class SpellListServiceTest {
         return service;
     }
 
+    // ---------- KN243：union-only 职业注册（官方清单无页，禁止伪造） ----------
+
+    /** KN243 D6：official_list=false 的 union-only 职业可 resolve、可枚举，列表页溯源为空 */
+    @Test
+    void unionOnlyClassRegisteredAndEnumerable() throws Exception {
+        SpellListService service = loadedWithUnion11(Fixtures.union11WithUnionOnlyJson(true));
+
+        assertThat(service.isUnionAvailable()).isTrue();
+        assertThat(service.isUnionFoldedPath()).isTrue();
+        // 可解析 + 进 knownClasses
+        assertThat(service.resolve("导师")).isEqualTo("导师");
+        assertThat(service.knownClasses()).contains("导师", "法师", "吟游诗人", "召唤师(掉链子)");
+        // 派生条目可枚举：0~9 环键齐全，1 环 1 条派生
+        assertThat(service.levelTotal("导师", 1)).isEqualTo(1);
+        assertThat(service.formatLevel("导师", 1, 10_000))
+                .contains("「导师」1 环法术（共 1 条）", "导师术（Adept Spell）", "〔派生〕");
+        assertThat(service.levelOverview("导师")).contains("0~9 环 1 条法术", "1环 1 条");
+        // 不伪造官方列表页：无 doc_id/tocPath/chunk_id，正文空
+        Document doc = service.listPageDocument("导师");
+        assertThat(doc.getText()).isEmpty();
+        assertThat(doc.getMetadata()).containsOnlyKeys("title");
+        assertThat(doc.getMetadata().get("title")).isEqualTo("导师法术列表");
+    }
+
+    /** KN243：未显式声明 official_list=false 的类键不注册（畸形/旧产物不凭空造职业） */
+    @Test
+    void unionClassWithoutDerivedOnlyFlagNotRegistered() throws Exception {
+        SpellListService service = loadedWithUnion11(Fixtures.union11WithUnionOnlyJson(false));
+
+        assertThat(service.isUnionAvailable()).isTrue();
+        assertThat(service.resolve("导师")).isNull();
+        assertThat(service.knownClasses()).doesNotContain("导师");
+        // 官方清单零影响
+        assertThat(service.formatLevel("法师", 1, 10_000)).contains("共 2 条");
+    }
+
     private static int countOccurrences(String text, String sub) {
         int count = 0;
         for (int i = text.indexOf(sub); i >= 0; i = text.indexOf(sub, i + sub.length())) {
@@ -746,6 +782,30 @@ class SpellListServiceTest {
                     + "],\"2\":[],\"3\":[],\"4\":[],\"5\":[],\"6\":[],\"7\":[],\"8\":[],\"9\":[]}},"
                     + "\"吟游诗人\":{\"levels\":" + emptyLevels() + "},"
                     + "\"召唤师(掉链子)\":{\"levels\":" + emptyLevels() + "}}}";
+        }
+
+        /**
+         * KN243：union 1.1 + union-only 职业「导师」（official_list=false、
+         * source_page=null、aliases=[]）——withFlag=false 时省略 official_list 键，
+         * 用于校验「未显式声明则不注册」。
+         */
+        static String union11WithUnionOnlyJson(boolean withFlag) {
+            String base = union11MinimalJson();
+            String flag = withFlag ? "\"official_list\":false," : "";
+            return base.substring(0, base.length() - 2) + ",\"导师\":{" + flag
+                    + "\"source_page\":null,\"aliases\":[],\"levels\":" + unionOnlyLevels() + "}}}";
+        }
+
+        /** union-only 职业 0~9 环（仅 1 环 1 条纯派生主条目） */
+        static String unionOnlyLevels() {
+            return "{\"0\":[],\"1\":["
+                    + "{\"cn\":\"导师术\",\"en\":\"Adept Spell\",\"book\":\"APG\","
+                    + "\"chunk_id\":\"spell_adept_1\",\"source\":\"derived\","
+                    + "\"level_evidence\":\"spell_level: 导师 1\",\"matched_by\":\"derived_new\","
+                    + "\"sources\":[{\"book\":\"APG\",\"chunk_id\":\"spell_adept_1\","
+                    + "\"source\":\"derived\",\"level_evidence\":\"spell_level: 导师 1\","
+                    + "\"matched_by\":\"derived_new\"}]}"
+                    + "],\"2\":[],\"3\":[],\"4\":[],\"5\":[],\"6\":[],\"7\":[],\"8\":[],\"9\":[]}";
         }
 
         /** 0~9 环全空 levels 片段（覆盖率基线：官方清单 3 职业齐全） */

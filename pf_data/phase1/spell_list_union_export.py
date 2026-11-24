@@ -26,6 +26,7 @@ from collections import Counter, defaultdict
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from spell_list_export import CLASS_ALIASES  # 译名变体（D7 巡林客→游侠 先例同源）
 from spell_list_export import normalize as kn017_normalize  # KN017 先例映射（已归类）
 
 BASE = Path(__file__).resolve().parent
@@ -43,13 +44,23 @@ LEGAL_DIFF_TAGS = {"书范围外", "译名变体", "标题污染", "条目合并
                    "清单页缺录"}
 MAX_LEVEL = 9
 
-# 派生职业词表：白名单 20 职业的 class token 归一目标（含 F3 拆分后单职业名）
+# 派生职业词表：白名单 20 职业的 class token 归一目标（含 F3 拆分后单职业名）。
+# KN243（2026-11-12）：导师（Adept）/红螳螂杀手（Red Mantis Assassin）为已确认
+# 合法职业但无官方清单页 → 收入词表并以 union-only 职业键落产物（0~9 环全键，
+# source_page/aliases 用显式派生空态，不伪造官方列表页）。
+_UNION_ONLY_CLASSES = ("导师", "红螳螂杀手")
 _CLASS_TOKENS = {
     "术士", "法师", "女巫", "牧师", "吟游诗人", "德鲁伊", "先知", "审判者",
     "魔战士", "奥能师", "异能者", "召唤师", "游侠", "圣武士", "炼金术师",
     "萨满", "反圣武士", "战斗祭司", "催眠师", "秘学士", "歌者", "通灵者",
     "猎人", "唤魂师", "血脉狂怒者", "调查员",
+    *_UNION_ONLY_CLASSES,
 }
+
+# D7（KN243）：巡林客是游侠旧译，元数据不改，派生聚合时并入游侠。
+# 只取 CLASS_ALIASES 的巡林客一条——整表含「圣武士→圣骑士」等导出层专用键，
+# 直接套用会把库侧规范职业（圣武士/炼金术师…）改写成官方清单以外的新键。
+_DERIVED_CLASS_ALIASES = {"巡林客": CLASS_ALIASES["巡林客"]}
 
 _EN_EMPTY_KEYS = {"", "n/a", "na", "none", "null", "-", "—", "?", "？"}
 _EN_APOSTROPHES = {"'", "’", "‘", "ʼ", "′"}
@@ -440,6 +451,9 @@ def main() -> int:
 
     # ---- 派生聚合：chunks spell_level 展开（A 阶段清洗后产物，class 已归一/F3 已拆） ----
     derived = defaultdict(list)  # (class, level) -> [{cn,en,book,chunk_id,_dup}]
+    # D7：巡林客等旧译候选延后并入目标职业——保证既有派生组的首个候选（主条目
+    # 中文名）不被别名 chunk 的标题顶替，游侠侧变化只体现为新增/合并的来源。
+    deferred = defaultdict(list)
     for c in chunks:
         sl = (c.get("metadata") or {}).get("spell_level") or []
         if not sl:
@@ -447,17 +461,23 @@ def main() -> int:
         dup = _has_dup_level(sl)
         for it in sl:
             cls = it.get("class")
-            if cls not in _CLASS_TOKENS:
+            if cls is None:
                 continue
-            if cls in OA_CLASSES:
+            mapped = _DERIVED_CLASS_ALIASES.get(cls, cls)  # D7：巡林客 → 游侠（元数据不改）
+            if mapped not in _CLASS_TOKENS:
+                continue
+            if mapped in OA_CLASSES:
                 continue  # D6：OA 五职业不派生（双重过滤）
-            derived[(cls, it["level"])].append({
+            bucket = deferred if mapped != cls else derived
+            bucket[(mapped, it["level"])].append({
                 "cn": c.get("title", ""),
                 "en": (c.get("aliases") or [""])[0] if c.get("aliases") else "",
                 "book": c.get("book_abbreviation", ""),
                 "chunk_id": c["chunk_id"],
                 "_dup": dup,
             })
+    for key, items in deferred.items():
+        derived[key].extend(items)
 
     # ---- 并集 + F-025 折叠 ----
     union_classes = {}
@@ -495,6 +515,22 @@ def main() -> int:
         union_classes[cls] = {
             "source_page": src.get("source_page", ""),
             "aliases": src.get("aliases", []),
+            "official_list": True,
+            "levels": levels_out,
+        }
+
+    # ---- KN243 D5：union-only 职业（无官方清单页）落 0~9 环派生键 ----
+    # 显式派生空态：source_page=null、aliases=[]、official_list=false——
+    # 下游不得据此伪造官方列表页；条目全部为 derived 主条目。
+    for cls in _UNION_ONLY_CLASSES:
+        levels_out = {}
+        for lv in range(MAX_LEVEL + 1):
+            levels_out[str(lv)] = _fold_level(
+                cls, lv, [], derived.get((cls, lv), []), report)
+        union_classes[cls] = {
+            "source_page": None,
+            "aliases": [],
+            "official_list": False,
             "levels": levels_out,
         }
 
@@ -544,6 +580,7 @@ def main() -> int:
     report_out = {
         "version": "1.1",
         "scope_classes": scope_classes,
+        "union_only_classes": list(_UNION_ONLY_CLASSES),
         "excluded_classes": excluded,
         "per_class_level": pl,
         "diff_counts": {k: len(v) for k, v in diff_tagged.items() if k != "__unclassified__"},
@@ -568,6 +605,9 @@ def main() -> int:
             "KN245 十八条裁除项已全部闭环（回填/别名归一/标签容错），"
             "非法术条目（阿底顿等）标 not_applicable 不计入空率；"
             "官方清单原有条目不受裁除约束。"
+            "KN243：导师/红螳螂杀手为已确认合法职业但无官方清单页 → union-only 类键"
+            "（0~9 环，source_page=null、aliases=[]、official_list=false，全部 derived 来源）；"
+            "巡林客为游侠旧译，元数据不改，派生聚合并入游侠。"
         ),
         "classes": union_classes,
         "excluded_classes": excluded,

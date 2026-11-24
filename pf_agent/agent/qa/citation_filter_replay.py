@@ -2,9 +2,10 @@
 """离线重放：把基线快照 (qa_report.json) 的 answer+sources 过一遍「只保留被引用来源」过滤，
 噪声无关地量化对 A 批三维度分数的纯代价（供 M16 引用治理试点报告复现）。
 
-过滤逻辑与 ChatService.filterCitedSources 一致：
+本脚本冻结 M16 历史试点口径，用于复现当时报告，不代表当前生产过滤：
   有效引用 = 正文 [#N] 中纯数字且 1<=N<=len(sources)；保留来源按原顺序；
   正文标记按新下标重映射；无有效引用时 sources=[]。
+AKN-031 后的自由 ID 清理、代码/链接保护和降级证据保留不在此历史重放器中。
 
 用法：
     python3 citation_filter_replay.py            # 读同目录 qa_report.json

@@ -187,8 +187,47 @@ ALLCAPS_RX = re.compile(r"^[A-Z][A-Z0-9'’\. ·\-]{2,}$")
 # FC-7b 同行英文变体（page_321 后半）：中文名**** English（可有行首 **、尾部星号/类型），
 # 英文同行本身就是佐证，无需次行检查。分类标题排除：CN 以"专长"结尾
 # （位面导师系列专长 Plane-Hopper 型章节标题，专长12 L1）——真条目名不以
-# "专长"收尾（魔法专攻/武器专攻均以"攻"结尾），lookbehind 定长 2 字符
-FC7B_RX = re.compile(r"^" + OSTAR + CN + r"(?<![一-鿿·/\-]专长)" + STAR + r"[ ]?" + ENX)
+# "专长"收尾（魔法专攻/武器专攻均以"攻"结尾），lookbehind 定长 2 字符。
+# KN096 收窄：英文名首字母必须大写——`恶棍志*** pg. 27`（VC 每条目末尾的
+# 出处标注）以 `***` + 小写 `pg.` 满足旧判据，是标注不是条目；真条目英文名
+# 均为 Proper Case（脉轮修行者****Chakra Adept）。
+FC7B_RX = re.compile(
+    r"^" + OSTAR + CN + r"(?<![一-鿿·/\-]专长)" + STAR + r"[ ]?(?=[A-Z])" + ENX
+)
+# KN096：`## 中文（English）` 标题名提取（标题/正文同名去重用）
+HEADING_CN_RX = re.compile(r"^#{1,3}\s*\**([^*（(\n]+)")
+# KN096：纯标题行（整行只有标题、行内无描述）的中文名提取——标题/正文
+# 同名重述去重用。`## 中文（English）` 与 `**中文（English）**` 两种壳形态。
+_PURE_BOLD_TITLE_RX = re.compile(r"^\*\*[^*\n]+?[（(][^）)\n]*[)）]\s*\*\*$")
+
+
+def _pure_title_cn(line: str) -> str | None:
+    """纯标题行 → 中文名；行内带描述/非标题形态 → None。"""
+    if re.match(r"^#{1,3}\s", line):
+        m = HEADING_CN_RX.match(line)
+        return m.group(1).strip() if m else None
+    if _PURE_BOLD_TITLE_RX.match(line):
+        s = line.lstrip("*")
+        return re.split(r"[（(]", s, maxsplit=1)[0].strip()
+    return None
+
+
+# KN096：字段标签行（`**先决条件：**` / `先决条件：…`）——上一行是它时，
+# 当前裸中文行是字段值而不是条目标题
+# 只认「取值型」前置标签：`先决条件：` 后跟一行裸中文名（该书把前置专长名
+# 单列一行）。`专长效果/好处` 等描述型标签后紧跟的裸中文行是下一条目标题，
+# 不能排除（专长51/半身人 整文件即此形态）
+_FIELD_LABEL_LINE_RX = re.compile(r"^\*{0,2}(?:先决条件|前置条件|前置|前提|条件)[：:]")
+
+
+def _preceded_by_field_label(lines, i: int) -> bool:
+    """i 行之前最近的非空行是否为字段标签行。"""
+    j = i - 1
+    while j >= 0 and not lines[j].strip():
+        j -= 1
+    return j >= 0 and bool(_FIELD_LABEL_LINE_RX.match(lines[j].strip()))
+
+
 # FC-8f 无加粗双标签粘连（page_670 型）：乐府训练你…先决条件：…专长效果：…
 # 行首中文（可容忍（ 残缺闭合）、无星无括号英文名，行内含'先决条件'+'专长效果'
 # 双标签是条目格式特征（正文描述不会同行双标签）
@@ -384,6 +423,8 @@ def match_file(text):
     counts = Counter()
     misses = []
     seen = set()   # 行级簇已计条目名规范形（CN（EN））：STREAM_RX 段流引用按此去重
+    heading_cn = None  # KN096：最近一个 `## 中文（English）` 标题的中文名（同名正文去重）
+    heading_i = -10
     i = 0
     n = len(lines)
     while i < n:
@@ -474,6 +515,16 @@ def match_file(text):
                     hit = None
             elif not FIELD_LABEL.search(follow):
                 hit = None
+        # KN096：FC-6g 标题形态收窄——闭合括号后必须不是中文直连/冒号/逗号。
+        # 正文括注（`一只豺化人（Jackalwere）蹲在你的家谱上。` /
+        # `你可以在麻痹（Paralyzed）或其他受限状态下…`）与效果子项定义
+        # （`威慑（Menacing）：…` / `青色螺链（Teal Helix）：…`）都是句中括注，
+        # 不是条目标题；真条目标题后是行尾、空白 + PFS 标注或星号/〔〕类型
+        # （`背水之毅(Strength in Defeat)  **PFS不可**`）。
+        if hit == "FC-6g 无加粗括号粘连" and m:
+            rest = window[len(m.group(0)):]
+            if rest and re.match(r"[一-鿿：:，,]", rest):
+                hit = None
         # FC-3 佐证：闭合星后同行剩余非空（中文描述粘连）→ 直接保留（战策 Combat
         # Trick**你可以花费… 型）；空（纯标题行）→ 需字段标签跟随，排除类目标题
         # （护甲大师"盔甲掌握专长Armor Mastery Feats**"型，后随正文无字段标签）。
@@ -520,6 +571,11 @@ def match_file(text):
         if hit == "FC-6 无加粗纯文本":
             nxt = "\n".join(lines[i + 1:i + 5]).strip()
             if re.match(r"^-{3,}$", nxt, re.S):
+                hit = None
+            elif _preceded_by_field_label(lines, i):
+                # KN096：上一非空行是 `**先决条件：**` 等标签行 → 本行是字段值
+                # （永罪之书 `魔族仪典（Fiendish Obedience ）` 作为前置条件出现
+                # 两次），不是条目标题
                 hit = None
             elif m:
                 inner = re.search(r"[（(]([^（）()]*)[）)]\s*$", m.group(0))
@@ -605,8 +661,12 @@ def match_file(text):
         # FC-8q 加粗名描述粘连：需字段标签跟随佐证（page_744 条目后随
         # **先决条件：**/**收益：**；正文 **强调**文字 型后无字段标签）
         if hit == "FC-8q 加粗名描述粘连":
+            # KN096：加粗名以「专长」结尾是系列/章节标题（`**位面导师系列专长**
+            # Plane-Hopper's Handbook pg. 13`），真条目名不以「专长」收尾
+            # （与 FC-7b 同一判据，专长12 L1）
+            m8q = re.match(r"^\*\*(" + CN + r")\*\*", window)
             follow = "\n".join(lines[i + 1:i + 7])
-            if not FIELD_LABEL.search(follow):
+            if (m8q and m8q.group(1).endswith("专长")) or not FIELD_LABEL.search(follow):
                 hit = None
         # FC-7b 同行英文变体：英文同行即佐证
         if hit is None and FC7B_RX.match(line):
@@ -650,8 +710,15 @@ def match_file(text):
             if m8 and len(m8.group("en")) >= 4 \
                     and not line.startswith(("出自", "来源", "出处")) and not any(
                 lines[k].strip().startswith("#") for k in range(max(0, i - 2), i)
-            ):
-                follow = line + "\n" + "\n".join(lines[i + 1:i + 7])
+            ) and not re.search(r"\bpg\.", line):
+                # KN096：`\bpg\.` 排除书目标注行（`护甲大师手册Armor Master's
+                # Handbook pg. 12`）——出处引用不是条目（page_1564 型）
+                # KN096：佐证窗口不得越过 markdown 标题行——`## 风之歌（W）`
+                # 之后的字段标签属于新条目，不能给上一段正文佐证
+                # （EMH L43 卡塔佩什地区介绍段误计根因）
+                tail = "\n".join(lines[i + 1:i + 7])
+                tail = re.split(r"^#{1,3}\s", tail, maxsplit=1, flags=re.M)[0]
+                follow = line + "\n" + tail
                 if FIELD_LABEL.search(follow):
                     hit = "FC-8e 无星裸英文粘连"
         # FC-8f 无加粗双标签粘连（page_670 型）：行首中文+行内双标签=条目。
@@ -667,6 +734,19 @@ def match_file(text):
         # 配对去重（1| 英文名首行由 2| 中文闭合行代计）
         if hit == "FC-T 表格行" and (not is_feat_table(lines, i) or is_split_row(lines, i)):
             hit = None
+        # KN096：`## 中文（English）` 标题 / 纯标题行 + 紧随的同名正文重述行是
+        # 同一条目双计（MTT/RM/SH/HH 型：标题行 + `**中文 english**描述` 重述
+        # 行，解析器侧同名 hull 条目已合并）——正文由标题代计；前一个标题是
+        # 纯标题（行内无描述），且后 5 行内的命中行以其中文名开头才合并
+        # （不同名条目不误伤，如 `## 鞭如灵蛇` 与 `**高等鞭如灵蛇（战斗）**`）
+        if hit:
+            if heading_cn and i - heading_i <= 5 \
+                    and line.lstrip("*#　 ").startswith(heading_cn):
+                hit = None
+            else:
+                title_cn = _pure_title_cn(line)
+                if title_cn:
+                    heading_cn, heading_i = title_cn, i
         if hit:
             # 收集行级命中条目名（FC-T 表格行/FC-I 索引行除外：表格条目 +
             # 表格外描述条目是合法双份，其名称不应屏蔽段流引用）。m 仅在
@@ -682,7 +762,12 @@ def match_file(text):
                 misses.append((i + 1, line[:90]))
         i += 1
     # 粘连行内标题（标题不在行首，全角双空格后）：行首匹配不到的补充计数
-    glue = len(GLUE_RX.findall(text))
+    # KN096：`）` 后紧跟 `：` 是行内定义（`　　**领导力值（Leadership Score）**：
+    # 人物的基本领导力值…`，page_950 领导力专长描述小节），不是专长条目
+    glue = sum(
+        1 for mm in GLUE_RX.finditer(text)
+        if text[mm.end():mm.end() + 1] not in ("：", ":")
+    )
     if glue:
         counts["FC-G 粘连行内标题"] += glue
     # FC-2 冠位粘连（单星闭合，与行级簇不重叠）

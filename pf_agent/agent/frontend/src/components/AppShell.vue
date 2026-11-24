@@ -50,6 +50,7 @@ async function logout(): Promise<void> {
       </div>
 
       <div class="topbar-actions">
+        <a class="ghost usage-link" href="#/usage">用量</a>
         <button class="ghost" type="button" @click="$emit('history')">历史</button>
         <button class="primary" type="button" @click="$emit('new-conversation')">新会话</button>
 

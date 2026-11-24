@@ -42,7 +42,8 @@ DEFAULT_ENUM = Path("docs/种族/entity_enum.json")
 # 1. 阴影血脉BoS_影生暗生种族特性：聚合文件（`<!-- BoS-source:种族特性/
 #    page_386.md:__aggregate__ -->` 标记），内容与原始文件重复，原始文件
 #    在其他类目（不在 race 矩阵），聚合文件设计排除，est=10 产出 0
-# （page_812 阿斯托莫伊人豁免已于 M20 移除：源数据标题整理 → race_intro 产出）
+# （page_812 阿斯托莫伊人无豁免：KN120 源文规范化后由通用解析器拆为 10 chunk
+#   —— 8 race_trait + 1 race_intro + 1 race_sidebar）
 _EXEMPT_DOCS: Dict[str, str] = {
     "阴影血脉BoS_影生暗生种族特性": "聚合文件（BoS-source 标记，原始文件在其他类目），设计排除，KN 登记",
 }

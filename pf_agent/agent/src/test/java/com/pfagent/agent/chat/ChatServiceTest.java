@@ -32,7 +32,10 @@ import org.springframework.ai.chat.model.Generation;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.tool.ToolCallback;
 import org.springframework.test.util.ReflectionTestUtils;
+import org.springframework.web.client.ResourceAccessException;
 
+import java.time.Clock;
+import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
@@ -197,6 +200,25 @@ class ChatServiceTest {
         ChatResponse resp = chatService(2, 50000, 20).ask("q", "cid");
 
         assertThat(resp.answer()).isEqualTo("收敛回答");
+    }
+
+    @Test
+    void askTimeBudgetStopsBeforeStartingAnotherToolRound() {
+        Instant start = Instant.parse("2026-11-23T00:00:00Z");
+        Clock clock = org.mockito.Mockito.mock(Clock.class);
+        when(clock.instant()).thenReturn(start, start, start.plusSeconds(2));
+        when(callResponseSpec.chatResponse()).thenReturn(
+                toolCall("vectorSearch", "{\"question\":\"q\",\"module\":\"spell\"}"),
+                answer("按已有证据收敛"));
+        ChatService service = chatService(5, 50000, 20);
+        ReflectionTestUtils.setField(service, "clock", clock);
+        ReflectionTestUtils.setField(service, "agentTimeBudget", Duration.ofSeconds(1));
+
+        ChatResponse resp = service.ask("q", "cid");
+
+        assertThat(resp.answer()).isEqualTo("按已有证据收敛");
+        verify(callResponseSpec, times(2)).chatResponse();
+        verify(requestSpec, times(1)).tools(any(ToolCallback[].class));
     }
 
     /** 首轮历史即超限（system+user 超上限）→ 强制无工具作答，不再硬抛异常 */
@@ -438,14 +460,72 @@ class ChatServiceTest {
         assertThat(resp.sources().get(0).title()).isEqualTo("追逐与休整");
     }
 
-    /** LLM 返回空内容时兜底提示 */
+    /** LLM 连续返回空内容时只重试一次，随后兜底提示 */
     @Test
     void askBlankAnswerFallsBackToHint() {
-        when(callResponseSpec.chatResponse()).thenReturn(answer(""));
+        when(callResponseSpec.chatResponse()).thenReturn(answer(""), answer(""));
 
         ChatResponse resp = chatService(15, 50000, 20).ask("q", "cid");
 
         assertThat(resp.answer()).isEqualTo("（模型未返回回答内容，请重试）");
+        verify(callResponseSpec, times(2)).chatResponse();
+    }
+
+    @Test
+    void askBlankAnswerRetriesOnceWithoutTools() {
+        when(callResponseSpec.chatResponse()).thenReturn(answer(""), answer("重试后的完整回答"));
+
+        ChatResponse resp = chatService(15, 50000, 20).ask("q", "cid");
+
+        assertThat(resp.answer()).isEqualTo("重试后的完整回答");
+        verify(callResponseSpec, times(2)).chatResponse();
+        verify(requestSpec, times(1)).tools(any(ToolCallback[].class));
+    }
+
+    @Test
+    void askRetriesTransientTransportFailureOnce() {
+        when(callResponseSpec.chatResponse())
+                .thenThrow(new ResourceAccessException("Can't assign requested address"))
+                .thenReturn(answer("网络恢复后的回答"));
+
+        ChatResponse resp = chatService(15, 50000, 20).ask("q", "cid");
+
+        assertThat(resp.answer()).isEqualTo("网络恢复后的回答");
+        verify(callResponseSpec, times(2)).chatResponse();
+    }
+
+    @Test
+    void askNormalizesParenthesizedNumericCitations() {
+        when(callResponseSpec.chatResponse()).thenReturn(
+                toolCall("vectorSearch", "{\"question\":\"法术瞬发\",\"module\":\"feat\"}"),
+                answer("施展瞬发法术是迅捷动作（#1）。"));
+        Document doc = Document.builder().text("法术瞬发正文")
+                .metadata(Map.of("title", "法术瞬发", "chunk_id", "feat_quicken")).build();
+        when(searchService.search("法术瞬发", "feat")).thenReturn(List.of(doc));
+
+        ChatResponse resp = chatService(15, 50000, 20).ask("法术瞬发是什么动作？", "cid");
+
+        assertThat(resp.answer()).isEqualTo("施展瞬发法术是迅捷动作[#1]。");
+        assertThat(resp.sources()).extracting(ChatResponse.SourceRef::chunkId)
+                .containsExactly("feat_quicken");
+        assertThat(resp.citationDegraded()).isFalse();
+    }
+
+    @Test
+    void askNormalizesCitationPrefixedNumericMarks() {
+        when(callResponseSpec.chatResponse()).thenReturn(
+                toolCall("vectorSearch", "{\"question\":\"宿敌\",\"module\":\"class\"}"),
+                answer("宿敌加值为 +10[citation:#1]。"));
+        Document doc = Document.builder().text("宿敌正文")
+                .metadata(Map.of("title", "宿敌", "chunk_id", "class_enemy")).build();
+        when(searchService.search("宿敌", "class")).thenReturn(List.of(doc));
+
+        ChatResponse resp = chatService(15, 50000, 20).ask("宿敌加值？", "cid");
+
+        assertThat(resp.answer()).isEqualTo("宿敌加值为 +10[#1]。");
+        assertThat(resp.sources()).extracting(ChatResponse.SourceRef::chunkId)
+                .containsExactly("class_enemy");
+        assertThat(resp.citationDegraded()).isFalse();
     }
 
     /** 历史来自 ChatMemory 注入且在 system 消息之后 */
@@ -495,6 +575,56 @@ class ChatServiceTest {
         assertThat(r.durationMs()).isGreaterThanOrEqualTo(0);
         assertThat(r.resultChars()).isGreaterThan(0);
         assertThat(r.id()).startsWith("tc-");
+    }
+
+    /** AKN-023：同一请求内同名同参的工具调用第二次起复用首次结果，不重复检索 */
+    @Test
+    void askReusesIdenticalToolCallResultWithinRequest() {
+        when(callResponseSpec.chatResponse()).thenReturn(
+                toolCall("vectorSearch", "{\"question\":\"火球术射程\",\"module\":\"spell\"}"),
+                toolCall("vectorSearch", "{\"question\":\"火球术射程\",\"module\":\"spell\"}"),
+                answer("射程 400 英尺"));
+        Document doc = Document.builder().text("正文").metadata(Map.of("title", "火球术")).build();
+        when(searchService.search("火球术射程", "spell")).thenReturn(List.of(doc));
+
+        chatService(15, 50000, 20).ask("火球术射程？", "cid");
+
+        verify(searchService, times(1)).search("火球术射程", "spell");
+    }
+
+    /** AKN-023：参数不同的工具调用不共享缓存，各自执行 */
+    @Test
+    void askExecutesToolCallsWithDifferentArgumentsSeparately() {
+        when(callResponseSpec.chatResponse()).thenReturn(
+                toolCall("vectorSearch", "{\"question\":\"火球术射程\",\"module\":\"spell\"}"),
+                toolCall("vectorSearch", "{\"question\":\"火球术伤害\",\"module\":\"spell\"}"),
+                answer("回答"));
+        Document doc = Document.builder().text("正文").metadata(Map.of("title", "火球术")).build();
+        when(searchService.search(anyString(), anyString())).thenReturn(List.of(doc));
+
+        chatService(15, 50000, 20).ask("火球术？", "cid");
+
+        verify(searchService).search("火球术射程", "spell");
+        verify(searchService).search("火球术伤害", "spell");
+        verify(searchService, times(2)).search(anyString(), anyString());
+    }
+
+    /** AKN-023：缓存是请求级的，两次 ask 之间不共享（避免上一问结果污染下一问） */
+    @Test
+    void toolResultCacheClearedBetweenRequests() {
+        when(callResponseSpec.chatResponse()).thenReturn(
+                toolCall("vectorSearch", "{\"question\":\"火球术射程\",\"module\":\"spell\"}"),
+                answer("射程 400 英尺"),
+                toolCall("vectorSearch", "{\"question\":\"火球术射程\",\"module\":\"spell\"}"),
+                answer("射程 400 英尺"));
+        Document doc = Document.builder().text("正文").metadata(Map.of("title", "火球术")).build();
+        when(searchService.search("火球术射程", "spell")).thenReturn(List.of(doc));
+
+        ChatService service = chatService(15, 50000, 20);
+        service.ask("火球术射程？", "cid");
+        service.ask("火球术射程？", "cid");
+
+        verify(searchService, times(2)).search("火球术射程", "spell");
     }
 
     /** AKN-023：工具记录带 requestId，请求级耗时只写一条 request_summary（字段名对齐 M34 脚本） */
@@ -594,18 +724,168 @@ class ChatServiceTest {
         assertThat(resp.answer()).isEqualTo("火球术射程 400 英尺，依据规则[#1]。");
     }
 
-    /** 畸形（0 / 空 / 含字母）编号标记剥离，保留正文 */
+    /** 完全无合法引用时保留检索证据并明确降级 */
     @Test
     void askStripsMalformedAndZeroCitations() {
         when(callResponseSpec.chatResponse()).thenReturn(
                 toolCall("vectorSearch", "{\"question\":\"火球术射程\",\"module\":\"spell\"}"),
-                answer("见[#0]与[#abc]说明[#]。"));   // 1 条来源：0 越界、abc 非数字、空 body
+                answer("见[#0]与[#abc]说明[#]。"));
         Document doc = Document.builder().text("正文").metadata(Map.of("title", "火球术", "chunk_id", "c1")).build();
         when(searchService.search("火球术射程", "spell")).thenReturn(List.of(doc));
 
         ChatResponse resp = chatService(15, 50000, 20).ask("火球术射程？", "cid");
 
-        assertThat(resp.answer()).isEqualTo("见与说明。");
+        assertThat(resp.sources()).hasSize(1);
+        assertThat(resp.answer()).isEqualTo("见与说明。"
+                + "\n\n> 引用标记异常，以下来源为本次检索证据，未能逐句对应。");
+    }
+
+    @Test
+    void askInvalidFreeformCitationRetainsEvidenceAndMarksDegraded() {
+        when(callResponseSpec.chatResponse()).thenReturn(
+                toolCall("vectorSearch", "{\"question\":\"兼职规则\",\"module\":\"class\"}"),
+                answer("角色等级为各职业等级之和[cp_content_multiclassing]。"));
+        Document doc = Document.builder().text("兼职正文")
+                .metadata(Map.of("title", "兼职", "chunk_id", "cp_content_multiclassing")).build();
+        when(searchService.search("兼职规则", "class")).thenReturn(List.of(doc));
+
+        ChatResponse resp = chatService(15, 50000, 20).ask("兼职怎么算？", "cid");
+
+        assertThat(resp.sources()).extracting(ChatResponse.SourceRef::chunkId)
+                .containsExactly("cp_content_multiclassing");
+        assertThat(resp.answer()).isEqualTo("角色等级为各职业等级之和。"
+                + "\n\n> 引用标记异常，以下来源为本次检索证据，未能逐句对应。");
+        assertThat(resp.citationDegraded()).isTrue();
+    }
+
+    @Test
+    void askMixedValidAndFreeformCitationKeepsCitedOnlySources() {
+        when(callResponseSpec.chatResponse()).thenReturn(
+                toolCall("vectorSearch", "{\"question\":\"兼职规则\",\"module\":\"class\"}"),
+                answer("总等级[#1]，另见[cp_content_multiclassing]。"));
+        Document doc = Document.builder().text("兼职正文")
+                .metadata(Map.of("title", "兼职", "chunk_id", "c1")).build();
+        when(searchService.search("兼职规则", "class")).thenReturn(List.of(doc));
+
+        ChatResponse resp = chatService(15, 50000, 20).ask("兼职怎么算？", "cid");
+
+        assertThat(resp.sources()).hasSize(1);
+        assertThat(resp.answer()).isEqualTo("总等级[#1]，另见。");
+        assertThat(resp.citationDegraded()).isFalse();
+    }
+
+    @Test
+    void askOnlyMalformedNumericCitationRetainsEvidenceAndMarksDegraded() {
+        when(callResponseSpec.chatResponse()).thenReturn(
+                toolCall("vectorSearch", "{\"question\":\"火球术射程\",\"module\":\"spell\"}"),
+                answer("见[#abc]说明。"));
+        Document doc = Document.builder().text("正文")
+                .metadata(Map.of("title", "火球术", "chunk_id", "c1")).build();
+        when(searchService.search("火球术射程", "spell")).thenReturn(List.of(doc));
+
+        ChatResponse resp = chatService(15, 50000, 20).ask("火球术射程？", "cid");
+
+        assertThat(resp.sources()).hasSize(1);
+        assertThat(resp.answer()).isEqualTo("见说明。"
+                + "\n\n> 引用标记异常，以下来源为本次检索证据，未能逐句对应。");
+        assertThat(resp.citationDegraded()).isTrue();
+    }
+
+    @Test
+    void askMarkdownLinkWithUnderscoreIsNotCitation() {
+        when(callResponseSpec.chatResponse()).thenReturn(answer("见[foo_bar](https://example.com)。"));
+
+        ChatResponse resp = chatService(15, 50000, 20).ask("链接", "cid");
+
+        assertThat(resp.sources()).isEmpty();
+        assertThat(resp.answer()).isEqualTo("见[foo_bar](https://example.com)。");
+        assertThat(resp.citationDegraded()).isFalse();
+    }
+
+    @Test
+    void askPreservesMarkdownAndCodeWhenRewritingValidCitation() {
+        List<String> answers = List.of(
+                "链接[foo_bar]（https://x），合法[#1]。",
+                "链接[foo_bar] (https://x)，合法[#1]。",
+                "链接[foo_bar][ref]，合法[#1]。",
+                "代码 `[cp_content_multiclassing]`，合法[#1]。",
+                "代码\n```\n[cp_content_multiclassing]\n```\n合法[#1]。");
+        Document doc = Document.builder().text("正文")
+                .metadata(Map.of("title", "条目", "chunk_id", "c1")).build();
+        when(searchService.search("规则", "rule")).thenReturn(List.of(doc));
+        for (String expected : answers) {
+            when(callResponseSpec.chatResponse()).thenReturn(
+                    toolCall("vectorSearch", "{\"question\":\"规则\",\"module\":\"rule\"}"),
+                    answer(expected));
+
+            ChatResponse resp = chatService(15, 50000, 20).ask("规则", "cid");
+
+            assertThat(resp.answer()).isEqualTo(expected);
+            assertThat(resp.sources()).hasSize(1);
+            assertThat(resp.citationDegraded()).isFalse();
+        }
+    }
+
+    @Test
+    void askCodeOnlyFreeformIdDoesNotTriggerDegradation() {
+        when(callResponseSpec.chatResponse()).thenReturn(
+                toolCall("vectorSearch", "{\"question\":\"规则\",\"module\":\"rule\"}"),
+                answer("示例 `[cp_rule_127_0004]`，没有逐句引用。"));
+        Document doc = Document.builder().text("正文")
+                .metadata(Map.of("title", "条目", "chunk_id", "c1")).build();
+        when(searchService.search("规则", "rule")).thenReturn(List.of(doc));
+
+        ChatResponse resp = chatService(15, 50000, 20).ask("规则", "cid");
+
+        assertThat(resp.answer()).isEqualTo("示例 `[cp_rule_127_0004]`，没有逐句引用。");
+        assertThat(resp.sources()).isEmpty();
+        assertThat(resp.citationDegraded()).isFalse();
+    }
+
+    @Test
+    void askStripsFreeformIdBeforeNumericCitation() {
+        when(callResponseSpec.chatResponse()).thenReturn(
+                toolCall("vectorSearch", "{\"question\":\"规则\",\"module\":\"rule\"}"),
+                answer("依据[cp_rule_127_0004][#1]。"));
+        Document doc = Document.builder().text("正文")
+                .metadata(Map.of("title", "条目", "chunk_id", "c1")).build();
+        when(searchService.search("规则", "rule")).thenReturn(List.of(doc));
+
+        ChatResponse resp = chatService(15, 50000, 20).ask("规则", "cid");
+
+        assertThat(resp.answer()).isEqualTo("依据[#1]。");
+        assertThat(resp.sources()).hasSize(1);
+        assertThat(resp.citationDegraded()).isFalse();
+    }
+
+    @Test
+    void regenerateInvalidCitationPropagatesDegradation() {
+        ConversationStore.StoredMessage user = new ConversationStore.StoredMessage(
+                4L, 1, "user", "q1", null, false, Instant.EPOCH);
+        ConversationStore.StoredMessage oldAssistant = new ConversationStore.StoredMessage(
+                5L, 2, "assistant", "old", "[]", false, Instant.EPOCH);
+        when(conversationStore.lastRound("cid")).thenReturn(Optional.of(
+                new ConversationStore.LastRound(1, "q1", oldAssistant)));
+        when(conversationStore.history("cid", 21)).thenReturn(List.of(user, oldAssistant));
+        when(conversationStore.replaceLastAssistant(eq("cid"), eq(2), anyString(),
+                nullable(String.class), anyBoolean(), any()))
+                .thenAnswer(inv -> new ConversationStore.ReplaceResult(
+                        ConversationStore.ReplaceStatus.OK,
+                        new ConversationStore.StoredMessage(5L, 2, "assistant", inv.getArgument(2),
+                                inv.getArgument(3), inv.getArgument(4), inv.getArgument(5))));
+        when(callResponseSpec.chatResponse()).thenReturn(
+                toolCall("vectorSearch", "{\"question\":\"q1\",\"module\":\"spell\"}"),
+                answer("重答[cp_rule_127_0004]"));
+        Document doc = Document.builder().text("正文")
+                .metadata(Map.of("book_name_cn", "甲书", "chunk_id", "c1")).build();
+        when(searchService.search("q1", "spell")).thenReturn(List.of(doc));
+
+        ChatService.RegenerateResult result = chatService(15, 50000, 20).regenerate("cid", null, 2);
+
+        assertThat(result.answer()).isEqualTo("重答"
+                + "\n\n> 引用标记异常，以下来源为本次检索证据，未能逐句对应。");
+        assertThat(result.sources()).hasSize(1);
+        assertThat(result.citationDegraded()).isTrue();
     }
 
     /** 合法编号连写 [#1][#2] 原样保留、不重排不补插 */
@@ -702,6 +982,7 @@ class ChatServiceTest {
 
         assertThat(resp.sources()).isEmpty();
         assertThat(resp.answer()).isEqualTo("没有编号的回答。");
+        assertThat(resp.citationDegraded()).isFalse();
     }
 
 

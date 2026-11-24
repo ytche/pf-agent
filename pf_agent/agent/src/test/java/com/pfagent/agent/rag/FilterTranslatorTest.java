@@ -129,12 +129,28 @@ class FilterTranslatorTest {
                 .containsExactly("className", "archetypeName", "featureSubtype", "componentType", "book", "title");
     }
 
-    /** availableFields 对六个标准模块返回通用字段（P0-B2：补 title 条目名精确过滤） */
+    /** availableFields 对不含专属字段的五个标准模块返回通用字段 */
     @Test
     void availableFieldsStandardModulesReturnCommonFields() {
-        for (String module : List.of("feat", "race", "trait", "equipment", "skill", "rule")) {
+        for (String module : List.of("feat", "trait", "equipment", "skill", "rule")) {
             assertThat(translator.availableFields(module)).containsExactly("book", "componentType", "title");
         }
+    }
+
+    @Test
+    void raceSupportsChineseAndEnglishNameFilters() {
+        assertThat(translator.availableFields("race"))
+                .containsExactly("book", "componentType", "title", "raceName", "raceNameEn");
+        assertThat(translator.translate("race", Map.of(
+                "raceName", "阿斯托莫伊人", "componentType", "race_trait")))
+                .containsExactlyInAnyOrder(
+                        new FilterField("race_name", "阿斯托莫伊人"),
+                        new FilterField("component_type", "race_trait"));
+
+        MetadataSearchQuery query = new MetadataSearchQuery();
+        query.setOrFilters(Map.of("raceNameEn", List.of("Astomoi")));
+        assertThat(translator.translateQuery("race", query).or().get(0).alternatives())
+                .containsExactly(new FilterField("race_name_en", "Astomoi"));
     }
 
     /** P0-B2：六个标准模块的 title 逻辑字段 1:1 映射到扁平 title 键 */

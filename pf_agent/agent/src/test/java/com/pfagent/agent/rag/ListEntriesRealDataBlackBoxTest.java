@@ -3,13 +3,17 @@ package com.pfagent.agent.rag;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.ai.document.Document;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
@@ -18,7 +22,7 @@ import static org.mockito.Mockito.mock;
  * listEntries 真实 D2 产物黑盒测试（B4，QA 补充）
  *
  * 不 mock ListExportService，直接加载 vectorizer/output 下真实
- * feat/race/equipment_lists.json（6866 条），以使用者视角验证：
+ * feat/race/equipment_lists.json，以使用者视角验证：
  * 概览统计与数据侧 stats 一致、过滤/keyword/分页真实命中数、
  * 工具层截断/钳制/自纠/溯源降级。真实产物缺失时整体跳过（assumeTrue）。
  */
@@ -28,6 +32,18 @@ class ListEntriesRealDataBlackBoxTest {
     private static final Path FEAT = BASE.resolve("专长/feat_lists.json");
     private static final Path RACE = BASE.resolve("种族/race_lists.json");
     private static final Path EQUIPMENT = BASE.resolve("装备/equipment_lists.json");
+    /** 与 ListExportService.OVERVIEW_BOOK_CAP 保持一致（service 侧为 private，测试侧同步维护） */
+    private static final int OVERVIEW_BOOK_CAP = 20;
+
+    // 2026-11-13 批 A 集成实测（KN096 重导后的真实产物）：
+    // 专长/feat_lists.json version=1.1，
+    // source_fingerprint=sha256:bb0a14a89066a07a15e72572df9c4043b8661bfa21eca3b6c779e2359ee5f550，
+    // stats.total=4062；以下计数与数据侧 Python 聚合、ListExportService 内存统计逐项对齐。
+    private static final int FEAT_TOTAL = 4062;
+    private static final int FEAT_BATTLE = 1407;
+    private static final int FEAT_TEAM = 226;
+    private static final int FEAT_WITH_PREREQUISITES = 3419;
+    private static final int FEAT_WEAPON_KEYWORD = 63;
 
     @TempDir
     Path tempDir;
@@ -74,26 +90,33 @@ class ListEntriesRealDataBlackBoxTest {
     // ---------- 概览 ----------
 
     @Test
-    void overviewMatchesDataSideStats() {
-        assertThat(service.overview("feat")).contains("「专长」权威清单共 4080 条", "战斗 1392", "团队 223");
+    void overviewMatchesDataSideStats() throws Exception {
+        EquipmentStats equipment = equipmentStats();
+        assertThat(service.overview("feat")).contains(
+                "「专长」权威清单共 " + FEAT_TOTAL + " 条", "战斗 " + FEAT_BATTLE, "团队 " + FEAT_TEAM);
         assertThat(service.overview("race")).contains("「种族」权威清单共 111 条", "概述 111");
-        assertThat(service.overview("equipment")).contains("「装备」权威清单共 2681 条", "gear 2428", "weapon 143", "armor 110");
+        assertThat(service.overview("equipment")).contains(
+                "「装备」权威清单共 " + equipment.total() + " 条", "gear 2428", "weapon 143", "armor 110");
     }
 
     @Test
-    void equipmentOverviewCapsBooksAtTwenty() {
-        // 装备 by_book 实测 70 种书 > OVERVIEW_BOOK_CAP 20
-        assertThat(service.overview("equipment")).contains("其余 50 种书");
+    void equipmentOverviewCapsBooksAtTwenty() throws Exception {
+        // 数量随 AKN-025 数据扩充变化，按真实产物的书种数推算，而非写死 70/50
+        EquipmentStats equipment = equipmentStats();
+        assertThat(equipment.bookKinds()).isGreaterThan(OVERVIEW_BOOK_CAP);
+        assertThat(service.overview("equipment"))
+                .contains("其余 " + (equipment.bookKinds() - OVERVIEW_BOOK_CAP) + " 种书");
     }
 
     // ---------- 过滤（命中数与数据侧 python 聚合一致） ----------
 
     @Test
     void featFiltersMatchDataSideAggregation() {
-        assertThat(service.search("feat", q(Map.of("featType", "战斗")), 5000, 0).total()).isEqualTo(1392);
-        assertThat(service.search("feat", q(Map.of("hasPrerequisites", "true")), 5000, 0).total()).isEqualTo(3386);
+        assertThat(service.search("feat", q(Map.of("featType", "战斗")), 5000, 0).total()).isEqualTo(FEAT_BATTLE);
+        assertThat(service.search("feat", q(Map.of("hasPrerequisites", "true")), 5000, 0).total())
+                .isEqualTo(FEAT_WITH_PREREQUISITES);
         assertThat(service.search("feat", q(Map.of("hasPrerequisites", "false")), 5000, 0).total())
-                .isEqualTo(4080 - 3386);
+                .isEqualTo(FEAT_TOTAL - FEAT_WITH_PREREQUISITES);
     }
 
     @Test
@@ -121,7 +144,7 @@ class ListEntriesRealDataBlackBoxTest {
     @Test
     void keywordMatchesRealDataCounts() {
         assertThat(service.search("feat", new ListEntriesQuery("武器", null, null, null, null, null), 5000, 0).total())
-                .isEqualTo(64);
+                .isEqualTo(FEAT_WEAPON_KEYWORD);
         assertThat(service.search("feat", new ListEntriesQuery("dodge", null, null, null, null, null), 5000, 0).total())
                 .isEqualTo(13);
     }
@@ -138,13 +161,13 @@ class ListEntriesRealDataBlackBoxTest {
     @Test
     void paginationBoundariesOnRealFeatList() {
         ListExportService.EntryPage last = service.search("feat",
-                new ListEntriesQuery(null, null, null, null, null, null), 10, 4079);
-        assertThat(last.total()).isEqualTo(4080);
+                new ListEntriesQuery(null, null, null, null, null, null), 10, FEAT_TOTAL - 1);
+        assertThat(last.total()).isEqualTo(FEAT_TOTAL);
         assertThat(last.entries()).hasSize(1);
 
         ListExportService.EntryPage overflow = service.search("feat",
                 new ListEntriesQuery(null, null, null, null, null, null), 50, 5000);
-        assertThat(overflow.total()).isEqualTo(4080);
+        assertThat(overflow.total()).isEqualTo(FEAT_TOTAL);
         assertThat(overflow.entries()).isEmpty();
 
         // 服务层负 offset 钳制为 0 不抛异常
@@ -164,8 +187,8 @@ class ListEntriesRealDataBlackBoxTest {
         assertThat(result).containsPattern("\\d+\\. .+\\[.+\\].*\\| chunk_id: .+\\s\\[#\\d+\\]");
         // 点查未命中降级合成，[#N] 不缺席
         assertThat(result).contains("[#");
-        // 仅展示 5 条但命中 64 条 → 翻页提示
-        assertThat(result).contains("共 64 条命中", "offset 翻页");
+        // 仅展示 5 条但命中 63 条（2026-11-13 实测）→ 翻页提示
+        assertThat(result).contains("共 " + FEAT_WEAPON_KEYWORD + " 条命中", "offset 翻页");
     }
 
     @Test
@@ -181,7 +204,7 @@ class ListEntriesRealDataBlackBoxTest {
     void toolClampsLimitBeyondBoundsOnRealData() {
         String over = tools.listEntries("feat", new ListEntriesQuery(null, Map.of("featType", "战斗"), null, 201, null, null));
         assertThat(over).startsWith("（limit 超出上限，已钳制为 200）");
-        assertThat(over).contains("共 1392 条命中");
+        assertThat(over).contains("共 " + FEAT_BATTLE + " 条命中");
 
         String zero = tools.listEntries("feat", new ListEntriesQuery(null, Map.of("featType", "战斗"), null, 0, null, null));
         assertThat(zero).startsWith("（limit 小于 1，已钳制为 1）");
@@ -189,16 +212,16 @@ class ListEntriesRealDataBlackBoxTest {
         // limit=1 合法边界：不钳制、无钳制注记
         String one = tools.listEntries("feat", new ListEntriesQuery(null, Map.of("featType", "战斗"), null, 1, null, null));
         assertThat(one).doesNotStartWith("（limit");
-        assertThat(one).contains("共 1392 条命中");
+        assertThat(one).contains("共 " + FEAT_BATTLE + " 条命中");
     }
 
     @Test
     void toolTruncatesLongResultWithoutTagsOnTruncatedPart() {
-        // featType=战斗 1392 条、默认 limit=50，4000 字符预算只容约 25 行 → 截断 + 翻页提示
+        // featType=战斗 1407 条（2026-11-13 实测）、默认 limit=50，4000 字符预算只容约 25 行 → 截断 + 翻页提示
         String result = tools.listEntries("feat", new ListEntriesQuery(null, Map.of("featType", "战斗"), null, null, null, null));
 
         assertThat(result).contains("结果过多，仅展示前");
-        assertThat(result).contains("共 1392 条命中", "offset 翻页");
+        assertThat(result).contains("共 " + FEAT_BATTLE + " 条命中", "offset 翻页");
         // 截断提示之后的部分不再有个别行（整体行数 < 50）
         int lineCount = result.lines().filter(l -> l.matches("\\d+\\. .*")).toList().size();
         assertThat(lineCount).isLessThan(50).isGreaterThan(5);
@@ -208,12 +231,13 @@ class ListEntriesRealDataBlackBoxTest {
     void toolOffsetOverflowReturnsPaginationHintOnRealData() {
         String result = tools.listEntries("feat",
                 new ListEntriesQuery(null, Map.of("featType", "战斗"), null, 50, 2000, null));
-        assertThat(result).contains("无命中", "共 1392 条命中", "offset=2000 越界");
+        assertThat(result).contains("无命中", "共 " + FEAT_BATTLE + " 条命中", "offset=2000 越界");
     }
 
     @Test
-    void toolUnconditionalReturnsOverviewOnRealData() {
-        assertThat(tools.listEntries("equipment", null)).contains("「装备」权威清单共 2681 条");
+    void toolUnconditionalReturnsOverviewOnRealData() throws Exception {
+        assertThat(tools.listEntries("equipment", null))
+                .contains("「装备」权威清单共 " + equipmentStats().total() + " 条");
         assertThat(tools.listEntries("race", new ListEntriesQuery(null, null, null, null, null, null)))
                 .contains("「种族」权威清单共 111 条");
     }
@@ -224,13 +248,28 @@ class ListEntriesRealDataBlackBoxTest {
     void edgeHasPrerequisitesNonBooleanValueIsTreatedAsFalse() {
         // 实测：hasPrerequisites="yes" 落入 false 分支（按无前置匹配），不报错也不报字段值非法
         assertThat(service.search("feat", q(Map.of("hasPrerequisites", "yes")), 5000, 0).total())
-                .isEqualTo(4080 - 3386);
+                .isEqualTo(FEAT_TOTAL - FEAT_WITH_PREREQUISITES);
     }
 
     @Test
     void edgeEmptyFilterValueMatchesBlankFields() {
         // 实测：race size="" 精确匹配数据侧 74 条空 size（空串等于空串）
         assertThat(service.search("race", q(Map.of("size", "")), 5000, 0).total()).isEqualTo(74);
+    }
+
+    /** 真实装备产物的总数与书种数（书键归一规则与 ListExportService.countBy 一致） */
+    private static EquipmentStats equipmentStats() throws Exception {
+        JsonNode entries = new ObjectMapper().readTree(Files.readString(EQUIPMENT)).path("entries");
+        Set<String> books = new LinkedHashSet<>();
+        for (JsonNode entry : entries) {
+            JsonNode bookNode = entry.get("book");
+            String book = bookNode == null || bookNode.isNull() ? null : bookNode.asText();
+            books.add(book == null || book.isBlank() || "?".equals(book) ? "未知来源" : book);
+        }
+        return new EquipmentStats(entries.size(), books.size());
+    }
+
+    private record EquipmentStats(int total, int bookKinds) {
     }
 
     private static ListEntriesQuery q(Map<String, String> filters) {

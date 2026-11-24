@@ -25,8 +25,9 @@ import java.util.stream.Collectors;
  *
  * 两条检索路径（设计 §5.2）：
  *  1. {@link #search(String)}：跨模块语义检索——对八个模块（法术/职业/专长/种族/
- *     背景特性/装备/技能/规则）各库分别召回，按相似度降序合并取全局 topK。模块独立
- *     召回保证「跨域问题」（如"女巫职业"与"女巫法术"）都有机会命中各自语义词域。
+ *     背景特性/装备/技能/规则）各库分别召回，按 rankedScore 降序合并取候选；F-016
+ *     开启时再交 listwise 重排取 rerank-top-n。模块独立召回保证「跨域问题」
+ *     （如"女巫职业"与"女巫法术"）都有机会命中各自语义词域。
  *  2. {@link #searchByMetadata(String, Map)}：枚举式元数据过滤——按逻辑字段（className/
  *     school 等，经 FilterTranslator 翻译为扁平键）精确过滤，配合大 topK + 无阈值
  *     （similarityThresholdAll），用于"按字段枚举"的确定性检索，不依赖语义相似度。
@@ -102,9 +103,28 @@ public class SearchService {
      *  确切条目抬过语义相近邻居；置 0 关闭。 */
     @Value("${pf.search.title-match-boost:0.05}")
     private double titleMatchBoost;
+    /** 询问背景特性类型时，对 trait_type 为空的条目降权；普通查询不启用。 */
+    @Value("${pf.search.empty-trait-type-penalty:0.05}")
+    private double emptyTraitTypePenalty;
+    /** 背景特性的 13 类类型词；与数据侧 trait_type 词表同源。 */
+    private static final Set<String> TRAIT_TYPE_TERMS = Set.of(
+            "地区", "种族", "战斗", "信念", "魔法", "社会", "装备",
+            "宗教", "派系", "宇宙", "典范", "坐骑", "缺陷");
     /** P0-B2：title 加权停用词表，防止「如何/什么/规则」等泛词大面积误加权 */
     @Value("${pf.search.title-boost-stopwords:法术,规则,专长,效果,职业,装备,物品,魔法,如何,什么,哪些,途径,方法,of,the,and,to,in}")
     private List<String> titleBoostStopwords;
+
+    /** F-016：语义检索二阶段 listwise 重排；唯一静默跳过路径是显式 rerank-enabled=false。 */
+    @Autowired
+    private DeepSeekListwiseReranker reranker;
+    @Value("${pf.search.rerank-enabled:true}")
+    private boolean rerankEnabled = true;
+    /** F-016：重排候选数（现有 rerank-extra-candidates 仍控制向量库原始召回） */
+    @Value("${pf.search.rerank-candidates:50}")
+    private int rerankCandidates = 50;
+    /** F-016：重排后最终保留条数 */
+    @Value("${pf.search.rerank-top-n:15}")
+    private int rerankTopN = 15;
 
     private Map<String, VectorStore> storesByModule;
     private List<VectorStore> vectorStores;
@@ -124,27 +144,82 @@ public class SearchService {
      *
      * @param question 用户问题（作为 query 向量化）
      * @param module   spell / class / all；未知模块返回空列表（模块合法性由工具层校验）
-     * @return 目标模块合并后相似度达标的 Document 列表，按相似度降序取 topK
+     * @return 目标模块合并后相似度达标的 Document 列表；重排开启时取 rerank-top-n，
+     *         关闭/失败时按 rankedScore 取 topK
      */
     public List<Document> search(String question, String module) {
+        // F-016：重排启用时候选扩容到 rerank-candidates，再去掉非相关尾巴；关闭时保持旧路径
+        if (rerankEnabled && reranker == null) {
+            throw new IllegalStateException(
+                    "pf.search.rerank-enabled=true 但 DeepSeekListwiseReranker 未装配；"
+                            + "如确需禁用重排请显式配置 rerank-enabled=false");
+        }
+        boolean rerankActive = rerankEnabled;
         // 方案 B（AKN-003）：class 模块在 rerank 扩容基础上再叠加 class-extra-candidates，给基础页加分重排留空间
         boolean classModule = "class".equals(module);
-        int requestTopK = topK + rerankExtraCandidates + (classModule ? classExtraCandidates : 0);
+        int baseTopK = rerankActive ? Math.max(1, rerankCandidates) : topK;
+        int requestTopK = baseTopK + rerankExtraCandidates + (classModule ? classExtraCandidates : 0);
         // P0-B2：query 词元抽一次，供 title/aliases 加权重排共用
         List<String> tokens = extractTokens(question);
+        boolean traitTypeQuestion = isTraitTypeQuestion(question);
         SearchRequest request = SearchRequest.builder()
                 .query(question)
                 .topK(requestTopK)
                 .similarityThreshold(similarityThreshold)
                 .build();
-        return resolveStores(module).stream()
-                .flatMap(store -> store.similaritySearch(request).stream())
-                .filter(doc -> !filterBlankText || !isBlankText(doc)) // 空 text 剔除（F-002）
-                .filter(bookFilter::keep) // J4 全局书过滤（排序前过滤，被剔条目释放 topK 名额）
-                .sorted(Comparator.comparingDouble((Document doc) -> rankedScore(doc, classModule, tokens))
+
+        List<Recalled> recalled = new ArrayList<>();
+        for (VectorStore store : resolveStores(module)) {
+            String storeModule = moduleOf(store);
+            for (Document doc : store.similaritySearch(request)) {
+                recalled.add(new Recalled(doc, storeModule));
+            }
+        }
+        List<Recalled> selected = recalled.stream()
+                .filter(item -> !filterBlankText || !isBlankText(item.document())) // 空 text 剔除（F-002）
+                .filter(item -> bookFilter.keep(item.document())) // J4 全局书过滤（排序前过滤，被剔条目释放 topK 名额）
+                .sorted(Comparator.comparingDouble((Recalled item) ->
+                                rankedScore(item.document(), classModule, tokens, traitTypeQuestion))
                         .reversed())
-                .limit(topK)
+                .limit(baseTopK)
                 .toList();
+        int finalTopN = Math.max(1, rerankTopN);
+        List<Document> result;
+        if (!rerankActive || selected.isEmpty() || selected.size() <= finalTopN) {
+            result = selected.stream().map(Recalled::document).toList();
+        } else {
+            result = reranker.rerank(question, toCandidates(selected), finalTopN);
+        }
+        // 重排可能把空 trait_type 的条目重新排到前面；类型提问时做一次稳定分区，
+        // 有类型的条目保持原相对顺序在前，空类型降权到后（不丢弃）。
+        return traitTypeQuestion ? downweightEmptyTraitTypes(result) : result;
+    }
+
+    /** 召回条目与来源模块：语义合并时保留 store 归属，供重排输入标注 module。 */
+    private record Recalled(Document document, String module) {
+    }
+
+    /** F-016：构造重排候选（稳定 id/title/module/book/摘要），重复 chunk id 追加序号保证可映射。 */
+    private List<DeepSeekListwiseReranker.Candidate> toCandidates(List<Recalled> selected) {
+        List<DeepSeekListwiseReranker.Candidate> candidates = new ArrayList<>(selected.size());
+        Set<String> usedIds = new LinkedHashSet<>();
+        for (Recalled item : selected) {
+            Document doc = item.document();
+            String baseId = chunkKey(doc);
+            String id = baseId;
+            int suffix = 2;
+            while (!usedIds.add(id)) {
+                id = baseId + "#" + suffix++;
+            }
+            candidates.add(new DeepSeekListwiseReranker.Candidate(
+                    id,
+                    value(doc, "title"),
+                    item.module(),
+                    value(doc, "book_abbreviation"),
+                    doc.getText(),
+                    doc));
+        }
+        return candidates;
     }
 
     /**
@@ -308,6 +383,35 @@ public class SearchService {
         return docs.isEmpty() ? null : docs.get(0);
     }
 
+    public record DocumentSection(List<Document> documents, boolean capped) {
+        public DocumentSection {
+            documents = List.copyOf(documents);
+        }
+    }
+
+    /** AKN-023：按 doc_id + 运行时目录键取同章节 chunk，并显式报告检索上限。 */
+    public DocumentSection getByDocId(String module, String docId, String tocPath) {
+        if (module == null || docId == null || docId.isBlank() || tocPath == null || tocPath.isBlank()
+                || tocPath.contains("'")) {
+            return new DocumentSection(List.of(), false);
+        }
+        VectorStore store = storesByModule.get(module);
+        if (store == null) {
+            return new DocumentSection(List.of(), false);
+        }
+        FilterExpressionBuilder builder = new FilterExpressionBuilder();
+        SearchRequest request = SearchRequest.builder()
+                .query(module)
+                .topK(enumerationTopK + 1)
+                .similarityThresholdAll()
+                .filterExpression(builder.and(
+                        builder.eq("doc_id", docId),
+                        builder.eq("tocPath", tocPath)).build())
+                .build();
+        List<Document> docs = List.copyOf(store.similaritySearch(request));
+        return new DocumentSection(docs, docs.size() > enumerationTopK);
+    }
+
     /** 条件 AND 连接辅助：首个条件直接采用，之后 builder.and 累加 */
     private FilterExpressionBuilder.Op and(FilterExpressionBuilder builder,
             FilterExpressionBuilder.Op op, FilterExpressionBuilder.Op next) {
@@ -410,7 +514,8 @@ public class SearchService {
      *   + title/aliases 词元命中加分（P0-B2：被点名的确切条目抬过语义相近邻居）
      * 全部仅影响排序，不改 Document.score；各惩罚项置 0 即关闭。
      */
-    private double rankedScore(Document doc, boolean classModule, List<String> queryTokens) {
+    private double rankedScore(Document doc, boolean classModule, List<String> queryTokens,
+                               boolean traitTypeQuestion) {
         Double score = doc.getScore();
         double s = score == null ? 0.0 : score;
         if (classModule && classBaseBonus > 0 && isBaseClassPage(doc)) {
@@ -425,7 +530,41 @@ public class SearchService {
         if (titleMatchBoost > 0 && !queryTokens.isEmpty() && titleOrAliasesMatch(doc, queryTokens)) {
             s += titleMatchBoost;
         }
+        if (traitTypeQuestion && emptyTraitTypePenalty > 0 && isEmptyTraitType(doc)) {
+            s -= emptyTraitTypePenalty;
+        }
         return s;
+    }
+
+    /** 问题是否在询问「某一类背景特性」：必须同时出现背景特性语境与类型词。 */
+    private boolean isTraitTypeQuestion(String question) {
+        if (question == null || question.isBlank()) {
+            return false;
+        }
+        boolean traitContext = question.contains("背景特性")
+                || question.contains("背景类型")
+                || (question.contains("背景") && !question.contains("背景故事"))
+                || question.toLowerCase(Locale.ROOT).contains("trait");
+        return traitContext && TRAIT_TYPE_TERMS.stream().anyMatch(question::contains);
+    }
+
+    /** 背景特性条目且 trait_type 为空（nested 字段未扁平化时也按空处理）。 */
+    private boolean isEmptyTraitType(Document doc) {
+        Object component = doc.getMetadata().get("component_type");
+        boolean trait = "trait".equals(doc.getMetadata().get("category"))
+                || (component instanceof String type && type.startsWith("trait"));
+        if (!trait) {
+            return false;
+        }
+        Object traitType = doc.getMetadata().get("trait_type");
+        return traitType == null || traitType.toString().isBlank();
+    }
+
+    /** 稳定分区：有类型条目保持原序在前，空类型条目在后。 */
+    private List<Document> downweightEmptyTraitTypes(List<Document> docs) {
+        return docs.stream()
+                .sorted(Comparator.comparing(this::isEmptyTraitType))
+                .toList();
     }
 
     /** oversize 判定：text 长度超过阈值（>，不含等于） */

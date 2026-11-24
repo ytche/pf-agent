@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  *  - blacklist：剔除 books 列名值（如脏值 "?"），其余保留；
  *  - whitelist：仅保留 books 列名值；
  *  - 两种模式下，book 值缺失/空白（未知）的条目按 {@code unknown-book-keep}
- *    处理（默认 true 保留，防数据脏期出现假缺口）。
+ *    处理（默认 true 保留，防数据脏期出现假缺口）。默认黑名单为空，部署可显式配置。
  *
  * whitelist「已知书」集合口径说明：Java 侧不存在现成的权威缩写值域
  * （FilterTranslator 只维护字段名白名单，不含字段值域；数据侧 SOURCE_BOOKS
@@ -38,8 +38,8 @@ public class BookFilter {
     /** 模式：blacklist（剔除列名值）| whitelist（仅保留列名值） */
     @Value("${pf.search.book-filter.mode:blacklist}")
     private String mode;
-    /** 书名清单：黑名单为剔出值；白名单为仅保留值。默认 ["?"]（过渡策略转正，见方案 J4） */
-    @Value("${pf.search.book-filter.books:?}")
+    /** 书名清单：黑名单为剔出值；白名单为仅保留值。默认为空（KN226 后无需再列 ?） */
+    @Value("${pf.search.book-filter.books:}")
     private List<String> books;
     /** book 值缺失/空白（未知）时是否保留（默认 true，防假缺口） */
     @Value("${pf.search.book-filter.unknown-book-keep:true}")

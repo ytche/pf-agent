@@ -1,0 +1,171 @@
+============================================================
+元素总数: 260
+  exact       : 164
+  whitespace  : 32
+  punct       : 0
+  lb_marker   : 0
+  img_marker  : 0
+  elided      : 11
+  annotation  : 1
+  phantom     : 52
+源文件缺失（未计入）: 67
+  - 专长.md
+  - 专长1.md
+  - 专长10.md
+  - 专长11.md
+  - 专长12.md
+  - 专长13.md
+  - 专长14.md
+  - 专长15.md
+  - 专长16.md
+  - 专长17.md
+  - 专长18.md
+  - 专长19.md
+  - 专长2.md
+  - 专长20.md
+  - 专长21.md
+  - 专长22.md
+  - 专长23.md
+  - 专长24.md
+  - 专长25.md
+  - 专长26.md
+  - 专长27.md
+  - 专长28.md
+  - 专长29.md
+  - 专长3.md
+  - 专长30.md
+  - 专长31.md
+  - 专长32.md
+  - 专长33.md
+  - 专长34.md
+  - 专长35.md
+  - 专长36.md
+  - 专长37.md
+  - 专长38.md
+  - 专长39.md
+  - 专长4.md
+  - 专长40.md
+  - 专长41.md
+  - 专长42.md
+  - 专长43.md
+  - 专长44.md
+  - 专长45.md
+  - 专长46.md
+  - 专长47.md
+  - 专长48.md
+  - 专长49.md
+  - 专长5.md
+  - 专长50.md
+  - 专长51.md
+  - 专长52.md
+  - 专长53.md
+  - 专长54.md
+  - 专长55.md
+  - 专长56.md
+  - 专长57.md
+  - 专长58.md
+  - 专长6.md
+  - 专长7.md
+  - 专长8.md
+  - 专长9.md
+  - 其他专长.md
+  - 其他专长1.md
+  - 其他专长2.md
+  - 动物伙伴专长.md
+  - 造物专长一览.md
+  - 闹鬼专长.md
+  - 阵营与阵营专长.md
+  - pf_rules_md_organized/page_1563.md
+
+phantom 分布（52 条 / 29 文件）:
+  专长/page_203.md: 4 条
+    title_forms[0] :: '**异变疖体**** Aberrant Tumor**'
+    title_forms[1] :: '**业余剑客**** Amateur Swashbuckler****（战斗专长）******'
+    title_forms[2] :: '**准线规避**** Coordinated Shot****（战斗，团队专长）******'
+    title_forms[3] :: '**旋舞花招**** Confounding Tumble Deed****（派头专长）******'
+  专长/page_321.md: 3 条
+    title_forms[0] :: '**洞观奥秘**** '
+    title_forms[0] :: 'Arcane Insight*****  ******奥术魔法的力量帮助你洞悉对手的招数*********'
+    title_forms[1] :: '**英勇介入**** Heroic Interposition****（****Combat****）****'
+    title_forms[2] :: '**英勇介入**** Heroic Interposition****（****Combat****）****'
+  专长/page_361.md: 3 条
+    title_forms[0] :: '**精通盾牌专攻**** '
+    title_forms[0] :: 'Improved Shield Focus****（战斗）******'
+    title_forms[1] :: 'Bulette Charge Style****（战斗，流派专长）****'
+    title_forms[3] :: '鲨蜥****·****扑**** '
+    title_forms[3] :: 'Bulette Leap****（战斗专长）****'
+  专长/流派专长一览/page_1564.md: 3 条
+    title_forms[0] :: '**奥多里决斗流****Aldori Style****（战斗，流派）**'
+    title_forms[2] :: '**死手流****Deadhand Style**** (战斗,流派)**'
+    title_forms[4] :: '**擒牛式****（战斗，流派）(Bull-Catcher Style)**邵氏流'
+  专长/page_311.md: 2 条
+    title_forms[1] :: '血溢双瞳（战斗，注视）****Bleeding Stare (Combat, '
+    title_forms[3] :: '威慑眼神（战斗）****Intimidating Glance (Combat)'
+  专长/page_500.md: 2 条
+    title_forms[0] :: '**伏击感知**** '
+    title_forms[0] :: 'Ambush Sense****（战斗专长）****'
+    title_forms[1] :: '优雅挑刺**** '
+    title_forms[1] :: 'Fencing Grace****（战斗专长）****'
+  专长/page_538.md: 2 条
+    title_forms[0] :: '****酩酊侠**** '
+    title_forms[1] :: '**埃拉斯蒂尔****效力埃拉斯蒂尔的战士对张弓搭箭颇有心得，他们驯养的战兽也在和自己的主人一起战斗时更加协调灵活。****\n中的射击**** '
+  专长/page_555.md: 2 条
+    title_forms[0] :: '**巧妙闪躲****Artful Dodge****（战斗）****'
+    title_forms[1] :: '**擒抱施法****Grappled Caster'
+  专长/page_566.md: 2 条
+    title_forms[0] :: '**轻快超魔**** brisk spell****（超魔专长）****'
+    title_forms[1] :: '**敏锐射击**** acute shot**'
+  专长/page_670.md: 2 条
+    title_forms[0] :: '冠位专长(Vested Feats)**...**冠位抗力**Ennobled '
+    title_forms[0] :: 'Resistances*上天赐予你的庇护和抗性异常惊人***先决条件：**神授权能职业特性，角色等级4**效果：**当以迅捷动作使用...'
+    title_forms[1] :: '乐府训练你在位于扎摩诔...'
+  专长/page_673.md: 2 条
+    title_forms[3] :: '神力抵抗 DlVlNE DEFIANCE你对于神祇的不信任，不恭敬或者怀疑帮助你排斥他们的力量。专长效果：...'
+    title_forms[4] :: '万神祝福 PANTHEISTIC BLESSlNG作为你对万神殿的神契尊崇的奖励，你获得了少许神圣力量。先决条件：感知13，必须信仰一个万神殿专长效果：当你取得专长时，在下列万神殿中选择一个。你获得了'
+  专长/位面冒险PA_专长.md: 2 条
+    title_forms[0] :: '**闪现步（汲引）（Flickering Step (Conduit)）出自《Planar Adventures pg. 28》'
+    title_forms[2] :: '**【PFS】精通异界传送（Improved Plane Shift）'
+  专长/护甲大师手册_专长.md: 2 条
+    title_forms[0] :: 'Styles****）****尽管许多新手战士觉得盔甲作为一种被动防御，从没想过它们会成为一种战斗流派，而那些沙场老将却充分利用了盔甲。这些甲斗流派中的流派专长采用UC78页的一般流派专长规则。所有的'
+    title_forms[1] :: '**盔甲专攻Armor focus (战斗)**'
+  专长/格拉里昂的城市CoG_专长.md: 2 条
+    title_forms[1] :: '**塔尔多的私掠船员（Corsair of Taldor）*****许多追求冒险生涯'
+    title_forms[2] :: 'Onslaught）（战斗）*****你与你的坐骑能在你坚强地突击下粉碎敌人的阵线*'
+  专长/武器大师手册_专长.md: 2 条
+    title_forms[0] :: '武器专家 Martial Focus****（战斗专长）****   *你熟练地掌握了一些武器的用法。*'
+    title_forms[1] :: '矢切 Cut from the '
+    title_forms[1] :: 'Air****（武器掌握专长）****   *你迅速而强力的一击可以将呼啸而来的飞弹弹开。*'
+  pf_rules_md_organized/专长/药剂与毒药P&P_专长.md: 2 条
+    title_forms[0] :: '娜迦裔专长以下专长对娜迦裔可用，并且能够增强喷毒种族专长。溢血之毒 Hemorrhaging Venom（战斗专长）你的毒液足以摧毁血管融化骨骼。先决条件：喷毒，致命毒液，基本攻击加值+7，娜迦裔专长'
+    title_forms[1] :: 'Feats以下专长对于树蛙人角色可用。毒性分泌物 Toxic '
+  pf_rules_md_organized/专长/魔宠手记FF_专长.md: 2 条
+    title_forms[0] :: '**魔宠专长（****Familiar Feats****）****本节为具有魔宠的角色提供了新的专长。此外，新增的魔宠契约专长能够让任何角色获得魔宠，无关其本身的职业。主人专长（****Master'
+    title_forms[1] :: '**魔宠专长（****Familiar Feats****）****本节为具有魔宠的角色提供了新的专长。此外，新增的魔宠契约专长能够让任何角色获得魔宠，无关其本身的职业。主人专长（****Master'
+  pf_rules_md_organized/专长/魔法战术工具箱MTT_调查员与盗贼天赋.md: 2 条
+    title_forms[0] :: '   奥法导管eldritch conduit（su）：以一个整轮动作，拥有该天赋的盗贼可以使用两瓶药水...'
+    title_forms[1] :: '   卓越狙击手：拥有该天赋的盗贼获得老练狙击Expert Sniper（阴招战术工具匣Dirty Tactics Toolbox）作为奖励专长。'
+  专长/page_505.md: 1 条
+    title_forms[1] :: '**阵营武具**** '
+    title_forms[1] :: 'Align Equipment**'
+  专长/page_856.md: 1 条
+    title_forms[0] :: '**特技施法者（战斗）**Acrobatic Spellcaster (Combat)*你能够通过纯熟的动作来避免施法受到敌人的干扰。'
+  专长/初探探索者协会_专长.md: 1 条
+    title_forms[0] :: '**改善日常工作 Impro Day Jos*在加入探索者协会最初的培训中'
+  专长/动物档案AArch_动物专长.md: 1 条
+    title_forms[0] :: '**好伙伴**Boon Companion*你与你的魔宠或动物伙伴的关系异常地亲密。***先决条件**'
+  专长/反派法典VC_专长.md: 1 条
+    title_forms[2] :: '**协调捕获Coordinated Capture（战斗，团队）'
+  专长/武术手册MAH_专长.md: 1 条
+    title_forms[0] :: '**战斗韵律****Combat  Rhythm****（战斗专长，融会专长）**'
+  专长/水下冒险AA_专长.md: 1 条
+    title_forms[0] :: '水下战斗专攻（战斗）Aquadynamic '
+    title_forms[0] :: 'focus 你在你所选择武器的技艺上太过娴熟，以至于你在水下使用它们时不会受到任何阻碍。先决条件：武器专攻，基本攻击加值+1专长效果：你在水下战斗使用拥有武器专攻专长的挥砍和钝击近战武器时，不会承受额'
+  pf_rules_md_organized/专长/海洋之血BotS_专长.md: 1 条
+    title_forms[0] :: '塞卡利亚专注纹**（Cecaelia Focus '
+  pf_rules_md_organized/专长/秘术选集ArcaneAnthology_专长.md: 1 条
+    title_forms[0] :: '## 苦痛一击（Painful Blow）〔战斗〕'
+  pf_rules_md_organized/专长/第一世界TFWRotF_专长.md: 1 条
+    title_forms[0] :: '**古老者的服从仪典Obedience to the '
+    title_forms[0] :: 'Eldest**'
+  pf_rules_md_organized/专长/遥远国度DR_专长.md: 1 条
+    title_forms[0] :: '| 在第六翼学院中受训的神圣战士发展了它们的神术技巧，这些致命的学员们经常把这些技巧带回到自己的家乡。以下专长代表了这些技巧。合唱支援Choral '

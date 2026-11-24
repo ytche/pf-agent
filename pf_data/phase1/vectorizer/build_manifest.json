@@ -1,6 +1,6 @@
 {
   "build_version": "1.0",
-  "updated": "2026-09-22",
+  "updated": "2026-11-13",
   "changelog": [
     {
       "date": "2026-09-18",
@@ -53,6 +53,38 @@
       "artifacts": [
         "lists.spell_union"
       ]
+    },
+    {
+      "date": "2026-11-12",
+      "change": "KN237：lists.profession 补扫缺失职业成长表（BAB 表头放宽/单行压缩表/定向补扫），新增夹具 vectorizer/config/class_table_overrides.json（变形者 20 级）并登记为 config_deps（spec docs/superpowers/specs/2026-11-12-kn237-class-table-parsing-design.md）",
+      "artifacts": [
+        "lists.profession"
+      ]
+    },
+    {
+      "date": "2026-11-12",
+      "change": "KN221：规则内嵌表格结构化（spec docs/superpowers/specs/2026-11-12-kn221-rule-table-structuring-design.md）——新增 lists.rule via=direct export_script（rule_tables.json 612 表/472 chunk，standard 435 / flattened 173 / no_separator 4）；chunks.rule metadata 增加 has_table/table_ids/table_titles/table_row_counts 4 键，解析器 vectorizer/rule_tables.py 列入 config_deps 触发重建",
+      "artifacts": [
+        "chunks.rule",
+        "lists.rule"
+      ]
+    },
+    {
+      "date": "2026-11-12",
+      "change": "KN034：专长源文件单一权威位置（spec docs/superpowers/specs/2026-11-12-kn034-feat-source-canonicalization-design.md）——66 个根目录源移入 专长/、删除根目录旧副本 造物专长一览.md；chunks.feat.inputs 收敛为 pf_rules_md_organized/专长/**（根目录 7 条模式已零命中，装载期校验前须移除）",
+      "artifacts": [
+        "chunks.feat"
+      ]
+    },
+    {
+      "date": "2026-11-13",
+      "change": "F-008：四模块清单 schema 1.0→1.1，条目新增 toc_path（feat/race/equipment 取 chunk 的 chm_toc_path 原样复制；spell 按 chunk_id join 法术 chunks 的 chm_toc_path）；导出报告新增 toc_path total/nonempty/empty，spell 另报 join_failed",
+      "artifacts": [
+        "lists.spell",
+        "lists.feat",
+        "lists.race",
+        "lists.equipment"
+      ]
     }
   ],
   "defaults": {
@@ -70,14 +102,7 @@
         "vectorizer/output/专长/index.json"
       ],
       "inputs": [
-        "pf_rules_md_organized/专长/**",
-        "pf_rules_md_organized/专长*.md",
-        "pf_rules_md_organized/其他专长*.md",
-        "pf_rules_md_organized/动物伙伴专长.md",
-        "pf_rules_md_organized/造物专长一览.md",
-        "pf_rules_md_organized/闹鬼专长.md",
-        "pf_rules_md_organized/阵营与阵营专长.md",
-        "pf_rules_md_organized/page_820.md"
+        "pf_rules_md_organized/专长/**"
       ],
       "config_deps": [
         "vectorizer/pipeline.py",
@@ -191,6 +216,7 @@
         "vectorizer/pipeline.py",
         "vectorizer/processors/rule.py",
         "vectorizer/formats/rule.py",
+        "vectorizer/rule_tables.py",
         "../md_mapping.json"
       ],
       "schema": {
@@ -215,6 +241,7 @@
         "vectorizer/processors/spell.py",
         "vectorizer/formats/spell.py",
         "vectorizer/postprocess/spell_chain.py",
+        "vectorizer/postprocess/feat_chain.py",
         "vectorizer/config/spell_descriptors.json",
         "vectorizer/config/spell_subschools.json",
         "../md_mapping.json"
@@ -303,13 +330,14 @@
       "inputs": [
         "pf_rules_md_organized/职业/**",
         "vectorizer/output/法术/chunks.jsonl",
-        "vectorizer/output/职业/chunks.jsonl"
+        "vectorizer/output/职业/chunks.jsonl",
+        "vectorizer/list_export.py"
       ],
       "config_deps": [],
       "schema": {
         "file": "vectorizer/output/法术/spell_lists.json",
         "version_field": "version",
-        "expected": "1.0"
+        "expected": "1.1"
       }
     },
     {
@@ -330,7 +358,8 @@
         "vectorizer/output/法术/chunks.jsonl"
       ],
       "config_deps": [
-        "spell_list_export.py"
+        "spell_list_export.py",
+        "vectorizer/list_export.py"
       ],
       "schema": {
         "file": "vectorizer/output/法术/spell_lists_union.json",
@@ -355,7 +384,8 @@
         "vectorizer/output/职业/chunks.jsonl"
       ],
       "config_deps": [
-        "spell_list_export.py"
+        "spell_list_export.py",
+        "vectorizer/config/class_table_overrides.json"
       ],
       "schema": {
         "file": "vectorizer/output/职业/class_tables.json",
@@ -384,7 +414,7 @@
       "schema": {
         "file": "vectorizer/output/专长/feat_lists.json",
         "version_field": "version",
-        "expected": "1.0"
+        "expected": "1.1"
       }
     },
     {
@@ -408,7 +438,7 @@
       "schema": {
         "file": "vectorizer/output/种族/race_lists.json",
         "version_field": "version",
-        "expected": "1.0"
+        "expected": "1.1"
       }
     },
     {
@@ -431,6 +461,31 @@
       "config_deps": [],
       "schema": {
         "file": "vectorizer/output/装备/equipment_lists.json",
+        "version_field": "version",
+        "expected": "1.1"
+      }
+    },
+    {
+      "name": "lists.rule",
+      "kind": "export_script",
+      "script": "rule_table_export.py",
+      "via": "direct",
+      "command": [
+        "python3",
+        "rule_table_export.py"
+      ],
+      "outputs": [
+        "vectorizer/output/规则/rule_tables.json",
+        "vectorizer/output/规则/rule_table_export_report.json"
+      ],
+      "inputs": [
+        "vectorizer/output/规则/chunks.jsonl"
+      ],
+      "config_deps": [
+        "vectorizer/rule_tables.py"
+      ],
+      "schema": {
+        "file": "vectorizer/output/规则/rule_tables.json",
         "version_field": "version",
         "expected": "1.0"
       }

@@ -132,6 +132,42 @@ button:disabled {
   flex: none;
 }
 
+.usage-link {
+  text-decoration: none;
+  line-height: 1.4;
+}
+
+@media (max-width: 520px) {
+  .topbar-inner {
+    padding: 10px 12px;
+    gap: 8px;
+  }
+
+  .brand-sub {
+    display: none;
+  }
+
+  .brand-mark {
+    width: 30px;
+    height: 30px;
+  }
+
+  .brand-title {
+    font-size: 13px;
+    max-width: 150px;
+  }
+
+  .topbar-actions {
+    gap: 4px;
+  }
+
+  .topbar-actions .ghost,
+  .topbar-actions .primary {
+    padding: 6px 9px;
+    font-size: 12.5px;
+  }
+}
+
 .account {
   position: relative;
 }

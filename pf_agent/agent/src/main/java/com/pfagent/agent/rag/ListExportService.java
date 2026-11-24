@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -87,6 +88,11 @@ public class ListExportService {
     /** 该模块可枚举的全部条目数（未加载返回 0） */
     public int total(String module) {
         return entriesByModule.getOrDefault(module, List.of()).size();
+    }
+
+    /** 该模块已加载条目（不可变只读视图；未加载返回空表）——F-008 目录查询门面使用 */
+    public List<ListEntry> entries(String module) {
+        return entriesByModule.getOrDefault(module, List.of());
     }
 
     /** 该模块可用 filters/orFilters 字段清单（未知模块返回空表） */
@@ -305,8 +311,14 @@ public class ListExportService {
         }
         try {
             ListExportFile file = objectMapper.readValue(path.toFile(), ListExportFile.class);
+            if (file == null) {
+                log.warn("{}_lists.json 根节点为 null（{}），{}清单枚举将降级不可用。",
+                        module, path.getFileName(), MODULE_LABELS.get(module));
+                return;
+            }
             List<ListEntry> entries = file.entries() == null ? List.of() : file.entries();
-            entriesByModule.put(module, entries);
+            // 加载即固化：对外只读视图，防调用方改内部 list（允许 null 元素，门面自行过滤）
+            entriesByModule.put(module, Collections.unmodifiableList(new ArrayList<>(entries)));
             if (file.sourceFingerprint() != null) {
                 fingerprintByModule.put(module, file.sourceFingerprint());
             }
@@ -481,7 +493,8 @@ public class ListExportService {
             String price,
             @JsonProperty("price_gp") Integer priceGp,
             String weight,
-            String slot) {
+            String slot,
+            @JsonProperty("toc_path") String tocPath) {
 
         ListEntry {
             name = name == null ? "" : name;

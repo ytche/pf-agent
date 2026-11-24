@@ -332,6 +332,47 @@ class EntryResolverTest {
                 .containsExactly("spell_p", "spell_s");
     }
 
+    @Test
+    void resolvePrefersSubstantiveEntriesOverIndexes() throws Exception {
+        Map<String, Object> index = standardRow("feat", "feat_index", "抄写卷轴", List.of(), Map.of());
+        index.put("component_type", "feat_index");
+        Map<String, Object> full = standardRow("feat", "feat_full", "抄写卷轴", List.of(), Map.of());
+        Map<String, Object> otherBook = standardRow("feat", "feat_other_book", "抄写卷轴", List.of(), Map.of());
+        otherBook.put("book_abbreviation", "UM");
+        Path feats = writeJsonl("feats-index-duplicates", List.of(index, full, otherBook));
+        EntryResolver resolver = resolverWith(spellJsonl(), feats, classJsonl());
+
+        assertThat(resolver.resolve("抄写卷轴", "feat"))
+                .extracting(EntryResolver.EntryRef::chunkId)
+                .containsExactly("feat_full", "feat_other_book");
+    }
+
+    @Test
+    void resolveKeepsIndexWhenItIsTheOnlyCandidate() throws Exception {
+        Map<String, Object> index = standardRow("feat", "feat_index", "抄写卷轴", List.of(), Map.of());
+        index.put("component_type", "feat_index");
+        Path feats = writeJsonl("feats-index-only", List.of(index));
+        EntryResolver resolver = resolverWith(spellJsonl(), feats, classJsonl());
+
+        assertThat(resolver.resolve("抄写卷轴", "feat"))
+                .extracting(EntryResolver.EntryRef::chunkId)
+                .containsExactly("feat_index");
+    }
+
+    @Test
+    void resolveKeepsIndexFromBookWithoutSubstantiveEntry() throws Exception {
+        Map<String, Object> index = standardRow("feat", "feat_index_crb", "抄写卷轴", List.of(), Map.of());
+        index.put("component_type", "feat_index");
+        Map<String, Object> full = standardRow("feat", "feat_full_um", "抄写卷轴", List.of(), Map.of());
+        full.put("book_abbreviation", "UM");
+        Path feats = writeJsonl("feats-cross-book-index", List.of(index, full));
+        EntryResolver resolver = resolverWith(spellJsonl(), feats, classJsonl());
+
+        assertThat(resolver.resolve("抄写卷轴", "feat"))
+                .extracting(EntryResolver.EntryRef::chunkId)
+                .containsExactly("feat_index_crb", "feat_full_um");
+    }
+
     /** 构造 EntryResolver：写入三个模块 jsonl，其余模块指向空文件，触发 buildIndex */
     private EntryResolver resolverWith(Path spells, Path feats, Path classes) throws Exception {
         EntryResolver resolver = new EntryResolver();

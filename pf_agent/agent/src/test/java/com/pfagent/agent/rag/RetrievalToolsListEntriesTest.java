@@ -179,7 +179,7 @@ class RetrievalToolsListEntriesTest {
                 .thenReturn("1. 闪避（Dodge）[CRB] | 类别:战斗 | chunk_id: c1");
         when(listExportService.provenanceDocuments("feat", List.of(dodge)))
                 .thenReturn(List.of(Document.builder().text("t").metadata(Map.of("title", "闪避")).build()));
-        when(collector.add(any())).thenReturn(List.of(1));
+        CollectorStubs.stubIds(collector, List.of(1));
 
         String result = tools().listEntries("feat", query);
 
@@ -277,7 +277,7 @@ class RetrievalToolsListEntriesTest {
                 .thenReturn("1. 闪避（Dodge）[CRB] | 类别:战斗 | chunk_id: c1");
         when(listExportService.provenanceDocuments("feat", List.of(dodge)))
                 .thenReturn(List.of(Document.builder().text("t").metadata(Map.of("title", "闪避")).build()));
-        when(collector.add(any())).thenReturn(List.of(1));
+        CollectorStubs.stubIds(collector, List.of(1));
 
         String result = tools().listEntries("feat",
                 new ListEntriesQuery(null, Map.of("hasPrerequisites", "TRUE"), null, null, null, null));
@@ -322,7 +322,7 @@ class RetrievalToolsListEntriesTest {
                 .thenReturn("1. 闪避（Dodge）[CRB] | 类别:战斗 | chunk_id: c1");
         when(listExportService.provenanceDocuments("feat", List.of(dodge)))
                 .thenReturn(List.of(Document.builder().text("t").metadata(Map.of("title", "闪避")).build()));
-        when(collector.add(any())).thenReturn(List.of(1));
+        CollectorStubs.stubIds(collector, List.of(1));
 
         String result = tools().listEntries("feat",
                 new ListEntriesQuery(null, Map.of("book", "CRB"), null, null, -5, null, true));
@@ -342,7 +342,7 @@ class RetrievalToolsListEntriesTest {
                 .thenReturn("1. 闪避（Dodge）[CRB] | 类别:战斗 | chunk_id: c1");
         when(listExportService.provenanceDocuments("feat", List.of(dodge)))
                 .thenReturn(List.of(Document.builder().text("t").metadata(Map.of("title", "闪避")).build()));
-        when(collector.add(any())).thenReturn(List.of(1));
+        CollectorStubs.stubIds(collector, List.of(1));
 
         String result = tools().listEntries("feat",
                 new ListEntriesQuery(null, Map.of("book", "CRB"), null, 999, null, null, true));
@@ -361,7 +361,7 @@ class RetrievalToolsListEntriesTest {
                 .thenReturn("1. 闪避（Dodge）[CRB] | 类别:战斗 | chunk_id: c1");
         when(listExportService.provenanceDocuments("feat", List.of(dodge)))
                 .thenReturn(List.of(Document.builder().text("t").metadata(Map.of("title", "闪避")).build()));
-        when(collector.add(any())).thenReturn(List.of(1));
+        CollectorStubs.stubIds(collector, List.of(1));
 
         String result = tools().listEntries("feat",
                 new ListEntriesQuery(null, Map.of("book", "CRB"), null, 0, null, null, true));
@@ -406,7 +406,7 @@ class RetrievalToolsListEntriesTest {
                 .thenReturn("1. 闪避（Dodge）[CRB] | 类别:战斗 | chunk_id: feat_page_1_0001");
         Document doc = Document.builder().text("t").metadata(Map.of("title", "闪避")).build();
         when(listExportService.provenanceDocuments("feat", List.of(dodge))).thenReturn(List.of(doc));
-        when(collector.add(any())).thenReturn(List.of(3));
+        CollectorStubs.stubIds(collector, List.of(3));
 
         String result = tools().listEntries("feat",
                 new ListEntriesQuery(null, Map.of("featType", "战斗"), null, null, null, null));
@@ -414,7 +414,7 @@ class RetrievalToolsListEntriesTest {
         assertThat(result).isEqualTo("1. 闪避（Dodge）[CRB] | 类别:战斗 | chunk_id: feat_page_1_0001 [#3]\n");
         @SuppressWarnings("unchecked")
         ArgumentCaptor<List<Document>> captor = ArgumentCaptor.forClass(List.class);
-        verify(collector).add(captor.capture());
+        verify(collector).addWithLimit(captor.capture());
         assertThat(captor.getValue()).containsExactly(doc);
     }
 
@@ -434,7 +434,7 @@ class RetrievalToolsListEntriesTest {
         Document doc1 = Document.builder().text("t").metadata(Map.of("title", "条目一")).build();
         // 字符预算只容下第一行：第二行超预算截断，截断行不挂 [#N]、不进溯源点查
         when(listExportService.provenanceDocuments("feat", List.of(first))).thenReturn(List.of(doc1));
-        when(collector.add(any())).thenReturn(List.of(1));
+        CollectorStubs.stubIds(collector, List.of(1));
 
         String result = toolsWithSmallBudget().listEntries("feat",
                 new ListEntriesQuery(null, Map.of("book", "CRB"), null, null, null, null, true));
@@ -803,6 +803,6 @@ class RetrievalToolsListEntriesTest {
     private ListExportService.ListEntry entry(String name) {
         return new ListExportService.ListEntry(name, "", "CRB", "核心规则书", "feat",
                 "chunk_" + name, "doc", List.<String>of(), List.of("战斗"), "",
-                null, null, null, null, null, null, null, null, null, null);
+                null, null, null, null, null, null, null, null, null, null, null);
     }
 }

@@ -15,6 +15,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 from vectorizer.formats.spell import SpellFormat
+from vectorizer.postprocess.feat_chain import BackfillChmTocPath
 from vectorizer.postprocess.spell_chain import LinkMythicBaseSpells, SupplementSpellAliases
 from vectorizer.processors.base import Chunk, FileProcessor
 from vectorizer.processors import register
@@ -65,9 +66,10 @@ def _is_semantically_empty(val) -> bool:
 # spell_level 元数据清洗（2026-10-28 方案拍板）
 # ============================================================
 
-# R3 职业名归一表（CLASS_NAME_NORM）：仅含 2026-10-28 逐条获批的 20 组映射。
-# 巡林客/导师/红螳螂杀手/召唤施/快速医疗/法术 等"不动+登记"项不得入表
-# （拍板记录第 5 条红线）。归一只改 class 字符串，不动 level。
+# R3 职业名归一表（CLASS_NAME_NORM）：2026-10-28 获批 20 组 + KN243 获批 2 组。
+# KN243（2026-11-12）裁定：巡林客/导师/红螳螂杀手 是已确认合法职业，保持原值
+# 不入表；召唤施（「召唤师」源文截断）与 法术（`法术/术士` 的唯一形态，原意
+# 术士/法师）属解析垃圾/截断错字，逐条获批归一。归一只改 class 字符串，不动 level。
 # 召唤师（Unchained）形态归一保留 Unchained 语义（全角括号规范形）。
 _CLASS_NAME_NORM = {
     "炼金术士": "炼金术师", "练金术师": "炼金术师", "鍊金术师": "炼金术师",
@@ -91,6 +93,8 @@ _CLASS_NAME_NORM = {
     "巫师": "法师",
     # KN245 获批（2026-10-29 用户逐条批准，原文证据核实）：
     "魔战": "魔战士", "密学士": "秘学士", "奥能者": "奥能师",
+    # KN243 获批（2026-11-12）：截断错字 + 唯一形态语义可证
+    "召唤施": "召唤师", "法术": "法师",
 }
 
 # R2 头残片机械回填白名单（KN228 模式护栏）：标题行后第一行残片形态
@@ -778,6 +782,90 @@ def _normalize_class_name(cls: str) -> str:
     return _CLASS_NAME_NORM.get(cls, cls)
 
 
+# KN243：spell_level 字段值边界形态（按「职业 N」组判定，供 _bound_spell_level_raw）
+# 片段分隔只认 、,，;；——换行是源文折行（「术士/法师 \n1」= 同组），\s 已含换行。
+_LEVEL_VALUE_SEG_SPLIT_RE = re.compile(r"[^，,、；;]+")
+_LEVEL_VALUE_GROUP_RE = re.compile(
+    r"^\s*[^\d\s:：*][^:：\d*]{0,19}\s*\d{1,2}\s*(?:[（(][^）)]{0,30}[）)])?\s*$")
+_LEVEL_VALUE_BARE_NAME_RE = re.compile(r"^\s*[^\d\s:：*][^:：\d*]{0,19}\s*$")
+_LEVEL_VALUE_BARE_NUM_RE = re.compile(r"^\s*\d{1,2}\s*$")
+# 值尾紧贴字段标签（`萨满2施法时间…`）：与 _truncate_trailing_prose 同一截断口径
+_LEVEL_VALUE_GLUE_LABEL_RE = re.compile(
+    r"(?<=\d)(?:施法时间|施放时间|法术成分|成分|范围|目标|持续时间|豁免|法术抗力)")
+# 领域/子域续写（"审判者 2 领域 机运领域 2" / "战术子域 2"）：保留整段，
+# class 交由 parse_spell_level 取前缀、域信息由 _extract_domains_from_level 消费。
+_LEVEL_VALUE_DOMAIN_RE = re.compile(r"^\s*.*(?:领域|子域)\s*\d{1,2}\s*$", re.S)
+_LEVEL_VALUE_DOMAIN_TAIL_RE = re.compile(r"(?:领域|子域)\s*\d{1,2}")
+# 首组「职业 N」后直接黏散文（"术士/法师7这个法术如同…"）的前缀
+_LEVEL_VALUE_GROUP_PREFIX_RE = re.compile(r"^\s*[^\d\s:：*][^:：\d*]{0,19}\s*\d{1,2}")
+
+
+def _is_level_group(seg: str) -> bool:
+    """片段是否为「职业 N」组（含领域/子域续写）。"""
+    return bool(_LEVEL_VALUE_GROUP_RE.match(seg)
+                or _LEVEL_VALUE_DOMAIN_RE.match(seg))
+
+
+def _bound_spell_level_raw(value: str) -> str:
+    """KN243：收紧 spell_level 字段值边界（parse_fields 专用口径）。
+
+    两条「快速医疗」脏值的根因不在 `_infer_level`/`_truncate_trailing_prose`，
+    而在 parse_fields 的字段值边界过宽：`**等级：**` 之后没有其它字段标签时，
+    值会一路吞到文本末尾（`…快速医疗 \n5，恐惧灵光…`），随后被当成「职业 5」
+    解析。此处按「职业 N」组序列收边界：
+
+    - 片段以 、,，;； 分隔，换行只是源文折行（「术士/法师 \n1」按同组判定）；
+    - 合法片段 = 「职业 N」（可带括号后缀）/ 裸环级号 / 领域·子域续写；
+    - 组后紧跟正文的片段按既有口径取组前缀即止（`女巫 5\\n**该法术的功能如同…`、
+      `萨满2施法时间…`、`女巫 6 领域 解放领域 6 目标或区域…`）；
+    - 缺环数的裸职业残片（如「游侠」）跳过、不触发截断——既有解析结果不因
+      边界收紧而丢组；
+    - 其余片段视为正文起点，值截断到最后一个已确认组（含裸环级号）的末尾；
+    - 一个合法组都没有时：若首个片段是「职业 N」后直接黏散文且其后无环级数字
+      （`术士/法师7这个法术如同…`），取该前缀（魔法兽形态恢复路径），否则原值不变。
+
+    返回截断后的原值（无越界形态时逐字节返回原值，保证既有值零变化）。
+    """
+    if not value:
+        return value
+    # `**` 是长度保持替换：偏移量与原值一一对应，截断仍落在原字符串上
+    probe = re.sub(r"\*+", lambda m: " " * len(m.group()), value)
+    last_end = None
+    for m in _LEVEL_VALUE_SEG_SPLIT_RE.finditer(probe):
+        seg = m.group()
+        if not seg.strip():
+            continue
+        if _is_level_group(seg) or _LEVEL_VALUE_BARE_NUM_RE.match(seg):
+            last_end = m.end()
+            continue
+        # 组后紧跟正文：取组前缀即止（模型=该字段值在此结束）
+        glue = _LEVEL_VALUE_GLUE_LABEL_RE.search(seg)
+        if glue and _is_level_group(seg[:glue.start()]):
+            last_end = m.start() + len(seg[:glue.start()].rstrip())
+            break
+        domain = _LEVEL_VALUE_DOMAIN_TAIL_RE.search(seg)
+        if domain:
+            last_end = m.start() + domain.end()
+            break
+        pm = _LEVEL_VALUE_GROUP_PREFIX_RE.match(seg)
+        if pm and seg[pm.end():][:1].isspace():
+            last_end = m.start() + pm.end()
+            break
+        if _LEVEL_VALUE_BARE_NAME_RE.match(seg):
+            continue  # 缺环数的裸职业残片：跳过，继续找后续合法组
+        break
+    if last_end is None:
+        first = _LEVEL_VALUE_SEG_SPLIT_RE.search(probe)
+        if first is not None:
+            pm = _LEVEL_VALUE_GROUP_PREFIX_RE.match(first.group())
+            if pm and not re.search(r"\d", first.group()[pm.end():]):
+                return value[:first.start() + pm.end()].rstrip(" \t\n，,、；;*")
+        return value
+    if not value[last_end:].strip(" \t\n，,、；;*"):
+        return value
+    return value[:last_end].rstrip(" \t\n，,、；;*")
+
+
 def _truncate_trailing_prose(level_str: str) -> str:
     """环位取值预处理与尾部散文截断（两产出路径 _extract/rescue 共用）。
 
@@ -1031,7 +1119,19 @@ def parse_fields(text: str) -> dict:
         if m_lv:
             result["spell_level"] = m_lv.group(1).strip()
 
+    # KN243：spell_level 值边界收紧（放在 all 路径之后，守卫取值同样过此口径）。
+    # 只收「职业 N」合法片段，拦住吞进正文的整段（快速医疗 5 类脏值的直接根因）。
+    if "spell_level" in result:
+        result["spell_level"] = _bound_spell_level_raw(result["spell_level"])
+
     return result
+
+
+class SpellBackfillChmTocPath(BackfillChmTocPath):
+    """法术目录回填；全部注释均可解析且目录一致时允许文件级兜底。"""
+
+    DEFAULT_REPORT_DIR = Path("docs/法术")
+    ANNOTATION_FILE_FALLBACK = True
 
 
 class SpellProcessor(FileProcessor):
@@ -1043,7 +1143,7 @@ class SpellProcessor(FileProcessor):
     # 2026-09-21（KN233）：追加 SupplementSpellAliases——curated 中文别名补录
     # （社区通用译名，源 md 不改），置于 link 之后（link 只读 aliases 建索引，
     # 补充别名不影响 KN011 命中语义）。
-    POSTPROCESSORS = [LinkMythicBaseSpells, SupplementSpellAliases]
+    POSTPROCESSORS = [LinkMythicBaseSpells, SupplementSpellAliases, SpellBackfillChmTocPath]
     _legacy_id_map = None
 
     @property
@@ -1917,6 +2017,7 @@ class SpellProcessor(FileProcessor):
             book_name_cn="法术索引",
             book_name_en="Spell Index",
             source_confidence=100,
+            chm_toc_path=self.chm_toc_provider.lookup_toc_path("Spell index.md"),
             aliases=[],
             metadata={"entry_count": len(entries)},
         )

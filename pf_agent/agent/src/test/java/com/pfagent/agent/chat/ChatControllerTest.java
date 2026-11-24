@@ -1,5 +1,6 @@
 package com.pfagent.agent.chat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pfagent.agent.memory.AnonymousQuotaService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -90,6 +91,17 @@ class ChatControllerTest {
 
         assertThat(resp.gapReported()).isTrue();
         assertThat(resp.sources()).containsExactly(src);
+    }
+
+    /** 引用降级标记以固定 JSON 字段名序列化 */
+    @Test
+    void chatResponseSerializesCitationDegradedField() throws Exception {
+        ChatResponse resp = new ChatResponse("答", List.of(), false, "cid",
+                null, null, null, true);
+
+        String json = new ObjectMapper().writeValueAsString(resp);
+
+        assertThat(json).contains("\"citationDegraded\":true");
     }
 
     /** service 抛异常时异常上抛，由框架转 500（如 LLM 调用未注册工具） */

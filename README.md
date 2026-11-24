@@ -118,14 +118,12 @@ pf_agent/
 ### 准备数据（二选一）
 
 - **A. 下载预构建数据包（推荐，开箱即用）**：从本仓库 [Releases](https://github.com/ytche/pf-agent/releases)
-  下载最新的 `pf-agent-data-*.zip`，内含 8 个模块**预构建向量库**（`vector_store_*.json`，
-  已用 bge-m3 生成）与 `lists/` 下 6 份清单 JSON（装备/专长/种族/职业表/法术清单）。
-  解压后把 `vector_store_*.json` 放到本机向量库目录 `~/.pf_agent/`（Linux/macOS 为家目录下 `.pf_agent`；
-  文件与本仓库各 `*DataLoader` 的 `pf.stores.*-file-path` 默认值一致）。应用启动时检测到
-  向量库文件已存在即直接加载，**无需本地跑数据管线**。`lists/` 下清单按 `application.yml`
-  默认路径放到 `pf_data/phase1/vectorizer/output/<模块>/`：`equipment_lists.json`→装备、
-  `feat_lists.json`→专长、`race_lists.json`→种族、`class_tables.json`→职业、
-  `spell_lists.json` 与 `spell_lists_union.json`→法术（启用对应清单/直查工具）。
+  下载最新的 `pf-agent-data-*.zip`，共 23 个文件：8 个模块**预构建向量库**（`vector_store_*.json`，
+  已用 bge-m3 生成）、`output/<模块>/chunks.jsonl` 八份条目数据，以及同目录下 7 份清单 JSON。
+  本地运行时，把 `vector_store_*.json` 放到 `~/.pf_agent/`，并把 `output/` 内的全部模块目录复制到
+  仓库的 `pf_data/phase1/vectorizer/output/`。应用检测到向量库已存在即直接加载，
+  **无需本地跑数据管线或重新 embedding**。chunks 用于条目名解析与引用链，清单用于清单/表格直查，
+  两者都是运行时数据，不能只复制向量库。Docker Compose 的安装方式见下一节。
 - **B. 自建向量库（需要本地跑数据管线）**：`pf_data/` 内规则文本 Markdown 已随库发布，
   贡献者可运行各模块 vectorizer pipeline 重新生成 `chunks.jsonl`。之后首次启动应用时，
   `*DataLoader` 检测到向量库缺失会**自动从 chunks 导入构建**（数百 MB，耗时较长，仅首次）。
@@ -141,8 +139,9 @@ pf_agent/
 git clone https://github.com/ytche/pf-agent.git
 cd pf-agent
 
-# 1) 准备数据：下载预构建数据包 → 解压到 ./data/（compose 会挂载为 ~/.pf_agent）
-#    ./data/ 内应含 vector_store_*.json（与「准备数据 A」同构）
+# 1) 准备数据：下载预构建数据包，把整个 zip 解压到 ./data/
+#    解压后应含 8 个 vector_store_*.json，以及 output/<模块>/ 下 8 份 chunks 与 7 份清单
+#    Compose 会把 ./data 挂载为 ~/.pf_agent，并把 ./data/output 挂载为运行时数据目录
 
 # 2) 配置：复制 .env.example → .env，填入 DEEPSEEK_PF_API（DeepSeek Chat API key）
 cp .env.example .env
@@ -226,7 +225,7 @@ relaxed binding 覆盖，如 `pf.rate-limit.enabled` ↔ `PF_RATE_LIMIT_ENABLED`
 | `pf.quota.enabled` | `false` | 匿名会话轮次配额开关 |
 | `pf.embedding.primary` | `ollama` | 查询 embedding 通道：`ollama` / `cloud` |
 | `pf.embedding.fallback-enabled` | `false` | 主通道失败降级另一通道（`primary=cloud` 时建议 `true`） |
-| `pf.chunks.*-path` | `../../pf_data/…` | 各模块 chunks.jsonl 路径（首启建库用） |
+| `pf.chunks.*-path` | `../../pf_data/…` | 各模块 chunks.jsonl 路径（首启建库、条目名解析与引用链） |
 | `pf.stores.*-file-path` | `~/.pf_agent/…` | 各模块向量库持久化路径 |
 | `pf.search.*` | 见 yml | 检索参数：top-k / 阈值 / 重排加权 / 截断护栏等 |
 

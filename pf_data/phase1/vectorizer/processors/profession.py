@@ -1064,6 +1064,116 @@ def _is_valid_prestige_name(candidate: str) -> bool:
     )
 
 
+def _file_authority_names(
+    rel_path: Path,
+    md_mapping: Dict[str, Dict[str, Any]],
+    markers: Optional[List[SourceMarker]] = None,
+) -> Set[str]:
+    """KN224 D3：收集文件级的权威职业名候选（多层证据，不用 known_classes 唯一守卫）。
+
+    三层来源：
+      1. 当前文件名在 CHM TOC 映射中的末级（如 page_755 → 死斗战士）；
+      2. 同文件来源锚点 `source_page` 的 stem（如 密传骑士.md → 密传骑士）；
+      3. 进阶职业直挂文件名的 `_职业名` 后缀（如 格拉里昂的半身人_半身人投机客）。
+    `known_classes` 只是职业容器下的 58 个子目录名，覆盖不到直挂职业页，
+    因此这里以 TOC/锚点/文件名为权威证据。
+    """
+    names: Set[str] = set()
+    toc = _md_mapping_lookup(md_mapping, rel_path.name)
+    if toc:
+        last = toc.split(" → ")[-1].strip()
+        if last:
+            names.add(last)
+    for marker in markers or []:
+        page = getattr(marker, "source_page", None)
+        if page:
+            stem = Path(page).stem
+            if stem:
+                names.add(stem)
+    stem = rel_path.stem
+    if "_" in stem:
+        suffix = stem.rsplit("_", 1)[-1]
+        if _is_valid_prestige_name(suffix):
+            names.add(suffix)
+    return names
+
+
+# `表：X` 标题（KN222 找回的成长表块）
+_TABLE_TITLE_RE = re.compile(r"^表\s*[：:]\s*(.+)$")
+# 面包屑/表题中的职业名截断点（中文名（English）/【标记】/〔标记〕）
+_CLASS_NAME_SPLIT_RE = re.compile(r"[（(【\[〔]")
+# 无标题职业页首行的「中文（English）」标题（全/半角括号均容忍）
+_FIRST_LINE_CLASS_RE = re.compile(
+    r"^([\u4e00-\u9fff][^（(【\[]*?)\s*[（(]\s*([A-Za-z][^）)]*?)\s*[）)]"
+)
+
+
+def _class_name_from_special_title(
+    title: str,
+    breadcrumbs: List[str],
+    authority_classes: Set[str],
+    doc_id: str = "",
+) -> Optional[str]:
+    """KN224 D1/D2：从表格块标题取真实职业名，候选须通过权威校验。
+
+    D1：`表：X` 取 X，与同文件权威名称不一致时保持原值并报告；
+    D2：`每级技能点数…` 逆序扫描面包屑，取与权威名称一致的中文职业名。
+    """
+    norm = _normalize_heading_title(title or "")
+
+    m = _TABLE_TITLE_RE.match(norm)
+    if m:
+        candidate = _CLASS_NAME_SPLIT_RE.split(m.group(1))[0].strip()
+        if candidate in authority_classes and _is_valid_prestige_name(candidate):
+            return candidate
+        print(
+            f"WARN [{doc_id}] 表标题职业名 {candidate!r} 与权威锚点不一致，保持原值",
+            file=sys.stderr,
+        )
+        return None
+
+    if norm.startswith("每级技能点数"):
+        for part in reversed(breadcrumbs):
+            candidate = _CLASS_NAME_SPLIT_RE.split(part)[0].strip()
+            if candidate in authority_classes and _is_valid_prestige_name(candidate):
+                return candidate
+    return None
+
+
+def _infer_title_fallback(
+    blocks: List[Dict[str, Any]],
+    rel_path: Path,
+    md_mapping: Dict[str, Dict[str, Any]],
+    markers: List[SourceMarker],
+) -> Optional[str]:
+    """KN224 D4：无标题职业页的标题兜底。
+
+    条件：`进阶职业/` 下文件首块 title == 文件名 stem（文件无 `#` 标题），
+    且首行匹配「中文（English）」，中文经 D3 多层权威校验。
+    通过则返回「中文（English）」形式的标题。
+
+    page_678 的「进阶专长」不通过校验：其 CHM TOC 末级为
+    「专长、庇护主、法术、奇物」，与候选不一致，标题保持 page_678。
+    """
+    if "进阶职业" not in rel_path.parts or not blocks:
+        return None
+    first = blocks[0]
+    stem = rel_path.stem
+    if first.get("title") != stem:
+        return None
+    text = (first.get("text") or "").strip()
+    if not text:
+        return None
+    m = _FIRST_LINE_CLASS_RE.match(text.splitlines()[0].strip())
+    if not m:
+        return None
+    cn, en = m.group(1).strip(), m.group(2).strip()
+    authority = _file_authority_names(rel_path, md_mapping, markers)
+    if cn not in authority or not _is_valid_prestige_name(cn):
+        return None
+    return f"{cn}（{en}）"
+
+
 def _extract_prestige_class_name(title: str, rel_path: Path) -> Optional[str]:
     """从进阶职业直挂文件的标题或文件名中提取职业名；无法安全提取时返回 None。"""
     norm_title = _normalize_heading_title(title or "")
@@ -1109,12 +1219,17 @@ def infer_class_name(
     title: str,
     breadcrumbs: List[str],
     known_classes: Set[str],
+    authority_classes: Optional[Set[str]] = None,
 ) -> str:
     """从目录路径、变体标题中推断职业名称。
 
     目录路径（尤其是"职业/核心职业/<职业名>"这种规范结构）比标题里的
     "X变体"标记更稳定。优先按路径推断，避免标题中"圣武士变体"等旧译名
     把圣骑士路径下的变体错分到另一个职业名。
+
+    KN224：进阶职业直挂文件的表格块标题（`表：X` / `每级技能点数…`）先走
+    权威锚点通道（`authority_classes`，由 `_file_authority_names` 提供），
+    未通过校验时保持既有回退行为。
     """
     parts = rel_path.parts
 
@@ -1124,6 +1239,13 @@ def infer_class_name(
         # 第 3 层是目录 → 目录名即进阶职业名（如 进阶职业/CRB进阶职业/龙脉术士/...）
         if idx + 2 < len(parts) and not parts[idx + 2].endswith(".md"):
             return parts[idx + 2]
+        # 表格块标题前置通道（D1/D2）：候选须与权威名称一致
+        if authority_classes:
+            special = _class_name_from_special_title(
+                title, breadcrumbs, authority_classes, rel_path.as_posix()
+            )
+            if special:
+                return special
         # 直挂文件（含聚合文件）→ 安全解析标题/文件名，避免来源书前缀或子章节标题被当作职业名
         prestige_class = _extract_prestige_class_name(title, rel_path)
         if prestige_class:
@@ -2380,6 +2502,9 @@ class FileProcessor:
         self.doc_subtype_hint: Optional[str] = _doc_feature_subtype_hint(rel_path)
         self.raw_block_count = 0
         self.file_class_name: Optional[str] = None
+        # KN224：文件级权威职业名集合（CHM TOC 末级 / 来源锚点 stem / 文件名后缀）
+        self._authority_classes: Set[str] = set()
+        self._file_markers: List[SourceMarker] = []
         # 最近一次来源解析的最佳置信度（StandardChunk.source_confidence 数据源）
         self._last_source_confidence = 0
 
@@ -2583,7 +2708,13 @@ class FileProcessor:
         return len(parts) == 3 and parts[0] == "职业"
 
     def infer_class_name(self, title: str, breadcrumbs: List[str]) -> str:
-        class_name = infer_class_name(self.rel_path, title, breadcrumbs, self.ctx["known_classes"])
+        class_name = infer_class_name(
+            self.rel_path,
+            title,
+            breadcrumbs,
+            self.ctx["known_classes"],
+            authority_classes=self._authority_classes,
+        )
         # 单一进阶职业 page 文件（进阶职业/<来源书>/page_xxx.md）中，若 block 级推断
         # 未命中已知职业（如把具体能力名误作职业名），回退到文件级职业名。
         if self.file_class_name and class_name not in self.ctx["known_classes"]:
@@ -2784,6 +2915,11 @@ class FileProcessor:
             self.file_class_name = self._extract_file_prestige_class(cleaned)
         blocks = self.split(cleaned)
         self.raw_block_count = len(blocks)
+        # KN224 D3：文件级权威职业名（表格标题通道与标题兜底共用）
+        self._file_markers = [m for b in blocks for m in b.get("markers", [])]
+        self._authority_classes = _file_authority_names(
+            self.rel_path, self.ctx["md_mapping"], self._file_markers
+        )
         # 在 merge 之前缓存显式来源标记（来自 HTML 注释），
         # 因为 merge 可能合并 H2→H3 导致标记丢失。
         self._explicit_marker_cache: Dict[Tuple[str, ...], List[SourceMarker]] = {}
@@ -2794,6 +2930,10 @@ class FileProcessor:
                 self._explicit_marker_cache[bc] = markers
         blocks = self.expand(blocks)
         blocks = self.merge(blocks)
+        # KN224 D4：无标题职业页标题兜底（在分块完成后确定，避免影响合并决策）
+        fallback_title = _infer_title_fallback(
+            blocks, self.rel_path, self.ctx["md_mapping"], self._file_markers
+        )
 
         chunks: List[Chunk] = []
         for idx, block in enumerate(blocks):
@@ -2802,6 +2942,27 @@ class FileProcessor:
                 continue
             if self.keep(chunk):
                 chunks.append(chunk)
+        if fallback_title:
+            chunks = self._apply_file_title_fallback(chunks, fallback_title)
+        return chunks
+
+    def _apply_file_title_fallback(self, chunks: List[Chunk], new_title: str) -> List[Chunk]:
+        """KN224 D5：用兜底标题替换首块标题，并同步该文件所有块 breadcrumbs 中的
+        文件名 stem；chunk_id 含 title（D6），首块随标题变化重算。
+
+        只改 title/heading_breadcrumbs/chunk_id —— class_name、component_type
+        等字段仍按原文件名 stem 推断，保证归属 diff 只来自 D1/D2 的 4 个 chunk。
+        """
+        stem = self.rel_path.stem
+        for chunk in chunks:
+            renamed = chunk.title == stem
+            if any(b == stem for b in chunk.heading_breadcrumbs):
+                chunk.heading_breadcrumbs = [
+                    new_title if b == stem else b for b in chunk.heading_breadcrumbs
+                ]
+            if renamed:
+                chunk.title = new_title
+                chunk.chunk_id = self._make_chunk_id(chunk.title, chunk.text)
         return chunks
 
 

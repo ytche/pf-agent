@@ -83,7 +83,7 @@ class RetrievalToolsTest {
 
         assertThat(result).contains("火球术", "咒法系", "CRB", "女巫1环", "德鲁伊1环");
         assertThat(result).contains(" [#1]");    // SP4 D2：紧凑行行尾带来源编号
-        verify(collector).add(any());
+        verify(collector).addWithLimit(any());
     }
 
     /** 未知字段返回可用字段清单、不查询 */
@@ -134,7 +134,7 @@ class RetrievalToolsTest {
         assertThat(result).contains("[#1]");              // 展示条目标注编号
         assertThat(result).doesNotContain("[#200]");      // SP4 D2：被截断条目不标注 → 编号不越界
         ArgumentCaptor<List<Document>> captor = ArgumentCaptor.forClass(List.class);
-        verify(collector).add(captor.capture());
+        verify(collector).addWithLimit(captor.capture());
         assertThat(captor.getValue()).hasSize(200);        // 溯源仍收集完整 200 条
     }
 
@@ -159,7 +159,7 @@ class RetrievalToolsTest {
         assertThat(result).contains("[#2] --- 片段 2");         // SP4 D2：片段头前缀编号
         assertThat(result).contains("…");                       // 超长正文已截断
         assertThat(result).doesNotContain("a".repeat(200));     // 100 字符限制生效
-        verify(collector).add(any());
+        verify(collector).addWithLimit(any());
     }
 
     /** KN207：正文含仓库内部整理路径行时，片段内容剥离该行后再截断展示 */
@@ -178,7 +178,7 @@ class RetrievalToolsTest {
         assertThat(result).contains("生效条件正文");   // 上下文保留
         assertThat(result).contains("来源: 亡灵杀手手册 (USH)");
         assertThat(result).contains("[#1]");           // SP4 D2：片段头编号
-        verify(collector).add(any());
+        verify(collector).addWithLimit(any());
     }
 
     /** 非法模块返回错误提示 */
@@ -204,7 +204,7 @@ class RetrievalToolsTest {
 
         assertThat(result).contains("猛力攻击", "CRB");
         verify(searchService).search(eq("猛力攻击先决条件"), eq("feat"));
-        verify(collector).add(any());
+        verify(collector).addWithLimit(any());
     }
 
     /** feat 模块过滤检索并收集来源 */
@@ -221,7 +221,7 @@ class RetrievalToolsTest {
 
         assertThat(result).contains("猛力攻击", "CRB");
         assertThat(result).contains(" [#1]");
-        verify(collector).add(any());
+        verify(collector).addWithLimit(any());
     }
 
     /** P0-B2：feat 的 title 过滤不再返回「未知过滤字段」，正常路由查询（LLM 已知道确切条目名） */
@@ -239,7 +239,7 @@ class RetrievalToolsTest {
         assertThat(result).doesNotContain("未知过滤字段");
         assertThat(result).contains("精通擒抱", "CRB");
         verify(searchService).searchByMetadata(eq("feat"), eq(Map.of("title", "精通擒抱")));
-        verify(collector).add(any());
+        verify(collector).addWithLimit(any());
     }
 
     // ---------- reportDataGap ----------
@@ -289,7 +289,7 @@ class RetrievalToolsTest {
         // 别名归一后按规范名查询，而非原输入
         verify(spellListService).formatLevel("吟游诗人", 2, 100000, null, null);
         ArgumentCaptor<List<Document>> captor = ArgumentCaptor.forClass(List.class);
-        verify(collector).add(captor.capture());
+        verify(collector).addWithLimit(captor.capture());
         assertThat(captor.getValue()).containsExactly(listPage);
     }
 
@@ -311,7 +311,7 @@ class RetrievalToolsTest {
 
         assertThat(result).contains("[PSP/COMP]", "[APG/UM]〔派生〕", "本清单来源 [#1]");
         ArgumentCaptor<List<Document>> captor = ArgumentCaptor.forClass(List.class);
-        verify(collector).add(captor.capture());
+        verify(collector).addWithLimit(captor.capture());
         assertThat(captor.getValue()).containsExactly(listPage);
     }
 
@@ -345,7 +345,7 @@ class RetrievalToolsTest {
         assertThat(result).contains("本清单来源 [#1]");   // 概览也挂来源编号
         verify(spellListService).levelOverview("法师");
         verify(spellListService, never()).formatLevel(anyString(), anyInt(), anyInt());
-        verify(collector).add(any());
+        verify(collector).addWithLimit(any());
     }
 
     /** level 越界：提示合法范围 + 概览，不抛异常 */
@@ -397,7 +397,7 @@ class RetrievalToolsTest {
 
         assertThat(result).contains("「法师」等级 5", "BAB +2", "意志 +4", "每日法术：0环4、1环3");
         assertThat(result).contains("来源编号 [#1]");
-        verify(collector).add(any());
+        verify(collector).addWithLimit(any());
     }
 
     /** level 省略：返回全表并挂溯源 */
@@ -507,11 +507,32 @@ class RetrievalToolsTest {
         String result = tools(1500).searchByMetadata("feat", query);
 
         assertThat(result).contains("猛力攻击", "chunk_id:feat-1", " [#1]");
-        verify(collector).add(any());
+        verify(collector).addWithLimit(any());
         ArgumentCaptor<MetadataSearchQuery> captor = ArgumentCaptor.forClass(MetadataSearchQuery.class);
         verify(searchService).searchByMetadataPaged(eq("feat"), captor.capture());
         assertThat(captor.getValue().getLimit()).isEqualTo(50);   // 默认 limit 已注入
         assertThat(captor.getValue().getOffset()).isZero();
+    }
+
+    @Test
+    void searchByMetadataRaceNameAndTraitTypeReturnsIndependentTraits() {
+        Document trait = spellDoc("属性调整", Map.of(
+                "title", "属性调整", "book_abbreviation", "?", "chunk_id", "race_page_812_0002",
+                "component_type", "race_trait", "race_name", "阿斯托莫伊人"));
+        when(searchService.searchByMetadataPaged(eq("race"), any(MetadataSearchQuery.class)))
+                .thenReturn(new SearchService.PagedResult(List.of(trait), 1, 0, 50));
+        stubAddSequential();
+        MetadataSearchQuery query = new MetadataSearchQuery();
+        query.setFilters(Map.of("raceName", "阿斯托莫伊人", "componentType", "race_trait"));
+
+        String result = tools(1500).searchByMetadata("race", query);
+
+        assertThat(result).contains("属性调整", "race_page_812_0002");
+        ArgumentCaptor<MetadataSearchQuery> captor = ArgumentCaptor.forClass(MetadataSearchQuery.class);
+        verify(searchService).searchByMetadataPaged(eq("race"), captor.capture());
+        assertThat(captor.getValue().getFilters())
+                .containsEntry("raceName", "阿斯托莫伊人")
+                .containsEntry("componentType", "race_trait");
     }
 
     /** 显式 limit/offset 透传不被默认值覆盖（翻页参数原样到达 SearchService） */
@@ -1088,7 +1109,7 @@ class RetrievalToolsTest {
         String result = tools(1500).searchByMetadata("all", query);
 
         assertThat(result).contains("[模块:feat]", "猛力攻击");
-        verify(collector).add(any());
+        verify(collector).addWithLimit(any());
     }
 
     /** vectorSearch 片段头补充 chunk_id 字段（J1 点查入参来源） */
@@ -1120,7 +1141,7 @@ class RetrievalToolsTest {
 
         assertThat(result).contains("标题: 火球术", "来源: 核心规则书 (CRB)",
                 "模块: spell", "chunk_id: spell-1", "火球术完整规则原文", "[#1]");
-        verify(collector).add(any());
+        verify(collector).addWithLimit(any());
     }
 
     /** 未命中：返回可读提示，不收集来源 */
@@ -1157,6 +1178,400 @@ class RetrievalToolsTest {
 
         assertThat(result).contains("已截断", "100 字符", "vectorSearch");
         assertThat(result).doesNotContain("a".repeat(200));
+    }
+
+    private Document sectionChunk(String id, String title, String text) {
+        return Document.builder().text(text)
+                .metadata(Map.of("chunk_id", id, "doc_id", "page-53", "title", title,
+                        "tocPath", "职业 → 核心职业 → 武僧 → 武僧清规",
+                        "book_name_cn", "核心规则书", "book_abbreviation", "CRB")).build();
+    }
+
+    private SearchService.DocumentSection section(Document... docs) {
+        return new SearchService.DocumentSection(List.of(docs), false);
+    }
+
+    @Test
+    void getEntryByIdHeadingExpandsSameDocumentWithoutReloadingChildren() {
+        Document heading = sectionChunk("c1", "武僧清规", "武僧　清规");
+        Document first = sectionChunk("c2", "不邪淫戒", "不邪淫戒\n戒绝淫事");
+        Document second = sectionChunk("c3", "囚执戒", "囚执戒\n穿戴枷锁");
+        when(searchService.getByChunkId("class", "c1")).thenReturn(heading);
+        when(searchService.getByDocId("class", "page-53", "职业 → 核心职业 → 武僧 → 武僧清规"))
+                .thenReturn(section(heading, first, second));
+        stubAddSequential();
+
+        String result = tools(1500).getEntryById("class", "c1");
+
+        assertThat(result).contains("武僧清规", "不邪淫戒", "戒绝淫事", "囚执戒", "穿戴枷锁");
+        verify(searchService).getByDocId("class", "page-53", "职业 → 核心职业 → 武僧 → 武僧清规");
+        verify(searchService, never()).getByChunkId("class", "c2");
+        verify(searchService, never()).getByChunkId("class", "c3");
+    }
+
+    @Test
+    void getEntryByIdNormalTextDoesNotExpandDocument() {
+        Document doc = sectionChunk("c2", "不邪淫戒", "不邪淫戒\n戒绝淫事");
+        when(searchService.getByChunkId("class", "c2")).thenReturn(doc);
+        stubAddSequential();
+
+        String result = tools(1500).getEntryById("class", "c2");
+
+        assertThat(result).contains("戒绝淫事");
+        verify(searchService, never()).getByDocId(anyString(), anyString(), anyString());
+    }
+
+    @Test
+    void getEntryByIdHeadingWithoutSiblingsFallsBackToSingleEntry() {
+        Document heading = sectionChunk("c1", "武僧清规", "武僧清规");
+        when(searchService.getByChunkId("class", "c1")).thenReturn(heading);
+        when(searchService.getByDocId("class", "page-53", "职业 → 核心职业 → 武僧 → 武僧清规"))
+                .thenReturn(section(heading));
+        stubAddSequential();
+
+        String result = tools(1500).getEntryById("class", "c1");
+
+        assertThat(result).contains("标题: 武僧清规", "正文:\n武僧清规");
+    }
+
+    @Test
+    void getEntryByIdHeadingOverTenFallsBackWithGuidanceInsteadOfArbitraryTruncation() {
+        List<Document> section = new ArrayList<>();
+        for (int i = 1; i <= 12; i++) {
+            section.add(sectionChunk("c" + i, i == 1 ? "父标题" : "条目" + i,
+                    i == 1 ? "父标题" : "条目" + i + "\n正文" + i));
+        }
+        when(searchService.getByChunkId("class", "c1")).thenReturn(section.get(0));
+        when(searchService.getByDocId("class", "page-53", "职业 → 核心职业 → 武僧 → 武僧清规"))
+                .thenReturn(new SearchService.DocumentSection(section, false));
+        stubAddSequential();
+
+        String result = tools(1500).getEntryById("class", "c1");
+
+        assertThat(result).contains("同页 12 条", "超过 10 条", "未自动展开", "chunkIds", "vectorSearch");
+        assertThat(result).doesNotContain("正文10", "本次未返回");
+    }
+
+    @Test
+    void getEntryByIdHeadingExpansionDoesNotMixDuplicateChunkIds() {
+        Document heading = sectionChunk("dup", "父标题", "父标题");
+        Document first = sectionChunk("dup", "条目一", "条目一\n正文一");
+        Document second = sectionChunk("dup", "条目二", "条目二\n正文二");
+        when(searchService.getByChunkId("class", "dup")).thenReturn(heading);
+        when(searchService.getByDocId("class", "page-53", "职业 → 核心职业 → 武僧 → 武僧清规"))
+                .thenReturn(section(heading, first, second));
+        stubAddSequential();
+
+        String result = tools(1500).getEntryById("class", "dup");
+
+        assertThat(result).contains("标题: 父标题", "标题: 条目一", "正文一", "标题: 条目二", "正文二");
+    }
+
+    @Test
+    void getEntryByIdHeadingExpansionReportsRetrievalCap() {
+        Document heading = sectionChunk("c1", "父标题", "父标题");
+        List<Document> docs = new ArrayList<>();
+        docs.add(heading);
+        for (int i = 2; i <= 501; i++) {
+            docs.add(sectionChunk("c" + i, "条目" + i, "条目" + i + "\n正文" + i));
+        }
+        when(searchService.getByChunkId("class", "c1")).thenReturn(heading);
+        when(searchService.getByDocId("class", "page-53", "职业 → 核心职业 → 武僧 → 武僧清规"))
+                .thenReturn(new SearchService.DocumentSection(docs, true));
+        stubAddSequential();
+
+        String result = tools(1500).getEntryById("class", "c1");
+
+        assertThat(result).contains("检索上限", "未自动展开", "vectorSearch");
+        assertThat(result).doesNotContain("正文2");
+    }
+
+    @Test
+    void getEntryByIdHeadingExpansionHonorsCharacterBudget() {
+        Document heading = sectionChunk("c1", "父标题", "父标题");
+        Document first = sectionChunk("c2", "条目一", "正".repeat(8000));
+        Document second = sectionChunk("c3", "条目二", "文".repeat(8000));
+        Document third = sectionChunk("c4", "条目三", "字".repeat(8000));
+        Document fourth = sectionChunk("c5", "条目四", "段".repeat(8000));
+        when(searchService.getByChunkId("class", "c1")).thenReturn(heading);
+        when(searchService.getByDocId("class", "page-53", "职业 → 核心职业 → 武僧 → 武僧清规"))
+                .thenReturn(section(heading, first, second, third, fourth));
+        RetrievalTools t = tools(1500);
+        SourceCollector realCollector = new SourceCollector();
+        realCollector.begin();
+        ReflectionTestUtils.setField(t, "collector", realCollector);
+        ReflectionTestUtils.setField(t, "entryResultChars", 7000);
+
+        String result = t.getEntryById("class", "c1");
+
+        assertThat(result).contains("本次未返回", "c5");
+        assertThat(result.length()).isLessThanOrEqualTo(24000);
+        assertThat(realCollector.drain()).hasSize(4);
+    }
+
+    @Test
+    void getEntryByIdHeadingExpansionHonorsSourceGuard() {
+        Document heading = sectionChunk("c1", "父标题", "父标题");
+        Document first = sectionChunk("c2", "条目一", "正文一");
+        Document second = sectionChunk("c3", "条目二", "正文二");
+        when(searchService.getByChunkId("class", "c1")).thenReturn(heading);
+        when(searchService.getByDocId("class", "page-53", "职业 → 核心职业 → 武僧 → 武僧清规"))
+                .thenReturn(section(heading, first, second));
+        RetrievalTools t = tools(1500);
+        SourceCollector realCollector = new SourceCollector(2, 1000000);
+        realCollector.begin();
+        ReflectionTestUtils.setField(t, "collector", realCollector);
+
+        String result = t.getEntryById("class", "c1");
+
+        assertThat(result).contains("来源体积上限", "chunk_id=c3");
+        assertThat(realCollector.drain()).hasSize(2);
+    }
+
+    @Test
+    void getEntryByIdBatchExpandsSmallHeadingSectionAndDeduplicates() {
+        Document heading = sectionChunk("c1", "武僧清规", "武僧清规");
+        Document intro = sectionChunk("c2", "（极限法术，UM）", "（极限法术，UM）\n总述");
+        Document first = sectionChunk("c3", "不邪淫戒", "不邪淫戒\n戒绝淫事");
+        Document second = sectionChunk("c4", "囚执戒", "囚执戒\n穿戴枷锁");
+        when(searchService.getByChunkId("class", "c1")).thenReturn(heading);
+        when(searchService.getByChunkId("class", "c2")).thenReturn(intro);
+        when(searchService.getByDocId("class", "page-53", "职业 → 核心职业 → 武僧 → 武僧清规"))
+                .thenReturn(section(heading, intro, first, second));
+        stubAddSequential();
+
+        String result = tools(1500).getEntryById("class", null, List.of("c1", "c2"));
+
+        assertThat(result).contains("武僧清规", "总述", "戒绝淫事", "穿戴枷锁");
+        assertThat(occurrences(result, "chunk_id: c1")).isEqualTo(1);
+        assertThat(occurrences(result, "chunk_id: c2")).isEqualTo(1);
+        verify(searchService).getByDocId("class", "page-53", "职业 → 核心职业 → 武僧 → 武僧清规");
+        verify(searchService, never()).getByChunkId("class", "c3");
+        verify(searchService, never()).getByChunkId("class", "c4");
+    }
+
+    @Test
+    void getEntryByIdBatchDoesNotQuerySectionForOrdinaryEntries() {
+        Document first = sectionChunk("c1", "条目一", "条目一\n正文一");
+        Document second = sectionChunk("c2", "条目二", "条目二\n正文二");
+        when(searchService.getByChunkId("class", "c1")).thenReturn(first);
+        when(searchService.getByChunkId("class", "c2")).thenReturn(second);
+        stubAddSequential();
+
+        String result = tools(1500).getEntryById("class", null, List.of("c1", "c2"));
+
+        assertThat(result.indexOf("正文一")).isLessThan(result.indexOf("正文二"));
+        verify(searchService, never()).getByDocId(anyString(), anyString(), anyString());
+    }
+
+    @Test
+    void getEntryByIdBatchExpandedOverTenReturnsHonestGuidance() {
+        List<Document> section = new ArrayList<>();
+        for (int i = 1; i <= 10; i++) {
+            section.add(sectionChunk("c" + i, i == 1 ? "父标题" : "条目" + i,
+                    i == 1 ? "父标题" : "条目" + i + "\n正文" + i));
+        }
+        Document extra = Document.builder().text("额外正文")
+                .metadata(Map.of("chunk_id", "c11", "title", "额外条目",
+                        "book_name_cn", "核心规则书", "book_abbreviation", "CRB")).build();
+        when(searchService.getByChunkId("class", "c1")).thenReturn(section.get(0));
+        when(searchService.getByChunkId("class", "c11")).thenReturn(extra);
+        when(searchService.getByDocId("class", "page-53", "职业 → 核心职业 → 武僧 → 武僧清规"))
+                .thenReturn(section(section.toArray(Document[]::new)));
+        stubAddSequential();
+
+        String result = tools(1500).getEntryById("class", null, List.of("c1", "c11"));
+
+        assertThat(result).contains("展开后", "超过 10 条", "缩小");
+        verifyNoInteractions(collector);
+    }
+
+    @Test
+    void getEntryByIdBatchHeadingHonorsCharacterBudget() {
+        Document heading = sectionChunk("c1", "父标题", "父标题");
+        Document first = sectionChunk("c2", "条目一", "正".repeat(8000));
+        Document second = sectionChunk("c3", "条目二", "文".repeat(8000));
+        Document third = sectionChunk("c4", "条目三", "字".repeat(8000));
+        Document fourth = sectionChunk("c5", "条目四", "段".repeat(8000));
+        when(searchService.getByChunkId("class", "c1")).thenReturn(heading);
+        when(searchService.getByDocId("class", "page-53", "职业 → 核心职业 → 武僧 → 武僧清规"))
+                .thenReturn(section(heading, first, second, third, fourth));
+        RetrievalTools t = tools(1500);
+        SourceCollector realCollector = new SourceCollector();
+        realCollector.begin();
+        ReflectionTestUtils.setField(t, "collector", realCollector);
+        ReflectionTestUtils.setField(t, "entryResultChars", 7000);
+
+        String result = t.getEntryById("class", null, List.of("c1"));
+
+        assertThat(result).contains("本次未返回", "c5");
+        assertThat(result.length()).isLessThanOrEqualTo(24000);
+        assertThat(realCollector.drain()).hasSize(4);
+    }
+
+    @Test
+    void getEntryByIdBatchHeadingHonorsSourceGuard() {
+        Document heading = sectionChunk("c1", "父标题", "父标题");
+        Document first = sectionChunk("c2", "条目一", "正文一");
+        Document second = sectionChunk("c3", "条目二", "正文二");
+        when(searchService.getByChunkId("class", "c1")).thenReturn(heading);
+        when(searchService.getByDocId("class", "page-53", "职业 → 核心职业 → 武僧 → 武僧清规"))
+                .thenReturn(section(heading, first, second));
+        RetrievalTools t = tools(1500);
+        SourceCollector realCollector = new SourceCollector(2, 1000000);
+        realCollector.begin();
+        ReflectionTestUtils.setField(t, "collector", realCollector);
+
+        String result = t.getEntryById("class", null, List.of("c1"));
+
+        assertThat(result).contains("来源体积上限", "chunk_id=c3");
+        assertThat(realCollector.drain()).hasSize(2);
+    }
+
+    // ---------- getEntryById 批量取文（AKN-023） ----------
+
+    /** 批量按输入顺序取文，先按输入序去重；重复 ID 只查询一次、只输出一次 */
+    @Test
+    void getEntryByIdBatchPreservesOrderAndDeduplicates() {
+        Document c1 = Document.builder().text("C1正文")
+                .metadata(Map.of("chunk_id", "c1", "title", "条目一",
+                        "book_name_cn", "核心规则书", "book_abbreviation", "CRB")).build();
+        Document c2 = Document.builder().text("C2正文")
+                .metadata(Map.of("chunk_id", "c2", "title", "条目二",
+                        "book_name_cn", "核心规则书", "book_abbreviation", "CRB")).build();
+        when(searchService.getByChunkId("class", "c1")).thenReturn(c1);
+        when(searchService.getByChunkId("class", "c2")).thenReturn(c2);
+        stubAddSequential();
+
+        String result = tools(1500).getEntryById("class", null, List.of("c2", "c1", "c2"));
+
+        assertThat(result.indexOf("chunk_id: c2")).isLessThan(result.indexOf("chunk_id: c1"));
+        assertThat(occurrences(result, "chunk_id: c2")).isEqualTo(1);
+        verify(searchService, times(1)).getByChunkId("class", "c2");
+        verify(searchService, times(1)).getByChunkId("class", "c1");
+    }
+
+    /** 参数歧义与非法值：两参同时传、空列表、空白 ID、超 10 条唯一 ID 均直接报错且不查询 */
+    @Test
+    void getEntryByIdBatchRejectsAmbiguousOrInvalidArguments() {
+        RetrievalTools t = tools(1500);
+
+        assertThat(t.getEntryById("class", "c1", List.of("c2"))).contains("只能");
+        assertThat(t.getEntryById("class", null, List.of())).contains("至少");
+        assertThat(t.getEntryById("class", null, List.of("c1", "  "))).contains("空白");
+        List<String> eleven = java.util.stream.IntStream.rangeClosed(1, 11)
+                .mapToObj(i -> "c" + i).toList();
+        assertThat(t.getEntryById("class", null, eleven)).contains("最多 10");
+
+        verifyNoInteractions(searchService);
+        verifyNoInteractions(collector);
+    }
+
+    /** 单条未命中只影响该条分段，其余条目照常返回正文 */
+    @Test
+    void getEntryByIdBatchReportsMissWithoutDroppingOtherEntries() {
+        Document ok = Document.builder().text("OK正文")
+                .metadata(Map.of("chunk_id", "ok", "title", "有效条目",
+                        "book_name_cn", "核心规则书", "book_abbreviation", "CRB")).build();
+        when(searchService.getByChunkId("class", "missing")).thenReturn(null);
+        when(searchService.getByChunkId("class", "ok")).thenReturn(ok);
+        stubAddSequential();
+
+        String result = tools(1500).getEntryById("class", null, List.of("missing", "ok"));
+
+        assertThat(result).contains("无匹配条目", "OK正文");
+        verify(collector, times(1)).addWithLimit(any());
+    }
+
+    /** 批量超出总字符预算：列出所有未返回 ID、不静默丢弃，且未返回条目不写入 SourceCollector */
+    @Test
+    void getEntryByIdBatchOverflowListsUnreturnedIdsWithoutCollectingThem() {
+        String body = "正".repeat(8000);
+        for (String id : List.of("c1", "c2", "c3", "c4")) {
+            // 预算不足时 break 发生在后续条目加载前，末尾 stub 可能未被使用
+            org.mockito.Mockito.lenient().when(searchService.getByChunkId("class", id))
+                    .thenReturn(Document.builder().text(body)
+                            .metadata(Map.of("chunk_id", id, "title", "条目" + id,
+                            "book_name_cn", "核心规则书", "book_abbreviation", "CRB")).build());
+        }
+        SourceCollector realCollector = new SourceCollector();
+        realCollector.begin();
+        RetrievalTools t = tools(1500);
+        ReflectionTestUtils.setField(t, "collector", realCollector);
+
+        String result = t.getEntryById("class", null, List.of("c1", "c2", "c3", "c4"));
+
+        assertThat(result).contains("本次未返回", "c4");
+        assertThat(result.length()).isLessThanOrEqualTo(24000);
+        assertThat(realCollector.drain())
+                .extracting(doc -> doc.getMetadata().get("chunk_id"))
+                .doesNotContain("c4");
+    }
+
+    /**
+     * 回归：批量在“大条目 + 短 ID 未命中 + 后续条目”组合下，break 时追加的
+     * separator + overflowHint 也必须落在 24000 内。遍历少量 padding 覆盖旧实现
+     * 因未为 suffix 预留空间而超出上限的边界。
+     */
+    @Test
+    void getEntryByIdBatchOverflowReservesSpaceForSeparatorAndHint() {
+        RetrievalTools t = tools(1500);
+        ReflectionTestUtils.setField(t, "entryResultChars", 30000);
+        stubAddSequential();
+        org.mockito.Mockito.lenient().when(searchService.getByChunkId("class", "m")).thenReturn(null);
+        org.mockito.Mockito.lenient().when(searchService.getByChunkId("class", "z")).thenReturn(
+                Document.builder().text("z正文")
+                        .metadata(Map.of("chunk_id", "z", "title", "条目z",
+                                "book_name_cn", "核心规则书", "book_abbreviation", "CRB")).build());
+        boolean hitOverflow = false;
+        for (int pad = 23750; pad <= 23900; pad++) {
+            when(searchService.getByChunkId("class", "big")).thenReturn(
+                    Document.builder().text("正".repeat(pad))
+                            .metadata(Map.of("chunk_id", "big", "title", "大条目",
+                                    "book_name_cn", "核心规则书", "book_abbreviation", "CRB")).build());
+
+            String result = t.getEntryById("class", null, List.of("big", "m", "z"));
+
+            if (!result.contains("本次未返回")) {
+                continue;
+            }
+            hitOverflow = true;
+            assertThat(result.length())
+                    .as("pad=%d 时含未返回提示的输出不得超过 24000", pad)
+                    .isLessThanOrEqualTo(24000);
+            assertThat(result).contains("z");
+        }
+        assertThat(hitOverflow).as("padding 扫描应至少命中一次批量超预算分支").isTrue();
+    }
+
+    /**
+     * 回归：批量预算应知道某条 doc 是否会被来源护栏拒绝——被拒条目按护栏提示
+     * （约 150 字）估算，而不是按完整正文估算，否则会提前 break 并跳过该条的护栏提示。
+     * maxDocs=3 + 4 条 8000 字条目：前三条正常收录，第 4 条应返回护栏提示且不进 sources。
+     */
+    @Test
+    void getEntryByIdBatchUsesSourceGuardRejectionForBudget() {
+        SourceCollector guarded = new SourceCollector(3, 2097152);
+        guarded.begin();
+        String body = "正".repeat(8000);
+        for (String id : List.of("c1", "c2", "c3", "c4")) {
+            when(searchService.getByChunkId("class", id)).thenReturn(
+                    Document.builder().text(body)
+                            .metadata(Map.of("chunk_id", id, "title", "条目" + id,
+                                    "book_name_cn", "核心规则书", "book_abbreviation", "CRB")).build());
+        }
+        RetrievalTools t = tools(1500);
+        ReflectionTestUtils.setField(t, "collector", guarded);
+        ReflectionTestUtils.setField(t, "entryResultChars", 7000);
+
+        String result = t.getEntryById("class", null, List.of("c1", "c2", "c3", "c4"));
+
+        assertThat(result).contains("请求来源体积上限", "chunk_id=c4");
+        assertThat(result).doesNotContain("本次未返回");
+        assertThat(result.length()).isLessThanOrEqualTo(24000);
+        assertThat(guarded.drain())
+                .extracting(doc -> doc.getMetadata().get("chunk_id"))
+                .containsExactly("c1", "c2", "c3");
     }
 
     // ---------- listDataGaps（SP8a J3） ----------
@@ -1280,6 +1695,16 @@ class RetrievalToolsTest {
         return list;
     }
 
+    private int occurrences(String text, String token) {
+        int count = 0;
+        int index = 0;
+        while ((index = text.indexOf(token, index)) >= 0) {
+            count++;
+            index += token.length();
+        }
+        return count;
+    }
+
     private int numberedLines(String text) {
         Matcher m = NUMBERED_LINE.matcher(text);
         int count = 0;
@@ -1312,14 +1737,7 @@ class RetrievalToolsTest {
      * 编号分配——formatCompact/formatFragments 消费该返回值做 [#N] 注入（SP4 D2）。
      */
     private void stubAddSequential() {
-        when(collector.add(any())).thenAnswer(inv -> {
-            List<Document> docs = inv.getArgument(0);
-            List<Integer> sequential = new ArrayList<>(docs.size());
-            for (int n = 1; n <= docs.size(); n++) {
-                sequential.add(n);
-            }
-            return sequential;
-        });
+        CollectorStubs.stubAcceptAll(collector);
     }
 
     private RetrievalTools tools(int vectorResultChars) {
@@ -1338,6 +1756,8 @@ class RetrievalToolsTest {
         RetrievalTools t = new RetrievalTools();
         ReflectionTestUtils.setField(t, "searchService", searchService);
         ReflectionTestUtils.setField(t, "collector", collector);
+        // 批量预算会预判来源护栏；mock collector 默认 lenient 视为可收下（真实护栏场景用真实实例）
+        org.mockito.Mockito.lenient().when(collector.canRetain(any())).thenReturn(true);
         ReflectionTestUtils.setField(t, "recorder", recorder);
         ReflectionTestUtils.setField(t, "filterTranslator", new FilterTranslator());
         ReflectionTestUtils.setField(t, "spellListService", spellListService);

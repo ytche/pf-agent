@@ -1,8 +1,9 @@
 """test_spell_level_cleaning.py — spell_level 元数据清洗单测（2026-10-28 方案）
 
 覆盖：
-  - R3 归一表：20 组获批映射逐一断言 + level 不动 + 幂等
-  - R3 不动项：巡林客/导师/红螳螂杀手/召唤施/快速医疗/法术 保持原样
+  - R3 归一表：22 组获批映射（20 + KN243 两组）逐一断言 + level 不动 + 幂等
+  - R3 不动项：巡林客/导师/红螳螂杀手/快速医疗 保持原样
+  - KN243：parse_fields spell_level 字段边界收紧（垃圾值根因）
   - R3 复合拆条：术士法师 → 术士 + 法师（两条，level 复制）
   - R2 头残片白名单：清单内回填 (class, level)、清单外结构性跳过
   - R4：class=None（裸环级）保持原样
@@ -38,14 +39,16 @@ _APPROVED = {
     "慛眠师": "催眠师",
     "巫师": "法师",
     "魔战": "魔战士", "密学士": "秘学士", "奥能者": "奥能师",
+    # KN243 获批（2026-11-12）：召唤施=召唤师源文截断；法术/术士 唯一形态原意术士/法师
+    "召唤施": "召唤师", "法术": "法师",
 }
 
-_UNTOUCHED = ["巡林客", "导师", "红螳螂杀手", "召唤施", "快速医疗", "法术"]
+_UNTOUCHED = ["巡林客", "导师", "红螳螂杀手", "快速医疗"]
 
 
 class TestClassNameNorm:
     def test_mapping_matches_approved_table(self):
-        """常量与拍板审批表逐条一致（20 组，多对一展开后键集合相等）"""
+        """常量与拍板审批表逐条一致（20 组 + KN243 两组，多对一展开后键集合相等）"""
         assert _CLASS_NAME_NORM == _APPROVED
 
     def test_no_untouched_names_in_mapping(self):
@@ -420,3 +423,87 @@ class TestRescueAnchorGuard:
                 "_pre_unify_text": pre}
         r = SpellProcessor._rescue_inline_level(item, _mk_chunk())
         assert r == [{"class": "牧师", "level": 1}]
+
+
+# ============================================================
+# KN243 获批映射与 parse_fields 字段边界收紧（2026-11-12）
+# ============================================================
+
+from vectorizer.processors.spell import _bound_spell_level_raw
+
+
+class TestKn243ApprovedMappings:
+    """获批 2 组：召唤施→召唤师（源文截断）、法术→法师（法术/术士 唯一形态）"""
+
+    @pytest.mark.parametrize("dirty,clean", [("召唤施", "召唤师"), ("法术", "法师")])
+    def test_mapping_in_norm(self, dirty, clean):
+        from vectorizer.processors.spell import _normalize_class_name
+        assert _normalize_class_name(dirty) == clean
+        assert _normalize_class_name(clean) == clean
+
+    def test_legal_classes_not_in_mapping(self):
+        """合法职业（导师/红螳螂杀手/巡林客）不得入归一表（KN243 D4）"""
+        for name in ("导师", "红螳螂杀手", "巡林客"):
+            assert name not in _CLASS_NAME_NORM
+            assert _normalize_spell_level_items(
+                [{"class": name, "level": 1}]) == [{"class": name, "level": 1}]
+
+
+class TestKn243FieldBoundary:
+    """parse_fields spell_level 字段边界：只保留「职业 N」合法组序列。
+
+    两条「快速医疗」脏值的根因是字段值吞进正文（值边界过宽），此处逐形态回归。
+    """
+
+    def test_rapid_heal_from_trailing_prose_removed(self):
+        """精类形态 IV 形态：首行等级 + 后段正文 → 只留合法组，快速医疗 5 归零"""
+        text = ("**精类形态 IV (FEY FORM IV)**\n**等级：**德鲁伊8，萨满8，术士/法师9，"
+                "女巫9这种法术如同精类形态 \nIII，除了它不会限制你的基础速度，"
+                "伤害减免 5/寒铁，快速医疗 \n5，恐惧灵光，气势凶猛。")
+        raw = parse_fields(text)["spell_level"]
+        assert raw == "德鲁伊8，萨满8，术士/法师9"
+        assert "快速医疗" not in raw
+
+    def test_glued_first_group_recovered(self):
+        """魔法兽形态形态：首组「术士/法师7」后直接黏散文 → 取前缀（恢复 7 环）"""
+        text = ("**魔法兽形态 (MAGICAL BEAST SHAPE)**\n**等级：** 术士/法师7"
+                "这个法术的作用类似于野兽形态 \nIV，除了你只能获得一个魔法兽的形态。"
+                "紧勒（constrict），快速医疗 \n5，凶残（ferocity）。")
+        assert parse_fields(text)["spell_level"] == "术士/法师7"
+
+    def test_wrapped_groups_preserved(self):
+        """折行形态（职业 \\n 环级）不得误伤：边界原值返回"""
+        text = ("**X (Y)**\n**等级：** 魔战士 \n5、秘学士 4、异能者 5、召唤施 4、女巫 5\n"
+                "**施法时间：** 3轮")
+        assert parse_fields(text)["spell_level"] == \
+            "魔战士 \n5、秘学士 4、异能者 5、召唤施 4、女巫 5"
+
+    def test_domain_continuation_preserved(self):
+        """领域续写与值尾字段标签粘连形态不丢组"""
+        text = ("**X (Y)**\n**等级：** 牧师 2 领域 机运领域 2，战术子域 2\n"
+                "**施法时间：** 1轮")
+        raw = parse_fields(text)["spell_level"]
+        assert raw == "牧师 2 领域 机运领域 2，战术子域 2"
+        text2 = ("**X (Y)**\n**等级：** 牧师2，德鲁伊2，萨满2施法时间 标准动作\n"
+                 "**范围：** 接触")
+        assert parse_fields(text2)["spell_level"] == "牧师2，德鲁伊2，萨满2"
+
+    def test_clean_single_line_untouched(self):
+        """干净单行值逐字节返回（既有值零变化）"""
+        value = "牧师2，德鲁伊2，萨满2"
+        assert _bound_spell_level_raw(value) == value
+
+    def test_glued_field_label_truncated(self):
+        """值尾紧贴字段标签（无 ** 换行）：按既有截断口径取到组末尾，不丢组"""
+        value = "牧师2，德鲁伊2，萨满2施法时间 标准动作成分   语言，姿势"
+        assert _bound_spell_level_raw(value) == "牧师2，德鲁伊2，萨满2"
+
+    def test_bare_level_value_untouched(self):
+        """裸环级（R4）与无组可解析的值原样返回"""
+        assert _bound_spell_level_raw("3") == "3"
+        assert _bound_spell_level_raw("9\n> 来源：某书，页码见原书") == "9\n> 来源：某书，页码见原书"
+
+    def test_bare_class_residue_skipped(self):
+        """缺环数的裸职业残片跳过，后续合法组不因边界收紧而丢失"""
+        value = "吟游诗人 1, **\n牧师/先知 1, 游侠，术士/法师 1, \n女巫 1"
+        assert _bound_spell_level_raw(value) == value

@@ -43,8 +43,9 @@ public class FilterTranslator {
         return switch (module) {
             case "spell" -> List.of("title", "school", "subschool", "className", "level", "book");
             case "class" -> List.of("className", "archetypeName", "featureSubtype", "componentType", "book", "title");
-            // 六个标准模块：统一行模型，book/componentType 通用 + title 条目名精确过滤（P0-B2）
-            case "feat", "race", "trait", "equipment", "skill", "rule" -> List.of("book", "componentType", "title");
+            case "race" -> List.of("book", "componentType", "title", "raceName", "raceNameEn");
+            // 其余标准模块：统一行模型，book/componentType 通用 + title 条目名精确过滤（P0-B2）
+            case "feat", "trait", "equipment", "skill", "rule" -> List.of("book", "componentType", "title");
             default -> List.of();
         };
     }
@@ -64,8 +65,8 @@ public class FilterTranslator {
         switch (module) {
             case "spell" -> translateSpell(filters, out);
             case "class" -> translateClass(filters, out);
-            // 六个标准模块字段映射一致，共用一个翻译方法
-            case "feat", "race", "trait", "equipment", "skill", "rule" -> translateStandard(filters, out);
+            case "race" -> translateRace(filters, out);
+            case "feat", "trait", "equipment", "skill", "rule" -> translateStandard(filters, out);
             default -> {
                 // 未知模块：无可用翻译
             }
@@ -167,7 +168,8 @@ public class FilterTranslator {
         return switch (module) {
             case "spell" -> resolveSpellCondition(field, value, contextFilters);
             case "class" -> resolveClassCondition(field, value);
-            case "feat", "race", "trait", "equipment", "skill", "rule" -> resolveStandardCondition(field, value);
+            case "race" -> resolveRaceCondition(field, value);
+            case "feat", "trait", "equipment", "skill", "rule" -> resolveStandardCondition(field, value);
             default -> null;
         };
     }
@@ -206,6 +208,23 @@ public class FilterTranslator {
         return key == null ? null : new FilterField(key, value);
     }
 
+    private FilterField resolveRaceCondition(String field, String value) {
+        return switch (field) {
+            case "raceName" -> new FilterField("race_name", value);
+            case "raceNameEn" -> new FilterField("race_name_en", value);
+            default -> resolveStandardCondition(field, value);
+        };
+    }
+
+    private void translateRace(Map<String, String> filters, List<FilterField> out) {
+        for (Map.Entry<String, String> e : filters.entrySet()) {
+            FilterField condition = resolveRaceCondition(e.getKey(), e.getValue());
+            if (condition != null) {
+                out.add(condition);
+            }
+        }
+    }
+
     private FilterField resolveStandardCondition(String field, String value) {
         String key = switch (field) {
             case "book" -> "book_abbreviation";
@@ -234,7 +253,7 @@ public class FilterTranslator {
         }
     }
 
-    /** 六个标准模块：book / componentType / title 三个通用字段 1:1 映射，无组合逻辑。
+    /** 不含专属映射的标准模块：book / componentType / title 三个通用字段 1:1，无组合逻辑。
      *  title 走条目名精确匹配（eq），支持「LLM 已知确切条目名按名查」（P0-B2）。 */
     private void translateStandard(Map<String, String> filters, List<FilterField> out) {
         for (Map.Entry<String, String> e : filters.entrySet()) {

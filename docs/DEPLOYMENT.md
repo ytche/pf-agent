@@ -63,8 +63,9 @@ docker compose up -d          # app + Ollama + PostgreSQL（首次自动拉 bge-
 ```
 
 - 应用 <http://localhost:8080/>；健康检查 `GET /api/health`。
-- 数据：见 [README「准备数据」](../README.md#快速开始)（预构建数据包放 `~/.pf_agent/`，
-  或用卷映射）。
+- 数据：见 [README「准备数据」](../README.md#快速开始)。Compose 场景把完整数据包解压到
+  仓库 `./data/`：根目录 8 个向量库映射到 `~/.pf_agent/`，`output/` 下 8 份 chunks 与
+  7 份清单只读映射到 `/pf_data/phase1/vectorizer/output/`。不要只解压向量库。
 - PostgreSQL（SP7 起默认服务）：会话历史与用户表自动落库，Flyway 执行 V1~V7 迁移
   （SP7 建会话/用户表，F-026 V6 建 `query_gate_event`，F-020 V7 增加会话标题/置顶/
   归属/生成计数与消息引用快照），app `depends_on: pg (service_healthy)` 等 PG 就绪后启动。
@@ -186,11 +187,65 @@ SP5 设计默认：`primary=cloud` 时 fallback 默认开、`primary=ollama` 时
 | 向量库持久化 | `~/.pf_agent/vector_store_*.json` | 8 模块独立文件；存在即跳过导入 |
 | 数据缺口/反馈/工具记录 | `~/.pf_agent/*.jsonl` | 运行时追加，脚本分析用 |
 | chunks 源 | `pf_data/phase1/vectorizer/output/<模块>/chunks.jsonl` | gitignored，管线产物 |
+| 装备/专长/种族/职业清单 | `.../<模块>/<清单>.json` | gitignored，直查数据源 |
 | 法术清单 | `.../法术/spell_lists.json` | gitignored，SP3 直查数据源 |
 | 法术 union 清单 | `.../法术/spell_lists_union.json` + `spell_list_union_report.json` | gitignored，F-025 去重后 union 1.1（Java 直读；独立 JSON 变更只重启消费者，不重灌向量库） |
+| 规则表 | `.../规则/rule_tables.json` | gitignored，`getRuleTable` 数据源（当前基线 612 张） |
 | 规则文本 | `pf_data/phase1/pf_rules_md_organized/` | 随库发布，管线输入 |
 
 日志默认 `logging.level.com.pfagent.agent: DEBUG`（见 yml 尾部）。
+
+### 5.1 发布数据门禁
+
+`scripts/release_public_snapshot.sh` 在打包前调用：
+
+```bash
+python3 scripts/validate_release_data.py --package "$DATA_ZIP" "$PF_DATA_HOME" .
+```
+
+校验与打包共用 `collect_release_files()` 的同一份文件清单和文件数，避免“校验了新文件、
+打包却漏掉”。zip 先写同目录临时文件，成功后 `os.replace`；失败不覆盖已有包，错误提示
+“数据包未更新”。也可只校验不打包：
+
+```bash
+python3 scripts/validate_release_data.py "$HOME/.pf_agent" .
+```
+
+校验 8 个向量库与 `chunks.jsonl` 的条数和 chunk_id 集合、1024 维 embedding、
+法术 `tocPath`、背景特性 `trait_type`、阿斯托莫伊人目标条目中英文字段，以及 7 份清单
+（装备/专长/种族/职业表/法术/法术 union/规则表）。空向量库、非对象顶层、规则表低于
+612 张或任何缺失/漂移都会非零退出。数据包固定 23 个文件：8 个 `vector_store_*.json` +
+`output/<模块>/` 下 8 份 `chunks.jsonl` 与 7 份清单 JSON。chunks 是条目名解析与引用链的
+运行时数据源，不是可选的构建中间产物。
+
+### 5.2 公开内容门禁与审计清单
+
+数据打包成功后，脚本对公开快照做两级检查，职责与时序不同：
+
+```bash
+python3 scripts/release_public_guard.py "$PUBLIC_CLONE"   # 提交前：内容门禁，失败即停
+python3 scripts/release_audit.py --version <版本> ...     # 提交后：审计清单，可独立重跑
+```
+
+**内容门禁（提交前）**：任何一项命中即中止，**不会提交、也不会打 tag**。
+
+**审计清单（提交后）**：此时本地 commit 与 tag 已生成。审计失败（如 `ls-remote`
+读不到远程 tag、持久目录里同版本已有不同 SHA 的包）只影响审计产物，**不需要重打快照**；
+网络恢复后重跑同一条 `release_audit.py` 命令即可。若确需重打整个快照，先删除未 push 的
+本地 tag（`git -C <公开克隆> tag -d v<版本>`），否则发布脚本的 tag 查重会先失败。
+
+门禁只放行 Git 跟踪文件，且硬失败命中以下任一情况：实际 `.env`（`.env.example`
+模板除外）、`.kimi-code/`、过程文档（`docs/` 只允许 `DEPLOYMENT.md`）、`.DS_Store`、
+`node_modules`/`target`/`__pycache__`/`dist` 等构建垃圾、`*.pem`/`*.key`/`id_rsa` 等
+密钥文件，以及文件内容中的私钥块和常见令牌（AWS / GitHub / `sk-`）。
+
+审计清单 `release-audit-v<版本>.json` 记录私有与公开 commit、tag 是否已被远程占用
+（逐行精确匹配 `refs/tags/<tag>`，兼容附注 tag 的 `^{}` 行，不会把 `v0.4.0-rc1`
+误判为 `v0.4.0`；`ls-remote` 设 20 秒超时且非交互，超时按失败处理并给出恢复路径）、
+数据包逐文件 SHA-256、8 个向量库条数、7 份清单统计、验收报告路径
+与"未外发"状态。产物同时转存到持久目录 `RELEASE_ARCHIVE_DIR`（默认
+`$HOME/.pf_agent_release/v<版本>`，权限 0644）；同一版本重复生成时若数据包 SHA 不同
+会拒绝覆盖，避免同版本混用两个包。
 
 ---
 
@@ -208,6 +263,27 @@ SP5 设计默认：`primary=cloud` 时 fallback 默认开、`primary=ollama` 时
 KN 修复后重新产出的 chunks.jsonl）。独立清单 JSON 变化（spell_lists / class_tables /
 list_exports）走对应消费者重启即可，**不使用本流程、不重算 embedding**。更换 embedding
 模型（必须同为 bge-m3）也走本流程。
+
+> **AKN-028 必做升级（2026-11-18）**：`StandardChunkMapper` 新增 `race_name/race_name_en`
+> 扁平化后，旧种族库不会自动补字段——`RaceDataLoader` 发现 store 已存在就会跳过导入。
+> 因此升级到该版本后**必须按本节流程重灌 `vector_store_races.json`，仅重启无效**。
+> 先保留原文件备份，再由 `RaceDataLoader` 在正式路径生成；不得用复制其他目录的 store
+> 冒充正式重灌。验收除 chunk_id 集合一致外，还应确认目标 Document 含中英文 race 字段，
+> 并用「阿斯托莫伊人有哪些种族特性？」检查 8 个独立 `race_trait` 来源。
+
+> **KN-148 必做升级（2026-11-19）**：`StandardChunkMapper` 已把背景特性 nested
+> `trait_type` 扁平化到向量 metadata（空值显式空串），并接入类型提问的空类型 0.05 降权；
+> 旧 trait 库（2026-11-13 扁平化落地前生成）没有该字段，`TraitDataLoader` 发现 store 已存在即跳过导入，
+> 升级后**必须按本节流程重灌 `vector_store_traits.json`，仅重启无效**。验收除 1222 条与
+> chunk_id 集合一致外，还应确认 **1222/1222 条 metadata 均含 `trait_type` 键**、空值 215
+> 条保留（主条目 154），并用普通提问确认空类型条目仍可被检索（示例「神眷孤儿这个背景特性
+> 有什么效果」）。
+
+> **KN-250 必做升级（2026-11-19）**：法术 chunks 已补齐真实 `chm_toc_path`，
+> `SpellChunkMapper` 由固定写入 `doc_id > title` 改为真实目录优先。旧法术库不会自动更新，
+> 升级到该版本后必须按本节流程重灌 `vector_store_spells.json`，仅重启无效。
+> 验收除 4202 条及 chunk_id 集合一致外，还应确认 `Spell CRB` 条目的 `tocPath`
+> 为 `法术 → CRB-核心规则书`，并用 `listByToc` 检查目录前缀命中。
 
 ### 6.2 前置确认
 

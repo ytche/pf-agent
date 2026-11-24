@@ -97,6 +97,9 @@ pf:
   class-tables:
     # J5 F-019：职业成长表预整理产物（getClassTable 直查数据源，gitignored 可再生）
     file-path: ../../pf_data/phase1/vectorizer/output/职业/class_tables.json
+  rule-tables:
+    # KN221：规则内嵌表格结构化产物（getRuleTable 直查数据源，gitignored 可再生）
+    file-path: ../../pf_data/phase1/vectorizer/output/规则/rule_tables.json
   list-exports:
     # B4：专长/种族/装备权威清单导出产物（listEntries 直查数据源，gitignored 可再生）
     feat-file-path: ../../pf_data/phase1/vectorizer/output/专长/feat_lists.json
@@ -125,6 +128,7 @@ pf:
     enumeration-top-k: 500      # 元数据枚举上限（searchByMetadata，防超大枚举）
     max-tool-rounds: 10         # 手动工具循环轮次上限（超限强制收敛作答，不再抛 500）
     max-history-chars: 50000    # 工具循环上下文字符上限，超限强制收敛作答（不再调工具）
+    agent-time-budget: 60s      # 新工具轮开始前的请求级时间预算，耗尽后基于已有证据收敛
     vector-result-chars: 800    # vectorSearch 单条正文截断长度（topK 扩大后收紧，抵消 token 增量）
     metadata-result-chars: 4000 # searchByMetadata 紧凑列表字符上限，超限截断并提示分页元数据（总数/has_more/next offset）
     # SP8a（方案 20260917）：检索工具增强配置
@@ -134,7 +138,7 @@ pf:
     book-filter:
       enabled: true             # 总开关；false = 全放行
       mode: blacklist           # blacklist（剔除列名值）| whitelist（仅保留列名值；书单内容为产品策略，留给用户配）
-      books: ["?"]              # 黑名单：剔出的值（过渡策略转正：数据侧 KN226「怪物」已修复，无需再列）
+      books: []                 # 黑名单：剔出的值（数据侧 KN226「怪物」已修复，无需再列；未知来源按 unknown-book-keep 保留）
       unknown-book-keep: true   # book 值缺失/空白（未知）是否保留（默认保留，防数据脏期假缺口）
     entry-resolver-enabled: true # J6 条目引用链 Layer 0：title/alias 跨模块索引与引用链开关（resolveEntry/getEntryLinks）
     entry-links-max-per-section: 20 # J6 getEntryLinks 每层链接展示条数上限（防职业被法术反向引用刷屏）
@@ -150,7 +154,37 @@ pf:
     # P0-B2（剩余 4 题溯源修复）：候选扩容 + title/aliases 词元命中加权
     rerank-extra-candidates: 10 # 候选集扩容（topK + N，全模块；重排前截断问题对治；置 0 关闭）
     title-match-boost: 0.05     # 检索词元命中 title/aliases 排序加分（仅排序；置 0 关闭）
+    empty-trait-type-penalty: 0.05 # 询问背景特性类型时，trait_type 为空的条目降权；普通查询不启用（置 0 关闭）
     title-boost-stopwords: 法术,规则,专长,效果,职业,装备,物品,魔法,如何,什么,哪些,途径,方法,of,the,and,to,in # title 加权停用词（防泛词误加权）
+    # F-016（批 A Task 14 统一写入）：语义检索二阶段 listwise 重排。
+    # 候选流程固定为：向量召回 → 过滤 → rankedScore 排序 → 前 rerank-candidates →
+    # DeepSeek 重排 → 前 rerank-top-n；重排超时/失败/非法输出回退既有 rankedScore 顺序。
+    # 传输层为原生 java.net.http（DeepSeekRerankHttpClient），不经过 OpenAiChatModel：
+    # 实测同 key/模型直接 HTTP 50×300 字符约 2.7s，Spring AI 客户端在本实例不可控超时。
+    rerank-enabled: true        # 已关闭 DeepSeek thinking，50候选实测约3.4s
+    rerank-candidates: 50       # 送入重排的候选数（spec §3）
+    rerank-top-n: 15            # 重排后最终返回条数（spec §3）
+    rerank-summary-chars: 300   # 每个候选送入重排模型的摘要字符上限（spec §3）
+    rerank-timeout: 8s          # executor future 等待上限（超时回退，不阻断问答）
+    rerank-http-timeout: 20s    # 原生 HTTP 请求超时（与 executor 超时分别兜底）
+    rerank-model: deepseek-flash # 重排使用的模型
+    rerank-concurrency: 4       # 重排线程池并发上限
+    rerank-queue-capacity: 16   # 重排任务队列容量（打满时直接回退）
+    # F-016 请求级来源护栏：本请求去重后来源最多保留 max-sources-per-request 条；
+    # 来源正文合计最多 max-sources-bytes 字节。0/负数表示该维度不限制。
+    # max-sources-bytes 统计的是来源 Document.getText() 的 UTF-8 字节数（不含回答、
+    # JSON 字段名与转义开销），不是完整 HTTP 响应体大小。
+    max-sources-per-request: 50
+    max-sources-bytes: 2097152  # 2MB UTF-8 字节
+  usage:
+    # F-009 DeepSeek 用量计费价目（每百万 token，CNY）。
+    # 口径：仅 Chat Completions 的 prompt/completion tokens 计费；
+    # embedding 调用不计费（本地 bge-m3 或云通道均不纳入 cost）。
+    # 价目为部署时快照：历史 usage_record 保存调用发生时的单价，改价不回溯历史成本。
+    prompt-price-per-million: 2.0
+    completion-price-per-million: 8.0
+    currency: CNY
+    timezone: Asia/Shanghai    # 月度用量汇总/预测的统计时区
   stores:
     # 各模块向量库持久化文件（首次启动构建后生成，模块独立）
     spell-file-path: ${user.home}/.pf_agent/vector_store_spells.json

@@ -135,6 +135,8 @@ export default async function globalSetup(): Promise<void> {
       PF_CHAT_MEMORY: 'jdbc',
       PF_AUTH_ENABLED: 'true',
       PF_AUTH_JWT_SECRET: 'pf-m25-e2e-jwt-secret-please-change-0123456789',
+      // 一次性测试库的初始管理员凭证（admin.spec.ts 使用）
+      PF_ADMIN_PASSWORD: 'pf-e2e-admin-password',
       PF_RATE_LIMIT_ENABLED: 'false',
       PF_QUOTA_ENABLED: 'false',
       SPRING_AI_OPENAI_BASE_URL: `http://127.0.0.1:${stubPort}`,

@@ -26,7 +26,7 @@ class BookFilterTest {
         return Document.builder().text("text").metadata(meta).build();
     }
 
-    /** 默认形态（blacklist ["?"] + unknownBookKeep=true，与 application.yml 默认一致） */
+    /** 默认形态（blacklist [] + unknownBookKeep=true，与 application.yml 默认一致） */
     private static BookFilter filter(boolean enabled, String mode, List<String> books, boolean unknownBookKeep) {
         BookFilter f = new BookFilter();
         ReflectionTestUtils.setField(f, "enabled", enabled);
@@ -132,6 +132,13 @@ class BookFilterTest {
                 .metadata(Map.of("book_abbreviation", 404)).build();
         BookFilter f = filter(true, "blacklist", List.of("?"), true);
         assertThat(f.keep(numeric)).isTrue(); // "404" 非黑名单值，保留
+    }
+
+    @Test
+    void emptyBlacklistKeepsUnknownBookSentinel() {
+        BookFilter f = filter(true, "blacklist", List.of(), true);
+
+        assertThat(f.keep(doc("?"))).isTrue();
     }
 
     /** 边界（QA 补测）：仅大小写归一、不做全半角归一——全角 "？" 不等于半角 "?"

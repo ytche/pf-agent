@@ -4,14 +4,21 @@
 # 做两件事：
 #   1. 代码快照：把私有仓（ytche/pf_agent）当前 HEAD 的**公开内容**快照到公开仓
 #      （ytche/pf-agent）的本地克隆，生成单个 commit + tag。
-#   2. 数据打包：把本机预构建向量库与清单 JSON 打成 pf-agent-data-<日期>.zip，
+#   2. 数据打包：把本机预构建向量库、chunks 与清单 JSON 打成 pf-agent-data-<日期>.zip，
 #      供公开仓 Releases 的 data-* 数据包发布。
 #
 # 公开口径（与 0.3.0 起一致）：
 #   - 代码快照只含 git 跟踪文件（gitignore 产物/密钥/本机配置天然排除）
 #   - docs/ 只保留 DEPLOYMENT.md；设计/交接/评测/待办等过程文档不公开
 #   - .kimi-code/ 本地 agent 配置不公开
-#   - 数据包：8 个 vector_store_*.json + lists/ 下 6 份清单 JSON
+#   - `.env.example` 是无密钥公开模板，保留；只排除实际 `.env` 与带值密钥文件
+#   - 数据包：8 个 vector_store_*.json + output/ 下 8 份 chunks + 7 份清单 JSON
+#   - 打包前先跑 scripts/validate_release_data.py：向量库与 chunks/清单不一致即停止；
+#     文件清单、文件数与 zip 写入都由该校验器的 collect_release_files() 统一产生
+#   - 公开仓提交前跑 scripts/release_public_guard.py：实际密钥、.kimi-code/、过程文档、
+#     .DS_Store、构建垃圾、私钥/令牌内容命中即硬失败
+#   - 提交后由 scripts/release_audit.py 生成审计清单，并把 zip/说明/审计转存到
+#     RELEASE_ARCHIVE_DIR（默认 $HOME/.pf_agent_release/v<版本>），权限 0644
 #
 # 用法：
 #   scripts/release_public_snapshot.sh <版本号>
@@ -22,6 +29,9 @@
 #   DIST_DIR      数据包与发布说明输出目录（默认 /tmp/pf-agent-dist）
 #   DATA_DATE     数据包日期戳（默认当天 YYYYMMDD，决定 data-* tag 名）
 #   PF_DATA_HOME  向量库所在目录（默认 ~/.pf_agent）
+#   RELEASE_ARCHIVE_DIR  发布产物持久目录（默认 $HOME/.pf_agent_release/v<版本>）
+#   TEST_REPORT   审计清单里记录的验收报告路径
+#                 （默认 docs/test-reports/测试报告_v<版本>候选版发布验收_<日期>.md）
 #
 # 脚本只做本地 commit + tag + 数据打包，**不 push、不上传**——推送公开仓与上传
 # Release 资产是外发动作，由人确认后按结尾提示的命令手动执行。
@@ -38,6 +48,8 @@ PF_DATA_HOME="${PF_DATA_HOME:-$HOME/.pf_agent}"
 
 VERSION="${1:?用法: $0 <版本号>，如 0.3.0}"
 TAG="v${VERSION}"
+ARCHIVE_DIR="${RELEASE_ARCHIVE_DIR:-$HOME/.pf_agent_release/v${VERSION}}"
+TEST_REPORT="${TEST_REPORT:-docs/test-reports/测试报告_v${VERSION}候选版发布验收_${DATA_DATE}.md}"
 
 cd "$PRIVATE_REPO"
 
@@ -67,55 +79,22 @@ fi
 # ---------------------------------------------------------------------------
 mkdir -p "$DIST_DIR"
 DATA_ZIP="$DIST_DIR/pf-agent-data-${DATA_DATE}.zip"
-echo "打包数据文件 → $DATA_ZIP ..."
-python3 - "$DATA_ZIP" "$PF_DATA_HOME" "$PRIVATE_REPO" <<'PY'
-import sys, zipfile, pathlib
-
-zip_path = pathlib.Path(sys.argv[1])
-store_home = pathlib.Path(sys.argv[2])
-private_repo = pathlib.Path(sys.argv[3])
-output = private_repo / "pf_data/phase1/vectorizer/output"
-
-modules = ["classes", "equipment", "feats", "races", "rules", "skills", "spells", "traits"]
-lists = [
-    "装备/equipment_lists.json",
-    "专长/feat_lists.json",
-    "种族/race_lists.json",
-    "职业/class_tables.json",
-    "法术/spell_lists.json",
-    "法术/spell_lists_union.json",
-]
-
-missing = [str(store_home / f"vector_store_{m}.json") for m in modules
-           if not (store_home / f"vector_store_{m}.json").is_file()]
-missing += [str(output / rel) for rel in lists if not (output / rel).is_file()]
-if missing:
-    print("错误：数据文件缺失，先重建产物：", file=sys.stderr)
-    for m in missing:
-        print("  " + m, file=sys.stderr)
-    sys.exit(1)
-
-with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED, compresslevel=6) as z:
-    for m in modules:
-        p = store_home / f"vector_store_{m}.json"
-        z.write(p, arcname=p.name)
-    for rel in lists:
-        p = output / rel
-        z.write(p, arcname=f"lists/{p.name}")
-print(f"  {zip_path.stat().st_size / 1048576:.1f} MB")
-PY
+echo "校验并打包数据文件 → $DATA_ZIP ..."
+if ! python3 "$PRIVATE_REPO/scripts/validate_release_data.py" \
+    --package "$DATA_ZIP" "$PF_DATA_HOME" "$PRIVATE_REPO"; then
+    echo "错误：发布数据校验或打包失败，未更新 $DATA_ZIP" >&2
+    exit 1
+fi
 
 cat > "$DIST_DIR/data-release-notes-${DATA_DATE}.md" <<EOF
 ## 预构建数据包 ${DATA_DATE}
 
-\`pf-agent-data-${DATA_DATE}.zip\` 内含 8 个 bge-m3（1024 维）预构建向量库与 6 份清单 JSON。
+\`pf-agent-data-${DATA_DATE}.zip\` 内含 23 个文件：8 个 bge-m3（1024 维）预构建向量库、8 份 chunks.jsonl 与 7 份清单 JSON。
 
-- \`vector_store_*.json\` → 解压到 \`~/.pf_agent/\`（Docker Compose 场景放 \`./data/\`）
-- \`lists/\` 下清单 → 按 application.yml 默认路径放到 \`pf_data/phase1/vectorizer/output/<模块>/\`：
-  equipment_lists.json→装备、feat_lists.json→专长、race_lists.json→种族、
-  class_tables.json→职业、spell_lists.json / spell_lists_union.json→法术
+- Docker Compose：把整个 zip 解压到仓库的 \`./data/\`，得到 \`vector_store_*.json\` 与 \`output/<模块>/\`，Compose 会自动挂载两处数据目录。
+- 本地运行：\`vector_store_*.json\` → \`~/.pf_agent/\`；\`output/\` 下全部模块目录 → 仓库的 \`pf_data/phase1/vectorizer/output/\`。
 
-查询侧 embedding 必须与建库模型一致（bge-m3）。规则数据版权见 NOTICE.md。
+chunks 是条目名解析与引用链的运行时数据源，清单用于清单/表格直查；两者都不能省略。查询侧 embedding 必须与建库模型一致（bge-m3）。规则数据版权见 NOTICE.md。
 EOF
 
 # ---------------------------------------------------------------------------
@@ -135,6 +114,13 @@ find "$PUBLIC_CLONE" -mindepth 1 -maxdepth 1 -not -name .git -exec rm -rf {} +
 
 cd "$PUBLIC_CLONE"
 git add -A
+
+echo "公开内容门禁 → $PUBLIC_CLONE ..."
+if ! python3 "$PRIVATE_REPO/scripts/release_public_guard.py" "$PUBLIC_CLONE"; then
+    echo "错误：公开内容门禁未通过，未提交、未打 tag（数据包 ${DATA_ZIP} 已生成）" >&2
+    exit 1
+fi
+
 CODE_CHANGED=1
 if git diff --cached --quiet; then
     echo "公开仓代码内容无变化，跳过 commit/tag（数据包已生成）"
@@ -144,6 +130,20 @@ else
     git tag "$TAG"
 fi
 
+# ---------------------------------------------------------------------------
+# 审计清单：记录本次事实并转存到持久目录
+# ---------------------------------------------------------------------------
+echo "生成审计清单 → ${ARCHIVE_DIR} ..."
+python3 "$PRIVATE_REPO/scripts/release_audit.py" \
+    --version "$VERSION" \
+    --data-date "$DATA_DATE" \
+    --private-repo "$PRIVATE_REPO" \
+    --public-clone "$PUBLIC_CLONE" \
+    --dist-dir "$DIST_DIR" \
+    --archive-dir "$ARCHIVE_DIR" \
+    --data-home "$PF_DATA_HOME" \
+    --test-report "$TEST_REPORT"
+
 echo ""
 echo "✅ 本地就绪："
 if [ "$CODE_CHANGED" = 1 ]; then
@@ -151,6 +151,8 @@ if [ "$CODE_CHANGED" = 1 ]; then
 fi
 echo "  数据包   ${DATA_ZIP}"
 echo "  数据说明 ${DIST_DIR}/data-release-notes-${DATA_DATE}.md"
+echo "  审计清单 ${DIST_DIR}/release-audit-v${VERSION}.json"
+echo "  持久目录 ${ARCHIVE_DIR}（zip / 说明 / 审计，权限 0644）"
 echo ""
 echo "核对无误后手动外发："
 if [ "$CODE_CHANGED" = 1 ]; then

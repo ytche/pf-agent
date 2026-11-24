@@ -193,9 +193,9 @@ class RetrievalToolsPaginationAuditTest {
         String result = tools(1500, 10).searchByMetadata("spell", query());
 
         assertThat(result).contains("本页无条目可展示", "getEntryById", "chunkId=\"spell-1\"",
-                "offset=0", "limit=10");
+                "不要重复请求同一页");
+        assertThat(result).doesNotContain("offset=", "limit=", "query.offset", "has_more", "本次返回");
         assertThat(result).doesNotContainPattern("第 \\d+~\\d+ 条");
-        assertThat(result).doesNotContain("query.offset", "has_more", "本次返回");
     }
 
     @Test
@@ -243,14 +243,7 @@ class RetrievalToolsPaginationAuditTest {
     }
 
     private void stubAddSequential() {
-        when(collector.add(any())).thenAnswer(inv -> {
-            List<Document> docs = inv.getArgument(0);
-            List<Integer> seq = new ArrayList<>(docs.size());
-            for (int n = 1; n <= docs.size(); n++) {
-                seq.add(n);
-            }
-            return seq;
-        });
+        CollectorStubs.stubAcceptAll(collector);
     }
 
     private RetrievalTools tools(int metadataResultChars) {

@@ -516,19 +516,31 @@ class TestResolveSource:
 
 
 class TestFeatFileCondition:
-    """R1 输入范围：condition = 判别器矩阵 rel 查表（根目录 66 + 专长/ 123 = 189）"""
+    """R1 输入范围：condition = 判别器矩阵 rel 查表（192 条，全部 专长/ 前缀）"""
 
     def test_positive_organized_subdir(self):
-        """专长/ 子目录文件（矩阵 123 内）→ 产"""
+        """专长/ 子目录文件（矩阵内）→ 产"""
         assert _feat_file_condition(Path("pf_rules_md_organized/专长/page_311.md")) is True
 
-    def test_positive_root_dir_numbered_file(self):
-        """根目录 专长11.md（矩阵 66 内）→ 产"""
-        assert _feat_file_condition(Path("pf_rules_md_organized/专长11.md")) is True
+    def test_positive_organized_numbered_file(self):
+        """专长/ 专长11.md（KN034 归位后矩阵内）→ 产"""
+        assert _feat_file_condition(Path("pf_rules_md_organized/专长/专长11.md")) is True
 
-    def test_positive_root_dir_basename_file(self):
-        """根目录 造物专长一览.md（矩阵 66 内）→ 产"""
-        assert _feat_file_condition(Path("pf_rules_md_organized/造物专长一览.md")) is True
+    def test_positive_organized_basename_file(self):
+        """专长/ 造物专长一览.md（矩阵内唯一权威版本）→ 产"""
+        assert _feat_file_condition(Path("pf_rules_md_organized/专长/造物专长一览.md")) is True
+
+    def test_negative_root_numbered_file(self):
+        """KN034：根目录旧路径 专长11.md 已移入 专长/ → 不再命中"""
+        assert _feat_file_condition(Path("pf_rules_md_organized/专长11.md")) is False
+
+    def test_negative_root_basename_file(self):
+        """KN034：根目录旧副本 造物专长一览.md 已删除 → 不再命中"""
+        assert _feat_file_condition(Path("pf_rules_md_organized/造物专长一览.md")) is False
+
+    def test_negative_root_page_file(self):
+        """KN034：根目录 page_820.md 已移入 专长/ → 旧路径不再命中"""
+        assert _feat_file_condition(Path("pf_rules_md_organized/page_820.md")) is False
 
     def test_negative_spell_path(self):
         """法术目录（矩阵外）→ 不产"""
@@ -554,9 +566,9 @@ class TestFeatFileCondition:
 
 
 class TestDedupDuplicateStem:
-    """R1 同书多份取主版本：矩阵含同 stem 双 rel（造物专长一览 根目录旧副本
-    + 专长/ 规范化主版本，est/got 相同 28/46），pipeline 按 doc_id=stem 各产
-    一份会撞 chunk_id —— process 层跳过后到副本（sorted 遍历子目录版在前）"""
+    """KN034 后的防御性兜底：源文件已全部收敛到 专长/，正常运行不再有同 stem
+    双文件；process 层仍保留 _seen_stems 去重，防未来再次出现时 chunk_id
+    （前缀 = stem）撞车——先到者为主版本，后到副本跳过。"""
 
     def _process(self, proc, path: Path, text: str):
         """临时文件模拟 pipeline 单文件处理；同实例跨文件调用共享 _seen_stems"""
@@ -591,3 +603,175 @@ class TestDedupDuplicateStem:
         ca = self._process(proc, a, content)
         cb = self._process(proc, b, content)
         assert len(ca) > 0 and len(cb) > 0
+
+
+# ============================================================
+#  KN096 亚产能：解析器漏产修复（page_552 / page_556 形态）
+# ============================================================
+
+
+class TestKn096DetailTitleForms:
+    """page_552/page_556 详述区标题形态残壳（见 KN096 核实报告）。"""
+
+    def _items(self, text: str):
+        f = FeatFormat()
+        return f.split_into_items(f.normalize(text))
+
+    def test_bare_double_paren_title_normalized(self):
+        """page_552：`集中泼溅（战斗）（****Concentrated Splash****）****`
+        星壳残缺后成为裸 `中文（类型）（English）*`，须产独立条目"""
+        src = (
+            "| Concentrated Splash | 精准射击 | 伤害增加50%。 | 战斗 |\n"
+            "| 集中泼溅（战斗） |\n"
+            "\n"
+            "集中泼溅（战斗）（****Concentrated \nSplash****）****\n"
+            "***你可以控制住泼出去的溅射武器。*\n"
+            "**先决条件**：精准射击\n"
+            "**专长效果**：伤害增加50%。\n"
+        )
+        items = self._items(src)
+        names = [it["name"] for it in items]
+        assert "集中泼溅" in names, names
+        it = next(i for i in items if i["name"] == "集中泼溅")
+        assert it["name_en"] == "Concentrated Splash"
+        assert it["feat_type"] == ["战斗"]
+
+    def test_section_glued_bare_title_with_tail_star(self):
+        """page_556：章节标题 4 星粘连导致条目变 `*迅猛之毒 Powerful Poisoning*`"""
+        src = (
+            "**施毒系专长\n"
+            "****迅猛之毒 Powerful \n"
+            "Poisoning**\n"
+            "   *依靠蛮力，你将毒药打进敌人身体。*\n"
+            "**先决条件：**猛力攻击\n"
+            "**专长效果：**毒素DC+1。\n"
+        )
+        names = [it["name"] for it in self._items(src)]
+        assert "迅猛之毒" in names, names
+
+    def test_bare_title_plain_tail_stars(self):
+        """page_556：`阴损之毒 Treacherous Poisoning**` 行首无星、尾两星"""
+        src = (
+            "**先决条件：**猛力攻击\n"
+            "**专长效果：**上一专长效果。\n"
+            "\n"
+            "阴损之毒 Treacherous Poisoning**\n"
+            "   *你在敌人的伤口中翻转涂毒的武器。*\n"
+            "**先决条件：**基础攻击加值+5\n"
+            "**专长效果：**毒素DC+1。\n"
+        )
+        names = [it["name"] for it in self._items(src)]
+        assert "阴损之毒" in names, names
+
+    def test_prose_emphasis_line_not_title(self):
+        """反例：`*依靠蛮力…*` 中文描述行不产条目"""
+        src = (
+            "**施毒系专长\n"
+            "   *依靠蛮力，你将武器上涂抹的毒药深深打进敌人的身体。*\n"
+            "**先决条件：**猛力攻击\n"
+            "**专长效果：**…\n"
+        )
+        assert self._items(src) == []
+
+    def test_bare_short_title_with_field_label(self):
+        """CaC：`驯养植物` / `怪物伙伴` 裸中文短标题 + 字段标签 → 条目（FC-7d 同口径）"""
+        src = (
+            "多年练习、谨慎实验或纯粹固执，让你学会教导无智能植物执行简单指令。\n"
+            "\n"
+            "驯养植物\n"
+            "\n"
+            "多年练习、谨慎实验或纯粹固执。\n"
+            "先决条件：驯养动物 5 级。\n"
+            "效果：你可以训练植物生物。\n"
+        )
+        names = [it["name"] for it in self._items(src)]
+        assert "驯养植物" in names, names
+
+    def test_pfs_marker_before_bold_title(self):
+        """其他专长1：`**【PFS】精通异界传送（Improved Plane Shift）**` → 条目"""
+        src = (
+            "**【PFS】精通异界传送（Improved Plane \n"
+            "Shift）\n"
+            "**先决条件**：法师9级。\n"
+            "**专长效果**：将异界传送作为5环法术加入法术书。\n"
+        )
+        items = self._items(src)
+        names = [it["name"] for it in items]
+        assert "精通异界传送" in names, names
+
+    def test_star_outside_en_with_pfs_marker(self):
+        """专长53：`**吸血鬼化动物伙伴**Jackal Heritage（PFS不可）` → 条目"""
+        src = (
+            "**吸血鬼化动物伙伴**Jackal Heritage（PFS不可）\n"
+            "作为一个吸血鬼，你可以把蝙蝠变成伙伴。\n"
+            "**先决条件：**吸血鬼，魅力18\n"
+            "**专长效果：**获得吸血鬼化动物伙伴。\n"
+        )
+        items = self._items(src)
+        names = [it["name"] for it in items]
+        assert "吸血鬼化动物伙伴" in names, names
+
+    def test_link_wrapped_title_keeps_anchor(self):
+        """闹鬼专长 L168：`[**魂刃(Soulblade)** ](url)` 链接包裹标题——锚文本
+        是条目名，`_strip_url_lines` 不得整行剥空"""
+        src = (
+            "[**魂刃(Soulblade)** ](http://www.archivesofnethys.com/FeatDisplay.aspx?ItemName=Soulblade)\n"
+            "*你无法总是依赖正能量对抗作祟。*\n"
+            "**先决条件：**知识（宗教）1级，察觉1级\n"
+            "**效果：**你能攻击作祟。\n"
+        )
+        names = [it["name"] for it in self._items(src)]
+        assert "魂刃" in names, names
+
+    def test_url_only_link_line_still_dropped(self):
+        """反例：纯 URL 链接行（锚文本为空/URL）仍整行剥除"""
+        src = (
+            "[http://45.79.87.129/bbs/?topic=74202.0](http://45.79.87.129/bbs/?topic=74202.0)\n"
+            "**测试专长（Test Feat）**\n"
+            "**先决条件：**角色等级1\n"
+            "**专长效果：**测试。\n"
+        )
+        names = [it["name"] for it in self._items(src)]
+        assert names == ["测试专长"], names
+
+    def test_halfwidth_parens_title_with_bare_requirement_label(self):
+        """BotA L107：`**惊异治疗者(Incredible Healer)**` 半角括号 + 该书
+        `**要求** 医疗5级`（无冒号）字段——不得被子节过滤误杀"""
+        src = (
+            " **惊异治疗者(Incredible Healer)**\n"
+            "**出处** 《古国血脉》 （Blood of the Ancients）第20页\n"
+            "你可以以一种几乎是魔法的技巧治疗严重伤害\n"
+            "**要求** \n"
+            "医疗5级\n"
+            "当你使用医疗技能治疗严重伤害时，目标被治疗的生命值等于医疗技能的检定结果或通常值，"
+            "以较高者为准。同一个生物24小时内仍然只能接受一次治疗严重伤害的过程，"
+            "该过程需要至少10分钟的准备与包扎时间，并消耗一份医疗包。\n"
+        )
+        names = [it["name"] for it in self._items(src)]
+        assert "惊异治疗者" in names, names
+
+    def test_pfs_mark_then_bold_title(self):
+        """BotA L116：`**【PFS不可】** **病理学家(Pathologist)**`（标记独占星壳）"""
+        src = (
+            "**【PFS不可】** **病理学家(Pathologist)**\n"
+            "**出处** 《古国血脉》第20页\n"
+            "你比其他治疗者更擅长对付疾病和毒素\n"
+            "**要求** \n"
+            "惊异治疗者(Incredible Healer)\n"
+            "效果文本。\n"
+        )
+        names = [it["name"] for it in self._items(src)]
+        assert "病理学家" in names, names
+
+    def test_unclosed_cn_en_title(self):
+        """BotA L166：`**包陇自我修行 Pao-Lung Self-Improvement`（行尾无闭合星，
+        下一行斜体描述）→ 条目"""
+        src = (
+            "**包陇自我修行 Pao-Lung \n"
+            "Self-Improvement\n"
+            "*作为包陇哲学的奉行者，你不断改进自身。*\n"
+            "**先决条件**：必须信奉包陇哲学\n"
+            "**专长效果**：检定失败时获得加值。\n"
+        )
+        names = [it["name"] for it in self._items(src)]
+        assert "包陇自我修行" in names, names

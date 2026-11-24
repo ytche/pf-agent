@@ -578,16 +578,147 @@ _RE_FIELD = re.compile(
     r"^\*{0,2}(类型|分类|类别|背景类型|需求|要求|前置条件|效果|出处|描述)\*{0,2}[：:]?\*{0,2}([^\n]*)$"
 )
 
-# 出自行独立行，三分支：
-# 1. `出自《…》` / `**出自《…》**`（StLC 星壳）/ `来源 X pg. N`（StLC 双译名尾）——前缀必现
-# 2. `《书》 第N页`（page_158 缺陷补录拆行，中文数字页）
+# 出自行独立行，三分支（KN140 2026-11-13 重写：成对/无书名号、中文后接
+# 英文、英文括号形态显式可辨，禁止 lazy `(.+?)》?` 回溯吞整行）：
+# 1. `出自…` / `**出自**…` / `来源…`——body 交 _RE_SOURCE_REF 结构化渲染
+# 2. `《书》 第N页`（page_158 缺陷补录拆行，书名与页码分列捕获）
 # 3. `Spymaster's Handbook`（裸英文书名拆行）——字母开头整行
-# ⚠️ 分支 1 前缀不可省（省则全放开吞正文）；全角空格行尾在解析处剥除。
-_RE_SOURCE_LINE = re.compile(
-    r"^\*{0,2}(?:出自|来源)\*{0,2}《?[：:]?(.+?)》?\*{0,2}$"
-    r"|^《([^》\n]{1,40}》[　 ]*第[0-9零一二三四五六七八九十百]{1,6}页)[　 ]*$"
-    r"|^([A-Za-z][A-Za-z ’'’\-]{1,50})[　 ]*$"
+# 出处字段值 `《书》（EN）第N页` 由 _RE_SOURCE_VALUE 识别后走同一渲染器。
+_SRC_PAGE_PAT = (
+    r"(?:第\s*[0-9零一二三四五六七八九十百千]+\s*页|[0-9]+\s*页|(?:pg|p)\.?\s*[0-9]+)"
 )
+_RE_SOURCE_LINE = re.compile(
+    r"^\*{0,2}(?:出自|来源)\*{0,2}[：:]?[ \t]*"
+    r"(?P<src_body>[^\n]*?)[ \t]*\*{0,2}$"
+    r"|^《(?P<src_book>[^》\n]{1,80})》[ \t　]*(?P<src_page>" + _SRC_PAGE_PAT + r")[ \t　]*$"
+    r"|^(?P<src_en>[A-Za-z][A-Za-z ’'’\-]{1,50})[ \t　]*$"
+)
+
+# 出处字段值（`**出处** 《书》（EN）第N页`）：只接受书名号 + 括号/页码尾部，
+# 与出自行共用 _render_source_refs 渲染。
+_RE_SOURCE_VALUE = re.compile(
+    r"^《(?P<src_book>[^》\n]{1,80})》"
+    r"(?P<src_tail>(?:[ \t　]*[（(][^（）()\n]{1,80}[）)]|[ \t　]*(?:"
+    + _SRC_PAGE_PAT + r"))*)$"
+)
+
+# 单条书目引用：CN（English）[page]。cn/cn2 二选一（成对书名号 / 无书名号），
+# en/en2 二选一（括号英文），bare 为中文后接裸英文；页码可出现在括号前后
+# 或英文括号内。仅匹配书目引用片段，非引用片段原样保留。
+_RE_SOURCE_REF = re.compile(
+    r"^\s*"
+    r"(?:《(?P<cn>[^A-Za-z》\n]{1,80})》"
+    r"|《(?P<cn_b>[^A-Za-z》\n]{1,80}?)[ \t]*(?P<en_b>[A-Za-z][^》\n]*?)》"
+    r"|《(?P<en_book>[A-Za-z][^》\n]*)》"
+    r"|《(?P<cn_open>[^A-Za-z》\n]{1,80})$"
+    r"|(?P<cn2>[^A-Za-z（(《》\n]{1,80}))"
+    r"[ \t]*》?[ \t]*"
+    r"(?:(?P<page1>" + _SRC_PAGE_PAT + r")"
+    r"|(?P<en>[（(](?P<en_inner>[^（）()\n]{1,90})[）)])"
+    r"|(?P<bare>[A-Za-z][^（(\n]{0,90}?))?"
+    r"[ \t]*"
+    r"(?:(?P<page2>" + _SRC_PAGE_PAT + r")"
+    r"|(?P<en2>[（(](?P<en2_inner>[^（）()\n]{1,90})[）)]))?"
+    r"[ \t]*(?P<tail>[一-鿿][^，,（(0-9A-Za-z]*)?$"
+)
+_SRC_PAGE = re.compile(_SRC_PAGE_PAT, re.I)
+_SRC_CJK = re.compile(r"[一-鿿]")
+_SRC_ASCII = re.compile(r"[A-Za-z]")
+
+# KN140 已登记污染尾（源转换在书+页码后残留的条目正文尾巴）：仅精确匹配时
+# 丢弃；未知 tail 一律按原序拼回输出，不做启发式截断。
+_SOURCE_POLLUTION_TAILS = frozenset({"灵性恋"})
+
+
+def _split_source_refs(value: str) -> list:
+    """顶层逗号拆分，忽略书名号/括号内的分隔符（`《书 pg. 1，书2 pg. 2》`）。"""
+    depth = 0
+    parts: list = []
+    cur: list = []
+    for ch in value:
+        if ch in "（(《":
+            depth += 1
+        elif ch in "）)》":
+            depth = max(0, depth - 1)
+        if ch in "，," and depth == 0:
+            parts.append("".join(cur))
+            cur = []
+        else:
+            cur.append(ch)
+    parts.append("".join(cur))
+    return [p.strip() for p in parts if p.strip()]
+
+
+def _render_source_refs(body: str) -> str:
+    """按 `_RE_SOURCE_REF` 结构化渲染 source 片段（只改匹配到的书目引用）。
+
+    标准值 `中文（English）页码` 渲染后不变（幂等）；无中文的纯英文来源
+    整段直通。仅供出自行/出处字段/半星壳出处的 source 捕获使用。
+    """
+    body = body.split("**")[0].strip()
+    wrapped = re.match(r"^《(.*)》$", body)
+    if wrapped:
+        body = wrapped.group(1).strip()
+    if not body or not _SRC_CJK.search(body):
+        return body
+    refs = []
+    for part in _split_source_refs(body):
+        wrapped = re.match(r"^《(.*)》$", part)
+        if wrapped:
+            inner = wrapped.group(1).strip()
+            refs.append(_render_source_refs(inner) if _SRC_CJK.search(inner) else inner)
+            continue
+        m = _RE_SOURCE_REF.match(part)
+        if not m:
+            refs.append(part.strip())
+            continue
+        cn = (
+            m.group("cn") or m.group("cn_b") or m.group("cn_open") or m.group("cn2") or ""
+        ).strip()
+        cn = cn.replace("《", "").replace("》", "")
+        en = (
+            m.group("en_inner")
+            or m.group("en_b")
+            or m.group("en_book")
+            or m.group("bare")
+            or ""
+        ).strip()
+        # 页码后的第二括号：英文书名（`第9页（Inner Sea Primer）`）前移；
+        # 纯中文括注（`pg. 194（重印）`）保持原序附在页码后，禁止重排。
+        suffix = ""
+        en2 = (m.group("en2_inner") or "").strip()
+        if en2:
+            if _SRC_ASCII.search(en2) and not en:
+                en = en2
+            else:
+                suffix = "（" + en2.replace("《", "").replace("》", "") + "）"
+        pages = [m.group("page1"), m.group("page2")]
+        if en:
+            en = en.replace("《", "").replace("》", "")
+            pm = _SRC_PAGE.search(en)
+            if pm:
+                pages.append(pm.group(0))
+                en = (en[: pm.start()] + en[pm.end() :]).strip()
+        page = "".join(p for p in pages if p).strip()
+        if not cn:
+            refs.append(en if en else part.strip())
+            continue
+        out = cn
+        if en:
+            out += "（" + en + "）"
+        if page:
+            if page.startswith("第") or page.endswith("页") or out.endswith("）"):
+                out += page
+            else:
+                out += " " + page
+        out += suffix
+        # tail 默认拼回；仅已登记污染尾丢弃（见 _SOURCE_POLLUTION_TAILS）
+        tail = (m.group("tail") or "").strip()
+        if tail and tail not in _SOURCE_POLLUTION_TAILS:
+            out += tail
+        refs.append(out)
+    return "，".join(refs)
+
 
 # PFS 禁用说明行：`【PFS】PFS中不可使用缺陷系统。`
 _RE_PFS_DISABLED = re.compile(r"^【PFS】.*不可使用")
@@ -1143,7 +1274,7 @@ class TraitFormat(BaseFormat):
                 item = self._stamp_item(section_type, name, name_en)
                 src = m.group(3)
                 if src:
-                    item["source"] = src.strip()
+                    item["source"] = _render_source_refs(src.strip())
                 item["format_cluster"] = "B1_star_field"
                 if pfs_prefix:
                     item["pfs_eligible"] = True
@@ -1305,6 +1436,9 @@ class TraitFormat(BaseFormat):
                 elif semantic == "effect":
                     cur["text"] += value + "\n"
                 elif semantic == "source":
+                    # 出处字段值走与出自行相同的书目引用渲染（KN140）
+                    if _RE_SOURCE_VALUE.match(value):
+                        value = _render_source_refs(value)
                     cur["source"] = value
                 # 值空且行内无冒号 → 待定字段（值在下一行，B4_field_no_colon）
                 if not value and "：" not in line and ":" not in line:
@@ -1325,7 +1459,14 @@ class TraitFormat(BaseFormat):
             # 8. 出自行独立行（`出自《…》` / StLC 星壳 / `来源 …` / page_158 拆行形态）
             m = _RE_SOURCE_LINE.match(line)
             if m:
-                src = next((g for g in m.groups() if g), "")
+                if m.group("src_body") is not None:
+                    src = _render_source_refs(m.group("src_body"))
+                elif m.group("src_book") is not None:
+                    src = _render_source_refs(
+                        (m.group("src_book") or "") + (m.group("src_page") or "")
+                    )
+                else:
+                    src = m.group("src_en") or ""
                 if src and cur is not None:
                     # 剥全角空格（page_158 拆行残留 `　　`）+ ASCII 空白
                     cur["source"] = re.sub(r"[　\s]+$", "", src.strip())

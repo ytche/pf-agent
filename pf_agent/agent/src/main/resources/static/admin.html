@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>管理后台 · PathFinder 1e</title>
+  <style>
+    :root { color-scheme: light dark; }
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+      max-width: 960px; margin: 0 auto; padding: 24px 16px 80px;
+      line-height: 1.6; background: #f7f8fa; color: #1f2328;
+    }
+    h1 { font-size: 20px; margin: 0 0 4px; }
+    h2 { font-size: 15px; margin: 0 0 10px; }
+    .sub { color: #666; font-size: 13px; margin-bottom: 16px; }
+    .head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+    .card {
+      background: #fff; border: 1px solid #e1e4e8; border-radius: 10px;
+      padding: 16px; margin-bottom: 12px;
+    }
+    input, select {
+      padding: 10px 12px; font-size: 15px;
+      border: 1px solid #d0d7de; border-radius: 8px; outline: none;
+      background: #fff; color: inherit;
+    }
+    input:focus, select:focus { border-color: #0969da; }
+    button {
+      padding: 10px 20px; font-size: 15px; border: none; border-radius: 8px;
+      background: #0969da; color: #fff; cursor: pointer;
+    }
+    button:disabled { opacity: .5; cursor: not-allowed; }
+    .auth-btn {
+      padding: 6px 14px; font-size: 13px; border: 1px solid #d0d7de; border-radius: 6px;
+      background: transparent; color: #0969da; cursor: pointer;
+      text-decoration: none; line-height: 1.5;
+    }
+    .auth-btn:hover { background: rgba(9,105,218,.08); }
+    .top-bar { display: flex; align-items: center; gap: 8px; flex-shrink: 0; font-size: 13px; }
+    .top-bar .who { color: #666; }
+    .err { margin-top: 8px; font-size: 13px; color: #cf222e; display: none; }
+    .ok { margin-top: 8px; font-size: 13px; color: #1a7f37; display: none; }
+    .hint { font-size: 12px; color: #666; margin-top: 6px; }
+    /* 表单行：新建用户 / 自助改密 */
+    .field { display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
+    .field label { font-size: 13px; color: #666; }
+    .field input, .field select { width: 100%; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 12px; }
+    .grid-3 { display: grid; grid-template-columns: 2fr 2fr 1fr; gap: 0 12px; }
+    @media (max-width: 640px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+    /* 注册开关 */
+    .switch-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .switch-row input[type=checkbox] { width: 18px; height: 18px; accent-color: #0969da; cursor: pointer; }
+    .state-badge {
+      font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 10px;
+      background: rgba(9,105,218,.1); color: #0969da;
+    }
+    .state-badge.off { background: rgba(207,34,46,.1); color: #cf222e; }
+    /* 用户表 */
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid #e1e4e8; vertical-align: middle; }
+    th { font-weight: 600; color: #666; white-space: nowrap; }
+    td.actions { white-space: nowrap; }
+    td.actions button { padding: 4px 10px; font-size: 12px; margin-right: 6px; }
+    button.ghost { background: transparent; border: 1px solid #d0d7de; color: #0969da; }
+    button.ghost:hover { background: rgba(9,105,218,.08); }
+    button.danger { background: transparent; border: 1px solid #cf222e; color: #cf222e; }
+    button.danger:hover { background: rgba(207,34,46,.08); }
+    .role-select { padding: 4px 8px; font-size: 13px; }
+    .me-tag { font-size: 12px; color: #666; margin-left: 4px; }
+    .table-wrap { overflow-x: auto; }
+    /* 模态框（重置密码 / 删除确认） */
+    .modal {
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,.45);
+      align-items: center; justify-content: center; padding: 16px; z-index: 10;
+    }
+    .modal.open { display: flex; }
+    .modal .card { max-width: 420px; width: 100%; margin: 0; }
+    .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 4px; }
+    .modal-actions button { padding: 8px 16px; font-size: 14px; }
+    /* 轻提示 */
+    #toast {
+      display: none; position: fixed; top: 16px; left: 50%; transform: translateX(-50%);
+      padding: 10px 18px; border-radius: 8px; font-size: 13px; z-index: 20;
+      background: #1a7f37; color: #fff; max-width: 90vw;
+    }
+    #toast.bad { background: #cf222e; }
+    /* 深色主题必须置于全部基础规则之后：媒体查询不提升优先级，同权重靠源序取胜 */
+    @media (prefers-color-scheme: dark) {
+      body { background: #0d1117; color: #e6edf3; }
+      .card { background: #161b22; border-color: #30363d; }
+      .sub, .top-bar .who, .hint, .field label, th, .me-tag { color: #8b949e; }
+      input, select { background: #0d1117; color: #e6edf3; border-color: #30363d; }
+      .auth-btn { border-color: #30363d; color: #58a6ff; }
+      .auth-btn:hover { background: rgba(88,166,255,.12); }
+      th, td { border-bottom-color: #30363d; }
+      button.ghost { border-color: #30363d; color: #58a6ff; }
+      button.ghost:hover { background: rgba(88,166,255,.12); }
+      button.danger { border-color: #f85149; color: #f85149; }
+      button.danger:hover { background: rgba(248,81,73,.12); }
+      .state-badge { background: rgba(88,166,255,.12); color: #58a6ff; }
+      .state-badge.off { background: rgba(248,81,73,.12); color: #f85149; }
+      .err { color: #f85149; }
+      .ok { color: #3fb950; }
+      #toast { background: #238636; }
+      #toast.bad { background: #da3633; }
+    }
+  </style>
+</head>
+<body>
+  <div class="head">
+    <div>
+      <h1>🛠️ 管理后台</h1>
+      <div class="sub">用户管理 · 注册入口开关 · 自助改密</div>
+    </div>
+    <div id="topBar" class="top-bar" style="display:none">
+      <span id="who" class="who"></span>
+      <a class="auth-btn" href="/">返回问答</a>
+      <button id="logout" class="auth-btn">退出</button>
+    </div>
+  </div>
+
+  <!-- 入口闸门：未登录 / 非管理员 / 管理后台未启用时只显示本卡片，管理界面整体不可见 -->
+  <div id="gate" class="card">
+    <div id="gateMsg" style="font-size:14px">正在检查登录状态…</div>
+    <div id="loginForm" style="display:none;margin-top:12px">
+      <div class="field">
+        <label for="gateUsername">管理员用户名</label>
+        <input id="gateUsername" type="text" autocomplete="username" placeholder="用户名">
+      </div>
+      <div class="field">
+        <label for="gatePassword">密码</label>
+        <input id="gatePassword" type="password" autocomplete="current-password" placeholder="密码">
+      </div>
+      <button id="gateSubmit">登录</button>
+      <div id="gateErr" class="err"></div>
+    </div>
+  </div>
+
+  <div id="console" style="display:none">
+    <!-- 注册入口开关：读写 app_setting，切换立即生效（无需重启） -->
+    <div class="card">
+      <h2>注册入口</h2>
+      <div class="switch-row">
+        <input id="regToggle" type="checkbox">
+        <label for="regToggle" style="font-size:14px">开放注册（关闭后登录页的注册入口隐藏）</label>
+        <span id="regState" class="state-badge">读取中…</span>
+      </div>
+      <div class="hint">保存于服务端配置（app_setting.registration_enabled），切换后立即生效，无需重启服务。</div>
+      <div id="regErr" class="err"></div>
+    </div>
+
+    <!-- 自助改密：必须与登出解耦——旧密码错误的 401 只原地提示，不清 token -->
+    <div class="card">
+      <h2>修改自己的密码</h2>
+      <div class="grid-3">
+        <div class="field">
+          <label for="curPwd">当前密码</label>
+          <input id="curPwd" type="password" autocomplete="current-password" placeholder="当前密码">
+        </div>
+        <div class="field">
+          <label for="newPwd">新密码</label>
+          <input id="newPwd" type="password" autocomplete="new-password" placeholder="至少 8 位">
+        </div>
+        <div class="field">
+          <label for="newPwd2">确认新密码</label>
+          <input id="newPwd2" type="password" autocomplete="new-password" placeholder="再输一次">
+        </div>
+      </div>
+      <button id="ownPwdSubmit">修改密码</button>
+      <div id="ownPwdErr" class="err"></div>
+      <div id="ownPwdOk" class="ok"></div>
+    </div>
+
+    <!-- 新建用户 -->
+    <div class="card">
+      <h2>新建用户</h2>
+      <div class="grid-3">
+        <div class="field">
+          <label for="newUsername">用户名</label>
+          <input id="newUsername" type="text" autocomplete="off" placeholder="3~64 位字母/数字/下划线/中文">
+        </div>
+        <div class="field">
+          <label for="newUserPwd">初始密码</label>
+          <input id="newUserPwd" type="password" autocomplete="new-password" placeholder="至少 8 位">
+        </div>
+        <div class="field">
+          <label for="newUserRole">角色</label>
+          <select id="newUserRole">
+            <option value="user">普通用户（user）</option>
+            <option value="admin">管理员（admin）</option>
+          </select>
+        </div>
+      </div>
+      <button id="createSubmit">创建用户</button>
+      <div id="createErr" class="err"></div>
+    </div>
+
+    <!-- 用户列表 -->
+    <div class="card">
+      <h2>用户列表</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th><th>用户名</th><th>昵称</th><th>角色</th>
+              <th>创建时间</th><th>最近登录</th><th>操作</th>
+            </tr>
+          </thead>
+          <tbody id="userRows"></tbody>
+        </table>
+      </div>
+      <div id="listStatus" class="hint">加载中…</div>
+    </div>
+  </div>
+
+  <!-- 重置密码模态框 -->
+  <div id="resetModal" class="modal">
+    <div class="card">
+      <h2 id="resetTitle">重置密码</h2>
+      <div class="field">
+        <label for="resetPwd">新密码（至少 8 位）</label>
+        <input id="resetPwd" type="password" autocomplete="new-password" placeholder="新密码">
+      </div>
+      <div class="field">
+        <label for="resetPwd2">确认新密码</label>
+        <input id="resetPwd2" type="password" autocomplete="new-password" placeholder="再输一次">
+      </div>
+      <div class="modal-actions">
+        <button id="resetCancel" class="ghost">取消</button>
+        <button id="resetSubmit">确认重置</button>
+      </div>
+      <div id="resetErr" class="err"></div>
+    </div>
+  </div>
+
+  <!-- 删除确认模态框 -->
+  <div id="deleteModal" class="modal">
+    <div class="card">
+      <h2>删除用户</h2>
+      <div id="deleteMsg" style="font-size:14px"></div>
+      <div class="modal-actions" style="margin-top:14px">
+        <button id="deleteCancel" class="ghost">取消</button>
+        <button id="deleteSubmit" class="danger">确认删除</button>
+      </div>
+      <div id="deleteErr" class="err"></div>
+    </div>
+  </div>
+
+  <div id="toast"></div>
+
+  <script>
+    (function () {
+      // token 与主页面共用同一 localStorage 键：在问答页登录后打开本页无需重复登录
+      var TOKEN_KEY = 'pf.auth.token';
+      var token = localStorage.getItem(TOKEN_KEY) || '';
+      var authEnabled = false;
+      var me = null;
+      var users = [];
+      var pendingDelete = null;
+      var pendingReset = null;
+
+      var gate = document.getElementById('gate');
+      var gateMsg = document.getElementById('gateMsg');
+      var loginForm = document.getElementById('loginForm');
+      var gateUsername = document.getElementById('gateUsername');
+      var gatePassword = document.getElementById('gatePassword');
+      var gateSubmit = document.getElementById('gateSubmit');
+      var gateErr = document.getElementById('gateErr');
+      var topBar = document.getElementById('topBar');
+      var whoEl = document.getElementById('who');
+      var consoleEl = document.getElementById('console');
+      var userRows = document.getElementById('userRows');
+      var listStatus = document.getElementById('listStatus');
+      var toastEl = document.getElementById('toast');
+
+      // 错误码 → 文案（后端错误体统一 {error, message}，优先用 message）
+      var ERR_MSG = {
+        unauthorized: '登录状态已失效，请重新登录',
+        forbidden: '需要管理员权限',
+        admin_disabled: '管理后台未启用（pf.auth.enabled=false）',
+        admin_unavailable: '管理后台不可用：当前为 memory 模式，无用户表',
+        username_taken: '该用户名已存在',
+        invalid_credentials: '原密码错误',
+        not_found: '用户不存在（可能已被删除）',
+        last_admin: '不能删除或降级最后一个管理员',
+        invalid_request: '参数不合法'
+      };
+
+      function setToken(t) {
+        token = t || '';
+        if (token) localStorage.setItem(TOKEN_KEY, token);
+        else localStorage.removeItem(TOKEN_KEY);
+      }
+
+      function describe(res) {
+        if (res.data && res.data.message) return res.data.message;
+        if (res.data && ERR_MSG[res.data.error]) return ERR_MSG[res.data.error];
+        return '操作失败（HTTP ' + res.status + '）';
+      }
+
+      function api(method, url, body) {
+        var options = { method: method, headers: {} };
+        if (body !== undefined) {
+          options.headers['Content-Type'] = 'application/json';
+          options.body = JSON.stringify(body);
+        }
+        if (token) options.headers['Authorization'] = 'Bearer ' + token;
+        return fetch(url, options).then(function (r) {
+          if (r.status === 204) return { status: 204, ok: r.ok, data: null };
+          return r.json().catch(function () { return null; }).then(function (data) {
+            return { status: r.status, ok: r.ok, data: data };
+          });
+        });
+      }
+
+      // 401 有两种语义：凭证失效（unauthorized）与原密码错误（invalid_credentials）。
+      // 只有前者才清 token 登出；后者（改密时输错旧密码）必须原地提示——把所有 401
+      // 都当登出会让用户输错一次旧密码就被踢出管理后台（M6 评审提出的交互陷阱）。
+      function isCredentialError(res) {
+        return res.status === 401 && !!res.data && res.data.error === 'invalid_credentials';
+      }
+
+      function isSessionExpired(res) {
+        return res.status === 401 && !isCredentialError(res);
+      }
+
+      /** 统一的凭证/权限/可用性失败处理；返回 true 表示该失败已被消费 */
+      function onAdminFailure(res) {
+        if (isSessionExpired(res)) {
+          setToken('');
+          showGate('登录状态已失效，请重新登录。', authEnabled);
+          return true;
+        }
+        if (res.status === 403) {
+          if (res.data && res.data.error === 'admin_disabled') {
+            showGate('管理后台未启用：需要服务端 pf.auth.enabled=true。', false);
+          } else {
+            toast(describe(res), true);
+          }
+          return true;
+        }
+        if (res.status === 503) {
+          toast(describe(res), true);
+          return true;
+        }
+        return false;
+      }
+
+      /** 显示入口闸门：清空管理界面，按需展示登录表单 */
+      function showGate(message, withLoginForm) {
+        consoleEl.style.display = 'none';
+        topBar.style.display = 'none';
+        gate.style.display = 'block';
+        gateMsg.textContent = message;
+        loginForm.style.display = withLoginForm ? 'block' : 'none';
+        gateErr.style.display = 'none';
+        closeModals();
+      }
+
+      function showConsole() {
+        gate.style.display = 'none';
+        topBar.style.display = 'flex';
+        consoleEl.style.display = 'block';
+      }
+
+      function showHint(el, text, isError) {
+        el.textContent = text;
+        el.className = isError ? 'err' : 'ok';
+        el.style.display = text ? 'block' : 'none';
+      }
+
+      function toast(text, bad) {
+        toastEl.textContent = text;
+        toastEl.className = bad ? 'bad' : '';
+        toastEl.style.display = 'block';
+        clearTimeout(toastEl._timer);
+        toastEl._timer = setTimeout(function () { toastEl.style.display = 'none'; }, 4000);
+      }
+
+      function fmtTime(value) {
+        if (!value) return '—';
+        var d = new Date(value);
+        return isNaN(d.getTime()) ? String(value) : d.toLocaleString();
+      }
+
+      // —— 启动：探测鉴权开关 → 探测管理员身份 → 进管理界面 ——
+      function bootstrap() {
+        api('GET', '/api/auth/status')
+          .then(function (res) {
+            authEnabled = !!(res.data && res.data.enabled);
+            if (!authEnabled) {
+              showGate('管理后台未启用：需要服务端 pf.auth.enabled=true。', false);
+              return;
+            }
+            if (!token) {
+              showGate('请使用管理员账号登录。', true);
+              gateUsername.focus();
+              return;
+            }
+            probeAdmin();
+          })
+          .catch(function () {
+            showGate('无法连接服务，请稍后重试。', false);
+          });
+      }
+
+      function probeAdmin() {
+        api('GET', '/api/admin/settings').then(function (res) {
+          if (res.ok) { enterConsole(); return; }
+          if (isSessionExpired(res)) {
+            setToken('');
+            showGate('登录状态已失效，请重新登录。', true);
+            return;
+          }
+          if (res.status === 403 && res.data && res.data.error === 'admin_disabled') {
+            showGate('管理后台未启用：需要服务端 pf.auth.enabled=true。', false);
+            return;
+          }
+          if (res.status === 403) {
+            showGate('当前账号不是管理员，请用管理员账号登录。', true);
+            return;
+          }
+          if (res.status === 503) {
+            showGate('管理后台不可用：当前为 memory 模式（无用户表），请把 pf.chat.memory 设为 jdbc。', false);
+            return;
+          }
+          showGate('无法进入管理后台（HTTP ' + res.status + '）。', true);
+        });
+      }
+
+      function enterConsole() {
+        showConsole();
+        api('GET', '/api/auth/me').then(function (res) {
+          if (res.ok && res.data) {
+            me = res.data;
+            whoEl.textContent = '当前登录：' + (me.nickname || me.username);
+          }
+        });
+        loadSettings();
+        loadUsers();
+      }
+
+      // —— 注册入口开关 ——
+      function applyRegistration(enabled) {
+        document.getElementById('regToggle').checked = !!enabled;
+        var badge = document.getElementById('regState');
+        badge.textContent = enabled ? '开放中' : '已关闭';
+        badge.className = enabled ? 'state-badge' : 'state-badge off';
+      }
+
+      function loadSettings() {
+        var regErr = document.getElementById('regErr');
+        regErr.style.display = 'none';
+        api('GET', '/api/admin/settings').then(function (res) {
+          if (res.ok && res.data) { applyRegistration(res.data.registrationEnabled); return; }
+          if (!onAdminFailure(res)) showHint(regErr, describe(res), true);
+        }).catch(function () { showHint(regErr, '网络异常，无法读取配置', true); });
+      }
+
+      document.getElementById('regToggle').addEventListener('change', function () {
+        var toggle = this;
+        var next = toggle.checked;
+        var regErr = document.getElementById('regErr');
+        regErr.style.display = 'none';
+        toggle.disabled = true;
+        api('PUT', '/api/admin/settings/registration', { enabled: next }).then(function (res) {
+          if (res.ok && res.data) {
+            applyRegistration(res.data.registrationEnabled);
+            toast(next ? '注册入口已开放，立即生效' : '注册入口已关闭，登录页注册入口立即隐藏');
+            return;
+          }
+          toggle.checked = !next;
+          applyRegistration(!next);
+          if (!onAdminFailure(res)) toast(describe(res), true);
+        }).catch(function () {
+          toggle.checked = !next;
+          applyRegistration(!next);
+          toast('网络异常，配置未保存', true);
+        }).finally(function () {
+          toggle.disabled = false;
+        });
+      });
+
+      // —— 修改自己的密码 ——
+      document.getElementById('ownPwdSubmit').addEventListener('click', function () {
+        var btn = this;
+        var curPwd = document.getElementById('curPwd');
+        var newPwd = document.getElementById('newPwd');
+        var newPwd2 = document.getElementById('newPwd2');
+        var errEl = document.getElementById('ownPwdErr');
+        var okEl = document.getElementById('ownPwdOk');
+        showHint(okEl, '', false);
+        if (!curPwd.value) { showHint(errEl, '请输入当前密码', true); return; }
+        if (newPwd.value.length < 8) { showHint(errEl, '新密码至少 8 位', true); return; }
+        if (newPwd.value !== newPwd2.value) { showHint(errEl, '两次输入的新密码不一致', true); return; }
+        errEl.style.display = 'none';
+        btn.disabled = true;
+        api('POST', '/api/admin/me/password', {
+          currentPassword: curPwd.value, newPassword: newPwd.value
+        }).then(function (res) {
+          if (res.status === 204 || res.ok) {
+            curPwd.value = ''; newPwd.value = ''; newPwd2.value = '';
+            showHint(okEl, '密码已修改，下次登录请使用新密码', false);
+            return;
+          }
+          // 关键：原密码错误 → 原地提示，绝不当成登出、绝不丢 token
+          if (isCredentialError(res)) {
+            showHint(errEl, '原密码错误，请核对后重试', true);
+            return;
+          }
+          if (isSessionExpired(res)) {
+            setToken('');
+            showGate('登录状态已失效，请重新登录。', authEnabled);
+            return;
+          }
+          showHint(errEl, describe(res), true);
+        }).catch(function () {
+          showHint(errEl, '网络异常，密码未修改', true);
+        }).finally(function () {
+          btn.disabled = false;
+        });
+      });
+
+      // —— 新建用户 ——
+      document.getElementById('createSubmit').addEventListener('click', function () {
+        var btn = this;
+        var nameEl = document.getElementById('newUsername');
+        var pwdEl = document.getElementById('newUserPwd');
+        var roleEl = document.getElementById('newUserRole');
+        var errEl = document.getElementById('createErr');
+        var username = nameEl.value.trim();
+        if (!username) { showHint(errEl, '请输入用户名', true); return; }
+        if (!pwdEl.value) { showHint(errEl, '请输入初始密码', true); return; }
+        errEl.style.display = 'none';
+        btn.disabled = true;
+        api('POST', '/api/admin/users', {
+          username: username, password: pwdEl.value, role: roleEl.value
+        }).then(function (res) {
+          if (res.status === 201 || res.ok) {
+            var created = res.data || {};
+            nameEl.value = ''; pwdEl.value = ''; roleEl.value = 'user';
+            toast('已创建用户 ' + (created.username || username));
+            loadUsers();
+            return;
+          }
+          if (!onAdminFailure(res)) showHint(errEl, describe(res), true);
+        }).catch(function () {
+          showHint(errEl, '网络异常，用户未创建', true);
+        }).finally(function () {
+          btn.disabled = false;
+        });
+      });
+
+      // —— 用户列表 ——
+      function loadUsers() {
+        api('GET', '/api/admin/users').then(function (res) {
+          if (res.ok) {
+            users = res.data || [];
+            renderUsers();
+            listStatus.textContent = '共 ' + users.length + ' 个用户';
+            return;
+          }
+          listStatus.textContent = '';
+          if (!onAdminFailure(res)) listStatus.textContent = describe(res);
+        }).catch(function () {
+          listStatus.textContent = '网络异常，无法加载用户列表';
+        });
+      }
+
+      function renderUsers() {
+        userRows.textContent = '';
+        if (!users.length) { listStatus.textContent = '暂无用户'; return; }
+        users.forEach(function (u) {
+          var tr = document.createElement('tr');
+
+          tr.appendChild(cell(String(u.id)));
+          var nameCell = cell(u.username);
+          if (me && me.username === u.username) {
+            var tag = document.createElement('span');
+            tag.className = 'me-tag';
+            tag.textContent = '（我）';
+            nameCell.appendChild(tag);
+          }
+          tr.appendChild(nameCell);
+          tr.appendChild(cell(u.nickname || '—'));
+
+          var roleTd = document.createElement('td');
+          var select = document.createElement('select');
+          select.className = 'role-select';
+          ['user', 'admin'].forEach(function (role) {
+            var opt = document.createElement('option');
+            opt.value = role;
+            opt.textContent = role === 'admin' ? 'admin（管理员）' : 'user（普通用户）';
+            if (u.role === role) opt.selected = true;
+            select.appendChild(opt);
+          });
+          select.addEventListener('change', function () { saveRole(u, select); });
+          roleTd.appendChild(select);
+          tr.appendChild(roleTd);
+
+          tr.appendChild(cell(fmtTime(u.createdAt)));
+          tr.appendChild(cell(fmtTime(u.lastLoginAt)));
+
+          var actions = document.createElement('td');
+          actions.className = 'actions';
+          var resetBtn = document.createElement('button');
+          resetBtn.className = 'ghost';
+          resetBtn.textContent = '重置密码';
+          resetBtn.addEventListener('click', function () { openReset(u); });
+          var delBtn = document.createElement('button');
+          delBtn.className = 'danger';
+          delBtn.textContent = '删除';
+          delBtn.addEventListener('click', function () { openDelete(u); });
+          actions.appendChild(resetBtn);
+          actions.appendChild(delBtn);
+          tr.appendChild(actions);
+
+          userRows.appendChild(tr);
+        });
+      }
+
+      function cell(text) {
+        var td = document.createElement('td');
+        td.textContent = text;
+        return td;
+      }
+
+      function saveRole(u, select) {
+        var next = select.value;
+        select.disabled = true;
+        api('PUT', '/api/admin/users/' + u.id + '/role', { role: next }).then(function (res) {
+          if (res.ok) {
+            toast('已把 ' + u.username + ' 的角色改为 ' + next);
+            loadUsers();
+            return;
+          }
+          select.value = u.role;
+          if (!onAdminFailure(res)) toast(describe(res), true);
+        }).catch(function () {
+          select.value = u.role;
+          toast('网络异常，角色未修改', true);
+        }).finally(function () {
+          select.disabled = false;
+        });
+      }
+
+      // —— 重置密码模态框 ——
+      function openReset(u) {
+        pendingReset = u;
+        document.getElementById('resetTitle').textContent = '重置 ' + u.username + ' 的密码';
+        document.getElementById('resetPwd').value = '';
+        document.getElementById('resetPwd2').value = '';
+        document.getElementById('resetErr').style.display = 'none';
+        document.getElementById('resetModal').classList.add('open');
+        document.getElementById('resetPwd').focus();
+      }
+
+      document.getElementById('resetCancel').addEventListener('click', closeModals);
+      document.getElementById('resetSubmit').addEventListener('click', function () {
+        var btn = this;
+        var errEl = document.getElementById('resetErr');
+        var pwd = document.getElementById('resetPwd').value;
+        var pwd2 = document.getElementById('resetPwd2').value;
+        if (pwd.length < 8) { showHint(errEl, '新密码至少 8 位', true); return; }
+        if (pwd !== pwd2) { showHint(errEl, '两次输入的新密码不一致', true); return; }
+        errEl.style.display = 'none';
+        btn.disabled = true;
+        api('PUT', '/api/admin/users/' + pendingReset.id + '/password', { password: pwd })
+          .then(function (res) {
+            if (res.status === 204 || res.ok) {
+              toast('已重置 ' + pendingReset.username + ' 的密码');
+              closeModals();
+              return;
+            }
+            if (!onAdminFailure(res)) showHint(errEl, describe(res), true);
+          }).catch(function () {
+            showHint(errEl, '网络异常，密码未重置', true);
+          }).finally(function () {
+            btn.disabled = false;
+          });
+      });
+
+      // —— 删除确认模态框 ——
+      function openDelete(u) {
+        pendingDelete = u;
+        document.getElementById('deleteMsg').textContent =
+          '确认删除用户「' + u.username + '」？该操作不可撤销。';
+        document.getElementById('deleteErr').style.display = 'none';
+        document.getElementById('deleteModal').classList.add('open');
+      }
+
+      document.getElementById('deleteCancel').addEventListener('click', closeModals);
+      document.getElementById('deleteSubmit').addEventListener('click', function () {
+        var btn = this;
+        var errEl = document.getElementById('deleteErr');
+        errEl.style.display = 'none';
+        btn.disabled = true;
+        api('DELETE', '/api/admin/users/' + pendingDelete.id).then(function (res) {
+          if (res.status === 204 || res.ok) {
+            toast('已删除用户 ' + pendingDelete.username);
+            closeModals();
+            loadUsers();
+            return;
+          }
+          if (!onAdminFailure(res)) showHint(errEl, describe(res), true);
+        }).catch(function () {
+          showHint(errEl, '网络异常，用户未删除', true);
+        }).finally(function () {
+          btn.disabled = false;
+        });
+      });
+
+      function closeModals() {
+        document.getElementById('resetModal').classList.remove('open');
+        document.getElementById('deleteModal').classList.remove('open');
+        pendingReset = null;
+        pendingDelete = null;
+      }
+
+      // —— 登录 / 退出 ——
+      gateSubmit.addEventListener('click', function () {
+        var username = gateUsername.value.trim();
+        var password = gatePassword.value;
+        if (!username || !password) { showHint(gateErr, '请输入用户名和密码', true); return; }
+        gateErr.style.display = 'none';
+        gateSubmit.disabled = true;
+        fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username: username, password: password })
+        })
+          .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, status: r.status, data: d }; }); })
+          .then(function (res) {
+            if (!res.ok) {
+              showHint(gateErr, (res.data && (res.data.message || ERR_MSG[res.data.error])) || '登录失败', true);
+              return;
+            }
+            setToken(res.data.token);
+            gatePassword.value = '';
+            probeAdmin();
+          })
+          .catch(function () { showHint(gateErr, '网络异常，请稍后重试', true); })
+          .finally(function () { gateSubmit.disabled = false; });
+      });
+
+      gatePassword.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') gateSubmit.click();
+      });
+
+      document.getElementById('logout').addEventListener('click', function () {
+        setToken('');
+        me = null;
+        users = [];
+        gateUsername.value = '';
+        gatePassword.value = '';
+        showGate('已退出登录，请重新登录。', true);
+      });
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closeModals();
+      });
+      document.getElementById('resetModal').addEventListener('click', function (e) {
+        if (e.target === this) closeModals();
+      });
+      document.getElementById('deleteModal').addEventListener('click', function (e) {
+        if (e.target === this) closeModals();
+      });
+
+      bootstrap();
+    })();
+  </script>
+</body>
+</html>

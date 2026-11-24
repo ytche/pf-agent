@@ -1,0 +1,15 @@
+# KN-097 施工后 census（2026-11-13，工作目录 pf_data/phase1）
+# 复现：python3 -m vectorizer.prepare.census
+# exit code: 0
+============================================================
+元素总数: 432
+  exact       : 346
+  whitespace  : 46
+  punct       : 4
+  lb_marker   : 12
+  img_marker  : 9
+  elided      : 14
+  annotation  : 1
+  phantom     : 0
+phantom=0
+源文件缺失=0（census 仅在存在缺失时打印“源文件缺失”段，本输出无该段）

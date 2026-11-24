@@ -283,7 +283,8 @@ class FeatProcessor(FileProcessor):
 
     def __init__(self, source_resolver: SourceResolver):
         super().__init__(source_resolver=source_resolver, format_handler=FeatFormat())
-        # 同 stem 双份去重（造物专长一览 根目录/专长/）：sorted 遍历先到者为主版本
+        # 同 stem 双份去重（防御性兜底，KN034）：专长源已全部收敛到 专长/，
+        # 正常运行不会再遇同 stem 双文件；保留是为了 chunk_id（前缀=stem）唯一性
         self._seen_stems: set = set()
 
     def build_chunk(self, template: Chunk, item: dict) -> Chunk:
@@ -404,14 +405,13 @@ class FeatProcessor(FileProcessor):
 
 
     def process(self, file_path: Path) -> List[Chunk]:
-        """同 stem 双份文件去重（R1 同书多份取主版本）：矩阵含同 stem 双 rel
-        （造物专长一览 根目录旧副本 + 专长/ 规范化主版本，est/got 相同 28/46），
-        pipeline 两文件都进 → 各产一份同前缀 chunk_id（前缀 = stem）撞车。
-        sorted 遍历子目录版在前先处理并登记 stem，根目录旧副本后到被跳过。
+        """同 stem 双份文件去重（KN034 后的防御性兜底）：正常输入矩阵只有
+        专长/ 单一权威位置，不会出现同 stem 双文件；若将来再次出现，
+        pipeline 两文件都进 → 各产一份同前缀 chunk_id（前缀 = stem）撞车，
+        此处按 sorted 遍历先到者为主版本，后到副本跳过。
 
-        R1 输入范围含该双 rel（189 = 根 66 + 子 123），此处非范围收窄，是
-        chunk_id 唯一性兜底；判别器回归 est/got 仍按矩阵双 rel 对账，
-        产出仅计主版本（豁免登记 docs/state/）。"""
+        此处非范围收窄，是 chunk_id 唯一性兜底；判别器回归 est/got 仍按矩阵
+        全量 rel 对账（豁免登记 docs/state/）。"""
         if file_path.stem in self._seen_stems:
             logger.info("跳过同 stem 重复副本 %s（取主版本）", file_path.name)
             return []
@@ -420,9 +420,10 @@ class FeatProcessor(FileProcessor):
 
 
 # ---- 输入范围（R1：判别器同口径，禁止形态猜谜） ----
-# pipeline 扫描集合 = fc_deviation_matrix.json 的 189 个 rel（根目录 66 + 专长/ 123）。
-# 判别器扫哪些文件，pipeline 就产哪些文件——回归对账（est↔got）天然同口径；
-# 未整理/角色选项归置等矩阵外文件一律不产（含重复副本 page_202，源数据层待清理）。
+# pipeline 扫描集合 = fc_deviation_matrix.json 的 192 个 rel（全部 专长/ 前缀，
+# KN034 源文件单一权威位置）。判别器扫哪些文件，pipeline 就产哪些文件——回归对账
+# （est↔got）天然同口径；未整理/角色选项归置等矩阵外文件一律不产
+# （含重复副本 page_202，源数据层待清理）。
 _ORGANIZED_ROOT = Path(__file__).resolve().parent.parent.parent / "pf_rules_md_organized"
 _FEAT_MATRIX_JSON = Path(__file__).resolve().parent.parent / "exploration" / "专长" / "fc_deviation_matrix.json"
 
@@ -441,7 +442,7 @@ FEAT_SCAN_RELS: set = _load_feat_scan_rels()
 
 
 def _feat_file_condition(file_path: Path) -> bool:
-    """专长文件判断：文件 rel 在判别器矩阵清单内（根目录 66 + 专长/ 123 = 189）"""
+    """专长文件判断：文件 rel 在判别器矩阵清单内（192 条，全部 专长/ 前缀）"""
     try:
         rel = file_path.resolve().relative_to(_ORGANIZED_ROOT)
     except ValueError:

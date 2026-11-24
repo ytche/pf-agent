@@ -14,7 +14,8 @@ import java.util.Map;
  * 409 conversation_changed / 410 conversation_deleted / 429 quota_exceeded /
  * 400 invalid_request。限频 429 rate_limited 与拦截器 401 由拦截器直接写出。
  */
-@RestControllerAdvice(assignableTypes = {ConversationController.class, com.pfagent.agent.chat.ChatController.class})
+@RestControllerAdvice(assignableTypes = {ConversationController.class, com.pfagent.agent.chat.ChatController.class,
+        com.pfagent.agent.usage.UsageController.class})
 public class ConversationExceptionHandler {
 
     @ExceptionHandler(ConversationNotFoundException.class)

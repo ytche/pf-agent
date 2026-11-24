@@ -11,6 +11,8 @@ import type {
   ConversationSummary,
   FeedbackPayload,
   Source,
+  UsageQuery,
+  UsageSummary,
 } from './contract'
 
 export class ApiError extends Error {
@@ -154,6 +156,15 @@ export const api = {
       method: 'POST',
       body: payload,
     })
+  },
+  /** 用量汇总：range/groupBy 与匿名会话过滤由后端按登录态再校验 */
+  usageSummary(query: UsageQuery = {}): Promise<UsageSummary> {
+    const params = new URLSearchParams()
+    if (query.range) params.set('range', query.range)
+    if (query.groupBy) params.set('groupBy', query.groupBy)
+    if (query.conversationId) params.set('conversationId', query.conversationId)
+    const suffix = params.toString()
+    return request<UsageSummary>(`/api/usage/summary${suffix ? `?${suffix}` : ''}`)
   },
 }
 

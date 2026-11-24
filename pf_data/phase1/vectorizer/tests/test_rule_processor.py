@@ -198,3 +198,66 @@ class TestFileCondition:
         roles = {RULE_MANIFEST[r]["doc_role"] for r in RULE_SCAN_RELS
                  if RULE_MANIFEST[r].get("doc_role")}
         assert roles >= {"overview", "index_table"}, roles
+
+
+# ============================================================
+#  KN221 表格 metadata（infer_metadata 4 键，spec D6）
+# ============================================================
+
+
+def _infer_metadata(text: str, chunk_id: str = "rule_page_299_0000") -> dict:
+    """构造 Chunk 并只跑 infer_metadata（不跑格式/来源链）"""
+    proc = RuleProcessor(source_resolver=None)
+    proc._current_rel = "规则/怪物规则/page_299.md"
+    chunk = Chunk(
+        chunk_id=chunk_id, doc_id="page_299", category="rule",
+        component_type="rule_section", title="动物伙伴一览", text=text,
+        book_abbreviation="B1", book_name_cn="怪物图鉴", book_name_en="Bestiary 1",
+        source_confidence=75)
+    return proc.infer_metadata(chunk, {"text": text}).metadata
+
+
+class TestTableMetadata:
+    """KN221：规则 chunk metadata 固定带 has_table/table_ids/table_titles/
+    table_row_counts 4 键；无表格的 chunk 也保留键（False/空列表），正文不变。"""
+
+    TABLE_TEXT = "\n".join([
+        "**动物伙伴一览 (Animal Companions)**",
+        "",
+        "| 表：动物伙伴基本数据 |",
+        "| --- |",
+        "| 职业等级 |  | HD |  | BAB |",
+        "| 1 |  | 2 |  | +1 |",
+        "| 5 |  | 5 |  | +3 |",
+    ])
+
+    def test_table_chunk_marks(self):
+        meta = _infer_metadata(self.TABLE_TEXT)
+        assert meta["has_table"] is True
+        assert meta["table_ids"] == ["rule_page_299_0000#t1"]
+        assert meta["table_titles"] == ["动物伙伴基本数据"]
+        assert meta["table_row_counts"] == [2]
+
+    def test_no_table_chunk_still_has_keys(self):
+        meta = _infer_metadata("**职业等级**：角色的德鲁伊等级。\n\n纯散文，无表格。")
+        assert meta["has_table"] is False
+        assert meta["table_ids"] == []
+        assert meta["table_titles"] == []
+        assert meta["table_row_counts"] == []
+
+    def test_existing_metadata_keys_kept(self):
+        """KN221 只加 4 键：既有 5 规范键值不变（正文/chunk_id 不参与）"""
+        meta = _infer_metadata(self.TABLE_TEXT)
+        man = RULE_MANIFEST["规则/怪物规则/page_299.md"]
+        assert meta["toc_group"] == man["toc_group"]
+        assert meta["rule_version"] == "b1"
+        assert meta["format_cluster"] == man["format_cluster"]
+        assert meta["component_type"] == "rule_section"
+        assert meta["source"] == ""
+
+    def test_title_lists_align_with_ids(self):
+        text = "\n".join([self.TABLE_TEXT, "", "| 甲 | 乙 |", "| 1 | 2 |", "| 3 | 4 |"])
+        meta = _infer_metadata(text)
+        assert meta["table_ids"] == ["rule_page_299_0000#t1",
+                                     "rule_page_299_0000#t2"]
+        assert len(meta["table_titles"]) == len(meta["table_row_counts"]) == 2

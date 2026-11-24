@@ -55,6 +55,48 @@ class StandardChunkMapperTest {
         assertThat(doc.getMetadata().get("tocPath")).isEqualTo("page_9 > 腐化（Corruption）");
     }
 
+    /** 背景特性 nested trait_type 扁平化为逗号字符串；空 list 显式空串 */
+    @Test
+    void toDocumentFlattensTraitTypeAndKeepsEmptyForMissingType() {
+        StandardChunk filled = new StandardChunk(
+                "trait_1", "page_1", "trait", "trait", "纵火狂", "正文",
+                "QaC", "任务与战役", "Quests and Campaigns", 50, "未整理 → 任务与战役 → 背景特性",
+                List.of("Firebug"), Map.of("trait_type", List.of("战斗")), Map.of());
+        StandardChunk empty = new StandardChunk(
+                "trait_2", "page_2", "trait", "trait", "规避意外", "正文",
+                "ISG", "内海诸神", "Inner Sea Gods", 50, "未整理 → 内海诸神ISG → 背景特性",
+                List.of(), Map.of("trait_type", List.of()), Map.of());
+
+        assertThat(mapper.toDocument(filled).getMetadata().get("trait_type")).isEqualTo("战斗");
+        assertThat(mapper.toDocument(empty).getMetadata().get("trait_type")).isEqualTo("");
+    }
+
+    @Test
+    void toDocumentFlattensRaceNames() {
+        StandardChunk c = new StandardChunk(
+                "race_page_812_0002", "page_812", "race", "race_trait", "属性调整", "正文",
+                "?", "未知来源", "Unknown", 0, "种族 → 怪物种族 → 阿斯托莫伊人",
+                List.of("Astomoi"), Map.of("race_name", "阿斯托莫伊人", "race_name_en", "Astomoi"), Map.of());
+
+        Map<String, Object> metadata = mapper.toDocument(c).getMetadata();
+
+        assertThat(metadata.get("race_name")).isEqualTo("阿斯托莫伊人");
+        assertThat(metadata.get("race_name_en")).isEqualTo("Astomoi");
+    }
+
+    @Test
+    void toDocumentSkipsBlankRaceNames() {
+        StandardChunk c = new StandardChunk(
+                "race_1", "page_1", "race", "race_intro", "空名", "正文",
+                "?", "未知来源", "Unknown", 0, "种族 → 空名",
+                List.of(), Map.of("race_name", "", "race_name_en", "Astomoi"), Map.of());
+
+        Map<String, Object> metadata = mapper.toDocument(c).getMetadata();
+
+        assertThat(metadata).doesNotContainKey("race_name");
+        assertThat(metadata.get("race_name_en")).isEqualTo("Astomoi");
+    }
+
     /** null 字段安全兜底 */
     @Test
     void toDocumentNullFieldsFallbackSafely() {
@@ -66,5 +108,30 @@ class StandardChunkMapperTest {
         assertThat(doc.getText()).isEqualTo("");
         assertThat(doc.getMetadata().get("tocPath")).isEqualTo(" > ");
         assertThat(doc.getMetadata().get("aliases")).isEqualTo("");
+    }
+
+    /** AKN-022：record 组件改驼峰后，JSONL 的下划线键仍能正确反序列化 */
+    @Test
+    void deserializesLegacyUnderscoreJsonKeys() throws Exception {
+        String json = """
+                {"chunk_id":"c1","doc_id":"page_1","category":"专长","component_type":"feat",
+                 "title":"猛力攻击","text":"正文","book_abbreviation":"CRB",
+                 "book_name_cn":"核心规则书","book_name_en":"Core Rulebook",
+                 "source_confidence":75,"chm_toc_path":"专长 → 战斗专长",
+                 "aliases":["猛力攻击"],"metadata":{"feat_type":"战斗"},"extra":{}}
+                """;
+
+        StandardChunk c = new com.fasterxml.jackson.databind.ObjectMapper()
+                .readValue(json, StandardChunk.class);
+
+        assertThat(c.chunkId()).isEqualTo("c1");
+        assertThat(c.docId()).isEqualTo("page_1");
+        assertThat(c.componentType()).isEqualTo("feat");
+        assertThat(c.bookAbbreviation()).isEqualTo("CRB");
+        assertThat(c.bookNameCn()).isEqualTo("核心规则书");
+        assertThat(c.bookNameEn()).isEqualTo("Core Rulebook");
+        assertThat(c.sourceConfidence()).isEqualTo(75);
+        assertThat(c.chmTocPath()).isEqualTo("专长 → 战斗专长");
+        assertThat(c.aliases()).containsExactly("猛力攻击");
     }
 }

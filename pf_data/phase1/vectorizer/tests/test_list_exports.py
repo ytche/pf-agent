@@ -211,7 +211,7 @@ class TestSchema:
     def test_header_self_describing(self, case):
         _, spec = case
         data = _load_json(spec["json"])
-        assert data["version"] == "1.0"
+        assert data["version"] == "1.1"
         assert data["generated_from"] == spec["chunks"]
         assert data["category"] == case[0]
         # 来源 artifact 指纹 = chunks.jsonl 内容 sha256（代替时间戳，保幂等）
@@ -614,6 +614,40 @@ class TestEquipmentPriceTables:
         for c in conflicts.values():
             assert len(c["rows"]) > 1
             assert all({"chunk_id", "price", "price_gp"} <= set(r) for r in c["rows"])
+
+
+class TestTocPath:
+    """F-008：feat/race/equipment 条目 toc_path 由 chunk 的 chm_toc_path 原样复制。"""
+
+    def test_every_entry_copies_chunk_toc_path(self, case):
+        _, spec = case
+        chunks = {c["chunk_id"]: c for c in _load_chunks(spec["chunks"])}
+        data = _load_json(spec["json"])
+        for e in data["entries"]:
+            assert "toc_path" in e, f"条目缺 toc_path: {e['chunk_id']}"
+            # 原样复制：不做 strip/折叠/改名（chunk 原文与清单值逐字节相等）
+            assert e["toc_path"] == (chunks[e["chunk_id"]].get("chm_toc_path") or ""), \
+                f"toc_path 被改写: {e['chunk_id']}"
+
+    def test_report_counts_toc_path(self, case):
+        _, spec = case
+        data = _load_json(spec["json"])
+        report = _load_json(spec["report"])
+        t = report["toc_path"]
+        paths = [e["toc_path"] for e in data["entries"]]
+        assert t["total"] == len(paths)
+        assert t["nonempty"] == sum(1 for p in paths if p)
+        assert t["empty"] == sum(1 for p in paths if not p)
+        assert t["total"] == t["nonempty"] + t["empty"]
+
+    def test_empty_toc_path_entries_retained(self, case):
+        _, spec = case
+        data = _load_json(spec["json"])
+        chunks = {c["chunk_id"]: c for c in _load_chunks(spec["chunks"])}
+        for e in data["entries"]:
+            if not (chunks[e["chunk_id"]].get("chm_toc_path") or ""):
+                assert e["toc_path"] == ""
+                assert e["name"], "空路径条目不得被丢弃（仍须有名）"
 
 
 class TestIdempotent:

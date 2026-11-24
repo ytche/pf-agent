@@ -1,7 +1,10 @@
 """test_spell_list_union_export.py — F-025 法术 union 1.1 去重导出白盒测试
 
 覆盖（F-025 spec 2026-11-10 §10.1 数据侧验收口径）：
-  - schema/scope：26 职业全在；OA 五职业零 derived；召唤师(掉链子) 不派生
+  - schema/scope：26 官方职业 + 2 union-only 职业（导师/红螳螂杀手）全在；
+    OA 五职业零 derived；召唤师(掉链子) 不派生
+  - KN243：union-only 职业 0~9 环、source_page=null/aliases=[]/official_list=false；
+    巡林客派生经别名并入游侠（元数据不改）
   - 女巫 1 环 205 → 165（68 官方 + 97 新增派生，40 重复派生来源折叠）
   - union 1.1 条目契约：sources 完整、主来源首位、(chunk_id, source) 去重、
     顶层镜像、每来源 matched_by 枚举准确
@@ -12,6 +15,7 @@
 
 测试内运行导出脚本（subprocess，cwd=phase1，与 spell_list_export 测试同先例）。
 """
+import hashlib
 import json
 import random
 import subprocess
@@ -24,8 +28,11 @@ import pytest
 PHASE1 = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(PHASE1))
 import spell_list_union_export as ex  # noqa: E402
+import spell_list_export as sle  # noqa: E402
 UNION = PHASE1 / "vectorizer/output/法术/spell_lists_union.json"
 REPORT = PHASE1 / "vectorizer/output/法术/spell_list_union_report.json"
+SPELL_LISTS = PHASE1 / "vectorizer/output/法术/spell_lists.json"
+SPELL_REPORT = PHASE1 / "vectorizer/output/法术/spell_list_export_report.json"
 CHUNKS = PHASE1 / "vectorizer/output/法术/chunks.jsonl"
 MANIFEST = PHASE1 / "vectorizer/build_manifest.json"
 
@@ -60,9 +67,45 @@ def _entries(union, cls, lv):
     return union["classes"][cls]["levels"][str(lv)]
 
 
+UNION_ONLY = {"导师", "红螳螂杀手"}
+
+
 class TestScope:
-    def test_classes_26_all_present(self, products):
-        assert len(products["union"]["classes"]) == 26
+    def test_classes_26_official_plus_2_union_only(self, products):
+        assert len(products["union"]["classes"]) == 28
+        assert UNION_ONLY <= set(products["union"]["classes"])
+
+    def test_official_classes_flagged(self, products):
+        """官方清单职业 official_list=true；union-only 职业 false（显式派生空态）"""
+        for cls, c in products["union"]["classes"].items():
+            assert c["official_list"] is (cls not in UNION_ONLY), cls
+            if cls in UNION_ONLY:
+                assert c["source_page"] is None and c["aliases"] == [], cls
+            else:
+                assert c["source_page"], cls
+
+    def test_union_only_classes_levels_0_to_9(self, products):
+        """union-only 职业 0~9 环键齐全，条目全为 derived 主条目"""
+        for cls in UNION_ONLY:
+            levels = products["union"]["classes"][cls]["levels"]
+            assert sorted(levels, key=int) == [str(i) for i in range(10)], cls
+            entries = [e for lv in levels.values() for e in lv]
+            assert entries, f"{cls} 派生条目不应为空"
+            assert all(e["source"] == "derived" for e in entries), cls
+            assert all(s["source"] == "derived"
+                       for e in entries for s in e["sources"]), cls
+            assert cls in products["report"]["union_only_classes"]
+
+    def test_ranger_old_translation_merged_into_ranger(self, products):
+        """KN243 D7：巡林客派生并入游侠（元数据不改，只并派生候选）"""
+        lv1 = _entries(products["union"], "游侠", 1)
+        lv4 = _entries(products["union"], "游侠", 4)
+        assert any("spell_Spell ISWG_0011" in [s["chunk_id"] for s in e["sources"]]
+                   for e in lv1)
+        assert any("spell_Spell ISWG_0009" in [s["chunk_id"] for s in e["sources"]]
+                   for e in lv4)
+        # 巡林客不单独成键（并入游侠而非新建职业）
+        assert "巡林客" not in products["union"]["classes"]
 
     def test_oa_five_zero_derived(self, products):
         """OA 五职业派生条目数 = 0（仅 official_list 透传）"""
@@ -83,6 +126,7 @@ class TestScope:
         rep = products["report"]
         assert len(rep["scope_classes"]) == 20
         assert not (set(rep["scope_classes"]) & OA)
+        assert not (set(rep["scope_classes"]) & UNION_ONLY)
 
 
 class TestVersion:
@@ -440,3 +484,94 @@ class TestIdempotent:
         r = _run_export()
         assert r.returncode == 0
         assert (UNION.read_bytes(), REPORT.read_bytes()) == b1
+
+
+class TestSpellTocPath:
+    """F-008：spell 条目 toc_path 按 chunk_id join 法术/chunks.jsonl 的 chm_toc_path。
+
+    列表页 source_toc_path（职业 → … → 法术列表）保留原义，不冒充条目路径。
+    """
+
+    @pytest.fixture(scope="module")
+    def spell_products(self):
+        if not CHUNKS.exists():
+            pytest.skip("chunks.jsonl 缺失（CI 裸 checkout）——产物断言由 build check 覆盖")
+        r = subprocess.run([sys.executable, "spell_list_export.py"],
+                           cwd=PHASE1, capture_output=True, text=True)
+        assert r.returncode == 0, r.stdout + r.stderr
+        return {
+            "lists": json.loads(SPELL_LISTS.read_text(encoding="utf-8")),
+            "report": json.loads(SPELL_REPORT.read_text(encoding="utf-8")),
+            "chunks": {json.loads(l)["chunk_id"]: json.loads(l)
+                       for l in CHUNKS.read_text(encoding="utf-8").splitlines() if l.strip()},
+        }
+
+    @staticmethod
+    def _entries(lists):
+        for cls, body in lists["classes"].items():
+            for lv, entries in body["levels"].items():
+                for e in entries:
+                    yield cls, lv, e
+
+    def test_header_version_and_fingerprint(self, spell_products):
+        lists = spell_products["lists"]
+        assert lists["version"] == "1.1"
+        digest = hashlib.sha256(CHUNKS.read_bytes()).hexdigest()
+        assert lists["source_fingerprint"] == f"sha256:{digest}"
+
+    def test_nonempty_count_ratchet(self, spell_products):
+        """棘轮：KN250 后 10007/10068；剩余 61 条为既有 join_failed。"""
+        assert spell_products["report"]["toc_path"]["nonempty"] == 10007
+
+    def test_every_entry_joined_from_own_chunk(self, spell_products):
+        chunks = spell_products["chunks"]
+        for cls, lv, e in self._entries(spell_products["lists"]):
+            assert "toc_path" in e, (cls, lv, e.get("chunk_id"))
+            cid = e.get("chunk_id")
+            want = (chunks[cid].get("chm_toc_path") or "") if cid in chunks else ""
+            assert e["toc_path"] == want, (cls, lv, cid)
+
+    def test_entry_paths_not_list_page_path(self, spell_products):
+        """条目不把列表页 source_toc_path 当自身目录路径。"""
+        lists = spell_products["lists"]
+        for cls, body in lists["classes"].items():
+            page_path = body["source_toc_path"]
+            assert page_path.endswith("法术列表"), (cls, page_path)
+            for lv, e in ((lv, e) for lv, es in body["levels"].items() for e in es):
+                assert e["toc_path"] != page_path, (cls, lv, e.get("chunk_id"))
+                assert "法术列表" not in e["toc_path"], (cls, lv, e["toc_path"])
+        nonempty = [e for _, _, e in self._entries(lists) if e["toc_path"]]
+        assert nonempty, "至少应有部分法术命中 chunk 目录路径（join 正例）"
+
+    def test_report_counts_and_join_failed(self, spell_products):
+        lists, report = spell_products["lists"], spell_products["report"]
+        chunks = spell_products["chunks"]
+        t = report["toc_path"]
+        entries = [e for _, _, e in self._entries(lists)]
+        # join 失败 = chunk_id 为空或不在法术 chunks 中（条目保留，路径空串）
+        join_failed = sum(1 for e in entries
+                          if not e.get("chunk_id") or e["chunk_id"] not in chunks)
+        assert t["total"] == len(entries)
+        assert t["nonempty"] == sum(1 for e in entries if e["toc_path"])
+        assert t["empty"] == sum(1 for e in entries if not e["toc_path"])
+        assert t["total"] == t["nonempty"] + t["empty"]
+        assert t["join_failed"] == join_failed
+        assert any(e["toc_path"] == "" for e in entries), "join 失败条目须保留空串"
+
+    def test_apply_toc_paths_unit_contract(self):
+        classes = {"甲": {"levels": {"1": [
+            {"chunk_id": "c1"}, {"chunk_id": "c2"},
+            {"chunk_id": None}, {"chunk_id": "missing"},
+        ]}}}
+        stats = sle.apply_toc_paths(classes, {"c1": "法术 → CRB", "c2": ""})
+        paths = [e["toc_path"] for e in classes["甲"]["levels"]["1"]]
+        assert paths == ["法术 → CRB", "", "", ""]
+        assert stats == {"total": 4, "nonempty": 1, "empty": 3, "join_failed": 2}
+
+    def test_rerun_byte_identical(self, spell_products):
+        b1 = SPELL_LISTS.read_bytes(), SPELL_REPORT.read_bytes()
+        r = subprocess.run([sys.executable, "spell_list_export.py"],
+                           cwd=PHASE1, capture_output=True, text=True)
+        assert r.returncode == 0, r.stdout + r.stderr
+        assert (SPELL_LISTS.read_bytes(), SPELL_REPORT.read_bytes()) == b1
+
